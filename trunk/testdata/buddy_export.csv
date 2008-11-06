@@ -1,0 +1,7 @@
+"Date","Description","Number","Memo","Amount","From","To"
+"Fri Nov 17 00:00:00 EET 2006","Depozit","","2007-11-19 179.4744","2,500.00 RON","Account:Unicredit","Account:ATE"
+"Mon Jan 01 00:00:00 EET 2007","Transfer","","","3,100.00 RON","Account:Unicredit","Account:BVB"
+"Wed Jan 24 00:00:00 EET 2007","Paine","","","1.60 RON","Account:Unicredit","Category:Food"
+"Thu Dec 06 00:00:00 EET 2007","Lichidare","","","1,716.00 RON","Category:Salary","Account:Unicredit"
+"Tue Sep 02 00:00:00 EEST 2008","Unt","","","5.45 RON","Account:Cash","Category:Food"
+
