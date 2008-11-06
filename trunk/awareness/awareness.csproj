@@ -1,0 +1,333 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{6302D213-6AA1-42F8-8CA9-65F048A7E518}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>awareness</RootNamespace>
+    <AssemblyName>awareness</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SourceAnalysisOverrideSettingsFile>C:\Documents and Settings\Iulian\Application Data\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <ApplicationIcon>..\resources\PersonalAwareness.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE;TEST</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="LumenWorks.Framework.IO">
+      <HintPath>D:\lib\CsvReader\LumenWorks.Framework.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="nunit.framework">
+      <HintPath>D:\bin\SharpDevelop\3.0\bin\Tools\NUnit\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ZedGraph">
+      <HintPath>D:\lib\zedgraph_dll_v514_464\zedgraph_dll_v5.1.4\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionDeleteDatabase.cs" />
+    <Compile Include="ActionNewDatabase.cs" />
+    <Compile Include="ActionOpenDatabase.cs" />
+    <Compile Include="Calculator.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="db\ActionOccurrence.cs" />
+    <Compile Include="db\DalAccount.cs" />
+    <Compile Include="db\DalAccountType.cs" />
+    <Compile Include="db\DalAction.cs" />
+    <Compile Include="db\DalActionTest.cs" />
+    <Compile Include="db\DalBudgetCategory.cs" />
+    <Compile Include="db\DalConsumer.cs" />
+    <Compile Include="db\DalFood.cs" />
+    <Compile Include="db\DalMeal.cs" />
+    <Compile Include="db\DalNote.cs" />
+    <Compile Include="db\DalProperties.cs" />
+    <Compile Include="db\DalReason.cs" />
+    <Compile Include="db\DalRecipe.cs" />
+    <Compile Include="db\DalTransaction.cs" />
+    <Compile Include="db\DalTransferLocation.cs" />
+    <Compile Include="db\DbTest.cs" />
+    <Compile Include="db\DbDumper.cs" />
+    <Compile Include="db\DbDumperTest.cs" />
+    <Compile Include="db\DbSchema.cs" />
+    <Compile Include="db\DbSchemaTest.cs" />
+    <Compile Include="db\DbUtil.cs" />
+    <Compile Include="db\DbUtil.Connection.cs">
+      <DependentUpon>DbUtil.cs</DependentUpon>
+    </Compile>
+    <Compile Include="db\DbUtil.InsUpDel.cs">
+      <DependentUpon>DbUtil.cs</DependentUpon>
+    </Compile>
+    <Compile Include="db\DbUtil.InsUpDel.Transactions.cs">
+      <DependentUpon>DbUtil.cs</DependentUpon>
+    </Compile>
+    <Compile Include="db\DbUtil.Mining.cs">
+      <DependentUpon>DbUtil.cs</DependentUpon>
+    </Compile>
+    <Compile Include="db\DbUtilTest.cs" />
+    <Compile Include="db\RecurrencePattern.cs" />
+    <Compile Include="db\RecurrencePatternTest.cs" />
+    <Compile Include="db\TimeInterval.cs" />
+    <Compile Include="db\TimeIntervalTest.cs" />
+    <Compile Include="ImporterBuddy.cs" />
+    <Compile Include="ImporterBuddyTest.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ui\ControlActionEdit.cs" />
+    <Compile Include="ui\ControlActionEdit.Designer.cs">
+      <DependentUpon>ControlActionEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlActionEdit.Events.cs">
+      <DependentUpon>ControlActionEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlActionsOverview.cs" />
+    <Compile Include="ui\ControlActionsOverview.Designer.cs">
+      <DependentUpon>ControlActionsOverview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlActionsOverview.ContextMenu.cs">
+      <DependentUpon>ControlActionsOverview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlActionsList.cs" />
+    <Compile Include="ui\ControlActionsList.Designer.cs">
+      <DependentUpon>ControlActionsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlAvailableFoods.cs" />
+    <Compile Include="ui\ControlAvailableFoods.Designer.cs">
+      <DependentUpon>ControlAvailableFoods.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlCommandSelector.cs" />
+    <Compile Include="ui\ControlCommandSelector.Designer.cs">
+      <DependentUpon>ControlCommandSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlDayActionsReport.cs" />
+    <Compile Include="ui\ControlDayActionsReport.Designer.cs">
+      <DependentUpon>ControlDayActionsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlFinances.cs" />
+    <Compile Include="ui\ControlFinances.Designer.cs">
+      <DependentUpon>ControlFinances.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlJumperDatePicker.cs" />
+    <Compile Include="ui\ControlJumperDatePicker.Designer.cs">
+      <DependentUpon>ControlJumperDatePicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlMealsDailyReport.cs" />
+    <Compile Include="ui\ControlMealsDailyReport.Designer.cs">
+      <DependentUpon>ControlMealsDailyReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlNotesViewer.cs" />
+    <Compile Include="ui\ControlNotesViewer.Designer.cs">
+      <DependentUpon>ControlNotesViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlNotesViewer.DragDrop.cs">
+      <DependentUpon>ControlNotesViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlNoteTextView.cs" />
+    <Compile Include="ui\ControlNoteTextView.Designer.cs">
+      <DependentUpon>ControlNoteTextView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlRecurrencePatternEdit.cs" />
+    <Compile Include="ui\ControlRecurrencePatternEdit.Designer.cs">
+      <DependentUpon>ControlRecurrencePatternEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlRecurrencePatternEdit.Events.cs">
+      <DependentUpon>ControlRecurrencePatternEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlTimeIntervalSelector.cs" />
+    <Compile Include="ui\ControlTimeIntervalSelector.Designer.cs">
+      <DependentUpon>ControlTimeIntervalSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlTransactions.Edit.cs">
+      <DependentUpon>ControlTransactions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlTransactions.Reports.cs">
+      <DependentUpon>ControlTransactions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlTransactionList.cs" />
+    <Compile Include="ui\ControlTransactionList.Designer.cs">
+      <DependentUpon>ControlTransactionList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlTransactions.cs" />
+    <Compile Include="ui\ControlTransactions.Designer.cs">
+      <DependentUpon>ControlTransactions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlTransactions.Selection.cs">
+      <DependentUpon>ControlTransactions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlWeekActionsReport.cs" />
+    <Compile Include="ui\ControlWeekActionsReport.Designer.cs">
+      <DependentUpon>ControlWeekActionsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\FormCalculatorInput.cs" />
+    <Compile Include="ui\FormCalculatorInput.Designer.cs">
+      <DependentUpon>FormCalculatorInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\FormEditAccounts.cs" />
+    <Compile Include="ui\FormEditAccounts.Designer.cs">
+      <DependentUpon>FormEditAccounts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\FormEditAccountTypes.cs" />
+    <Compile Include="ui\FormEditAccountTypes.Designer.cs">
+      <DependentUpon>FormEditAccountTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\FormEditBudgetCategories.cs" />
+    <Compile Include="ui\FormEditBudgetCategories.Designer.cs">
+      <DependentUpon>FormEditBudgetCategories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\FormEditTransactionReasons.cs" />
+    <Compile Include="ui\FormEditTransactionReasons.Designer.cs">
+      <DependentUpon>FormEditTransactionReasons.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\FormMain.cs" />
+    <Compile Include="ui\FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\FormManageMeals.cs" />
+    <Compile Include="ui\FormManageMeals.Designer.cs">
+      <DependentUpon>FormManageMeals.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\FormManageTransactions.cs" />
+    <Compile Include="ui\FormManageTransactions.Designer.cs">
+      <DependentUpon>FormManageTransactions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\FormManageTransactions.Edit.cs">
+      <DependentUpon>FormManageTransactions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\FormManageTransactions.Reports.cs">
+      <DependentUpon>FormManageTransactions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\FormManageTransactions.Selection.cs">
+      <DependentUpon>FormManageTransactions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\FormReport.cs" />
+    <Compile Include="ui\FormReport.Designer.cs">
+      <DependentUpon>FormReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\NamingReasonTypes.cs" />
+    <Compile Include="ui\NamingTimeIntervals.cs" />
+    <Compile Include="ui\UiUtil.cs" />
+    <Compile Include="ui\UiUtilTest.cs" />
+    <EmbeddedResource Include="ui\ControlActionEdit.resx">
+      <DependentUpon>ControlActionEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlActionsOverview.resx">
+      <DependentUpon>ControlActionsOverview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlActionsList.resx">
+      <DependentUpon>ControlActionsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlAvailableFoods.resx">
+      <DependentUpon>ControlAvailableFoods.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlCommandSelector.resx">
+      <DependentUpon>ControlCommandSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlDayActionsReport.resx">
+      <DependentUpon>ControlDayActionsReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlFinances.resx">
+      <DependentUpon>ControlFinances.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlJumperDatePicker.resx">
+      <DependentUpon>ControlJumperDatePicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlMealsDailyReport.resx">
+      <DependentUpon>ControlMealsDailyReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlNotesViewer.resx">
+      <DependentUpon>ControlNotesViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlNoteTextView.resx">
+      <DependentUpon>ControlNoteTextView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlRecurrencePatternEdit.resx">
+      <DependentUpon>ControlRecurrencePatternEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlTimeIntervalSelector.resx">
+      <DependentUpon>ControlTimeIntervalSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlTransactionList.resx">
+      <DependentUpon>ControlTransactionList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlTransactions.resx">
+      <DependentUpon>ControlTransactions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlWeekActionsReport.resx">
+      <DependentUpon>ControlWeekActionsReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormCalculatorInput.resx">
+      <DependentUpon>FormCalculatorInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormEditAccounts.resx">
+      <DependentUpon>FormEditAccounts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormEditAccountTypes.resx">
+      <DependentUpon>FormEditAccountTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormEditBudgetCategories.resx">
+      <DependentUpon>FormEditBudgetCategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormEditTransactionReasons.resx">
+      <DependentUpon>FormEditTransactionReasons.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormManageMeals.resx">
+      <DependentUpon>FormManageMeals.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormManageTransactions.resx">
+      <DependentUpon>FormManageTransactions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormReport.resx">
+      <DependentUpon>FormReport.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="db" />
+    <Folder Include="ui" />
+  </ItemGroup>
+</Project>

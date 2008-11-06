@@ -1,0 +1,225 @@
+/*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 03/09/2008
+ * Time: 17:34
+ *
+ */
+using System;
+using System.Linq;
+using System.Data.Linq;
+
+namespace awareness.db
+{
+    public class AwarenessDataContext : DataContext {
+        // TODO: transaction_reasons -> reasons
+
+        public const int RESERVED_ACCOUNT_TYPES = 5;
+        public const int RESERVED_TRANSFER_LOCATIONS = 10;
+        public const int RESERVED_NOTES = 100;
+        public const int RESERVED_ACTIONS = 100;
+
+        public const int ACCOUNT_TYPE_APPLICATION_INTERNAL_ID = 1;
+
+        public const int ACCOUNT_FOODS_ID = 1;
+        public const int ACCOUNT_RECIPES_ID = 2;
+
+        public const int NOTE_ROOT_ID = 1;
+        public const int NOTE_APPLICATION_INTERNAL_ID = 2;
+        public const int NOTE_PROPERTIES_ID = 3;
+        public const int NOTE_ACCOUNT_TYPES_ID = 4;
+        public const int NOTE_TRANSFER_LOCATIONS_ID = 5;
+        public const int NOTE_REASONS_ID = 6;
+        public const int NOTE_TRANSACTIONS_ID = 7;
+        public const int NOTE_MEALS_ID = 8;
+        public const int NOTE_ACTIONS_ID = 9;
+
+        public const int ACTION_ROOT_ID = 1;
+
+        public AwarenessDataContext(string connectionString) : base (connectionString) {
+        }
+
+        public Table<DalProperties> properties;
+        public Table<DalAccountType> accountTypes;
+        public Table<DalTransferLocation> transferLocations;
+        public Table<DalReason> transactionReasons;
+        public Table<DalTransaction> transactions;
+        public Table<DalMeal> meals;
+        public Table<DalNote> notes;
+        public Table<DalAction> actions;
+
+        public new void CreateDatabase(){
+            if (DatabaseExists()){
+                DeleteDatabase();
+            }
+            base.CreateDatabase();
+
+            CreateForeignKeys();
+
+            ReserveNotes();
+            CreateProperties();
+            ReserveAccountTypes();
+            ReserveTransferLocations();
+            ReserveActions();
+        }
+
+        void ReserveActions(){
+            int reserved = 0;
+            DalAction rootAction = new DalAction() {
+                Name = "Root", Type = DalAction.TYPE_GROUP
+            };
+            actions.InsertOnSubmit(rootAction);
+            SubmitChanges();
+            ++reserved;
+
+            for (int i = reserved; i < RESERVED_ACTIONS; ++i){
+                actions.InsertOnSubmit(new DalAction() {
+                                           Name = "Reserved"
+                                       });
+            }
+            SubmitChanges();
+            actions.DeleteAllOnSubmit(actions.Where(n => n.Id > reserved));
+            SubmitChanges();
+        }
+
+        void ReserveNotes(){
+            int reserved = 0;
+
+            DalNote rootNote = new DalNote() {
+                Title = "Root", Icon = 1
+            };
+            notes.InsertOnSubmit(rootNote);
+            SubmitChanges();
+            ++reserved;
+
+            DalNote applicationInternalNote = new DalNote() {
+                IsPermanent = true, Title = "Application Specific", Icon = 1, IsExpanded = false
+            };
+            notes.InsertOnSubmit(applicationInternalNote);
+            SubmitChanges();
+            ++reserved;
+
+            notes.InsertOnSubmit(new DalNote { Parent = applicationInternalNote, IsPermanent = true, Title = "Properties" });
+            ++reserved;
+            notes.InsertOnSubmit(new DalNote { Parent = applicationInternalNote, IsPermanent = true, Title = "Account Types" });
+            ++reserved;
+            notes.InsertOnSubmit(new DalNote { Parent = applicationInternalNote, IsPermanent = true, Title = "Transfer Locations" });
+            ++reserved;
+            notes.InsertOnSubmit(new DalNote { Parent = applicationInternalNote, IsPermanent = true, Title = "Reasons" });
+            ++reserved;
+            notes.InsertOnSubmit(new DalNote { Parent = applicationInternalNote, IsPermanent = true, Title = "Transactions" });
+            ++reserved;
+            notes.InsertOnSubmit(new DalNote { Parent = applicationInternalNote, IsPermanent = true, Title = "Meals" });
+            ++reserved;
+            notes.InsertOnSubmit(new DalNote { Parent = applicationInternalNote, IsPermanent = true, Title = "Actions" });
+            ++reserved;
+
+            for (int i = reserved; i < RESERVED_NOTES; ++i){
+                notes.InsertOnSubmit(new DalNote { Parent = rootNote, Title = "Reserved" });
+            }
+            SubmitChanges();
+            notes.DeleteAllOnSubmit(notes.Where(n => n.Id > reserved));
+            SubmitChanges();
+        }
+
+        void ReserveTransferLocations(){
+            int reserved = 0;
+            DalAccountType rat1 = GetAccountTypeById(ACCOUNT_TYPE_APPLICATION_INTERNAL_ID);
+
+            transferLocations.InsertOnSubmit(new DalAccount { Name = "Foods", AccountType = rat1, StartingBalance = 0 });
+            ++reserved;
+            transferLocations.InsertOnSubmit(new DalAccount { Name = "Recipes", AccountType = rat1, StartingBalance = 0 });
+            ++reserved;
+
+            for ( int i = reserved; i < RESERVED_TRANSFER_LOCATIONS; ++i){
+                transferLocations.InsertOnSubmit(new DalBudgetCategory() {
+                                                     Name = "Reserved"
+                                                 } );
+            }
+            SubmitChanges();
+            transferLocations.DeleteAllOnSubmit(transferLocations.Where(n => n.Id > reserved));
+            SubmitChanges();
+        }
+
+        void ReserveAccountTypes(){
+            int reserved = 0;
+
+            accountTypes.InsertOnSubmit(new DalAccountType { Name = "Application Specific" });
+            ++reserved;
+
+            for ( int i = reserved; i < RESERVED_ACCOUNT_TYPES; ++i){
+                accountTypes.InsertOnSubmit(new DalAccountType() {
+                                                Name = "Reserved"
+                                            } );
+            }
+            SubmitChanges();
+            accountTypes.DeleteAllOnSubmit(accountTypes.Where(n => n.Id > reserved));
+            SubmitChanges();
+        }
+
+        void CreateProperties(){
+            DalProperties prop = new DalProperties();
+            properties.InsertOnSubmit(prop);
+            SubmitChanges();
+        }
+
+        void CreateForeignKeys(){
+            ExecuteCommand("ALTER TABLE transfer_locations ADD FOREIGN KEY (account_type) REFERENCES account_types(id) ON DELETE NO ACTION");
+            ExecuteCommand("ALTER TABLE transactions ADD FOREIGN KEY (reason) REFERENCES transaction_reasons(id) ON DELETE NO ACTION");
+            ExecuteCommand("ALTER TABLE transactions ADD FOREIGN KEY ([from]) REFERENCES transfer_locations(id) ON DELETE NO ACTION");
+            ExecuteCommand("ALTER TABLE transactions ADD FOREIGN KEY ([to]) REFERENCES transfer_locations(id) ON DELETE NO ACTION");
+            ExecuteCommand("ALTER TABLE meals ADD FOREIGN KEY (what) REFERENCES transaction_reasons(id) ON DELETE NO ACTION");
+            ExecuteCommand("ALTER TABLE meals ADD FOREIGN KEY (why) REFERENCES transaction_reasons(id) ON DELETE NO ACTION");
+            ExecuteCommand("ALTER TABLE notes ADD FOREIGN KEY (parent) REFERENCES notes(id) ON DELETE NO ACTION");
+            ExecuteCommand("ALTER TABLE actions ADD FOREIGN KEY (parent) REFERENCES actions(id) ON DELETE NO ACTION");
+            ExecuteCommand("ALTER TABLE actions ADD FOREIGN KEY (note) REFERENCES notes(id) ON DELETE NO ACTION");
+            ExecuteCommand("ALTER TABLE account_types ADD FOREIGN KEY (note) REFERENCES notes(id) ON DELETE NO ACTION");
+            ExecuteCommand("ALTER TABLE transaction_reasons ADD FOREIGN KEY (note) REFERENCES notes(id) ON DELETE NO ACTION");
+            ExecuteCommand("ALTER TABLE transactions ADD FOREIGN KEY (note) REFERENCES notes(id) ON DELETE NO ACTION");
+            ExecuteCommand("ALTER TABLE transfer_locations ADD FOREIGN KEY (note) REFERENCES notes(id) ON DELETE NO ACTION");
+        }
+
+        public DalAccountType GetAccountTypeById(int id){
+            return accountTypes.Where(r => r.Id == id).First();
+        }
+
+        public DalTransferLocation GetTransferLocationById(int id){
+            return transferLocations.Where(r => r.Id == id).First();
+        }
+
+        public DalNote GetNoteById(int id){
+            return notes.Where(r => r.Id == id).First();
+        }
+
+        public DalAction GetActionById(int id){
+            return actions.Where(r => r.Id == id).First();
+        }
+
+        public DalProperties GetProperties(){
+            return properties.First();
+        }
+
+        public void UpdateTransactionReasonType(int id, sbyte type, string name, float energy){
+            string command = null;
+            switch (type){
+            case DalReason.TYPE_DEFAULT:
+                command = string.Format("UPDATE transaction_reasons SET type = {0}, name = {1}, energy = null WHERE id = {2}",
+                                        type, DbDumper.String2SqlString(name), id);
+                break;
+            case DalReason.TYPE_FOOD:
+                command = string.Format("UPDATE transaction_reasons SET type = {0}, name = {1}, energy = {2} WHERE id = {3}",
+                                        type, DbDumper.String2SqlString(name), energy, id);
+                break;
+            case DalReason.TYPE_RECIPE:
+                command = string.Format("UPDATE transaction_reasons SET type = {0}, name = {1}, energy = {2} WHERE id = {3}",
+                                        type, DbDumper.String2SqlString(name), DalFood.QUANTITY_FOR_ENERGY, id);
+                break;
+            case DalReason.TYPE_CONSUMER:
+                command = string.Format("UPDATE transaction_reasons SET type = {0}, name = {1}, energy = null WHERE id = {2}",
+                                        type, DbDumper.String2SqlString(name), id);
+                break;
+            }
+            ExecuteCommand(command);
+        }
+    }
+}
