@@ -2,12 +2,7 @@
 
 = Introduction =
 
-Add your content here.
+You will need to install 
+.NET Framework 3.5 SP1
+SQL Server Compact or SQL Server
 
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
