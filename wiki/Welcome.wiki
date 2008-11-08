@@ -3,6 +3,7 @@
 = Introduction =
 
 You will need to install 
-.NET Framework 3.5 SP1
-SQL Server Compact or SQL Server
 
+.NET Framework 3.5 SP1
+
+SQL Server Compact or SQL Server
