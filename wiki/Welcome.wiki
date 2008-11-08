@@ -2,8 +2,13 @@
 
 = Introduction =
 
-You will need to install 
+As a developer you will need to install:
 
-.NET Framework 3.5 SP1
+  * .NET Framework 3.5 SP1 SDK
+  * SQL Server Compact and/or SQL Server Express 
+    * the app is anyway intended to support _both_
+    * SQL Server Management Studio Express could also come in handy
+  * ZedGraph library (see project home page for link)
+  * CsvReader (see project home page for link)
 
-SQL Server Compact or SQL Server
+  * SharpDevelop IDE comes with integrated support for NUnit and TortoiseSVN
