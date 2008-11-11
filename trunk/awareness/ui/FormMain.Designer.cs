@@ -84,9 +84,6 @@ namespace awareness.ui
         	this.manageReminderSoundsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.mealsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.manageMealsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.financesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.manageTransactionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.analyzeTransactionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.statusBar = new System.Windows.Forms.StatusStrip();
         	this.timeStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -164,7 +161,6 @@ namespace awareness.ui
         	        	        	this.editToolStripMenuItem,
         	        	        	this.actionsToolStripMenuItem,
         	        	        	this.mealsToolStripMenuItem,
-        	        	        	this.financesToolStripMenuItem,
         	        	        	this.helpToolStripMenuItem});
         	this.mainMenu.Location = new System.Drawing.Point(0, 0);
         	this.mainMenu.Name = "mainMenu";
@@ -349,29 +345,6 @@ namespace awareness.ui
         	this.manageMealsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
         	this.manageMealsToolStripMenuItem.Text = "&Manage Meals...";
         	this.manageMealsToolStripMenuItem.Click += new System.EventHandler(this.ManageMealsToolStripMenuItemClick);
-        	// 
-        	// financesToolStripMenuItem
-        	// 
-        	this.financesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        	        	        	this.manageTransactionsToolStripMenuItem,
-        	        	        	this.analyzeTransactionsToolStripMenuItem});
-        	this.financesToolStripMenuItem.Name = "financesToolStripMenuItem";
-        	this.financesToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
-        	this.financesToolStripMenuItem.Text = "F&inances";
-        	// 
-        	// manageTransactionsToolStripMenuItem
-        	// 
-        	this.manageTransactionsToolStripMenuItem.Name = "manageTransactionsToolStripMenuItem";
-        	this.manageTransactionsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-        	this.manageTransactionsToolStripMenuItem.Text = "&Manage Transactions...";
-        	this.manageTransactionsToolStripMenuItem.Click += new System.EventHandler(this.ManageTransactionsToolStripMenuItemClick);
-        	// 
-        	// analyzeTransactionsToolStripMenuItem
-        	// 
-        	this.analyzeTransactionsToolStripMenuItem.Name = "analyzeTransactionsToolStripMenuItem";
-        	this.analyzeTransactionsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-        	this.analyzeTransactionsToolStripMenuItem.Text = "&Analyze Transactions...";
-        	this.analyzeTransactionsToolStripMenuItem.Click += new System.EventHandler(this.AnalyzeTransactionsToolStripMenuItemClick);
         	// 
         	// helpToolStripMenuItem
         	// 
@@ -561,10 +534,10 @@ namespace awareness.ui
         	// availableFoodsPage
         	// 
         	this.availableFoodsPage.Controls.Add(this.availableFoodsControl);
-        	this.availableFoodsPage.Location = new System.Drawing.Point(4, 25);
+        	this.availableFoodsPage.Location = new System.Drawing.Point(4, 49);
         	this.availableFoodsPage.Name = "availableFoodsPage";
         	this.availableFoodsPage.Padding = new System.Windows.Forms.Padding(1, 3, 3, 3);
-        	this.availableFoodsPage.Size = new System.Drawing.Size(772, 441);
+        	this.availableFoodsPage.Size = new System.Drawing.Size(180, 18);
         	this.availableFoodsPage.TabIndex = 0;
         	this.availableFoodsPage.Text = "Available Foods";
         	this.availableFoodsPage.UseVisualStyleBackColor = true;
@@ -574,7 +547,7 @@ namespace awareness.ui
         	this.availableFoodsControl.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.availableFoodsControl.Location = new System.Drawing.Point(1, 3);
         	this.availableFoodsControl.Name = "availableFoodsControl";
-        	this.availableFoodsControl.Size = new System.Drawing.Size(768, 435);
+        	this.availableFoodsControl.Size = new System.Drawing.Size(176, 12);
         	this.availableFoodsControl.TabIndex = 0;
         	// 
         	// financesPage
@@ -900,7 +873,6 @@ namespace awareness.ui
         private System.Windows.Forms.TabControl mealPages;
         private awareness.ui.ControlNotesViewer notesViewer;
         private System.Windows.Forms.TabPage notesPage;
-        private System.Windows.Forms.ToolStripMenuItem analyzeTransactionsToolStripMenuItem;
         private awareness.ui.ControlMealsDailyReport mealsDailyReportControl;
         private awareness.ui.ControlFinances financesControl;
         private awareness.ui.ControlAvailableFoods availableFoodsControl;
@@ -914,7 +886,6 @@ namespace awareness.ui
         private System.Windows.Forms.ToolStripMenuItem dumpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buddiCSVToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem manageTransactionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem transferreasonsToolStripMenuItem;
         private System.Windows.Forms.TabControl mainViewPages;
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
@@ -932,7 +903,6 @@ namespace awareness.ui
         private System.Windows.Forms.StatusStrip statusBar;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mealsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem financesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.MenuStrip mainMenu;

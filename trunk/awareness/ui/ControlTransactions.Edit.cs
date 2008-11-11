@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2008 Iulian GORIAC
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,6 +28,7 @@
  *
  */
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 using awareness.db;
@@ -103,7 +104,11 @@ namespace awareness.ui
                 }
             }
         }
-        
+
+        void EditLayoutLabelClick(object sender, EventArgs e){
+            EditPanelExpanded = !EditPanelExpanded;
+        }
+
         bool IsTransactionValid(){
             reasonCombo.Focus();
             ammountBox.Focus();
@@ -178,6 +183,142 @@ namespace awareness.ui
             } else {
                 EditMode = EditModes.NEW;
             }
+        }
+
+        void DatePickerValueChanged(object sender, EventArgs e){
+            if (EditMode == EditModes.UPDATE){
+                Dirty = true;
+            }
+        }
+
+        void ReasonComboTextChanged(object sender, EventArgs e){
+            if (EditMode == EditModes.UPDATE){
+                Dirty = true;
+            }
+        }
+
+        void FromComboSelectedIndexChanged(object sender, EventArgs e){
+            if (fromCombo.SelectedItem is DalTransferLocation){
+                if (EditMode == EditModes.UPDATE){
+                    Dirty = true;
+                }
+            } else {
+                fromCombo.SelectedItem = null;
+            }
+        }
+
+        void ToComboSelectedIndexChanged(object sender, EventArgs e){
+            if (toCombo.SelectedItem is DalTransferLocation){
+                if (EditMode == EditModes.UPDATE){
+                    Dirty = true;
+                }
+            } else {
+                toCombo.SelectedItem = null;
+            }
+        }
+
+        void QuantityBoxTextChanged(object sender, EventArgs e){
+            if (EditMode == EditModes.UPDATE){
+                Dirty = true;
+            }
+        }
+
+        void MemoBoxTextChanged(object sender, EventArgs e){
+            if (EditMode == EditModes.UPDATE){
+                Dirty = true;
+            }
+        }
+
+        void AmmountBoxTextChanged(object sender, EventArgs e){
+            if (EditMode == EditModes.UPDATE){
+                Dirty = true;
+            }
+        }
+
+        void ReasonComboValidating(object sender, CancelEventArgs e){
+            if (string.IsNullOrEmpty(reasonCombo.Text)){
+                e.Cancel = true;
+                errorProvider.SetError((Control) sender, "Please enter a reason");
+            } else {
+                errorProvider.Clear();
+            }
+        }
+
+        void FromComboValidating(object sender, CancelEventArgs e){
+            if (fromCombo.SelectedIndex < 0){
+                e.Cancel = true;
+                errorProvider.SetError((Control) sender, "Please select a source");
+            } else {
+                errorProvider.Clear();
+            }
+        }
+
+        void ToComboValidating(object sender, CancelEventArgs e){
+            if (toCombo.SelectedIndex < 0){
+                e.Cancel = true;
+                errorProvider.SetError((Control) sender, "Please select a destinantion");
+            } else {
+                errorProvider.Clear();
+            }
+        }
+
+        void QuantityBoxValidating(object sender, CancelEventArgs e){
+            try {
+                if (int.Parse(quantityBox.Text) < 0){
+                    throw new ApplicationException();
+                }
+                errorProvider.Clear();
+            } catch (Exception) {
+                e.Cancel = true;
+                errorProvider.SetError((Control) sender, "Please enter a positive integer value");
+            }
+        }
+
+        void AmmountBoxValidating(object sender, CancelEventArgs e){
+            try {
+                if (decimal.Parse(ammountBox.Text) <= 0){
+                    throw new ApplicationException();
+                }
+                errorProvider.Clear();
+            } catch (Exception) {
+                e.Cancel = true;
+                errorProvider.SetError((Control) sender, "Please enter a decimal value grater than 0");
+            }
+        }
+
+        void RecordButtonClick(object sender, EventArgs e){
+            switch (EditMode){
+            case EditModes.NEW:
+                if (IsTransactionValid()){
+                    // MessageBox.Show("New Transaction");
+                    DalTransaction transaction = new DalTransaction();
+                    UiData2Transaction(ref transaction);
+                    DbUtil.InsertTransaction(transaction);
+                    ReadTransactions();
+                    ClearEditBoxes();
+                }
+                break;
+            case EditModes.UPDATE:
+                EditMode = EditModes.NEW;
+                ClearEditBoxes();
+                break;
+            }
+        }
+
+        void UpdateButtonClick(object sender, EventArgs e){
+            if (IsTransactionValid()){
+                DalTransaction transaction = transactionsView.SelectedTransaction;
+                UiData2Transaction(ref transaction);
+                DbUtil.UpdateTransaction(transaction);
+                ReadTransactions();
+                transactionsView.SelectedTransaction = transaction;
+            }
+        }
+
+        void DeleteButtonClick(object sender, EventArgs e){
+            DbUtil.DeleteTransaction(transactionsView.SelectedTransaction);
+            ReadTransactions();
+            EditMode = EditModes.NEW;
         }
     }
 }
