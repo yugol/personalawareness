@@ -133,6 +133,7 @@ namespace awareness.ui
         	this.datePicker.Size = new System.Drawing.Size(134, 20);
         	this.datePicker.TabIndex = 1;
         	this.toolTips.SetToolTip(this.datePicker, "Transaction date");
+        	this.datePicker.ValueChanged += new System.EventHandler(this.DatePickerValueChanged);
         	// 
         	// listPanel
         	// 
@@ -154,6 +155,8 @@ namespace awareness.ui
         	this.fromCombo.Size = new System.Drawing.Size(221, 21);
         	this.fromCombo.TabIndex = 4;
         	this.toolTips.SetToolTip(this.fromCombo, "Source (Account / Budget Category)");
+        	this.fromCombo.Validating += new System.ComponentModel.CancelEventHandler(this.FromComboValidating);
+        	this.fromCombo.SelectedIndexChanged += new System.EventHandler(this.FromComboSelectedIndexChanged);
         	// 
         	// toCombo
         	// 
@@ -166,6 +169,8 @@ namespace awareness.ui
         	this.toCombo.Size = new System.Drawing.Size(221, 21);
         	this.toCombo.TabIndex = 5;
         	this.toolTips.SetToolTip(this.toCombo, "Destination (Account / Budget Category)");
+        	this.toCombo.Validating += new System.ComponentModel.CancelEventHandler(this.ToComboValidating);
+        	this.toCombo.SelectedIndexChanged += new System.EventHandler(this.ToComboSelectedIndexChanged);
         	// 
         	// errorProvider
         	// 
@@ -176,6 +181,7 @@ namespace awareness.ui
         	this.pieChartToolStripMenuItem.Name = "pieChartToolStripMenuItem";
         	this.pieChartToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
         	this.pieChartToolStripMenuItem.Text = "Pie chart";
+        	this.pieChartToolStripMenuItem.Click += new System.EventHandler(this.PieChartToolStripMenuItemClick);
         	// 
         	// expensesToolStripMenuItem
         	// 
@@ -210,6 +216,8 @@ namespace awareness.ui
         	this.reasonCombo.Size = new System.Drawing.Size(272, 21);
         	this.reasonCombo.TabIndex = 2;
         	this.toolTips.SetToolTip(this.reasonCombo, "Reason");
+        	this.reasonCombo.Validating += new System.ComponentModel.CancelEventHandler(this.ReasonComboValidating);
+        	this.reasonCombo.TextChanged += new System.EventHandler(this.ReasonComboTextChanged);
         	// 
         	// memoBox
         	// 
@@ -223,6 +231,7 @@ namespace awareness.ui
         	this.memoBox.Size = new System.Drawing.Size(125, 76);
         	this.memoBox.TabIndex = 7;
         	this.toolTips.SetToolTip(this.memoBox, "Memo");
+        	this.memoBox.TextChanged += new System.EventHandler(this.MemoBoxTextChanged);
         	// 
         	// quantityBox
         	// 
@@ -234,6 +243,8 @@ namespace awareness.ui
         	this.quantityBox.TabIndex = 6;
         	this.quantityBox.Text = "0";
         	this.toolTips.SetToolTip(this.quantityBox, "Quantity");
+        	this.quantityBox.TextChanged += new System.EventHandler(this.QuantityBoxTextChanged);
+        	this.quantityBox.Validating += new System.ComponentModel.CancelEventHandler(this.QuantityBoxValidating);
         	// 
         	// ammountBox
         	// 
@@ -245,6 +256,8 @@ namespace awareness.ui
         	this.ammountBox.Size = new System.Drawing.Size(138, 20);
         	this.ammountBox.TabIndex = 11;
         	this.toolTips.SetToolTip(this.ammountBox, "Transfer ammount");
+        	this.ammountBox.TextChanged += new System.EventHandler(this.AmmountBoxTextChanged);
+        	this.ammountBox.Validating += new System.ComponentModel.CancelEventHandler(this.AmmountBoxValidating);
         	// 
         	// arrowLabel
         	// 
@@ -298,6 +311,7 @@ namespace awareness.ui
         	this.deleteButton.TabIndex = 8;
         	this.deleteButton.Text = "&Delete";
         	this.deleteButton.UseVisualStyleBackColor = true;
+        	this.deleteButton.Click += new System.EventHandler(this.DeleteButtonClick);
         	// 
         	// recordButton
         	// 
@@ -309,6 +323,7 @@ namespace awareness.ui
         	this.recordButton.TabIndex = 9;
         	this.recordButton.Text = "&Record";
         	this.recordButton.UseVisualStyleBackColor = true;
+        	this.recordButton.Click += new System.EventHandler(this.RecordButtonClick);
         	// 
         	// updateButton
         	// 
@@ -320,6 +335,7 @@ namespace awareness.ui
         	this.updateButton.TabIndex = 10;
         	this.updateButton.Text = "&Update";
         	this.updateButton.UseVisualStyleBackColor = true;
+        	this.updateButton.Click += new System.EventHandler(this.UpdateButtonClick);
         	// 
         	// selectLayoutLabel
         	// 
@@ -372,6 +388,7 @@ namespace awareness.ui
         	this.transferLocationSelectionCombo.Name = "transferLocationSelectionCombo";
         	this.transferLocationSelectionCombo.Size = new System.Drawing.Size(312, 21);
         	this.transferLocationSelectionCombo.TabIndex = 2;
+        	this.transferLocationSelectionCombo.SelectedIndexChanged += new System.EventHandler(this.TransferLocationSelectionComboSelectedIndexChanged);
         	// 
         	// reasonSelectionBox
         	// 
@@ -380,6 +397,7 @@ namespace awareness.ui
         	this.reasonSelectionBox.Name = "reasonSelectionBox";
         	this.reasonSelectionBox.Size = new System.Drawing.Size(312, 20);
         	this.reasonSelectionBox.TabIndex = 3;
+        	this.reasonSelectionBox.TextChanged += new System.EventHandler(this.ReasonSelectionBoxTextChanged);
         	// 
         	// reportsButton
         	// 
@@ -391,6 +409,7 @@ namespace awareness.ui
         	this.reportsButton.TabIndex = 4;
         	this.reportsButton.Text = "Re&ports";
         	this.reportsButton.UseVisualStyleBackColor = true;
+        	this.reportsButton.Click += new System.EventHandler(this.ReportsButtonClick);
         	// 
         	// ControlTransactions
         	// 
@@ -401,6 +420,7 @@ namespace awareness.ui
         	this.Controls.Add(this.selectPanel);
         	this.Name = "ControlTransactions";
         	this.Size = new System.Drawing.Size(732, 526);
+        	this.Load += new System.EventHandler(this.ControlTransactionsLoad);
         	this.listPanel.ResumeLayout(false);
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
         	this.reportsMenu.ResumeLayout(false);

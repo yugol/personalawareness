@@ -91,7 +91,6 @@ namespace awareness.ui
             exportToolStripMenuItem.Visible = isDbOperational;
             deleteDatabaseToolStripMenuItem.Enabled = isDbOperational;
             editToolStripMenuItem.Visible = isDbOperational;
-            financesToolStripMenuItem.Visible = isDbOperational;
             mealsToolStripMenuItem.Visible = isDbOperational;
             mainViewPages.Visible = isDbOperational;
         }

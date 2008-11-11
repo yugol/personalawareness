@@ -122,15 +122,12 @@ namespace awareness.ui
 
             reportsButton.Enabled = transactions.Count() > 0;
         }
-
-        void FormManageTransactionsShown(object sender, EventArgs e){
+        
+        void ControlTransactionsLoad(object sender, EventArgs e)
+        {
             ReadTransferLocations();
             ReadTransactionReasons();
             ReadTransactions();
-        }
-
-        void EditLayoutLabelClick(object sender, EventArgs e){
-            EditPanelExpanded = !EditPanelExpanded;
         }
     }
 }
