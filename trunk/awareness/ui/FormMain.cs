@@ -115,20 +115,6 @@ namespace awareness.ui
             new FormEditTransactionReasons().ShowDialog();
         }
 
-        void ManageTransactionsToolStripMenuItemClick(object sender, EventArgs e){
-            FormManageTransactions transactionManager = new FormManageTransactions();
-            transactionManager.SelectPanelExpanded = false;
-            transactionManager.EditPanelExpanded = true;
-            transactionManager.ShowDialog();
-        }
-
-        void AnalyzeTransactionsToolStripMenuItemClick(object sender, EventArgs e){
-            FormManageTransactions transactionManager = new FormManageTransactions();
-            transactionManager.SelectPanelExpanded = true;
-            transactionManager.EditPanelExpanded = false;
-            transactionManager.ShowDialog();
-        }
-
         void BuddiExportToolStripMenuItemClick(object sender, EventArgs e){
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Buddi export (*.csv)|*.csv";

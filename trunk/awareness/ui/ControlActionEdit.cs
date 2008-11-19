@@ -90,7 +90,7 @@ namespace awareness.ui
         {
             InitializeComponent();
             noteTextView.TopVisible = false;
-            noteTextView.NoteTextChanged += new EventHandler(NoteChanged);
+            noteTextView.NoteTextChanged += new NoteHandler(NoteTextChanged);
             recurrencePatternEditControl.PatternChanged += new PatternChangedHandler(RecurrencePatternChanged);
             commandSelector.CommandChanged += new EventHandler(CommandSelectorCommandChanged);
             commandSelector.TestClick += new EventHandler(CommandSelectorTestClick);

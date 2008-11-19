@@ -128,6 +128,7 @@ namespace awareness.ui
             ReadTransferLocations();
             ReadTransactionReasons();
             ReadTransactions();
-        }
+        }        
+        
     }
 }

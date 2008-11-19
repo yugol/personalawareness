@@ -155,7 +155,7 @@ namespace awareness.db
                         From = GetFoodsAccount(),
                         To = GetRecipesAccount(),
                     };
-                    InsertTransaction(recipeTransaction);
+                    InsertTransaction(recipeTransaction, null);
                 }
             }
 
@@ -184,27 +184,6 @@ namespace awareness.db
             if (MealsChanged != null){
                 MealsChanged();
             }
-        }
-
-        internal static void InsertNote(DalNote note){
-            if (note.Parent == null){
-                note.Parent = GetRootNote();
-            }
-            dataContext.notes.InsertOnSubmit(note);
-            dataContext.SubmitChanges();
-        }
-
-        internal static void UpdateNote(DalNote note){
-            if (note.Id == note.ParentId){
-                throw new ArgumentException("Cannot parent a note to self");
-            }
-            dataContext.SubmitChanges();
-        }
-
-        internal static void DeleteNote(DalNote note){
-            // TODO: do not delete id <= RESERVED_NOTES
-            dataContext.notes.DeleteOnSubmit(note);
-            dataContext.SubmitChanges();
         }
 
         internal static void AddAction(DalAction action){
