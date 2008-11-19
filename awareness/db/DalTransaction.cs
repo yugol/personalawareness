@@ -177,8 +177,7 @@ namespace awareness.db
         public DalNote Note
         {
             get { return _note.Entity; }
-            set
-            {
+            set {
                 _note.Entity = value;
                 _noteId = value.Id;
             }

@@ -99,19 +99,19 @@ namespace awareness.db
             DalTransaction t1 = new DalTransaction() {
                 When = new DateTime(2008, 01, 02), From = bc1, To = a1, Reason = tr1, Ammount = 1m, Quantity = 0, Memo = "Memo1"
             };
-            DbUtil.InsertTransaction(t1);
+            DbUtil.InsertTransaction(t1, null);
             DalTransaction t2 = new DalTransaction() {
                 When = new DateTime(2008, 03, 04), From = a1, To = a2, Reason = tr2, Ammount = 2m, Quantity = 1, Memo = "Memo'2'\r\nMemo3"
             };
-            DbUtil.InsertTransaction(t2);
+            DbUtil.InsertTransaction(t2, null);
             DalTransaction t3 = new DalTransaction() {
                 When = new DateTime(2008, 05, 06), From = a2, To = bc2, Reason = tr3, Ammount = 3m, Quantity = 200, Memo = null
             };
-            DbUtil.InsertTransaction(t3);
+            DbUtil.InsertTransaction(t3, null);
             DalTransaction t4 = new DalTransaction() {
                 When = new DateTime(2008, 07, 08), From = ra1, To = ra2, Reason = tr4, Ammount = 0m, Quantity = 1400, Memo = null
             };
-            DbUtil.InsertTransaction(t4);
+            DbUtil.InsertTransaction(t4, null);
 
             DalMeal m1 = new DalMeal() {
                 When = new DateTime(2008, 07, 08), What = tr3, Quantity = 150, Why = tr5

@@ -84,12 +84,12 @@ namespace awareness.db
             DalTransaction t6 = new DalTransaction() {
                 From = a2, To = bc2, Reason = tr, Ammount = 30
             };
-            DbUtil.InsertTransaction(t1);
-            DbUtil.InsertTransaction(t2);
-            DbUtil.InsertTransaction(t3);
-            DbUtil.InsertTransaction(t4);
-            DbUtil.InsertTransaction(t5);
-            DbUtil.InsertTransaction(t6);
+            DbUtil.InsertTransaction(t1, null);
+            DbUtil.InsertTransaction(t2, null);
+            DbUtil.InsertTransaction(t3, null);
+            DbUtil.InsertTransaction(t4, null);
+            DbUtil.InsertTransaction(t5, null);
+            DbUtil.InsertTransaction(t6, null);
 
             Assert.AreEqual(60, DbUtil.GetTotalOutAmmount(a1));
             Assert.AreEqual(90, DbUtil.GetTotalOutAmmount(a2));

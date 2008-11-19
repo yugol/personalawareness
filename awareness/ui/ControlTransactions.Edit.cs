@@ -66,7 +66,7 @@ namespace awareness.ui
             get { return editMode; }
             set
             {
-                switch (value){
+                switch (value) {
                 case EditModes.NEW:
                     transactionsView.SelectedTransaction = null;
                     recordButton.Text = "&Record";
@@ -81,6 +81,8 @@ namespace awareness.ui
                 editMode = value;
             }
         }
+
+        #region Layout
 
         public bool EditPanelExpanded
         {
@@ -109,81 +111,20 @@ namespace awareness.ui
             EditPanelExpanded = !EditPanelExpanded;
         }
 
-        bool IsTransactionValid(){
-            reasonCombo.Focus();
-            ammountBox.Focus();
-            fromCombo.Focus();
-            toCombo.Focus();
-            quantityBox.Focus();
-            datePicker.Focus();
-
-            string error = "";
-            error += errorProvider.GetError(reasonCombo);
-            error += errorProvider.GetError(ammountBox);
-            error += errorProvider.GetError(fromCombo);
-            error += errorProvider.GetError(toCombo);
-            error += errorProvider.GetError(quantityBox);
-
-            return string.IsNullOrEmpty(error);
-        }
-
         void ClearEditBoxes(){
             reasonCombo.SelectedItem = null;
             ammountBox.Text = "";
             fromCombo.SelectedItem = null;
             toCombo.SelectedItem = null;
             quantityBox.Text = "0";
-            memoBox.Text = null;
+            noteControl.Note = null;
 
             Dirty = false;
         }
 
-        void UiData2Transaction(ref DalTransaction transaction){
-            float quantity = float.Parse(quantityBox.Text);
-            transaction.When = datePicker.Value.Date;
-            if (reasonCombo.SelectedItem != null){
-                transaction.Reason = (DalReason) reasonCombo.SelectedItem;
-            } else {
-                int index = reasonCombo.FindStringExact(reasonCombo.Text);
-                if (index >= 0){
-                    transaction.Reason = (DalReason) reasonCombo.Items[index];
-                } else {
-                    // TODO: if quantity != 0 default is DalTrFood
-                    DalReason reason = new DalReason() {
-                        Name = "_" + reasonCombo.Text
-                    };
-                    DbUtil.InsertTransactionReason(reason);
-                    transaction.Reason = reason;
-                }
-            }
-            transaction.Ammount = decimal.Parse(ammountBox.Text);
-            transaction.From = (DalTransferLocation) fromCombo.SelectedItem;
-            transaction.To = (DalTransferLocation) toCombo.SelectedItem;
-            transaction.Quantity = quantity;
-            transaction.Memo = memoBox.Text;
-        }
+        #endregion
 
-        void TransactionData2Ui(DalTransaction transaction){
-            datePicker.Value = transaction.When;
-            reasonCombo.SelectedItem = transaction.Reason;
-            ammountBox.Text = transaction.Ammount.ToString("0.00");
-            fromCombo.SelectedItem = transaction.From;
-            toCombo.SelectedItem = transaction.To;
-            quantityBox.Text = transaction.Quantity.ToString();
-            memoBox.Text = transaction.Memo;
-
-            Dirty = false;
-        }
-
-        void TransactionsViewSelectedIndexChanged(object sender, EventArgs e){
-            DalTransaction transaction = transactionsView.SelectedTransaction;
-            if (transaction != null){
-                EditMode = EditModes.UPDATE;
-                TransactionData2Ui(transaction);
-            } else {
-                EditMode = EditModes.NEW;
-            }
-        }
+        #region Edit events
 
         void DatePickerValueChanged(object sender, EventArgs e){
             if (EditMode == EditModes.UPDATE){
@@ -233,6 +174,46 @@ namespace awareness.ui
             if (EditMode == EditModes.UPDATE){
                 Dirty = true;
             }
+        }
+
+        void NoteControlNoteAdded(object sender, DalNote note){
+            if (EditMode == EditModes.UPDATE){
+                Dirty = true;
+            }
+        }
+
+        void NoteControlNoteRemoved(object sender, DalNote note){
+            if (EditMode == EditModes.UPDATE){
+                Dirty = true;
+            }
+        }
+
+        void NoteControlNoteTextChanged(object sender, DalNote note){
+            if (EditMode == EditModes.UPDATE){
+                Dirty = true;
+            }
+        }
+
+        #endregion
+
+        #region Validation
+
+        bool IsTransactionValid(){
+            reasonCombo.Focus();
+            ammountBox.Focus();
+            fromCombo.Focus();
+            toCombo.Focus();
+            quantityBox.Focus();
+            datePicker.Focus();
+
+            string error = "";
+            error += errorProvider.GetError(reasonCombo);
+            error += errorProvider.GetError(ammountBox);
+            error += errorProvider.GetError(fromCombo);
+            error += errorProvider.GetError(toCombo);
+            error += errorProvider.GetError(quantityBox);
+
+            return string.IsNullOrEmpty(error);
         }
 
         void ReasonComboValidating(object sender, CancelEventArgs e){
@@ -286,14 +267,72 @@ namespace awareness.ui
             }
         }
 
+        #endregion
+
+        #region CRUD
+
+        DalReason CreateReasonFromUi() {
+            DalReason reason = null;
+            float quantity = float.Parse(quantityBox.Text);
+            if (quantity != 0){
+                reason = new DalFood();
+            } else {
+                reason = new DalReason();
+            }
+            reason.Name = "_" + reasonCombo.Text;
+            DbUtil.InsertTransactionReason(reason);
+            return reason;
+        }
+
+        void UiData2Transaction(ref DalTransaction transaction){
+            transaction.When = datePicker.Value.Date;
+            if (reasonCombo.SelectedItem != null){
+                transaction.Reason = (DalReason) reasonCombo.SelectedItem;
+            } else {
+                int index = reasonCombo.FindStringExact(reasonCombo.Text);
+                if (index >= 0){
+                    transaction.Reason = (DalReason) reasonCombo.Items[index];
+                } else {
+                    transaction.Reason = CreateReasonFromUi();
+                }
+            }
+            transaction.Ammount = decimal.Parse(ammountBox.Text);
+            transaction.From = (DalTransferLocation) fromCombo.SelectedItem;
+            transaction.To = (DalTransferLocation) toCombo.SelectedItem;
+            transaction.Quantity = float.Parse(quantityBox.Text);
+        }
+
+        void TransactionData2Ui(DalTransaction transaction){
+            datePicker.Value = transaction.When;
+            reasonCombo.SelectedItem = transaction.Reason;
+            ammountBox.Text = transaction.Ammount.ToString("0.00");
+            fromCombo.SelectedItem = transaction.From;
+            toCombo.SelectedItem = transaction.To;
+            quantityBox.Text = transaction.Quantity.ToString();
+            noteControl.Note = transaction.HasNote ? transaction.Note : null;
+            // TODO: move memo to note
+
+            Dirty = false;
+        }
+
+        void TransactionsViewSelectedIndexChanged(object sender, EventArgs e){
+            DalTransaction transaction = transactionsView.SelectedTransaction;
+            if (transaction != null){
+                EditMode = EditModes.UPDATE;
+                TransactionData2Ui(transaction);
+            } else {
+                EditMode = EditModes.NEW;
+            }
+        }
+
         void RecordButtonClick(object sender, EventArgs e){
             switch (EditMode){
             case EditModes.NEW:
                 if (IsTransactionValid()){
-                    // MessageBox.Show("New Transaction");
                     DalTransaction transaction = new DalTransaction();
                     UiData2Transaction(ref transaction);
-                    DbUtil.InsertTransaction(transaction);
+                    DbUtil.InsertTransaction(transaction, noteControl.Note);
+
                     ReadTransactions();
                     ClearEditBoxes();
                 }
@@ -309,7 +348,8 @@ namespace awareness.ui
             if (IsTransactionValid()){
                 DalTransaction transaction = transactionsView.SelectedTransaction;
                 UiData2Transaction(ref transaction);
-                DbUtil.UpdateTransaction(transaction);
+                DbUtil.UpdateTransaction(transaction, noteControl.Note);
+
                 ReadTransactions();
                 transactionsView.SelectedTransaction = transaction;
             }
@@ -320,5 +360,7 @@ namespace awareness.ui
             ReadTransactions();
             EditMode = EditModes.NEW;
         }
+
+        #endregion
     }
 }

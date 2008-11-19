@@ -38,7 +38,7 @@ namespace awareness.ui
 {
     public partial class ControlNoteTextView : UserControl
     {
-        public event EventHandler NoteTextChanged;
+        public event NoteHandler NoteTextChanged;
         
         TreeNode node = null;
         public TreeNode Node
@@ -149,7 +149,7 @@ namespace awareness.ui
         {
             if (NoteTextChanged != null)
             {
-                NoteTextChanged(sender, e);
+                NoteTextChanged(sender, Note);
             }
         }
     }

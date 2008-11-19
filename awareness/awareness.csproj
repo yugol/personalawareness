@@ -101,6 +101,9 @@
     <Compile Include="db\DbUtil.InsUpDel.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
+    <Compile Include="db\DbUtil.InsUpDel.Notes.cs">
+      <DependentUpon>DbUtil.cs</DependentUpon>
+    </Compile>
     <Compile Include="db\DbUtil.InsUpDel.Transactions.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
@@ -133,6 +136,10 @@
     <Compile Include="ui\ControlActionsList.cs" />
     <Compile Include="ui\ControlActionsList.Designer.cs">
       <DependentUpon>ControlActionsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlAddNote.cs" />
+    <Compile Include="ui\ControlAddNote.Designer.cs">
+      <DependentUpon>ControlAddNote.cs</DependentUpon>
     </Compile>
     <Compile Include="ui\ControlAvailableFoods.cs" />
     <Compile Include="ui\ControlAvailableFoods.Designer.cs">
@@ -229,25 +236,13 @@
     <Compile Include="ui\FormManageMeals.Designer.cs">
       <DependentUpon>FormManageMeals.cs</DependentUpon>
     </Compile>
-    <Compile Include="ui\FormManageTransactions.cs" />
-    <Compile Include="ui\FormManageTransactions.Designer.cs">
-      <DependentUpon>FormManageTransactions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ui\FormManageTransactions.Edit.cs">
-      <DependentUpon>FormManageTransactions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ui\FormManageTransactions.Reports.cs">
-      <DependentUpon>FormManageTransactions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ui\FormManageTransactions.Selection.cs">
-      <DependentUpon>FormManageTransactions.cs</DependentUpon>
-    </Compile>
     <Compile Include="ui\FormReport.cs" />
     <Compile Include="ui\FormReport.Designer.cs">
       <DependentUpon>FormReport.cs</DependentUpon>
     </Compile>
     <Compile Include="ui\NamingReasonTypes.cs" />
     <Compile Include="ui\NamingTimeIntervals.cs" />
+    <Compile Include="ui\NoteHandler.cs" />
     <Compile Include="ui\UiUtil.cs" />
     <Compile Include="ui\UiUtilTest.cs" />
     <EmbeddedResource Include="ui\ControlActionEdit.resx">
@@ -258,6 +253,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ui\ControlActionsList.resx">
       <DependentUpon>ControlActionsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlAddNote.resx">
+      <DependentUpon>ControlAddNote.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ui\ControlAvailableFoods.resx">
       <DependentUpon>ControlAvailableFoods.cs</DependentUpon>
@@ -318,9 +316,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ui\FormManageMeals.resx">
       <DependentUpon>FormManageMeals.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ui\FormManageTransactions.resx">
-      <DependentUpon>FormManageTransactions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ui\FormReport.resx">
       <DependentUpon>FormReport.cs</DependentUpon>

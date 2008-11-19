@@ -37,7 +37,7 @@ namespace awareness.ui
 {
     partial class ControlActionEdit
     {
-        void NoteChanged(object sender, EventArgs e)
+        void NoteTextChanged(object sender, DalNote e)
         {
             if (!action.HasNote)
             {

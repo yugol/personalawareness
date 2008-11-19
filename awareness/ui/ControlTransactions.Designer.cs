@@ -73,7 +73,6 @@ namespace awareness.ui
         	this.reportsMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
         	this.toolTips = new System.Windows.Forms.ToolTip(this.components);
         	this.reasonCombo = new System.Windows.Forms.ComboBox();
-        	this.memoBox = new System.Windows.Forms.TextBox();
         	this.quantityBox = new System.Windows.Forms.TextBox();
         	this.ammountBox = new System.Windows.Forms.TextBox();
         	this.arrowLabel = new System.Windows.Forms.Label();
@@ -81,6 +80,7 @@ namespace awareness.ui
         	this.deleteButton = new System.Windows.Forms.Button();
         	this.recordButton = new System.Windows.Forms.Button();
         	this.updateButton = new System.Windows.Forms.Button();
+        	this.noteControl = new awareness.ui.ControlAddNote();
         	this.selectLayoutLabel = new System.Windows.Forms.Label();
         	this.selectPanel = new System.Windows.Forms.TableLayoutPanel();
         	this.timeIntervalSelectorControl = new awareness.ui.ControlTimeIntervalSelector();
@@ -219,20 +219,6 @@ namespace awareness.ui
         	this.reasonCombo.Validating += new System.ComponentModel.CancelEventHandler(this.ReasonComboValidating);
         	this.reasonCombo.TextChanged += new System.EventHandler(this.ReasonComboTextChanged);
         	// 
-        	// memoBox
-        	// 
-        	this.memoBox.AcceptsReturn = true;
-        	this.memoBox.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.memoBox.Location = new System.Drawing.Point(607, 3);
-        	this.memoBox.Margin = new System.Windows.Forms.Padding(16, 3, 0, 5);
-        	this.memoBox.Multiline = true;
-        	this.memoBox.Name = "memoBox";
-        	this.editPanel.SetRowSpan(this.memoBox, 3);
-        	this.memoBox.Size = new System.Drawing.Size(125, 76);
-        	this.memoBox.TabIndex = 7;
-        	this.toolTips.SetToolTip(this.memoBox, "Memo");
-        	this.memoBox.TextChanged += new System.EventHandler(this.MemoBoxTextChanged);
-        	// 
         	// quantityBox
         	// 
         	this.quantityBox.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -289,9 +275,9 @@ namespace awareness.ui
         	this.editPanel.Controls.Add(this.deleteButton, 1, 2);
         	this.editPanel.Controls.Add(this.recordButton, 4, 2);
         	this.editPanel.Controls.Add(this.updateButton, 6, 2);
-        	this.editPanel.Controls.Add(this.memoBox, 7, 0);
         	this.editPanel.Controls.Add(this.quantityBox, 6, 1);
         	this.editPanel.Controls.Add(this.ammountBox, 5, 0);
+        	this.editPanel.Controls.Add(this.noteControl, 7, 0);
         	this.editPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
         	this.editPanel.Location = new System.Drawing.Point(0, 442);
         	this.editPanel.Name = "editPanel";
@@ -336,6 +322,20 @@ namespace awareness.ui
         	this.updateButton.Text = "&Update";
         	this.updateButton.UseVisualStyleBackColor = true;
         	this.updateButton.Click += new System.EventHandler(this.UpdateButtonClick);
+        	// 
+        	// noteControl
+        	// 
+        	this.noteControl.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.noteControl.Location = new System.Drawing.Point(607, 3);
+        	this.noteControl.Margin = new System.Windows.Forms.Padding(16, 3, 3, 3);
+        	this.noteControl.Name = "noteControl";
+        	this.noteControl.Note = null;
+        	this.editPanel.SetRowSpan(this.noteControl, 3);
+        	this.noteControl.Size = new System.Drawing.Size(122, 78);
+        	this.noteControl.TabIndex = 12;
+        	this.noteControl.NoteTextChanged += new awareness.ui.NoteHandler(this.NoteControlNoteTextChanged);
+        	this.noteControl.NoteRemoved += new awareness.ui.NoteHandler(this.NoteControlNoteRemoved);
+        	this.noteControl.NoteAdded += new awareness.ui.NoteHandler(this.NoteControlNoteAdded);
         	// 
         	// selectLayoutLabel
         	// 
@@ -430,6 +430,7 @@ namespace awareness.ui
         	this.selectPanel.PerformLayout();
         	this.ResumeLayout(false);
         }
+        private awareness.ui.ControlAddNote noteControl;
         private System.Windows.Forms.ContextMenuStrip reportsMenu;
         private System.Windows.Forms.ToolStripMenuItem monthlyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem expensesToolStripMenuItem;
@@ -443,7 +444,6 @@ namespace awareness.ui
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.TextBox ammountBox;
         private System.Windows.Forms.TextBox quantityBox;
-        private System.Windows.Forms.TextBox memoBox;
         private System.Windows.Forms.Button updateButton;
         private System.Windows.Forms.Button recordButton;
         private System.Windows.Forms.Button deleteButton;
