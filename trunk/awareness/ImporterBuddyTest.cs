@@ -111,7 +111,6 @@ namespace awareness
             Assert.AreEqual("Unicredit", transaction.From.Name);
             Assert.IsTrue(transaction.To is DalAccount);
             Assert.AreEqual("ATE", transaction.To.Name);
-            Assert.AreEqual("2007-11-19 179.4744", transaction.Memo);
         }
 
         [Test]
@@ -126,7 +125,6 @@ namespace awareness
             Assert.AreEqual("Unicredit", transaction.From.Name);
             Assert.IsTrue(transaction.To is DalBudgetCategory);
             Assert.AreEqual("Food", transaction.To.Name);
-            Assert.IsNull(transaction.Memo);
         }
 
         [Test]
@@ -141,7 +139,6 @@ namespace awareness
             Assert.AreEqual("Salary", transaction.From.Name);
             Assert.IsTrue(transaction.To is DalAccount);
             Assert.AreEqual("Cash", transaction.To.Name);
-            Assert.IsNull(transaction.Memo);
         }
 
         [Test]

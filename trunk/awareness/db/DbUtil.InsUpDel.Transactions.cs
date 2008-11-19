@@ -81,10 +81,7 @@ namespace awareness.db
         }
 
         internal static void DeleteTransaction(DalTransaction transaction){
-            DalNote note = null;
-            if (transaction.HasNote){
-                note = transaction.Note;
-            }
+            DalNote note = (transaction.HasNote) ? (transaction.Note) : (null);
             dataContext.transactions.DeleteOnSubmit(transaction);
             dataContext.SubmitChanges();
             if (note != null){

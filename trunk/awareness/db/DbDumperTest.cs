@@ -97,19 +97,19 @@ namespace awareness.db
             DbUtil.InsertTransactionReason(tr5);
 
             DalTransaction t1 = new DalTransaction() {
-                When = new DateTime(2008, 01, 02), From = bc1, To = a1, Reason = tr1, Ammount = 1m, Quantity = 0, Memo = "Memo1"
+                When = new DateTime(2008, 01, 02), From = bc1, To = a1, Reason = tr1, Ammount = 1m, Quantity = 0
             };
             DbUtil.InsertTransaction(t1, null);
             DalTransaction t2 = new DalTransaction() {
-                When = new DateTime(2008, 03, 04), From = a1, To = a2, Reason = tr2, Ammount = 2m, Quantity = 1, Memo = "Memo'2'\r\nMemo3"
+                When = new DateTime(2008, 03, 04), From = a1, To = a2, Reason = tr2, Ammount = 2m, Quantity = 1
             };
             DbUtil.InsertTransaction(t2, null);
             DalTransaction t3 = new DalTransaction() {
-                When = new DateTime(2008, 05, 06), From = a2, To = bc2, Reason = tr3, Ammount = 3m, Quantity = 200, Memo = null
+                When = new DateTime(2008, 05, 06), From = a2, To = bc2, Reason = tr3, Ammount = 3m, Quantity = 200
             };
             DbUtil.InsertTransaction(t3, null);
             DalTransaction t4 = new DalTransaction() {
-                When = new DateTime(2008, 07, 08), From = ra1, To = ra2, Reason = tr4, Ammount = 0m, Quantity = 1400, Memo = null
+                When = new DateTime(2008, 07, 08), From = ra1, To = ra2, Reason = tr4, Ammount = 0m, Quantity = 1400
             };
             DbUtil.InsertTransaction(t4, null);
 
@@ -196,19 +196,16 @@ namespace awareness.db
             Assert.AreEqual("bc1", t.From.Name);
             Assert.AreEqual("a1", t.To.Name);
             Assert.AreEqual("tr1", t.Reason.Name);
-            Assert.AreEqual("Memo1", t.Memo);
 
             t = transactions.ElementAt(1);
             Assert.AreEqual("a1", t.From.Name);
             Assert.AreEqual("a'2'", t.To.Name);
             Assert.AreEqual("tr'2'", t.Reason.Name);
-            Assert.AreEqual("Memo'2'\r\nMemo3", t.Memo);
 
             t = transactions.ElementAt(2);
             Assert.AreEqual("a'2'", t.From.Name);
             Assert.AreEqual("bc'2'", t.To.Name);
             Assert.AreEqual("tr3", t.Reason.Name);
-            Assert.IsNull(t.Memo);
 
             IEnumerable<DalReason> reasons = dc.transactionReasons.Select(r => r);
             Assert.AreEqual(5, reasons.Count());
@@ -277,10 +274,10 @@ namespace awareness.db
         public void DumpAccountTypes(){
             StringWriter writer = new StringWriter();
             DbDumper dd = new DbDumper(DbUtil.GetDataContext());
-            dd.DumpAccountTypes(writer);
+            dd.DumpAccountTypes(writer, null);
             Assert.AreEqual(
-                "INSERT INTO account_types (name) VALUES (N'at1');\r\n" +
-                "INSERT INTO account_types (name) VALUES (N'at''2''');\r\n",
+                "INSERT INTO account_types (name, note) VALUES (N'at1', 1);\r\n" +
+                "INSERT INTO account_types (name, note) VALUES (N'at''2''', 1);\r\n",
                 writer.GetStringBuilder().ToString());
         }
 
@@ -288,12 +285,12 @@ namespace awareness.db
         public void DumpTransferLocations(){
             StringWriter writer = new StringWriter();
             DbDumper dd = new DbDumper(DbUtil.GetDataContext());
-            dd.DumpTransferLocations(writer, null);
+            dd.DumpTransferLocations(writer, null, null);
             Assert.AreEqual(
-                "INSERT INTO transfer_locations (is_budget, is_income, name) VALUES (1, 1, N'bc1');\r\n" +
-                "INSERT INTO transfer_locations (is_budget, is_income, name) VALUES (1, 0, N'bc''2''');\r\n" +
-                "INSERT INTO transfer_locations (is_budget, account_type, name, starting_balance) VALUES (0, 6, N'a1', -10.00);\r\n" +
-                "INSERT INTO transfer_locations (is_budget, account_type, name, starting_balance) VALUES (0, 7, N'a''2''', 0.01);\r\n",
+                "INSERT INTO transfer_locations (is_budget, is_income, name, note) VALUES (1, 1, N'bc1', 1);\r\n" +
+                "INSERT INTO transfer_locations (is_budget, is_income, name, note) VALUES (1, 0, N'bc''2''', 1);\r\n" +
+                "INSERT INTO transfer_locations (is_budget, account_type, name, starting_balance, note) VALUES (0, 6, N'a1', -10.00, 1);\r\n" +
+                "INSERT INTO transfer_locations (is_budget, account_type, name, starting_balance, note) VALUES (0, 7, N'a''2''', 0.01, 1);\r\n",
                 writer.GetStringBuilder().ToString());
         }
 
@@ -301,13 +298,13 @@ namespace awareness.db
         public void DumpTransactionReasons(){
             StringWriter writer = new StringWriter();
             DbDumper dd = new DbDumper(DbUtil.GetDataContext());
-            dd.DumpTransactionReasons(writer);
+            dd.DumpReasons(writer, null);
             Assert.AreEqual(
-                "INSERT INTO transaction_reasons (type, name) VALUES (0, N'tr1');\r\n" +
-                "INSERT INTO transaction_reasons (type, name) VALUES (0, N'tr''2''');\r\n" +
-                "INSERT INTO transaction_reasons (type, name, energy) VALUES (1, N'tr3', 50);\r\n" +
-                "INSERT INTO transaction_reasons (type, name, energy) VALUES (2, N'r1', 0);\r\n" +
-                "INSERT INTO transaction_reasons (type, name) VALUES (3, N'c1');\r\n",
+                "INSERT INTO transaction_reasons (type, name, note) VALUES (0, N'tr1', 1);\r\n" +
+                "INSERT INTO transaction_reasons (type, name, note) VALUES (0, N'tr''2''', 1);\r\n" +
+                "INSERT INTO transaction_reasons (type, name, energy, note) VALUES (1, N'tr3', 50, 1);\r\n" +
+                "INSERT INTO transaction_reasons (type, name, energy, note) VALUES (2, N'r1', 0, 1);\r\n" +
+                "INSERT INTO transaction_reasons (type, name, note) VALUES (3, N'c1', 1);\r\n",
                 writer.GetStringBuilder().ToString());
         }
 
@@ -315,13 +312,13 @@ namespace awareness.db
         public void DumpTransactions(){
             StringWriter writer = new StringWriter();
             DbDumper dd = new DbDumper(DbUtil.GetDataContext());
-            dd.DumpTransactions(writer, null, null);
+            dd.DumpTransactions(writer, null, null, null);
             Assert.AreEqual(
-                "INSERT INTO transactions ([when], [from], [to], reason, ammount, quantity, memo) VALUES ('2008-01-02', 11, 13, 1, 1.00, 0, N'Memo1');\r\n" +
-                "INSERT INTO transactions ([when], [from], [to], reason, ammount, quantity, memo) VALUES ('2008-03-04', 13, 14, 2, 2.00, 1, N'Memo''2''' + NCHAR(13) + N'' + NCHAR(10) + N'Memo3');\r\n" +
-                "INSERT INTO transactions ([when], [from], [to], reason, ammount, quantity, memo) VALUES ('2008-05-06', 14, 12, 3, 3.00, 200, null);\r\n" +
-                "INSERT INTO transactions ([when], [from], [to], reason, ammount, quantity, memo) VALUES ('2008-07-08', 1, 2, 4, 0.00, 1400, null);\r\n" +
-                "INSERT INTO transactions ([when], [from], [to], reason, ammount, quantity, memo) VALUES ('2008-07-09', 1, 2, 4, 0.00, 0, null);\r\n",
+                "INSERT INTO transactions ([when], [from], [to], reason, ammount, quantity, note) VALUES ('2008-01-02', 11, 13, 1, 1.00, 0, 1);\r\n" +
+                "INSERT INTO transactions ([when], [from], [to], reason, ammount, quantity, note) VALUES ('2008-03-04', 13, 14, 2, 2.00, 1, 1);\r\n" +
+                "INSERT INTO transactions ([when], [from], [to], reason, ammount, quantity, note) VALUES ('2008-05-06', 14, 12, 3, 3.00, 200, 1);\r\n" +
+                "INSERT INTO transactions ([when], [from], [to], reason, ammount, quantity, note) VALUES ('2008-07-08', 1, 2, 4, 0.00, 1400, 1);\r\n" +
+                "INSERT INTO transactions ([when], [from], [to], reason, ammount, quantity, note) VALUES ('2008-07-09', 1, 2, 4, 0.00, 0, 1);\r\n",
                 writer.GetStringBuilder().ToString());
         }
 
