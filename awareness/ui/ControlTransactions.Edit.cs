@@ -36,53 +36,9 @@ using awareness.db;
 namespace awareness.ui
 {
     partial class ControlTransactions {
-        enum EditModes { NEW, UPDATE }
+        #region Layout
 
         int editPanelNormalHeight;
-
-        EditModes editMode;
-        bool dirty;
-
-        bool Dirty
-        {
-            get { return dirty; }
-            set
-            {
-                switch (value){
-                case true:
-                    updateButton.Enabled = true;
-                    break;
-                case false:
-                    errorProvider.Clear();
-                    updateButton.Enabled = false;
-                    break;
-                }
-                dirty = value;
-            }
-        }
-
-        EditModes EditMode
-        {
-            get { return editMode; }
-            set
-            {
-                switch (value) {
-                case EditModes.NEW:
-                    transactionsView.SelectedTransaction = null;
-                    recordButton.Text = "&Record";
-                    deleteButton.Enabled = false;
-                    ClearEditBoxes();
-                    break;
-                case EditModes.UPDATE:
-                    recordButton.Text = "&New";
-                    deleteButton.Enabled = true;
-                    break;
-                }
-                editMode = value;
-            }
-        }
-
-        #region Layout
 
         public bool EditPanelExpanded
         {
@@ -111,15 +67,57 @@ namespace awareness.ui
             EditPanelExpanded = !EditPanelExpanded;
         }
 
-        void ClearEditBoxes(){
-            reasonCombo.SelectedItem = null;
-            ammountBox.Text = "";
-            fromCombo.SelectedItem = null;
-            toCombo.SelectedItem = null;
-            quantityBox.Text = "0";
-            noteControl.Note = null;
+        #endregion
 
-            Dirty = false;
+        #region Dirty flag
+
+        bool dirty;
+
+        bool Dirty
+        {
+            get { return dirty; }
+            set
+            {
+                switch (value){
+                case true:
+                    updateButton.Enabled = true;
+                    break;
+                case false:
+                    errorProvider.Clear();
+                    updateButton.Enabled = false;
+                    break;
+                }
+                dirty = value;
+            }
+        }
+
+        #endregion
+
+        #region Edit mode
+
+        enum EditModes { NEW, UPDATE }
+
+        EditModes editMode;
+
+        EditModes EditMode
+        {
+            get { return editMode; }
+            set
+            {
+                switch (value) {
+                case EditModes.NEW:
+                    transactionsView.SelectedTransaction = null;
+                    recordButton.Text = "&Record";
+                    deleteButton.Enabled = false;
+                    ClearEditBoxes();
+                    break;
+                case EditModes.UPDATE:
+                    recordButton.Text = "&New";
+                    deleteButton.Enabled = true;
+                    break;
+                }
+                editMode = value;
+            }
         }
 
         #endregion
@@ -198,7 +196,11 @@ namespace awareness.ui
 
         #region Validation
 
+        private bool performValidation = false;
+
         bool IsTransactionValid(){
+            performValidation = true;
+
             reasonCombo.Focus();
             ammountBox.Focus();
             fromCombo.Focus();
@@ -213,63 +215,86 @@ namespace awareness.ui
             error += errorProvider.GetError(toCombo);
             error += errorProvider.GetError(quantityBox);
 
+            performValidation = false;
+
             return string.IsNullOrEmpty(error);
         }
 
         void ReasonComboValidating(object sender, CancelEventArgs e){
-            if (string.IsNullOrEmpty(reasonCombo.Text)){
-                e.Cancel = true;
-                errorProvider.SetError((Control) sender, "Please enter a reason");
-            } else {
-                errorProvider.Clear();
+            if (performValidation){
+                if (string.IsNullOrEmpty(reasonCombo.Text)){
+                    e.Cancel = true;
+                    errorProvider.SetError((Control) sender, "Please enter a reason");
+                } else {
+                    errorProvider.Clear();
+                }
             }
         }
 
         void FromComboValidating(object sender, CancelEventArgs e){
-            if (fromCombo.SelectedIndex < 0){
-                e.Cancel = true;
-                errorProvider.SetError((Control) sender, "Please select a source");
-            } else {
-                errorProvider.Clear();
+            if (performValidation){
+                if (fromCombo.SelectedIndex < 0){
+                    e.Cancel = true;
+                    errorProvider.SetError((Control) sender, "Please select a source");
+                } else {
+                    errorProvider.Clear();
+                }
             }
         }
 
         void ToComboValidating(object sender, CancelEventArgs e){
-            if (toCombo.SelectedIndex < 0){
-                e.Cancel = true;
-                errorProvider.SetError((Control) sender, "Please select a destinantion");
-            } else {
-                errorProvider.Clear();
+            if (performValidation){
+                if (toCombo.SelectedIndex < 0){
+                    e.Cancel = true;
+                    errorProvider.SetError((Control) sender, "Please select a destinantion");
+                } else {
+                    errorProvider.Clear();
+                }
             }
         }
 
         void QuantityBoxValidating(object sender, CancelEventArgs e){
-            try {
-                if (int.Parse(quantityBox.Text) < 0){
-                    throw new ApplicationException();
+            if (performValidation){
+                try {
+                    if (int.Parse(quantityBox.Text) < 0){
+                        throw new ApplicationException();
+                    }
+                    errorProvider.Clear();
+                } catch (Exception) {
+                    e.Cancel = true;
+                    errorProvider.SetError((Control) sender, "Please enter a positive integer value");
                 }
-                errorProvider.Clear();
-            } catch (Exception) {
-                e.Cancel = true;
-                errorProvider.SetError((Control) sender, "Please enter a positive integer value");
             }
         }
 
         void AmmountBoxValidating(object sender, CancelEventArgs e){
-            try {
-                if (decimal.Parse(ammountBox.Text) <= 0){
-                    throw new ApplicationException();
+            if (performValidation){
+                try {
+                    if (decimal.Parse(ammountBox.Text) <= 0){
+                        throw new ApplicationException();
+                    }
+                    errorProvider.Clear();
+                } catch (Exception) {
+                    e.Cancel = true;
+                    errorProvider.SetError((Control) sender, "Please enter a decimal value grater than 0");
                 }
-                errorProvider.Clear();
-            } catch (Exception) {
-                e.Cancel = true;
-                errorProvider.SetError((Control) sender, "Please enter a decimal value grater than 0");
             }
         }
 
         #endregion
 
         #region CRUD
+
+        void ClearEditBoxes(){
+            reasonCombo.SelectedItem = null;
+            ammountBox.Text = "";
+            fromCombo.SelectedItem = null;
+            toCombo.SelectedItem = null;
+            quantityBox.Text = "0";
+            noteControl.Note = null;
+
+            Dirty = false;
+        }
 
         DalReason CreateReasonFromUi() {
             DalReason reason = null;
@@ -281,6 +306,7 @@ namespace awareness.ui
             }
             reason.Name = "_" + reasonCombo.Text;
             DbUtil.InsertTransactionReason(reason);
+            ReadTransactionReasons();
             return reason;
         }
 

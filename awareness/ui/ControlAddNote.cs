@@ -36,12 +36,12 @@ using awareness.db;
 
 namespace awareness.ui
 {
-    
-
     public partial class ControlAddNote : UserControl {
         public event NoteHandler NoteAdded;
         public event NoteHandler NoteTextChanged;
         public event NoteHandler NoteRemoved;
+
+        private FormNoteTextView formView = null;
 
         public DalNote Note {
             get { return noteControl.Note; }
@@ -64,20 +64,34 @@ namespace awareness.ui
             }
         }
 
-        void NoteControlNoteTextChanged(object sender, DalNote note)
-        {
-            if (NoteTextChanged != null)
-            {
+        void NoteControlNoteTextChanged(object sender, DalNote note){
+            if (NoteTextChanged != null){
                 NoteTextChanged(sender, note);
             }
         }
 
         void RemoveNoteButtonClick(object sender, EventArgs e){
-            if (NoteRemoved != null){
-                NoteRemoved(sender, Note);
+            if (MessageBox.Show("Are you sure you want to delete this note?",
+                                Note.Title,
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Question,
+                                MessageBoxDefaultButton.Button2) == DialogResult.OK){
+                if (NoteRemoved != null){
+                    NoteRemoved(sender, Note);
+                }
+                Note = null;
             }
-            Note = null;
         }
-        
+
+        void EnlargeButtonClick(object sender, EventArgs e){
+            formView = new FormNoteTextView();
+            formView.Note = Note;
+            formView.NoteTextChanged += new NoteHandler(NoteControlNoteTextChanged);
+            noteControl.Visible = false;
+            formView.ShowDialog();
+            Note = formView.Note;
+            noteControl.Visible = true;
+            formView.Dispose();
+        }
     }
 }
