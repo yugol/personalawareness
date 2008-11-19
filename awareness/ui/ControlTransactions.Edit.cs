@@ -335,8 +335,7 @@ namespace awareness.ui
             fromCombo.SelectedItem = transaction.From;
             toCombo.SelectedItem = transaction.To;
             quantityBox.Text = transaction.Quantity.ToString();
-            noteControl.Note = transaction.HasNote ? transaction.Note : null;
-            // TODO: move memo to note
+            noteControl.Note = transaction.HasNote ? transaction.Note : null;           
 
             Dirty = false;
         }

@@ -138,18 +138,6 @@ namespace awareness.db
             }
         }
 
-        string _memo = null;
-        [Column(Storage = "_memo",
-                Name = "memo",
-                DbType = "ntext",
-                CanBeNull = true,
-                UpdateCheck = UpdateCheck.Never)]
-        public string Memo
-        {
-            get { return _memo; }
-            set { _memo = value; }
-        }
-
         float _quantity = 0F;
         [Column(Storage = "_quantity",
                 Name = "quantity",

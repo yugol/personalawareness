@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2008 Iulian GORIAC
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -34,7 +34,6 @@ using System.Linq;
 namespace awareness.db
 {
     partial class DbUtil {
-        
         internal static void InsertAccountType(DalAccountType accountTypes){
             dataContext.accountTypes.InsertOnSubmit(accountTypes);
             dataContext.SubmitChanges();
@@ -80,7 +79,7 @@ namespace awareness.db
                 if (AccountsChanged != null){
                     AccountsChanged();
                 }
-            } else if (transferLocation is DalBudgetCategory)  {
+            } else if (transferLocation is DalBudgetCategory) {
                 if (BudgetCategoriesChanged != null){
                     BudgetCategoriesChanged();
                 }
@@ -111,7 +110,7 @@ namespace awareness.db
                 dataContext.transactionReasons.DeleteOnSubmit(transactionReason);
                 dataContext.SubmitChanges();
                 NotifyTransactionReasonsChanged(transactionReason);
-            } catch (Exception ex)  {
+            } catch (Exception ex) {
                 ReOpenDataContext();
                 throw ex;
             }
@@ -122,11 +121,11 @@ namespace awareness.db
                 if (RecipesChanged != null){
                     RecipesChanged();
                 }
-            } else if (transactionReason is DalFood)  {
+            } else if (transactionReason is DalFood) {
                 if (FoodsChanged != null){
                     FoodsChanged();
                 }
-            } else if (transactionReason is DalConsumer)  {
+            } else if (transactionReason is DalConsumer) {
                 if (ConsumersChanged != null){
                     ConsumersChanged();
                 }
@@ -208,17 +207,18 @@ namespace awareness.db
 
             int anteSiblingCount = GetChildActions(action.Parent).Where(a => a.Index < index).Count();
             if (anteSiblingCount < index){
-                throw new ArgumentOutOfRangeException("Cannot beyond the end of list ( " + anteSiblingCount + ")");
+                throw new ArgumentOutOfRangeException("Cannot insert beyond the end of list ( " + anteSiblingCount + ")");
             }
 
-            action.Index = index;
+            action.Index = -1;
+            dataContext.actions.InsertOnSubmit(action);
+            dataContext.SubmitChanges();
 
+            action.Index = index;
             IQueryable<DalAction> postSiblings = GetChildActions(action.Parent).Where(a => a.Index >= index);
             foreach (DalAction sibling in postSiblings){
                 sibling.Index += 1;
             }
-
-            dataContext.actions.InsertOnSubmit(action);
             dataContext.SubmitChanges();
         }
 
@@ -270,8 +270,17 @@ namespace awareness.db
 
         internal static void DeleteAction(DalAction action){
             DalNote note = (action.HasNote) ? action.Note : null;
+            int index = action.Index;
+            
             dataContext.actions.DeleteOnSubmit(action);
             dataContext.SubmitChanges();
+            
+            IQueryable<DalAction> postSiblings = GetChildActions(action.Parent).Where(a => a.Index > index);
+            foreach (DalAction sibling in postSiblings){
+                sibling.Index -= 1;
+            }
+            dataContext.SubmitChanges();
+
             if (note != null){
                 DeleteNote(note);
             }
