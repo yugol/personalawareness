@@ -327,11 +327,11 @@ namespace awareness.ui
         	// 
         	this.noteControl.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.noteControl.Location = new System.Drawing.Point(607, 3);
-        	this.noteControl.Margin = new System.Windows.Forms.Padding(16, 3, 3, 3);
+        	this.noteControl.Margin = new System.Windows.Forms.Padding(16, 3, 0, 3);
         	this.noteControl.Name = "noteControl";
         	this.noteControl.Note = null;
         	this.editPanel.SetRowSpan(this.noteControl, 3);
-        	this.noteControl.Size = new System.Drawing.Size(122, 78);
+        	this.noteControl.Size = new System.Drawing.Size(125, 78);
         	this.noteControl.TabIndex = 12;
         	this.noteControl.NoteTextChanged += new awareness.ui.NoteHandler(this.NoteControlNoteTextChanged);
         	this.noteControl.NoteRemoved += new awareness.ui.NoteHandler(this.NoteControlNoteRemoved);

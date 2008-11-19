@@ -2,7 +2,7 @@
  * Created by SharpDevelop.
  * User: Iulian
  * Date: 19/11/2008
- * Time: 11:48
+ * Time: 13:33
  *
  *
  * Copyright (c) 2008 Iulian GORIAC
@@ -28,49 +28,38 @@
 
 
 using System;
+using System.Drawing;
+using System.Windows.Forms;
 
-namespace awareness.db
+using awareness.db;
+
+namespace awareness.ui
 {
-    partial class DbUtil {
-        internal static bool IsEmpty (DalNote note) {
-            if (note == null){
-                return true;
-            }
-            if (note.Text.Trim() == ""){
-                return true;
-            }
-            return false;
-        }
+    public partial class FormNoteTextView : Form {
+        public event NoteHandler NoteTextChanged;
 
-        internal static void InsertNote(DalNote note){
-            if (note.Parent == null){
-                note.Parent = GetRootNote();
-            }
-            dataContext.notes.InsertOnSubmit(note);
-            dataContext.SubmitChanges();
-        }
-
-        internal static void UpdateNote(DalNote note){
-            if (note.Id == note.ParentId){
-                throw new ArgumentException("Cannot parent a note to self");
-            }
-            dataContext.SubmitChanges();
-        }
-
-        internal static void StoreNote(DalNote note) {
-            if (note.Id == 0){
-                InsertNote(note);
-            } else {
-                UpdateNote(note);
+        public DalNote Note
+        {
+            get { return noteControl.Note; }
+            set
+            {
+                noteControl.Note = value;
+                if (value != null){
+                    Text = value.Title;
+                } else {
+                    Text = "~no~note~";
+                }
             }
         }
 
-        internal static void DeleteNote(DalNote note){
-            if (note.Id <= AwarenessDataContext.RESERVED_NOTES){
-                throw new ArgumentException("Trying to delete a reserved note");
+        public FormNoteTextView(){
+            InitializeComponent();
+        }
+
+        void NoteControlNoteTextChanged(object sender, DalNote note){
+            if (NoteTextChanged != null){
+                NoteTextChanged(sender, note);
             }
-            dataContext.notes.DeleteOnSubmit(note);
-            dataContext.SubmitChanges();
         }
     }
 }

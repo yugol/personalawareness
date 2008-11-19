@@ -236,6 +236,10 @@
     <Compile Include="ui\FormManageMeals.Designer.cs">
       <DependentUpon>FormManageMeals.cs</DependentUpon>
     </Compile>
+    <Compile Include="ui\FormNoteTextView.cs" />
+    <Compile Include="ui\FormNoteTextView.Designer.cs">
+      <DependentUpon>FormNoteTextView.cs</DependentUpon>
+    </Compile>
     <Compile Include="ui\FormReport.cs" />
     <Compile Include="ui\FormReport.Designer.cs">
       <DependentUpon>FormReport.cs</DependentUpon>
@@ -316,6 +320,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ui\FormManageMeals.resx">
       <DependentUpon>FormManageMeals.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormNoteTextView.resx">
+      <DependentUpon>FormNoteTextView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ui\FormReport.resx">
       <DependentUpon>FormReport.cs</DependentUpon>

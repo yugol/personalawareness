@@ -123,6 +123,7 @@ namespace awareness.ui
         	this.enlargeButton.TabIndex = 2;
         	this.enlargeButton.Text = "O";
         	this.enlargeButton.UseVisualStyleBackColor = true;
+        	this.enlargeButton.Click += new System.EventHandler(this.EnlargeButtonClick);
         	// 
         	// spacer
         	// 
@@ -135,12 +136,16 @@ namespace awareness.ui
         	// noteControl
         	// 
         	this.noteControl.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.noteControl.IconVisible = false;
         	this.noteControl.Location = new System.Drawing.Point(0, 0);
         	this.noteControl.Name = "noteControl";
         	this.noteControl.Node = null;
         	this.noteControl.Note = null;
+        	this.noteControl.ScrollBars = false;
         	this.noteControl.Size = new System.Drawing.Size(471, 269);
         	this.noteControl.TabIndex = 4;
+        	this.noteControl.TextReadOnly = false;
+        	this.noteControl.TitleReadOnly = false;
         	this.noteControl.TopVisible = false;
         	this.noteControl.NoteTextChanged += new awareness.ui.NoteHandler(this.NoteControlNoteTextChanged);
         	// 

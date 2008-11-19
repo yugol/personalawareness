@@ -39,7 +39,7 @@ namespace awareness.db
         }
 
         internal static void InsertTransaction(DalTransaction transaction, DalNote note){
-            if (note != null){
+            if (!IsEmpty(note)){
                 AttachNoteToTransaction(note, transaction);
                 StoreNote(note);
                 transaction.Note = note;
@@ -53,7 +53,7 @@ namespace awareness.db
 
         internal static void UpdateTransaction(DalTransaction transaction, DalNote note){
             if (!transaction.HasNote){
-                if (note != null){
+                if (!IsEmpty(note)){
                     AttachNoteToTransaction(note, transaction);
                     StoreNote(note);
                     transaction.Note = note;
@@ -61,7 +61,7 @@ namespace awareness.db
                 dataContext.SubmitChanges();
             } else {
                 DalNote oldNote = transaction.Note;
-                if (note == null){
+                if (IsEmpty(note)){
                     transaction.Note = GetRootNote();
                     dataContext.SubmitChanges();
                     DeleteNote(oldNote);
@@ -81,7 +81,10 @@ namespace awareness.db
         }
 
         internal static void DeleteTransaction(DalTransaction transaction){
-            DalNote note = transaction.Note;
+            DalNote note = null;
+            if (transaction.HasNote){
+                note = transaction.Note;
+            }
             dataContext.transactions.DeleteOnSubmit(transaction);
             dataContext.SubmitChanges();
             if (note != null){

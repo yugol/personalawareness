@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2008 Iulian GORIAC
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,7 +25,7 @@
  * User: Iulian
  * Date: 25/09/2008
  * Time: 14:45
- * 
+ *
  */
 using System;
 using System.ComponentModel;
@@ -36,10 +36,9 @@ using awareness.db;
 
 namespace awareness.ui
 {
-    public partial class ControlNoteTextView : UserControl
-    {
+    public partial class ControlNoteTextView : UserControl {
         public event NoteHandler NoteTextChanged;
-        
+
         TreeNode node = null;
         public TreeNode Node
         {
@@ -47,20 +46,18 @@ namespace awareness.ui
             set
             {
                 node = value;
-                if (node != null)
-                {
+                if (node != null){
                     Note = (DalNote) node.Tag;
                 }
             }
         }
-        
+
         DalNote note;
         public DalNote Note
         {
             get
             {
-                if (note != null)
-                {
+                if (note != null){
                     note.Title = titleBox.Text;
                     note.Text = textBox.Text;
                 }
@@ -69,15 +66,12 @@ namespace awareness.ui
             set
             {
                 note = value;
-                if (note == null)
-                {
+                if (note == null){
                     iconsPicture.Image = null;
                     titleBox.Text = "";
                     creationTimeBox.Text = "";
                     textBox.Text = "";
-                }
-                else
-                {
+                } else {
                     // iconsPicture.Image = null;
                     titleBox.Text = note.Title;
                     creationTimeBox.Text = note.CreationTime.ToString("yyyy/MM/dd HH:mm:ss");
@@ -86,69 +80,90 @@ namespace awareness.ui
                 }
             }
         }
-        
+
         public bool TopVisible
         {
             get { return topPanel.Visible; }
             set { topPanel.Visible = value; }
         }
-        
-        public ControlNoteTextView()
+
+        public bool ScrollBars
         {
+            get { return textBox.ScrollBars == System.Windows.Forms.ScrollBars.Both; }
+            set
+            {
+                if (value){
+                    textBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+                } else {
+                    textBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
+                }
+            }
+        }
+
+        public bool IconVisible
+        {
+            get { return iconsPicture.Visible; }
+            set { iconsPicture.Visible = value; }
+        }
+
+        public bool TitleReadOnly
+        {
+            get { return titleBox.ReadOnly; }
+            set { titleBox.ReadOnly = value; }
+        }
+
+        public bool TextReadOnly
+        {
+            get { return textBox.ReadOnly; }
+            set { textBox.ReadOnly = value; }
+        }
+
+        public ControlNoteTextView(){
             InitializeComponent();
             titleBox.MaxLength = int.Parse(DalNote.MAX_TITLE_CHAR_COUNT);
             Note = null;
             TopVisible = true;
+            ScrollBars = true;
+            TitleReadOnly = false;
+            TextReadOnly = false;
         }
-        
-        public void FocusTitle()
-        {
+
+        public void FocusTitle(){
             titleBox.Focus();
         }
-        
-        public void UpdateNote()
-        {
-            if (Note != null)
-            {
+
+        public void UpdateNote(){
+            if (Note != null){
                 DbUtil.UpdateNote(Note);
             }
         }
-        
-        void TitleBoxLeave(object sender, EventArgs e)
-        {
+
+        void TitleBoxLeave(object sender, EventArgs e){
             UpdateNote();
         }
 
-        void TextBoxLeave(object sender, EventArgs e)
-        {
+        void TextBoxLeave(object sender, EventArgs e){
             UpdateNote();
         }
-        
-        void TitleBoxTextChanged(object sender, EventArgs e)
-        {
-            if (Node != null)
-            {
+
+        void TitleBoxTextChanged(object sender, EventArgs e){
+            if (Node != null){
                 Node.Text = titleBox.Text;
             }
         }
-        
-        void TitleBoxKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
+
+        void TitleBoxKeyDown(object sender, KeyEventArgs e){
+            if (e.KeyCode == Keys.Enter){
                 textBox.Focus();
             }
         }
-        
-        void TitleBoxEnter(object sender, EventArgs e)
-        {
+
+        void TitleBoxEnter(object sender, EventArgs e){
             titleBox.SelectAll();
         }
-        
-        void TextBoxTextChanged(object sender, EventArgs e)
-        {
-            if (NoteTextChanged != null)
-            {
+
+        void TextBoxTextChanged(object sender, EventArgs e){
+            if (NoteTextChanged != null){
                 NoteTextChanged(sender, Note);
             }
         }

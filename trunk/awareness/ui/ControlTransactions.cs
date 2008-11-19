@@ -39,7 +39,6 @@ namespace awareness.ui
 {
     public partial class ControlTransactions : UserControl {
         // TODO: cash last accounts into application
-        // FIXME: Ficat de pui (new product) solved as old Ficat
 
         DalTransferLocation selectedTransferLocation = null;
         string reasonSelectionPattern = null;
