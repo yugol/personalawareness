@@ -76,14 +76,19 @@ namespace awareness
         internal const int MAX_REPEAT_TIMES = 10000;
         internal static readonly RecurrencePattern DEFAULT_RECURRENCE_PATTERN = new RecurrencePattern(RecurrencePattern.STEP_DAILY, 1, 0);
 
-        internal static string FOOD_ENERGY_MEASURE_UNIT = "kcal/100g";
+        internal static readonly string FOOD_ENERGY_MEASURE_UNIT = "kcal/100g";
         internal const int LIST_VIEW_SCROLL_BAR_WIDTH = 25;
 
-        internal static Color ALTERNATE_BACKGROUND = SystemColors.Control; // Color.FromArgb(235, 235, 235); // TODO: search for show selection when unfocused
-        internal static Color NORMAL_BACKGROUND = SystemColors.Window; //Color.FromArgb(255, 255, 255);
+        internal static readonly Color ALTERNATE_BACKGROUND = SystemColors.Control; // Color.FromArgb(235, 235, 235); // TODO: search for show selection when unfocused
+        internal static readonly Color NORMAL_BACKGROUND = SystemColors.Window; //Color.FromArgb(255, 255, 255);
 
-        internal static Font DEFAULT_FONT = new Font(SystemFonts.DefaultFont.FontFamily, SystemFonts.DefaultFont.Size, FontStyle.Regular);
-        internal static Font BOLD_FONT = new Font(DEFAULT_FONT.FontFamily, DEFAULT_FONT.Size, FontStyle.Bold);
-        internal static Font ITALIC_FONT = new Font(DEFAULT_FONT.FontFamily, DEFAULT_FONT.Size - 1, FontStyle.Italic);
+        internal static readonly Font DEFAULT_FONT = new Font(SystemFonts.DefaultFont.FontFamily, SystemFonts.DefaultFont.Size, FontStyle.Regular);
+        internal static readonly Font BOLD_FONT = new Font(DEFAULT_FONT.FontFamily, DEFAULT_FONT.Size, FontStyle.Bold);
+        internal static readonly Font ITALIC_FONT = new Font(DEFAULT_FONT.FontFamily, DEFAULT_FONT.Size - 1, FontStyle.Italic);
+        
+        internal static void ReadFromDb() {
+            DalProperties dbProp = DbUtil.GetProperties();
+            
+        }
     }
 }

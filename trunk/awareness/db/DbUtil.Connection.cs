@@ -45,9 +45,10 @@ namespace awareness.db
                 CloseDataContext();
             }
             dataContext = new AwarenessDataContext(dbConnectionString);
+            
+            Configuration.ReadFromDb();
 
-            object o = dataContext.properties.First();
-            o = dataContext.accountTypes.First();
+            object o = dataContext.accountTypes.First();
             //o = dataContext.transferLocations.OfType<DalBudgetCategory>().First();
             o = dataContext.transferLocations.OfType<DalAccount>().First();
             //o = dataContext.transactionReasons.OfType<DalReason>().First();

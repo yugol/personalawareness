@@ -110,6 +110,9 @@
     <Compile Include="db\DbUtil.Mining.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
+    <Compile Include="db\DbUtil.Properties.cs">
+      <DependentUpon>DbUtil.cs</DependentUpon>
+    </Compile>
     <Compile Include="db\DbUtilTest.cs" />
     <Compile Include="db\RecurrencePattern.cs" />
     <Compile Include="db\RecurrencePatternTest.cs" />

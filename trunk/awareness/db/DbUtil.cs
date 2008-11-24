@@ -38,10 +38,10 @@ namespace awareness.db
     internal abstract partial class DbUtil {
         // TODO: hide reopendatacontext
 
-        static AwarenessDataContext dataContext = null;
+        private static AwarenessDataContext dataContext = null;
 
         internal static event DatabaseChangedHandler DataContextChanged;
-        // internal static event VoidVoid PropertiesChanged;
+        internal static event DatabaseChangedHandler PropertiesChanged;
         internal static event DatabaseChangedHandler AccountTypesChanged;
         internal static event DatabaseChangedHandler TransferLocationsChanged;
         internal static event DatabaseChangedHandler AccountsChanged;

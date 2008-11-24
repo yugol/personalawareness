@@ -169,11 +169,12 @@ namespace awareness.db
 
         [Test]
         public void _RunMeFirst_DumpRestore(){
-            System.Console.WriteLine("Dump properties NOT implemented");
-
             PopulateDb();
 
             AwarenessDataContext dc = DbUtil.GetDataContext();
+            
+            DalProperties dbProp = DbUtil.GetProperties();
+            Assert.AreEqual(1.00F, dbProp.DbVersion);
 
             StringBuilder sb = new StringBuilder();
             StringWriter writer = new StringWriter(sb);
