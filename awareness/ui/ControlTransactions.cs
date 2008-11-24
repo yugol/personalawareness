@@ -39,6 +39,7 @@ namespace awareness.ui
 {
     public partial class ControlTransactions : UserControl {
         // TODO: cash last accounts into application
+        // FIXME: after changes in reason list adding new transaction failed
 
         DalTransferLocation selectedTransferLocation = null;
         string reasonSelectionPattern = null;

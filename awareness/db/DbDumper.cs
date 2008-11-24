@@ -44,6 +44,7 @@ namespace awareness.db
         }
 
         internal void DumpDb(TextWriter writer){
+            DumpProperties(writer);
             IDictionary<int, int> notes = DumpNotes(writer);
             IDictionary<int, int> accountTypes = DumpAccountTypes(writer, notes);
             IDictionary<int, int> transferLocations = DumpTransferLocations(writer, accountTypes, notes);
@@ -51,6 +52,13 @@ namespace awareness.db
             DumpTransactions(writer, transferLocations, reasons, notes);
             DumpMeals(writer, reasons);
             DumpActions(writer, notes);
+        }
+
+        internal void DumpProperties(TextWriter writer) {
+            DalProperties dbProp = DbUtil.GetProperties();
+            writer.WriteLine("INSERT INTO properties (db_version, xml) VALUES ({0}, {1});",
+                             dbProp.DbVersion,
+                             String2SqlString(dbProp.Xml));
         }
 
         internal IDictionary<int, int> DumpAccountTypes(TextWriter writer, IDictionary<int, int> notes){

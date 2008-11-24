@@ -1,4 +1,10 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 24/11/2008
+ * Time: 09:01
+ * 
+ *
  * Copyright (c) 2008 Iulian GORIAC
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,55 +26,28 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 25/09/2008
- * Time: 12:42
- * 
- */
+
 using System;
-using System.Data.Linq;
-using System.Data.Linq.Mapping;
+using System.Linq;
 
 namespace awareness.db
 {
-    [Table(Name = "properties")]
-    public class DalProperties
+    partial class DbUtil
     {
-        int _id = 0;
-        [Column(Storage = "_id",
-                Name = "id",
-                DbType="int NOT NULL IDENTITY",
-                IsPrimaryKey=true,
-                IsDbGenerated=true,
-                CanBeNull=false)]
-        public int Id
-        {
-            get { return _id; }
-        }
-
-        float _dbVersion = 1.00F;
-        [Column(Storage = "_dbVersion",
-                Name = "db_version",
-                DbType="real NOT NULL",
-                CanBeNull=false)]
-        public float DbVersion
-        {
-            get { return _dbVersion; }
+        internal static DalProperties GetProperties() {
+            return dataContext.properties.First();
         }
         
-        string _xml = null;
-        [Column(Storage = "_xml",
-                Name = "xml",
-                DbType = "ntext NULL",
-                CanBeNull = true,
-                UpdateCheck = UpdateCheck.Never)]
-        public string Xml
-        {
-            get { return _xml; }
-            set { _xml = value; }
+        internal static void UpdateProperties() {
+            dataContext.SubmitChanges();
+            NotifyPropertiesChanged();
         }
         
+        internal static void NotifyPropertiesChanged() {
+            if (PropertiesChanged != null)
+            {
+                PropertiesChanged();
+            }
+        }
     }
 }
