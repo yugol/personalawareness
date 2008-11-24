@@ -2,21 +2,21 @@
  * Created by SharpDevelop.
  * User: Iulian
  * Date: 24/11/2008
- * Time: 09:57
- *
+ * Time: 21:48
+ * 
  *
  * Copyright (c) 2008 Iulian GORIAC
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,26 +28,36 @@
 
 
 using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace awareness.ui
 {
-    public class ManagerTeaTimer {
-        private static FormTeaTimer teaTimer = null;
-
-        private static FormTeaTimer Instance
+    /// <summary>
+    /// Description of FormReminders.
+    /// </summary>
+    public partial class FormReminders : Form
+    {
+        public FormReminders()
         {
-            get
-            {
-                if (teaTimer == null){
-                    teaTimer = new FormTeaTimer();
-                }
-                return teaTimer;
-            }
+            //
+            // The InitializeComponent() call is required for Windows Forms designer support.
+            //
+            InitializeComponent();
+            
+            //
+            // TODO: Add constructor code after the InitializeComponent() call.
+            //
         }
-
-        public static void Display() {
-            Instance.Visible = false;
-            Instance.Visible = true;
+        
+        public void RefreshDueTimes(object sender, EventArgs e) {
+            completeButton.Visible = !completeButton.Visible;            
+        }
+        
+        void FormRemindersFormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            Visible = false;
         }
     }
 }

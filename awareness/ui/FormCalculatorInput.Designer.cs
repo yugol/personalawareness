@@ -402,6 +402,7 @@ namespace awareness.ui
         	this.Controls.Add(this.calculatorPanel);
         	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
         	this.Name = "FormCalculatorInput";
+        	this.ShowInTaskbar = false;
         	this.Text = "Calculator";
         	this.calculatorPanel.ResumeLayout(false);
         	this.ResumeLayout(false);

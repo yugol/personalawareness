@@ -1,4 +1,10 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 01/10/2008
+ * Time: 18:29
+ *
+ *
  * Copyright (c) 2008 Iulian GORIAC
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,13 +26,6 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 01/10/2008
- * Time: 18:29
- *
- */
 #if TEST
 
 using System;

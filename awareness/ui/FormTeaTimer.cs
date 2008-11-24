@@ -37,6 +37,7 @@ namespace awareness.ui
         public enum PresentationMode { EDIT, RUN }
 
         private PresentationMode mode;
+        private BasicTimerable task = null;
 
         public PresentationMode Mode {
             get { return mode; }
@@ -70,7 +71,7 @@ namespace awareness.ui
             Mode = PresentationMode.EDIT;
             ResetUi();
             timerLogic.Tick += new EventHandler(TimerLogicTick);
-            timerLogic.Completed += new EventHandler(TimerLogicCompleted);
+            timerLogic.Completed += new TaskCompletedHandler(TimerLogicCompleted);
         }
 
         void FormTeaTimerFormClosing(object sender, FormClosingEventArgs e){
@@ -84,6 +85,11 @@ namespace awareness.ui
             secondsBox.Value = 0;
         }
 
+        void ResetTask() {
+            task = null;
+            Mode = PresentationMode.EDIT;
+        }
+
         void ResetButtonClick(object sender, EventArgs e){
             ResetUi();
         }
@@ -93,7 +99,9 @@ namespace awareness.ui
             case PresentationMode.EDIT:
                 TimeSpan duration = Ui2TimeSpan();
                 if (duration.TotalSeconds >= 1){
-                    timerLogic.Deadline = DateTime.Now.Add(duration);
+                    timerLogic.Clear();
+                    task = new BasicTimerable(DateTime.Now.Add(duration));
+                    timerLogic.Add(task);
                     timerLogic.Start();
                     Mode = PresentationMode.RUN;
                 }
@@ -101,19 +109,21 @@ namespace awareness.ui
 
             case PresentationMode.RUN:
                 timerLogic.Cancel();
-                Mode = PresentationMode.EDIT;
+                ResetTask();
                 break;
             }
         }
 
         void TimerLogicTick(object sender, EventArgs e) {
-            TimeSpan remaining = timerLogic.Deadline.Subtract(DateTime.Now);
-            TimeSpan2Ui(remaining);
+            if (task != null){
+                TimeSpan remaining = task.Deadline.Subtract(DateTime.Now);
+                TimeSpan2Ui(remaining);
+            }
         }
 
-        void TimerLogicCompleted(object sender, EventArgs e) {
+        void TimerLogicCompleted(object sender, ITimerable e) {
             MessageBox.Show("Time is up", "Tea Timer", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            Mode = PresentationMode.EDIT;
+            ResetTask();
         }
 
         TimeSpan Ui2TimeSpan() {
@@ -121,9 +131,13 @@ namespace awareness.ui
         }
 
         void TimeSpan2Ui(TimeSpan delta) {
-            secondsBox.Value = delta.Seconds;
-            minutesBox.Value = delta.Minutes;
-            hoursBox.Value = (int) delta.TotalHours;
+            if (delta.TotalSeconds <= 0){
+                ResetUi();
+            } else {
+                secondsBox.Value = delta.Seconds;
+                minutesBox.Value = delta.Minutes;
+                hoursBox.Value = (int) delta.TotalHours;
+            }
         }
     }
 }

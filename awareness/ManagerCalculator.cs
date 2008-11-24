@@ -35,20 +35,20 @@ namespace awareness
     public class ManagerCalculator {
         private static FormCalculatorInput calculatorInput = null;
 
-        public static FormCalculatorInput Instance
+        private static FormCalculatorInput Instance
         {
             get
             {
                 if (calculatorInput == null){
                     calculatorInput = new FormCalculatorInput();
                     calculatorInput.IsModal = false;
-                    calculatorInput.TopMost = true;
                 }
                 return calculatorInput;
             }
         }
 
         public static void Display() {
+            Instance.Visible = false;
             Instance.Visible = true;
         }
     }

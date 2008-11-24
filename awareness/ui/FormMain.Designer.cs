@@ -121,6 +121,7 @@ namespace awareness.ui
         	this.financesToolButton = new System.Windows.Forms.ToolStripButton();
         	this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
         	this.calculatorToolButton = new System.Windows.Forms.ToolStripButton();
+        	this.teaTimerToolButton = new System.Windows.Forms.ToolStripButton();
         	this.statusTimer = new System.Windows.Forms.Timer(this.components);
         	this.tabPage1 = new System.Windows.Forms.TabPage();
         	this.controlActionsOverview1 = new awareness.ui.ControlActionsOverview();
@@ -128,7 +129,7 @@ namespace awareness.ui
         	this.controlDayActionsReport1 = new awareness.ui.ControlDayActionsReport();
         	this.tabPage3 = new System.Windows.Forms.TabPage();
         	this.controlWeekActionsReport1 = new awareness.ui.ControlWeekActionsReport();
-        	this.teaTimerToolButton = new System.Windows.Forms.ToolStripButton();
+        	this.remindersToolButton = new System.Windows.Forms.ToolStripButton();
         	this.mainMenu.SuspendLayout();
         	this.statusBar.SuspendLayout();
         	this.mainViewPages.SuspendLayout();
@@ -446,7 +447,7 @@ namespace awareness.ui
         	this.dayActionsReportControl.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.dayActionsReportControl.Location = new System.Drawing.Point(3, 3);
         	this.dayActionsReportControl.Name = "dayActionsReportControl";
-        	this.dayActionsReportControl.Size = new System.Drawing.Size(768, 435);
+        	this.dayActionsReportControl.Size = new System.Drawing.Size(768, 436);
         	this.dayActionsReportControl.TabIndex = 0;
         	// 
         	// weekPage
@@ -465,7 +466,7 @@ namespace awareness.ui
         	this.weekActionsReport.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.weekActionsReport.Location = new System.Drawing.Point(3, 3);
         	this.weekActionsReport.Name = "weekActionsReport";
-        	this.weekActionsReport.Size = new System.Drawing.Size(768, 435);
+        	this.weekActionsReport.Size = new System.Drawing.Size(768, 436);
         	this.weekActionsReport.TabIndex = 0;
         	// 
         	// notesPage
@@ -613,7 +614,7 @@ namespace awareness.ui
         	this.transactionsControl.Location = new System.Drawing.Point(3, 3);
         	this.transactionsControl.Name = "transactionsControl";
         	this.transactionsControl.SelectPanelExpanded = true;
-        	this.transactionsControl.Size = new System.Drawing.Size(176, 36);
+        	this.transactionsControl.Size = new System.Drawing.Size(176, 37);
         	this.transactionsControl.TabIndex = 0;
         	// 
         	// toolStripContainer
@@ -648,10 +649,11 @@ namespace awareness.ui
         	        	        	this.financesToolButton,
         	        	        	this.toolStripSeparator2,
         	        	        	this.calculatorToolButton,
-        	        	        	this.teaTimerToolButton});
+        	        	        	this.teaTimerToolButton,
+        	        	        	this.remindersToolButton});
         	this.defaultToolStrip.Location = new System.Drawing.Point(3, 0);
         	this.defaultToolStrip.Name = "defaultToolStrip";
-        	this.defaultToolStrip.Size = new System.Drawing.Size(230, 25);
+        	this.defaultToolStrip.Size = new System.Drawing.Size(253, 25);
         	this.defaultToolStrip.TabIndex = 0;
         	// 
         	// newToolButton
@@ -732,6 +734,17 @@ namespace awareness.ui
         	this.calculatorToolButton.Text = "Calculator";
         	this.calculatorToolButton.Click += new System.EventHandler(this.CalculatorToolButtonClick);
         	// 
+        	// teaTimerToolButton
+        	// 
+        	this.teaTimerToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.teaTimerToolButton.Image = ((System.Drawing.Image)(resources.GetObject("teaTimerToolButton.Image")));
+        	this.teaTimerToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.teaTimerToolButton.Name = "teaTimerToolButton";
+        	this.teaTimerToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.teaTimerToolButton.Text = "Tea Timer";
+        	this.teaTimerToolButton.ToolTipText = "Tea Timer";
+        	this.teaTimerToolButton.Click += new System.EventHandler(this.TeaTimerToolButtonClick);
+        	// 
         	// statusTimer
         	// 
         	this.statusTimer.Interval = 1000;
@@ -793,16 +806,15 @@ namespace awareness.ui
         	this.controlWeekActionsReport1.Size = new System.Drawing.Size(776, 444);
         	this.controlWeekActionsReport1.TabIndex = 0;
         	// 
-        	// teaTimerToolButton
+        	// remindersToolButton
         	// 
-        	this.teaTimerToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.teaTimerToolButton.Image = ((System.Drawing.Image)(resources.GetObject("teaTimerToolButton.Image")));
-        	this.teaTimerToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.teaTimerToolButton.Name = "teaTimerToolButton";
-        	this.teaTimerToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.teaTimerToolButton.Text = "Tea Timer";
-        	this.teaTimerToolButton.ToolTipText = "Tea Timer";
-        	this.teaTimerToolButton.Click += new System.EventHandler(this.TeaTimerToolButtonClick);
+        	this.remindersToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.remindersToolButton.Image = ((System.Drawing.Image)(resources.GetObject("remindersToolButton.Image")));
+        	this.remindersToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.remindersToolButton.Name = "remindersToolButton";
+        	this.remindersToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.remindersToolButton.Text = "Reminders";
+        	this.remindersToolButton.Click += new System.EventHandler(this.RemindersToolButtonClick);
         	// 
         	// FormMain
         	// 
@@ -850,6 +862,7 @@ namespace awareness.ui
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripButton remindersToolButton;
         private System.Windows.Forms.ToolStripButton teaTimerToolButton;
         private awareness.ui.ControlTransactions transactionsControl;
         private System.Windows.Forms.TabPage transactionsPage;

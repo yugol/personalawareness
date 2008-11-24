@@ -160,7 +160,7 @@ namespace awareness.db
             Assert.AreEqual(0, a31.Index);
 
             DbUtil.DeleteActionRecursive(a1);
-            DbUtil.DeleteAction(a2);
+            DbUtil.DeleteActionRecursive(a2);
             DbUtil.DeleteActionRecursive(a3);
 
             Assert.AreEqual(0, DbUtil.GetRootActions().Count());
