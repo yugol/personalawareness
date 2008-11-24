@@ -156,6 +156,7 @@ namespace awareness.ui
         	        	        	this.collapseToolButton});
         	this.notesToolStrip.Location = new System.Drawing.Point(3, 0);
         	this.notesToolStrip.Name = "notesToolStrip";
+        	this.notesToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
         	this.notesToolStrip.Size = new System.Drawing.Size(132, 25);
         	this.notesToolStrip.TabIndex = 0;
         	// 
@@ -202,12 +203,16 @@ namespace awareness.ui
         	// noteTextView
         	// 
         	this.noteTextView.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.noteTextView.IconVisible = true;
         	this.noteTextView.Location = new System.Drawing.Point(0, 0);
         	this.noteTextView.Name = "noteTextView";
         	this.noteTextView.Node = null;
         	this.noteTextView.Note = null;
+        	this.noteTextView.ScrollBars = true;
         	this.noteTextView.Size = new System.Drawing.Size(364, 388);
         	this.noteTextView.TabIndex = 1;
+        	this.noteTextView.TextReadOnly = false;
+        	this.noteTextView.TitleReadOnly = false;
         	this.noteTextView.TopVisible = true;
         	// 
         	// treeContextMenu
@@ -219,38 +224,38 @@ namespace awareness.ui
         	        	        	this.sep1,
         	        	        	this.deleteNoteToolStripMenuItem});
         	this.treeContextMenu.Name = "treeContextMenu";
-        	this.treeContextMenu.Size = new System.Drawing.Size(166, 98);
+        	this.treeContextMenu.Size = new System.Drawing.Size(155, 98);
         	// 
         	// newNoteToolStripMenuItem
         	// 
         	this.newNoteToolStripMenuItem.Name = "newNoteToolStripMenuItem";
-        	this.newNoteToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+        	this.newNoteToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
         	this.newNoteToolStripMenuItem.Text = "&New Note";
         	this.newNoteToolStripMenuItem.Click += new System.EventHandler(this.NewNoteToolStripMenuItemClick);
         	// 
         	// newChildNoteToolStripMenuItem
         	// 
         	this.newChildNoteToolStripMenuItem.Name = "newChildNoteToolStripMenuItem";
-        	this.newChildNoteToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+        	this.newChildNoteToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
         	this.newChildNoteToolStripMenuItem.Text = "New &Child Note";
         	this.newChildNoteToolStripMenuItem.Click += new System.EventHandler(this.NewChildNoteToolStripMenuItemClick);
         	// 
         	// newSiblingNoteToolStripMenuItem
         	// 
         	this.newSiblingNoteToolStripMenuItem.Name = "newSiblingNoteToolStripMenuItem";
-        	this.newSiblingNoteToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+        	this.newSiblingNoteToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
         	this.newSiblingNoteToolStripMenuItem.Text = "New &Sibling Note";
         	this.newSiblingNoteToolStripMenuItem.Click += new System.EventHandler(this.NewSiblingNoteToolStripMenuItemClick);
         	// 
         	// sep1
         	// 
         	this.sep1.Name = "sep1";
-        	this.sep1.Size = new System.Drawing.Size(162, 6);
+        	this.sep1.Size = new System.Drawing.Size(151, 6);
         	// 
         	// deleteNoteToolStripMenuItem
         	// 
         	this.deleteNoteToolStripMenuItem.Name = "deleteNoteToolStripMenuItem";
-        	this.deleteNoteToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+        	this.deleteNoteToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
         	this.deleteNoteToolStripMenuItem.Text = "&Delete Note";
         	this.deleteNoteToolStripMenuItem.Click += new System.EventHandler(this.DeleteNoteToolStripMenuItemClick);
         	// 

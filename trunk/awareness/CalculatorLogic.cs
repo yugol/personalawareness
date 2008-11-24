@@ -31,10 +31,7 @@ using System;
 
 namespace awareness
 {
-    /// <summary>
-    /// Description of Calculator.
-    /// </summary>
-    public class Calculator {
+    public class CalculatorLogic {
         public const int MAX_DIGIT_LENGTH = 15;
 
         private double previousValue;
@@ -44,7 +41,7 @@ namespace awareness
         private string valueString;
         private bool newValue;
 
-        public Calculator(){
+        public CalculatorLogic(){
             clearEverything();
         }
 

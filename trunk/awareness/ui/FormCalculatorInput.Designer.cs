@@ -88,10 +88,10 @@ namespace awareness.ui
         	this.calculatorPanel.SetColumnSpan(this.outputLabel, 5);
         	this.outputLabel.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.outputLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        	this.outputLabel.Location = new System.Drawing.Point(3, 4);
+        	this.outputLabel.Location = new System.Drawing.Point(8, 9);
         	this.outputLabel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
         	this.outputLabel.Name = "outputLabel";
-        	this.outputLabel.Size = new System.Drawing.Size(206, 25);
+        	this.outputLabel.Size = new System.Drawing.Size(196, 23);
         	this.outputLabel.TabIndex = 42;
         	this.outputLabel.Text = "12345678901234567890";
         	this.outputLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -101,9 +101,9 @@ namespace awareness.ui
         	this.buttonDivide.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.buttonDivide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.buttonDivide.ForeColor = System.Drawing.Color.Red;
-        	this.buttonDivide.Location = new System.Drawing.Point(117, 135);
+        	this.buttonDivide.Location = new System.Drawing.Point(116, 132);
         	this.buttonDivide.Name = "buttonDivide";
-        	this.buttonDivide.Size = new System.Drawing.Size(32, 27);
+        	this.buttonDivide.Size = new System.Drawing.Size(30, 25);
         	this.buttonDivide.TabIndex = 41;
         	this.buttonDivide.Text = "/";
         	this.buttonDivide.UseVisualStyleBackColor = true;
@@ -114,9 +114,9 @@ namespace awareness.ui
         	this.buttonMultiply.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.buttonMultiply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.buttonMultiply.ForeColor = System.Drawing.Color.Red;
-        	this.buttonMultiply.Location = new System.Drawing.Point(117, 102);
+        	this.buttonMultiply.Location = new System.Drawing.Point(116, 101);
         	this.buttonMultiply.Name = "buttonMultiply";
-        	this.buttonMultiply.Size = new System.Drawing.Size(32, 27);
+        	this.buttonMultiply.Size = new System.Drawing.Size(30, 25);
         	this.buttonMultiply.TabIndex = 40;
         	this.buttonMultiply.Text = "*";
         	this.buttonMultiply.UseVisualStyleBackColor = true;
@@ -127,9 +127,9 @@ namespace awareness.ui
         	this.buttonMinus.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.buttonMinus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.buttonMinus.ForeColor = System.Drawing.Color.Red;
-        	this.buttonMinus.Location = new System.Drawing.Point(117, 69);
+        	this.buttonMinus.Location = new System.Drawing.Point(116, 70);
         	this.buttonMinus.Name = "buttonMinus";
-        	this.buttonMinus.Size = new System.Drawing.Size(32, 27);
+        	this.buttonMinus.Size = new System.Drawing.Size(30, 25);
         	this.buttonMinus.TabIndex = 39;
         	this.buttonMinus.Text = "-";
         	this.buttonMinus.UseVisualStyleBackColor = true;
@@ -140,9 +140,9 @@ namespace awareness.ui
         	this.buttonPlus.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.buttonPlus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.buttonPlus.ForeColor = System.Drawing.Color.Red;
-        	this.buttonPlus.Location = new System.Drawing.Point(117, 36);
+        	this.buttonPlus.Location = new System.Drawing.Point(116, 39);
         	this.buttonPlus.Name = "buttonPlus";
-        	this.buttonPlus.Size = new System.Drawing.Size(32, 27);
+        	this.buttonPlus.Size = new System.Drawing.Size(30, 25);
         	this.buttonPlus.TabIndex = 38;
         	this.buttonPlus.Text = "+";
         	this.buttonPlus.UseVisualStyleBackColor = true;
@@ -152,9 +152,9 @@ namespace awareness.ui
         	// 
         	this.buttonEquals.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.buttonEquals.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        	this.buttonEquals.Location = new System.Drawing.Point(155, 135);
+        	this.buttonEquals.Location = new System.Drawing.Point(152, 132);
         	this.buttonEquals.Name = "buttonEquals";
-        	this.buttonEquals.Size = new System.Drawing.Size(54, 27);
+        	this.buttonEquals.Size = new System.Drawing.Size(52, 25);
         	this.buttonEquals.TabIndex = 37;
         	this.buttonEquals.Text = "=";
         	this.buttonEquals.UseVisualStyleBackColor = true;
@@ -164,9 +164,9 @@ namespace awareness.ui
         	// 
         	this.buttonClearEverything.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.buttonClearEverything.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        	this.buttonClearEverything.Location = new System.Drawing.Point(155, 102);
+        	this.buttonClearEverything.Location = new System.Drawing.Point(152, 101);
         	this.buttonClearEverything.Name = "buttonClearEverything";
-        	this.buttonClearEverything.Size = new System.Drawing.Size(54, 27);
+        	this.buttonClearEverything.Size = new System.Drawing.Size(52, 25);
         	this.buttonClearEverything.TabIndex = 36;
         	this.buttonClearEverything.Text = "CE";
         	this.buttonClearEverything.UseVisualStyleBackColor = true;
@@ -176,9 +176,9 @@ namespace awareness.ui
         	// 
         	this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         	this.buttonCancel.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.buttonCancel.Location = new System.Drawing.Point(155, 69);
+        	this.buttonCancel.Location = new System.Drawing.Point(152, 70);
         	this.buttonCancel.Name = "buttonCancel";
-        	this.buttonCancel.Size = new System.Drawing.Size(54, 27);
+        	this.buttonCancel.Size = new System.Drawing.Size(52, 25);
         	this.buttonCancel.TabIndex = 35;
         	this.buttonCancel.Text = "Cancel";
         	this.buttonCancel.UseVisualStyleBackColor = true;
@@ -186,9 +186,9 @@ namespace awareness.ui
         	// buttonOk
         	// 
         	this.buttonOk.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.buttonOk.Location = new System.Drawing.Point(155, 36);
+        	this.buttonOk.Location = new System.Drawing.Point(152, 39);
         	this.buttonOk.Name = "buttonOk";
-        	this.buttonOk.Size = new System.Drawing.Size(54, 27);
+        	this.buttonOk.Size = new System.Drawing.Size(52, 25);
         	this.buttonOk.TabIndex = 34;
         	this.buttonOk.Text = "OK";
         	this.buttonOk.UseVisualStyleBackColor = true;
@@ -198,9 +198,9 @@ namespace awareness.ui
         	this.buttonDot.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.buttonDot.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.buttonDot.ForeColor = System.Drawing.Color.Blue;
-        	this.buttonDot.Location = new System.Drawing.Point(79, 135);
+        	this.buttonDot.Location = new System.Drawing.Point(80, 132);
         	this.buttonDot.Name = "buttonDot";
-        	this.buttonDot.Size = new System.Drawing.Size(32, 27);
+        	this.buttonDot.Size = new System.Drawing.Size(30, 25);
         	this.buttonDot.TabIndex = 33;
         	this.buttonDot.Text = ".";
         	this.buttonDot.UseVisualStyleBackColor = true;
@@ -211,9 +211,9 @@ namespace awareness.ui
         	this.buttonSign.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.buttonSign.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.buttonSign.ForeColor = System.Drawing.Color.Blue;
-        	this.buttonSign.Location = new System.Drawing.Point(41, 135);
+        	this.buttonSign.Location = new System.Drawing.Point(44, 132);
         	this.buttonSign.Name = "buttonSign";
-        	this.buttonSign.Size = new System.Drawing.Size(32, 27);
+        	this.buttonSign.Size = new System.Drawing.Size(30, 25);
         	this.buttonSign.TabIndex = 32;
         	this.buttonSign.Text = "-|+";
         	this.buttonSign.UseVisualStyleBackColor = true;
@@ -224,9 +224,9 @@ namespace awareness.ui
         	this.button0.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.button0.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.button0.ForeColor = System.Drawing.Color.Blue;
-        	this.button0.Location = new System.Drawing.Point(3, 135);
+        	this.button0.Location = new System.Drawing.Point(8, 132);
         	this.button0.Name = "button0";
-        	this.button0.Size = new System.Drawing.Size(32, 27);
+        	this.button0.Size = new System.Drawing.Size(30, 25);
         	this.button0.TabIndex = 31;
         	this.button0.Text = "0";
         	this.button0.UseVisualStyleBackColor = true;
@@ -238,9 +238,9 @@ namespace awareness.ui
         	this.button9.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.button9.ForeColor = System.Drawing.Color.Blue;
-        	this.button9.Location = new System.Drawing.Point(79, 102);
+        	this.button9.Location = new System.Drawing.Point(80, 101);
         	this.button9.Name = "button9";
-        	this.button9.Size = new System.Drawing.Size(32, 27);
+        	this.button9.Size = new System.Drawing.Size(30, 25);
         	this.button9.TabIndex = 30;
         	this.button9.Text = "9";
         	this.button9.UseVisualStyleBackColor = true;
@@ -251,9 +251,9 @@ namespace awareness.ui
         	this.button8.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.button8.ForeColor = System.Drawing.Color.Blue;
-        	this.button8.Location = new System.Drawing.Point(41, 102);
+        	this.button8.Location = new System.Drawing.Point(44, 101);
         	this.button8.Name = "button8";
-        	this.button8.Size = new System.Drawing.Size(32, 27);
+        	this.button8.Size = new System.Drawing.Size(30, 25);
         	this.button8.TabIndex = 29;
         	this.button8.Text = "8";
         	this.button8.UseVisualStyleBackColor = true;
@@ -264,9 +264,9 @@ namespace awareness.ui
         	this.button7.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.button7.ForeColor = System.Drawing.Color.Blue;
-        	this.button7.Location = new System.Drawing.Point(3, 102);
+        	this.button7.Location = new System.Drawing.Point(8, 101);
         	this.button7.Name = "button7";
-        	this.button7.Size = new System.Drawing.Size(32, 27);
+        	this.button7.Size = new System.Drawing.Size(30, 25);
         	this.button7.TabIndex = 28;
         	this.button7.Text = "7";
         	this.button7.UseVisualStyleBackColor = true;
@@ -277,9 +277,9 @@ namespace awareness.ui
         	this.button6.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.button6.ForeColor = System.Drawing.Color.Blue;
-        	this.button6.Location = new System.Drawing.Point(79, 69);
+        	this.button6.Location = new System.Drawing.Point(80, 70);
         	this.button6.Name = "button6";
-        	this.button6.Size = new System.Drawing.Size(32, 27);
+        	this.button6.Size = new System.Drawing.Size(30, 25);
         	this.button6.TabIndex = 27;
         	this.button6.Text = "6";
         	this.button6.UseVisualStyleBackColor = true;
@@ -290,9 +290,9 @@ namespace awareness.ui
         	this.button5.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.button5.ForeColor = System.Drawing.Color.Blue;
-        	this.button5.Location = new System.Drawing.Point(41, 69);
+        	this.button5.Location = new System.Drawing.Point(44, 70);
         	this.button5.Name = "button5";
-        	this.button5.Size = new System.Drawing.Size(32, 27);
+        	this.button5.Size = new System.Drawing.Size(30, 25);
         	this.button5.TabIndex = 26;
         	this.button5.Text = "5";
         	this.button5.UseVisualStyleBackColor = true;
@@ -303,9 +303,9 @@ namespace awareness.ui
         	this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.button4.ForeColor = System.Drawing.Color.Blue;
-        	this.button4.Location = new System.Drawing.Point(3, 69);
+        	this.button4.Location = new System.Drawing.Point(8, 70);
         	this.button4.Name = "button4";
-        	this.button4.Size = new System.Drawing.Size(32, 27);
+        	this.button4.Size = new System.Drawing.Size(30, 25);
         	this.button4.TabIndex = 25;
         	this.button4.Text = "4";
         	this.button4.UseVisualStyleBackColor = true;
@@ -316,9 +316,9 @@ namespace awareness.ui
         	this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.button3.ForeColor = System.Drawing.Color.Blue;
-        	this.button3.Location = new System.Drawing.Point(79, 36);
+        	this.button3.Location = new System.Drawing.Point(80, 39);
         	this.button3.Name = "button3";
-        	this.button3.Size = new System.Drawing.Size(32, 27);
+        	this.button3.Size = new System.Drawing.Size(30, 25);
         	this.button3.TabIndex = 24;
         	this.button3.Text = "3";
         	this.button3.UseVisualStyleBackColor = true;
@@ -329,9 +329,9 @@ namespace awareness.ui
         	this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.button2.ForeColor = System.Drawing.Color.Blue;
-        	this.button2.Location = new System.Drawing.Point(41, 36);
+        	this.button2.Location = new System.Drawing.Point(44, 39);
         	this.button2.Name = "button2";
-        	this.button2.Size = new System.Drawing.Size(32, 27);
+        	this.button2.Size = new System.Drawing.Size(30, 25);
         	this.button2.TabIndex = 23;
         	this.button2.Text = "2";
         	this.button2.UseVisualStyleBackColor = true;
@@ -342,9 +342,9 @@ namespace awareness.ui
         	this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.button1.ForeColor = System.Drawing.Color.Blue;
-        	this.button1.Location = new System.Drawing.Point(3, 36);
+        	this.button1.Location = new System.Drawing.Point(8, 39);
         	this.button1.Name = "button1";
-        	this.button1.Size = new System.Drawing.Size(32, 27);
+        	this.button1.Size = new System.Drawing.Size(30, 25);
         	this.button1.TabIndex = 22;
         	this.button1.Text = "1";
         	this.button1.UseVisualStyleBackColor = true;
@@ -382,6 +382,7 @@ namespace awareness.ui
         	this.calculatorPanel.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.calculatorPanel.Location = new System.Drawing.Point(0, 0);
         	this.calculatorPanel.Name = "calculatorPanel";
+        	this.calculatorPanel.Padding = new System.Windows.Forms.Padding(5);
         	this.calculatorPanel.RowCount = 5;
         	this.calculatorPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
         	this.calculatorPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
