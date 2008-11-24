@@ -40,8 +40,6 @@ namespace awareness.ui
         // TODO: confirm every entry delete
         // TODO: on accountBalanceView double click show transaction manager
 
-        FormCalculatorInput calculator = null;
-
         public FormMain(){
             InitializeComponent();
             #if !DEBUG
@@ -207,12 +205,12 @@ namespace awareness.ui
         }
 
         void CalculatorToolButtonClick(object sender, EventArgs e){
-            if (calculator == null){
-                calculator = new FormCalculatorInput();
-                calculator.IsModal = false;
-                calculator.TopMost = true;
-            }
-            calculator.Visible = true;
+            ManagerCalculator.Display();
+        }
+        
+        void TeaTimerToolButtonClick(object sender, EventArgs e)
+        {
+            ManagerTeaTimer.Display();
         }
     }
 }

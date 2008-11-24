@@ -38,7 +38,7 @@ namespace awareness.ui
     /// </summary>
     public partial class FormCalculatorInput : Form
     {
-        private Calculator calc = new Calculator();
+        private CalculatorLogic calc = new CalculatorLogic();
         
         bool isModal;
         public bool IsModal
@@ -55,9 +55,6 @@ namespace awareness.ui
         
         public FormCalculatorInput()
         {
-            //
-            // The InitializeComponent() call is required for Windows Forms designer support.
-            //
             InitializeComponent();
             
             IsModal = true;
@@ -183,5 +180,6 @@ namespace awareness.ui
                 Visible = false;
             }
         }
+        
     }
 }

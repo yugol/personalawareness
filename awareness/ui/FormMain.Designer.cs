@@ -128,6 +128,7 @@ namespace awareness.ui
         	this.controlDayActionsReport1 = new awareness.ui.ControlDayActionsReport();
         	this.tabPage3 = new System.Windows.Forms.TabPage();
         	this.controlWeekActionsReport1 = new awareness.ui.ControlWeekActionsReport();
+        	this.teaTimerToolButton = new System.Windows.Forms.ToolStripButton();
         	this.mainMenu.SuspendLayout();
         	this.statusBar.SuspendLayout();
         	this.mainViewPages.SuspendLayout();
@@ -180,47 +181,47 @@ namespace awareness.ui
         	        	        	this.toolStripMenuItem2,
         	        	        	this.exitToolStripMenuItem});
         	this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-        	this.fileToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
+        	this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
         	this.fileToolStripMenuItem.Text = "&File";
         	// 
         	// newDatabaseToolStripMenuItem
         	// 
         	this.newDatabaseToolStripMenuItem.Name = "newDatabaseToolStripMenuItem";
-        	this.newDatabaseToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+        	this.newDatabaseToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
         	this.newDatabaseToolStripMenuItem.Text = "&New Database...";
         	this.newDatabaseToolStripMenuItem.Click += new System.EventHandler(this.NewDatabaseToolStripMenuItemClick);
         	// 
         	// openDatabaseToolStripMenuItem
         	// 
         	this.openDatabaseToolStripMenuItem.Name = "openDatabaseToolStripMenuItem";
-        	this.openDatabaseToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+        	this.openDatabaseToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
         	this.openDatabaseToolStripMenuItem.Text = "&Open Database...";
         	this.openDatabaseToolStripMenuItem.Click += new System.EventHandler(this.OpenDatabaseToolStripMenuItemClick);
         	// 
         	// deleteDatabaseToolStripMenuItem
         	// 
         	this.deleteDatabaseToolStripMenuItem.Name = "deleteDatabaseToolStripMenuItem";
-        	this.deleteDatabaseToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+        	this.deleteDatabaseToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
         	this.deleteDatabaseToolStripMenuItem.Text = "&Delete Database";
         	this.deleteDatabaseToolStripMenuItem.Click += new System.EventHandler(this.DeleteDatabaseToolStripMenuItemClick);
         	// 
         	// fileMenuSeparator
         	// 
         	this.fileMenuSeparator.Name = "fileMenuSeparator";
-        	this.fileMenuSeparator.Size = new System.Drawing.Size(163, 6);
+        	this.fileMenuSeparator.Size = new System.Drawing.Size(158, 6);
         	// 
         	// exportToolStripMenuItem
         	// 
         	this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.dumpToolStripMenuItem});
         	this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-        	this.exportToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+        	this.exportToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
         	this.exportToolStripMenuItem.Text = "&Export";
         	// 
         	// dumpToolStripMenuItem
         	// 
         	this.dumpToolStripMenuItem.Name = "dumpToolStripMenuItem";
-        	this.dumpToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+        	this.dumpToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
         	this.dumpToolStripMenuItem.Text = "SQL &Dump...";
         	this.dumpToolStripMenuItem.Click += new System.EventHandler(this.DumpToolStripMenuItemClick);
         	// 
@@ -230,32 +231,32 @@ namespace awareness.ui
         	        	        	this.dumpToolStripMenuItem1,
         	        	        	this.buddiCSVToolStripMenuItem});
         	this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-        	this.importToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+        	this.importToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
         	this.importToolStripMenuItem.Text = "&Import";
         	// 
         	// dumpToolStripMenuItem1
         	// 
         	this.dumpToolStripMenuItem1.Name = "dumpToolStripMenuItem1";
-        	this.dumpToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
+        	this.dumpToolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
         	this.dumpToolStripMenuItem1.Text = "SQL &Dump...";
         	this.dumpToolStripMenuItem1.Click += new System.EventHandler(this.DumpToolStripMenuItem1Click);
         	// 
         	// buddiCSVToolStripMenuItem
         	// 
         	this.buddiCSVToolStripMenuItem.Name = "buddiCSVToolStripMenuItem";
-        	this.buddiCSVToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+        	this.buddiCSVToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
         	this.buddiCSVToolStripMenuItem.Text = "&Buddi CSV...";
         	this.buddiCSVToolStripMenuItem.Click += new System.EventHandler(this.BuddiExportToolStripMenuItemClick);
         	// 
         	// toolStripMenuItem2
         	// 
         	this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-        	this.toolStripMenuItem2.Size = new System.Drawing.Size(163, 6);
+        	this.toolStripMenuItem2.Size = new System.Drawing.Size(158, 6);
         	// 
         	// exitToolStripMenuItem
         	// 
         	this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-        	this.exitToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+        	this.exitToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
         	this.exitToolStripMenuItem.Text = "E&xit";
         	this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
         	// 
@@ -270,51 +271,51 @@ namespace awareness.ui
         	        	        	this.toolStripMenuItem7,
         	        	        	this.preferencesToolStripMenuItem});
         	this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-        	this.editToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+        	this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
         	this.editToolStripMenuItem.Text = "&Edit";
         	// 
         	// accountsToolStripMenuItem
         	// 
         	this.accountsToolStripMenuItem.Name = "accountsToolStripMenuItem";
-        	this.accountsToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+        	this.accountsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
         	this.accountsToolStripMenuItem.Text = "&Accounts...";
         	this.accountsToolStripMenuItem.Click += new System.EventHandler(this.AccountsToolStripMenuItemClick);
         	// 
         	// accoutTypesToolStripMenuItem
         	// 
         	this.accoutTypesToolStripMenuItem.Name = "accoutTypesToolStripMenuItem";
-        	this.accoutTypesToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+        	this.accoutTypesToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
         	this.accoutTypesToolStripMenuItem.Text = "Accout &Types...";
         	this.accoutTypesToolStripMenuItem.Click += new System.EventHandler(this.AccoutTypesToolStripMenuItemClick);
         	// 
         	// productCategoriesToolStripMenuItem
         	// 
         	this.productCategoriesToolStripMenuItem.Name = "productCategoriesToolStripMenuItem";
-        	this.productCategoriesToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+        	this.productCategoriesToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
         	this.productCategoriesToolStripMenuItem.Text = "&Budget Categories...";
         	this.productCategoriesToolStripMenuItem.Click += new System.EventHandler(this.BudgetCategoriesToolStripMenuItemClick);
         	// 
         	// toolStripMenuItem4
         	// 
         	this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-        	this.toolStripMenuItem4.Size = new System.Drawing.Size(180, 6);
+        	this.toolStripMenuItem4.Size = new System.Drawing.Size(172, 6);
         	// 
         	// transferreasonsToolStripMenuItem
         	// 
         	this.transferreasonsToolStripMenuItem.Name = "transferreasonsToolStripMenuItem";
-        	this.transferreasonsToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+        	this.transferreasonsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
         	this.transferreasonsToolStripMenuItem.Text = "Transfer &Reasons...";
         	this.transferreasonsToolStripMenuItem.Click += new System.EventHandler(this.TransferreasonsToolStripMenuItemClick);
         	// 
         	// toolStripMenuItem7
         	// 
         	this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-        	this.toolStripMenuItem7.Size = new System.Drawing.Size(180, 6);
+        	this.toolStripMenuItem7.Size = new System.Drawing.Size(172, 6);
         	// 
         	// preferencesToolStripMenuItem
         	// 
         	this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-        	this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+        	this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
         	this.preferencesToolStripMenuItem.Text = "Pre&ferences...";
         	// 
         	// actionsToolStripMenuItem
@@ -322,13 +323,13 @@ namespace awareness.ui
         	this.actionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.manageReminderSoundsToolStripMenuItem});
         	this.actionsToolStripMenuItem.Name = "actionsToolStripMenuItem";
-        	this.actionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+        	this.actionsToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
         	this.actionsToolStripMenuItem.Text = "&Actions";
         	// 
         	// manageReminderSoundsToolStripMenuItem
         	// 
         	this.manageReminderSoundsToolStripMenuItem.Name = "manageReminderSoundsToolStripMenuItem";
-        	this.manageReminderSoundsToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+        	this.manageReminderSoundsToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
         	this.manageReminderSoundsToolStripMenuItem.Text = "&Manage Reminder Sounds...";
         	// 
         	// mealsToolStripMenuItem
@@ -336,20 +337,20 @@ namespace awareness.ui
         	this.mealsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.manageMealsToolStripMenuItem});
         	this.mealsToolStripMenuItem.Name = "mealsToolStripMenuItem";
-        	this.mealsToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+        	this.mealsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
         	this.mealsToolStripMenuItem.Text = "&Meals";
         	// 
         	// manageMealsToolStripMenuItem
         	// 
         	this.manageMealsToolStripMenuItem.Name = "manageMealsToolStripMenuItem";
-        	this.manageMealsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+        	this.manageMealsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
         	this.manageMealsToolStripMenuItem.Text = "&Manage Meals...";
         	this.manageMealsToolStripMenuItem.Click += new System.EventHandler(this.ManageMealsToolStripMenuItemClick);
         	// 
         	// helpToolStripMenuItem
         	// 
         	this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-        	this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+        	this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
         	this.helpToolStripMenuItem.Text = "&Help";
         	// 
         	// statusBar
@@ -389,10 +390,10 @@ namespace awareness.ui
         	// 
         	this.actionsPage.BackColor = System.Drawing.SystemColors.Control;
         	this.actionsPage.Controls.Add(this.actionPages);
-        	this.actionsPage.Location = new System.Drawing.Point(4, 23);
+        	this.actionsPage.Location = new System.Drawing.Point(4, 22);
         	this.actionsPage.Name = "actionsPage";
         	this.actionsPage.Padding = new System.Windows.Forms.Padding(1);
-        	this.actionsPage.Size = new System.Drawing.Size(784, 472);
+        	this.actionsPage.Size = new System.Drawing.Size(784, 473);
         	this.actionsPage.TabIndex = 5;
         	this.actionsPage.Text = "Actions";
         	// 
@@ -406,7 +407,7 @@ namespace awareness.ui
         	this.actionPages.Location = new System.Drawing.Point(1, 1);
         	this.actionPages.Name = "actionPages";
         	this.actionPages.SelectedIndex = 0;
-        	this.actionPages.Size = new System.Drawing.Size(782, 470);
+        	this.actionPages.Size = new System.Drawing.Size(782, 471);
         	this.actionPages.TabIndex = 0;
         	this.actionPages.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.ActionPagesSelecting);
         	// 
@@ -416,7 +417,7 @@ namespace awareness.ui
         	this.overviewPage.Location = new System.Drawing.Point(4, 25);
         	this.overviewPage.Name = "overviewPage";
         	this.overviewPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.overviewPage.Size = new System.Drawing.Size(774, 441);
+        	this.overviewPage.Size = new System.Drawing.Size(774, 442);
         	this.overviewPage.TabIndex = 0;
         	this.overviewPage.Text = "Overview";
         	this.overviewPage.UseVisualStyleBackColor = true;
@@ -426,7 +427,7 @@ namespace awareness.ui
         	this.controlActionsOverview.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.controlActionsOverview.Location = new System.Drawing.Point(3, 3);
         	this.controlActionsOverview.Name = "controlActionsOverview";
-        	this.controlActionsOverview.Size = new System.Drawing.Size(768, 435);
+        	this.controlActionsOverview.Size = new System.Drawing.Size(768, 436);
         	this.controlActionsOverview.TabIndex = 0;
         	// 
         	// dayPage
@@ -435,7 +436,7 @@ namespace awareness.ui
         	this.dayPage.Location = new System.Drawing.Point(4, 25);
         	this.dayPage.Name = "dayPage";
         	this.dayPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.dayPage.Size = new System.Drawing.Size(774, 441);
+        	this.dayPage.Size = new System.Drawing.Size(774, 442);
         	this.dayPage.TabIndex = 1;
         	this.dayPage.Text = "Day";
         	this.dayPage.UseVisualStyleBackColor = true;
@@ -454,7 +455,7 @@ namespace awareness.ui
         	this.weekPage.Location = new System.Drawing.Point(4, 25);
         	this.weekPage.Name = "weekPage";
         	this.weekPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.weekPage.Size = new System.Drawing.Size(774, 441);
+        	this.weekPage.Size = new System.Drawing.Size(774, 442);
         	this.weekPage.TabIndex = 2;
         	this.weekPage.Text = "Week";
         	this.weekPage.UseVisualStyleBackColor = true;
@@ -471,9 +472,9 @@ namespace awareness.ui
         	// 
         	this.notesPage.BackColor = System.Drawing.SystemColors.Control;
         	this.notesPage.Controls.Add(this.notesViewer);
-        	this.notesPage.Location = new System.Drawing.Point(4, 23);
+        	this.notesPage.Location = new System.Drawing.Point(4, 22);
         	this.notesPage.Name = "notesPage";
-        	this.notesPage.Size = new System.Drawing.Size(784, 472);
+        	this.notesPage.Size = new System.Drawing.Size(784, 473);
         	this.notesPage.TabIndex = 4;
         	this.notesPage.Text = "Notes";
         	// 
@@ -483,17 +484,17 @@ namespace awareness.ui
         	this.notesViewer.Location = new System.Drawing.Point(0, 0);
         	this.notesViewer.Name = "notesViewer";
         	this.notesViewer.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-        	this.notesViewer.Size = new System.Drawing.Size(784, 472);
+        	this.notesViewer.Size = new System.Drawing.Size(784, 473);
         	this.notesViewer.TabIndex = 0;
         	// 
         	// mealsPage
         	// 
         	this.mealsPage.BackColor = System.Drawing.SystemColors.Control;
         	this.mealsPage.Controls.Add(this.mealPages);
-        	this.mealsPage.Location = new System.Drawing.Point(4, 23);
+        	this.mealsPage.Location = new System.Drawing.Point(4, 22);
         	this.mealsPage.Name = "mealsPage";
         	this.mealsPage.Padding = new System.Windows.Forms.Padding(3, 1, 1, 1);
-        	this.mealsPage.Size = new System.Drawing.Size(784, 472);
+        	this.mealsPage.Size = new System.Drawing.Size(784, 473);
         	this.mealsPage.TabIndex = 3;
         	this.mealsPage.Text = "Meals";
         	// 
@@ -508,7 +509,7 @@ namespace awareness.ui
         	this.mealPages.Name = "mealPages";
         	this.mealPages.RightToLeft = System.Windows.Forms.RightToLeft.No;
         	this.mealPages.SelectedIndex = 0;
-        	this.mealPages.Size = new System.Drawing.Size(780, 470);
+        	this.mealPages.Size = new System.Drawing.Size(780, 471);
         	this.mealPages.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
         	this.mealPages.TabIndex = 0;
         	// 
@@ -518,7 +519,7 @@ namespace awareness.ui
         	this.dailyPage.Location = new System.Drawing.Point(4, 25);
         	this.dailyPage.Name = "dailyPage";
         	this.dailyPage.Padding = new System.Windows.Forms.Padding(1, 0, 3, 3);
-        	this.dailyPage.Size = new System.Drawing.Size(772, 441);
+        	this.dailyPage.Size = new System.Drawing.Size(772, 442);
         	this.dailyPage.TabIndex = 1;
         	this.dailyPage.Text = "Daily Report";
         	this.dailyPage.UseVisualStyleBackColor = true;
@@ -528,7 +529,7 @@ namespace awareness.ui
         	this.mealsDailyReportControl.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.mealsDailyReportControl.Location = new System.Drawing.Point(1, 0);
         	this.mealsDailyReportControl.Name = "mealsDailyReportControl";
-        	this.mealsDailyReportControl.Size = new System.Drawing.Size(768, 438);
+        	this.mealsDailyReportControl.Size = new System.Drawing.Size(768, 439);
         	this.mealsDailyReportControl.TabIndex = 0;
         	// 
         	// availableFoodsPage
@@ -537,7 +538,7 @@ namespace awareness.ui
         	this.availableFoodsPage.Location = new System.Drawing.Point(4, 49);
         	this.availableFoodsPage.Name = "availableFoodsPage";
         	this.availableFoodsPage.Padding = new System.Windows.Forms.Padding(1, 3, 3, 3);
-        	this.availableFoodsPage.Size = new System.Drawing.Size(180, 18);
+        	this.availableFoodsPage.Size = new System.Drawing.Size(180, 19);
         	this.availableFoodsPage.TabIndex = 0;
         	this.availableFoodsPage.Text = "Available Foods";
         	this.availableFoodsPage.UseVisualStyleBackColor = true;
@@ -547,18 +548,18 @@ namespace awareness.ui
         	this.availableFoodsControl.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.availableFoodsControl.Location = new System.Drawing.Point(1, 3);
         	this.availableFoodsControl.Name = "availableFoodsControl";
-        	this.availableFoodsControl.Size = new System.Drawing.Size(176, 12);
+        	this.availableFoodsControl.Size = new System.Drawing.Size(176, 13);
         	this.availableFoodsControl.TabIndex = 0;
         	// 
         	// financesPage
         	// 
         	this.financesPage.BackColor = System.Drawing.SystemColors.Control;
         	this.financesPage.Controls.Add(this.financialPages);
-        	this.financesPage.Location = new System.Drawing.Point(4, 23);
+        	this.financesPage.Location = new System.Drawing.Point(4, 22);
         	this.financesPage.Margin = new System.Windows.Forms.Padding(0);
         	this.financesPage.Name = "financesPage";
         	this.financesPage.Padding = new System.Windows.Forms.Padding(1);
-        	this.financesPage.Size = new System.Drawing.Size(784, 472);
+        	this.financesPage.Size = new System.Drawing.Size(784, 473);
         	this.financesPage.TabIndex = 2;
         	this.financesPage.Text = "Finances";
         	// 
@@ -571,7 +572,7 @@ namespace awareness.ui
         	this.financialPages.Location = new System.Drawing.Point(1, 1);
         	this.financialPages.Name = "financialPages";
         	this.financialPages.SelectedIndex = 0;
-        	this.financialPages.Size = new System.Drawing.Size(782, 470);
+        	this.financialPages.Size = new System.Drawing.Size(782, 471);
         	this.financialPages.TabIndex = 1;
         	// 
         	// accountsPage
@@ -580,7 +581,7 @@ namespace awareness.ui
         	this.accountsPage.Location = new System.Drawing.Point(4, 25);
         	this.accountsPage.Name = "accountsPage";
         	this.accountsPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.accountsPage.Size = new System.Drawing.Size(774, 441);
+        	this.accountsPage.Size = new System.Drawing.Size(774, 442);
         	this.accountsPage.TabIndex = 0;
         	this.accountsPage.Text = "Accounts";
         	this.accountsPage.UseVisualStyleBackColor = true;
@@ -591,7 +592,7 @@ namespace awareness.ui
         	this.financesControl.Location = new System.Drawing.Point(3, 3);
         	this.financesControl.Margin = new System.Windows.Forms.Padding(0);
         	this.financesControl.Name = "financesControl";
-        	this.financesControl.Size = new System.Drawing.Size(768, 435);
+        	this.financesControl.Size = new System.Drawing.Size(768, 436);
         	this.financesControl.TabIndex = 0;
         	// 
         	// transactionsPage
@@ -600,7 +601,7 @@ namespace awareness.ui
         	this.transactionsPage.Location = new System.Drawing.Point(4, 25);
         	this.transactionsPage.Name = "transactionsPage";
         	this.transactionsPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.transactionsPage.Size = new System.Drawing.Size(182, 42);
+        	this.transactionsPage.Size = new System.Drawing.Size(182, 43);
         	this.transactionsPage.TabIndex = 1;
         	this.transactionsPage.Text = "Transactions";
         	this.transactionsPage.UseVisualStyleBackColor = true;
@@ -646,10 +647,11 @@ namespace awareness.ui
         	        	        	this.mealsToolButton,
         	        	        	this.financesToolButton,
         	        	        	this.toolStripSeparator2,
-        	        	        	this.calculatorToolButton});
+        	        	        	this.calculatorToolButton,
+        	        	        	this.teaTimerToolButton});
         	this.defaultToolStrip.Location = new System.Drawing.Point(3, 0);
         	this.defaultToolStrip.Name = "defaultToolStrip";
-        	this.defaultToolStrip.Size = new System.Drawing.Size(176, 25);
+        	this.defaultToolStrip.Size = new System.Drawing.Size(230, 25);
         	this.defaultToolStrip.TabIndex = 0;
         	// 
         	// newToolButton
@@ -791,6 +793,17 @@ namespace awareness.ui
         	this.controlWeekActionsReport1.Size = new System.Drawing.Size(776, 444);
         	this.controlWeekActionsReport1.TabIndex = 0;
         	// 
+        	// teaTimerToolButton
+        	// 
+        	this.teaTimerToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.teaTimerToolButton.Image = ((System.Drawing.Image)(resources.GetObject("teaTimerToolButton.Image")));
+        	this.teaTimerToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.teaTimerToolButton.Name = "teaTimerToolButton";
+        	this.teaTimerToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.teaTimerToolButton.Text = "Tea Timer";
+        	this.teaTimerToolButton.ToolTipText = "Tea Timer";
+        	this.teaTimerToolButton.Click += new System.EventHandler(this.TeaTimerToolButtonClick);
+        	// 
         	// FormMain
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -837,6 +850,7 @@ namespace awareness.ui
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripButton teaTimerToolButton;
         private awareness.ui.ControlTransactions transactionsControl;
         private System.Windows.Forms.TabPage transactionsPage;
         private System.Windows.Forms.TabPage accountsPage;
