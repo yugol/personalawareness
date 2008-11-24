@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2008 Iulian GORIAC
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -104,7 +104,7 @@ namespace awareness.ui
         void AccountsToolStripMenuItemClick(object sender, EventArgs e){
             try {
                 new FormEditAccounts().ShowDialog();
-            } catch (ApplicationException)  {
+            } catch (ApplicationException) {
                 MessageBox.Show("No account types defined!\nYou can edit account types by going to Edit -> Account Types...", "Cannot edit accounts", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -121,7 +121,7 @@ namespace awareness.ui
                     ImporterBuddy importer = new ImporterBuddy(DbUtil.GetDataContext());
                     importer.Import(ofd.FileName);
                     MessageBox.Show("Operation completed successfully.", "Import Buddi CSV", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                } catch (Exception ex)  {
+                } catch (Exception ex) {
                     MessageBox.Show(ex.Message, "Import failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     DbUtil.ReOpenDataContext();
                 }
@@ -137,7 +137,7 @@ namespace awareness.ui
                     DbDumper dd = new DbDumper(DbUtil.GetDataContext());
                     dd.DumpDb(writer);
                     MessageBox.Show("Operation completed successfully.", "Dump database", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                } catch (Exception ex)  {
+                } catch (Exception ex) {
                     MessageBox.Show("There was an error when dumping the database.\n" + ex.Message, "Dump database",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -162,7 +162,7 @@ namespace awareness.ui
                     try {
                         DbUtil.RestoreFromSqlDump(ofd.FileName);
                         MessageBox.Show("Operation completed successfully.", "Restore database", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    } catch (Exception ex)  {
+                    } catch (Exception ex) {
                         MessageBox.Show("There was an error when restoring the database.\n" + ex.Message, "Restore database",
                                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -199,7 +199,7 @@ namespace awareness.ui
             Debug.WriteLine("ActionPagesSelecting");
             if (e.TabPage.Equals(dayPage)){
                 dayActionsReportControl.UpdateActions();
-            } else if (e.TabPage.Equals(weekPage))  {
+            } else if (e.TabPage.Equals(weekPage)) {
                 weekActionsReport.UpdateActions();
             }
         }
@@ -207,10 +207,13 @@ namespace awareness.ui
         void CalculatorToolButtonClick(object sender, EventArgs e){
             ManagerCalculator.Display();
         }
-        
-        void TeaTimerToolButtonClick(object sender, EventArgs e)
-        {
+
+        void TeaTimerToolButtonClick(object sender, EventArgs e){
             ManagerTeaTimer.Display();
+        }
+
+        void RemindersToolButtonClick(object sender, EventArgs e){
+            ManagerReminders.Display();
         }
     }
 }

@@ -2,7 +2,7 @@
  * Created by SharpDevelop.
  * User: Iulian
  * Date: 24/11/2008
- * Time: 09:57
+ * Time: 14:23
  *
  *
  * Copyright (c) 2008 Iulian GORIAC
@@ -29,25 +29,29 @@
 
 using System;
 
-namespace awareness.ui
+namespace awareness
 {
-    public class ManagerTeaTimer {
-        private static FormTeaTimer teaTimer = null;
+    public class BasicTimerable : ITimerable {
+        private DateTime deadline;
+        private bool completed = false;
 
-        private static FormTeaTimer Instance
-        {
-            get
-            {
-                if (teaTimer == null){
-                    teaTimer = new FormTeaTimer();
-                }
-                return teaTimer;
+        public BasicTimerable(DateTime deadline){
+            this.deadline = deadline;
+        }
+
+        public bool Completed {
+            get {
+                return completed;
+            }
+            set {
+                completed = value;
             }
         }
 
-        public static void Display() {
-            Instance.Visible = false;
-            Instance.Visible = true;
+        public DateTime Deadline {
+            get {
+                return deadline;
+            }
         }
     }
 }

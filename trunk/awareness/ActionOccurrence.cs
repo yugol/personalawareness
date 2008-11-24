@@ -1,16 +1,22 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 03/10/2008
+ * Time: 10:44
+ *
+ *
  * Copyright (c) 2008 Iulian GORIAC
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,21 +26,15 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 03/10/2008
- * Time: 10:44
- *
- */
 using System;
 
 namespace awareness.db
 {
-    public class ActionOccurrence : IComparable {
+    public class ActionOccurrence : IComparable, ITimerable {
         DalAction action;
         DateTime start;
         DateTime end;
+        bool completed = false;
 
         public DalAction Action
         {
@@ -69,6 +69,21 @@ namespace awareness.db
                 return cmp;
             }
             return this.Action.Name.CompareTo(other.Action.Name);
+        }
+
+        public bool Completed {
+            get {
+                return completed;
+            }
+            set {
+                completed = value;
+            }
+        }
+
+        public DateTime Deadline {
+            get {
+                throw new NotImplementedException();
+            }
         }
     }
 }

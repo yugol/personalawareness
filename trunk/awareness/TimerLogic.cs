@@ -28,21 +28,41 @@
 
 
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace awareness.ui
 {
+    public delegate void TaskCompletedHandler(object sender, ITimerable task);
+
     public class TimerLogic {
         public event EventHandler Tick;
-        public event EventHandler Completed;
+        public event TaskCompletedHandler Completed;
 
         private Timer timer;
-        private DateTime deadline;
+        private IList<ITimerable> schedule = new List<ITimerable>();
 
         public TimerLogic(){
             timer = new Timer();
-            timer.Interval = 400;
+            timer.Interval = 250;
             timer.Tick += new EventHandler(TimerTick);
+        }
+        
+        public int Interval {
+            get { return timer.Interval; }
+            set { timer.Interval = value; }
+        }
+
+        public void Add(ITimerable task) {
+            schedule.Add(task);
+        }
+
+        public void Remove(ITimerable task) {
+            schedule.Remove(task);
+        }
+
+        public void Clear() {
+            schedule.Clear();
         }
 
         public void Start() {
@@ -53,27 +73,31 @@ namespace awareness.ui
             timer.Stop();
         }
 
-        public DateTime Deadline {
-            get { return deadline; }
-            set { deadline = value; }
-        }
-
         public void TimerTick(object sender, EventArgs e) {
             if (Tick != null){
                 Tick(this, e);
             }
+            
             if (Completed != null) {
                 DateTime now = DateTime.Now;
-                if (now.Date == deadline.Date){
-                    if (now.Hour == deadline.Hour&&now.Minute == deadline.Minute){
-                        if (now.Second >= deadline.Second){
-                            if (Completed != null){
-                                Completed(this, e);
-                            }
-                        }
+                foreach (ITimerable task in schedule){
+                    if (!task.Completed&&IsTimeFor(task, now)){
+                        task.Completed = true;
+                        Completed(this, task);
                     }
                 }
             }
+        }
+
+        bool IsTimeFor(ITimerable task, DateTime now) {
+            if (now.Date == task.Deadline.Date){
+                if (now.Hour == task.Deadline.Hour&&now.Minute == task.Deadline.Minute){
+                    if (now.Second >= task.Deadline.Second){
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }
