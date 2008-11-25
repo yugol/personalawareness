@@ -33,7 +33,7 @@ using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
-namespace awareness.db
+namespace awareness
 {
     [TestFixture]
     public class TimeIntervalTest {

@@ -1,8 +1,8 @@
 /*
  * Created by SharpDevelop.
  * User: Iulian
- * Date: 04/10/2008
- * Time: 12:24
+ * Date: 25/11/2008
+ * Time: 19:48
  *
  *
  * Copyright (c) 2008 Iulian GORIAC
@@ -26,43 +26,33 @@
  * THE SOFTWARE.
  */
 
+
 using System;
-using System.ComponentModel;
-using System.Drawing;
+using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace awareness.ui
+namespace awareness
 {
-    public partial class ControlCommandSelector : UserControl {
-        public event EventHandler CommandChanged;
-        public event EventHandler TestClick;
-
-        public string Command
-        {
-            get { return commandBox.Text; }
-            set { commandBox.Text = value; }
-        }
-
-        public ControlCommandSelector(){
-            InitializeComponent();
-        }
-
-        void CommandBoxTextChanged(object sender, EventArgs e){
-            if (CommandChanged != null){
-                CommandChanged(this, e);
+    public class Launcher {
+        public static void ExecuteComand(string cmd){
+            try {
+                Process proc = new System.Diagnostics.Process();
+                proc.EnableRaisingEvents = false;
+                proc.StartInfo.FileName = cmd;
+                proc.Start();
+            } catch (Exception)  {
+                MessageBox.Show("Could not execute\n" + cmd, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        void BrowseButtonClick(object sender, EventArgs e){
-            OpenFileDialog ofd = new OpenFileDialog();
-            if (ofd.ShowDialog() == DialogResult.OK){
-                Command = ofd.FileName;
-            }
-        }
-
-        void TestButtonClick(object sender, EventArgs e){
-            if (TestClick != null){
-                TestClick(this, e);
+        public static void PlayMediaFile(string cmd) {
+            try {
+                Process proc = new System.Diagnostics.Process();
+                proc.EnableRaisingEvents = false;
+                proc.StartInfo.FileName = cmd;
+                proc.Start();
+            } catch (Exception)  {
+                MessageBox.Show("Could not play\n" + cmd, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2008 Iulian GORIAC
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -36,78 +36,78 @@ namespace awareness.db
     partial class DbUtil {
         internal static IQueryable<DalAccountType> GetAccountTypes(){
             IQueryable<DalAccountType> accountTypes = null;
-#if DEBUG
+            #if DEBUG
             accountTypes = from t in dataContext.accountTypes
                            orderby t.Name
                            select t;
-#else
+            #else
             accountTypes = from t in dataContext.accountTypes
                            where t.Id > AwarenessDataContext.RESERVED_ACCOUNT_TYPES
                            orderby t.Name
                            select t;
-#endif
+            #endif
             return accountTypes;
         }
 
         internal static IQueryable<DalAccount> GetAccounts(){
             IQueryable<DalAccount> accounts = null;
-#if DEBUG
+            #if DEBUG
             accounts = from a in dataContext.transferLocations.OfType<DalAccount>()
                        orderby a.Name
                        select a;
-#else
+            #else
             accounts = from a in dataContext.transferLocations.OfType<DalAccount>()
                        where a.Id > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS
                        orderby a.Name
                        select a;
-#endif
+            #endif
             return accounts;
         }
 
         internal static IQueryable<DalBudgetCategory> GetBudgetCategories(){
             IQueryable<DalBudgetCategory> categories = null;
-#if DEBUG
+            #if DEBUG
             categories = from c in dataContext.transferLocations.OfType<DalBudgetCategory>()
                          orderby c.Name
                          select c;
-#else
+            #else
             categories = from c in dataContext.transferLocations.OfType<DalBudgetCategory>()
                          where c.Id > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS
                          orderby c.Name
                          select c;
-#endif
+            #endif
             return categories;
         }
 
         internal static IQueryable<DalTransaction> GetTransactions(DateTime first, DateTime last){
             IQueryable<DalTransaction> transactions = null;
-#if DEBUG
+            #if DEBUG
             transactions = from t in dataContext.transactions
                            where (t.When >= first)&&(t.When <= last)
                            orderby t.When, t.Reason.Name, t.From.Name, t.To.Name
             select t;
-#else
+            #else
             transactions = from t in dataContext.transactions
                            where (t.When >= first)&&(t.When <= last)
                            where t.FromId > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS&&t.ToId > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS
                            orderby t.When, t.Reason.Name, t.From.Name, t.To.Name
             select t;
-#endif
+            #endif
             return transactions;
         }
 
         internal static IQueryable<DalReason> GetTransferReasons(){
             IQueryable<DalReason> reasons = null;
-#if DEBUG
+            #if DEBUG
             reasons = from r in dataContext.transactionReasons
                       orderby r.Name
                       select r;
-#else
+            #else
             reasons = from r in dataContext.transactionReasons
                       where (r.Type == DalReason.TYPE_DEFAULT)||(r.Type == DalReason.TYPE_FOOD)
                       orderby r.Name
                       select r;
-#endif
+            #endif
             return reasons;
         }
 
@@ -228,7 +228,7 @@ namespace awareness.db
                 }
 
                 return DalFood.QUANTITY_FOR_ENERGY * energy / quantity;
-            } catch (Exception)  {
+            } catch (Exception) {
                 return 0;
             }
         }
@@ -255,13 +255,26 @@ namespace awareness.db
         }
 
         internal static List<ActionOccurrence> GetActionOccurrences(TimeInterval interval){
-            IQueryable<DalAction> actions = dataContext.actions.Where(a => a.Type != DalAction.TYPE_GROUP);
+            IQueryable<DalAction> actions = dataContext.actions
+                                            .Where(a => a.Type != DalAction.TYPE_GROUP);
+            return SplitAndSortOccurrences(interval, actions);
+        }
+
+        static List<ActionOccurrence> SplitAndSortOccurrences(TimeInterval interval, IQueryable<DalAction> actions){
             List<ActionOccurrence> occurrences = new List<ActionOccurrence>();
-            foreach (DalAction action in actions){
+            foreach (DalAction action in actions) {
                 occurrences.AddRange(action.GetOccurrences(interval));
             }
             occurrences.Sort();
             return occurrences;
+        }
+
+        internal static List<ActionOccurrence> GetUncompletedActionOccurencesWithReminder(TimeInterval interval) {
+            IQueryable<DalAction> actions = dataContext.actions
+                                            .Where(a => a.Type != DalAction.TYPE_GROUP)
+                                            .Where(a => a.CompletionTime < a.CreationTime)
+                                            .Where(a => a.HasCommandReminder || a.HasSoundReminder || a.HasWindowReminder);
+            return SplitAndSortOccurrences(interval, actions);
         }
     }
 }

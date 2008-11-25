@@ -58,6 +58,8 @@ namespace awareness
         internal static string DATA_FOLDER { get { return dataFolder; } }
 
         static Configuration(){
+            ManagerReminders.Load();
+            
             if (!Directory.Exists(DATA_FOLDER)){
                 Directory.CreateDirectory(DATA_FOLDER);
             }
