@@ -134,10 +134,10 @@ namespace awareness.ui
         	// generalPage
         	// 
         	this.generalPage.Controls.Add(this.noteGroup);
-        	this.generalPage.Location = new System.Drawing.Point(4, 23);
+        	this.generalPage.Location = new System.Drawing.Point(4, 22);
         	this.generalPage.Name = "generalPage";
         	this.generalPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.generalPage.Size = new System.Drawing.Size(493, 401);
+        	this.generalPage.Size = new System.Drawing.Size(493, 402);
         	this.generalPage.TabIndex = 0;
         	this.generalPage.Text = "General";
         	this.generalPage.UseVisualStyleBackColor = true;
@@ -148,7 +148,7 @@ namespace awareness.ui
         	this.noteGroup.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.noteGroup.Location = new System.Drawing.Point(3, 3);
         	this.noteGroup.Name = "noteGroup";
-        	this.noteGroup.Size = new System.Drawing.Size(487, 395);
+        	this.noteGroup.Size = new System.Drawing.Size(487, 396);
         	this.noteGroup.TabIndex = 1;
         	this.noteGroup.TabStop = false;
         	this.noteGroup.Text = "Note:";
@@ -156,22 +156,26 @@ namespace awareness.ui
         	// noteTextView
         	// 
         	this.noteTextView.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.noteTextView.IconVisible = false;
         	this.noteTextView.Location = new System.Drawing.Point(3, 16);
         	this.noteTextView.Name = "noteTextView";
         	this.noteTextView.Node = null;
         	this.noteTextView.Note = null;
-        	this.noteTextView.Size = new System.Drawing.Size(481, 376);
+        	this.noteTextView.ScrollBars = true;
+        	this.noteTextView.Size = new System.Drawing.Size(481, 377);
         	this.noteTextView.TabIndex = 0;
+        	this.noteTextView.TextReadOnly = false;
+        	this.noteTextView.TitleReadOnly = false;
         	this.noteTextView.TopVisible = false;
         	// 
         	// planPage
         	// 
         	this.planPage.Controls.Add(this.recurrenceGroup);
         	this.planPage.Controls.Add(this.whenGroup);
-        	this.planPage.Location = new System.Drawing.Point(4, 23);
+        	this.planPage.Location = new System.Drawing.Point(4, 22);
         	this.planPage.Name = "planPage";
         	this.planPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.planPage.Size = new System.Drawing.Size(493, 401);
+        	this.planPage.Size = new System.Drawing.Size(493, 402);
         	this.planPage.TabIndex = 1;
         	this.planPage.Text = "Plan";
         	this.planPage.UseVisualStyleBackColor = true;
@@ -190,7 +194,7 @@ namespace awareness.ui
         	this.recurrenceGroup.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.recurrenceGroup.Location = new System.Drawing.Point(3, 120);
         	this.recurrenceGroup.Name = "recurrenceGroup";
-        	this.recurrenceGroup.Size = new System.Drawing.Size(487, 278);
+        	this.recurrenceGroup.Size = new System.Drawing.Size(487, 279);
         	this.recurrenceGroup.TabIndex = 1;
         	this.recurrenceGroup.TabStop = false;
         	this.recurrenceGroup.Text = "Recurrence:";
@@ -421,10 +425,10 @@ namespace awareness.ui
         	// reminderPage
         	// 
         	this.reminderPage.Controls.Add(this.setupGroup);
-        	this.reminderPage.Location = new System.Drawing.Point(4, 23);
+        	this.reminderPage.Location = new System.Drawing.Point(4, 22);
         	this.reminderPage.Name = "reminderPage";
         	this.reminderPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.reminderPage.Size = new System.Drawing.Size(493, 401);
+        	this.reminderPage.Size = new System.Drawing.Size(493, 402);
         	this.reminderPage.TabIndex = 3;
         	this.reminderPage.Text = "Reminder";
         	this.reminderPage.UseVisualStyleBackColor = true;
@@ -442,7 +446,7 @@ namespace awareness.ui
         	this.setupGroup.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.setupGroup.Location = new System.Drawing.Point(3, 3);
         	this.setupGroup.Name = "setupGroup";
-        	this.setupGroup.Size = new System.Drawing.Size(487, 395);
+        	this.setupGroup.Size = new System.Drawing.Size(487, 396);
         	this.setupGroup.TabIndex = 0;
         	this.setupGroup.TabStop = false;
         	this.setupGroup.Text = "Setup:";
@@ -455,6 +459,7 @@ namespace awareness.ui
         	this.label2.Size = new System.Drawing.Size(123, 13);
         	this.label2.TabIndex = 13;
         	this.label2.Text = "Remind me of this action";
+        	this.label2.Visible = false;
         	// 
         	// soundSelector
         	// 
@@ -503,6 +508,7 @@ namespace awareness.ui
         	this.beforeOccurrenceLabel.TabIndex = 7;
         	this.beforeOccurrenceLabel.Text = "before every occurrence";
         	this.beforeOccurrenceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+        	this.beforeOccurrenceLabel.Visible = false;
         	// 
         	// reminderDurationCombo
         	// 
@@ -511,6 +517,7 @@ namespace awareness.ui
         	this.reminderDurationCombo.Name = "reminderDurationCombo";
         	this.reminderDurationCombo.Size = new System.Drawing.Size(150, 21);
         	this.reminderDurationCombo.TabIndex = 6;
+        	this.reminderDurationCombo.Visible = false;
         	this.reminderDurationCombo.Validating += new System.ComponentModel.CancelEventHandler(this.ReminderDurationComboValidating);
         	this.reminderDurationCombo.TextChanged += new System.EventHandler(this.ReminderDurationComboTextChanged);
         	// 
@@ -527,10 +534,10 @@ namespace awareness.ui
         	// aboutPage
         	// 
         	this.aboutPage.Controls.Add(this.timingGroup);
-        	this.aboutPage.Location = new System.Drawing.Point(4, 23);
+        	this.aboutPage.Location = new System.Drawing.Point(4, 22);
         	this.aboutPage.Name = "aboutPage";
         	this.aboutPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.aboutPage.Size = new System.Drawing.Size(493, 401);
+        	this.aboutPage.Size = new System.Drawing.Size(493, 402);
         	this.aboutPage.TabIndex = 2;
         	this.aboutPage.Text = "About";
         	this.aboutPage.UseVisualStyleBackColor = true;

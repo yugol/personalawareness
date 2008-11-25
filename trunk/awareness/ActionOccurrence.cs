@@ -28,13 +28,16 @@
 
 using System;
 
-namespace awareness.db
+using awareness.db;
+
+namespace awareness
 {
     public class ActionOccurrence : IComparable, ITimerable {
         DalAction action;
         DateTime start;
         DateTime end;
-        bool completed = false;
+        bool completed;
+        DateTime deadline;
 
         public DalAction Action
         {
@@ -55,6 +58,11 @@ namespace awareness.db
             this.action = action;
             this.start = DbUtil.RemoveSeconds(interval.First);
             this.end = DbUtil.RemoveSeconds(interval.Second);
+            if (action.HasReminder)
+            {
+                deadline = this.start.AddMinutes(-action.ReminderDuration);
+                completed = deadline < DateTime.Now;
+            }
         }
 
         public int CompareTo(object obj){
@@ -82,7 +90,7 @@ namespace awareness.db
 
         public DateTime Deadline {
             get {
-                throw new NotImplementedException();
+                return deadline;
             }
         }
     }

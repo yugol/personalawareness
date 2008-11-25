@@ -121,6 +121,7 @@
     <Compile Include="ITimerable.cs" />
     <Compile Include="ImporterBuddy.cs" />
     <Compile Include="ImporterBuddyTest.cs" />
+    <Compile Include="Launcher.cs" />
     <Compile Include="ManagerCalculator.cs" />
     <Compile Include="ManagerReminders.cs" />
     <Compile Include="ManagerTeaTimer.cs" />

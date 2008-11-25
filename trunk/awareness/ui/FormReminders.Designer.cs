@@ -57,9 +57,9 @@ namespace awareness.ui
         /// </summary>
         private void InitializeComponent()
         {
+        	System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("0000-00-00 00:00");
         	this.occurencesView = new System.Windows.Forms.ListView();
-        	this.fromColumn = new System.Windows.Forms.ColumnHeader();
-        	this.toColumn = new System.Windows.Forms.ColumnHeader();
+        	this.startColumn = new System.Windows.Forms.ColumnHeader();
         	this.nameColumn = new System.Windows.Forms.ColumnHeader();
         	this.dueColumn = new System.Windows.Forms.ColumnHeader();
         	this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -74,35 +74,38 @@ namespace awareness.ui
         	// occurencesView
         	// 
         	this.occurencesView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-        	        	        	this.fromColumn,
-        	        	        	this.toColumn,
+        	        	        	this.startColumn,
         	        	        	this.nameColumn,
         	        	        	this.dueColumn});
         	this.occurencesView.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.occurencesView.FullRowSelect = true;
+        	this.occurencesView.HideSelection = false;
+        	this.occurencesView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+        	        	        	listViewItem1});
         	this.occurencesView.Location = new System.Drawing.Point(3, 21);
+        	this.occurencesView.MultiSelect = false;
         	this.occurencesView.Name = "occurencesView";
         	this.occurencesView.Size = new System.Drawing.Size(523, 240);
         	this.occurencesView.TabIndex = 0;
         	this.occurencesView.UseCompatibleStateImageBehavior = false;
         	this.occurencesView.View = System.Windows.Forms.View.Details;
+        	this.occurencesView.SelectedIndexChanged += new System.EventHandler(this.OccurencesViewSelectedIndexChanged);
         	// 
-        	// fromColumn
+        	// startColumn
         	// 
-        	this.fromColumn.Text = "From";
-        	// 
-        	// toColumn
-        	// 
-        	this.toColumn.Text = "To";
+        	this.startColumn.Text = "Start time";
+        	this.startColumn.Width = 100;
         	// 
         	// nameColumn
         	// 
         	this.nameColumn.Text = "Name";
-        	this.nameColumn.Width = 289;
+        	this.nameColumn.Width = 304;
         	// 
         	// dueColumn
         	// 
         	this.dueColumn.Text = "Due in";
-        	this.dueColumn.Width = 92;
+        	this.dueColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+        	this.dueColumn.Width = 90;
         	// 
         	// groupBox1
         	// 
@@ -163,14 +166,13 @@ namespace awareness.ui
         	this.centerPanel.ResumeLayout(false);
         	this.ResumeLayout(false);
         }
+        private System.Windows.Forms.ColumnHeader startColumn;
         private System.Windows.Forms.Panel centerPanel;
         private System.Windows.Forms.Button completeButton;
         private System.Windows.Forms.Panel bottomPanel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ColumnHeader dueColumn;
         private System.Windows.Forms.ColumnHeader nameColumn;
-        private System.Windows.Forms.ColumnHeader toColumn;
-        private System.Windows.Forms.ColumnHeader fromColumn;
         private System.Windows.Forms.ListView occurencesView;
     }
 }

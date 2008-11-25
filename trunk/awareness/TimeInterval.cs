@@ -28,7 +28,7 @@
 
 using System;
 
-namespace awareness.db
+namespace awareness
 {
     public enum Intervals { TODAY, THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_QUARTER, LAST_QUARTER, THIS_YEAR, LAST_YEAR, ALL, UNDEFINED }
 
