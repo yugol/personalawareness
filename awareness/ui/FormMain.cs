@@ -215,5 +215,8 @@ namespace awareness.ui
         void RemindersToolButtonClick(object sender, EventArgs e){
             ManagerReminders.Display();
         }
+
+        void ActionsToolButtonClick(object sender, EventArgs e){
+        }
     }
 }

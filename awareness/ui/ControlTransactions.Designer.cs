@@ -73,8 +73,8 @@ namespace awareness.ui
         	this.reportsMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
         	this.toolTips = new System.Windows.Forms.ToolTip(this.components);
         	this.reasonCombo = new System.Windows.Forms.ComboBox();
-        	this.quantityBox = new System.Windows.Forms.TextBox();
         	this.ammountBox = new System.Windows.Forms.TextBox();
+        	this.quantityInput = new awareness.ui.ControlCalculatorInput();
         	this.arrowLabel = new System.Windows.Forms.Label();
         	this.editPanel = new System.Windows.Forms.TableLayoutPanel();
         	this.deleteButton = new System.Windows.Forms.Button();
@@ -179,7 +179,7 @@ namespace awareness.ui
         	// pieChartToolStripMenuItem
         	// 
         	this.pieChartToolStripMenuItem.Name = "pieChartToolStripMenuItem";
-        	this.pieChartToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+        	this.pieChartToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
         	this.pieChartToolStripMenuItem.Text = "Pie chart";
         	this.pieChartToolStripMenuItem.Click += new System.EventHandler(this.PieChartToolStripMenuItemClick);
         	// 
@@ -189,13 +189,13 @@ namespace awareness.ui
         	        	        	this.pieChartToolStripMenuItem,
         	        	        	this.monthlyToolStripMenuItem});
         	this.expensesToolStripMenuItem.Name = "expensesToolStripMenuItem";
-        	this.expensesToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+        	this.expensesToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
         	this.expensesToolStripMenuItem.Text = "Expenses";
         	// 
         	// monthlyToolStripMenuItem
         	// 
         	this.monthlyToolStripMenuItem.Name = "monthlyToolStripMenuItem";
-        	this.monthlyToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+        	this.monthlyToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
         	this.monthlyToolStripMenuItem.Text = "Monthly";
         	// 
         	// reportsMenu
@@ -203,7 +203,7 @@ namespace awareness.ui
         	this.reportsMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.expensesToolStripMenuItem});
         	this.reportsMenu.Name = "contextMenuStrip1";
-        	this.reportsMenu.Size = new System.Drawing.Size(128, 26);
+        	this.reportsMenu.Size = new System.Drawing.Size(121, 26);
         	this.reportsMenu.Text = "Reports";
         	// 
         	// reasonCombo
@@ -219,19 +219,6 @@ namespace awareness.ui
         	this.reasonCombo.Validating += new System.ComponentModel.CancelEventHandler(this.ReasonComboValidating);
         	this.reasonCombo.TextChanged += new System.EventHandler(this.ReasonComboTextChanged);
         	// 
-        	// quantityBox
-        	// 
-        	this.quantityBox.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.quantityBox.Location = new System.Drawing.Point(502, 28);
-        	this.quantityBox.Margin = new System.Windows.Forms.Padding(16, 3, 3, 3);
-        	this.quantityBox.Name = "quantityBox";
-        	this.quantityBox.Size = new System.Drawing.Size(86, 20);
-        	this.quantityBox.TabIndex = 6;
-        	this.quantityBox.Text = "0";
-        	this.toolTips.SetToolTip(this.quantityBox, "Quantity");
-        	this.quantityBox.TextChanged += new System.EventHandler(this.QuantityBoxTextChanged);
-        	this.quantityBox.Validating += new System.ComponentModel.CancelEventHandler(this.QuantityBoxValidating);
-        	// 
         	// ammountBox
         	// 
         	this.editPanel.SetColumnSpan(this.ammountBox, 2);
@@ -244,6 +231,21 @@ namespace awareness.ui
         	this.toolTips.SetToolTip(this.ammountBox, "Transfer ammount");
         	this.ammountBox.TextChanged += new System.EventHandler(this.AmmountBoxTextChanged);
         	this.ammountBox.Validating += new System.ComponentModel.CancelEventHandler(this.AmmountBoxValidating);
+        	// 
+        	// quantityInput
+        	// 
+        	this.quantityInput.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.quantityInput.Location = new System.Drawing.Point(502, 28);
+        	this.quantityInput.Margin = new System.Windows.Forms.Padding(16, 3, 3, 3);
+        	this.quantityInput.MaximumSize = new System.Drawing.Size(1000, 20);
+        	this.quantityInput.MinimumSize = new System.Drawing.Size(60, 20);
+        	this.quantityInput.Name = "quantityInput";
+        	this.quantityInput.Size = new System.Drawing.Size(86, 20);
+        	this.quantityInput.TabIndex = 13;
+        	this.toolTips.SetToolTip(this.quantityInput, "Quantity (value will be rounded)");
+        	this.quantityInput.Value = 0;
+        	this.quantityInput.ValueChanged += new System.EventHandler(this.QuantityInputValueChanged);
+        	this.quantityInput.Validating += new System.ComponentModel.CancelEventHandler(this.QuantityInputValidating);
         	// 
         	// arrowLabel
         	// 
@@ -275,9 +277,9 @@ namespace awareness.ui
         	this.editPanel.Controls.Add(this.deleteButton, 1, 2);
         	this.editPanel.Controls.Add(this.recordButton, 4, 2);
         	this.editPanel.Controls.Add(this.updateButton, 6, 2);
-        	this.editPanel.Controls.Add(this.quantityBox, 6, 1);
         	this.editPanel.Controls.Add(this.ammountBox, 5, 0);
         	this.editPanel.Controls.Add(this.noteControl, 7, 0);
+        	this.editPanel.Controls.Add(this.quantityInput, 6, 1);
         	this.editPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
         	this.editPanel.Location = new System.Drawing.Point(0, 442);
         	this.editPanel.Name = "editPanel";
@@ -430,6 +432,7 @@ namespace awareness.ui
         	this.selectPanel.PerformLayout();
         	this.ResumeLayout(false);
         }
+        private awareness.ui.ControlCalculatorInput quantityInput;
         private awareness.ui.ControlAddNote noteControl;
         private System.Windows.Forms.ContextMenuStrip reportsMenu;
         private System.Windows.Forms.ToolStripMenuItem monthlyToolStripMenuItem;
@@ -443,7 +446,6 @@ namespace awareness.ui
         private System.Windows.Forms.TableLayoutPanel selectPanel;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.TextBox ammountBox;
-        private System.Windows.Forms.TextBox quantityBox;
         private System.Windows.Forms.Button updateButton;
         private System.Windows.Forms.Button recordButton;
         private System.Windows.Forms.Button deleteButton;

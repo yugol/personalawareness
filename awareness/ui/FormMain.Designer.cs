@@ -122,6 +122,7 @@ namespace awareness.ui
         	this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
         	this.calculatorToolButton = new System.Windows.Forms.ToolStripButton();
         	this.teaTimerToolButton = new System.Windows.Forms.ToolStripButton();
+        	this.remindersToolButton = new System.Windows.Forms.ToolStripButton();
         	this.statusTimer = new System.Windows.Forms.Timer(this.components);
         	this.tabPage1 = new System.Windows.Forms.TabPage();
         	this.controlActionsOverview1 = new awareness.ui.ControlActionsOverview();
@@ -129,7 +130,6 @@ namespace awareness.ui
         	this.controlDayActionsReport1 = new awareness.ui.ControlDayActionsReport();
         	this.tabPage3 = new System.Windows.Forms.TabPage();
         	this.controlWeekActionsReport1 = new awareness.ui.ControlWeekActionsReport();
-        	this.remindersToolButton = new System.Windows.Forms.ToolStripButton();
         	this.mainMenu.SuspendLayout();
         	this.statusBar.SuspendLayout();
         	this.mainViewPages.SuspendLayout();
@@ -691,6 +691,7 @@ namespace awareness.ui
         	this.actionsToolButton.Name = "actionsToolButton";
         	this.actionsToolButton.Size = new System.Drawing.Size(23, 22);
         	this.actionsToolButton.Text = "Actions";
+        	this.actionsToolButton.Click += new System.EventHandler(this.ActionsToolButtonClick);
         	// 
         	// notesToolButton
         	// 
@@ -744,6 +745,16 @@ namespace awareness.ui
         	this.teaTimerToolButton.Text = "Tea Timer";
         	this.teaTimerToolButton.ToolTipText = "Tea Timer";
         	this.teaTimerToolButton.Click += new System.EventHandler(this.TeaTimerToolButtonClick);
+        	// 
+        	// remindersToolButton
+        	// 
+        	this.remindersToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.remindersToolButton.Image = ((System.Drawing.Image)(resources.GetObject("remindersToolButton.Image")));
+        	this.remindersToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.remindersToolButton.Name = "remindersToolButton";
+        	this.remindersToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.remindersToolButton.Text = "Reminders";
+        	this.remindersToolButton.Click += new System.EventHandler(this.RemindersToolButtonClick);
         	// 
         	// statusTimer
         	// 
@@ -805,16 +816,6 @@ namespace awareness.ui
         	this.controlWeekActionsReport1.Name = "controlWeekActionsReport1";
         	this.controlWeekActionsReport1.Size = new System.Drawing.Size(776, 444);
         	this.controlWeekActionsReport1.TabIndex = 0;
-        	// 
-        	// remindersToolButton
-        	// 
-        	this.remindersToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.remindersToolButton.Image = ((System.Drawing.Image)(resources.GetObject("remindersToolButton.Image")));
-        	this.remindersToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.remindersToolButton.Name = "remindersToolButton";
-        	this.remindersToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.remindersToolButton.Text = "Reminders";
-        	this.remindersToolButton.Click += new System.EventHandler(this.RemindersToolButtonClick);
         	// 
         	// FormMain
         	// 

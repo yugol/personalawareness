@@ -185,6 +185,7 @@ namespace awareness.ui
         	// 
         	// buttonOk
         	// 
+        	this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
         	this.buttonOk.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.buttonOk.Location = new System.Drawing.Point(152, 39);
         	this.buttonOk.Name = "buttonOk";
@@ -234,7 +235,6 @@ namespace awareness.ui
         	// 
         	// button9
         	// 
-        	this.button9.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         	this.button9.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         	this.button9.ForeColor = System.Drawing.Color.Blue;
@@ -402,11 +402,15 @@ namespace awareness.ui
         	this.Controls.Add(this.calculatorPanel);
         	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
         	this.Name = "FormCalculatorInput";
+        	this.ShowIcon = false;
         	this.ShowInTaskbar = false;
+        	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         	this.Text = "Calculator";
+        	this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormCalculatorInputFormClosing);
         	this.calculatorPanel.ResumeLayout(false);
         	this.ResumeLayout(false);
         }
+        private awareness.CalculatorLogic calc = new CalculatorLogic();
         private System.Windows.Forms.TableLayoutPanel calculatorPanel;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;

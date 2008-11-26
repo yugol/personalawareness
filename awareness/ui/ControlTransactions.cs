@@ -57,6 +57,8 @@ namespace awareness.ui
             transactionsView.SelectedIndexChanged += new EventHandler(TransactionsViewSelectedIndexChanged);
             timeIntervalSelectorControl.TimeIntervalChanged += new DatabaseChangedHandler(ReadTransactions);
             EditMode = EditModes.NEW;
+            
+            quantityInput.SetToolTip(toolTips.GetToolTip(quantityInput));            
         }
 
         void ReadTransferLocations(){
@@ -128,7 +130,6 @@ namespace awareness.ui
             ReadTransferLocations();
             ReadTransactionReasons();
             ReadTransactions();
-        }        
-        
+        }                
     }
 }
