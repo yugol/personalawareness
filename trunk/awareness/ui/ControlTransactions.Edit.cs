@@ -156,7 +156,7 @@ namespace awareness.ui
             }
         }
 
-        void QuantityBoxTextChanged(object sender, EventArgs e){
+        void QuantityInputValueChanged(object sender, EventArgs e){
             if (EditMode == EditModes.UPDATE){
                 Dirty = true;
             }
@@ -205,7 +205,7 @@ namespace awareness.ui
             ammountBox.Focus();
             fromCombo.Focus();
             toCombo.Focus();
-            quantityBox.Focus();
+            quantityInput.Focus();
             datePicker.Focus();
 
             string error = "";
@@ -213,7 +213,7 @@ namespace awareness.ui
             error += errorProvider.GetError(ammountBox);
             error += errorProvider.GetError(fromCombo);
             error += errorProvider.GetError(toCombo);
-            error += errorProvider.GetError(quantityBox);
+            error += errorProvider.GetError(quantityInput);
 
             performValidation = false;
 
@@ -253,16 +253,13 @@ namespace awareness.ui
             }
         }
 
-        void QuantityBoxValidating(object sender, CancelEventArgs e){
+        void QuantityInputValidating(object sender, CancelEventArgs e){
             if (performValidation){
-                try {
-                    if (int.Parse(quantityBox.Text) < 0){
-                        throw new ApplicationException();
-                    }
-                    errorProvider.Clear();
-                } catch (Exception) {
+                if (quantityInput.Value < 0){
                     e.Cancel = true;
                     errorProvider.SetError((Control) sender, "Please enter a positive integer value");
+                } else {
+                    errorProvider.Clear();
                 }
             }
         }
@@ -290,7 +287,7 @@ namespace awareness.ui
             ammountBox.Text = "";
             fromCombo.SelectedItem = null;
             toCombo.SelectedItem = null;
-            quantityBox.Text = "0";
+            quantityInput.Value = 0;
             noteControl.Note = null;
 
             Dirty = false;
@@ -298,7 +295,7 @@ namespace awareness.ui
 
         DalReason CreateReasonFromUi() {
             DalReason reason = null;
-            float quantity = float.Parse(quantityBox.Text);
+            float quantity = (int) quantityInput.Value;
             if (quantity != 0){
                 reason = new DalFood();
             } else {
@@ -325,7 +322,7 @@ namespace awareness.ui
             transaction.Ammount = decimal.Parse(ammountBox.Text);
             transaction.From = (DalTransferLocation) fromCombo.SelectedItem;
             transaction.To = (DalTransferLocation) toCombo.SelectedItem;
-            transaction.Quantity = float.Parse(quantityBox.Text);
+            transaction.Quantity = (int) quantityInput.Value;
         }
 
         void TransactionData2Ui(DalTransaction transaction){
@@ -334,8 +331,8 @@ namespace awareness.ui
             ammountBox.Text = transaction.Ammount.ToString("0.00");
             fromCombo.SelectedItem = transaction.From;
             toCombo.SelectedItem = transaction.To;
-            quantityBox.Text = transaction.Quantity.ToString();
-            noteControl.Note = transaction.HasNote ? transaction.Note : null;           
+            quantityInput.Value = transaction.Quantity;
+            noteControl.Note = transaction.HasNote ? transaction.Note : null;
 
             Dirty = false;
         }

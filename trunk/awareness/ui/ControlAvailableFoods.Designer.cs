@@ -62,12 +62,12 @@ namespace awareness.ui
         	this.whatColumn = new System.Windows.Forms.ColumnHeader();
         	this.quantityColumn = new System.Windows.Forms.ColumnHeader();
         	this.datePicker = new System.Windows.Forms.DateTimePicker();
-        	this.quantityBox = new System.Windows.Forms.TextBox();
         	this.whatBox = new System.Windows.Forms.TextBox();
         	this.consumeButton = new System.Windows.Forms.Button();
         	this.availableFoodsBottomPanel = new System.Windows.Forms.TableLayoutPanel();
         	this.whyCombo = new System.Windows.Forms.ComboBox();
         	this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+        	this.quantityInput = new awareness.ui.ControlCalculatorInput();
         	this.availableFoodsBottomPanel.SuspendLayout();
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
         	this.SuspendLayout();
@@ -111,16 +111,6 @@ namespace awareness.ui
         	this.datePicker.Size = new System.Drawing.Size(98, 20);
         	this.datePicker.TabIndex = 0;
         	// 
-        	// quantityBox
-        	// 
-        	this.quantityBox.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.quantityBox.Location = new System.Drawing.Point(282, 3);
-        	this.quantityBox.Margin = new System.Windows.Forms.Padding(3, 3, 16, 3);
-        	this.quantityBox.Name = "quantityBox";
-        	this.quantityBox.Size = new System.Drawing.Size(57, 20);
-        	this.quantityBox.TabIndex = 1;
-        	this.quantityBox.Validating += new System.ComponentModel.CancelEventHandler(this.QuantityBoxValidating);
-        	// 
         	// whatBox
         	// 
         	this.whatBox.Cursor = System.Windows.Forms.Cursors.Arrow;
@@ -149,13 +139,13 @@ namespace awareness.ui
         	this.availableFoodsBottomPanel.ColumnCount = 4;
         	this.availableFoodsBottomPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
         	this.availableFoodsBottomPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
-        	this.availableFoodsBottomPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-        	this.availableFoodsBottomPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+        	this.availableFoodsBottomPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.5F));
+        	this.availableFoodsBottomPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.5F));
         	this.availableFoodsBottomPanel.Controls.Add(this.datePicker, 0, 0);
-        	this.availableFoodsBottomPanel.Controls.Add(this.quantityBox, 2, 0);
         	this.availableFoodsBottomPanel.Controls.Add(this.whatBox, 1, 0);
         	this.availableFoodsBottomPanel.Controls.Add(this.consumeButton, 0, 1);
         	this.availableFoodsBottomPanel.Controls.Add(this.whyCombo, 3, 0);
+        	this.availableFoodsBottomPanel.Controls.Add(this.quantityInput, 2, 0);
         	this.availableFoodsBottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
         	this.availableFoodsBottomPanel.Location = new System.Drawing.Point(0, 268);
         	this.availableFoodsBottomPanel.Name = "availableFoodsBottomPanel";
@@ -170,16 +160,29 @@ namespace awareness.ui
         	this.whyCombo.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.whyCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
         	this.whyCombo.FormattingEnabled = true;
-        	this.whyCombo.Location = new System.Drawing.Point(358, 3);
+        	this.whyCombo.Location = new System.Drawing.Point(371, 3);
         	this.whyCombo.Margin = new System.Windows.Forms.Padding(3, 3, 16, 3);
         	this.whyCombo.Name = "whyCombo";
-        	this.whyCombo.Size = new System.Drawing.Size(135, 21);
+        	this.whyCombo.Size = new System.Drawing.Size(122, 21);
         	this.whyCombo.TabIndex = 4;
         	this.whyCombo.SelectedIndexChanged += new System.EventHandler(this.WhyComboSelectedIndexChanged);
         	// 
         	// errorProvider
         	// 
         	this.errorProvider.ContainerControl = this;
+        	// 
+        	// quantityInput
+        	// 
+        	this.quantityInput.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.quantityInput.Location = new System.Drawing.Point(282, 3);
+        	this.quantityInput.Margin = new System.Windows.Forms.Padding(3, 3, 16, 3);
+        	this.quantityInput.MaximumSize = new System.Drawing.Size(1000, 20);
+        	this.quantityInput.MinimumSize = new System.Drawing.Size(60, 20);
+        	this.quantityInput.Name = "quantityInput";
+        	this.quantityInput.Size = new System.Drawing.Size(70, 20);
+        	this.quantityInput.TabIndex = 5;
+        	this.quantityInput.Value = 0;
+        	this.quantityInput.Validating += new System.ComponentModel.CancelEventHandler(this.QuantityInputValidating);
         	// 
         	// ControlAvailableFoods
         	// 
@@ -194,13 +197,13 @@ namespace awareness.ui
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
         	this.ResumeLayout(false);
         }
+        private awareness.ui.ControlCalculatorInput quantityInput;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.ComboBox whyCombo;
         private System.Windows.Forms.DateTimePicker datePicker;
         private System.Windows.Forms.TableLayoutPanel availableFoodsBottomPanel;
         private System.Windows.Forms.Button consumeButton;
         private System.Windows.Forms.TextBox whatBox;
-        private System.Windows.Forms.TextBox quantityBox;
         private System.Windows.Forms.ColumnHeader quantityColumn;
         private System.Windows.Forms.ColumnHeader whatColumn;
         private System.Windows.Forms.ListView availableFoodsView;

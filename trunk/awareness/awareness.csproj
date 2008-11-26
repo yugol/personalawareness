@@ -160,6 +160,10 @@
     <Compile Include="ui\ControlAvailableFoods.Designer.cs">
       <DependentUpon>ControlAvailableFoods.cs</DependentUpon>
     </Compile>
+    <Compile Include="ui\ControlCalculatorInput.cs" />
+    <Compile Include="ui\ControlCalculatorInput.Designer.cs">
+      <DependentUpon>ControlCalculatorInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="ui\ControlCommandSelector.cs" />
     <Compile Include="ui\ControlCommandSelector.Designer.cs">
       <DependentUpon>ControlCommandSelector.cs</DependentUpon>
@@ -284,6 +288,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ui\ControlAvailableFoods.resx">
       <DependentUpon>ControlAvailableFoods.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlCalculatorInput.resx">
+      <DependentUpon>ControlCalculatorInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ui\ControlCommandSelector.resx">
       <DependentUpon>ControlCommandSelector.cs</DependentUpon>
