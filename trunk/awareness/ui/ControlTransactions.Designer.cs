@@ -67,10 +67,19 @@ namespace awareness.ui
         	this.fromCombo = new System.Windows.Forms.ComboBox();
         	this.toCombo = new System.Windows.Forms.ComboBox();
         	this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-        	this.pieChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.expensesPieChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.expensesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.monthlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.expensesYearlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.expensesMonthlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.expensesWeeklyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.expensesDailyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.reportsMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+        	this.incomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.incomePieChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.incomeYearlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.incomeMonthlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.incomeWeeklyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.incomeDailyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.toolTips = new System.Windows.Forms.ToolTip(this.components);
         	this.reasonCombo = new System.Windows.Forms.ComboBox();
         	this.ammountBox = new System.Windows.Forms.TextBox();
@@ -176,35 +185,108 @@ namespace awareness.ui
         	// 
         	this.errorProvider.ContainerControl = this;
         	// 
-        	// pieChartToolStripMenuItem
+        	// expensesPieChartToolStripMenuItem
         	// 
-        	this.pieChartToolStripMenuItem.Name = "pieChartToolStripMenuItem";
-        	this.pieChartToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-        	this.pieChartToolStripMenuItem.Text = "Pie chart";
-        	this.pieChartToolStripMenuItem.Click += new System.EventHandler(this.PieChartToolStripMenuItemClick);
+        	this.expensesPieChartToolStripMenuItem.Name = "expensesPieChartToolStripMenuItem";
+        	this.expensesPieChartToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+        	this.expensesPieChartToolStripMenuItem.Text = "Pie chart";
+        	this.expensesPieChartToolStripMenuItem.Click += new System.EventHandler(this.ExpensesPieChartToolStripMenuItemClick);
         	// 
         	// expensesToolStripMenuItem
         	// 
         	this.expensesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        	        	        	this.pieChartToolStripMenuItem,
-        	        	        	this.monthlyToolStripMenuItem});
+        	        	        	this.expensesPieChartToolStripMenuItem,
+        	        	        	this.expensesYearlyToolStripMenuItem,
+        	        	        	this.expensesMonthlyToolStripMenuItem,
+        	        	        	this.expensesWeeklyToolStripMenuItem,
+        	        	        	this.expensesDailyToolStripMenuItem});
         	this.expensesToolStripMenuItem.Name = "expensesToolStripMenuItem";
         	this.expensesToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
         	this.expensesToolStripMenuItem.Text = "Expenses";
         	// 
-        	// monthlyToolStripMenuItem
+        	// expensesYearlyToolStripMenuItem
         	// 
-        	this.monthlyToolStripMenuItem.Name = "monthlyToolStripMenuItem";
-        	this.monthlyToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-        	this.monthlyToolStripMenuItem.Text = "Monthly";
+        	this.expensesYearlyToolStripMenuItem.Name = "expensesYearlyToolStripMenuItem";
+        	this.expensesYearlyToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+        	this.expensesYearlyToolStripMenuItem.Text = "Yearly";
+        	this.expensesYearlyToolStripMenuItem.Click += new System.EventHandler(this.ExpensesYearlyToolStripMenuItemClick);
+        	// 
+        	// expensesMonthlyToolStripMenuItem
+        	// 
+        	this.expensesMonthlyToolStripMenuItem.Name = "expensesMonthlyToolStripMenuItem";
+        	this.expensesMonthlyToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+        	this.expensesMonthlyToolStripMenuItem.Text = "Monthly";
+        	this.expensesMonthlyToolStripMenuItem.Click += new System.EventHandler(this.ExpensesMonthlyToolStripMenuItemClick);
+        	// 
+        	// expensesWeeklyToolStripMenuItem
+        	// 
+        	this.expensesWeeklyToolStripMenuItem.Name = "expensesWeeklyToolStripMenuItem";
+        	this.expensesWeeklyToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+        	this.expensesWeeklyToolStripMenuItem.Text = "Weekly";
+        	this.expensesWeeklyToolStripMenuItem.Click += new System.EventHandler(this.ExpensesWeeklyToolStripMenuItemClick);
+        	// 
+        	// expensesDailyToolStripMenuItem
+        	// 
+        	this.expensesDailyToolStripMenuItem.Name = "expensesDailyToolStripMenuItem";
+        	this.expensesDailyToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+        	this.expensesDailyToolStripMenuItem.Text = "Daily";
+        	this.expensesDailyToolStripMenuItem.Click += new System.EventHandler(this.ExpensesDailyToolStripMenuItemClick);
         	// 
         	// reportsMenu
         	// 
         	this.reportsMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        	        	        	this.expensesToolStripMenuItem});
+        	        	        	this.expensesToolStripMenuItem,
+        	        	        	this.incomeToolStripMenuItem});
         	this.reportsMenu.Name = "contextMenuStrip1";
-        	this.reportsMenu.Size = new System.Drawing.Size(121, 26);
+        	this.reportsMenu.Size = new System.Drawing.Size(121, 48);
         	this.reportsMenu.Text = "Reports";
+        	// 
+        	// incomeToolStripMenuItem
+        	// 
+        	this.incomeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+        	        	        	this.incomePieChartToolStripMenuItem,
+        	        	        	this.incomeYearlyToolStripMenuItem,
+        	        	        	this.incomeMonthlyToolStripMenuItem,
+        	        	        	this.incomeWeeklyToolStripMenuItem,
+        	        	        	this.incomeDailyToolStripMenuItem});
+        	this.incomeToolStripMenuItem.Name = "incomeToolStripMenuItem";
+        	this.incomeToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+        	this.incomeToolStripMenuItem.Text = "Income";
+        	// 
+        	// incomePieChartToolStripMenuItem
+        	// 
+        	this.incomePieChartToolStripMenuItem.Name = "incomePieChartToolStripMenuItem";
+        	this.incomePieChartToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+        	this.incomePieChartToolStripMenuItem.Text = "Pie Chart";
+        	this.incomePieChartToolStripMenuItem.Click += new System.EventHandler(this.IncomePieChartToolStripMenuItemClick);
+        	// 
+        	// incomeYearlyToolStripMenuItem
+        	// 
+        	this.incomeYearlyToolStripMenuItem.Name = "incomeYearlyToolStripMenuItem";
+        	this.incomeYearlyToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+        	this.incomeYearlyToolStripMenuItem.Text = "Yearly";
+        	this.incomeYearlyToolStripMenuItem.Click += new System.EventHandler(this.IncomeYearlyToolStripMenuItemClick);
+        	// 
+        	// incomeMonthlyToolStripMenuItem
+        	// 
+        	this.incomeMonthlyToolStripMenuItem.Name = "incomeMonthlyToolStripMenuItem";
+        	this.incomeMonthlyToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+        	this.incomeMonthlyToolStripMenuItem.Text = "Monthly";
+        	this.incomeMonthlyToolStripMenuItem.Click += new System.EventHandler(this.IncomeMonthlyToolStripMenuItemClick);
+        	// 
+        	// incomeWeeklyToolStripMenuItem
+        	// 
+        	this.incomeWeeklyToolStripMenuItem.Name = "incomeWeeklyToolStripMenuItem";
+        	this.incomeWeeklyToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+        	this.incomeWeeklyToolStripMenuItem.Text = "Weekly";
+        	this.incomeWeeklyToolStripMenuItem.Click += new System.EventHandler(this.IncomeWeeklyToolStripMenuItemClick);
+        	// 
+        	// incomeDailyToolStripMenuItem
+        	// 
+        	this.incomeDailyToolStripMenuItem.Name = "incomeDailyToolStripMenuItem";
+        	this.incomeDailyToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+        	this.incomeDailyToolStripMenuItem.Text = "Daily";
+        	this.incomeDailyToolStripMenuItem.Click += new System.EventHandler(this.IncomeDailyToolStripMenuItemClick);
         	// 
         	// reasonCombo
         	// 
@@ -432,12 +514,21 @@ namespace awareness.ui
         	this.selectPanel.PerformLayout();
         	this.ResumeLayout(false);
         }
+        private System.Windows.Forms.ToolStripMenuItem expensesPieChartToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem expensesMonthlyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem expensesYearlyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem expensesWeeklyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem expensesDailyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem incomePieChartToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem incomeYearlyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem incomeMonthlyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem incomeWeeklyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem incomeDailyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem incomeToolStripMenuItem;
         private awareness.ui.ControlCalculatorInput quantityInput;
         private awareness.ui.ControlAddNote noteControl;
         private System.Windows.Forms.ContextMenuStrip reportsMenu;
-        private System.Windows.Forms.ToolStripMenuItem monthlyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem expensesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pieChartToolStripMenuItem;
         private System.Windows.Forms.Button reportsButton;
         private System.Windows.Forms.TextBox reasonSelectionBox;
         private System.Windows.Forms.ComboBox transferLocationSelectionCombo;

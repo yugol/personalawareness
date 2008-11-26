@@ -35,6 +35,9 @@ using awareness.db;
 namespace awareness.ui
 {
     partial class ControlTransactions {
+        
+        #region Layout
+        
         int selectPanelNormalHeight;
 
         public bool SelectPanelExpanded
@@ -63,6 +66,8 @@ namespace awareness.ui
         void SelectLayoutLabelClick(object sender, EventArgs e){
             SelectPanelExpanded = !SelectPanelExpanded;
         }
+        
+        #endregion
 
         void TransferLocationSelectionComboSelectedIndexChanged(object sender, EventArgs e){
             if (transferLocationSelectionCombo.SelectedItem is DalTransferLocation){
