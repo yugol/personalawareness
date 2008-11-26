@@ -122,7 +122,6 @@ namespace awareness.ui
         	// splitContainer
         	// 
         	this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.splitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
         	this.splitContainer.Location = new System.Drawing.Point(0, 0);
         	this.splitContainer.Name = "splitContainer";
         	// 
@@ -311,7 +310,7 @@ namespace awareness.ui
         	this.toolStrip.Location = new System.Drawing.Point(3, 0);
         	this.toolStrip.Name = "toolStrip";
         	this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-        	this.toolStrip.Size = new System.Drawing.Size(155, 25);
+        	this.toolStrip.Size = new System.Drawing.Size(124, 25);
         	this.toolStrip.TabIndex = 0;
         	// 
         	// filterToolButton
