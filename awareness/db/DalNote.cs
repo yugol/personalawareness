@@ -119,7 +119,7 @@ namespace awareness.db
         string _title = null;
         [Column(Storage = "_title",
                 Name = "title",
-                DbType = "nvarchar(" + MAX_TITLE_CHAR_COUNT + ") NOT NULL", // TODO: Make it TEXT
+                DbType = "nvarchar(" + MAX_TITLE_CHAR_COUNT + ") NOT NULL",
                 CanBeNull = false)]
         public string Title
         {
