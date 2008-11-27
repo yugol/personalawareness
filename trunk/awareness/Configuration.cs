@@ -40,9 +40,7 @@ namespace awareness
         // TODO: save meal report reason
         // TODO: add some Guttenberg project books
         // TODO: notes can be marked as readonly
-        // FEATURE: calculator dialog
         // FEATURE: calendar dialog
-        // FEATURE: tea timer
         // TODO: set min date and max date for all controls
         // TODO: limits for all DateTimePickers
         // TODO: implement dirty bit for reports update update
