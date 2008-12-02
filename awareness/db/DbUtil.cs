@@ -41,6 +41,7 @@ namespace awareness.db
         private static AwarenessDataContext dataContext = null;
 
         internal static event DatabaseChangedHandler DataContextChanged;
+        internal static event DatabaseChangedHandler DataContextClosing;
         internal static event DatabaseChangedHandler PropertiesChanged;
         internal static event DatabaseChangedHandler AccountTypesChanged;
         internal static event DatabaseChangedHandler TransferLocationsChanged;

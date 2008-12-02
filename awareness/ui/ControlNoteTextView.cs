@@ -76,7 +76,7 @@ namespace awareness.ui
                     titleBox.Text = note.Title;
                     creationTimeBox.Text = note.CreationTime.ToString("yyyy/MM/dd HH:mm:ss");
                     textBox.Text = note.Text;
-                    titleBox.ReadOnly = note.IsPermanent;
+                    TitleReadOnly = note.IsPermanent;
                 }
             }
         }
@@ -126,6 +126,7 @@ namespace awareness.ui
             ScrollBars = true;
             TitleReadOnly = false;
             TextReadOnly = false;
+            DbUtil.DataContextClosing += new DatabaseChangedHandler(UpdateNote);
         }
 
         public void FocusTitle(){

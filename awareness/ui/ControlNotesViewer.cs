@@ -130,6 +130,7 @@ namespace awareness.ui
         void NotesTreeAfterSelect(object sender, TreeViewEventArgs e)
         {
             noteTextView.Node = e.Node;
+            noteTextView.TextReadOnly = noteTextView.Note.IsPermanent;
         }
                 
         void NewNoteToolStripMenuItemClick(object sender, EventArgs e)

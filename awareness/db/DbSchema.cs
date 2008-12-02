@@ -55,6 +55,7 @@ namespace awareness.db
         public const int NOTE_TRANSACTIONS_ID = 7;
         public const int NOTE_MEALS_ID = 8;
         public const int NOTE_ACTIONS_ID = 9;
+        public const int NOTE_TODOS_ID = 10;
 
         public const int ACTION_ROOT_ID = 1;
 
@@ -134,6 +135,8 @@ namespace awareness.db
             notes.InsertOnSubmit(new DalNote { Parent = applicationInternalNote, IsPermanent = true, Title = "Meals" });
             ++reserved;
             notes.InsertOnSubmit(new DalNote { Parent = applicationInternalNote, IsPermanent = true, Title = "Actions" });
+            ++reserved;
+            notes.InsertOnSubmit(new DalNote { Parent = applicationInternalNote, IsPermanent = true, Title = "Todos" });
             ++reserved;
 
             for (int i = reserved; i < RESERVED_NOTES; ++i){

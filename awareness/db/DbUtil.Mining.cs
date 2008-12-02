@@ -273,8 +273,25 @@ namespace awareness.db
             IQueryable<DalAction> actions = dataContext.actions
                                             .Where(a => a.Type != DalAction.TYPE_GROUP)
                                             .Where(a => a.CompletionTime < a.CreationTime)
-                                            .Where(a => a.HasCommandReminder || a.HasSoundReminder || a.HasWindowReminder);
+                                            .Where(a => a.HasCommandReminder||a.HasSoundReminder||a.HasWindowReminder);
             return SplitAndSortOccurrences(interval, actions);
+        }
+
+        internal static DalNote GetTodoNote() {
+            DalNote note = null;
+            try {
+                note = dataContext.notes.Where(n => n.ParentId == AwarenessDataContext.NOTE_TODOS_ID).First();
+            } catch (InvalidOperationException ex) {
+                if (ex.Message == "Sequence contains no elements"){
+                    note = new DalNote();
+                    note.Title = "Todo list";
+                    note.Text = "";
+                    note.IsPermanent = true;
+                    note.Parent = dataContext.GetNoteById(AwarenessDataContext.NOTE_TODOS_ID);
+                    InsertNote(note);
+                }
+            }
+            return note;
         }
     }
 }

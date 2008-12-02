@@ -91,6 +91,7 @@ namespace awareness.ui
             editToolStripMenuItem.Visible = isDbOperational;
             mealsToolStripMenuItem.Visible = isDbOperational;
             mainViewPages.Visible = isDbOperational;
+            todoToolButton.Visible = isDbOperational;
         }
 
         void BudgetCategoriesToolStripMenuItemClick(object sender, EventArgs e){
@@ -175,7 +176,6 @@ namespace awareness.ui
         }
 
         void FormMainFormClosed(object sender, FormClosedEventArgs e){
-            notesViewer.TextView.UpdateNote();
             DbUtil.CloseDataContext();
         }
 
@@ -204,6 +204,23 @@ namespace awareness.ui
             }
         }
 
+        #region Panels
+        void ActionsToolButtonClick(object sender, EventArgs e){
+        }
+
+        void NotesToolButtonClick(object sender, EventArgs e){
+        }
+
+        void MealsToolButtonClick(object sender, EventArgs e){
+        }
+
+        void FinancesToolButtonClick(object sender, EventArgs e){
+        }
+
+        #endregion
+
+        #region Tools
+
         void CalculatorToolButtonClick(object sender, EventArgs e){
             ManagerCalculator.Display();
         }
@@ -216,7 +233,14 @@ namespace awareness.ui
             ManagerReminders.Display();
         }
 
-        void ActionsToolButtonClick(object sender, EventArgs e){
+        void CalendarToolButtonClick(object sender, EventArgs e){
         }
+
+        void TodoToolButtonClick(object sender, EventArgs e){
+            ManagerTodo.Display();
+        }
+
+
+        #endregion
     }
 }
