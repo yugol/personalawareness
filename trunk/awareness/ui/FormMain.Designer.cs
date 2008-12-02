@@ -113,6 +113,10 @@ namespace awareness.ui
         	this.newToolButton = new System.Windows.Forms.ToolStripButton();
         	this.openToolButton = new System.Windows.Forms.ToolStripButton();
         	this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+        	this.actionsToolButton = new System.Windows.Forms.ToolStripButton();
+        	this.notesToolButton = new System.Windows.Forms.ToolStripButton();
+        	this.mealsToolButton = new System.Windows.Forms.ToolStripButton();
+        	this.financesToolButton = new System.Windows.Forms.ToolStripButton();
         	this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
         	this.calculatorToolButton = new System.Windows.Forms.ToolStripButton();
         	this.teaTimerToolButton = new System.Windows.Forms.ToolStripButton();
@@ -126,10 +130,6 @@ namespace awareness.ui
         	this.controlDayActionsReport1 = new awareness.ui.ControlDayActionsReport();
         	this.tabPage3 = new System.Windows.Forms.TabPage();
         	this.controlWeekActionsReport1 = new awareness.ui.ControlWeekActionsReport();
-        	this.notesToolButton = new System.Windows.Forms.ToolStripButton();
-        	this.actionsToolButton = new System.Windows.Forms.ToolStripButton();
-        	this.mealsToolButton = new System.Windows.Forms.ToolStripButton();
-        	this.financesToolButton = new System.Windows.Forms.ToolStripButton();
         	this.mainMenu.SuspendLayout();
         	this.statusBar.SuspendLayout();
         	this.mainViewPages.SuspendLayout();
@@ -670,6 +670,47 @@ namespace awareness.ui
         	this.toolStripSeparator2.Name = "toolStripSeparator2";
         	this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
         	// 
+        	// actionsToolButton
+        	// 
+        	this.actionsToolButton.Checked = true;
+        	this.actionsToolButton.CheckState = System.Windows.Forms.CheckState.Checked;
+        	this.actionsToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.actionsToolButton.Image = ((System.Drawing.Image)(resources.GetObject("actionsToolButton.Image")));
+        	this.actionsToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.actionsToolButton.Name = "actionsToolButton";
+        	this.actionsToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.actionsToolButton.Text = "Actions";
+        	// 
+        	// notesToolButton
+        	// 
+        	this.notesToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.notesToolButton.Image = ((System.Drawing.Image)(resources.GetObject("notesToolButton.Image")));
+        	this.notesToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.notesToolButton.Name = "notesToolButton";
+        	this.notesToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.notesToolButton.Text = "Notes";
+        	this.notesToolButton.Click += new System.EventHandler(this.NotesToolButtonClick);
+        	// 
+        	// mealsToolButton
+        	// 
+        	this.mealsToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.mealsToolButton.Image = ((System.Drawing.Image)(resources.GetObject("mealsToolButton.Image")));
+        	this.mealsToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.mealsToolButton.Name = "mealsToolButton";
+        	this.mealsToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.mealsToolButton.Text = "Meals";
+        	this.mealsToolButton.Click += new System.EventHandler(this.MealsToolButtonClick);
+        	// 
+        	// financesToolButton
+        	// 
+        	this.financesToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.financesToolButton.Image = ((System.Drawing.Image)(resources.GetObject("financesToolButton.Image")));
+        	this.financesToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.financesToolButton.Name = "financesToolButton";
+        	this.financesToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.financesToolButton.Text = "Finances";
+        	this.financesToolButton.Click += new System.EventHandler(this.FinancesToolButtonClick);
+        	// 
         	// toolStripSeparator1
         	// 
         	this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -714,6 +755,7 @@ namespace awareness.ui
         	this.calendarToolButton.Name = "calendarToolButton";
         	this.calendarToolButton.Size = new System.Drawing.Size(23, 22);
         	this.calendarToolButton.Text = "Calendar";
+        	this.calendarToolButton.Click += new System.EventHandler(this.CalendarToolButtonClick);
         	// 
         	// todoToolButton
         	// 
@@ -723,6 +765,7 @@ namespace awareness.ui
         	this.todoToolButton.Name = "todoToolButton";
         	this.todoToolButton.Size = new System.Drawing.Size(23, 22);
         	this.todoToolButton.Text = "To do";
+        	this.todoToolButton.Click += new System.EventHandler(this.TodoToolButtonClick);
         	// 
         	// statusTimer
         	// 
@@ -784,44 +827,6 @@ namespace awareness.ui
         	this.controlWeekActionsReport1.Name = "controlWeekActionsReport1";
         	this.controlWeekActionsReport1.Size = new System.Drawing.Size(776, 444);
         	this.controlWeekActionsReport1.TabIndex = 0;
-        	// 
-        	// notesToolButton
-        	// 
-        	this.notesToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.notesToolButton.Image = ((System.Drawing.Image)(resources.GetObject("notesToolButton.Image")));
-        	this.notesToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.notesToolButton.Name = "notesToolButton";
-        	this.notesToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.notesToolButton.Text = "Notes";
-        	// 
-        	// actionsToolButton
-        	// 
-        	this.actionsToolButton.Checked = true;
-        	this.actionsToolButton.CheckState = System.Windows.Forms.CheckState.Checked;
-        	this.actionsToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.actionsToolButton.Image = ((System.Drawing.Image)(resources.GetObject("actionsToolButton.Image")));
-        	this.actionsToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.actionsToolButton.Name = "actionsToolButton";
-        	this.actionsToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.actionsToolButton.Text = "Actions";
-        	// 
-        	// mealsToolButton
-        	// 
-        	this.mealsToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.mealsToolButton.Image = ((System.Drawing.Image)(resources.GetObject("mealsToolButton.Image")));
-        	this.mealsToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.mealsToolButton.Name = "mealsToolButton";
-        	this.mealsToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.mealsToolButton.Text = "Meals";
-        	// 
-        	// financesToolButton
-        	// 
-        	this.financesToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.financesToolButton.Image = ((System.Drawing.Image)(resources.GetObject("financesToolButton.Image")));
-        	this.financesToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.financesToolButton.Name = "financesToolButton";
-        	this.financesToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.financesToolButton.Text = "Finances";
         	// 
         	// FormMain
         	// 

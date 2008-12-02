@@ -127,6 +127,7 @@
     <Compile Include="ManagerCalculator.cs" />
     <Compile Include="ManagerReminders.cs" />
     <Compile Include="ManagerTeaTimer.cs" />
+    <Compile Include="ManagerTodo.cs" />
     <Compile Include="NamingReasonTypes.cs" />
     <Compile Include="NamingTimeIntervals.cs" />
     <Compile Include="Program.cs" />
@@ -273,6 +274,10 @@
     <Compile Include="ui\FormTeaTimer.Designer.cs">
       <DependentUpon>FormTeaTimer.cs</DependentUpon>
     </Compile>
+    <Compile Include="ui\FormTodo.cs" />
+    <Compile Include="ui\FormTodo.Designer.cs">
+      <DependentUpon>FormTodo.cs</DependentUpon>
+    </Compile>
     <Compile Include="ui\NoteHandler.cs" />
     <Compile Include="ui\UiUtil.cs" />
     <Compile Include="ui\UiUtilTest.cs" />
@@ -362,6 +367,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ui\FormTeaTimer.resx">
       <DependentUpon>FormTeaTimer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormTodo.resx">
+      <DependentUpon>FormTodo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

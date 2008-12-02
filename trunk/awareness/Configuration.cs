@@ -39,19 +39,18 @@ namespace awareness
     public static class Configuration {
         // TODO: save meal report reason
         // TODO: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
-        // TODO: notes can be marked as readonly
         // FEATURE: calendar dialog
         // TODO: set min date and max date for all controls
         // TODO: limits for all DateTimePickers
         // TODO: implement dirty bit for reports update update
 
-#if DEBUG
-        static string dataFolder = @"C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data";
-        internal const string DATA_FILTER = "SQL Server (*.mdf)|*.mdf|SQL Server Compact (*.sdf)|*.sdf";
-#else
+//#if DEBUG
+//        static string dataFolder = @"C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data";
+//        internal const string DATA_FILTER = "SQL Server (*.mdf)|*.mdf|SQL Server Compact (*.sdf)|*.sdf";
+//#else
         static string dataFolder = Path.Combine(Application.StartupPath, "data");
         internal const string DATA_FILTER = "SQL Server Compact (*.sdf)|*.sdf|SQL Server (*.mdf)|*.mdf";
-#endif
+//#endif
 
 
         private static string currencySymbol = null;

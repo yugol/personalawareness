@@ -72,5 +72,6 @@ namespace awareness.db
             dataContext.notes.DeleteOnSubmit(note);
             dataContext.SubmitChanges();
         }
+        
     }
 }
