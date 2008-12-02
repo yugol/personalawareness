@@ -54,7 +54,7 @@ namespace awareness.db
         internal static event DatabaseChangedHandler TransactionsChanged;
         internal static event DatabaseChangedHandler MealsChanged;
         internal static event DatabaseChangedHandler ActionsChanged;
-
+        
         internal static DateTime RemoveMilliseconds(DateTime when){
             return new DateTime(when.Year, when.Month, when.Day, when.Hour, when.Minute, when.Second);
         }

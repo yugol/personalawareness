@@ -63,7 +63,6 @@ namespace awareness.ui
         	this.notesToolStripContainer = new System.Windows.Forms.ToolStripContainer();
         	this.notesTree = new System.Windows.Forms.TreeView();
         	this.notesToolStrip = new System.Windows.Forms.ToolStrip();
-        	this.filterToolButton = new System.Windows.Forms.ToolStripDropDownButton();
         	this.refreshToolButton = new System.Windows.Forms.ToolStripButton();
         	this.expandToolButton = new System.Windows.Forms.ToolStripButton();
         	this.collapseToolButton = new System.Windows.Forms.ToolStripButton();
@@ -74,6 +73,8 @@ namespace awareness.ui
         	this.newSiblingNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.sep1 = new System.Windows.Forms.ToolStripSeparator();
         	this.deleteNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.expandAllToolButton = new System.Windows.Forms.ToolStripButton();
+        	this.collapseAllToolButton = new System.Windows.Forms.ToolStripButton();
         	this.viewSplitter.Panel1.SuspendLayout();
         	this.viewSplitter.Panel2.SuspendLayout();
         	this.viewSplitter.SuspendLayout();
@@ -150,24 +151,16 @@ namespace awareness.ui
         	this.notesToolStrip.Dock = System.Windows.Forms.DockStyle.None;
         	this.notesToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
         	this.notesToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        	        	        	this.filterToolButton,
         	        	        	this.refreshToolButton,
         	        	        	this.expandToolButton,
-        	        	        	this.collapseToolButton});
+        	        	        	this.collapseToolButton,
+        	        	        	this.expandAllToolButton,
+        	        	        	this.collapseAllToolButton});
         	this.notesToolStrip.Location = new System.Drawing.Point(3, 0);
         	this.notesToolStrip.Name = "notesToolStrip";
         	this.notesToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-        	this.notesToolStrip.Size = new System.Drawing.Size(132, 25);
+        	this.notesToolStrip.Size = new System.Drawing.Size(118, 25);
         	this.notesToolStrip.TabIndex = 0;
-        	// 
-        	// filterToolButton
-        	// 
-        	this.filterToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.filterToolButton.Image = ((System.Drawing.Image)(resources.GetObject("filterToolButton.Image")));
-        	this.filterToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.filterToolButton.Name = "filterToolButton";
-        	this.filterToolButton.Size = new System.Drawing.Size(29, 22);
-        	this.filterToolButton.Text = "toolStripDropDownButton1";
         	// 
         	// refreshToolButton
         	// 
@@ -176,7 +169,7 @@ namespace awareness.ui
         	this.refreshToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         	this.refreshToolButton.Name = "refreshToolButton";
         	this.refreshToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.refreshToolButton.Text = "toolStripButton1";
+        	this.refreshToolButton.Text = "Refresh";
         	this.refreshToolButton.ToolTipText = "Refresh";
         	this.refreshToolButton.Click += new System.EventHandler(this.RefreshToolButtonClick);
         	// 
@@ -187,7 +180,7 @@ namespace awareness.ui
         	this.expandToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         	this.expandToolButton.Name = "expandToolButton";
         	this.expandToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.expandToolButton.Text = "toolStripButton2";
+        	this.expandToolButton.Text = "Expand branch";
         	this.expandToolButton.ToolTipText = "Expand branch";
         	// 
         	// collapseToolButton
@@ -197,7 +190,7 @@ namespace awareness.ui
         	this.collapseToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         	this.collapseToolButton.Name = "collapseToolButton";
         	this.collapseToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.collapseToolButton.Text = "toolStripButton3";
+        	this.collapseToolButton.Text = "Collapse branch";
         	this.collapseToolButton.ToolTipText = "Collapse branch";
         	// 
         	// noteTextView
@@ -259,6 +252,24 @@ namespace awareness.ui
         	this.deleteNoteToolStripMenuItem.Text = "&Delete Note";
         	this.deleteNoteToolStripMenuItem.Click += new System.EventHandler(this.DeleteNoteToolStripMenuItemClick);
         	// 
+        	// expandAllToolButton
+        	// 
+        	this.expandAllToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.expandAllToolButton.Image = ((System.Drawing.Image)(resources.GetObject("expandAllToolButton.Image")));
+        	this.expandAllToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.expandAllToolButton.Name = "expandAllToolButton";
+        	this.expandAllToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.expandAllToolButton.Text = "Expand all";
+        	// 
+        	// collapseAllToolButton
+        	// 
+        	this.collapseAllToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.collapseAllToolButton.Image = ((System.Drawing.Image)(resources.GetObject("collapseAllToolButton.Image")));
+        	this.collapseAllToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.collapseAllToolButton.Name = "collapseAllToolButton";
+        	this.collapseAllToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.collapseAllToolButton.Text = "Collapse all";
+        	// 
         	// ControlNotesViewer
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -279,7 +290,8 @@ namespace awareness.ui
         	this.treeContextMenu.ResumeLayout(false);
         	this.ResumeLayout(false);
         }
-        private System.Windows.Forms.ToolStripDropDownButton filterToolButton;
+        private System.Windows.Forms.ToolStripButton collapseAllToolButton;
+        private System.Windows.Forms.ToolStripButton expandAllToolButton;
         private System.Windows.Forms.ToolStripButton collapseToolButton;
         private System.Windows.Forms.ToolStripButton expandToolButton;
         private System.Windows.Forms.ToolStripButton refreshToolButton;

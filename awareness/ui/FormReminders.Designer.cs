@@ -78,14 +78,15 @@ namespace awareness.ui
         	        	        	this.nameColumn,
         	        	        	this.dueColumn});
         	this.occurencesView.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.occurencesView.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         	this.occurencesView.FullRowSelect = true;
         	this.occurencesView.HideSelection = false;
         	this.occurencesView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
         	        	        	listViewItem1});
-        	this.occurencesView.Location = new System.Drawing.Point(3, 21);
+        	this.occurencesView.Location = new System.Drawing.Point(3, 23);
         	this.occurencesView.MultiSelect = false;
         	this.occurencesView.Name = "occurencesView";
-        	this.occurencesView.Size = new System.Drawing.Size(523, 240);
+        	this.occurencesView.Size = new System.Drawing.Size(523, 238);
         	this.occurencesView.TabIndex = 0;
         	this.occurencesView.UseCompatibleStateImageBehavior = false;
         	this.occurencesView.View = System.Windows.Forms.View.Details;
@@ -111,6 +112,7 @@ namespace awareness.ui
         	// 
         	this.groupBox1.Controls.Add(this.occurencesView);
         	this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         	this.groupBox1.Location = new System.Drawing.Point(8, 8);
         	this.groupBox1.Name = "groupBox1";
         	this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 8, 3, 3);

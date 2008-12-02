@@ -181,6 +181,7 @@ namespace awareness.db
 
         void CreateProperties(){
             DalProperties prop = new DalProperties();
+            prop.Xml = new XmlProperties().XmlString;
             properties.InsertOnSubmit(prop);
             SubmitChanges();
         }
