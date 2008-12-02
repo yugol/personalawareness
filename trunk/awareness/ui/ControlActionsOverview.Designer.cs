@@ -103,7 +103,6 @@ namespace awareness.ui
         	this.deleteGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.actionIcons = new System.Windows.Forms.ImageList(this.components);
         	this.toolStrip = new System.Windows.Forms.ToolStrip();
-        	this.filterToolButton = new System.Windows.Forms.ToolStripDropDownButton();
         	this.unindentToolButton = new System.Windows.Forms.ToolStripButton();
         	this.indentToolButton = new System.Windows.Forms.ToolStripButton();
         	this.moveUpToolButton = new System.Windows.Forms.ToolStripButton();
@@ -302,26 +301,15 @@ namespace awareness.ui
         	this.toolStrip.Dock = System.Windows.Forms.DockStyle.None;
         	this.toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
         	this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        	        	        	this.filterToolButton,
         	        	        	this.unindentToolButton,
-        	        	        	this.indentToolButton,
         	        	        	this.moveUpToolButton,
-        	        	        	this.moveDownToolButton});
+        	        	        	this.moveDownToolButton,
+        	        	        	this.indentToolButton});
         	this.toolStrip.Location = new System.Drawing.Point(3, 0);
         	this.toolStrip.Name = "toolStrip";
         	this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-        	this.toolStrip.Size = new System.Drawing.Size(124, 25);
+        	this.toolStrip.Size = new System.Drawing.Size(95, 25);
         	this.toolStrip.TabIndex = 0;
-        	// 
-        	// filterToolButton
-        	// 
-        	this.filterToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.filterToolButton.Image = ((System.Drawing.Image)(resources.GetObject("filterToolButton.Image")));
-        	this.filterToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.filterToolButton.Name = "filterToolButton";
-        	this.filterToolButton.Size = new System.Drawing.Size(29, 22);
-        	this.filterToolButton.Text = "toolStripDropDownButton1";
-        	this.filterToolButton.ToolTipText = "Filter";
         	// 
         	// unindentToolButton
         	// 
@@ -330,7 +318,7 @@ namespace awareness.ui
         	this.unindentToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         	this.unindentToolButton.Name = "unindentToolButton";
         	this.unindentToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.unindentToolButton.Text = "toolStripButton2";
+        	this.unindentToolButton.Text = "Unindent";
         	this.unindentToolButton.ToolTipText = "Unindent";
         	// 
         	// indentToolButton
@@ -340,7 +328,7 @@ namespace awareness.ui
         	this.indentToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         	this.indentToolButton.Name = "indentToolButton";
         	this.indentToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.indentToolButton.Text = "toolStripButton5";
+        	this.indentToolButton.Text = "Indent";
         	this.indentToolButton.ToolTipText = "Indent";
         	// 
         	// moveUpToolButton
@@ -350,7 +338,7 @@ namespace awareness.ui
         	this.moveUpToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         	this.moveUpToolButton.Name = "moveUpToolButton";
         	this.moveUpToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.moveUpToolButton.Text = "toolStripButton6";
+        	this.moveUpToolButton.Text = "Move up";
         	this.moveUpToolButton.ToolTipText = "Move up";
         	// 
         	// moveDownToolButton
@@ -360,7 +348,7 @@ namespace awareness.ui
         	this.moveDownToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         	this.moveDownToolButton.Name = "moveDownToolButton";
         	this.moveDownToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.moveDownToolButton.Text = "toolStripButton7";
+        	this.moveDownToolButton.Text = "Move down";
         	this.moveDownToolButton.ToolTipText = "Move down";
         	// 
         	// actionEditControl
@@ -408,7 +396,6 @@ namespace awareness.ui
         private System.Windows.Forms.ToolStripButton moveUpToolButton;
         private System.Windows.Forms.ToolStripButton indentToolButton;
         private System.Windows.Forms.ToolStripButton unindentToolButton;
-        private System.Windows.Forms.ToolStripDropDownButton filterToolButton;
         private System.Windows.Forms.ToolStripContainer toolStripContainer;
         private System.Windows.Forms.TreeView actionsTree;
         private System.Windows.Forms.SplitContainer splitContainer;

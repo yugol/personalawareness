@@ -118,6 +118,8 @@
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
     <Compile Include="db\DbUtilTest.cs" />
+    <Compile Include="db\XmlProperties.cs" />
+    <Compile Include="db\XmlPropertiesTest.cs" />
     <Compile Include="ITimerable.cs" />
     <Compile Include="ImporterBuddy.cs" />
     <Compile Include="ImporterBuddyTest.cs" />

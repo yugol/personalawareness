@@ -33,6 +33,11 @@ using System.Linq;
 namespace awareness.db
 {
     partial class DbUtil {
+        
+        internal static bool IsDbAvailable() {
+            return dataContext != null;
+        }
+        
         internal static void CreateDataContext(string dbConnectionString){
             AwarenessDataContext localDataContext = new AwarenessDataContext(dbConnectionString);
             localDataContext.CreateDatabase();

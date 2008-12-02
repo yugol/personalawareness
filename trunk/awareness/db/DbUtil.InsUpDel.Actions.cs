@@ -49,27 +49,25 @@ namespace awareness.db
 
         internal static void InsertAction(int index, DalAction action){
             if (index < 0){
-                throw new ArgumentOutOfRangeException("Cannot insert at negative index ( " + index + ")");
+                index = 0;
             }
 
             if (action.Parent == null){
                 action.Parent = dataContext.GetActionById(AwarenessDataContext.ACTION_ROOT_ID);
             }
 
-            int anteSiblingCount = GetChildActions(action.Parent).Where(a => a.Index < index).Count();
-            if (anteSiblingCount < index){
-                throw new ArgumentOutOfRangeException("Cannot insert beyond the end of list ( " + anteSiblingCount + ")");
-            }
-
-            action.Index = -1;
-            dataContext.actions.InsertOnSubmit(action);
-            dataContext.SubmitChanges();
-
-            action.Index = index;
             IQueryable<DalAction> postSiblings = GetChildActions(action.Parent).Where(a => a.Index >= index);
             foreach (DalAction sibling in postSiblings){
                 sibling.Index += 1;
             }
+
+            if (postSiblings.Count() > 0){
+                action.Index = index;
+            } else {
+                action.Index = GetChildActions(action.Parent).Count();
+            }
+
+            dataContext.actions.InsertOnSubmit(action);
             dataContext.SubmitChanges();
 
             NotifyActionsChanged();

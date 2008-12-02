@@ -87,6 +87,7 @@ namespace awareness.ui
         	this.startLabel = new System.Windows.Forms.Label();
         	this.reminderPage = new System.Windows.Forms.TabPage();
         	this.setupGroup = new System.Windows.Forms.GroupBox();
+        	this.usageLabel = new System.Windows.Forms.Label();
         	this.label2 = new System.Windows.Forms.Label();
         	this.soundSelector = new awareness.ui.ControlCommandSelector();
         	this.commandSelector = new awareness.ui.ControlCommandSelector();
@@ -435,6 +436,7 @@ namespace awareness.ui
         	// 
         	// setupGroup
         	// 
+        	this.setupGroup.Controls.Add(this.usageLabel);
         	this.setupGroup.Controls.Add(this.label2);
         	this.setupGroup.Controls.Add(this.soundSelector);
         	this.setupGroup.Controls.Add(this.commandSelector);
@@ -450,6 +452,17 @@ namespace awareness.ui
         	this.setupGroup.TabIndex = 0;
         	this.setupGroup.TabStop = false;
         	this.setupGroup.Text = "Setup:";
+        	// 
+        	// usageLabel
+        	// 
+        	this.usageLabel.ForeColor = System.Drawing.Color.Red;
+        	this.usageLabel.Location = new System.Drawing.Point(16, 288);
+        	this.usageLabel.Name = "usageLabel";
+        	this.usageLabel.Size = new System.Drawing.Size(296, 48);
+        	this.usageLabel.TabIndex = 14;
+        	this.usageLabel.Text = "Only the actions with start time planned can have reminders. If you want to attac" +
+        	"h a reminder to this action please go to the \'Plan\' tab and check the \'Plan time" +
+        	"\' button.";
         	// 
         	// label2
         	// 
@@ -643,6 +656,7 @@ namespace awareness.ui
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
         	this.ResumeLayout(false);
         }
+        private System.Windows.Forms.Label usageLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox reminderDurationCombo;
         private awareness.ui.ControlCommandSelector commandSelector;

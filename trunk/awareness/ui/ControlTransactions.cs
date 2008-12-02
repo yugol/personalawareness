@@ -129,6 +129,5 @@ namespace awareness.ui
             ReadTransactionReasons();
             ReadTransactions();
         }
-
     }
 }

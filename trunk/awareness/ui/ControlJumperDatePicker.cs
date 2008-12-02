@@ -80,9 +80,6 @@ namespace awareness.ui
         
         public ControlJumperDatePicker()
         {
-            //
-            // The InitializeComponent() call is required for Windows Forms designer support.
-            //
             InitializeComponent();
             datePicker.MinDate = Configuration.MIN_DATE_TIME;
             datePicker.MaxDate = Configuration.MAX_DATE_TIME;

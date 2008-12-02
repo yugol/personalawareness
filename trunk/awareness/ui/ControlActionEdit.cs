@@ -150,6 +150,8 @@ namespace awareness.ui
         }
 
         void Data2UiReminder(){
+            usageLabel.Visible = !action.IsTimePlanned;
+            
             showReminderCheck.Enabled = action.IsTimePlanned;
             runCommandCheck.Enabled = action.IsTimePlanned;
             playSoundCheck.Enabled = action.IsTimePlanned;

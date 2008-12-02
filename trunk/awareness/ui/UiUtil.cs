@@ -38,7 +38,13 @@ namespace awareness.ui
 {
     internal class UiUtil {
         internal static string FormatCurrency(decimal ammount){
-            return ammount.ToString("#,###,##0.00 RON");
+            string rep = ammount.ToString("#,###,##0.00");
+            if (Configuration.PlaceCurrencySymbolAfterValue){
+                rep += " " + Configuration.CurrencySymbol;
+            } else {
+                rep = Configuration.CurrencySymbol + rep;
+            }
+            return rep;
         }
 
         internal static void FillFoodConsumptionReasons(ComboBox whyCombo, DalReason what){

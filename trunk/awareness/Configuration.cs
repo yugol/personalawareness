@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2008 Iulian GORIAC
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -38,7 +38,7 @@ namespace awareness
 {
     public static class Configuration {
         // TODO: save meal report reason
-        // TODO: add some Guttenberg project books
+        // TODO: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
         // TODO: notes can be marked as readonly
         // FEATURE: calendar dialog
         // TODO: set min date and max date for all controls
@@ -53,11 +53,34 @@ namespace awareness
         internal const string DATA_FILTER = "SQL Server Compact (*.sdf)|*.sdf|SQL Server (*.mdf)|*.mdf";
 #endif
 
+
+        private static string currencySymbol = null;
+        internal static string CurrencySymbol {
+            get { return currencySymbol; }
+            set {
+                currencySymbol = value;
+                xmlProp.CurrencySymbol = currencySymbol;
+                DbUtil.GetProperties().Xml = xmlProp.XmlString;
+                DbUtil.UpdateProperties();
+            }
+        }
+
+        private static bool placeCurrencySymbolAfterValue;
+        internal static bool PlaceCurrencySymbolAfterValue {
+            get { return placeCurrencySymbolAfterValue; }
+            set {
+                placeCurrencySymbolAfterValue = value;
+                xmlProp.PlaceCurrencySymbolAfterValue = placeCurrencySymbolAfterValue;
+                DbUtil.GetProperties().Xml = xmlProp.XmlString;
+                DbUtil.UpdateProperties();
+            }
+        }
+
         internal static string DATA_FOLDER { get { return dataFolder; } }
 
         static Configuration(){
             ManagerReminders.Load();
-            
+
             if (!Directory.Exists(DATA_FOLDER)){
                 Directory.CreateDirectory(DATA_FOLDER);
             }
@@ -85,10 +108,13 @@ namespace awareness
         internal static readonly Font DEFAULT_FONT = new Font(SystemFonts.DefaultFont.FontFamily, SystemFonts.DefaultFont.Size, FontStyle.Regular);
         internal static readonly Font BOLD_FONT = new Font(DEFAULT_FONT.FontFamily, DEFAULT_FONT.Size, FontStyle.Bold);
         internal static readonly Font ITALIC_FONT = new Font(DEFAULT_FONT.FontFamily, DEFAULT_FONT.Size - 1, FontStyle.Italic);
-        
+
+        private static XmlProperties xmlProp = new XmlProperties();
+
         internal static void ReadFromDb() {
-            DalProperties dbProp = DbUtil.GetProperties();
-            
+            xmlProp.XmlString = DbUtil.GetProperties().Xml;
+            currencySymbol = xmlProp.CurrencySymbol;
+            placeCurrencySymbolAfterValue = xmlProp.PlaceCurrencySymbolAfterValue;
         }
     }
 }
