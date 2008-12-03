@@ -317,6 +317,7 @@ namespace awareness.ui
         	this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
         	this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
         	this.preferencesToolStripMenuItem.Text = "Pre&ferences...";
+        	this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.PreferencesToolStripMenuItemClick);
         	// 
         	// mealsToolStripMenuItem
         	// 
@@ -640,7 +641,7 @@ namespace awareness.ui
         	        	        	this.todoToolButton});
         	this.defaultToolStrip.Location = new System.Drawing.Point(3, 0);
         	this.defaultToolStrip.Name = "defaultToolStrip";
-        	this.defaultToolStrip.Size = new System.Drawing.Size(299, 25);
+        	this.defaultToolStrip.Size = new System.Drawing.Size(268, 25);
         	this.defaultToolStrip.TabIndex = 0;
         	// 
         	// newToolButton

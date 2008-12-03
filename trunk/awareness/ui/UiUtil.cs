@@ -40,7 +40,7 @@ namespace awareness.ui
         internal static string FormatCurrency(decimal ammount){
             string rep = ammount.ToString("#,###,##0.00");
             if (Configuration.PlaceCurrencySymbolAfterValue){
-                rep += " " + Configuration.CurrencySymbol;
+                rep += Configuration.CurrencySymbol;
             } else {
                 rep = Configuration.CurrencySymbol + rep;
             }
