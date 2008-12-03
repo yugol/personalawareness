@@ -255,6 +255,10 @@
     <Compile Include="ui\FormEditBudgetCategories.Designer.cs">
       <DependentUpon>FormEditBudgetCategories.cs</DependentUpon>
     </Compile>
+    <Compile Include="ui\FormEditProperties.cs" />
+    <Compile Include="ui\FormEditProperties.Designer.cs">
+      <DependentUpon>FormEditProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="ui\FormEditTransactionReasons.cs" />
     <Compile Include="ui\FormEditTransactionReasons.Designer.cs">
       <DependentUpon>FormEditTransactionReasons.cs</DependentUpon>
@@ -361,6 +365,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ui\FormEditBudgetCategories.resx">
       <DependentUpon>FormEditBudgetCategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormEditProperties.resx">
+      <DependentUpon>FormEditProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ui\FormEditTransactionReasons.resx">
       <DependentUpon>FormEditTransactionReasons.cs</DependentUpon>

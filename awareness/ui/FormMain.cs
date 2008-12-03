@@ -241,7 +241,11 @@ namespace awareness.ui
             ManagerTodo.Display();
         }
 
-
         #endregion
+
+        void PreferencesToolStripMenuItemClick(object sender, EventArgs e){
+            FormEditProperties dialog = new FormEditProperties();
+            dialog.ShowDialog();
+        }
     }
 }

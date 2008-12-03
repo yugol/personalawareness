@@ -60,7 +60,6 @@ namespace awareness
                 currencySymbol = value;
                 xmlProp.CurrencySymbol = currencySymbol;
                 DbUtil.GetProperties().Xml = xmlProp.XmlString;
-                DbUtil.UpdateProperties();
             }
         }
 
@@ -71,7 +70,6 @@ namespace awareness
                 placeCurrencySymbolAfterValue = value;
                 xmlProp.PlaceCurrencySymbolAfterValue = placeCurrencySymbolAfterValue;
                 DbUtil.GetProperties().Xml = xmlProp.XmlString;
-                DbUtil.UpdateProperties();
             }
         }
 

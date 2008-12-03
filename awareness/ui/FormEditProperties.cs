@@ -1,8 +1,8 @@
 /*
  * Created by SharpDevelop.
  * User: Iulian
- * Date: 24/11/2008
- * Time: 09:01
+ * Date: 04/12/2008
+ * Time: 00:33
  *
  *
  * Copyright (c) 2008 Iulian GORIAC
@@ -28,24 +28,32 @@
 
 
 using System;
-using System.Linq;
+using System.Drawing;
+using System.Windows.Forms;
 
-namespace awareness.db
+using awareness.db;
+
+namespace awareness.ui
 {
-    partial class DbUtil {
-        internal static DalProperties GetProperties() {
-            return dataContext.properties.First();
+    public partial class FormEditProperties : Form {
+        public FormEditProperties(){
+            InitializeComponent();
+            Data2Ui();
         }
 
-        internal static void UpdateProperties() {
-            dataContext.SubmitChanges();
-            NotifyPropertiesChanged();
+        void FormEditPropertiesFormClosing(object sender, FormClosingEventArgs e){
+            Ui2Data();
         }
 
-        internal static void NotifyPropertiesChanged() {
-            if (PropertiesChanged != null){
-                PropertiesChanged();
-            }
+        void Data2Ui() {
+            symbolBox.Text = Configuration.CurrencySymbol;
+            placementCheck.Checked = Configuration.PlaceCurrencySymbolAfterValue;
+        }
+
+        void Ui2Data() {
+            Configuration.CurrencySymbol = symbolBox.Text;
+            Configuration.PlaceCurrencySymbolAfterValue = placementCheck.Checked;
+            DbUtil.UpdateProperties();
         }
     }
 }
