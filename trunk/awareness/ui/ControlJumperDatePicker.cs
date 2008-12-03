@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2008 Iulian GORIAC
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,7 +25,7 @@
  * User: Iulian
  * Date: 03/10/2008
  * Time: 18:33
- * 
+ *
  */
 using System;
 using System.ComponentModel;
@@ -35,154 +35,127 @@ using System.Windows.Forms;
 namespace awareness.ui
 {
     public enum JumpSize { Day, Week, Month }
-    
-    public partial class ControlJumperDatePicker : UserControl
-    {
+
+    public partial class ControlJumperDatePicker : UserControl {
         public event EventHandler ValueChanged;
-        
+
         JumpSize jumpSize = JumpSize.Day;
         public JumpSize JumpSize
         {
             get { return jumpSize; }
-            set 
-            { 
+            set
+            {
                 jumpSize = value;
-                switch (jumpSize)
-                {
-                    case JumpSize.Day:
-                        this.toolTip.SetToolTip(this.leftLeftButton, "Previous week");
-                        this.toolTip.SetToolTip(this.leftButton, "Previous day");
-                        this.toolTip.SetToolTip(this.rightButton, "Next day");
-                        this.toolTip.SetToolTip(this.rightRightButton, "Next week");
-                        break;
-                    case JumpSize.Week:
-                        this.toolTip.SetToolTip(this.leftLeftButton, "Previous month");
-                        this.toolTip.SetToolTip(this.leftButton, "Previous week");
-                        this.toolTip.SetToolTip(this.rightButton, "Next week");
-                        this.toolTip.SetToolTip(this.rightRightButton, "Next month");
-                        break;
-                    case JumpSize.Month:
-                        this.toolTip.SetToolTip(this.leftLeftButton, "Previous year");
-                        this.toolTip.SetToolTip(this.leftButton, "Previous month");
-                        this.toolTip.SetToolTip(this.rightButton, "Next month");
-                        this.toolTip.SetToolTip(this.rightRightButton, "Next year");
-                        break;
+                switch (jumpSize){
+                case JumpSize.Day:
+                    this.toolTip.SetToolTip(this.leftLeftButton, "Previous week");
+                    this.toolTip.SetToolTip(this.leftButton, "Previous day");
+                    this.toolTip.SetToolTip(this.rightButton, "Next day");
+                    this.toolTip.SetToolTip(this.rightRightButton, "Next week");
+                    break;
+                case JumpSize.Week:
+                    this.toolTip.SetToolTip(this.leftLeftButton, "Previous month");
+                    this.toolTip.SetToolTip(this.leftButton, "Previous week");
+                    this.toolTip.SetToolTip(this.rightButton, "Next week");
+                    this.toolTip.SetToolTip(this.rightRightButton, "Next month");
+                    break;
+                case JumpSize.Month:
+                    this.toolTip.SetToolTip(this.leftLeftButton, "Previous year");
+                    this.toolTip.SetToolTip(this.leftButton, "Previous month");
+                    this.toolTip.SetToolTip(this.rightButton, "Next month");
+                    this.toolTip.SetToolTip(this.rightRightButton, "Next year");
+                    break;
                 }
-
             }
         }
-        
+
         public DateTime Value
         {
             get { return datePicker.Value; }
             set { datePicker.Value = value; }
         }
-        
-        public ControlJumperDatePicker()
-        {
+
+        public ControlJumperDatePicker(){
             InitializeComponent();
             datePicker.MinDate = Configuration.MIN_DATE_TIME;
             datePicker.MaxDate = Configuration.MAX_DATE_TIME;
         }
-        
-        void LeftLeftButtonClick(object sender, EventArgs e)
-        {
-            try
-            {
-                switch (jumpSize)
-                {
-                    case JumpSize.Day:
-                        datePicker.Value = datePicker.Value.AddDays(-7);
-                        break;
-                    case JumpSize.Week:
-                        datePicker.Value = datePicker.Value.AddMonths(-1);
-                        break;
-                    case JumpSize.Month:
-                        datePicker.Value = datePicker.Value.AddYears(-1);
-                        break;
+
+        void LeftLeftButtonClick(object sender, EventArgs e){
+            try {
+                switch (jumpSize){
+                case JumpSize.Day:
+                    datePicker.Value = datePicker.Value.AddDays(-7);
+                    break;
+                case JumpSize.Week:
+                    datePicker.Value = datePicker.Value.AddMonths(-1);
+                    break;
+                case JumpSize.Month:
+                    datePicker.Value = datePicker.Value.AddYears(-1);
+                    break;
                 }
-            }
-            catch (Exception)
-            {
+            } catch (Exception)  {
             }
         }
-        
-        void LeftButtonClick(object sender, EventArgs e)
-        {
-            try
-            {
-                switch (jumpSize)
-                {
-                    case JumpSize.Day:
-                        datePicker.Value = datePicker.Value.AddDays(-1);
-                        break;
-                    case JumpSize.Week:
-                        datePicker.Value = datePicker.Value.AddDays(-7);
-                        break;
-                    case JumpSize.Month:
-                        datePicker.Value = datePicker.Value.AddMonths(-1);
-                        break;
+
+        void LeftButtonClick(object sender, EventArgs e){
+            try {
+                switch (jumpSize){
+                case JumpSize.Day:
+                    datePicker.Value = datePicker.Value.AddDays(-1);
+                    break;
+                case JumpSize.Week:
+                    datePicker.Value = datePicker.Value.AddDays(-7);
+                    break;
+                case JumpSize.Month:
+                    datePicker.Value = datePicker.Value.AddMonths(-1);
+                    break;
                 }
-            }
-            catch (Exception)
-            {
+            } catch (Exception)  {
             }
         }
-        
-        void RightButtonClick(object sender, EventArgs e)
-        {
-            try
-            {
-                switch (jumpSize)
-                {
-                    case JumpSize.Day:
-                        datePicker.Value = datePicker.Value.AddDays(1);
-                        break;
-                    case JumpSize.Week:
-                        datePicker.Value = datePicker.Value.AddDays(7);
-                        break;
-                    case JumpSize.Month:
-                        datePicker.Value = datePicker.Value.AddMonths(1);
-                        break;
+
+        void RightButtonClick(object sender, EventArgs e){
+            try {
+                switch (jumpSize){
+                case JumpSize.Day:
+                    datePicker.Value = datePicker.Value.AddDays(1);
+                    break;
+                case JumpSize.Week:
+                    datePicker.Value = datePicker.Value.AddDays(7);
+                    break;
+                case JumpSize.Month:
+                    datePicker.Value = datePicker.Value.AddMonths(1);
+                    break;
                 }
-            }
-            catch (Exception)
-            {
+            } catch (Exception)  {
             }
         }
-        
-        void RightRightButtonClick(object sender, EventArgs e)
-        {
-            try
-            {
-                switch (jumpSize)
-                {
-                    case JumpSize.Day:
-                        datePicker.Value = datePicker.Value.AddDays(7);
-                        break;
-                    case JumpSize.Week:
-                        datePicker.Value = datePicker.Value.AddMonths(1);
-                        break;
-                    case JumpSize.Month:
-                        datePicker.Value = datePicker.Value.AddYears(1);
-                        break;
+
+        void RightRightButtonClick(object sender, EventArgs e){
+            try {
+                switch (jumpSize){
+                case JumpSize.Day:
+                    datePicker.Value = datePicker.Value.AddDays(7);
+                    break;
+                case JumpSize.Week:
+                    datePicker.Value = datePicker.Value.AddMonths(1);
+                    break;
+                case JumpSize.Month:
+                    datePicker.Value = datePicker.Value.AddYears(1);
+                    break;
                 }
-            }
-            catch (Exception)
-            {
+            } catch (Exception)  {
             }
         }
-        
-        void DatePickerValueChanged(object sender, EventArgs e)
-        {
-            if (ValueChanged != null) 
-            {
+
+        void DatePickerValueChanged(object sender, EventArgs e){
+            if (ValueChanged != null){
                 ValueChanged(this, e);
             }
         }
-        
-        void TodayButtonClick(object sender, EventArgs e)
-        {
+
+        void TodayButtonClick(object sender, EventArgs e){
             datePicker.Value = DateTime.Now;
         }
     }

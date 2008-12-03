@@ -234,6 +234,7 @@ namespace awareness.ui
         }
 
         void CalendarToolButtonClick(object sender, EventArgs e){
+            ManagerCalendar.Display();
         }
 
         void TodoToolButtonClick(object sender, EventArgs e){
