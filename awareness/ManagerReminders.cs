@@ -37,6 +37,11 @@ using awareness.db;
 namespace awareness
 {
     public class ManagerReminders {
+        
+        // TODO: what happens when you change the database
+        // TODO: close the window when you close the database
+        // TODO: hide toolbar button when no db is open
+        
         public static void Load() {
             // used to load the static class
         }

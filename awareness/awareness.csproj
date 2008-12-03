@@ -125,6 +125,7 @@
     <Compile Include="ImporterBuddyTest.cs" />
     <Compile Include="Launcher.cs" />
     <Compile Include="ManagerCalculator.cs" />
+    <Compile Include="ManagerCalendar.cs" />
     <Compile Include="ManagerReminders.cs" />
     <Compile Include="ManagerTeaTimer.cs" />
     <Compile Include="ManagerTodo.cs" />
@@ -166,6 +167,10 @@
     <Compile Include="ui\ControlCalculatorInput.cs" />
     <Compile Include="ui\ControlCalculatorInput.Designer.cs">
       <DependentUpon>ControlCalculatorInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ui\ControlCalendar.cs" />
+    <Compile Include="ui\ControlCalendar.Designer.cs">
+      <DependentUpon>ControlCalendar.cs</DependentUpon>
     </Compile>
     <Compile Include="ui\ControlCommandSelector.cs" />
     <Compile Include="ui\ControlCommandSelector.Designer.cs">
@@ -234,6 +239,10 @@
     <Compile Include="ui\FormCalculatorInput.Designer.cs">
       <DependentUpon>FormCalculatorInput.cs</DependentUpon>
     </Compile>
+    <Compile Include="ui\FormCalendar.cs" />
+    <Compile Include="ui\FormCalendar.Designer.cs">
+      <DependentUpon>FormCalendar.cs</DependentUpon>
+    </Compile>
     <Compile Include="ui\FormEditAccounts.cs" />
     <Compile Include="ui\FormEditAccounts.Designer.cs">
       <DependentUpon>FormEditAccounts.cs</DependentUpon>
@@ -299,6 +308,9 @@
     <EmbeddedResource Include="ui\ControlCalculatorInput.resx">
       <DependentUpon>ControlCalculatorInput.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ui\ControlCalendar.resx">
+      <DependentUpon>ControlCalendar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ui\ControlCommandSelector.resx">
       <DependentUpon>ControlCommandSelector.cs</DependentUpon>
     </EmbeddedResource>
@@ -337,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ui\FormCalculatorInput.resx">
       <DependentUpon>FormCalculatorInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormCalendar.resx">
+      <DependentUpon>FormCalendar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ui\FormEditAccounts.resx">
       <DependentUpon>FormEditAccounts.cs</DependentUpon>
