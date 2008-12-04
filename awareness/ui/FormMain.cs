@@ -41,22 +41,25 @@ namespace awareness.ui
 
         public FormMain(){
             InitializeComponent();
+
             #if !DEBUG
             buddiCSVToolStripMenuItem.Visible = false;
             #endif
+
             transactionsControl.SelectPanelExpanded = false;
             transactionsControl.EditPanelExpanded = true;
+
             actionPages.Dock = DockStyle.Fill;
             notesViewer.Dock = DockStyle.Fill;
             mealPanel.Dock = DockStyle.Fill;
             financialPages.Dock = DockStyle.Fill;
-            ResetPanelsView();
         }
 
         void FormMainLoad(object sender, EventArgs e){
             UpdateStatusTime();
             statusTimer.Start();
             new ActionOpenDatabase(this).Run();
+            ResetPanelsView();
         }
 
         void NewDatabaseToolStripMenuItemClick(object sender, EventArgs e){
@@ -102,7 +105,7 @@ namespace awareness.ui
 
             remindersToolButton.Visible = isDbOperational;
             todoToolButton.Visible = isDbOperational;
-            
+
             ResetPanelsView();
         }
 
@@ -207,64 +210,7 @@ namespace awareness.ui
             UpdateStatusTime();
         }
 
-        void ActionPagesSelecting(object sender, TabControlCancelEventArgs e){
-            Debug.WriteLine("ActionPagesSelecting");
-            if (e.TabPage.Equals(dayPage)){
-                dayActionsReportControl.UpdateActions();
-            } else if (e.TabPage.Equals(weekPage)) {
-                weekActionsReport.UpdateActions();
-            }
-        }
-
         #region Panels
-        void ActionsToolButtonClick(object sender, EventArgs e){
-            SelectActionsView();
-        }
-
-        public void SelectActionsView() {
-            if (!actionsToolButton.Checked){
-                ResetPanelsView();
-                actionPages.Visible = true;
-                actionsToolButton.Checked = true;
-            }
-        }
-
-        void NotesToolButtonClick(object sender, EventArgs e){
-            SelectNotesView();
-        }
-
-        public void SelectNotesView() {
-            if (!notesToolButton.Checked){
-                ResetPanelsView();
-                notesViewer.Visible = true;
-                notesToolButton.Checked = true;
-            }
-        }
-
-        void MealsToolButtonClick(object sender, EventArgs e){
-            SelectMealsView();
-        }
-
-        public void SelectMealsView() {
-            if (!mealsToolButton.Checked){
-                ResetPanelsView();
-                mealPanel.Visible = true;
-                mealsToolButton.Checked = true;
-            }
-        }
-
-        void FinancesToolButtonClick(object sender, EventArgs e){
-            SelectFinancesView();
-        }
-
-        public void SelectFinancesView() {
-            if (!financesToolButton.Checked){
-                ResetPanelsView();
-                financialPages.Visible = true;
-                financesToolButton.Checked = true;
-            }
-        }
-
         void ResetPanelsView() {
             actionPages.Visible = false;
             notesViewer.Visible = false;
@@ -275,6 +221,94 @@ namespace awareness.ui
             notesToolButton.Checked = false;
             mealsToolButton.Checked = false;
             financesToolButton.Checked = false;
+        }
+
+        void ActionsToolButtonClick(object sender, EventArgs e){
+            SelectActionsView();
+        }
+
+        void NotesToolButtonClick(object sender, EventArgs e){
+            SelectNotesView();
+        }
+
+        void MealsToolButtonClick(object sender, EventArgs e){
+            SelectMealsView();
+        }
+
+        void FinancesToolButtonClick(object sender, EventArgs e){
+            SelectFinancesView();
+        }
+
+        public void SelectActionsView() {
+            if (!actionsToolButton.Checked){
+                ResetPanelsView();
+                actionPages.Visible = true;
+                actionsToolButton.Checked = true;
+            }
+        }
+
+        public void SelectNotesView() {
+            if (!notesToolButton.Checked){
+                ResetPanelsView();
+                notesViewer.Visible = true;
+                notesToolButton.Checked = true;
+            }
+        }
+
+        public void SelectMealsView() {
+            if (!mealsToolButton.Checked){
+                ResetPanelsView();
+                UpdateMealPages();
+                mealPanel.Visible = true;
+                mealsToolButton.Checked = true;
+            }
+        }
+
+        public void SelectFinancesView() {
+            if (!financesToolButton.Checked){
+                ResetPanelsView();
+                UpdateFinancialPages();
+                financialPages.Visible = true;
+                financesToolButton.Checked = true;
+            }
+        }
+
+        void ActionPagesSelecting(object sender, TabControlCancelEventArgs e){
+            dayActionsReportControl.IsDisplayed = false;
+            weekActionsReport.IsDisplayed = false;
+            if (e.TabPage.Equals(dayPage)){
+                dayActionsReportControl.IsDisplayed = true;
+            } else if (e.TabPage.Equals(weekPage)) {
+                weekActionsReport.IsDisplayed = true;
+            }
+        }
+
+        void UpdateMealPages() {
+            mealsDailyReportControl.IsDisplayed = false;
+            availableFoodsControl.IsDisplayed = false;
+            if (mealPages.SelectedTab.Equals(dailyPage)){
+                mealsDailyReportControl.IsDisplayed = true;
+            } else if (mealPages.SelectedTab.Equals(availableFoodsPage)) {
+                availableFoodsControl.IsDisplayed = true;
+            }
+        }
+
+        void UpdateFinancialPages() {
+            financesControl.IsDisplayed = false;
+            transactionsControl.IsDisplayed = false;
+            if (financialPages.SelectedTab.Equals(accountsPage)){
+                financesControl.IsDisplayed = true;
+            } else if (financialPages.SelectedTab.Equals(transactionsPage)){
+                transactionsControl.IsDisplayed = true;
+            }
+        }
+
+        void MealPagesSelected(object sender, TabControlEventArgs e){
+            UpdateMealPages();
+        }
+
+        void FinancialPagesSelected(object sender, TabControlEventArgs e){
+            UpdateFinancialPages();
         }
 
         #endregion

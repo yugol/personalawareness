@@ -66,6 +66,8 @@ namespace awareness.ui
         	this.refreshToolButton = new System.Windows.Forms.ToolStripButton();
         	this.expandToolButton = new System.Windows.Forms.ToolStripButton();
         	this.collapseToolButton = new System.Windows.Forms.ToolStripButton();
+        	this.expandAllToolButton = new System.Windows.Forms.ToolStripButton();
+        	this.collapseAllToolButton = new System.Windows.Forms.ToolStripButton();
         	this.noteTextView = new awareness.ui.ControlNoteTextView();
         	this.treeContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
         	this.newNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,8 +75,6 @@ namespace awareness.ui
         	this.newSiblingNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.sep1 = new System.Windows.Forms.ToolStripSeparator();
         	this.deleteNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.expandAllToolButton = new System.Windows.Forms.ToolStripButton();
-        	this.collapseAllToolButton = new System.Windows.Forms.ToolStripButton();
         	this.viewSplitter.Panel1.SuspendLayout();
         	this.viewSplitter.Panel2.SuspendLayout();
         	this.viewSplitter.SuspendLayout();
@@ -193,6 +193,24 @@ namespace awareness.ui
         	this.collapseToolButton.Text = "Collapse branch";
         	this.collapseToolButton.ToolTipText = "Collapse branch";
         	// 
+        	// expandAllToolButton
+        	// 
+        	this.expandAllToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.expandAllToolButton.Image = ((System.Drawing.Image)(resources.GetObject("expandAllToolButton.Image")));
+        	this.expandAllToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.expandAllToolButton.Name = "expandAllToolButton";
+        	this.expandAllToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.expandAllToolButton.Text = "Expand all";
+        	// 
+        	// collapseAllToolButton
+        	// 
+        	this.collapseAllToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.collapseAllToolButton.Image = ((System.Drawing.Image)(resources.GetObject("collapseAllToolButton.Image")));
+        	this.collapseAllToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.collapseAllToolButton.Name = "collapseAllToolButton";
+        	this.collapseAllToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.collapseAllToolButton.Text = "Collapse all";
+        	// 
         	// noteTextView
         	// 
         	this.noteTextView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -252,24 +270,6 @@ namespace awareness.ui
         	this.deleteNoteToolStripMenuItem.Text = "&Delete Note";
         	this.deleteNoteToolStripMenuItem.Click += new System.EventHandler(this.DeleteNoteToolStripMenuItemClick);
         	// 
-        	// expandAllToolButton
-        	// 
-        	this.expandAllToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.expandAllToolButton.Image = ((System.Drawing.Image)(resources.GetObject("expandAllToolButton.Image")));
-        	this.expandAllToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.expandAllToolButton.Name = "expandAllToolButton";
-        	this.expandAllToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.expandAllToolButton.Text = "Expand all";
-        	// 
-        	// collapseAllToolButton
-        	// 
-        	this.collapseAllToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.collapseAllToolButton.Image = ((System.Drawing.Image)(resources.GetObject("collapseAllToolButton.Image")));
-        	this.collapseAllToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.collapseAllToolButton.Name = "collapseAllToolButton";
-        	this.collapseAllToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.collapseAllToolButton.Text = "Collapse all";
-        	// 
         	// ControlNotesViewer
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -277,6 +277,7 @@ namespace awareness.ui
         	this.Controls.Add(this.viewSplitter);
         	this.Name = "ControlNotesViewer";
         	this.Size = new System.Drawing.Size(568, 388);
+        	this.VisibleChanged += new System.EventHandler(this.ControlNotesViewerVisibleChanged);
         	this.viewSplitter.Panel1.ResumeLayout(false);
         	this.viewSplitter.Panel2.ResumeLayout(false);
         	this.viewSplitter.ResumeLayout(false);

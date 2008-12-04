@@ -76,7 +76,6 @@ namespace awareness.ui
                 transferLocationSelectionCombo.SelectedItem = null;
                 selectedTransferLocation = null;
             }
-            ReadTransactions();
         }
 
         void ReasonSelectionBoxTextChanged(object sender, EventArgs e){
@@ -85,7 +84,6 @@ namespace awareness.ui
             } else {
                 reasonSelectionPattern = reasonSelectionBox.Text;
             }
-            ReadTransactions();
         }
     }
 }

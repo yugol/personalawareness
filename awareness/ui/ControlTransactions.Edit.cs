@@ -303,7 +303,6 @@ namespace awareness.ui
             }
             reason.Name = "_" + reasonCombo.Text;
             DbUtil.InsertTransactionReason(reason);
-            ReadTransactionReasons();
             return reason;
         }
 
@@ -354,8 +353,6 @@ namespace awareness.ui
                     DalTransaction transaction = new DalTransaction();
                     UiData2Transaction(ref transaction);
                     DbUtil.InsertTransaction(transaction, noteControl.Note);
-
-                    ReadTransactions();
                     ClearEditBoxes();
                 }
                 break;
@@ -371,15 +368,12 @@ namespace awareness.ui
                 DalTransaction transaction = transactionsView.SelectedTransaction;
                 UiData2Transaction(ref transaction);
                 DbUtil.UpdateTransaction(transaction, noteControl.Note);
-
-                ReadTransactions();
                 transactionsView.SelectedTransaction = transaction;
             }
         }
 
         void DeleteButtonClick(object sender, EventArgs e){
             DbUtil.DeleteTransaction(transactionsView.SelectedTransaction);
-            ReadTransactions();
             EditMode = EditModes.NEW;
         }
 
