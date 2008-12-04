@@ -53,11 +53,19 @@ namespace awareness.ui
             timeIntervalSelectorControl.Interval = Intervals.THIS_QUARTER;
             selectPanelNormalHeight = selectPanel.Height;
             editPanelNormalHeight = editPanel.Height;
+            EditMode = EditModes.NEW;
+            quantityInput.SetToolTip(toolTips.GetToolTip(quantityInput));
+            
             transactionsView.SelectedIndexChanged += new EventHandler(TransactionsViewSelectedIndexChanged);
             timeIntervalSelectorControl.TimeIntervalChanged += new DatabaseChangedHandler(ReadTransactions);
-            EditMode = EditModes.NEW;
-
-            quantityInput.SetToolTip(toolTips.GetToolTip(quantityInput));
+            DbUtil.DataContextChanged += new DatabaseChangedHandler(ReadTransferLocations);
+            DbUtil.DataContextChanged += new DatabaseChangedHandler(ReadTransactionReasons);
+            DbUtil.DataContextChanged += new DatabaseChangedHandler(ReadTransactions);
+            DbUtil.TransactionReasonsChanged += new DatabaseChangedHandler(ReadTransactionReasons);
+            DbUtil.TransactionReasonsChanged += new DatabaseChangedHandler(ReadTransactions);
+            DbUtil.TransferLocationsChanged += new DatabaseChangedHandler(ReadTransactionReasons);
+            DbUtil.TransferLocationsChanged += new DatabaseChangedHandler(ReadTransactions);
+            DbUtil.PropertiesChanged += new DatabaseChangedHandler(ReadTransactions);
         }
 
         void ReadTransferLocations(){
@@ -122,12 +130,6 @@ namespace awareness.ui
             transactionsView.SetData(transactions);
 
             reportsButton.Enabled = transactions.Count() > 0;
-        }
-
-        void ControlTransactionsLoad(object sender, EventArgs e){
-            ReadTransferLocations();
-            ReadTransactionReasons();
-            ReadTransactions();
         }
     }
 }
