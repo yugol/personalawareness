@@ -38,7 +38,20 @@ namespace awareness.ui
 {
     public partial class ControlTransactions : UserControl {
         // TODO: cash last accounts into application
-        // FIXME: after changes in reason list adding new transaction failed
+        bool readTransferLocationsBit = true;
+        bool readTransactionReasonsBit = true;
+        bool readTransactionsBit = true;
+        bool isDisplayed = false;
+
+        public bool IsDisplayed {
+            get { return isDisplayed; }
+            set {
+                isDisplayed = value;
+                ReadTransferLocations();
+                ReadTransactionReasons();
+                ReadTransactions();
+            }
+        }
 
         DalTransferLocation selectedTransferLocation = null;
         string reasonSelectionPattern = null;
@@ -55,81 +68,108 @@ namespace awareness.ui
             editPanelNormalHeight = editPanel.Height;
             EditMode = EditModes.NEW;
             quantityInput.SetToolTip(toolTips.GetToolTip(quantityInput));
-            
+
             transactionsView.SelectedIndexChanged += new EventHandler(TransactionsViewSelectedIndexChanged);
-            timeIntervalSelectorControl.TimeIntervalChanged += new DatabaseChangedHandler(ReadTransactions);
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(ReadTransferLocations);
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(ReadTransactionReasons);
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(ReadTransactions);
-            DbUtil.TransactionReasonsChanged += new DatabaseChangedHandler(ReadTransactionReasons);
-            DbUtil.TransactionReasonsChanged += new DatabaseChangedHandler(ReadTransactions);
-            DbUtil.TransferLocationsChanged += new DatabaseChangedHandler(ReadTransactionReasons);
-            DbUtil.TransferLocationsChanged += new DatabaseChangedHandler(ReadTransactions);
-            DbUtil.PropertiesChanged += new DatabaseChangedHandler(ReadTransactions);
+            timeIntervalSelectorControl.TimeIntervalChanged += new DatabaseChangedHandler(RequestReadTransactions);
+            DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransferLocations);
+            DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransactionReasons);
+            DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransactions);
+            DbUtil.TransactionReasonsChanged += new DatabaseChangedHandler(RequestReadTransactionReasons);
+            DbUtil.TransactionReasonsChanged += new DatabaseChangedHandler(RequestReadTransactions);
+            DbUtil.TransferLocationsChanged += new DatabaseChangedHandler(RequestReadTransferLocations);
+            DbUtil.TransferLocationsChanged += new DatabaseChangedHandler(RequestReadTransactions);
+            DbUtil.PropertiesChanged += new DatabaseChangedHandler(RequestReadTransactions);
+        }
+
+        void RequestReadTransferLocations(){
+            readTransferLocationsBit = true;
+            ReadTransferLocations();
         }
 
         void ReadTransferLocations(){
-            fromCombo.Items.Clear();
-            toCombo.Items.Clear();
+            if (isDisplayed&&readTransferLocationsBit){
+                fromCombo.Items.Clear();
+                toCombo.Items.Clear();
 
-            IQueryable<DalAccount> accounts = DbUtil.GetAccounts();
-            IQueryable<DalBudgetCategory> budgetCategories = DbUtil.GetBudgetCategories();
-            IQueryable<DalBudgetCategory> incomes = budgetCategories.Where(bc => bc.IsIncome);
-            IQueryable<DalBudgetCategory> expenses = budgetCategories.Where(bc => !bc.IsIncome);
+                IQueryable<DalAccount> accounts = DbUtil.GetAccounts();
+                IQueryable<DalBudgetCategory> budgetCategories = DbUtil.GetBudgetCategories();
+                IQueryable<DalBudgetCategory> incomes = budgetCategories.Where(bc => bc.IsIncome);
+                IQueryable<DalBudgetCategory> expenses = budgetCategories.Where(bc => !bc.IsIncome);
 
-            fromCombo.Items.Add("---Accounts---");
-            foreach (DalTransferLocation item in accounts){
-                fromCombo.Items.Add(item);
-            }
-            fromCombo.Items.Add("");
-            fromCombo.Items.Add("---Budget categories---");
-            foreach (DalBudgetCategory item in incomes){
-                fromCombo.Items.Add(item);
-            }
+                fromCombo.Items.Add("---Accounts---");
+                foreach (DalTransferLocation item in accounts){
+                    fromCombo.Items.Add(item);
+                }
+                fromCombo.Items.Add("");
+                fromCombo.Items.Add("---Budget categories---");
+                foreach (DalBudgetCategory item in incomes){
+                    fromCombo.Items.Add(item);
+                }
 
-            toCombo.Items.Add("---Accounts---");
-            foreach (DalTransferLocation item in accounts){
-                toCombo.Items.Add(item);
-            }
-            toCombo.Items.Add("");
-            toCombo.Items.Add("---Budget categories---");
-            foreach (DalBudgetCategory item in expenses){
-                toCombo.Items.Add(item);
-            }
+                toCombo.Items.Add("---Accounts---");
+                foreach (DalTransferLocation item in accounts){
+                    toCombo.Items.Add(item);
+                }
+                toCombo.Items.Add("");
+                toCombo.Items.Add("---Budget categories---");
+                foreach (DalBudgetCategory item in expenses){
+                    toCombo.Items.Add(item);
+                }
 
-            transferLocationSelectionCombo.Items.Clear();
-            transferLocationSelectionCombo.Items.Add("(All)");
-            foreach (DalBudgetCategory item in expenses){
-                transferLocationSelectionCombo.Items.Add(item);
+                transferLocationSelectionCombo.Items.Clear();
+                transferLocationSelectionCombo.Items.Add("(All)");
+                foreach (DalBudgetCategory item in expenses){
+                    transferLocationSelectionCombo.Items.Add(item);
+                }
+                foreach (DalBudgetCategory item in incomes){
+                    transferLocationSelectionCombo.Items.Add(item);
+                }
+                foreach (DalTransferLocation item in accounts){
+                    transferLocationSelectionCombo.Items.Add(item);
+                }
+                readTransferLocationsBit = false;
+                //MessageBox.Show("TransferLocations updated");
             }
-            foreach (DalBudgetCategory item in incomes){
-                transferLocationSelectionCombo.Items.Add(item);
-            }
-            foreach (DalTransferLocation item in accounts){
-                transferLocationSelectionCombo.Items.Add(item);
-            }
+        }
+
+        void RequestReadTransactionReasons(){
+            readTransactionReasonsBit = true;
+            ReadTransactionReasons();
         }
 
         void ReadTransactionReasons(){
-            reasonCombo.Items.Clear();
-            IQueryable<DalReason> reasons = DbUtil.GetTransferReasons();
-            foreach (DalReason reason in reasons){
-                reasonCombo.Items.Add(reason);
+            if (isDisplayed&&readTransactionReasonsBit){
+                reasonCombo.Items.Clear();
+                IQueryable<DalReason> reasons = DbUtil.GetTransferReasons();
+                foreach (DalReason reason in reasons){
+                    reasonCombo.Items.Add(reason);
+                }
+                readTransactionReasonsBit = false;
+                //MessageBox.Show("TransactionReasons updated");
             }
         }
 
+        void RequestReadTransactions(){
+            readTransactionsBit = true;
+            ReadTransactions();
+        }
+
         void ReadTransactions(){
-            transactions = DbUtil.GetTransactions(timeIntervalSelectorControl.First, timeIntervalSelectorControl.Last);
-            if (selectedTransferLocation != null){
-                transactions = transactions.Where(t => (t.FromId == selectedTransferLocation.Id)||(t.ToId == selectedTransferLocation.Id));
-            }
-            if (reasonSelectionPattern != null){
-                transactions = transactions.Where(t => t.Reason.Name.Contains(reasonSelectionPattern));
-            }
+            if (isDisplayed&&readTransactionsBit){
+                transactions = DbUtil.GetTransactions(timeIntervalSelectorControl.First, timeIntervalSelectorControl.Last);
+                if (selectedTransferLocation != null){
+                    transactions = transactions.Where(t => (t.FromId == selectedTransferLocation.Id)||(t.ToId == selectedTransferLocation.Id));
+                }
+                if (reasonSelectionPattern != null){
+                    transactions = transactions.Where(t => t.Reason.Name.Contains(reasonSelectionPattern));
+                }
 
-            transactionsView.SetData(transactions);
+                transactionsView.SetData(transactions);
 
-            reportsButton.Enabled = transactions.Count() > 0;
+                reportsButton.Enabled = transactions.Count() > 0;
+                readTransactionsBit = false;
+                //MessageBox.Show("Transactions updated");
+            }
         }
     }
 }

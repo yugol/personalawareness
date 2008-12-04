@@ -1,4 +1,10 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 11/09/2008
+ * Time: 10:56
+ *
+ *
  * Copyright (c) 2008 Iulian GORIAC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,13 +26,6 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 11/09/2008
- * Time: 10:56
- *
- */
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,6 +38,17 @@ using awareness.db;
 namespace awareness.ui
 {
     public partial class ControlAvailableFoods : UserControl {
+        bool updateAvailableFoodsBit = true;
+        bool isDisplayed = false;
+
+        public bool IsDisplayed {
+            get { return isDisplayed; }
+            set {
+                isDisplayed = value;
+                UpdateAvailableFoods();
+            }
+        }
+
         bool dirty;
         bool Dirty
         {
@@ -56,30 +66,38 @@ namespace awareness.ui
 
         public ControlAvailableFoods(){
             InitializeComponent();
+            DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
+            DbUtil.MealsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
+            DbUtil.FoodsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
+            DbUtil.TransactionsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
+        }
 
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(UpdateAvailableFoods);
-            DbUtil.MealsChanged += new DatabaseChangedHandler(UpdateAvailableFoods);
-            DbUtil.FoodsChanged += new DatabaseChangedHandler(UpdateAvailableFoods);
-            DbUtil.TransactionsChanged += new DatabaseChangedHandler(UpdateAvailableFoods);
+        void RequestUpdateAvailableFoods(){
+            updateAvailableFoodsBit = true;
+            UpdateAvailableFoods();
         }
 
         void UpdateAvailableFoods(){
-            AwarenessDataContext dc = DbUtil.GetDataContext();
-            IEnumerable<DalFood> foods = dc.transactionReasons.OfType<DalFood>().OrderBy(f => f.Name);
-            availableFoodsView.Items.Clear();
-            bool useAlternateBackground = false;
-            foreach (DalFood food in foods){
-                float available = DbUtil.GetAvailableQuantity(food);
-                if (available != 0){
-                    ListViewItem item = new ListViewItem(food.Name);
-                    item.Tag = food;
-                    item.SubItems.Add(available.ToString());
-                    item.BackColor = useAlternateBackground ? Configuration.ALTERNATE_BACKGROUND : Configuration.NORMAL_BACKGROUND;
-                    useAlternateBackground = !useAlternateBackground;
-                    availableFoodsView.Items.Add(item);
+            if (isDisplayed&&updateAvailableFoodsBit){
+                AwarenessDataContext dc = DbUtil.GetDataContext();
+                IEnumerable<DalFood> foods = dc.transactionReasons.OfType<DalFood>().OrderBy(f => f.Name);
+                availableFoodsView.Items.Clear();
+                bool useAlternateBackground = false;
+                foreach (DalFood food in foods){
+                    float available = DbUtil.GetAvailableQuantity(food);
+                    if (available != 0){
+                        ListViewItem item = new ListViewItem(food.Name);
+                        item.Tag = food;
+                        item.SubItems.Add(available.ToString());
+                        item.BackColor = useAlternateBackground ? Configuration.ALTERNATE_BACKGROUND : Configuration.NORMAL_BACKGROUND;
+                        useAlternateBackground = !useAlternateBackground;
+                        availableFoodsView.Items.Add(item);
+                    }
                 }
+                ClearEditBoxes();
+                updateAvailableFoodsBit = false;
+                // MessageBox.Show("AvailableFoods update");
             }
-            ClearEditBoxes();
         }
 
         void AvailableFoodsViewSelectedIndexChanged(object sender, EventArgs e){
