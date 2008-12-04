@@ -85,8 +85,6 @@ namespace awareness.ui
         	this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.statusBar = new System.Windows.Forms.StatusStrip();
         	this.timeStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-        	this.mainViewPages = new System.Windows.Forms.TabControl();
-        	this.actionsPage = new System.Windows.Forms.TabPage();
         	this.actionPages = new System.Windows.Forms.TabControl();
         	this.weekPage = new System.Windows.Forms.TabPage();
         	this.weekActionsReport = new awareness.ui.ControlWeekActionsReport();
@@ -94,21 +92,20 @@ namespace awareness.ui
         	this.dayActionsReportControl = new awareness.ui.ControlDayActionsReport();
         	this.overviewPage = new System.Windows.Forms.TabPage();
         	this.controlActionsOverview = new awareness.ui.ControlActionsOverview();
-        	this.notesPage = new System.Windows.Forms.TabPage();
         	this.notesViewer = new awareness.ui.ControlNotesViewer();
-        	this.mealsPage = new System.Windows.Forms.TabPage();
         	this.mealPages = new System.Windows.Forms.TabControl();
         	this.dailyPage = new System.Windows.Forms.TabPage();
         	this.mealsDailyReportControl = new awareness.ui.ControlMealsDailyReport();
         	this.availableFoodsPage = new System.Windows.Forms.TabPage();
         	this.availableFoodsControl = new awareness.ui.ControlAvailableFoods();
-        	this.financesPage = new System.Windows.Forms.TabPage();
         	this.financialPages = new System.Windows.Forms.TabControl();
         	this.accountsPage = new System.Windows.Forms.TabPage();
         	this.financesControl = new awareness.ui.ControlFinances();
         	this.transactionsPage = new System.Windows.Forms.TabPage();
         	this.transactionsControl = new awareness.ui.ControlTransactions();
         	this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
+        	this.centralPark = new System.Windows.Forms.Panel();
+        	this.mealPanel = new System.Windows.Forms.Panel();
         	this.defaultToolStrip = new System.Windows.Forms.ToolStrip();
         	this.newToolButton = new System.Windows.Forms.ToolStripButton();
         	this.openToolButton = new System.Windows.Forms.ToolStripButton();
@@ -132,24 +129,21 @@ namespace awareness.ui
         	this.controlWeekActionsReport1 = new awareness.ui.ControlWeekActionsReport();
         	this.mainMenu.SuspendLayout();
         	this.statusBar.SuspendLayout();
-        	this.mainViewPages.SuspendLayout();
-        	this.actionsPage.SuspendLayout();
         	this.actionPages.SuspendLayout();
         	this.weekPage.SuspendLayout();
         	this.dayPage.SuspendLayout();
         	this.overviewPage.SuspendLayout();
-        	this.notesPage.SuspendLayout();
-        	this.mealsPage.SuspendLayout();
         	this.mealPages.SuspendLayout();
         	this.dailyPage.SuspendLayout();
         	this.availableFoodsPage.SuspendLayout();
-        	this.financesPage.SuspendLayout();
         	this.financialPages.SuspendLayout();
         	this.accountsPage.SuspendLayout();
         	this.transactionsPage.SuspendLayout();
         	this.toolStripContainer.ContentPanel.SuspendLayout();
         	this.toolStripContainer.TopToolStripPanel.SuspendLayout();
         	this.toolStripContainer.SuspendLayout();
+        	this.centralPark.SuspendLayout();
+        	this.mealPanel.SuspendLayout();
         	this.defaultToolStrip.SuspendLayout();
         	this.tabPage1.SuspendLayout();
         	this.tabPage2.SuspendLayout();
@@ -360,41 +354,16 @@ namespace awareness.ui
         	this.timeStatusLabel.Text = "Current time";
         	this.timeStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         	// 
-        	// mainViewPages
-        	// 
-        	this.mainViewPages.Controls.Add(this.actionsPage);
-        	this.mainViewPages.Controls.Add(this.notesPage);
-        	this.mainViewPages.Controls.Add(this.mealsPage);
-        	this.mainViewPages.Controls.Add(this.financesPage);
-        	this.mainViewPages.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.mainViewPages.Location = new System.Drawing.Point(0, 0);
-        	this.mainViewPages.Name = "mainViewPages";
-        	this.mainViewPages.SelectedIndex = 0;
-        	this.mainViewPages.Size = new System.Drawing.Size(792, 499);
-        	this.mainViewPages.TabIndex = 2;
-        	// 
-        	// actionsPage
-        	// 
-        	this.actionsPage.BackColor = System.Drawing.SystemColors.Control;
-        	this.actionsPage.Controls.Add(this.actionPages);
-        	this.actionsPage.Location = new System.Drawing.Point(4, 22);
-        	this.actionsPage.Name = "actionsPage";
-        	this.actionsPage.Padding = new System.Windows.Forms.Padding(1);
-        	this.actionsPage.Size = new System.Drawing.Size(784, 473);
-        	this.actionsPage.TabIndex = 5;
-        	this.actionsPage.Text = "Actions";
-        	// 
         	// actionPages
         	// 
         	this.actionPages.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
         	this.actionPages.Controls.Add(this.weekPage);
         	this.actionPages.Controls.Add(this.dayPage);
         	this.actionPages.Controls.Add(this.overviewPage);
-        	this.actionPages.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.actionPages.Location = new System.Drawing.Point(1, 1);
+        	this.actionPages.Location = new System.Drawing.Point(24, 24);
         	this.actionPages.Name = "actionPages";
         	this.actionPages.SelectedIndex = 0;
-        	this.actionPages.Size = new System.Drawing.Size(782, 471);
+        	this.actionPages.Size = new System.Drawing.Size(336, 224);
         	this.actionPages.TabIndex = 0;
         	this.actionPages.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.ActionPagesSelecting);
         	// 
@@ -404,7 +373,7 @@ namespace awareness.ui
         	this.weekPage.Location = new System.Drawing.Point(4, 25);
         	this.weekPage.Name = "weekPage";
         	this.weekPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.weekPage.Size = new System.Drawing.Size(774, 442);
+        	this.weekPage.Size = new System.Drawing.Size(328, 195);
         	this.weekPage.TabIndex = 2;
         	this.weekPage.Text = "Week";
         	this.weekPage.UseVisualStyleBackColor = true;
@@ -414,7 +383,7 @@ namespace awareness.ui
         	this.weekActionsReport.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.weekActionsReport.Location = new System.Drawing.Point(3, 3);
         	this.weekActionsReport.Name = "weekActionsReport";
-        	this.weekActionsReport.Size = new System.Drawing.Size(768, 436);
+        	this.weekActionsReport.Size = new System.Drawing.Size(322, 189);
         	this.weekActionsReport.TabIndex = 0;
         	// 
         	// dayPage
@@ -423,7 +392,7 @@ namespace awareness.ui
         	this.dayPage.Location = new System.Drawing.Point(4, 25);
         	this.dayPage.Name = "dayPage";
         	this.dayPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.dayPage.Size = new System.Drawing.Size(774, 442);
+        	this.dayPage.Size = new System.Drawing.Size(328, 195);
         	this.dayPage.TabIndex = 1;
         	this.dayPage.Text = "Day";
         	this.dayPage.UseVisualStyleBackColor = true;
@@ -433,7 +402,7 @@ namespace awareness.ui
         	this.dayActionsReportControl.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.dayActionsReportControl.Location = new System.Drawing.Point(3, 3);
         	this.dayActionsReportControl.Name = "dayActionsReportControl";
-        	this.dayActionsReportControl.Size = new System.Drawing.Size(768, 436);
+        	this.dayActionsReportControl.Size = new System.Drawing.Size(322, 189);
         	this.dayActionsReportControl.TabIndex = 0;
         	// 
         	// overviewPage
@@ -442,7 +411,7 @@ namespace awareness.ui
         	this.overviewPage.Location = new System.Drawing.Point(4, 25);
         	this.overviewPage.Name = "overviewPage";
         	this.overviewPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.overviewPage.Size = new System.Drawing.Size(774, 442);
+        	this.overviewPage.Size = new System.Drawing.Size(328, 195);
         	this.overviewPage.TabIndex = 0;
         	this.overviewPage.Text = "Overview";
         	this.overviewPage.UseVisualStyleBackColor = true;
@@ -452,38 +421,16 @@ namespace awareness.ui
         	this.controlActionsOverview.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.controlActionsOverview.Location = new System.Drawing.Point(3, 3);
         	this.controlActionsOverview.Name = "controlActionsOverview";
-        	this.controlActionsOverview.Size = new System.Drawing.Size(768, 436);
+        	this.controlActionsOverview.Size = new System.Drawing.Size(322, 189);
         	this.controlActionsOverview.TabIndex = 0;
-        	// 
-        	// notesPage
-        	// 
-        	this.notesPage.BackColor = System.Drawing.SystemColors.Control;
-        	this.notesPage.Controls.Add(this.notesViewer);
-        	this.notesPage.Location = new System.Drawing.Point(4, 22);
-        	this.notesPage.Name = "notesPage";
-        	this.notesPage.Size = new System.Drawing.Size(784, 473);
-        	this.notesPage.TabIndex = 4;
-        	this.notesPage.Text = "Notes";
         	// 
         	// notesViewer
         	// 
-        	this.notesViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.notesViewer.Location = new System.Drawing.Point(0, 0);
+        	this.notesViewer.Location = new System.Drawing.Point(440, 264);
         	this.notesViewer.Name = "notesViewer";
         	this.notesViewer.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-        	this.notesViewer.Size = new System.Drawing.Size(784, 473);
+        	this.notesViewer.Size = new System.Drawing.Size(272, 208);
         	this.notesViewer.TabIndex = 0;
-        	// 
-        	// mealsPage
-        	// 
-        	this.mealsPage.BackColor = System.Drawing.SystemColors.Control;
-        	this.mealsPage.Controls.Add(this.mealPages);
-        	this.mealsPage.Location = new System.Drawing.Point(4, 22);
-        	this.mealsPage.Name = "mealsPage";
-        	this.mealsPage.Padding = new System.Windows.Forms.Padding(3, 1, 1, 1);
-        	this.mealsPage.Size = new System.Drawing.Size(784, 473);
-        	this.mealsPage.TabIndex = 3;
-        	this.mealsPage.Text = "Meals";
         	// 
         	// mealPages
         	// 
@@ -491,12 +438,13 @@ namespace awareness.ui
         	this.mealPages.Controls.Add(this.dailyPage);
         	this.mealPages.Controls.Add(this.availableFoodsPage);
         	this.mealPages.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.mealPages.Location = new System.Drawing.Point(3, 1);
+        	this.mealPages.Location = new System.Drawing.Point(2, 0);
+        	this.mealPages.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
         	this.mealPages.Multiline = true;
         	this.mealPages.Name = "mealPages";
         	this.mealPages.RightToLeft = System.Windows.Forms.RightToLeft.No;
         	this.mealPages.SelectedIndex = 0;
-        	this.mealPages.Size = new System.Drawing.Size(780, 471);
+        	this.mealPages.Size = new System.Drawing.Size(294, 208);
         	this.mealPages.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
         	this.mealPages.TabIndex = 0;
         	// 
@@ -506,7 +454,7 @@ namespace awareness.ui
         	this.dailyPage.Location = new System.Drawing.Point(4, 25);
         	this.dailyPage.Name = "dailyPage";
         	this.dailyPage.Padding = new System.Windows.Forms.Padding(1, 0, 3, 3);
-        	this.dailyPage.Size = new System.Drawing.Size(772, 442);
+        	this.dailyPage.Size = new System.Drawing.Size(286, 179);
         	this.dailyPage.TabIndex = 1;
         	this.dailyPage.Text = "Daily Report";
         	this.dailyPage.UseVisualStyleBackColor = true;
@@ -516,16 +464,16 @@ namespace awareness.ui
         	this.mealsDailyReportControl.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.mealsDailyReportControl.Location = new System.Drawing.Point(1, 0);
         	this.mealsDailyReportControl.Name = "mealsDailyReportControl";
-        	this.mealsDailyReportControl.Size = new System.Drawing.Size(768, 439);
+        	this.mealsDailyReportControl.Size = new System.Drawing.Size(282, 176);
         	this.mealsDailyReportControl.TabIndex = 0;
         	// 
         	// availableFoodsPage
         	// 
         	this.availableFoodsPage.Controls.Add(this.availableFoodsControl);
-        	this.availableFoodsPage.Location = new System.Drawing.Point(4, 49);
+        	this.availableFoodsPage.Location = new System.Drawing.Point(4, 25);
         	this.availableFoodsPage.Name = "availableFoodsPage";
         	this.availableFoodsPage.Padding = new System.Windows.Forms.Padding(1, 3, 3, 3);
-        	this.availableFoodsPage.Size = new System.Drawing.Size(180, 19);
+        	this.availableFoodsPage.Size = new System.Drawing.Size(222, 179);
         	this.availableFoodsPage.TabIndex = 0;
         	this.availableFoodsPage.Text = "Available Foods";
         	this.availableFoodsPage.UseVisualStyleBackColor = true;
@@ -535,31 +483,18 @@ namespace awareness.ui
         	this.availableFoodsControl.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.availableFoodsControl.Location = new System.Drawing.Point(1, 3);
         	this.availableFoodsControl.Name = "availableFoodsControl";
-        	this.availableFoodsControl.Size = new System.Drawing.Size(176, 13);
+        	this.availableFoodsControl.Size = new System.Drawing.Size(218, 173);
         	this.availableFoodsControl.TabIndex = 0;
-        	// 
-        	// financesPage
-        	// 
-        	this.financesPage.BackColor = System.Drawing.SystemColors.Control;
-        	this.financesPage.Controls.Add(this.financialPages);
-        	this.financesPage.Location = new System.Drawing.Point(4, 22);
-        	this.financesPage.Margin = new System.Windows.Forms.Padding(0);
-        	this.financesPage.Name = "financesPage";
-        	this.financesPage.Padding = new System.Windows.Forms.Padding(1);
-        	this.financesPage.Size = new System.Drawing.Size(784, 473);
-        	this.financesPage.TabIndex = 2;
-        	this.financesPage.Text = "Finances";
         	// 
         	// financialPages
         	// 
         	this.financialPages.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
         	this.financialPages.Controls.Add(this.accountsPage);
         	this.financialPages.Controls.Add(this.transactionsPage);
-        	this.financialPages.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.financialPages.Location = new System.Drawing.Point(1, 1);
+        	this.financialPages.Location = new System.Drawing.Point(16, 280);
         	this.financialPages.Name = "financialPages";
         	this.financialPages.SelectedIndex = 0;
-        	this.financialPages.Size = new System.Drawing.Size(782, 471);
+        	this.financialPages.Size = new System.Drawing.Size(336, 198);
         	this.financialPages.TabIndex = 1;
         	// 
         	// accountsPage
@@ -568,7 +503,7 @@ namespace awareness.ui
         	this.accountsPage.Location = new System.Drawing.Point(4, 25);
         	this.accountsPage.Name = "accountsPage";
         	this.accountsPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.accountsPage.Size = new System.Drawing.Size(774, 442);
+        	this.accountsPage.Size = new System.Drawing.Size(328, 169);
         	this.accountsPage.TabIndex = 0;
         	this.accountsPage.Text = "Accounts";
         	this.accountsPage.UseVisualStyleBackColor = true;
@@ -579,7 +514,7 @@ namespace awareness.ui
         	this.financesControl.Location = new System.Drawing.Point(3, 3);
         	this.financesControl.Margin = new System.Windows.Forms.Padding(0);
         	this.financesControl.Name = "financesControl";
-        	this.financesControl.Size = new System.Drawing.Size(768, 436);
+        	this.financesControl.Size = new System.Drawing.Size(322, 163);
         	this.financesControl.TabIndex = 0;
         	// 
         	// transactionsPage
@@ -588,7 +523,7 @@ namespace awareness.ui
         	this.transactionsPage.Location = new System.Drawing.Point(4, 25);
         	this.transactionsPage.Name = "transactionsPage";
         	this.transactionsPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.transactionsPage.Size = new System.Drawing.Size(182, 43);
+        	this.transactionsPage.Size = new System.Drawing.Size(328, 145);
         	this.transactionsPage.TabIndex = 1;
         	this.transactionsPage.Text = "Transactions";
         	this.transactionsPage.UseVisualStyleBackColor = true;
@@ -600,7 +535,7 @@ namespace awareness.ui
         	this.transactionsControl.Location = new System.Drawing.Point(3, 3);
         	this.transactionsControl.Name = "transactionsControl";
         	this.transactionsControl.SelectPanelExpanded = true;
-        	this.transactionsControl.Size = new System.Drawing.Size(176, 37);
+        	this.transactionsControl.Size = new System.Drawing.Size(322, 139);
         	this.transactionsControl.TabIndex = 0;
         	// 
         	// toolStripContainer
@@ -608,7 +543,7 @@ namespace awareness.ui
         	// 
         	// toolStripContainer.ContentPanel
         	// 
-        	this.toolStripContainer.ContentPanel.Controls.Add(this.mainViewPages);
+        	this.toolStripContainer.ContentPanel.Controls.Add(this.centralPark);
         	this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(792, 499);
         	this.toolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.toolStripContainer.Location = new System.Drawing.Point(0, 24);
@@ -620,6 +555,28 @@ namespace awareness.ui
         	// toolStripContainer.TopToolStripPanel
         	// 
         	this.toolStripContainer.TopToolStripPanel.Controls.Add(this.defaultToolStrip);
+        	// 
+        	// centralPark
+        	// 
+        	this.centralPark.Controls.Add(this.mealPanel);
+        	this.centralPark.Controls.Add(this.financialPages);
+        	this.centralPark.Controls.Add(this.notesViewer);
+        	this.centralPark.Controls.Add(this.actionPages);
+        	this.centralPark.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.centralPark.Location = new System.Drawing.Point(0, 0);
+        	this.centralPark.Name = "centralPark";
+        	this.centralPark.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+        	this.centralPark.Size = new System.Drawing.Size(792, 499);
+        	this.centralPark.TabIndex = 2;
+        	// 
+        	// mealPanel
+        	// 
+        	this.mealPanel.Controls.Add(this.mealPages);
+        	this.mealPanel.Location = new System.Drawing.Point(424, 40);
+        	this.mealPanel.Name = "mealPanel";
+        	this.mealPanel.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+        	this.mealPanel.Size = new System.Drawing.Size(296, 208);
+        	this.mealPanel.TabIndex = 2;
         	// 
         	// defaultToolStrip
         	// 
@@ -681,6 +638,7 @@ namespace awareness.ui
         	this.actionsToolButton.Name = "actionsToolButton";
         	this.actionsToolButton.Size = new System.Drawing.Size(23, 22);
         	this.actionsToolButton.Text = "Actions";
+        	this.actionsToolButton.Click += new System.EventHandler(this.ActionsToolButtonClick);
         	// 
         	// notesToolButton
         	// 
@@ -847,18 +805,13 @@ namespace awareness.ui
         	this.mainMenu.PerformLayout();
         	this.statusBar.ResumeLayout(false);
         	this.statusBar.PerformLayout();
-        	this.mainViewPages.ResumeLayout(false);
-        	this.actionsPage.ResumeLayout(false);
         	this.actionPages.ResumeLayout(false);
         	this.weekPage.ResumeLayout(false);
         	this.dayPage.ResumeLayout(false);
         	this.overviewPage.ResumeLayout(false);
-        	this.notesPage.ResumeLayout(false);
-        	this.mealsPage.ResumeLayout(false);
         	this.mealPages.ResumeLayout(false);
         	this.dailyPage.ResumeLayout(false);
         	this.availableFoodsPage.ResumeLayout(false);
-        	this.financesPage.ResumeLayout(false);
         	this.financialPages.ResumeLayout(false);
         	this.accountsPage.ResumeLayout(false);
         	this.transactionsPage.ResumeLayout(false);
@@ -867,6 +820,8 @@ namespace awareness.ui
         	this.toolStripContainer.TopToolStripPanel.PerformLayout();
         	this.toolStripContainer.ResumeLayout(false);
         	this.toolStripContainer.PerformLayout();
+        	this.centralPark.ResumeLayout(false);
+        	this.mealPanel.ResumeLayout(false);
         	this.defaultToolStrip.ResumeLayout(false);
         	this.defaultToolStrip.PerformLayout();
         	this.tabPage1.ResumeLayout(false);
@@ -875,6 +830,8 @@ namespace awareness.ui
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.Panel mealPanel;
+        private System.Windows.Forms.Panel centralPark;
         private System.Windows.Forms.ToolStripButton financesToolButton;
         private System.Windows.Forms.ToolStripButton mealsToolButton;
         private System.Windows.Forms.ToolStripButton actionsToolButton;
@@ -909,17 +866,13 @@ namespace awareness.ui
         private System.Windows.Forms.TabPage dayPage;
         private System.Windows.Forms.TabPage overviewPage;
         private System.Windows.Forms.TabControl actionPages;
-        private System.Windows.Forms.TabPage actionsPage;
         private System.Windows.Forms.TabControl mealPages;
         private awareness.ui.ControlNotesViewer notesViewer;
-        private System.Windows.Forms.TabPage notesPage;
         private awareness.ui.ControlMealsDailyReport mealsDailyReportControl;
         private awareness.ui.ControlFinances financesControl;
         private awareness.ui.ControlAvailableFoods availableFoodsControl;
         private System.Windows.Forms.TabPage dailyPage;
         private System.Windows.Forms.TabPage availableFoodsPage;
-        private System.Windows.Forms.TabPage mealsPage;
-        private System.Windows.Forms.TabPage financesPage;
         private System.Windows.Forms.ToolStripMenuItem manageMealsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator fileMenuSeparator;
         private System.Windows.Forms.ToolStripMenuItem dumpToolStripMenuItem1;
@@ -927,7 +880,6 @@ namespace awareness.ui
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buddiCSVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem transferreasonsToolStripMenuItem;
-        private System.Windows.Forms.TabControl mainViewPages;
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;

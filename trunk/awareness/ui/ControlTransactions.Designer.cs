@@ -504,7 +504,6 @@ namespace awareness.ui
         	this.Controls.Add(this.selectPanel);
         	this.Name = "ControlTransactions";
         	this.Size = new System.Drawing.Size(732, 526);
-        	this.Load += new System.EventHandler(this.ControlTransactionsLoad);
         	this.listPanel.ResumeLayout(false);
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
         	this.reportsMenu.ResumeLayout(false);

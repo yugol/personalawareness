@@ -37,7 +37,6 @@ using awareness.db;
 
 namespace awareness.ui
 {
-    // TODO: drag and drop to move notes
     // FEATURE: refresh tree button
     // FEATURE: expand all button
     // FEATURE: collapse all button

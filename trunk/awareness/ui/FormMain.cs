@@ -38,7 +38,6 @@ namespace awareness.ui
 {
     public partial class FormMain : Form {
         // TODO: confirm every entry delete
-        // TODO: on accountBalanceView double click show transaction manager
 
         public FormMain(){
             InitializeComponent();
@@ -47,6 +46,11 @@ namespace awareness.ui
             #endif
             transactionsControl.SelectPanelExpanded = false;
             transactionsControl.EditPanelExpanded = true;
+            actionPages.Dock = DockStyle.Fill;
+            notesViewer.Dock = DockStyle.Fill;
+            mealPanel.Dock = DockStyle.Fill;
+            financialPages.Dock = DockStyle.Fill;
+            ResetPanelsView();
         }
 
         void FormMainLoad(object sender, EventArgs e){
@@ -90,8 +94,16 @@ namespace awareness.ui
             deleteDatabaseToolStripMenuItem.Enabled = isDbOperational;
             editToolStripMenuItem.Visible = isDbOperational;
             mealsToolStripMenuItem.Visible = isDbOperational;
-            mainViewPages.Visible = isDbOperational;
+
+            actionsToolButton.Visible = isDbOperational;
+            notesToolButton.Visible = isDbOperational;
+            mealsToolButton.Visible = isDbOperational;
+            financesToolButton.Visible = isDbOperational;
+
+            remindersToolButton.Visible = isDbOperational;
             todoToolButton.Visible = isDbOperational;
+            
+            ResetPanelsView();
         }
 
         void BudgetCategoriesToolStripMenuItemClick(object sender, EventArgs e){
@@ -206,15 +218,63 @@ namespace awareness.ui
 
         #region Panels
         void ActionsToolButtonClick(object sender, EventArgs e){
+            SelectActionsView();
+        }
+
+        public void SelectActionsView() {
+            if (!actionsToolButton.Checked){
+                ResetPanelsView();
+                actionPages.Visible = true;
+                actionsToolButton.Checked = true;
+            }
         }
 
         void NotesToolButtonClick(object sender, EventArgs e){
+            SelectNotesView();
+        }
+
+        public void SelectNotesView() {
+            if (!notesToolButton.Checked){
+                ResetPanelsView();
+                notesViewer.Visible = true;
+                notesToolButton.Checked = true;
+            }
         }
 
         void MealsToolButtonClick(object sender, EventArgs e){
+            SelectMealsView();
+        }
+
+        public void SelectMealsView() {
+            if (!mealsToolButton.Checked){
+                ResetPanelsView();
+                mealPanel.Visible = true;
+                mealsToolButton.Checked = true;
+            }
         }
 
         void FinancesToolButtonClick(object sender, EventArgs e){
+            SelectFinancesView();
+        }
+
+        public void SelectFinancesView() {
+            if (!financesToolButton.Checked){
+                ResetPanelsView();
+                financialPages.Visible = true;
+                financesToolButton.Checked = true;
+            }
+        }
+
+        void ResetPanelsView() {
+            actionPages.Visible = false;
+            notesViewer.Visible = false;
+            mealPanel.Visible = false;
+            financialPages.Visible = false;
+
+            actionsToolButton.Checked = false;
+            notesToolButton.Checked = false;
+            mealsToolButton.Checked = false;
+            financesToolButton.Checked = false;
         }
 
         #endregion

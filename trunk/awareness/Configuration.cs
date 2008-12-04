@@ -39,7 +39,6 @@ namespace awareness
     public static class Configuration {
         // TODO: save meal report reason
         // TODO: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
-        // FEATURE: calendar dialog
         // TODO: set min date and max date for all controls
         // TODO: limits for all DateTimePickers
         // TODO: implement dirty bit for reports update update
