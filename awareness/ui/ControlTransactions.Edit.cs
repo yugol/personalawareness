@@ -353,6 +353,7 @@ namespace awareness.ui
                     DalTransaction transaction = new DalTransaction();
                     UiData2Transaction(ref transaction);
                     DbUtil.InsertTransaction(transaction, noteControl.Note);
+                    RequestReadTransactions();
                     ClearEditBoxes();
                 }
                 break;
@@ -368,12 +369,14 @@ namespace awareness.ui
                 DalTransaction transaction = transactionsView.SelectedTransaction;
                 UiData2Transaction(ref transaction);
                 DbUtil.UpdateTransaction(transaction, noteControl.Note);
+                RequestReadTransactions();
                 transactionsView.SelectedTransaction = transaction;
             }
         }
 
         void DeleteButtonClick(object sender, EventArgs e){
             DbUtil.DeleteTransaction(transactionsView.SelectedTransaction);
+            RequestReadTransactions();
             EditMode = EditModes.NEW;
         }
 
