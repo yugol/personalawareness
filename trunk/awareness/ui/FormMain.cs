@@ -216,6 +216,13 @@ namespace awareness.ui
             notesViewer.Visible = false;
             mealPanel.Visible = false;
             financialPages.Visible = false;
+            
+            financesControl.IsDisplayed = false;
+            transactionsControl.IsDisplayed = false;
+            mealsDailyReportControl.IsDisplayed = false;
+            availableFoodsControl.IsDisplayed = false;
+            dayActionsReportControl.IsDisplayed = false;
+            weekActionsReport.IsDisplayed = false;
 
             actionsToolButton.Checked = false;
             notesToolButton.Checked = false;

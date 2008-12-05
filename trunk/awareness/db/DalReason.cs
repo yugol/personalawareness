@@ -1,16 +1,22 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 25/09/2008
+ * Time: 12:45
+ *
+ *
  * Copyright (c) 2008 Iulian GORIAC
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,13 +26,6 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 25/09/2008
- * Time: 12:45
- * 
- */
 using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
@@ -38,8 +37,7 @@ namespace awareness.db
     [InheritanceMapping(Code = DalReason.TYPE_FOOD, Type = typeof(DalFood))]
     [InheritanceMapping(Code = DalReason.TYPE_RECIPE, Type = typeof(DalRecipe))]
     [InheritanceMapping(Code = DalReason.TYPE_CONSUMER, Type = typeof(DalConsumer))]
-    public class DalReason
-    {
+    public class DalReason {
         public const sbyte TYPE_DEFAULT = 0;
         public const sbyte TYPE_FOOD = 1;
         public const sbyte TYPE_RECIPE = 2;
@@ -47,34 +45,31 @@ namespace awareness.db
 
         public const string MAX_NAME_CHAR_COUNT = "100";
 
-        internal static DalReason CreateReason(sbyte type)
-        {
+        internal static DalReason CreateReason(sbyte type){
             DalReason reason = null;
-            
-            switch (type)
-            {
-                case DalReason.TYPE_FOOD:
-                    reason = new DalFood();
-                    break;
-                case DalReason.TYPE_CONSUMER:
-                    reason = new DalConsumer();
-                    break;
-                case DalReason.TYPE_RECIPE:
-                    reason = new DalRecipe();
-                    break;
-                default:
-                    reason = new DalReason();
-                    break;
+
+            switch (type){
+            case DalReason.TYPE_FOOD:
+                reason = new DalFood();
+                break;
+            case DalReason.TYPE_CONSUMER:
+                reason = new DalConsumer();
+                break;
+            case DalReason.TYPE_RECIPE:
+                reason = new DalRecipe();
+                break;
+            default:
+                reason = new DalReason();
+                break;
             }
-            
+
             return reason;
         }
-        
-        public DalReason()
-        {
+
+        public DalReason(){
             _type = DalReason.TYPE_DEFAULT;
-        }        
-        
+        }
+
         int _id = 0;
         [Column(Storage = "_id",
                 Name = "id",
@@ -86,7 +81,7 @@ namespace awareness.db
         {
             get { return _id; }
         }
-        
+
         protected sbyte _type;
         [Column(Storage = "_type",
                 Name = "type",
@@ -97,7 +92,7 @@ namespace awareness.db
         {
             get { return _type; }
         }
-        
+
         string _name = null;
         [Column(Storage = "_name",
                 Name = "name",
@@ -108,7 +103,7 @@ namespace awareness.db
             get { return _name; }
             set { _name = value; }
         }
-        
+
         int _noteId = AwarenessDataContext.NOTE_ROOT_ID;
         [Column(Storage = "_noteId",
                 Name = "note",
@@ -131,14 +126,13 @@ namespace awareness.db
                 _noteId = value.Id;
             }
         }
-        
+
         public bool HasNote
         {
             get { return _noteId != AwarenessDataContext.NOTE_ROOT_ID; }
         }
-        
-        public override string ToString()
-        {
+
+        public override string ToString(){
             return Name;
         }
     }

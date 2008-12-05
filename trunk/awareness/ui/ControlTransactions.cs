@@ -70,7 +70,8 @@ namespace awareness.ui
             quantityInput.SetToolTip(toolTips.GetToolTip(quantityInput));
 
             transactionsView.SelectedIndexChanged += new EventHandler(TransactionsViewSelectedIndexChanged);
-            timeIntervalSelectorControl.TimeIntervalChanged += new DatabaseChangedHandler(RequestReadTransactions);
+            timeIntervalSelectorControl.TimeIntervalChanged += new TimeIntervalChangedHandler(RequestReadTransactions);
+
             DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransferLocations);
             DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransactionReasons);
             DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransactions);
@@ -165,6 +166,7 @@ namespace awareness.ui
                 }
 
                 transactionsView.SetData(transactions);
+                transactionsView.EnsureLastItemIsVisible();
 
                 reportsButton.Enabled = transactions.Count() > 0;
                 readTransactionsBit = false;
