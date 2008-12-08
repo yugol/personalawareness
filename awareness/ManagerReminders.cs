@@ -37,33 +37,29 @@ using awareness.db;
 namespace awareness
 {
     public class ManagerReminders {
-        
-        // TODO: what happens when you change the database
-        // TODO: close the window when you close the database
-        // TODO: hide toolbar button when no db is open
-        
         public static void Load() {
-            // used to load the static class
+            // used to initialize the static class
         }
-        
-        private static Timer timer; 
+
+        private static Timer timer;
         private static TimerLogic timerLogic;
         private static FormReminders remindersWindow;
 
         static ManagerReminders() {
             timer = new Timer();
             timer.Interval = 10000000;
-            
+
             timerLogic = new TimerLogic();
             timerLogic.Interval = 5000;
-            
+
             remindersWindow = new FormReminders();
 
             timer.Tick += new EventHandler(TimerTick); // periodically read reminders
-            
+
             timerLogic.Tick += new EventHandler(remindersWindow.RefreshDueTimes);
             timerLogic.Completed += new TaskCompletedHandler(TaskCompleted);
 
+            DbUtil.DataContextClosing += new DatabaseChangedHandler(Hide); // close the window when database is closed
             DbUtil.DataContextChanged += new DatabaseChangedHandler(ReadReminders); // read reminders when db changes
             DbUtil.ActionsChanged += new DatabaseChangedHandler(ReadReminders); // read reminders when actions change
 
@@ -77,10 +73,14 @@ namespace awareness
             remindersWindow.Visible = true;
         }
 
+        static void Hide() {
+            remindersWindow.Visible = false;
+        }
+
         private static void TimerTick(object sender, EventArgs e) {
             ReadReminders();
         }
-        
+
         private static void ReadReminders() {
             TimeInterval interval = new TimeInterval(DateTime.Now.AddDays(-1), DateTime.Now.AddDays(1));
 
@@ -98,16 +98,19 @@ namespace awareness
 
         private static void TaskCompleted(object sender, ITimerable task) {
             ActionOccurrence occurrence = (ActionOccurrence) task;
-            if (occurrence.Action.HasWindowReminder)
-            {
-                MessageBox.Show(occurrence.Action.Name, 
-                                "Reminder", 
+            if (occurrence.Action.HasSoundReminder){
+                string command = occurrence.Action.ReminderSound;
+                Launcher.PlayMediaFile(command);
+            }
+            if (occurrence.Action.HasCommandReminder){
+                string command = occurrence.Action.ReminderCommand;
+                Launcher.ExecuteComand(command);
+            }
+            if (occurrence.Action.HasWindowReminder){
+                MessageBox.Show(occurrence.Action.Name,
+                                "Reminder",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
-            }
-            if (occurrence.Action.HasCommandReminder)
-            {
-                string command = occurrence.Action.ReminderCommand;
             }
         }
     }

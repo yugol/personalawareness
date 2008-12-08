@@ -53,7 +53,8 @@ namespace awareness.ui
                 if (hours > 0){
                     due += hours + "h ";
                 }
-                due += Math.Abs(dueTime.Minutes).ToString("00") + "m";
+                due += Math.Abs(dueTime.Minutes).ToString("00") + "m ";
+                due += Math.Abs(dueTime.Seconds).ToString("00") + "s";
                 item.SubItems[2].Text = due;
             }
         }
