@@ -37,7 +37,6 @@ using awareness.db;
 namespace awareness
 {
     public static class Configuration {
-        // TODO: save meal report reason
         // TODO: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
         // TODO: set min date and max date for all controls
         // TODO: limits for all DateTimePickers
@@ -49,28 +48,7 @@ namespace awareness
 //#else
         static string dataFolder = Path.Combine(Application.StartupPath, "data");
         internal const string DATA_FILTER = "SQL Server Compact (*.sdf)|*.sdf|SQL Server (*.mdf)|*.mdf";
-//#endif
-
-
-        private static string currencySymbol = null;
-        internal static string CurrencySymbol {
-            get { return currencySymbol; }
-            set {
-                currencySymbol = value;
-                xmlProp.CurrencySymbol = currencySymbol;
-                DbUtil.GetProperties().Xml = xmlProp.XmlString;
-            }
-        }
-
-        private static bool placeCurrencySymbolAfterValue;
-        internal static bool PlaceCurrencySymbolAfterValue {
-            get { return placeCurrencySymbolAfterValue; }
-            set {
-                placeCurrencySymbolAfterValue = value;
-                xmlProp.PlaceCurrencySymbolAfterValue = placeCurrencySymbolAfterValue;
-                DbUtil.GetProperties().Xml = xmlProp.XmlString;
-            }
-        }
+//#endif        
 
         internal static string DATA_FOLDER { get { return dataFolder; } }
 
@@ -105,12 +83,13 @@ namespace awareness
         internal static readonly Font BOLD_FONT = new Font(DEFAULT_FONT.FontFamily, DEFAULT_FONT.Size, FontStyle.Bold);
         internal static readonly Font ITALIC_FONT = new Font(DEFAULT_FONT.FontFamily, DEFAULT_FONT.Size - 1, FontStyle.Italic);
 
-        private static XmlProperties xmlProp = new XmlProperties();
+        private static XmlProperties dbProperties = new XmlProperties();
+        public static XmlProperties DbProperties {
+            get { return dbProperties; }
+        }        
 
-        internal static void ReadFromDb() {
-            xmlProp.XmlString = DbUtil.GetProperties().Xml;
-            currencySymbol = xmlProp.CurrencySymbol;
-            placeCurrencySymbolAfterValue = xmlProp.PlaceCurrencySymbolAfterValue;
+        internal static void ReadDbProperties() {
+            dbProperties.XmlString = DbUtil.GetProperties().Xml;
         }
     }
 }

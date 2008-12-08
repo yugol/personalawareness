@@ -46,13 +46,13 @@ namespace awareness.ui
         }
 
         void Data2Ui() {
-            symbolBox.Text = Configuration.CurrencySymbol;
-            placementCheck.Checked = Configuration.PlaceCurrencySymbolAfterValue;
+            symbolBox.Text = Configuration.DbProperties.CurrencySymbol;
+            placementCheck.Checked = Configuration.DbProperties.PlaceCurrencySymbolAfterValue;
         }
 
         void Ui2Data() {
-            Configuration.CurrencySymbol = symbolBox.Text;
-            Configuration.PlaceCurrencySymbolAfterValue = placementCheck.Checked;
+            Configuration.DbProperties.CurrencySymbol = symbolBox.Text;
+            Configuration.DbProperties.PlaceCurrencySymbolAfterValue = placementCheck.Checked;
             DbUtil.UpdateProperties();
         }
     }

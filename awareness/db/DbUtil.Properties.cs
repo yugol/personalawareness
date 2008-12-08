@@ -33,13 +33,19 @@ using System.Linq;
 namespace awareness.db
 {
     partial class DbUtil {
+        internal static event DatabaseChangedHandler PropertiesChanged;
+
         internal static DalProperties GetProperties() {
             return dataContext.properties.First();
         }
 
         internal static void UpdateProperties() {
+            GetProperties().Xml = Configuration.DbProperties.XmlString;
             dataContext.SubmitChanges();
-            NotifyPropertiesChanged();
+            if (Configuration.DbProperties.CurrencyNotationChanged){
+                NotifyPropertiesChanged();
+                Configuration.DbProperties.CurrencyNotationChanged = false;
+            }
         }
 
         internal static void NotifyPropertiesChanged() {

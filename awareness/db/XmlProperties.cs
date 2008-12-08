@@ -34,34 +34,58 @@ using System.Xml;
 namespace awareness.db
 {
     public class XmlProperties {
-        XmlDocument xmlDoc;
+        private static readonly string CURRENCY_SYMBOL_TAG = "symbol";
+        private static readonly string PLACE_AFTER_VALUE_TAG = "placeAfterValue";
+        private static readonly string LAST_MEAL_REPORT_REASON_TAG = "lastMealReportReason";
+
 
         public string XmlString {
-            get {
-                StringBuilder sb = new StringBuilder();
-                XmlWriter xml = XmlWriter.Create(sb);
-                xmlDoc.WriteContentTo(xml);
-                xml.Close();
-                return sb.ToString();
-            }
+            get { return BuildPropertiesXml(); }
             set {
-                xmlDoc = new XmlDocument();
+                XmlDocument xmlDoc = new XmlDocument();
                 if (string.IsNullOrEmpty(value)){
-                    xmlDoc.LoadXml(CreateNewPropertiesXml());
+                    xmlDoc.LoadXml(BuildPropertiesXml());
                 } else {
                     xmlDoc.LoadXml(value);
+                }
+
+                try {
+                    currencySymbol = xmlDoc.GetElementsByTagName(CURRENCY_SYMBOL_TAG)[0].InnerText;
+                } catch (Exception) {
+                }
+                try {
+                    placeCurrencySymbolAfterValue = bool.Parse(xmlDoc.GetElementsByTagName(PLACE_AFTER_VALUE_TAG)[0].InnerText);
+                } catch (Exception) {
+                }
+                try {
+                    lastMealReportReason = int.Parse(xmlDoc.GetElementsByTagName(LAST_MEAL_REPORT_REASON_TAG)[0].InnerText);
+                } catch (Exception) {
                 }
             }
         }
 
-        public string CurrencySymbol {
-            get { return xmlDoc.GetElementsByTagName("symbol")[0].InnerText; }
-            set { xmlDoc.GetElementsByTagName("symbol")[0].InnerText = value; }
+        private bool currencyNotationChanged = false;
+        public bool CurrencyNotationChanged {
+            get { return currencyNotationChanged; }
+            set { currencyNotationChanged = value; }
         }
 
+        private string currencySymbol = "$";
+        public string CurrencySymbol {
+            get { return currencySymbol; }
+            set { currencySymbol = value; }
+        }
+
+        private bool placeCurrencySymbolAfterValue = false;
         public bool PlaceCurrencySymbolAfterValue {
-            get { return bool.Parse(xmlDoc.GetElementsByTagName("placeAfterValue")[0].InnerText); }
-            set { xmlDoc.GetElementsByTagName("placeAfterValue")[0].InnerText = value.ToString(); }
+            get { return placeCurrencySymbolAfterValue; }
+            set { placeCurrencySymbolAfterValue = value; }
+        }
+
+        private int lastMealReportReason = 0 ;
+        public int LastMealReportReason {
+            get { return lastMealReportReason; }
+            set { lastMealReportReason = value; }
         }
 
         public XmlProperties() {
@@ -72,23 +96,33 @@ namespace awareness.db
             XmlString = xmlText;
         }
 
-        private static string CreateNewPropertiesXml() {
+        private string BuildPropertiesXml() {
             StringBuilder sb = new StringBuilder();
             XmlWriter xml = XmlWriter.Create(sb);
 
             xml.WriteStartDocument();
+
             xml.WriteStartElement("properties");
+
+
             xml.WriteStartElement("currency");
 
-            xml.WriteStartElement("symbol");
-            xml.WriteString("$");
+            xml.WriteStartElement(CURRENCY_SYMBOL_TAG);
+            xml.WriteString(currencySymbol);
             xml.WriteEndElement();
 
-            xml.WriteStartElement("placeAfterValue");
-            xml.WriteString("False");
+            xml.WriteStartElement(PLACE_AFTER_VALUE_TAG);
+            xml.WriteString(placeCurrencySymbolAfterValue.ToString());
             xml.WriteEndElement();
 
             xml.WriteEndElement();
+
+
+            xml.WriteStartElement(LAST_MEAL_REPORT_REASON_TAG);
+            xml.WriteString(lastMealReportReason.ToString());
+            xml.WriteEndElement();
+
+
             xml.WriteEndElement();
 
             xml.Close();

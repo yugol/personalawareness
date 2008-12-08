@@ -101,6 +101,12 @@ namespace awareness.ui
 
         void UpdateWhyCombo(){
             UiUtil.FillFoodConsumptionReasons(whyCombo, null);
+            int id = Configuration.DbProperties.LastMealReportReason;
+            foreach (object obj in whyCombo.Items){
+                if (obj is DalReason&&((DalReason) obj).Id == id){
+                    whyCombo.SelectedItem = obj;
+                }
+            }
         }
 
         void DatePickerValueChanged(object sender, EventArgs e){
@@ -110,6 +116,9 @@ namespace awareness.ui
         void WhyComboSelectedIndexChanged(object sender, EventArgs e){
             if (!(whyCombo.SelectedItem is DalReason)){
                 whyCombo.SelectedItem = null;
+            } else {
+                Configuration.DbProperties.LastMealReportReason = ((DalReason) whyCombo.SelectedItem).Id;
+                DbUtil.UpdateProperties();
             }
             RequestUpdateReport();
         }
