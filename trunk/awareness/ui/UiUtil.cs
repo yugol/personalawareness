@@ -39,10 +39,10 @@ namespace awareness.ui
     internal class UiUtil {
         internal static string FormatCurrency(decimal ammount){
             string rep = ammount.ToString("#,###,##0.00");
-            if (Configuration.PlaceCurrencySymbolAfterValue){
-                rep += Configuration.CurrencySymbol;
+            if (Configuration.DbProperties.PlaceCurrencySymbolAfterValue){
+                rep += Configuration.DbProperties.CurrencySymbol;
             } else {
-                rep = Configuration.CurrencySymbol + rep;
+                rep = Configuration.DbProperties.CurrencySymbol + rep;
             }
             return rep;
         }

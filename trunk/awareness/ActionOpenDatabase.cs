@@ -64,8 +64,8 @@ namespace awareness
             if (!string.IsNullOrEmpty(databaseName)){
                 try {
                     DbUtil.OpenDataContext(databaseName);
-                } catch (Exception err) {
-                    MessageBox.Show(err.Message, "Could not open database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message, "Could not open database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     databaseName = "";
                 }
             }
