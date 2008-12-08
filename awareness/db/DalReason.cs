@@ -135,5 +135,50 @@ namespace awareness.db
         public override string ToString(){
             return Name;
         }
+
+        // CASHING - do not save
+        decimal _ammount = 0;
+        [Column(Storage = "_ammount",
+                Name = "ammount",
+                DbType = "numeric(18, 2) default 0",
+                CanBeNull = true)]
+        public decimal Ammount
+        {
+            get { return _ammount; }
+            set { _ammount = value; }
+        }
+
+        int _fromId = 0;
+        [Column(Storage = "_fromId",
+                Name = "from",
+                DbType="int default 0",
+                CanBeNull=true)]
+        public int FromId
+        {
+            get { return _fromId; }
+            set { _fromId = value; }
+        }
+
+        int _toId = 0;
+        [Column(Storage = "_toId",
+                Name = "to",
+                DbType = "int default 0",
+                CanBeNull = true)]
+        public int ToId
+        {
+            get { return _toId; }
+            set { _toId = value; }
+        }
+
+        float _quantity = 0F;
+        [Column(Storage = "_quantity",
+                Name = "quantity",
+                DbType = "real default 0",
+                CanBeNull = true)]
+        public float Quantity
+        {
+            get { return _quantity; }
+            set { _quantity = value; }
+        }
     }
 }

@@ -299,6 +299,7 @@ namespace awareness.ui
         	this.reasonCombo.TabIndex = 2;
         	this.toolTips.SetToolTip(this.reasonCombo, "Reason");
         	this.reasonCombo.Validating += new System.ComponentModel.CancelEventHandler(this.ReasonComboValidating);
+        	this.reasonCombo.SelectedIndexChanged += new System.EventHandler(this.ReasonComboSelectedIndexChanged);
         	this.reasonCombo.TextChanged += new System.EventHandler(this.ReasonComboTextChanged);
         	// 
         	// ammountBox

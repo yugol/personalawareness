@@ -35,6 +35,8 @@ using System.Linq;
 namespace awareness.db
 {
     internal class DbDumper {
+        // TODO: check properties restore
+        
         internal static readonly string YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss";
 
         AwarenessDataContext dc = null;

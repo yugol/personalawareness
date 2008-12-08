@@ -322,6 +322,33 @@ namespace awareness.ui
             transaction.From = (DalTransferLocation) fromCombo.SelectedItem;
             transaction.To = (DalTransferLocation) toCombo.SelectedItem;
             transaction.Quantity = (int) quantityInput.Value;
+            
+            transaction.Reason.Ammount = transaction.Ammount;
+            transaction.Reason.FromId = transaction.FromId;
+            transaction.Reason.ToId = transaction.ToId;
+            transaction.Reason.Quantity = transaction.Quantity;
+        }
+
+        void ReasonComboSelectedIndexChanged(object sender, EventArgs e){
+            if (reasonCombo.SelectedItem is DalReason){
+                DalReason reason = (DalReason) reasonCombo.SelectedItem;
+                ammountBox.Text = reason.Ammount.ToString("0.00");
+                foreach (object obj in fromCombo.Items){
+                    if (obj is DalTransferLocation){
+                        if (((DalTransferLocation) obj).Id == reason.FromId){
+                            fromCombo.SelectedItem = obj;
+                        }
+                    }
+                }
+                foreach (object obj in toCombo.Items){
+                    if (obj is DalTransferLocation){
+                        if (((DalTransferLocation) obj).Id == reason.ToId){
+                            toCombo.SelectedItem = obj;
+                        }
+                    }
+                }
+                quantityInput.Value = reason.Quantity;
+            }
         }
 
         void TransactionData2Ui(DalTransaction transaction){
