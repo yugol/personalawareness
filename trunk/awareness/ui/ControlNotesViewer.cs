@@ -36,12 +36,6 @@ using awareness.db;
 
 namespace awareness.ui
 {
-    // FEATURE: refresh tree button
-    // FEATURE: expand all button
-    // FEATURE: collapse all button
-    // FEATURE: expand branch button
-    // FEATURE: collapse branch button
-
     public partial class ControlNotesViewer : UserControl {
         bool updateNotesViewBit = false;
 
@@ -290,6 +284,44 @@ namespace awareness.ui
 
         void ControlNotesViewerVisibleChanged(object sender, EventArgs e){
             UpdateNotesView();
+        }
+
+        void ExpandToolButtonClick(object sender, EventArgs e){
+            _RecExpandNode(notesTree.SelectedNode);
+        }
+
+        void CollapseToolButtonClick(object sender, EventArgs e){
+            _RecCollapseNode(notesTree.SelectedNode);
+        }
+
+        void ExpandAllToolButtonClick(object sender, EventArgs e){
+            foreach (TreeNode node in notesTree.Nodes){
+                _RecExpandNode(node);
+            }
+        }
+
+        void CollapseAllToolButtonClick(object sender, EventArgs e){
+            foreach (TreeNode node in notesTree.Nodes){
+                _RecCollapseNode(node);
+            }
+        }
+
+        void _RecExpandNode(TreeNode node) {
+            foreach (TreeNode child in node.Nodes){
+                _RecExpandNode(child);
+            }
+            if (!node.IsExpanded){
+                node.Expand();
+            }
+        }
+
+        void _RecCollapseNode(TreeNode node) {
+            if (node.IsExpanded){
+                node.Collapse();
+            }
+            foreach (TreeNode child in node.Nodes){
+                _RecCollapseNode(child);
+            }
         }
     }
 }

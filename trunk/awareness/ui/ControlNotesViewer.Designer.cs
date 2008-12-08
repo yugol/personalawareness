@@ -182,6 +182,7 @@ namespace awareness.ui
         	this.expandToolButton.Size = new System.Drawing.Size(23, 22);
         	this.expandToolButton.Text = "Expand branch";
         	this.expandToolButton.ToolTipText = "Expand branch";
+        	this.expandToolButton.Click += new System.EventHandler(this.ExpandToolButtonClick);
         	// 
         	// collapseToolButton
         	// 
@@ -192,6 +193,7 @@ namespace awareness.ui
         	this.collapseToolButton.Size = new System.Drawing.Size(23, 22);
         	this.collapseToolButton.Text = "Collapse branch";
         	this.collapseToolButton.ToolTipText = "Collapse branch";
+        	this.collapseToolButton.Click += new System.EventHandler(this.CollapseToolButtonClick);
         	// 
         	// expandAllToolButton
         	// 
@@ -201,6 +203,7 @@ namespace awareness.ui
         	this.expandAllToolButton.Name = "expandAllToolButton";
         	this.expandAllToolButton.Size = new System.Drawing.Size(23, 22);
         	this.expandAllToolButton.Text = "Expand all";
+        	this.expandAllToolButton.Click += new System.EventHandler(this.ExpandAllToolButtonClick);
         	// 
         	// collapseAllToolButton
         	// 
@@ -210,6 +213,7 @@ namespace awareness.ui
         	this.collapseAllToolButton.Name = "collapseAllToolButton";
         	this.collapseAllToolButton.Size = new System.Drawing.Size(23, 22);
         	this.collapseAllToolButton.Text = "Collapse all";
+        	this.collapseAllToolButton.Click += new System.EventHandler(this.CollapseAllToolButtonClick);
         	// 
         	// noteTextView
         	// 
