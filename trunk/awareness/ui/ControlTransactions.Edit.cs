@@ -304,7 +304,9 @@ namespace awareness.ui
                 reason = new DalReason();
             }
             reason.Name = "_" + reasonCombo.Text;
-            DbUtil.InsertTransactionReason(reason);
+            DalNote note = new DalNote();
+            note.Text = "Automatically created when the first transaction with this reason was created";
+            DbUtil.InsertTransactionReason(reason, note);
             return reason;
         }
 

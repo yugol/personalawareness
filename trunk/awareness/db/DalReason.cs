@@ -37,7 +37,7 @@ namespace awareness.db
     [InheritanceMapping(Code = DalReason.TYPE_FOOD, Type = typeof(DalFood))]
     [InheritanceMapping(Code = DalReason.TYPE_RECIPE, Type = typeof(DalRecipe))]
     [InheritanceMapping(Code = DalReason.TYPE_CONSUMER, Type = typeof(DalConsumer))]
-    public class DalReason {
+    public class DalReason : INotable {
         public const sbyte TYPE_DEFAULT = 0;
         public const sbyte TYPE_FOOD = 1;
         public const sbyte TYPE_RECIPE = 2;

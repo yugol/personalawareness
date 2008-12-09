@@ -108,6 +108,9 @@
     <Compile Include="db\DbUtil.InsUpDel.Notes.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
+    <Compile Include="db\DbUtil.InsUpDel.Reason.cs">
+      <DependentUpon>DbUtil.cs</DependentUpon>
+    </Compile>
     <Compile Include="db\DbUtil.InsUpDel.Transactions.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
@@ -121,6 +124,7 @@
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
     <Compile Include="db\DbUtilTest.cs" />
+    <Compile Include="db\INotable.cs" />
     <Compile Include="db\XmlProperties.cs" />
     <Compile Include="db\XmlPropertiesTest.cs" />
     <Compile Include="ITimerable.cs" />

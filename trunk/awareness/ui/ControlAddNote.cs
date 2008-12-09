@@ -43,6 +43,9 @@ namespace awareness.ui
         public DalNote Note {
             get { return noteControl.Note; }
             set {
+                if (value != null && value.Id == AwarenessDataContext.NOTE_ROOT_ID){
+                    value = null;
+                }
                 noteControl.Note = value;
                 topPanel.Visible = (value == null);
                 centerPanel.Visible = !(value == null);
