@@ -82,7 +82,9 @@ namespace awareness.ui
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         	this.ClientSize = new System.Drawing.Size(492, 470);
         	this.Controls.Add(this.noteControl);
+        	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
         	this.Name = "FormNoteTextView";
+        	this.ShowInTaskbar = false;
         	this.Text = "FormNoteTextView";
         	this.ResumeLayout(false);
         }

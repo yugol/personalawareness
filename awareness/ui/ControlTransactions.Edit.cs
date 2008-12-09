@@ -51,6 +51,7 @@ namespace awareness.ui
                     foreach (Control c in editPanel.Controls){
                         c.Visible = true;
                     }
+                    toolTips.SetToolTip(editLayoutLabel, "Collapse");
                 } else {
                     editLayoutLabel.ImageIndex = 1;
                     editPanel.Height = editLayoutLabel.Height + editLayoutLabel.Margin.Top + 1;
@@ -59,6 +60,7 @@ namespace awareness.ui
                             c.Visible = false;
                         }
                     }
+                    toolTips.SetToolTip(editLayoutLabel, "Expand");
                 }
             }
         }
@@ -322,7 +324,7 @@ namespace awareness.ui
             transaction.From = (DalTransferLocation) fromCombo.SelectedItem;
             transaction.To = (DalTransferLocation) toCombo.SelectedItem;
             transaction.Quantity = (int) quantityInput.Value;
-            
+
             transaction.Reason.Ammount = transaction.Ammount;
             transaction.Reason.FromId = transaction.FromId;
             transaction.Reason.ToId = transaction.ToId;

@@ -279,7 +279,7 @@ namespace awareness.ui
         }
 
         void RefreshToolButtonClick(object sender, EventArgs e){
-            UpdateNotesView();
+            RequestUpdateNotesView();
         }
 
         void ControlNotesViewerVisibleChanged(object sender, EventArgs e){

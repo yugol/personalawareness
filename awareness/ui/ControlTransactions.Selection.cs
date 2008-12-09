@@ -51,6 +51,7 @@ namespace awareness.ui
                     foreach (Control c in selectPanel.Controls){
                         c.Visible = true;
                     }
+                    toolTips.SetToolTip(selectLayoutLabel, "Collapse");
                 } else {
                     selectLayoutLabel.ImageIndex = 1;
                     selectPanel.Height = selectLayoutLabel.Height + selectLayoutLabel.Margin.Top + 2;
@@ -59,6 +60,7 @@ namespace awareness.ui
                             c.Visible = false;
                         }
                     }
+                    toolTips.SetToolTip(selectLayoutLabel, "Expand");
                 }
             }
         }

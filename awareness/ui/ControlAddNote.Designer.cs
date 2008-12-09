@@ -57,16 +57,21 @@ namespace awareness.ui
         /// </summary>
         private void InitializeComponent()
         {
+        	this.components = new System.ComponentModel.Container();
+        	System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlAddNote));
         	this.addNoteButton = new System.Windows.Forms.Button();
-        	this.removeNoteButton = new System.Windows.Forms.Button();
         	this.topPanel = new System.Windows.Forms.Panel();
         	this.centerBottomPanel = new System.Windows.Forms.Panel();
-        	this.enlargeButton = new System.Windows.Forms.Button();
-        	this.spacer = new System.Windows.Forms.Panel();
+        	this.enlargeBox = new System.Windows.Forms.PictureBox();
+        	this.separatorPanel = new System.Windows.Forms.Panel();
+        	this.deleteBox = new System.Windows.Forms.PictureBox();
         	this.noteControl = new awareness.ui.ControlNoteTextView();
         	this.centerPanel = new System.Windows.Forms.Panel();
+        	this.toolTip = new System.Windows.Forms.ToolTip(this.components);
         	this.topPanel.SuspendLayout();
         	this.centerBottomPanel.SuspendLayout();
+        	((System.ComponentModel.ISupportInitialize)(this.enlargeBox)).BeginInit();
+        	((System.ComponentModel.ISupportInitialize)(this.deleteBox)).BeginInit();
         	this.centerPanel.SuspendLayout();
         	this.SuspendLayout();
         	// 
@@ -81,18 +86,6 @@ namespace awareness.ui
         	this.addNoteButton.UseVisualStyleBackColor = true;
         	this.addNoteButton.Click += new System.EventHandler(this.AddNoteButtonClick);
         	// 
-        	// removeNoteButton
-        	// 
-        	this.removeNoteButton.Dock = System.Windows.Forms.DockStyle.Right;
-        	this.removeNoteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        	this.removeNoteButton.Location = new System.Drawing.Point(449, 0);
-        	this.removeNoteButton.Name = "removeNoteButton";
-        	this.removeNoteButton.Size = new System.Drawing.Size(22, 22);
-        	this.removeNoteButton.TabIndex = 1;
-        	this.removeNoteButton.Text = "X";
-        	this.removeNoteButton.UseVisualStyleBackColor = true;
-        	this.removeNoteButton.Click += new System.EventHandler(this.RemoveNoteButtonClick);
-        	// 
         	// topPanel
         	// 
         	this.topPanel.Controls.Add(this.addNoteButton);
@@ -104,34 +97,50 @@ namespace awareness.ui
         	// 
         	// centerBottomPanel
         	// 
-        	this.centerBottomPanel.Controls.Add(this.enlargeButton);
-        	this.centerBottomPanel.Controls.Add(this.spacer);
-        	this.centerBottomPanel.Controls.Add(this.removeNoteButton);
+        	this.centerBottomPanel.Controls.Add(this.enlargeBox);
+        	this.centerBottomPanel.Controls.Add(this.separatorPanel);
+        	this.centerBottomPanel.Controls.Add(this.deleteBox);
         	this.centerBottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-        	this.centerBottomPanel.Location = new System.Drawing.Point(0, 269);
+        	this.centerBottomPanel.Location = new System.Drawing.Point(0, 280);
         	this.centerBottomPanel.Name = "centerBottomPanel";
-        	this.centerBottomPanel.Size = new System.Drawing.Size(471, 22);
+        	this.centerBottomPanel.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+        	this.centerBottomPanel.Size = new System.Drawing.Size(471, 11);
         	this.centerBottomPanel.TabIndex = 3;
         	// 
-        	// enlargeButton
+        	// enlargeBox
         	// 
-        	this.enlargeButton.Dock = System.Windows.Forms.DockStyle.Right;
-        	this.enlargeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        	this.enlargeButton.Location = new System.Drawing.Point(423, 0);
-        	this.enlargeButton.Name = "enlargeButton";
-        	this.enlargeButton.Size = new System.Drawing.Size(22, 22);
-        	this.enlargeButton.TabIndex = 2;
-        	this.enlargeButton.Text = "O";
-        	this.enlargeButton.UseVisualStyleBackColor = true;
-        	this.enlargeButton.Click += new System.EventHandler(this.EnlargeButtonClick);
+        	this.enlargeBox.Cursor = System.Windows.Forms.Cursors.Hand;
+        	this.enlargeBox.Dock = System.Windows.Forms.DockStyle.Right;
+        	this.enlargeBox.Image = ((System.Drawing.Image)(resources.GetObject("enlargeBox.Image")));
+        	this.enlargeBox.Location = new System.Drawing.Point(451, 2);
+        	this.enlargeBox.Name = "enlargeBox";
+        	this.enlargeBox.Size = new System.Drawing.Size(9, 9);
+        	this.enlargeBox.TabIndex = 6;
+        	this.enlargeBox.TabStop = false;
+        	this.toolTip.SetToolTip(this.enlargeBox, "Enlarge");
+        	this.enlargeBox.Click += new System.EventHandler(this.EnlargeBoxClick);
         	// 
-        	// spacer
+        	// separatorPanel
         	// 
-        	this.spacer.Dock = System.Windows.Forms.DockStyle.Right;
-        	this.spacer.Location = new System.Drawing.Point(445, 0);
-        	this.spacer.Name = "spacer";
-        	this.spacer.Size = new System.Drawing.Size(4, 22);
-        	this.spacer.TabIndex = 3;
+        	this.separatorPanel.Dock = System.Windows.Forms.DockStyle.Right;
+        	this.separatorPanel.Location = new System.Drawing.Point(460, 2);
+        	this.separatorPanel.Name = "separatorPanel";
+        	this.separatorPanel.Size = new System.Drawing.Size(2, 9);
+        	this.separatorPanel.TabIndex = 5;
+        	// 
+        	// deleteBox
+        	// 
+        	this.deleteBox.Cursor = System.Windows.Forms.Cursors.Hand;
+        	this.deleteBox.Dock = System.Windows.Forms.DockStyle.Right;
+        	this.deleteBox.Image = ((System.Drawing.Image)(resources.GetObject("deleteBox.Image")));
+        	this.deleteBox.InitialImage = ((System.Drawing.Image)(resources.GetObject("deleteBox.InitialImage")));
+        	this.deleteBox.Location = new System.Drawing.Point(462, 2);
+        	this.deleteBox.Name = "deleteBox";
+        	this.deleteBox.Size = new System.Drawing.Size(9, 9);
+        	this.deleteBox.TabIndex = 4;
+        	this.deleteBox.TabStop = false;
+        	this.toolTip.SetToolTip(this.deleteBox, "Delete");
+        	this.deleteBox.Click += new System.EventHandler(this.DeleteBoxClick);
         	// 
         	// noteControl
         	// 
@@ -142,10 +151,11 @@ namespace awareness.ui
         	this.noteControl.Node = null;
         	this.noteControl.Note = null;
         	this.noteControl.ScrollBars = false;
-        	this.noteControl.Size = new System.Drawing.Size(471, 269);
+        	this.noteControl.Size = new System.Drawing.Size(471, 280);
         	this.noteControl.TabIndex = 4;
         	this.noteControl.TextReadOnly = false;
         	this.noteControl.TitleReadOnly = false;
+        	this.toolTip.SetToolTip(this.noteControl, "Memo");
         	this.noteControl.TopVisible = false;
         	this.noteControl.NoteTextChanged += new awareness.ui.NoteHandler(this.NoteControlNoteTextChanged);
         	// 
@@ -169,16 +179,19 @@ namespace awareness.ui
         	this.Size = new System.Drawing.Size(471, 315);
         	this.topPanel.ResumeLayout(false);
         	this.centerBottomPanel.ResumeLayout(false);
+        	((System.ComponentModel.ISupportInitialize)(this.enlargeBox)).EndInit();
+        	((System.ComponentModel.ISupportInitialize)(this.deleteBox)).EndInit();
         	this.centerPanel.ResumeLayout(false);
         	this.ResumeLayout(false);
         }
+        private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Panel separatorPanel;
+        private System.Windows.Forms.PictureBox enlargeBox;
+        private System.Windows.Forms.PictureBox deleteBox;
         private System.Windows.Forms.Panel centerPanel;
         private awareness.ui.ControlNoteTextView noteControl;
-        private System.Windows.Forms.Panel spacer;
-        private System.Windows.Forms.Button enlargeButton;
         private System.Windows.Forms.Panel centerBottomPanel;
         private System.Windows.Forms.Panel topPanel;
-        private System.Windows.Forms.Button removeNoteButton;
         private System.Windows.Forms.Button addNoteButton;
     }
 }

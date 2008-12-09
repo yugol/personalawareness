@@ -57,10 +57,12 @@ namespace awareness.ui
         /// </summary>
         private void InitializeComponent()
         {
+        	this.components = new System.ComponentModel.Container();
         	this.fillPanel = new System.Windows.Forms.TableLayoutPanel();
         	this.intervalCombo = new System.Windows.Forms.ComboBox();
         	this.firstPicker = new System.Windows.Forms.DateTimePicker();
         	this.lastPicker = new System.Windows.Forms.DateTimePicker();
+        	this.toolTip = new System.Windows.Forms.ToolTip(this.components);
         	this.fillPanel.SuspendLayout();
         	this.SuspendLayout();
         	// 
@@ -90,6 +92,7 @@ namespace awareness.ui
         	this.intervalCombo.Name = "intervalCombo";
         	this.intervalCombo.Size = new System.Drawing.Size(138, 21);
         	this.intervalCombo.TabIndex = 0;
+        	this.toolTip.SetToolTip(this.intervalCombo, "Choose pre-defined time interval");
         	this.intervalCombo.SelectedIndexChanged += new System.EventHandler(this.IntervalComboSelectedIndexChanged);
         	// 
         	// firstPicker
@@ -100,6 +103,7 @@ namespace awareness.ui
         	this.firstPicker.Name = "firstPicker";
         	this.firstPicker.Size = new System.Drawing.Size(102, 20);
         	this.firstPicker.TabIndex = 1;
+        	this.toolTip.SetToolTip(this.firstPicker, "From date");
         	this.firstPicker.ValueChanged += new System.EventHandler(this.FirstPickerValueChanged);
         	// 
         	// lastPicker
@@ -110,6 +114,7 @@ namespace awareness.ui
         	this.lastPicker.Name = "lastPicker";
         	this.lastPicker.Size = new System.Drawing.Size(102, 20);
         	this.lastPicker.TabIndex = 2;
+        	this.toolTip.SetToolTip(this.lastPicker, "To date");
         	this.lastPicker.ValueChanged += new System.EventHandler(this.LastPickerValueChanged);
         	// 
         	// ControlTimeIntervalSelector
@@ -122,6 +127,7 @@ namespace awareness.ui
         	this.fillPanel.ResumeLayout(false);
         	this.ResumeLayout(false);
         }
+        private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.DateTimePicker lastPicker;
         private System.Windows.Forms.DateTimePicker firstPicker;
         private System.Windows.Forms.ComboBox intervalCombo;
