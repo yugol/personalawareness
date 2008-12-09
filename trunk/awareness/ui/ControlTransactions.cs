@@ -37,7 +37,6 @@ using awareness.db;
 namespace awareness.ui
 {
     public partial class ControlTransactions : UserControl {
-        // TODO: cash last accounts into application
         bool readTransferLocationsBit = true;
         bool readTransactionReasonsBit = true;
         bool readTransactionsBit = true;
