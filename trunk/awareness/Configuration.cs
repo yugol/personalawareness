@@ -40,7 +40,6 @@ namespace awareness
         // TODO: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
         // TODO: set min date and max date for all controls
         // TODO: limits for all DateTimePickers
-        // TODO: implement dirty bit for reports update update
 
 //#if DEBUG
 //        static string dataFolder = @"C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data";

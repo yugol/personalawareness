@@ -26,7 +26,6 @@
  * THE SOFTWARE.
  */
 
-
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -40,8 +39,6 @@ namespace awareness.ui
         public event NoteHandler NoteAdded;
         public event NoteHandler NoteTextChanged;
         public event NoteHandler NoteRemoved;
-
-        private FormNoteTextView formView = null;
 
         public DalNote Note {
             get { return noteControl.Note; }
@@ -70,7 +67,19 @@ namespace awareness.ui
             }
         }
 
-        void RemoveNoteButtonClick(object sender, EventArgs e){
+        void EnlargeBoxClick(object sender, EventArgs e){
+            FormNoteTextView formView = new FormNoteTextView();
+            formView.Note = Note;
+            formView.Text = string.IsNullOrEmpty(Note.Title) ? "New note" : Note.Title;
+            formView.NoteTextChanged += new NoteHandler(NoteControlNoteTextChanged);
+            noteControl.Visible = false;
+            formView.ShowDialog();
+            Note = formView.Note;
+            noteControl.Visible = true;
+            formView.Dispose();
+        }
+
+        void DeleteBoxClick(object sender, EventArgs e){
             if (MessageBox.Show("Are you sure you want to delete this note?",
                                 Note.Title,
                                 MessageBoxButtons.OK,
@@ -81,17 +90,6 @@ namespace awareness.ui
                 }
                 Note = null;
             }
-        }
-
-        void EnlargeButtonClick(object sender, EventArgs e){
-            formView = new FormNoteTextView();
-            formView.Note = Note;
-            formView.NoteTextChanged += new NoteHandler(NoteControlNoteTextChanged);
-            noteControl.Visible = false;
-            formView.ShowDialog();
-            Note = formView.Note;
-            noteControl.Visible = true;
-            formView.Dispose();
         }
     }
 }

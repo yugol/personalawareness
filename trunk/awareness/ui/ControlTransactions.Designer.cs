@@ -473,6 +473,7 @@ namespace awareness.ui
         	this.transferLocationSelectionCombo.Name = "transferLocationSelectionCombo";
         	this.transferLocationSelectionCombo.Size = new System.Drawing.Size(312, 21);
         	this.transferLocationSelectionCombo.TabIndex = 2;
+        	this.toolTips.SetToolTip(this.transferLocationSelectionCombo, "Select transactions by location");
         	this.transferLocationSelectionCombo.SelectedIndexChanged += new System.EventHandler(this.TransferLocationSelectionComboSelectedIndexChanged);
         	// 
         	// reasonSelectionBox
@@ -482,6 +483,7 @@ namespace awareness.ui
         	this.reasonSelectionBox.Name = "reasonSelectionBox";
         	this.reasonSelectionBox.Size = new System.Drawing.Size(312, 20);
         	this.reasonSelectionBox.TabIndex = 3;
+        	this.toolTips.SetToolTip(this.reasonSelectionBox, "Select by name pattern");
         	this.reasonSelectionBox.TextChanged += new System.EventHandler(this.ReasonSelectionBoxTextChanged);
         	// 
         	// reportsButton
