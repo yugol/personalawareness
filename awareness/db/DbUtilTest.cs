@@ -47,7 +47,7 @@ namespace awareness.db
             
             DalReason r = new DalReason();
             r.Name = "Reason";
-            DbUtil.InsertTransactionReason(r);
+            DbUtil.InsertTransactionReason(r, null);
             DalTransaction t = new DalTransaction();
             t.Reason = r;
             t.From = bc;
@@ -84,7 +84,7 @@ namespace awareness.db
             DalReason tr = new DalReason() {
                 Name = "tr"
             };
-            DbUtil.InsertTransactionReason(tr);
+            DbUtil.InsertTransactionReason(tr, null);
 
             DalAccount a1 = new DalAccount() {
                 AccountType = at, Name = "a1", StartingBalance = 100

@@ -1,4 +1,10 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 05/09/2008
+ * Time: 09:00
+ *
+ *
  * Copyright (c) 2008 Iulian GORIAC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,13 +26,6 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 05/09/2008
- * Time: 09:00
- *
- */
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -38,10 +37,187 @@ using awareness.db;
 namespace awareness.ui
 {
     public partial class FormEditTransactionReasons : Form {
-        // TODO: use ListView and icons
-        // TODO: adjust tab indices
-        // TODO: incremental search
-        // FIXME: when no reason is entered hide the edit controls in window
+        private DalReason lastSelectedReason;
+
+        public FormEditTransactionReasons(){
+            InitializeComponent();
+
+            noteControl.NoteAdded += new NoteHandler(NoteControlNoteAdded);
+            noteControl.NoteTextChanged += new NoteHandler(NoteControlNoteAdded);
+            noteControl.NoteRemoved += new NoteHandler(NoteControlNoteAdded);
+
+            energyMeasureUnitLabel.Text = string.Format("({0}):", Configuration.FOOD_ENERGY_MEASURE_UNIT);
+
+            selectedTypeCombo.Items.Add("All");
+            foreach (NamingReasonTypes typeName in NamingReasonTypes.GetNames()){
+                typeCombo.Items.Add(typeName);
+                selectedTypeCombo.Items.Add(typeName);
+            }
+            selectedTypeCombo.SelectedIndex = 0; // calls ReadTransactionReasons()
+        }
+
+        void ReadReasons(){
+            // get reasons from db
+            sbyte reasonType = GetTypeForCombo(selectedTypeCombo);
+            AwarenessDataContext dc = DbUtil.GetDataContext();
+            IEnumerable<DalReason> reasons = null;
+            if (reasonType < 0){
+                reasons = from t in dc.transactionReasons
+                          orderby t.Name
+                          select t;
+            } else {
+                reasons = from t in dc.transactionReasons
+                          where t.Type == reasonType
+                          orderby t.Name
+                          select t;
+            }
+
+            // fill reason list
+            reasonCombo.Text = string.Empty;
+            reasonCombo.Items.Clear();
+            foreach (DalReason reason in reasons){
+                reasonCombo.Items.Add(reason);
+            }
+
+            // set-up interface
+            ShowControlsForType(reasonType);
+            EnableControls(false);
+            ClearEditBoxes();
+            lastSelectedReason = null;
+            Dirty = false;
+        }
+
+        #region Edit events
+
+        void SelectedTypeComboSelectedIndexChanged(object sender, EventArgs e){
+            ReadReasons();
+        }
+
+        void ReasonComboTextChanged(object sender, EventArgs e){
+            if (string.IsNullOrEmpty(reasonCombo.Text)){
+                newButton.Enabled = false;
+                Dirty = false;
+            } else {
+                newButton.Enabled = true;
+                Dirty = lastSelectedReason != null;
+            }
+        }
+
+        void ReasonComboSelectedIndexChanged(object sender, EventArgs e){
+            if (reasonCombo.SelectedItem is DalReason){
+                lastSelectedReason = (DalReason) reasonCombo.SelectedItem;
+                foreach (NamingReasonTypes typeName in NamingReasonTypes.GetNames()){
+                    if (typeName.Type == lastSelectedReason.Type){
+                        typeCombo.SelectedItem = typeName;
+                        break;
+                    }
+                }
+                if (lastSelectedReason is DalFood){
+                    energyBox.Text = ((DalFood) lastSelectedReason).Energy.ToString();
+                }
+                noteControl.Note = lastSelectedReason.Note;
+                ShowControlsForType(lastSelectedReason.Type);
+                EnableControls(true);
+            } else {
+                EnableControls(false);
+                ClearEditBoxes();
+            }
+            Dirty = false;
+        }
+
+        void TypeComboSelectedIndexChanged(object sender, EventArgs e){
+            ShowControlsForType(((NamingReasonTypes) typeCombo.SelectedItem).Type);
+            Dirty = true;
+        }
+
+        void EnergyBoxTextChanged(object sender, EventArgs e){
+            Dirty = true;
+        }
+
+        void LastMealButtonClick(object sender, EventArgs e){
+            float energy = DbUtil.GetLastEnergyForRecipe((DalRecipe) lastSelectedReason);
+            energyBox.Text = energy.ToString("0.00");
+        }
+
+        void Button1Click(object sender, EventArgs e){
+            float energy = DbUtil.GetAverageEnergyForRecipe((DalRecipe) lastSelectedReason);
+            energyBox.Text = energy.ToString("0.00");
+        }
+
+        void NoteControlNoteAdded(object sender, DalNote note) {
+            Dirty = true;
+        }
+
+        #endregion
+
+        #region Validation
+
+        void EnergyBoxValidating(object sender, System.ComponentModel.CancelEventArgs e){
+            try {
+                float val = float.Parse(energyBox.Text);
+                if (val < 0){
+                    throw new Exception();
+                }
+                errorProvider.Clear();
+            } catch (Exception) {
+                e.Cancel = true;
+                errorProvider.SetError((Control) sender, "Please enter a positive real value");
+            }
+        }
+
+        #endregion
+
+        #region CUD
+
+        void NewButtonClick(object sender, EventArgs e){
+            DalReason newReason = DalReason.CreateReason(GetTypeForCombo(selectedTypeCombo));
+            newReason.Name = reasonCombo.Text;
+            DbUtil.InsertTransactionReason(newReason, noteControl.Note);
+            ReadReasons();
+            reasonCombo.SelectedItem = newReason;
+        }
+
+        void UpdateButtonClick(object sender, EventArgs e){
+            int lastSelectedReasonId = lastSelectedReason.Id;
+            if (lastSelectedReason.Type != ((NamingReasonTypes) typeCombo.SelectedItem).Type){
+                DbUtil.UpdateTransactionReason(lastSelectedReason.Id,
+                                               ((NamingReasonTypes) typeCombo.SelectedItem).Type,
+                                               reasonCombo.Text,
+                                               float.Parse(energyBox.Text),
+                                               noteControl.Note);
+            } else {
+                lastSelectedReason.Name = reasonCombo.Text;
+                if (lastSelectedReason is DalFood){
+                    ((DalFood) lastSelectedReason).Energy = float.Parse(energyBox.Text);
+                }
+                DbUtil.UpdateTransactionReason(lastSelectedReason, noteControl.Note);
+            }
+            ReadReasons();
+            foreach (object obj in reasonCombo.Items){
+                if (obj is DalReason&&((DalReason) obj).Id == lastSelectedReasonId){
+                    reasonCombo.SelectedItem = obj;
+                    break;
+                }
+            }
+        }
+
+        void DeleteButtonClick(object sender, EventArgs e){
+            try {
+                DbUtil.DeleteTransactionReason(lastSelectedReason);
+            } catch (Exception err) {
+                MessageBox.Show("Could not delete transaction reason:\n" + err.Message,
+                                "Delete transaction reason",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                ReadReasons();
+            }
+        }
+
+        #endregion
+
+        #region Ui
 
         bool dirty = false;
         bool Dirty
@@ -54,183 +230,41 @@ namespace awareness.ui
             }
         }
 
-        public FormEditTransactionReasons(){
-            //
-            // The InitializeComponent() call is required for Windows Forms designer support.
-            //
-            InitializeComponent();
-            energyMeasureUnitLabel.Text = string.Format("({0}):", Configuration.FOOD_ENERGY_MEASURE_UNIT);
-
-            selectedTypeCombo.Items.Add("All");
-            foreach (NamingReasonTypes typeName in NamingReasonTypes.GetNames()){
-                typeCombo.Items.Add(typeName);
-                selectedTypeCombo.Items.Add(typeName);
-            }
-            selectedTypeCombo.SelectedIndex = 0;
-
-            // ReadTransactionReasons();
-        }
-
-        void ReadTransactionReasons(){
-            AwarenessDataContext dc = DbUtil.GetDataContext();
-
-            IEnumerable<DalReason> reasons = null;
+        sbyte GetTypeForCombo(ComboBox combo){
             sbyte type = -1;
-            if (selectedTypeCombo.SelectedItem is NamingReasonTypes ){
-                type = ((NamingReasonTypes) selectedTypeCombo.SelectedItem).Type;
+            if (combo.SelectedItem is NamingReasonTypes) {
+                type = ((NamingReasonTypes) combo.SelectedItem).Type;
             }
-            if (type < 0){
-                reasons = from t in dc.transactionReasons
-                          orderby t.Name
-                          select t;
-            } else {
-                reasons = from t in dc.transactionReasons
-                          where t.Type == type
-                          orderby t.Name
-                          select t;
-            }
-            reasonList.Items.Clear();
-            foreach (DalReason reason in reasons){
-                reasonList.Items.Add(reason);
-            }
-            EditControlsEnabled(false);
-            ClearEditBoxes();
-            if (reasonList.Items.Count > 0){
-                reasonList.SelectedIndex = 0;
-            }
+            return type;
         }
 
-        void EditControlsEnabled(bool val){
-            nameLabel.Enabled = val;
-            nameBox.Enabled = val;
-            typeLabel.Enabled = val;
-            typeCombo.Enabled = val;
-            energyLabel.Enabled = val;
-            energyBox.Enabled = val;
-            energyMeasureUnitLabel.Enabled = val;
-            deleteButton.Enabled = val;
-            updateButton.Enabled = false;
-        }
-
-        void ClearEditBoxes(){
-            nameBox.Text = "";
-            energyBox.Text = "0.0";
-        }
-
-        void ReasonListSelectedIndexChanged(object sender, EventArgs e){
-            if (reasonList.SelectedItem is DalReason){
-                DalReason tr = (DalReason) reasonList.SelectedItem;
-                nameBox.Text = tr.Name;
-                foreach (NamingReasonTypes typeName in NamingReasonTypes.GetNames()){
-                    if (typeName.Type == tr.Type){
-                        typeCombo.SelectedItem = typeName;
-                        break;
-                    }
-                }
-                if (tr is DalFood){
-                    energyBox.Text = ((DalFood) tr).Energy.ToString();
-                }
-                EditControlsEnabled(true);
-            } else {
-                EditControlsEnabled(false);
-                ClearEditBoxes();
-            }
-            Dirty = false;
-        }
-
-        void NewButtonClick(object sender, EventArgs e){
-            sbyte selectedType = -1;
-            if (selectedTypeCombo.SelectedItem is NamingReasonTypes){
-                selectedType = ((NamingReasonTypes) selectedTypeCombo.SelectedItem).Type;
-            }
-            DalReason transactionReason = DalReason.CreateReason(selectedType);
-            transactionReason.Name = "_New Element";
-            DbUtil.InsertTransactionReason(transactionReason);
-            ReadTransactionReasons();
-            reasonList.SelectedItem = transactionReason;
-            nameBox.Focus();
-        }
-
-        void UpdateButtonClick(object sender, EventArgs e){
-            DalReason transactionReason = (DalReason) reasonList.SelectedItem;
-            if (transactionReason.Type != ((NamingReasonTypes) typeCombo.SelectedItem).Type){
-                DbUtil.UpdateTransactionReason(transactionReason.Id, ((NamingReasonTypes) typeCombo.SelectedItem).Type,
-                                               nameBox.Text, float.Parse(energyBox.Text));
-            } else {
-                transactionReason.Name = nameBox.Text;
-                if (transactionReason is DalFood){
-                    ((DalFood) transactionReason).Energy = float.Parse(energyBox.Text);
-                }
-                DbUtil.UpdateTransactionReason(transactionReason);
-            }
-            ReadTransactionReasons();
-        }
-
-        void DeleteButtonClick(object sender, EventArgs e){
-            try {
-                DbUtil.DeleteTransactionReason((DalReason) reasonList.SelectedItem);
-            } catch (Exception err)  {
-                MessageBox.Show("Could not delete transaction reason:\n" + err.Message,
-                                "Delete transaction reason",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                ReadTransactionReasons();
-            }
-        }
-
-        void NameBoxTextChanged(object sender, EventArgs e){
-            Dirty = true;
-        }
-
-        void NameBoxValidating(object sender, System.ComponentModel.CancelEventArgs e){
-            if (string.IsNullOrEmpty(nameBox.Text)){
-                e.Cancel = true;
-                errorProvider.SetError((Control) sender, "Please enter a name");
-            } else {
-                errorProvider.Clear();
-            }
-        }
-
-        void TypeComboSelectedIndexChanged(object sender, EventArgs e){
-            sbyte selectedType = ((NamingReasonTypes) typeCombo.SelectedItem).Type;
-            bool isFood = (selectedType == DalReason.TYPE_FOOD);
-            bool isRecipe = (selectedType == DalReason.TYPE_RECIPE);
+        void ShowControlsForType(sbyte reasonType){
+            bool isFood = (reasonType == DalReason.TYPE_FOOD);
+            bool isRecipe = (reasonType == DalReason.TYPE_RECIPE);
             energyLabel.Visible = isFood||isRecipe;
             energyBox.Visible = isFood||isRecipe;
             energyMeasureUnitLabel.Visible = isFood||isRecipe;
             lastMealButton.Visible = isRecipe;
             averageMealsButton.Visible = isRecipe;
-            Dirty = true;
         }
 
-        void EnergyBoxTextChanged(object sender, EventArgs e){
-            Dirty = true;
+        void EnableControls(bool val){
+            typeLabel.Enabled = val;
+            typeCombo.Enabled = val&&(GetTypeForCombo(typeCombo) == DalReason.TYPE_DEFAULT);
+            energyLabel.Enabled = val;
+            energyBox.Enabled = val;
+            energyMeasureUnitLabel.Enabled = val;
+            lastMealButton.Enabled = val;
+            averageMealsButton.Enabled = val;
+            noteControl.Enabled = val;
+            deleteButton.Enabled = val;
         }
 
-        void EnergyBoxValidating(object sender, System.ComponentModel.CancelEventArgs e){
-            try {
-                float.Parse(energyBox.Text);
-                errorProvider.Clear();
-            } catch (Exception)  {
-                e.Cancel = true;
-                errorProvider.SetError((Control) sender, "Please enter a real value");
-            }
+        void ClearEditBoxes(){
+            energyBox.Text = "0.0";
+            noteControl.Note = null;
         }
 
-        void SelectetTypeComboSelectedIndexChanged(object sender, EventArgs e){
-            ReadTransactionReasons();
-        }
-
-        void LastMealButtonClick(object sender, EventArgs e){
-            float energy = DbUtil.GetLastEnergyForRecipe((DalRecipe) reasonList.SelectedItem);
-            energyBox.Text = energy.ToString("0.00");
-        }
-
-        void Button1Click(object sender, EventArgs e){
-            float energy = DbUtil.GetAverageEnergyForRecipe((DalRecipe) reasonList.SelectedItem);
-            energyBox.Text = energy.ToString("0.00");
-        }
+        #endregion
     }
 }

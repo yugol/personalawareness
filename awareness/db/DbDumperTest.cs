@@ -78,23 +78,23 @@ namespace awareness.db
             DalReason tr1 = new DalReason() {
                 Name = "tr1"
             };
-            DbUtil.InsertTransactionReason(tr1);
+            DbUtil.InsertTransactionReason(tr1, null);
             DalReason tr2 = new DalReason() {
                 Name = "tr'2'"
             };
-            DbUtil.InsertTransactionReason(tr2);
+            DbUtil.InsertTransactionReason(tr2, null);
             DalFood tr3 = new DalFood() {
                 Name = "tr3", Energy = 50
             };
-            DbUtil.InsertTransactionReason(tr3);
+            DbUtil.InsertTransactionReason(tr3, null);
             DalRecipe tr4 = new DalRecipe() {
                 Name = "r1"
             };
-            DbUtil.InsertTransactionReason(tr4);
+            DbUtil.InsertTransactionReason(tr4, null);
             DalConsumer tr5 = new DalConsumer() {
                 Name = "c1"
             };
-            DbUtil.InsertTransactionReason(tr5);
+            DbUtil.InsertTransactionReason(tr5, null);
 
             DalTransaction t1 = new DalTransaction() {
                 When = new DateTime(2008, 01, 02), From = bc1, To = a1, Reason = tr1, Ammount = 1m, Quantity = 0

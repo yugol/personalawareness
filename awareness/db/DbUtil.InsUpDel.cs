@@ -56,56 +56,6 @@ namespace awareness.db
             }
         }
 
-        internal static void InsertTransactionReason(DalReason transactionReason){
-            dataContext.transactionReasons.InsertOnSubmit(transactionReason);
-            dataContext.SubmitChanges();
-            NotifyTransactionReasonsChanged(transactionReason);
-        }
-
-        internal static void UpdateTransactionReason(DalReason transactionReason){
-            dataContext.SubmitChanges();
-            NotifyTransactionReasonsChanged(transactionReason);
-        }
-
-        internal static void UpdateTransactionReason(int id, sbyte type, string name, float energy){
-            dataContext.UpdateTransactionReasonType(id, type, name, energy);
-            ReOpenDataContext();
-        }
-
-        internal static void DeleteTransactionReason(DalReason transactionReason){
-            try {
-                dataContext.transactionReasons.DeleteOnSubmit(transactionReason);
-                dataContext.SubmitChanges();
-                NotifyTransactionReasonsChanged(transactionReason);
-            } catch (Exception ex) {
-                ReOpenDataContext();
-                throw ex;
-            }
-        }
-
-        static void NotifyTransactionReasonsChanged(DalReason transactionReason){
-            if (transactionReason is DalRecipe){
-                if (RecipesChanged != null){
-                    RecipesChanged();
-                }
-            } else if (transactionReason is DalFood) {
-                if (FoodsChanged != null){
-                    FoodsChanged();
-                }
-            } else if (transactionReason is DalConsumer) {
-                if (ConsumersChanged != null){
-                    ConsumersChanged();
-                }
-            } else {
-                if (ReasonsChanged != null){
-                    ReasonsChanged();
-                }
-            }
-            if (TransactionReasonsChanged != null){
-                TransactionReasonsChanged();
-            }
-        }
-
         internal static void InsertMeal(DalMeal meal){
             dataContext.meals.InsertOnSubmit(meal);
             dataContext.SubmitChanges();

@@ -220,6 +220,10 @@ namespace awareness.db
         public DalAction GetActionById(int id){
             return actions.Where(r => r.Id == id).First();
         }
+        
+        public DalReason GetReasonById(int id) {
+            return transactionReasons.Where(r => r.Id == id).First();
+        }
 
         public DalProperties GetProperties(){
             return properties.First();

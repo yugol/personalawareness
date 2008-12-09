@@ -32,7 +32,7 @@ using System;
 namespace awareness.db
 {
     partial class DbUtil {
-        internal static bool IsEmpty (DalNote note) {
+        private static bool IsEmpty (DalNote note) {
             if (note == null){
                 return true;
             }
@@ -40,6 +40,50 @@ namespace awareness.db
                 return true;
             }
             return false;
+        }
+
+        private static void PrepareNoteForNotable(DalNote note, INotable notable, int noteParentId){
+            note.Parent = dataContext.GetNoteById(noteParentId);
+            note.Title = notable.Name;
+            note.IsPermanent = true;
+        }
+
+        private static void PreludeInsertNotable(INotable notable, DalNote note, int noteParentId) {
+            if (!IsEmpty(note)){
+                PrepareNoteForNotable(note, notable, noteParentId);
+                StoreNote(note);
+                notable.Note = note;
+            } else {
+                notable.Note = GetRootNote();
+            }
+        }
+
+        private static void PreludeUpdateNotable(INotable notable, DalNote note, int noteParentId) {
+            if (!notable.HasNote){
+                if (!IsEmpty(note)){
+                    PrepareNoteForNotable(note, notable, noteParentId);
+                    StoreNote(note);
+                    notable.Note = note;
+                }
+                dataContext.SubmitChanges();
+            } else {
+                DalNote oldNote = notable.Note;
+                if (IsEmpty(note)){
+                    notable.Note = GetRootNote();
+                    dataContext.SubmitChanges();
+                    DeleteNote(oldNote);
+                } else {
+                    PrepareNoteForNotable(note, notable, noteParentId);
+                    StoreNote(note);
+                    if (note.Id != oldNote.Id){
+                        notable.Note = note;
+                        dataContext.SubmitChanges();
+                        DeleteNote(oldNote);
+                    } else {
+                        dataContext.SubmitChanges();
+                    }
+                }
+            }
         }
 
         internal static void InsertNote(DalNote note){
