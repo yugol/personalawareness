@@ -41,47 +41,47 @@ namespace awareness
         public void CreateInterval(){
             DateTime today = new DateTime(2008, 2, 14, 1, 2, 3, 4);
 
-            TimeInterval timeIntrerval = TimeInterval.CreateInterval(Intervals.ALL, today);
+            TimeInterval timeIntrerval = TimeInterval.CreateInterval(ETimeIntervals.ALL, today);
             Assert.AreEqual(new DateTime(1900, 1, 1), timeIntrerval.First);
             Assert.AreEqual(new DateTime(3000, 1, 1), timeIntrerval.Second);
 
-            timeIntrerval = TimeInterval.CreateInterval(Intervals.TODAY, today);
+            timeIntrerval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, today);
             Assert.AreEqual(new DateTime(2008, 2, 14), timeIntrerval.First);
             Assert.AreEqual(new DateTime(2008, 2, 14, 23, 59, 59, 999), timeIntrerval.Second);
 
-            timeIntrerval = TimeInterval.CreateInterval(Intervals.THIS_WEEK, today);
+            timeIntrerval = TimeInterval.CreateInterval(ETimeIntervals.THIS_WEEK, today);
             Assert.AreEqual(new DateTime(2008, 2, 11), timeIntrerval.First);
             Assert.AreEqual(new DateTime(2008, 2, 17, 23, 59, 59, 999), timeIntrerval.Second);
 
-            timeIntrerval = TimeInterval.CreateInterval(Intervals.LAST_WEEK, today);
+            timeIntrerval = TimeInterval.CreateInterval(ETimeIntervals.LAST_WEEK, today);
             Assert.AreEqual(new DateTime(2008, 2, 4), timeIntrerval.First);
             Assert.AreEqual(new DateTime(2008, 2, 10, 23, 59, 59, 999), timeIntrerval.Second);
 
-            timeIntrerval = TimeInterval.CreateInterval(Intervals.LAST_WEEK, today);
+            timeIntrerval = TimeInterval.CreateInterval(ETimeIntervals.LAST_WEEK, today);
             Assert.AreEqual(new DateTime(2008, 2, 4), timeIntrerval.First);
             Assert.AreEqual(new DateTime(2008, 2, 10, 23, 59, 59, 999), timeIntrerval.Second);
 
-            timeIntrerval = TimeInterval.CreateInterval(Intervals.THIS_MONTH, today);
+            timeIntrerval = TimeInterval.CreateInterval(ETimeIntervals.THIS_MONTH, today);
             Assert.AreEqual(new DateTime(2008, 2, 1), timeIntrerval.First);
             Assert.AreEqual(new DateTime(2008, 2, 29, 23, 59, 59, 999), timeIntrerval.Second);
 
-            timeIntrerval = TimeInterval.CreateInterval(Intervals.LAST_MONTH, today);
+            timeIntrerval = TimeInterval.CreateInterval(ETimeIntervals.LAST_MONTH, today);
             Assert.AreEqual(new DateTime(2008, 1, 1), timeIntrerval.First);
             Assert.AreEqual(new DateTime(2008, 1, 31, 23, 59, 59, 999), timeIntrerval.Second);
 
-            timeIntrerval = TimeInterval.CreateInterval(Intervals.THIS_QUARTER, today);
+            timeIntrerval = TimeInterval.CreateInterval(ETimeIntervals.THIS_QUARTER, today);
             Assert.AreEqual(new DateTime(2007, 12, 1), timeIntrerval.First);
             Assert.AreEqual(new DateTime(2008, 2, 29, 23, 59, 59, 999), timeIntrerval.Second);
 
-            timeIntrerval = TimeInterval.CreateInterval(Intervals.LAST_QUARTER, today);
+            timeIntrerval = TimeInterval.CreateInterval(ETimeIntervals.LAST_QUARTER, today);
             Assert.AreEqual(new DateTime(2007, 9, 1), timeIntrerval.First);
             Assert.AreEqual(new DateTime(2007, 11, 30, 23, 59, 59, 999), timeIntrerval.Second);
 
-            timeIntrerval = TimeInterval.CreateInterval(Intervals.THIS_YEAR, today);
+            timeIntrerval = TimeInterval.CreateInterval(ETimeIntervals.THIS_YEAR, today);
             Assert.AreEqual(new DateTime(2008, 1, 1), timeIntrerval.First);
             Assert.AreEqual(new DateTime(2008, 12, 31, 23, 59, 59, 999), timeIntrerval.Second);
 
-            timeIntrerval = TimeInterval.CreateInterval(Intervals.LAST_YEAR, today);
+            timeIntrerval = TimeInterval.CreateInterval(ETimeIntervals.LAST_YEAR, today);
             Assert.AreEqual(new DateTime(2007, 1, 1), timeIntrerval.First);
             Assert.AreEqual(new DateTime(2007, 12, 31, 23, 59, 59, 999), timeIntrerval.Second);
         }

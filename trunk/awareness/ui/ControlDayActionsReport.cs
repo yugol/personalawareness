@@ -69,7 +69,7 @@ namespace awareness.ui
 
         void DatePickerValueChanged(object sender, EventArgs e){
             Debug.WriteLine("DatePickerValueChanged - day");
-            actionsListControl.TimeInterval = TimeInterval.CreateInterval(Intervals.TODAY, datePicker.Value);
+            actionsListControl.TimeInterval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, datePicker.Value);
         }
 
         void ControlDayActionsReportLoad(object sender, EventArgs e){

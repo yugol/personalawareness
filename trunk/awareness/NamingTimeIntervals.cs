@@ -36,10 +36,10 @@ namespace awareness.ui
 {
     public struct NamingTimeIntervals : IEquatable<NamingTimeIntervals>
     {
-        Intervals value;
+        ETimeIntervals value;
         string name;
 
-        public Intervals Value
+        public ETimeIntervals Value
         {
             get { return value; }
         }
@@ -50,7 +50,7 @@ namespace awareness.ui
         }
 
 
-        public NamingTimeIntervals(Intervals value, string name){
+        public NamingTimeIntervals(ETimeIntervals value, string name){
             this.value = value;
             this.name = name;
         }
@@ -96,17 +96,17 @@ namespace awareness.ui
         public static List<NamingTimeIntervals> GetNames(){
             if (timeIntervalNames == null){
                 timeIntervalNames = new List<NamingTimeIntervals>();
-                timeIntervalNames.Add(new NamingTimeIntervals(Intervals.TODAY, "Today"));
-                timeIntervalNames.Add(new NamingTimeIntervals(Intervals.THIS_WEEK, "This Week"));
-                timeIntervalNames.Add(new NamingTimeIntervals(Intervals.LAST_WEEK, "Last Week"));
-                timeIntervalNames.Add(new NamingTimeIntervals(Intervals.THIS_MONTH, "This Month"));
-                timeIntervalNames.Add(new NamingTimeIntervals(Intervals.LAST_MONTH, "Last Month"));
-                timeIntervalNames.Add(new NamingTimeIntervals(Intervals.THIS_QUARTER, "This Quarter"));
-                timeIntervalNames.Add(new NamingTimeIntervals(Intervals.LAST_QUARTER, "Last Quarter"));
-                timeIntervalNames.Add(new NamingTimeIntervals(Intervals.THIS_YEAR, "This Year"));
-                timeIntervalNames.Add(new NamingTimeIntervals(Intervals.LAST_YEAR, "Last Year"));
-                timeIntervalNames.Add(new NamingTimeIntervals(Intervals.ALL, "All"));
-                timeIntervalNames.Add(new NamingTimeIntervals(Intervals.UNDEFINED, "Custom"));
+                timeIntervalNames.Add(new NamingTimeIntervals(ETimeIntervals.TODAY, "Today"));
+                timeIntervalNames.Add(new NamingTimeIntervals(ETimeIntervals.THIS_WEEK, "This Week"));
+                timeIntervalNames.Add(new NamingTimeIntervals(ETimeIntervals.LAST_WEEK, "Last Week"));
+                timeIntervalNames.Add(new NamingTimeIntervals(ETimeIntervals.THIS_MONTH, "This Month"));
+                timeIntervalNames.Add(new NamingTimeIntervals(ETimeIntervals.LAST_MONTH, "Last Month"));
+                timeIntervalNames.Add(new NamingTimeIntervals(ETimeIntervals.THIS_QUARTER, "This Quarter"));
+                timeIntervalNames.Add(new NamingTimeIntervals(ETimeIntervals.LAST_QUARTER, "Last Quarter"));
+                timeIntervalNames.Add(new NamingTimeIntervals(ETimeIntervals.THIS_YEAR, "This Year"));
+                timeIntervalNames.Add(new NamingTimeIntervals(ETimeIntervals.LAST_YEAR, "Last Year"));
+                timeIntervalNames.Add(new NamingTimeIntervals(ETimeIntervals.ALL, "All"));
+                timeIntervalNames.Add(new NamingTimeIntervals(ETimeIntervals.UNDEFINED, "Custom"));
             }
             return timeIntervalNames;
         }

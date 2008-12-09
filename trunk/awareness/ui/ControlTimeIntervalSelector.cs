@@ -42,7 +42,7 @@ namespace awareness.ui
 
         bool uiInitiatedChanged = true;
 
-        public Intervals Interval
+        public ETimeIntervals Interval
         {
             set
             {
@@ -66,9 +66,6 @@ namespace awareness.ui
         }
 
         public ControlTimeIntervalSelector(){
-            //
-            // The InitializeComponent() call is required for Windows Forms designer support.
-            //
             InitializeComponent();
 
             intervalCombo.DropDownHeight = 200;
@@ -80,7 +77,7 @@ namespace awareness.ui
         void IntervalComboSelectedIndexChanged(object sender, EventArgs e){
             if (intervalCombo.SelectedItem != null){
                 NamingTimeIntervals intervalName = (NamingTimeIntervals) intervalCombo.SelectedItem;
-                if (intervalName.Value != Intervals.UNDEFINED){
+                if (intervalName.Value != ETimeIntervals.UNDEFINED){
                     TimeInterval timeInterval = TimeInterval.CreateInterval(intervalName.Value);
                     uiInitiatedChanged = false;
                     firstPicker.Value = timeInterval.First;
@@ -95,7 +92,7 @@ namespace awareness.ui
 
         void FirstPickerValueChanged(object sender, EventArgs e){
             if (uiInitiatedChanged){
-                Interval = Intervals.UNDEFINED;
+                Interval = ETimeIntervals.UNDEFINED;
                 if (TimeIntervalChanged != null){
                     TimeIntervalChanged();
                 }
@@ -104,7 +101,7 @@ namespace awareness.ui
 
         void LastPickerValueChanged(object sender, EventArgs e){
             if (uiInitiatedChanged){
-                Interval = Intervals.UNDEFINED;
+                Interval = ETimeIntervals.UNDEFINED;
                 if (TimeIntervalChanged != null){
                     TimeIntervalChanged();
                 }

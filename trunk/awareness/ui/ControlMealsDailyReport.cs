@@ -52,7 +52,7 @@ namespace awareness.ui
         public ControlMealsDailyReport(){
             InitializeComponent();
 
-            datePicker.JumpSize = JumpSize.Day;
+            datePicker.JumpSize = EJumpSize.Day;
             datePicker.ValueChanged += new EventHandler(DatePickerValueChanged);
 
             DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateReport);

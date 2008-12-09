@@ -46,7 +46,7 @@ namespace awareness.db
             action.Start = new DateTime(2008, 10, 3, 10, 30, 0);
             action.End = new DateTime(2008, 10, 3, 11, 00, 0);
             
-            TimeInterval interval = TimeInterval.CreateInterval(Intervals.TODAY, new DateTime(2008, 10, 3));
+            TimeInterval interval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, new DateTime(2008, 10, 3));
             
             List<ActionOccurrence> occurrences = action.GetOccurrences(interval);
             Assert.AreEqual(1, occurrences.Count);
@@ -70,7 +70,7 @@ namespace awareness.db
             Assert.AreEqual(new DateTime(2008, 10, 3, 23, 59, 0), occurrence.End);
             
             action.RepeatUntil = new DateTime(2008, 10, 5);
-            interval = TimeInterval.CreateInterval(Intervals.TODAY, new DateTime(2008, 10, 5));
+            interval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, new DateTime(2008, 10, 5));
             occurrences = action.GetOccurrences(interval);
             Assert.AreEqual(0, occurrences.Count);
         }

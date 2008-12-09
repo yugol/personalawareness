@@ -64,7 +64,7 @@ namespace awareness.ui
         	// datePicker
         	// 
         	this.datePicker.Dock = System.Windows.Forms.DockStyle.Top;
-        	this.datePicker.JumpSize = awareness.ui.JumpSize.Day;
+        	this.datePicker.JumpSize = awareness.ui.EJumpSize.Day;
         	this.datePicker.Location = new System.Drawing.Point(0, 0);
         	this.datePicker.MinimumSize = new System.Drawing.Size(244, 20);
         	this.datePicker.Name = "datePicker";
@@ -82,7 +82,7 @@ namespace awareness.ui
         	this.actionsListControl.TabIndex = 1;
         	this.actionsListControl.TimeInterval = null;
         	this.actionsListControl.Title = "When";
-        	this.actionsListControl.TitleFormat = awareness.ui.TitleFormats.HIDDEN;
+        	this.actionsListControl.TitleFormat = awareness.ui.ETitleFormats.HIDDEN;
         	// 
         	// ControlDayActionsReport
         	// 

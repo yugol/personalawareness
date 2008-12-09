@@ -95,23 +95,23 @@ namespace awareness.ui
 
         #region Edit mode
 
-        enum EditModes { NEW, UPDATE }
+        enum EEditModes { NEW, UPDATE }
 
-        EditModes editMode;
+        EEditModes editMode;
 
-        EditModes EditMode
+        EEditModes EditMode
         {
             get { return editMode; }
             set
             {
                 switch (value) {
-                case EditModes.NEW:
+                case EEditModes.NEW:
                     transactionsView.SelectedTransaction = null;
                     recordButton.Text = "&Record";
                     deleteButton.Enabled = false;
                     ClearEditBoxes();
                     break;
-                case EditModes.UPDATE:
+                case EEditModes.UPDATE:
                     recordButton.Text = "&New";
                     deleteButton.Enabled = true;
                     break;
@@ -125,20 +125,20 @@ namespace awareness.ui
         #region Edit events
 
         void DatePickerValueChanged(object sender, EventArgs e){
-            if (EditMode == EditModes.UPDATE){
+            if (EditMode == EEditModes.UPDATE){
                 Dirty = true;
             }
         }
 
         void ReasonComboTextChanged(object sender, EventArgs e){
-            if (EditMode == EditModes.UPDATE){
+            if (EditMode == EEditModes.UPDATE){
                 Dirty = true;
             }
         }
 
         void FromComboSelectedIndexChanged(object sender, EventArgs e){
             if (fromCombo.SelectedItem is DalTransferLocation){
-                if (EditMode == EditModes.UPDATE){
+                if (EditMode == EEditModes.UPDATE){
                     Dirty = true;
                 }
             } else {
@@ -148,7 +148,7 @@ namespace awareness.ui
 
         void ToComboSelectedIndexChanged(object sender, EventArgs e){
             if (toCombo.SelectedItem is DalTransferLocation){
-                if (EditMode == EditModes.UPDATE){
+                if (EditMode == EEditModes.UPDATE){
                     Dirty = true;
                 }
             } else {
@@ -157,37 +157,37 @@ namespace awareness.ui
         }
 
         void QuantityInputValueChanged(object sender, EventArgs e){
-            if (EditMode == EditModes.UPDATE){
+            if (EditMode == EEditModes.UPDATE){
                 Dirty = true;
             }
         }
 
         void MemoBoxTextChanged(object sender, EventArgs e){
-            if (EditMode == EditModes.UPDATE){
+            if (EditMode == EEditModes.UPDATE){
                 Dirty = true;
             }
         }
 
         void AmmountBoxTextChanged(object sender, EventArgs e){
-            if (EditMode == EditModes.UPDATE){
+            if (EditMode == EEditModes.UPDATE){
                 Dirty = true;
             }
         }
 
         void NoteControlNoteAdded(object sender, DalNote note){
-            if (EditMode == EditModes.UPDATE){
+            if (EditMode == EEditModes.UPDATE){
                 Dirty = true;
             }
         }
 
         void NoteControlNoteRemoved(object sender, DalNote note){
-            if (EditMode == EditModes.UPDATE){
+            if (EditMode == EEditModes.UPDATE){
                 Dirty = true;
             }
         }
 
         void NoteControlNoteTextChanged(object sender, DalNote note){
-            if (EditMode == EditModes.UPDATE){
+            if (EditMode == EEditModes.UPDATE){
                 Dirty = true;
             }
         }
@@ -366,16 +366,16 @@ namespace awareness.ui
         void TransactionsViewSelectedIndexChanged(object sender, EventArgs e){
             DalTransaction transaction = transactionsView.SelectedTransaction;
             if (transaction != null){
-                EditMode = EditModes.UPDATE;
+                EditMode = EEditModes.UPDATE;
                 TransactionData2Ui(transaction);
             } else {
-                EditMode = EditModes.NEW;
+                EditMode = EEditModes.NEW;
             }
         }
 
         void RecordButtonClick(object sender, EventArgs e){
             switch (EditMode){
-            case EditModes.NEW:
+            case EEditModes.NEW:
                 if (IsTransactionValid()){
                     DalTransaction transaction = new DalTransaction();
                     UiData2Transaction(ref transaction);
@@ -384,8 +384,8 @@ namespace awareness.ui
                     ClearEditBoxes();
                 }
                 break;
-            case EditModes.UPDATE:
-                EditMode = EditModes.NEW;
+            case EEditModes.UPDATE:
+                EditMode = EEditModes.NEW;
                 ClearEditBoxes();
                 break;
             }
@@ -404,7 +404,7 @@ namespace awareness.ui
         void DeleteButtonClick(object sender, EventArgs e){
             DbUtil.DeleteTransaction(transactionsView.SelectedTransaction);
             RequestReadTransactions();
-            EditMode = EditModes.NEW;
+            EditMode = EEditModes.NEW;
         }
 
         #endregion

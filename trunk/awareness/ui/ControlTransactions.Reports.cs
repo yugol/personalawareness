@@ -38,7 +38,7 @@ using ZedGraph;
 namespace awareness.ui
 {
     partial class ControlTransactions {
-        enum Grouping {DAILY, WEEKLY, MONTHLY, YEARLY}
+        enum EGrouping {DAILY, WEEKLY, MONTHLY, YEARLY}
 
         class PeriodAmmount {
             public DateTime date = DateTime.MinValue;
@@ -72,25 +72,25 @@ namespace awareness.ui
         void ExpensesDailyToolStripMenuItemClick(object sender, EventArgs e){
             FormReport report = new FormReport();
             report.Text = "Daily Expenses";
-            HistogramReport(GetExpensesHistogram(), report, Grouping.DAILY);
+            HistogramReport(GetExpensesHistogram(), report, EGrouping.DAILY);
         }
 
         void ExpensesWeeklyToolStripMenuItemClick(object sender, EventArgs e){
             FormReport report = new FormReport();
             report.Text = "Weekly Expenses";
-            HistogramReport(GetExpensesHistogram(), report, Grouping.WEEKLY);
+            HistogramReport(GetExpensesHistogram(), report, EGrouping.WEEKLY);
         }
 
         void ExpensesMonthlyToolStripMenuItemClick(object sender, EventArgs e){
             FormReport report = new FormReport();
             report.Text = "Monthly Expenses";
-            HistogramReport(GetExpensesHistogram(), report, Grouping.MONTHLY);
+            HistogramReport(GetExpensesHistogram(), report, EGrouping.MONTHLY);
         }
 
         void ExpensesYearlyToolStripMenuItemClick(object sender, EventArgs e){
             FormReport report = new FormReport();
             report.Text = "Yearly Expenses";
-            HistogramReport(GetExpensesHistogram(), report, Grouping.YEARLY);
+            HistogramReport(GetExpensesHistogram(), report, EGrouping.YEARLY);
         }
 
         IQueryable<DalTransaction> GetExpensesHistogram() {
@@ -118,25 +118,25 @@ namespace awareness.ui
         void IncomeYearlyToolStripMenuItemClick(object sender, EventArgs e){
             FormReport report = new FormReport();
             report.Text = "Yearly Income";
-            HistogramReport(GetIncomeHistogram(), report, Grouping.YEARLY);
+            HistogramReport(GetIncomeHistogram(), report, EGrouping.YEARLY);
         }
 
         void IncomeMonthlyToolStripMenuItemClick(object sender, EventArgs e){
             FormReport report = new FormReport();
             report.Text = "Monthly Income";
-            HistogramReport(GetIncomeHistogram(), report, Grouping.MONTHLY);
+            HistogramReport(GetIncomeHistogram(), report, EGrouping.MONTHLY);
         }
 
         void IncomeWeeklyToolStripMenuItemClick(object sender, EventArgs e){
             FormReport report = new FormReport();
             report.Text = "Weekly Income";
-            HistogramReport(GetIncomeHistogram(), report, Grouping.WEEKLY);
+            HistogramReport(GetIncomeHistogram(), report, EGrouping.WEEKLY);
         }
 
         void IncomeDailyToolStripMenuItemClick(object sender, EventArgs e){
             FormReport report = new FormReport();
             report.Text = "Daily Income";
-            HistogramReport(GetIncomeHistogram(), report, Grouping.DAILY);
+            HistogramReport(GetIncomeHistogram(), report, EGrouping.DAILY);
         }
 
         IQueryable<DalTransaction> GetIncomeHistogram() {
@@ -178,7 +178,7 @@ namespace awareness.ui
             report.Show();
         }
 
-        void HistogramReport(IQueryable<DalTransaction> transactions, FormReport report, Grouping grouping){
+        void HistogramReport(IQueryable<DalTransaction> transactions, FormReport report, EGrouping grouping){
             string title = "From " + timeIntervalSelectorControl.First.ToString("yyyy-MM-dd");
             title += " to " + timeIntervalSelectorControl.Last.ToString("yyyy-MM-dd");
 
@@ -195,7 +195,7 @@ namespace awareness.ui
             report.Show();
         }
 
-        PointPairList GroupTransactions(IQueryable<DalTransaction> transactions, Grouping grouping) {
+        PointPairList GroupTransactions(IQueryable<DalTransaction> transactions, EGrouping grouping) {
             PointPairList data = new PointPairList();
             PeriodAmmount pa = null;
 
@@ -221,18 +221,18 @@ namespace awareness.ui
             return data;
         }
 
-        bool IsInOtherGroup(DateTime date, DateTime group, Grouping grouping) {
+        bool IsInOtherGroup(DateTime date, DateTime group, EGrouping grouping) {
             switch (grouping){
-            case Grouping.DAILY:
+            case EGrouping.DAILY:
                 return date != group;
 
-            case Grouping.WEEKLY:
+            case EGrouping.WEEKLY:
                 return TimeInterval.GetMonday(date) != TimeInterval.GetMonday(group);
 
-            case Grouping.MONTHLY:
+            case EGrouping.MONTHLY:
                 return !(date.Year == group.Year&&date.Month == group.Month);
 
-            case Grouping.YEARLY:
+            case EGrouping.YEARLY:
                 return date.Year != group.Year;
             }
             throw new ArgumentException("ControlTransactions.Reports.IsInOtherGroup");

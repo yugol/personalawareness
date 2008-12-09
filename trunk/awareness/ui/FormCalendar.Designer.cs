@@ -88,7 +88,7 @@ namespace awareness.ui
         	// 
         	this.matrixPanel.SetColumnSpan(this.datePicker, 3);
         	this.datePicker.Dock = System.Windows.Forms.DockStyle.Right;
-        	this.datePicker.JumpSize = awareness.ui.JumpSize.Month;
+        	this.datePicker.JumpSize = awareness.ui.EJumpSize.Month;
         	this.datePicker.Location = new System.Drawing.Point(177, 3);
         	this.datePicker.MinimumSize = new System.Drawing.Size(304, 20);
         	this.datePicker.Name = "datePicker";
