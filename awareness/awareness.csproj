@@ -111,6 +111,9 @@
     <Compile Include="db\DbUtil.InsUpDel.Transactions.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
+    <Compile Include="db\DbUtil.InsUpDel.TransferLocation.cs">
+      <DependentUpon>DbUtil.cs</DependentUpon>
+    </Compile>
     <Compile Include="db\DbUtil.Mining.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>

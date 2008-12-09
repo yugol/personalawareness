@@ -1,4 +1,10 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 22/09/2008
+ * Time: 13:00
+ *
+ *
  * Copyright (c) 2008 Iulian GORIAC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,13 +26,6 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 22/09/2008
- * Time: 13:00
- *
- */
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -54,38 +53,6 @@ namespace awareness.db
         static void NotifyAccountTypesChanged(){
             if (AccountTypesChanged != null){
                 AccountTypesChanged();
-            }
-        }
-
-        internal static void InsertTransferLocation(DalTransferLocation transferLocation){
-            dataContext.transferLocations.InsertOnSubmit(transferLocation);
-            dataContext.SubmitChanges();
-            NotifyTransferLocationsChanged(transferLocation);
-        }
-
-        internal static void UpdateTransferLocation(DalTransferLocation transferLocation){
-            dataContext.SubmitChanges();
-            NotifyTransferLocationsChanged(transferLocation);
-        }
-
-        internal static void DeleteTransferLocation(DalTransferLocation transferLocation){
-            dataContext.transferLocations.DeleteOnSubmit(transferLocation);
-            dataContext.SubmitChanges();
-            NotifyTransferLocationsChanged(transferLocation);
-        }
-
-        static void NotifyTransferLocationsChanged(DalTransferLocation transferLocation){
-            if (transferLocation is DalAccount){
-                if (AccountsChanged != null){
-                    AccountsChanged();
-                }
-            } else if (transferLocation is DalBudgetCategory) {
-                if (BudgetCategoriesChanged != null){
-                    BudgetCategoriesChanged();
-                }
-            }
-            if (TransferLocationsChanged != null){
-                TransferLocationsChanged();
             }
         }
 

@@ -293,5 +293,13 @@ namespace awareness.db
             }
             return note;
         }
+
+        internal static bool IsTransferLocationUsed(DalTransferLocation tl) {
+            IQueryable<DalTransaction> q = dataContext.transactions.Where(d => d.FromId == tl.Id||d.ToId == tl.Id);
+            if (q.Count() > 0){
+                return true;
+            }
+            return false;
+        }
     }
 }

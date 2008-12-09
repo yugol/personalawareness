@@ -1,4 +1,10 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 25/09/2008
+ * Time: 10:57
+ *
+ *
  * Copyright (c) 2008 Iulian GORIAC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,13 +26,6 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 25/09/2008
- * Time: 10:57
- *
- */
 #if TEST
 
 using System;
@@ -38,6 +37,33 @@ namespace awareness.db
     [TestFixture]
     public class DbUtilTest {
         [Test]
+        public void IsTransferLocationUsed() {
+            DalBudgetCategory bc = new DalBudgetCategory();
+            bc.Name = "UsageTestBudget";
+            Assert.IsFalse(DbUtil.IsTransferLocationUsed(bc));
+
+            DbUtil.InsertTransferLocation(bc);
+            Assert.IsFalse(DbUtil.IsTransferLocationUsed(bc));
+            
+            DalReason r = new DalReason();
+            r.Name = "Reason";
+            DbUtil.InsertTransactionReason(r);
+            DalTransaction t = new DalTransaction();
+            t.Reason = r;
+            t.From = bc;
+            t.To = bc;
+            DbUtil.InsertTransaction(t, null);
+            Assert.IsTrue(DbUtil.IsTransferLocationUsed(bc));
+            
+            DbUtil.DeleteTransaction(t);
+            Assert.IsFalse(DbUtil.IsTransferLocationUsed(bc));
+            
+            DbUtil.DeleteTransactionReason(r);
+            DbUtil.DeleteTransferLocation(bc);
+        }
+        
+        
+        [Test]
         public void GetTodoNote() {
             DalNote note = DbUtil.GetTodoNote();
             Assert.IsNotNull(note);
@@ -46,7 +72,7 @@ namespace awareness.db
             DbUtil.UpdateNote(note);
             note = DbUtil.GetTodoNote();
             Assert.AreEqual("dummy", note.Text);
-        }
+        }                
 
         [Test]
         public void GetBalance(){
@@ -218,22 +244,6 @@ namespace awareness.db
             DalAction a5 = new DalAction() {
                 Name = "a5", Parent = a
             };
-
-            try {
-                DbUtil.InsertAction(-1, a5);
-                Assert.Fail("Cannot insert before the beginning of the list");
-            } catch (ArgumentOutOfRangeException) {
-            } catch (Exception ex) {
-                throw ex;
-            }
-
-            try {
-                DbUtil.InsertAction(10, a5);
-                Assert.Fail("Cannot insert after the end of the list");
-            } catch (ArgumentOutOfRangeException) {
-            } catch (Exception ex) {
-                throw ex;
-            }
 
             DbUtil.DeleteActionRecursive(a);
             Assert.AreEqual(0, DbUtil.GetRootActions().Count());
