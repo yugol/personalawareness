@@ -150,7 +150,7 @@ namespace awareness.ui
 
         void Data2UiReminder(){
             usageLabel.Visible = !action.IsTimePlanned;
-            
+
             showReminderCheck.Enabled = action.IsTimePlanned;
             runCommandCheck.Enabled = action.IsTimePlanned;
             playSoundCheck.Enabled = action.IsTimePlanned;
@@ -256,9 +256,7 @@ namespace awareness.ui
         }
 
         void UpdateDuration(){
-            // TODO: pretty format duration
-            TimeSpan duration = action.End.Subtract(action.Start);
-            durationCombo.Text = duration.ToString();
+            durationCombo.Text = UiUtil.FormatTimeSpan(action.End.Subtract(action.Start));
         }
 
         void Ui2DataStartTime(){
@@ -287,6 +285,5 @@ namespace awareness.ui
         void SetRecurrenceConstraints(){
             untilPicker.MinDate = action.RecurrencePattern.NextOccurrence(action.Start);
         }
-        
     }
 }

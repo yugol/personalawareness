@@ -37,7 +37,7 @@ using awareness.db;
 
 namespace awareness.ui
 {
-    public enum TitleFormats { HIDDEN, DAY_OF_WEEK, DAY_OF_MONTH }
+    public enum ETitleFormats { HIDDEN, DAY_OF_WEEK, DAY_OF_MONTH }
 
     public partial class ControlActionsList : UserControl {
         public string Title
@@ -46,14 +46,14 @@ namespace awareness.ui
             set { titleLabel.Text = value; }
         }
 
-        TitleFormats titleFormat = TitleFormats.DAY_OF_WEEK;
-        public TitleFormats TitleFormat
+        ETitleFormats titleFormat = ETitleFormats.DAY_OF_WEEK;
+        public ETitleFormats TitleFormat
         {
             get { return titleFormat; }
             set
             {
                 titleFormat = value;
-                titleLabel.Visible = (titleFormat != TitleFormats.HIDDEN);
+                titleLabel.Visible = (titleFormat != ETitleFormats.HIDDEN);
             }
         }
 
@@ -77,7 +77,7 @@ namespace awareness.ui
                     titleLabel.Text = "";
                 } else {
                     switch (titleFormat){
-                    case TitleFormats.DAY_OF_WEEK:
+                    case ETitleFormats.DAY_OF_WEEK:
                         titleLabel.Text = timeInterval.First.ToString("dddd, MMM d");
                         switch (timeInterval.First.Day){
                         case 1:
@@ -94,7 +94,7 @@ namespace awareness.ui
                             break;
                         }
                         break;
-                    case TitleFormats.DAY_OF_MONTH:
+                    case ETitleFormats.DAY_OF_MONTH:
                         titleLabel.Text = timeInterval.First.ToString("d");
                         break;
                     }

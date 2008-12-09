@@ -44,18 +44,7 @@ namespace awareness.ui
             DateTime now = DateTime.Now;
             foreach (ListViewItem item in occurencesView.Items){
                 ActionOccurrence occurrence = (ActionOccurrence) item.Tag;
-                TimeSpan dueTime = occurrence.Start.Subtract(now);
-                string due = "";
-                if (dueTime.TotalMinutes < 0){
-                    due = "-";
-                }
-                int hours = Math.Abs((int) dueTime.TotalHours);
-                if (hours > 0){
-                    due += hours + "h ";
-                }
-                due += Math.Abs(dueTime.Minutes).ToString("00") + "m ";
-                due += Math.Abs(dueTime.Seconds).ToString("00") + "s";
-                item.SubItems[2].Text = due;
+                item.SubItems[2].Text = UiUtil.FormatTimeSpan(occurrence.Start.Subtract(now));
             }
         }
 

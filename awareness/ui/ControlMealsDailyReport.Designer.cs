@@ -182,7 +182,7 @@ namespace awareness.ui
         	// datePicker
         	// 
         	this.datePicker.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.datePicker.JumpSize = awareness.ui.JumpSize.Day;
+        	this.datePicker.JumpSize = awareness.ui.EJumpSize.Day;
         	this.datePicker.Location = new System.Drawing.Point(0, 3);
         	this.datePicker.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
         	this.datePicker.MinimumSize = new System.Drawing.Size(244, 20);

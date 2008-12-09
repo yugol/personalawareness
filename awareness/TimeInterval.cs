@@ -30,7 +30,7 @@ using System;
 
 namespace awareness
 {
-    public enum Intervals { TODAY, THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_QUARTER, LAST_QUARTER, THIS_YEAR, LAST_YEAR, ALL, UNDEFINED }
+    public enum ETimeIntervals { TODAY, THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_QUARTER, LAST_QUARTER, THIS_YEAR, LAST_YEAR, ALL, UNDEFINED }
 
     public class TimeInterval {
         DateTime first;
@@ -84,57 +84,57 @@ namespace awareness
             }
         }
 
-        public static TimeInterval CreateInterval(Intervals interval){
+        public static TimeInterval CreateInterval(ETimeIntervals interval){
             return CreateInterval(interval, DateTime.Now);
         }
 
-        public static TimeInterval CreateInterval(Intervals interval, DateTime today){
+        public static TimeInterval CreateInterval(ETimeIntervals interval, DateTime today){
             TimeInterval timeInterval = new TimeInterval();
             DateTime temp;
 
             switch (interval){
-            case Intervals.TODAY:
+            case ETimeIntervals.TODAY:
                 timeInterval.first = today.Date;
                 timeInterval.second = new DateTime(today.Year, today.Month, today.Day, 23, 59, 59, 999);
                 break;
-            case Intervals.THIS_WEEK:
+            case ETimeIntervals.THIS_WEEK:
                 SetWeek(timeInterval, today);
                 break;
-            case Intervals.LAST_WEEK:
+            case ETimeIntervals.LAST_WEEK:
                 SetWeek(timeInterval, today.AddDays(-7));
                 break;
-            case Intervals.THIS_MONTH:
+            case ETimeIntervals.THIS_MONTH:
                 timeInterval.first = new DateTime(today.Year, today.Month, 1).Date;
                 temp = timeInterval.first.AddMonths(1).AddDays(-1);
                 timeInterval.second = new DateTime(temp.Year, temp.Month, temp.Day, 23, 59, 59, 999);
                 break;
-            case Intervals.LAST_MONTH:
+            case ETimeIntervals.LAST_MONTH:
                 temp = new DateTime(today.Year, today.Month, 1).Date;
                 timeInterval.first = temp.AddMonths(-1);
                 temp = temp.AddDays(-1);
                 timeInterval.second = new DateTime(temp.Year, temp.Month, temp.Day, 23, 59, 59, 999);
                 break;
-            case Intervals.THIS_QUARTER:
+            case ETimeIntervals.THIS_QUARTER:
                 temp = new DateTime(today.Year, today.Month, 1).Date;
                 timeInterval.first = temp.AddMonths(-2);
                 temp = temp.AddMonths(1).AddDays(-1);
                 timeInterval.second = new DateTime(temp.Year, temp.Month, temp.Day, 23, 59, 59, 999);
                 break;
-            case Intervals.LAST_QUARTER:
+            case ETimeIntervals.LAST_QUARTER:
                 temp = new DateTime(today.Year, today.Month, 1);
                 timeInterval.first = temp.AddMonths(-5);
                 temp = temp.AddMonths(-2).AddDays(-1);
                 timeInterval.second = new DateTime(temp.Year, temp.Month, temp.Day, 23, 59, 59, 999);
                 break;
-            case Intervals.THIS_YEAR:
+            case ETimeIntervals.THIS_YEAR:
                 timeInterval.first = new DateTime(today.Year, 1, 1);
                 timeInterval.second = new DateTime(today.Year, 12, 31, 23, 59, 59, 999);
                 break;
-            case Intervals.LAST_YEAR:
+            case ETimeIntervals.LAST_YEAR:
                 timeInterval.first = new DateTime(today.Year - 1, 1, 1);
                 timeInterval.second = new DateTime(today.Year - 1, 12, 31, 23, 59, 59, 999);
                 break;
-            case Intervals.ALL:
+            case ETimeIntervals.ALL:
                 timeInterval.first = Configuration.MIN_DATE_TIME;
                 timeInterval.second = Configuration.MAX_DATE_TIME;
                 break;

@@ -1,4 +1,10 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 21/09/2008
+ * Time: 23:11
+ *
+ *
  * Copyright (c) 2008 Iulian GORIAC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,16 +26,10 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 21/09/2008
- * Time: 23:11
- *
- */
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 using awareness.db;
@@ -69,6 +69,24 @@ namespace awareness.ui
                     whyCombo.Items.Add(recipe);
                 }
             }
+        }
+
+        internal static string FormatTimeSpan(TimeSpan ts) {
+            StringBuilder buf = new StringBuilder();
+            if (ts.TotalMinutes < 0){
+                buf.Append("-");
+            }
+            int days = Math.Abs((int) ts.TotalDays);
+            if (days > 0){
+                buf.Append(days);
+                buf.Append(".");
+            }
+            buf.Append(Math.Abs(ts.Hours).ToString("00"));
+            buf.Append(":");
+            buf.Append(Math.Abs(ts.Minutes).ToString("00"));
+            buf.Append(":");
+            buf.Append(Math.Abs(ts.Seconds).ToString("00"));
+            return buf.ToString();
         }
     }
 }

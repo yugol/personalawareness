@@ -34,32 +34,32 @@ using System.Windows.Forms;
 
 namespace awareness.ui
 {
-    public enum JumpSize { Day, Week, Month }
+    public enum EJumpSize { Day, Week, Month }
 
     public partial class ControlJumperDatePicker : UserControl {
         public event EventHandler ValueChanged;
 
-        JumpSize jumpSize = JumpSize.Day;
-        public JumpSize JumpSize
+        EJumpSize jumpSize = EJumpSize.Day;
+        public EJumpSize JumpSize
         {
             get { return jumpSize; }
             set
             {
                 jumpSize = value;
                 switch (jumpSize){
-                case JumpSize.Day:
+                case EJumpSize.Day:
                     this.toolTip.SetToolTip(this.leftLeftButton, "Previous week");
                     this.toolTip.SetToolTip(this.leftButton, "Previous day");
                     this.toolTip.SetToolTip(this.rightButton, "Next day");
                     this.toolTip.SetToolTip(this.rightRightButton, "Next week");
                     break;
-                case JumpSize.Week:
+                case EJumpSize.Week:
                     this.toolTip.SetToolTip(this.leftLeftButton, "Previous month");
                     this.toolTip.SetToolTip(this.leftButton, "Previous week");
                     this.toolTip.SetToolTip(this.rightButton, "Next week");
                     this.toolTip.SetToolTip(this.rightRightButton, "Next month");
                     break;
-                case JumpSize.Month:
+                case EJumpSize.Month:
                     this.toolTip.SetToolTip(this.leftLeftButton, "Previous year");
                     this.toolTip.SetToolTip(this.leftButton, "Previous month");
                     this.toolTip.SetToolTip(this.rightButton, "Next month");
@@ -84,13 +84,13 @@ namespace awareness.ui
         void LeftLeftButtonClick(object sender, EventArgs e){
             try {
                 switch (jumpSize){
-                case JumpSize.Day:
+                case EJumpSize.Day:
                     datePicker.Value = datePicker.Value.AddDays(-7);
                     break;
-                case JumpSize.Week:
+                case EJumpSize.Week:
                     datePicker.Value = datePicker.Value.AddMonths(-1);
                     break;
-                case JumpSize.Month:
+                case EJumpSize.Month:
                     datePicker.Value = datePicker.Value.AddYears(-1);
                     break;
                 }
@@ -101,13 +101,13 @@ namespace awareness.ui
         void LeftButtonClick(object sender, EventArgs e){
             try {
                 switch (jumpSize){
-                case JumpSize.Day:
+                case EJumpSize.Day:
                     datePicker.Value = datePicker.Value.AddDays(-1);
                     break;
-                case JumpSize.Week:
+                case EJumpSize.Week:
                     datePicker.Value = datePicker.Value.AddDays(-7);
                     break;
-                case JumpSize.Month:
+                case EJumpSize.Month:
                     datePicker.Value = datePicker.Value.AddMonths(-1);
                     break;
                 }
@@ -118,13 +118,13 @@ namespace awareness.ui
         void RightButtonClick(object sender, EventArgs e){
             try {
                 switch (jumpSize){
-                case JumpSize.Day:
+                case EJumpSize.Day:
                     datePicker.Value = datePicker.Value.AddDays(1);
                     break;
-                case JumpSize.Week:
+                case EJumpSize.Week:
                     datePicker.Value = datePicker.Value.AddDays(7);
                     break;
-                case JumpSize.Month:
+                case EJumpSize.Month:
                     datePicker.Value = datePicker.Value.AddMonths(1);
                     break;
                 }
@@ -135,13 +135,13 @@ namespace awareness.ui
         void RightRightButtonClick(object sender, EventArgs e){
             try {
                 switch (jumpSize){
-                case JumpSize.Day:
+                case EJumpSize.Day:
                     datePicker.Value = datePicker.Value.AddDays(7);
                     break;
-                case JumpSize.Week:
+                case EJumpSize.Week:
                     datePicker.Value = datePicker.Value.AddMonths(1);
                     break;
-                case JumpSize.Month:
+                case EJumpSize.Month:
                     datePicker.Value = datePicker.Value.AddYears(1);
                     break;
                 }

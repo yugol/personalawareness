@@ -34,25 +34,25 @@ using System.Windows.Forms;
 namespace awareness.ui
 {
     public partial class FormTeaTimer : Form {
-        public enum PresentationMode { EDIT, RUN }
+        public enum EPresentationMode { EDIT, RUN }
 
-        private PresentationMode mode;
+        private EPresentationMode mode;
         private BasicTimerable task = null;
 
-        public PresentationMode Mode {
+        public EPresentationMode Mode {
             get { return mode; }
             set
             {
                 mode = value;
                 switch (mode){
-                case PresentationMode.EDIT:
+                case EPresentationMode.EDIT:
                     hoursBox.Enabled = true;
                     minutesBox.Enabled = true;
                     secondsBox.Enabled = true;
                     actionButton.Text = "Start";
                     resetButton.Enabled = true;
                     break;
-                case PresentationMode.RUN:
+                case EPresentationMode.RUN:
                     hoursBox.Enabled = false;
                     minutesBox.Enabled = false;
                     secondsBox.Enabled = false;
@@ -68,7 +68,7 @@ namespace awareness.ui
         public FormTeaTimer(){
             InitializeComponent();
             timerLogic = new TimerLogic();
-            Mode = PresentationMode.EDIT;
+            Mode = EPresentationMode.EDIT;
             ResetUi();
             timerLogic.Tick += new EventHandler(TimerLogicTick);
             timerLogic.Completed += new TaskCompletedHandler(TimerLogicCompleted);
@@ -87,7 +87,7 @@ namespace awareness.ui
 
         void ResetTask() {
             task = null;
-            Mode = PresentationMode.EDIT;
+            Mode = EPresentationMode.EDIT;
         }
 
         void ResetButtonClick(object sender, EventArgs e){
@@ -96,18 +96,18 @@ namespace awareness.ui
 
         void ActionButtonClick(object sender, EventArgs e){
             switch (Mode){
-            case PresentationMode.EDIT:
+            case EPresentationMode.EDIT:
                 TimeSpan duration = Ui2TimeSpan();
                 if (duration.TotalSeconds >= 1){
                     timerLogic.Clear();
                     task = new BasicTimerable(DateTime.Now.Add(duration));
                     timerLogic.Add(task);
                     timerLogic.Start();
-                    Mode = PresentationMode.RUN;
+                    Mode = EPresentationMode.RUN;
                 }
                 break;
 
-            case PresentationMode.RUN:
+            case EPresentationMode.RUN:
                 timerLogic.Cancel();
                 ResetTask();
                 break;

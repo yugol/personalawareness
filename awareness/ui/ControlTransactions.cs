@@ -62,10 +62,10 @@ namespace awareness.ui
             fromCombo.DropDownHeight = 250;
             toCombo.DropDownHeight = 250;
 
-            timeIntervalSelectorControl.Interval = Intervals.THIS_QUARTER;
+            timeIntervalSelectorControl.Interval = ETimeIntervals.THIS_QUARTER;
             selectPanelNormalHeight = selectPanel.Height;
             editPanelNormalHeight = editPanel.Height;
-            EditMode = EditModes.NEW;
+            EditMode = EEditModes.NEW;
             quantityInput.SetToolTip(toolTips.GetToolTip(quantityInput));
 
             transactionsView.SelectedIndexChanged += new EventHandler(TransactionsViewSelectedIndexChanged);
@@ -171,6 +171,16 @@ namespace awareness.ui
                 readTransactionsBit = false;
                 //MessageBox.Show("Transactions updated");
             }
+        }
+
+        public void ShowAllTransactionsForAccount(DalAccount account) {
+            foreach (object obj in transferLocationSelectionCombo.Items){
+                if (obj is DalTransferLocation&&((DalTransferLocation) obj).Id == account.Id){
+                    transferLocationSelectionCombo.SelectedItem = obj;
+                }
+            }
+            timeIntervalSelectorControl.Interval = ETimeIntervals.ALL;
+            RequestReadTransactions();
         }
     }
 }

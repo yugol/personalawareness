@@ -1,4 +1,10 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 11/09/2008
+ * Time: 11:28
+ *
+ *
  * Copyright (c) 2008 Iulian GORIAC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,13 +26,6 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 11/09/2008
- * Time: 11:28
- *
- */
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,9 +37,13 @@ using awareness.db;
 
 namespace awareness.ui
 {
+    public delegate void AccountDoubleClickHandler(DalAccount account);
+
     public partial class ControlFinances : UserControl {
         bool updateBalancesBit = true;
         bool isDisplayed = false;
+
+        public event AccountDoubleClickHandler AccountDoubleClick;
 
         public bool IsDisplayed {
             get { return isDisplayed; }
@@ -100,13 +103,24 @@ namespace awareness.ui
                             accountNode.SubItems.Add(UiUtil.FormatCurrency(accountBalanceMap[account]));
                             accountNode.BackColor = useAlternateBackground ? Configuration.ALTERNATE_BACKGROUND : Configuration.NORMAL_BACKGROUND;
                             useAlternateBackground = !useAlternateBackground;
+                            accountNode.Tag = account;
                             accountsBalanceView.Items.Add(accountNode);
                         }
                     }
                 }
                 netWorthValueLabel.Text = UiUtil.FormatCurrency(netWorth);
                 updateBalancesBit = false;
-                //MessageBox.Show("Finances update");
+            }
+        }
+
+        void AccountsBalanceViewDoubleClick(object sender, EventArgs e){
+            if (accountsBalanceView.SelectedItems.Count > 0){
+                if (accountsBalanceView.SelectedItems[0].Tag is DalAccount){
+                    DalAccount account = (DalAccount) accountsBalanceView.SelectedItems[0].Tag;
+                    if (AccountDoubleClick != null){
+                        AccountDoubleClick(account);
+                    }
+                }
             }
         }
     }

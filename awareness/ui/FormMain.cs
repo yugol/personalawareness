@@ -53,6 +53,8 @@ namespace awareness.ui
             notesViewer.Dock = DockStyle.Fill;
             mealPanel.Dock = DockStyle.Fill;
             financialPages.Dock = DockStyle.Fill;
+            
+            financesControl.AccountDoubleClick += new AccountDoubleClickHandler(ShowAllTransactionsForAccount);
         }
 
         void FormMainLoad(object sender, EventArgs e){
@@ -344,9 +346,14 @@ namespace awareness.ui
 
         #endregion
 
-        void PreferencesToolStripMenuItemClick(object sender, EventArgs e){
+        void PreferencesToolStripMenuItemClick(object sender, EventArgs e) {
             FormEditProperties dialog = new FormEditProperties();
             dialog.ShowDialog();
+        }
+        
+        void ShowAllTransactionsForAccount(DalAccount account) {
+            financialPages.SelectedTab = transactionsPage;
+            transactionsControl.ShowAllTransactionsForAccount(account);
         }
     }
 }

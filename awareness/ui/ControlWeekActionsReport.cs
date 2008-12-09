@@ -75,13 +75,13 @@ namespace awareness.ui
 
         void DatePickerValueChanged(object sender, EventArgs e){
             DateTime day = TimeInterval.GetMonday(datePicker.Value);
-            mondayActions.TimeInterval = TimeInterval.CreateInterval(Intervals.TODAY, day);
-            tuesdayActions.TimeInterval = TimeInterval.CreateInterval(Intervals.TODAY, day.AddDays(1));
-            wednesdayActions.TimeInterval = TimeInterval.CreateInterval(Intervals.TODAY, day.AddDays(2));
-            thursdayActions.TimeInterval = TimeInterval.CreateInterval(Intervals.TODAY, day.AddDays(3));
-            fridayActions.TimeInterval = TimeInterval.CreateInterval(Intervals.TODAY, day.AddDays(4));
-            saturdayActions.TimeInterval = TimeInterval.CreateInterval(Intervals.TODAY, day.AddDays(5));
-            sundayActions.TimeInterval = TimeInterval.CreateInterval(Intervals.TODAY, day.AddDays(6));
+            mondayActions.TimeInterval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, day);
+            tuesdayActions.TimeInterval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, day.AddDays(1));
+            wednesdayActions.TimeInterval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, day.AddDays(2));
+            thursdayActions.TimeInterval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, day.AddDays(3));
+            fridayActions.TimeInterval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, day.AddDays(4));
+            saturdayActions.TimeInterval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, day.AddDays(5));
+            sundayActions.TimeInterval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, day.AddDays(6));
         }
 
         void ControlWeekActionsReportLoad(object sender, EventArgs e){

@@ -118,6 +118,7 @@ namespace awareness.ui
         	this.accountsBalanceView.TabIndex = 5;
         	this.accountsBalanceView.UseCompatibleStateImageBehavior = false;
         	this.accountsBalanceView.View = System.Windows.Forms.View.Details;
+        	this.accountsBalanceView.DoubleClick += new System.EventHandler(this.AccountsBalanceViewDoubleClick);
         	// 
         	// columnHeader1
         	// 
