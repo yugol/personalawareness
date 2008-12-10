@@ -38,6 +38,9 @@ namespace awareness.ui
 {
     public delegate void PatternChangedHandler();
     
+    
+    // TODO: when uncheck plan time remove reminders
+    
     public partial class ControlRecurrencePatternEdit : UserControl
     {
         public event PatternChangedHandler PatternChanged;
@@ -106,7 +109,7 @@ namespace awareness.ui
                     monthlyWhenCombo.SelectedIndex = (int)pattern.When - 1;
                     break;
                 case RecurrencePattern.STEP_YEARLY:
-                    yearlyFrequencyCombo.SelectedIndex = (int)pattern.Frequency;
+                    yearlyFrequencyCombo.SelectedIndex = (int)pattern.Frequency - 1;
                     yearlyWhenCombo.SelectedIndex = (int)pattern.When - 1;
                     break;
             }

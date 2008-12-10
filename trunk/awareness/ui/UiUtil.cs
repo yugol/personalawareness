@@ -88,5 +88,10 @@ namespace awareness.ui
             buf.Append(Math.Abs(ts.Seconds).ToString("00"));
             return buf.ToString();
         }
+        
+        internal static void SetMinMaxDatesFor(DateTimePicker picker) {
+            picker.MinDate = Configuration.MIN_DATE_TIME;
+            picker.MaxDate = Configuration.MAX_DATE_TIME;
+        }
     }
 }

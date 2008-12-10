@@ -59,6 +59,8 @@ namespace awareness.ui
         public ControlTransactions(){
             InitializeComponent();
 
+            UiUtil.SetMinMaxDatesFor(datePicker);
+            
             fromCombo.DropDownHeight = 250;
             toCombo.DropDownHeight = 250;
 
