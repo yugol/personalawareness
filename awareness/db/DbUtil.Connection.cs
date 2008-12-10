@@ -1,4 +1,10 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 22/09/2008
+ * Time: 12:58
+ *
+ *
  * Copyright (c) 2008 Iulian GORIAC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,13 +26,6 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 22/09/2008
- * Time: 12:58
- *
- */
 using System;
 using System.Linq;
 
@@ -52,17 +51,17 @@ namespace awareness.db
 
             Configuration.ReadDbProperties();
 
-            object o = dataContext.accountTypes.First();
-            //o = dataContext.transferLocations.OfType<DalBudgetCategory>().First();
-            o = dataContext.transferLocations.OfType<DalAccount>().First();
-            //o = dataContext.transactionReasons.OfType<DalReason>().First();
-            //o = dataContext.transactionReasons.OfType<DalFood>().First();
-            //o = dataContext.transactionReasons.OfType<DalRecipe>().First();
-            //o = dataContext.transactionReasons.OfType<DalConsumer>().First();
-            //o = dataContext.transactions.First();
-            //o = dataContext.meals.First();
-            o = dataContext.notes.First();
-            o = dataContext.actions.First();
+            // object o = dataContext.accountTypes.First();
+            // o = dataContext.transferLocations.OfType<DalBudgetCategory>().First();
+            // o = dataContext.transferLocations.OfType<DalAccount>().First();
+            // o = dataContext.transactionReasons.OfType<DalReason>().First();
+            // o = dataContext.transactionReasons.OfType<DalFood>().First();
+            // o = dataContext.transactionReasons.OfType<DalRecipe>().First();
+            // o = dataContext.transactionReasons.OfType<DalConsumer>().First();
+            // o = dataContext.transactions.First();
+            // o = dataContext.meals.First();
+            // o = dataContext.notes.First();
+            // o = dataContext.actions.First();
 
             if (DataContextChanged != null){
                 DataContextChanged();

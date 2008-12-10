@@ -42,9 +42,9 @@ namespace awareness.ui
         public FormEditTransactionReasons(){
             InitializeComponent();
 
-            noteControl.NoteAdded += new NoteHandler(NoteControlNoteAdded);
-            noteControl.NoteTextChanged += new NoteHandler(NoteControlNoteAdded);
-            noteControl.NoteRemoved += new NoteHandler(NoteControlNoteAdded);
+            noteControl.NoteAdded += new NoteHandler(NoteUpdated);
+            noteControl.NoteTextChanged += new NoteHandler(NoteUpdated);
+            noteControl.NoteRemoved += new NoteHandler(NoteUpdated);
 
             energyMeasureUnitLabel.Text = string.Format("({0}):", Configuration.FOOD_ENERGY_MEASURE_UNIT);
 
@@ -144,7 +144,7 @@ namespace awareness.ui
             energyBox.Text = energy.ToString("0.00");
         }
 
-        void NoteControlNoteAdded(object sender, DalNote note) {
+        void NoteUpdated(object sender, DalNote note) {
             Dirty = true;
         }
 

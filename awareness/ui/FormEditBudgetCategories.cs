@@ -38,6 +38,10 @@ namespace awareness.ui
         public FormEditBudgetCategories(){
             InitializeComponent();
             ReadBudgetCategories();
+
+            noteControl.NoteAdded += new NoteHandler(NoteUpdated);
+            noteControl.NoteTextChanged += new NoteHandler(NoteUpdated);
+            noteControl.NoteRemoved += new NoteHandler(NoteUpdated);
         }
 
         void ReadBudgetCategories(){
@@ -69,6 +73,7 @@ namespace awareness.ui
                     incomeButton.Visible = true;
                     expenseButton.Visible = true;
                 }
+                noteControl.Note = bc.Note;
                 EditControlsEnabled(true);
             } else {
                 EditControlsEnabled(false);
@@ -83,6 +88,7 @@ namespace awareness.ui
             expenseButton.Enabled = val;
             deleteButton.Enabled = val;
             updateButton.Enabled = false;
+            noteControl.Enabled = val;
         }
 
         void ClearEditBoxes(){
@@ -95,7 +101,7 @@ namespace awareness.ui
             DalBudgetCategory bc = new DalBudgetCategory() {
                 Name = "_New Budget Category", IsIncome = false
             };
-            DbUtil.InsertTransferLocation(bc);
+            DbUtil.InsertTransferLocation(bc, noteControl.Note);
             ReadBudgetCategories();
             categoriesList.SelectedItem = bc;
             nameBox.Focus();
@@ -105,7 +111,7 @@ namespace awareness.ui
             DalBudgetCategory bc = (DalBudgetCategory) categoriesList.SelectedItem;
             bc.Name = nameBox.Text;
             bc.IsIncome = incomeButton.Checked;
-            DbUtil.UpdateTransferLocation(bc);
+            DbUtil.UpdateTransferLocation(bc, noteControl.Note);
             ReadBudgetCategories();
         }
 
@@ -132,6 +138,10 @@ namespace awareness.ui
         }
 
         void ExpenseButtonCheckedChanged(object sender, EventArgs e){
+            updateButton.Enabled = true;
+        }
+        
+        void NoteUpdated(object sender, DalNote note) {
             updateButton.Enabled = true;
         }
 

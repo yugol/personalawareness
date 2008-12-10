@@ -32,51 +32,15 @@ using System;
 namespace awareness.db
 {
     partial class DbUtil {
-        private static void AttachNoteToTransaction(DalNote note, DalTransaction transaction){
-            note.Parent = dataContext.GetNoteById(AwarenessDataContext.NOTE_TRANSACTIONS_ID);
-            note.Title = transaction.Reason.Name;
-            note.IsPermanent = true;
-        }
-
         internal static void InsertTransaction(DalTransaction transaction, DalNote note){
-            if (!IsEmpty(note)){
-                AttachNoteToTransaction(note, transaction);
-                StoreNote(note);
-                transaction.Note = note;
-            } else {
-                transaction.Note = GetRootNote();
-            }
+            PreludeInsertNotable(transaction, note, AwarenessDataContext.NOTE_TRANSACTIONS_ID);
             dataContext.transactions.InsertOnSubmit(transaction);
             dataContext.SubmitChanges();
             NotifyTransactionsChanged(transaction);
         }
 
         internal static void UpdateTransaction(DalTransaction transaction, DalNote note){
-            if (!transaction.HasNote){
-                if (!IsEmpty(note)){
-                    AttachNoteToTransaction(note, transaction);
-                    StoreNote(note);
-                    transaction.Note = note;
-                }
-                dataContext.SubmitChanges();
-            } else {
-                DalNote oldNote = transaction.Note;
-                if (IsEmpty(note)){
-                    transaction.Note = GetRootNote();
-                    dataContext.SubmitChanges();
-                    DeleteNote(oldNote);
-                } else {
-                    AttachNoteToTransaction(note, transaction);
-                    StoreNote(note);
-                    if (note.Id != oldNote.Id){
-                        transaction.Note = note;
-                        dataContext.SubmitChanges();
-                        DeleteNote(oldNote);
-                    } else {
-                        dataContext.SubmitChanges();
-                    }
-                }
-            }
+            PreludeUpdateNotable(transaction, note, AwarenessDataContext.NOTE_TRANSACTIONS_ID);
             NotifyTransactionsChanged(transaction);
         }
 

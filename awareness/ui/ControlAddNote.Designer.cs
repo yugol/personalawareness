@@ -78,6 +78,7 @@ namespace awareness.ui
         	// addNoteButton
         	// 
         	this.addNoteButton.Dock = System.Windows.Forms.DockStyle.Right;
+        	this.addNoteButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         	this.addNoteButton.Location = new System.Drawing.Point(396, 0);
         	this.addNoteButton.Name = "addNoteButton";
         	this.addNoteButton.Size = new System.Drawing.Size(75, 24);
