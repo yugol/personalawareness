@@ -85,7 +85,7 @@ namespace awareness.ui
         	this.availableFoodsView.MultiSelect = false;
         	this.availableFoodsView.Name = "availableFoodsView";
         	this.availableFoodsView.Size = new System.Drawing.Size(509, 268);
-        	this.availableFoodsView.TabIndex = 3;
+        	this.availableFoodsView.TabIndex = 1;
         	this.availableFoodsView.UseCompatibleStateImageBehavior = false;
         	this.availableFoodsView.View = System.Windows.Forms.View.Details;
         	this.availableFoodsView.SelectedIndexChanged += new System.EventHandler(this.AvailableFoodsViewSelectedIndexChanged);
@@ -109,7 +109,7 @@ namespace awareness.ui
         	this.datePicker.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
         	this.datePicker.Name = "datePicker";
         	this.datePicker.Size = new System.Drawing.Size(98, 20);
-        	this.datePicker.TabIndex = 0;
+        	this.datePicker.TabIndex = 2;
         	// 
         	// whatBox
         	// 
@@ -119,7 +119,7 @@ namespace awareness.ui
         	this.whatBox.Name = "whatBox";
         	this.whatBox.ReadOnly = true;
         	this.whatBox.Size = new System.Drawing.Size(172, 20);
-        	this.whatBox.TabIndex = 2;
+        	this.whatBox.TabIndex = 3;
         	// 
         	// consumeButton
         	// 
@@ -129,7 +129,7 @@ namespace awareness.ui
         	this.consumeButton.Margin = new System.Windows.Forms.Padding(3, 3, 16, 3);
         	this.consumeButton.Name = "consumeButton";
         	this.consumeButton.Size = new System.Drawing.Size(75, 23);
-        	this.consumeButton.TabIndex = 3;
+        	this.consumeButton.TabIndex = 6;
         	this.consumeButton.Text = "&Consume";
         	this.consumeButton.UseVisualStyleBackColor = true;
         	this.consumeButton.Click += new System.EventHandler(this.ConsumeButtonClick);
@@ -164,7 +164,7 @@ namespace awareness.ui
         	this.whyCombo.Margin = new System.Windows.Forms.Padding(3, 3, 16, 3);
         	this.whyCombo.Name = "whyCombo";
         	this.whyCombo.Size = new System.Drawing.Size(122, 21);
-        	this.whyCombo.TabIndex = 4;
+        	this.whyCombo.TabIndex = 5;
         	this.whyCombo.Validating += new System.ComponentModel.CancelEventHandler(this.WhyComboValidating);
         	this.whyCombo.SelectedIndexChanged += new System.EventHandler(this.WhyComboSelectedIndexChanged);
         	// 
@@ -177,7 +177,7 @@ namespace awareness.ui
         	this.quantityInput.MinimumSize = new System.Drawing.Size(60, 20);
         	this.quantityInput.Name = "quantityInput";
         	this.quantityInput.Size = new System.Drawing.Size(70, 20);
-        	this.quantityInput.TabIndex = 5;
+        	this.quantityInput.TabIndex = 4;
         	this.quantityInput.Value = 0;
         	this.quantityInput.Validating += new System.ComponentModel.CancelEventHandler(this.QuantityInputValidating);
         	// 
