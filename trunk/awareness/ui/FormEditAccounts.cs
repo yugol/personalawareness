@@ -197,7 +197,7 @@ namespace awareness.ui
         }
 
         void NameBoxValidating(object sender, System.ComponentModel.CancelEventArgs e){
-            if (string.IsNullOrEmpty(nameBox.Text)){
+            if (string.IsNullOrEmpty(nameBox.Text.Trim())){
                 e.Cancel = true;
                 errorProvider.SetError((Control) sender, "Please enter a name");
             } else {

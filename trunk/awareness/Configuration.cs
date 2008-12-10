@@ -38,7 +38,6 @@ namespace awareness
 {
     public static class Configuration {
         // TODO: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
-        // TODO: limits for all DateTimePickers
 
 //#if DEBUG
 //        static string dataFolder = @"C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data";
