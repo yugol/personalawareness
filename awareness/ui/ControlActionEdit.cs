@@ -80,6 +80,11 @@ namespace awareness.ui
 
         public ControlActionEdit(){
             InitializeComponent();
+            
+            UiUtil.SetMinMaxDatesFor(startDatePicker);
+            UiUtil.SetMinMaxDatesFor(endDatePicker);
+            UiUtil.SetMinMaxDatesFor(untilPicker);
+
             noteTextView.TopVisible = false;
             noteTextView.NoteTextChanged += new NoteHandler(NoteTextChanged);
             recurrencePatternEditControl.PatternChanged += new PatternChangedHandler(RecurrencePatternChanged);
@@ -283,7 +288,14 @@ namespace awareness.ui
         }
 
         void SetRecurrenceConstraints(){
-            untilPicker.MinDate = action.RecurrencePattern.NextOccurrence(action.Start);
+            try
+            {
+                untilPicker.MinDate = action.RecurrencePattern.NextOccurrence(action.Start);
+            }
+            catch (Exception)
+            {
+                untilPicker.MinDate = untilPicker.MaxDate;   
+            }            
         }
     }
 }

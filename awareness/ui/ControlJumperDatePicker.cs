@@ -77,8 +77,7 @@ namespace awareness.ui
 
         public ControlJumperDatePicker(){
             InitializeComponent();
-            datePicker.MinDate = Configuration.MIN_DATE_TIME;
-            datePicker.MaxDate = Configuration.MAX_DATE_TIME;
+            UiUtil.SetMinMaxDatesFor(datePicker);
         }
 
         void LeftLeftButtonClick(object sender, EventArgs e){

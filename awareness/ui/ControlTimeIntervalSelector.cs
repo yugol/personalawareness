@@ -68,6 +68,9 @@ namespace awareness.ui
         public ControlTimeIntervalSelector(){
             InitializeComponent();
 
+            UiUtil.SetMinMaxDatesFor(firstPicker);
+            UiUtil.SetMinMaxDatesFor(lastPicker);
+            
             intervalCombo.DropDownHeight = 200;
             foreach (NamingTimeIntervals intervalName in NamingTimeIntervals.GetNames()){
                 intervalCombo.Items.Add(intervalName);
