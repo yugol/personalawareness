@@ -97,7 +97,7 @@ namespace awareness.ui
         	this.newButton.Location = new System.Drawing.Point(344, 24);
         	this.newButton.Name = "newButton";
         	this.newButton.Size = new System.Drawing.Size(75, 23);
-        	this.newButton.TabIndex = 5;
+        	this.newButton.TabIndex = 6;
         	this.newButton.Text = "&New";
         	this.newButton.UseVisualStyleBackColor = true;
         	this.newButton.Click += new System.EventHandler(this.NewButtonClick);
@@ -108,7 +108,7 @@ namespace awareness.ui
         	this.updateButton.Location = new System.Drawing.Point(344, 56);
         	this.updateButton.Name = "updateButton";
         	this.updateButton.Size = new System.Drawing.Size(75, 23);
-        	this.updateButton.TabIndex = 6;
+        	this.updateButton.TabIndex = 7;
         	this.updateButton.Text = "&Update";
         	this.updateButton.UseVisualStyleBackColor = true;
         	this.updateButton.Click += new System.EventHandler(this.UpdateButtonClick);
@@ -119,7 +119,7 @@ namespace awareness.ui
         	this.deleteButton.Location = new System.Drawing.Point(344, 88);
         	this.deleteButton.Name = "deleteButton";
         	this.deleteButton.Size = new System.Drawing.Size(75, 23);
-        	this.deleteButton.TabIndex = 7;
+        	this.deleteButton.TabIndex = 8;
         	this.deleteButton.Text = "&Delete";
         	this.deleteButton.UseVisualStyleBackColor = true;
         	this.deleteButton.Click += new System.EventHandler(this.DeleteButtonClick);
@@ -130,7 +130,7 @@ namespace awareness.ui
         	this.closeButton.Location = new System.Drawing.Point(344, 136);
         	this.closeButton.Name = "closeButton";
         	this.closeButton.Size = new System.Drawing.Size(75, 23);
-        	this.closeButton.TabIndex = 8;
+        	this.closeButton.TabIndex = 9;
         	this.closeButton.Text = "&Close";
         	this.closeButton.UseVisualStyleBackColor = true;
         	// 
@@ -184,7 +184,7 @@ namespace awareness.ui
         	this.noteControl.Name = "noteControl";
         	this.noteControl.Note = null;
         	this.noteControl.Size = new System.Drawing.Size(250, 72);
-        	this.noteControl.TabIndex = 9;
+        	this.noteControl.TabIndex = 5;
         	// 
         	// FormEditBudgetCategories
         	// 

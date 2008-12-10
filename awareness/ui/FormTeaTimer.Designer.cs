@@ -66,14 +66,14 @@ namespace awareness.ui
         	this.resetButton = new System.Windows.Forms.Button();
         	this.hoursBox = new System.Windows.Forms.NumericUpDown();
         	this.groupBox1 = new System.Windows.Forms.GroupBox();
-        	this.minutesBox = new System.Windows.Forms.NumericUpDown();
-        	this.label7 = new System.Windows.Forms.Label();
         	this.secondsBox = new System.Windows.Forms.NumericUpDown();
+        	this.label7 = new System.Windows.Forms.Label();
+        	this.minutesBox = new System.Windows.Forms.NumericUpDown();
         	this.timer1 = new System.Windows.Forms.Timer(this.components);
         	((System.ComponentModel.ISupportInitialize)(this.hoursBox)).BeginInit();
         	this.groupBox1.SuspendLayout();
-        	((System.ComponentModel.ISupportInitialize)(this.minutesBox)).BeginInit();
         	((System.ComponentModel.ISupportInitialize)(this.secondsBox)).BeginInit();
+        	((System.ComponentModel.ISupportInitialize)(this.minutesBox)).BeginInit();
         	this.SuspendLayout();
         	// 
         	// label2
@@ -121,7 +121,7 @@ namespace awareness.ui
         	this.actionButton.Location = new System.Drawing.Point(8, 112);
         	this.actionButton.Name = "actionButton";
         	this.actionButton.Size = new System.Drawing.Size(192, 40);
-        	this.actionButton.TabIndex = 9;
+        	this.actionButton.TabIndex = 4;
         	this.actionButton.Text = "Action";
         	this.actionButton.UseVisualStyleBackColor = true;
         	this.actionButton.Click += new System.EventHandler(this.ActionButtonClick);
@@ -131,7 +131,7 @@ namespace awareness.ui
         	this.resetButton.Location = new System.Drawing.Point(208, 112);
         	this.resetButton.Name = "resetButton";
         	this.resetButton.Size = new System.Drawing.Size(48, 40);
-        	this.resetButton.TabIndex = 10;
+        	this.resetButton.TabIndex = 5;
         	this.resetButton.Text = "Reset";
         	this.resetButton.UseVisualStyleBackColor = true;
         	this.resetButton.Click += new System.EventHandler(this.ResetButtonClick);
@@ -147,7 +147,7 @@ namespace awareness.ui
         	        	        	0});
         	this.hoursBox.Name = "hoursBox";
         	this.hoursBox.Size = new System.Drawing.Size(56, 38);
-        	this.hoursBox.TabIndex = 11;
+        	this.hoursBox.TabIndex = 1;
         	this.hoursBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
         	this.hoursBox.Value = new decimal(new int[] {
         	        	        	99,
@@ -173,20 +173,20 @@ namespace awareness.ui
         	this.groupBox1.TabStop = false;
         	this.groupBox1.Text = "Notify me in:";
         	// 
-        	// minutesBox
+        	// secondsBox
         	// 
-        	this.minutesBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        	this.minutesBox.Location = new System.Drawing.Point(96, 32);
-        	this.minutesBox.Maximum = new decimal(new int[] {
+        	this.secondsBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        	this.secondsBox.Location = new System.Drawing.Point(176, 32);
+        	this.secondsBox.Maximum = new decimal(new int[] {
         	        	        	59,
         	        	        	0,
         	        	        	0,
         	        	        	0});
-        	this.minutesBox.Name = "minutesBox";
-        	this.minutesBox.Size = new System.Drawing.Size(56, 38);
-        	this.minutesBox.TabIndex = 12;
-        	this.minutesBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-        	this.minutesBox.Value = new decimal(new int[] {
+        	this.secondsBox.Name = "secondsBox";
+        	this.secondsBox.Size = new System.Drawing.Size(56, 38);
+        	this.secondsBox.TabIndex = 3;
+        	this.secondsBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+        	this.secondsBox.Value = new decimal(new int[] {
         	        	        	59,
         	        	        	0,
         	        	        	0,
@@ -202,20 +202,20 @@ namespace awareness.ui
         	this.label7.Text = ":";
         	this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
         	// 
-        	// secondsBox
+        	// minutesBox
         	// 
-        	this.secondsBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        	this.secondsBox.Location = new System.Drawing.Point(176, 32);
-        	this.secondsBox.Maximum = new decimal(new int[] {
+        	this.minutesBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        	this.minutesBox.Location = new System.Drawing.Point(96, 32);
+        	this.minutesBox.Maximum = new decimal(new int[] {
         	        	        	59,
         	        	        	0,
         	        	        	0,
         	        	        	0});
-        	this.secondsBox.Name = "secondsBox";
-        	this.secondsBox.Size = new System.Drawing.Size(56, 38);
-        	this.secondsBox.TabIndex = 14;
-        	this.secondsBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-        	this.secondsBox.Value = new decimal(new int[] {
+        	this.minutesBox.Name = "minutesBox";
+        	this.minutesBox.Size = new System.Drawing.Size(56, 38);
+        	this.minutesBox.TabIndex = 2;
+        	this.minutesBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+        	this.minutesBox.Value = new decimal(new int[] {
         	        	        	59,
         	        	        	0,
         	        	        	0,
@@ -236,8 +236,8 @@ namespace awareness.ui
         	this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormTeaTimerFormClosing);
         	((System.ComponentModel.ISupportInitialize)(this.hoursBox)).EndInit();
         	this.groupBox1.ResumeLayout(false);
-        	((System.ComponentModel.ISupportInitialize)(this.minutesBox)).EndInit();
         	((System.ComponentModel.ISupportInitialize)(this.secondsBox)).EndInit();
+        	((System.ComponentModel.ISupportInitialize)(this.minutesBox)).EndInit();
         	this.ResumeLayout(false);
         }
         private System.Windows.Forms.Timer timer1;

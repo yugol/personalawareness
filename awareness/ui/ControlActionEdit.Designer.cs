@@ -215,7 +215,7 @@ namespace awareness.ui
         	        	        	0});
         	this.anotherUpDown.Name = "anotherUpDown";
         	this.anotherUpDown.Size = new System.Drawing.Size(56, 20);
-        	this.anotherUpDown.TabIndex = 10;
+        	this.anotherUpDown.TabIndex = 11;
         	this.anotherUpDown.Value = new decimal(new int[] {
         	        	        	1,
         	        	        	0,
@@ -228,7 +228,7 @@ namespace awareness.ui
         	this.untilRadio.Location = new System.Drawing.Point(96, 240);
         	this.untilRadio.Name = "untilRadio";
         	this.untilRadio.Size = new System.Drawing.Size(16, 24);
-        	this.untilRadio.TabIndex = 9;
+        	this.untilRadio.TabIndex = 12;
         	this.untilRadio.TabStop = true;
         	this.untilRadio.Text = "&Until";
         	this.untilRadio.UseVisualStyleBackColor = true;
@@ -241,7 +241,7 @@ namespace awareness.ui
         	this.untilPicker.Location = new System.Drawing.Point(120, 240);
         	this.untilPicker.Name = "untilPicker";
         	this.untilPicker.Size = new System.Drawing.Size(136, 20);
-        	this.untilPicker.TabIndex = 8;
+        	this.untilPicker.TabIndex = 13;
         	this.untilPicker.ValueChanged += new System.EventHandler(this.UntilPickerValueChanged);
         	// 
         	// anotherLabel
@@ -258,7 +258,7 @@ namespace awareness.ui
         	this.anotherRadio.Location = new System.Drawing.Point(96, 208);
         	this.anotherRadio.Name = "anotherRadio";
         	this.anotherRadio.Size = new System.Drawing.Size(72, 24);
-        	this.anotherRadio.TabIndex = 4;
+        	this.anotherRadio.TabIndex = 10;
         	this.anotherRadio.Text = "&Another";
         	this.anotherRadio.UseVisualStyleBackColor = true;
         	this.anotherRadio.CheckedChanged += new System.EventHandler(this.AnotherRadioCheckedChanged);
@@ -268,7 +268,7 @@ namespace awareness.ui
         	this.indefinitelyRadio.Location = new System.Drawing.Point(96, 176);
         	this.indefinitelyRadio.Name = "indefinitelyRadio";
         	this.indefinitelyRadio.Size = new System.Drawing.Size(104, 24);
-        	this.indefinitelyRadio.TabIndex = 3;
+        	this.indefinitelyRadio.TabIndex = 9;
         	this.indefinitelyRadio.Text = "Inde&finitely";
         	this.indefinitelyRadio.UseVisualStyleBackColor = true;
         	this.indefinitelyRadio.CheckedChanged += new System.EventHandler(this.IndefinitelyRadioCheckedChanged);
@@ -323,7 +323,7 @@ namespace awareness.ui
         	this.setEndCheck.Location = new System.Drawing.Point(288, 48);
         	this.setEndCheck.Name = "setEndCheck";
         	this.setEndCheck.Size = new System.Drawing.Size(104, 24);
-        	this.setEndCheck.TabIndex = 10;
+        	this.setEndCheck.TabIndex = 6;
         	this.setEndCheck.Text = "Set &end";
         	this.setEndCheck.UseVisualStyleBackColor = true;
         	this.setEndCheck.CheckedChanged += new System.EventHandler(this.SetEndCheckCheckedChanged);
@@ -333,7 +333,7 @@ namespace awareness.ui
         	this.repeatCheck.Location = new System.Drawing.Point(288, 80);
         	this.repeatCheck.Name = "repeatCheck";
         	this.repeatCheck.Size = new System.Drawing.Size(120, 24);
-        	this.repeatCheck.TabIndex = 9;
+        	this.repeatCheck.TabIndex = 8;
         	this.repeatCheck.Text = "&Repeat";
         	this.repeatCheck.UseVisualStyleBackColor = true;
         	this.repeatCheck.CheckedChanged += new System.EventHandler(this.RepeatCheckCheckedChanged);
@@ -343,7 +343,7 @@ namespace awareness.ui
         	this.planTimeCheck.Location = new System.Drawing.Point(288, 24);
         	this.planTimeCheck.Name = "planTimeCheck";
         	this.planTimeCheck.Size = new System.Drawing.Size(104, 24);
-        	this.planTimeCheck.TabIndex = 8;
+        	this.planTimeCheck.TabIndex = 3;
         	this.planTimeCheck.Text = "&Plan time";
         	this.planTimeCheck.UseVisualStyleBackColor = true;
         	this.planTimeCheck.CheckedChanged += new System.EventHandler(this.PlanTimeCheckCheckedChanged);
@@ -356,7 +356,7 @@ namespace awareness.ui
         	this.endTimePicker.Name = "endTimePicker";
         	this.endTimePicker.ShowUpDown = true;
         	this.endTimePicker.Size = new System.Drawing.Size(72, 20);
-        	this.endTimePicker.TabIndex = 7;
+        	this.endTimePicker.TabIndex = 5;
         	this.endTimePicker.ValueChanged += new System.EventHandler(this.EndTimePickerValueChanged);
         	// 
         	// startTimePicker
@@ -367,7 +367,7 @@ namespace awareness.ui
         	this.startTimePicker.Name = "startTimePicker";
         	this.startTimePicker.ShowUpDown = true;
         	this.startTimePicker.Size = new System.Drawing.Size(72, 20);
-        	this.startTimePicker.TabIndex = 6;
+        	this.startTimePicker.TabIndex = 2;
         	this.startTimePicker.ValueChanged += new System.EventHandler(this.StartTimePickerValueChanged);
         	// 
         	// durationCombo
@@ -376,7 +376,7 @@ namespace awareness.ui
         	this.durationCombo.Location = new System.Drawing.Point(80, 80);
         	this.durationCombo.Name = "durationCombo";
         	this.durationCombo.Size = new System.Drawing.Size(192, 21);
-        	this.durationCombo.TabIndex = 5;
+        	this.durationCombo.TabIndex = 7;
         	// 
         	// endDatePicker
         	// 
@@ -393,7 +393,7 @@ namespace awareness.ui
         	this.startDatePicker.Location = new System.Drawing.Point(80, 24);
         	this.startDatePicker.Name = "startDatePicker";
         	this.startDatePicker.Size = new System.Drawing.Size(104, 20);
-        	this.startDatePicker.TabIndex = 3;
+        	this.startDatePicker.TabIndex = 1;
         	this.startDatePicker.ValueChanged += new System.EventHandler(this.StartDatePickerValueChanged);
         	// 
         	// durationLabel
@@ -481,7 +481,7 @@ namespace awareness.ui
         	this.soundSelector.MinimumSize = new System.Drawing.Size(140, 28);
         	this.soundSelector.Name = "soundSelector";
         	this.soundSelector.Size = new System.Drawing.Size(288, 28);
-        	this.soundSelector.TabIndex = 12;
+        	this.soundSelector.TabIndex = 5;
         	// 
         	// commandSelector
         	// 
@@ -490,14 +490,14 @@ namespace awareness.ui
         	this.commandSelector.MinimumSize = new System.Drawing.Size(140, 28);
         	this.commandSelector.Name = "commandSelector";
         	this.commandSelector.Size = new System.Drawing.Size(288, 28);
-        	this.commandSelector.TabIndex = 11;
+        	this.commandSelector.TabIndex = 3;
         	// 
         	// playSoundCheck
         	// 
         	this.playSoundCheck.Location = new System.Drawing.Point(16, 136);
         	this.playSoundCheck.Name = "playSoundCheck";
         	this.playSoundCheck.Size = new System.Drawing.Size(104, 24);
-        	this.playSoundCheck.TabIndex = 10;
+        	this.playSoundCheck.TabIndex = 4;
         	this.playSoundCheck.Text = "&Play sound";
         	this.playSoundCheck.UseVisualStyleBackColor = true;
         	this.playSoundCheck.CheckedChanged += new System.EventHandler(this.PlaySoundCheckCheckedChanged);
@@ -507,7 +507,7 @@ namespace awareness.ui
         	this.runCommandCheck.Location = new System.Drawing.Point(16, 64);
         	this.runCommandCheck.Name = "runCommandCheck";
         	this.runCommandCheck.Size = new System.Drawing.Size(192, 24);
-        	this.runCommandCheck.TabIndex = 8;
+        	this.runCommandCheck.TabIndex = 2;
         	this.runCommandCheck.Text = "&Run operating system command";
         	this.runCommandCheck.UseVisualStyleBackColor = true;
         	this.runCommandCheck.CheckedChanged += new System.EventHandler(this.RunCommandCheckCheckedChanged);
@@ -539,7 +539,7 @@ namespace awareness.ui
         	this.showReminderCheck.Location = new System.Drawing.Point(16, 24);
         	this.showReminderCheck.Name = "showReminderCheck";
         	this.showReminderCheck.Size = new System.Drawing.Size(320, 24);
-        	this.showReminderCheck.TabIndex = 0;
+        	this.showReminderCheck.TabIndex = 1;
         	this.showReminderCheck.Text = "&Show reminder dialog";
         	this.showReminderCheck.UseVisualStyleBackColor = true;
         	this.showReminderCheck.CheckedChanged += new System.EventHandler(this.ShowReminderCheckCheckedChanged);

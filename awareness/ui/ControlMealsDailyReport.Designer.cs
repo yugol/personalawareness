@@ -131,7 +131,7 @@ namespace awareness.ui
         	this.mealsView.MultiSelect = false;
         	this.mealsView.Name = "mealsView";
         	this.mealsView.Size = new System.Drawing.Size(473, 298);
-        	this.mealsView.TabIndex = 2;
+        	this.mealsView.TabIndex = 3;
         	this.mealsView.UseCompatibleStateImageBehavior = false;
         	this.mealsView.View = System.Windows.Forms.View.Details;
         	// 
@@ -176,7 +176,7 @@ namespace awareness.ui
         	this.whyCombo.Margin = new System.Windows.Forms.Padding(3, 2, 0, 3);
         	this.whyCombo.Name = "whyCombo";
         	this.whyCombo.Size = new System.Drawing.Size(150, 21);
-        	this.whyCombo.TabIndex = 4;
+        	this.whyCombo.TabIndex = 2;
         	this.whyCombo.SelectedIndexChanged += new System.EventHandler(this.WhyComboSelectedIndexChanged);
         	// 
         	// datePicker
@@ -188,7 +188,7 @@ namespace awareness.ui
         	this.datePicker.MinimumSize = new System.Drawing.Size(244, 20);
         	this.datePicker.Name = "datePicker";
         	this.datePicker.Size = new System.Drawing.Size(307, 20);
-        	this.datePicker.TabIndex = 5;
+        	this.datePicker.TabIndex = 1;
         	this.datePicker.Value = new System.DateTime(2008, 10, 3, 19, 46, 55, 979);
         	// 
         	// ControlMealsDailyReport

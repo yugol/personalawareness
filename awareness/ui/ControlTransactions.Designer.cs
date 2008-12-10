@@ -84,6 +84,8 @@ namespace awareness.ui
         	this.reasonCombo = new System.Windows.Forms.ComboBox();
         	this.ammountBox = new System.Windows.Forms.TextBox();
         	this.quantityInput = new awareness.ui.ControlCalculatorInput();
+        	this.transferLocationSelectionCombo = new System.Windows.Forms.ComboBox();
+        	this.reasonSelectionBox = new System.Windows.Forms.TextBox();
         	this.arrowLabel = new System.Windows.Forms.Label();
         	this.editPanel = new System.Windows.Forms.TableLayoutPanel();
         	this.deleteButton = new System.Windows.Forms.Button();
@@ -93,8 +95,6 @@ namespace awareness.ui
         	this.selectLayoutLabel = new System.Windows.Forms.Label();
         	this.selectPanel = new System.Windows.Forms.TableLayoutPanel();
         	this.timeIntervalSelectorControl = new awareness.ui.ControlTimeIntervalSelector();
-        	this.transferLocationSelectionCombo = new System.Windows.Forms.ComboBox();
-        	this.reasonSelectionBox = new System.Windows.Forms.TextBox();
         	this.reportsButton = new System.Windows.Forms.Button();
         	this.listPanel.SuspendLayout();
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -140,7 +140,7 @@ namespace awareness.ui
         	this.datePicker.Location = new System.Drawing.Point(19, 3);
         	this.datePicker.Name = "datePicker";
         	this.datePicker.Size = new System.Drawing.Size(134, 20);
-        	this.datePicker.TabIndex = 1;
+        	this.datePicker.TabIndex = 5;
         	this.toolTips.SetToolTip(this.datePicker, "Transaction date");
         	this.datePicker.ValueChanged += new System.EventHandler(this.DatePickerValueChanged);
         	// 
@@ -162,7 +162,7 @@ namespace awareness.ui
         	this.fromCombo.Location = new System.Drawing.Point(19, 28);
         	this.fromCombo.Name = "fromCombo";
         	this.fromCombo.Size = new System.Drawing.Size(221, 21);
-        	this.fromCombo.TabIndex = 4;
+        	this.fromCombo.TabIndex = 8;
         	this.toolTips.SetToolTip(this.fromCombo, "Source (Account / Budget Category)");
         	this.fromCombo.Validating += new System.ComponentModel.CancelEventHandler(this.FromComboValidating);
         	this.fromCombo.SelectedIndexChanged += new System.EventHandler(this.FromComboSelectedIndexChanged);
@@ -176,7 +176,7 @@ namespace awareness.ui
         	this.toCombo.Location = new System.Drawing.Point(262, 28);
         	this.toCombo.Name = "toCombo";
         	this.toCombo.Size = new System.Drawing.Size(221, 21);
-        	this.toCombo.TabIndex = 5;
+        	this.toCombo.TabIndex = 9;
         	this.toolTips.SetToolTip(this.toCombo, "Destination (Account / Budget Category)");
         	this.toCombo.Validating += new System.ComponentModel.CancelEventHandler(this.ToComboValidating);
         	this.toCombo.SelectedIndexChanged += new System.EventHandler(this.ToComboSelectedIndexChanged);
@@ -296,7 +296,7 @@ namespace awareness.ui
         	this.reasonCombo.Location = new System.Drawing.Point(159, 3);
         	this.reasonCombo.Name = "reasonCombo";
         	this.reasonCombo.Size = new System.Drawing.Size(272, 21);
-        	this.reasonCombo.TabIndex = 2;
+        	this.reasonCombo.TabIndex = 6;
         	this.toolTips.SetToolTip(this.reasonCombo, "Reason");
         	this.reasonCombo.Validating += new System.ComponentModel.CancelEventHandler(this.ReasonComboValidating);
         	this.reasonCombo.SelectedIndexChanged += new System.EventHandler(this.ReasonComboSelectedIndexChanged);
@@ -310,7 +310,7 @@ namespace awareness.ui
         	this.ammountBox.Margin = new System.Windows.Forms.Padding(16, 3, 3, 3);
         	this.ammountBox.Name = "ammountBox";
         	this.ammountBox.Size = new System.Drawing.Size(138, 20);
-        	this.ammountBox.TabIndex = 11;
+        	this.ammountBox.TabIndex = 7;
         	this.toolTips.SetToolTip(this.ammountBox, "Transfer ammount");
         	this.ammountBox.TextChanged += new System.EventHandler(this.AmmountBoxTextChanged);
         	this.ammountBox.Validating += new System.ComponentModel.CancelEventHandler(this.AmmountBoxValidating);
@@ -324,11 +324,32 @@ namespace awareness.ui
         	this.quantityInput.MinimumSize = new System.Drawing.Size(60, 20);
         	this.quantityInput.Name = "quantityInput";
         	this.quantityInput.Size = new System.Drawing.Size(86, 20);
-        	this.quantityInput.TabIndex = 13;
+        	this.quantityInput.TabIndex = 10;
         	this.toolTips.SetToolTip(this.quantityInput, "Quantity (value will be rounded)");
         	this.quantityInput.Value = 0;
         	this.quantityInput.ValueChanged += new System.EventHandler(this.QuantityInputValueChanged);
         	this.quantityInput.Validating += new System.ComponentModel.CancelEventHandler(this.QuantityInputValidating);
+        	// 
+        	// transferLocationSelectionCombo
+        	// 
+        	this.transferLocationSelectionCombo.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.transferLocationSelectionCombo.FormattingEnabled = true;
+        	this.transferLocationSelectionCombo.Location = new System.Drawing.Point(19, 30);
+        	this.transferLocationSelectionCombo.Name = "transferLocationSelectionCombo";
+        	this.transferLocationSelectionCombo.Size = new System.Drawing.Size(312, 21);
+        	this.transferLocationSelectionCombo.TabIndex = 2;
+        	this.toolTips.SetToolTip(this.transferLocationSelectionCombo, "Select transactions by location");
+        	this.transferLocationSelectionCombo.SelectedIndexChanged += new System.EventHandler(this.TransferLocationSelectionComboSelectedIndexChanged);
+        	// 
+        	// reasonSelectionBox
+        	// 
+        	this.reasonSelectionBox.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.reasonSelectionBox.Location = new System.Drawing.Point(337, 30);
+        	this.reasonSelectionBox.Name = "reasonSelectionBox";
+        	this.reasonSelectionBox.Size = new System.Drawing.Size(312, 20);
+        	this.reasonSelectionBox.TabIndex = 3;
+        	this.toolTips.SetToolTip(this.reasonSelectionBox, "Select by name pattern");
+        	this.reasonSelectionBox.TextChanged += new System.EventHandler(this.ReasonSelectionBoxTextChanged);
         	// 
         	// arrowLabel
         	// 
@@ -379,7 +400,7 @@ namespace awareness.ui
         	this.deleteButton.Location = new System.Drawing.Point(19, 58);
         	this.deleteButton.Name = "deleteButton";
         	this.deleteButton.Size = new System.Drawing.Size(75, 23);
-        	this.deleteButton.TabIndex = 8;
+        	this.deleteButton.TabIndex = 14;
         	this.deleteButton.Text = "&Delete";
         	this.deleteButton.UseVisualStyleBackColor = true;
         	this.deleteButton.Click += new System.EventHandler(this.DeleteButtonClick);
@@ -391,7 +412,7 @@ namespace awareness.ui
         	this.recordButton.Location = new System.Drawing.Point(408, 58);
         	this.recordButton.Name = "recordButton";
         	this.recordButton.Size = new System.Drawing.Size(75, 23);
-        	this.recordButton.TabIndex = 9;
+        	this.recordButton.TabIndex = 12;
         	this.recordButton.Text = "&Record";
         	this.recordButton.UseVisualStyleBackColor = true;
         	this.recordButton.Click += new System.EventHandler(this.RecordButtonClick);
@@ -403,7 +424,7 @@ namespace awareness.ui
         	this.updateButton.Location = new System.Drawing.Point(525, 58);
         	this.updateButton.Name = "updateButton";
         	this.updateButton.Size = new System.Drawing.Size(63, 23);
-        	this.updateButton.TabIndex = 10;
+        	this.updateButton.TabIndex = 13;
         	this.updateButton.Text = "&Update";
         	this.updateButton.UseVisualStyleBackColor = true;
         	this.updateButton.Click += new System.EventHandler(this.UpdateButtonClick);
@@ -417,7 +438,7 @@ namespace awareness.ui
         	this.noteControl.Note = null;
         	this.editPanel.SetRowSpan(this.noteControl, 3);
         	this.noteControl.Size = new System.Drawing.Size(125, 78);
-        	this.noteControl.TabIndex = 12;
+        	this.noteControl.TabIndex = 11;
         	this.noteControl.NoteTextChanged += new awareness.ui.NoteHandler(this.NoteControlNoteTextChanged);
         	this.noteControl.NoteRemoved += new awareness.ui.NoteHandler(this.NoteControlNoteRemoved);
         	this.noteControl.NoteAdded += new awareness.ui.NoteHandler(this.NoteControlNoteAdded);
@@ -464,27 +485,6 @@ namespace awareness.ui
         	this.timeIntervalSelectorControl.Name = "timeIntervalSelectorControl";
         	this.timeIntervalSelectorControl.Size = new System.Drawing.Size(636, 27);
         	this.timeIntervalSelectorControl.TabIndex = 1;
-        	// 
-        	// transferLocationSelectionCombo
-        	// 
-        	this.transferLocationSelectionCombo.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.transferLocationSelectionCombo.FormattingEnabled = true;
-        	this.transferLocationSelectionCombo.Location = new System.Drawing.Point(19, 30);
-        	this.transferLocationSelectionCombo.Name = "transferLocationSelectionCombo";
-        	this.transferLocationSelectionCombo.Size = new System.Drawing.Size(312, 21);
-        	this.transferLocationSelectionCombo.TabIndex = 2;
-        	this.toolTips.SetToolTip(this.transferLocationSelectionCombo, "Select transactions by location");
-        	this.transferLocationSelectionCombo.SelectedIndexChanged += new System.EventHandler(this.TransferLocationSelectionComboSelectedIndexChanged);
-        	// 
-        	// reasonSelectionBox
-        	// 
-        	this.reasonSelectionBox.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.reasonSelectionBox.Location = new System.Drawing.Point(337, 30);
-        	this.reasonSelectionBox.Name = "reasonSelectionBox";
-        	this.reasonSelectionBox.Size = new System.Drawing.Size(312, 20);
-        	this.reasonSelectionBox.TabIndex = 3;
-        	this.toolTips.SetToolTip(this.reasonSelectionBox, "Select by name pattern");
-        	this.reasonSelectionBox.TextChanged += new System.EventHandler(this.ReasonSelectionBoxTextChanged);
         	// 
         	// reportsButton
         	// 
