@@ -202,16 +202,21 @@ namespace awareness.ui
         }
 
         void DeleteButtonClick(object sender, EventArgs e){
-            try {
-                DbUtil.DeleteTransactionReason(lastSelectedReason);
-            } catch (Exception err) {
-                MessageBox.Show("Could not delete transaction reason:\n" + err.Message,
-                                "Delete transaction reason",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                ReadReasons();
+            if (MessageBox.Show("Are sure you want to delete\n" + lastSelectedReason.Name,
+                                "Delete reason",
+                                MessageBoxButtons.OKCancel,
+                                MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK){
+                try {
+                    DbUtil.DeleteTransactionReason(lastSelectedReason);
+                } catch (Exception err) {
+                    MessageBox.Show("Could not delete transaction reason:\n" + err.Message,
+                                    "Delete reason",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    ReadReasons();
+                }
             }
         }
 

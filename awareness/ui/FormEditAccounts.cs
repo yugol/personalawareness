@@ -166,17 +166,23 @@ namespace awareness.ui
         }
 
         void DeleteButtonClick(object sender, EventArgs e){
-            try {
-                DbUtil.DeleteTransferLocation((DalAccount) accountsView.SelectedNode.Tag);
-            } catch (Exception err) {
-                MessageBox.Show("Could not delete account:\n" + err.Message,
+            DalAccount account = (DalAccount) accountsView.SelectedNode.Tag;
+            if (MessageBox.Show("Are sure you want to delete\n" + account.Name,
                                 "Delete account",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                ReadAccountTypes();
-            }
-            finally
-            {
-                ReadAccounts();
+                                MessageBoxButtons.OKCancel,
+                                MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK){
+                try {
+                    DbUtil.DeleteTransferLocation(account);
+                } catch (Exception err) {
+                    MessageBox.Show("Could not delete account:\n" + err.Message,
+                                    "Delete account",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ReadAccountTypes();
+                }
+                finally
+                {
+                    ReadAccounts();
+                }
             }
         }
 

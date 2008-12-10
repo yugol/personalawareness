@@ -66,8 +66,8 @@ namespace awareness.ui
         	this.consumeButton = new System.Windows.Forms.Button();
         	this.availableFoodsBottomPanel = new System.Windows.Forms.TableLayoutPanel();
         	this.whyCombo = new System.Windows.Forms.ComboBox();
-        	this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
         	this.quantityInput = new awareness.ui.ControlCalculatorInput();
+        	this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
         	this.availableFoodsBottomPanel.SuspendLayout();
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
         	this.SuspendLayout();
@@ -165,11 +165,8 @@ namespace awareness.ui
         	this.whyCombo.Name = "whyCombo";
         	this.whyCombo.Size = new System.Drawing.Size(122, 21);
         	this.whyCombo.TabIndex = 4;
+        	this.whyCombo.Validating += new System.ComponentModel.CancelEventHandler(this.WhyComboValidating);
         	this.whyCombo.SelectedIndexChanged += new System.EventHandler(this.WhyComboSelectedIndexChanged);
-        	// 
-        	// errorProvider
-        	// 
-        	this.errorProvider.ContainerControl = this;
         	// 
         	// quantityInput
         	// 
@@ -183,6 +180,10 @@ namespace awareness.ui
         	this.quantityInput.TabIndex = 5;
         	this.quantityInput.Value = 0;
         	this.quantityInput.Validating += new System.ComponentModel.CancelEventHandler(this.QuantityInputValidating);
+        	// 
+        	// errorProvider
+        	// 
+        	this.errorProvider.ContainerControl = this;
         	// 
         	// ControlAvailableFoods
         	// 
