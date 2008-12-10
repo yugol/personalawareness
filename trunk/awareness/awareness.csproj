@@ -245,6 +245,10 @@
     <Compile Include="ui\ControlWeekActionsReport.Designer.cs">
       <DependentUpon>ControlWeekActionsReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="ui\FormAbout.cs" />
+    <Compile Include="ui\FormAbout.Designer.cs">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </Compile>
     <Compile Include="ui\FormCalculatorInput.cs" />
     <Compile Include="ui\FormCalculatorInput.Designer.cs">
       <DependentUpon>FormCalculatorInput.cs</DependentUpon>
@@ -360,6 +364,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ui\ControlWeekActionsReport.resx">
       <DependentUpon>ControlWeekActionsReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormAbout.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ui\FormCalculatorInput.resx">
       <DependentUpon>FormCalculatorInput.cs</DependentUpon>
