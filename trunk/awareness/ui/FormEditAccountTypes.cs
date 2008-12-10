@@ -101,16 +101,22 @@ namespace awareness.ui
         }
 
         void DeleteButtonClick(object sender, EventArgs e){
-            try {
-                DbUtil.DeleteAccountType((DalAccountType) typeList.SelectedItem);
-            } catch (Exception err)  {
-                MessageBox.Show("Could not delete account type:\n" + err.Message,
+            DalAccountType accountType = (DalAccountType) typeList.SelectedItem;
+            if (MessageBox.Show("Are sure you want to delete\n" + accountType.Name,
                                 "Delete account type",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                ReadAccountTypes();
+                                MessageBoxButtons.OKCancel,
+                                MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK){
+                try {
+                    DbUtil.DeleteAccountType(accountType);
+                } catch (Exception err) {
+                    MessageBox.Show("Could not delete account type:\n" + err.Message,
+                                    "Delete account type",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    ReadAccountTypes();
+                }
             }
         }
 

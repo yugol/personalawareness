@@ -66,9 +66,9 @@ namespace awareness.ui
 
         public ControlAvailableFoods(){
             InitializeComponent();
-            
+
             UiUtil.SetMinMaxDatesFor(datePicker);
-            
+
             DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
             DbUtil.MealsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
             DbUtil.FoodsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
@@ -124,15 +124,16 @@ namespace awareness.ui
         }
 
         void ConsumeButtonClick(object sender, EventArgs e){
-            // TODO: run validation
-            DalMeal meal = new DalMeal()
-            {
-                When = datePicker.Value.Date,
-                What = (DalFood) whatBox.Tag,
-                Quantity = (int) quantityInput.Value,
-                Why = (DalReason) whyCombo.SelectedItem
-            };
-            DbUtil.InsertMeal(meal);
+            if (IsTransactionValid()){
+                DalMeal meal = new DalMeal()
+                {
+                    When = datePicker.Value.Date,
+                    What = (DalFood) whatBox.Tag,
+                    Quantity = (int) quantityInput.Value,
+                    Why = (DalReason) whyCombo.SelectedItem
+                };
+                DbUtil.InsertMeal(meal);
+            }
         }
 
         void WhyComboSelectedIndexChanged(object sender, EventArgs e){
@@ -141,13 +142,51 @@ namespace awareness.ui
             }
         }
 
+        #region Validation
+
+        private bool performValidation = false;
+
+        bool IsTransactionValid(){
+            performValidation = true;
+
+            quantityInput.Focus();
+            whyCombo.Focus();
+            datePicker.Focus();
+
+            string error = "";
+            error += errorProvider.GetError(quantityInput);
+            error += errorProvider.GetError(whyCombo);
+
+            performValidation = false;
+
+            return string.IsNullOrEmpty(error);
+        }
+
         void QuantityInputValidating(object sender, CancelEventArgs e){
-            if (quantityInput.Value <= 0){
-                e.Cancel = true;
-                errorProvider.SetError((Control) sender, "Please enter a positive integer value");
-            } else {
-                errorProvider.Clear();
+            if (performValidation){
+                if (quantityInput.Value <= 0){
+                    e.Cancel = true;
+                    errorProvider.SetError((Control) sender, "Please enter a positive integer value");
+                } else {
+                    errorProvider.Clear();
+                }
             }
         }
+
+        void WhyComboValidating(object sender, CancelEventArgs e){
+            if (performValidation){
+                try {
+                    if ((DalReason) whyCombo.SelectedItem != null) {
+                        errorProvider.Clear();
+                    } else {
+                        throw new Exception();
+                    }
+                } catch (Exception) {
+                    errorProvider.SetError((Control) sender, "Please select a reason for this meal");
+                }
+            }
+        }
+
+        #endregion
     }
 }

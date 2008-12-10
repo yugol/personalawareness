@@ -406,9 +406,15 @@ namespace awareness.ui
         }
 
         void DeleteButtonClick(object sender, EventArgs e){
-            DbUtil.DeleteTransaction(transactionsView.SelectedTransaction);
-            RequestReadTransactions();
-            EditMode = EEditModes.NEW;
+            if (MessageBox.Show("Are you sure you want to delete\n" + transactionsView.SelectedTransaction.Name,
+                                "Delete transaction",
+                                MessageBoxButtons.OKCancel,
+                                MessageBoxIcon.Question,
+                                MessageBoxDefaultButton.Button2) == DialogResult.OK){
+                DbUtil.DeleteTransaction(transactionsView.SelectedTransaction);
+                RequestReadTransactions();
+                EditMode = EEditModes.NEW;
+            }
         }
 
         #endregion

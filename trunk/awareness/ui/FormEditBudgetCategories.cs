@@ -116,16 +116,22 @@ namespace awareness.ui
         }
 
         void DeleteButtonClick(object sender, EventArgs e){
-            try {
-                DbUtil.DeleteTransferLocation((DalBudgetCategory) categoriesList.SelectedItem);
-            } catch (Exception err) {
-                MessageBox.Show("Could not delete budget category:\n" + err.Message,
+            DalBudgetCategory bc = (DalBudgetCategory) categoriesList.SelectedItem;
+            if (MessageBox.Show("Are sure you want to delete\n" + bc.Name,
                                 "Delete budget category",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                ReadBudgetCategories();
+                                MessageBoxButtons.OKCancel,
+                                MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK){
+                try {
+                    DbUtil.DeleteTransferLocation(bc);
+                } catch (Exception err) {
+                    MessageBox.Show("Could not delete budget category:\n" + err.Message,
+                                    "Delete budget category",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    ReadBudgetCategories();
+                }
             }
         }
 
@@ -140,7 +146,7 @@ namespace awareness.ui
         void ExpenseButtonCheckedChanged(object sender, EventArgs e){
             updateButton.Enabled = true;
         }
-        
+
         void NoteUpdated(object sender, DalNote note) {
             updateButton.Enabled = true;
         }

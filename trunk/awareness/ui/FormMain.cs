@@ -37,8 +37,6 @@ using awareness.db;
 namespace awareness.ui
 {
     public partial class FormMain : Form {
-        // TODO: confirm every entry delete
-
         public FormMain(){
             InitializeComponent();
 
@@ -53,7 +51,7 @@ namespace awareness.ui
             notesViewer.Dock = DockStyle.Fill;
             mealPanel.Dock = DockStyle.Fill;
             financialPages.Dock = DockStyle.Fill;
-            
+
             financesControl.AccountDoubleClick += new AccountDoubleClickHandler(ShowAllTransactionsForAccount);
         }
 
@@ -218,7 +216,7 @@ namespace awareness.ui
             notesViewer.Visible = false;
             mealPanel.Visible = false;
             financialPages.Visible = false;
-            
+
             financesControl.IsDisplayed = false;
             transactionsControl.IsDisplayed = false;
             mealsDailyReportControl.IsDisplayed = false;
@@ -350,7 +348,7 @@ namespace awareness.ui
             FormEditProperties dialog = new FormEditProperties();
             dialog.ShowDialog();
         }
-        
+
         void ShowAllTransactionsForAccount(DalAccount account) {
             financialPages.SelectedTab = transactionsPage;
             transactionsControl.ShowAllTransactionsForAccount(account);
