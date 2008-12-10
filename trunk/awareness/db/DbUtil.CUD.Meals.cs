@@ -33,28 +33,6 @@ using System.Linq;
 namespace awareness.db
 {
     partial class DbUtil {
-        internal static void InsertAccountType(DalAccountType accountTypes){
-            dataContext.accountTypes.InsertOnSubmit(accountTypes);
-            dataContext.SubmitChanges();
-            NotifyAccountTypesChanged();
-        }
-
-        internal static void UpdateAccountType(DalAccountType accountTypes){
-            dataContext.SubmitChanges();
-            NotifyAccountTypesChanged();
-        }
-
-        internal static void DeleteAccountType(DalAccountType accountType){
-            dataContext.accountTypes.DeleteOnSubmit(accountType);
-            dataContext.SubmitChanges();
-            NotifyAccountTypesChanged();
-        }
-
-        static void NotifyAccountTypesChanged(){
-            if (AccountTypesChanged != null){
-                AccountTypesChanged();
-            }
-        }
 
         internal static void InsertMeal(DalMeal meal){
             dataContext.meals.InsertOnSubmit(meal);

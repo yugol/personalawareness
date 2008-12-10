@@ -34,7 +34,7 @@ using System.Data.Linq.Mapping;
 namespace awareness.db
 {
     [Table(Name = "transactions")]
-    public class DalTransaction {
+    public class DalTransaction : INotable {
         int _id = 0;
         [Column(Storage = "_id",
                 Name = "id",
@@ -174,6 +174,10 @@ namespace awareness.db
         public bool HasNote
         {
             get { return _noteId != AwarenessDataContext.NOTE_ROOT_ID; }
+        }
+        
+        public string Name {
+            get { return Reason.Name; }
         }
 
         public override string ToString(){

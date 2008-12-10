@@ -71,6 +71,7 @@ namespace awareness.ui
         	this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
         	this.accountsView = new System.Windows.Forms.TreeView();
         	this.label1 = new System.Windows.Forms.Label();
+        	this.noteControl = new awareness.ui.ControlAddNote();
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
         	this.SuspendLayout();
         	// 
@@ -191,13 +192,22 @@ namespace awareness.ui
         	this.label1.TabIndex = 13;
         	this.label1.Text = "Available accounts:";
         	// 
+        	// noteControl
+        	// 
+        	this.noteControl.Location = new System.Drawing.Point(224, 184);
+        	this.noteControl.Name = "noteControl";
+        	this.noteControl.Note = null;
+        	this.noteControl.Size = new System.Drawing.Size(274, 96);
+        	this.noteControl.TabIndex = 14;
+        	// 
         	// FormEditAccounts
         	// 
         	this.AcceptButton = this.updateButton;
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         	this.CancelButton = this.closeButton;
-        	this.ClientSize = new System.Drawing.Size(506, 292);
+        	this.ClientSize = new System.Drawing.Size(506, 289);
+        	this.Controls.Add(this.noteControl);
         	this.Controls.Add(this.label1);
         	this.Controls.Add(this.accountsView);
         	this.Controls.Add(this.typeCombo);
@@ -222,6 +232,7 @@ namespace awareness.ui
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private awareness.ui.ControlAddNote noteControl;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TreeView accountsView;
         private System.Windows.Forms.ErrorProvider errorProvider;

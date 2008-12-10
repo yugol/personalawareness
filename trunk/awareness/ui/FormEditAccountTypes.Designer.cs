@@ -67,6 +67,7 @@ namespace awareness.ui
         	this.nameBox = new System.Windows.Forms.TextBox();
         	this.nameLabel = new System.Windows.Forms.Label();
         	this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+        	this.noteControl = new awareness.ui.ControlAddNote();
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
         	this.SuspendLayout();
         	// 
@@ -91,7 +92,7 @@ namespace awareness.ui
         	// 
         	// newButton
         	// 
-        	this.newButton.Location = new System.Drawing.Point(352, 24);
+        	this.newButton.Location = new System.Drawing.Point(344, 24);
         	this.newButton.Name = "newButton";
         	this.newButton.Size = new System.Drawing.Size(75, 23);
         	this.newButton.TabIndex = 3;
@@ -101,7 +102,7 @@ namespace awareness.ui
         	// 
         	// updateButton
         	// 
-        	this.updateButton.Location = new System.Drawing.Point(352, 56);
+        	this.updateButton.Location = new System.Drawing.Point(344, 56);
         	this.updateButton.Name = "updateButton";
         	this.updateButton.Size = new System.Drawing.Size(75, 23);
         	this.updateButton.TabIndex = 4;
@@ -111,7 +112,7 @@ namespace awareness.ui
         	// 
         	// deleteButton
         	// 
-        	this.deleteButton.Location = new System.Drawing.Point(352, 88);
+        	this.deleteButton.Location = new System.Drawing.Point(344, 88);
         	this.deleteButton.Name = "deleteButton";
         	this.deleteButton.Size = new System.Drawing.Size(75, 23);
         	this.deleteButton.TabIndex = 5;
@@ -122,7 +123,7 @@ namespace awareness.ui
         	// closeButton
         	// 
         	this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-        	this.closeButton.Location = new System.Drawing.Point(352, 136);
+        	this.closeButton.Location = new System.Drawing.Point(344, 136);
         	this.closeButton.Name = "closeButton";
         	this.closeButton.Size = new System.Drawing.Size(75, 23);
         	this.closeButton.TabIndex = 6;
@@ -151,13 +152,22 @@ namespace awareness.ui
         	// 
         	this.errorProvider.ContainerControl = this;
         	// 
+        	// noteControl
+        	// 
+        	this.noteControl.Location = new System.Drawing.Point(168, 184);
+        	this.noteControl.Name = "noteControl";
+        	this.noteControl.Note = null;
+        	this.noteControl.Size = new System.Drawing.Size(250, 72);
+        	this.noteControl.TabIndex = 9;
+        	// 
         	// FormEditAccountTypes
         	// 
         	this.AcceptButton = this.updateButton;
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         	this.CancelButton = this.closeButton;
-        	this.ClientSize = new System.Drawing.Size(434, 262);
+        	this.ClientSize = new System.Drawing.Size(428, 262);
+        	this.Controls.Add(this.noteControl);
         	this.Controls.Add(this.nameBox);
         	this.Controls.Add(this.nameLabel);
         	this.Controls.Add(this.closeButton);
@@ -176,6 +186,7 @@ namespace awareness.ui
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private awareness.ui.ControlAddNote noteControl;
         private System.Windows.Forms.Label nameLabel;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.TextBox nameBox;

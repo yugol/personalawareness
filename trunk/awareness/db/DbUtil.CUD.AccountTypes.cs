@@ -1,22 +1,22 @@
 /*
  * Created by SharpDevelop.
  * User: Iulian
- * Date: 09/12/2008
- * Time: 16:20
- *
+ * Date: 10/12/2008
+ * Time: 14:03
+ * 
  *
  * Copyright (c) 2008 Iulian GORIAC
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -31,36 +31,33 @@ using System;
 
 namespace awareness.db
 {
-    partial class DbUtil {
-        internal static void InsertTransferLocation(DalTransferLocation transferLocation){
-            dataContext.transferLocations.InsertOnSubmit(transferLocation);
+    partial class DbUtil
+    {
+        internal static void InsertAccountType(DalAccountType accountTypes, DalNote note){
+            PreludeInsertNotable(accountTypes, note, AwarenessDataContext.NOTE_ACCOUNT_TYPES_ID);
+            dataContext.accountTypes.InsertOnSubmit(accountTypes);
             dataContext.SubmitChanges();
-            NotifyTransferLocationsChanged(transferLocation);
+            NotifyAccountTypesChanged();
         }
 
-        internal static void UpdateTransferLocation(DalTransferLocation transferLocation){
-            dataContext.SubmitChanges();
-            NotifyTransferLocationsChanged(transferLocation);
+        internal static void UpdateAccountType(DalAccountType accountTypes, DalNote note){
+            PreludeUpdateNotable(accountTypes, note, AwarenessDataContext.NOTE_ACCOUNT_TYPES_ID);
+            NotifyAccountTypesChanged();
         }
 
-        internal static void DeleteTransferLocation(DalTransferLocation transferLocation){
-            dataContext.transferLocations.DeleteOnSubmit(transferLocation);
+        internal static void DeleteAccountType(DalAccountType accountType){
+            DalNote note = (accountType.HasNote) ? (accountType.Note) : (null);
+            dataContext.accountTypes.DeleteOnSubmit(accountType);
             dataContext.SubmitChanges();
-            NotifyTransferLocationsChanged(transferLocation);
-        }
-
-        static void NotifyTransferLocationsChanged(DalTransferLocation transferLocation){
-            if (transferLocation is DalAccount){
-                if (AccountsChanged != null){
-                    AccountsChanged();
-                }
-            } else if (transferLocation is DalBudgetCategory) {
-                if (BudgetCategoriesChanged != null){
-                    BudgetCategoriesChanged();
-                }
+            if (note != null){
+                DeleteNote(note);
             }
-            if (TransferLocationsChanged != null){
-                TransferLocationsChanged();
+            NotifyAccountTypesChanged();
+        }
+
+        static void NotifyAccountTypesChanged(){
+            if (AccountTypesChanged != null){
+                AccountTypesChanged();
             }
         }
     }

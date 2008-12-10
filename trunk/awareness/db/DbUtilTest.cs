@@ -42,7 +42,7 @@ namespace awareness.db
             bc.Name = "UsageTestBudget";
             Assert.IsFalse(DbUtil.IsTransferLocationUsed(bc));
 
-            DbUtil.InsertTransferLocation(bc);
+            DbUtil.InsertTransferLocation(bc, null);
             Assert.IsFalse(DbUtil.IsTransferLocationUsed(bc));
             
             DalReason r = new DalReason();
@@ -79,7 +79,7 @@ namespace awareness.db
             DalAccountType at = new DalAccountType() {
                 Name = "at"
             };
-            DbUtil.InsertAccountType(at);
+            DbUtil.InsertAccountType(at, null);
 
             DalReason tr = new DalReason() {
                 Name = "tr"
@@ -98,10 +98,10 @@ namespace awareness.db
             DalBudgetCategory bc2 = new DalBudgetCategory() {
                 IsIncome = false, Name = "bc2"
             };
-            DbUtil.InsertTransferLocation(a1);
-            DbUtil.InsertTransferLocation(a2);
-            DbUtil.InsertTransferLocation(bc1);
-            DbUtil.InsertTransferLocation(bc2);
+            DbUtil.InsertTransferLocation(a1, null);
+            DbUtil.InsertTransferLocation(a2, null);
+            DbUtil.InsertTransferLocation(bc1, null);
+            DbUtil.InsertTransferLocation(bc2, null);
 
             DalTransaction t1 = new DalTransaction() {
                 From = bc1, To = a1, Reason = tr, Ammount = 20

@@ -34,7 +34,7 @@ using System.Data.Linq.Mapping;
 namespace awareness.db
 {
     [Table(Name = "account_types")]
-    public class DalAccountType
+    public class DalAccountType : INotable
     {
         public const string MAX_NAME_CHAR_COUNT = "50";
         

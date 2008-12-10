@@ -36,7 +36,7 @@ namespace awareness.db
     [Table(Name = "transfer_locations")]
     [InheritanceMapping(Code = false, Type = typeof(DalAccount), IsDefault = true)]
     [InheritanceMapping(Code = true, Type = typeof(DalBudgetCategory))]
-    public class DalTransferLocation
+    public class DalTransferLocation : INotable
     {
         public const string MAX_NAME_CHAR_COUNT = "50";
         

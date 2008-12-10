@@ -52,28 +52,28 @@ namespace awareness.db
             DalBudgetCategory bc1 = new DalBudgetCategory() {
                 IsIncome = true, Name = "bc1"
             };
-            DbUtil.InsertTransferLocation(bc1);
+            DbUtil.InsertTransferLocation(bc1, null);
             DalBudgetCategory bc2 = new DalBudgetCategory() {
                 IsIncome = false, Name = "bc'2'"
             };
-            DbUtil.InsertTransferLocation(bc2);
+            DbUtil.InsertTransferLocation(bc2, null);
 
             DalAccountType at1 = new DalAccountType { Name = "at1" };
-            DbUtil.InsertAccountType(at1);
+            DbUtil.InsertAccountType(at1, null);
             DalAccountType at = new DalAccountType { Name = "at" };
-            DbUtil.InsertAccountType(at);
+            DbUtil.InsertAccountType(at, null);
             DbUtil.DeleteAccountType(at);
             DalAccountType at2 = new DalAccountType { Name = "at'2'" };
-            DbUtil.InsertAccountType(at2);
+            DbUtil.InsertAccountType(at2, null);
 
             DalAccount a1 = new DalAccount() {
                 AccountType = at1, Name = "a1", StartingBalance = -10m
             };
-            DbUtil.InsertTransferLocation(a1);
+            DbUtil.InsertTransferLocation(a1, null);
             DalAccount a2 = new DalAccount() {
                 AccountType = at2, Name = "a'2'", StartingBalance = 0.01m
             };
-            DbUtil.InsertTransferLocation(a2);
+            DbUtil.InsertTransferLocation(a2, null);
 
             DalReason tr1 = new DalReason() {
                 Name = "tr1"

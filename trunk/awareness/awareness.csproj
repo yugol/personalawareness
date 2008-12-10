@@ -99,25 +99,28 @@
     <Compile Include="db\DbUtil.Connection.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
-    <Compile Include="db\DbUtil.InsUpDel.Actions.cs">
+    <Compile Include="db\DbUtil.CUD.AccountTypes.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
-    <Compile Include="db\DbUtil.InsUpDel.cs">
+    <Compile Include="db\DbUtil.CUD.Actions.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
-    <Compile Include="db\DbUtil.InsUpDel.Notes.cs">
+    <Compile Include="db\DbUtil.CUD.Meals.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
-    <Compile Include="db\DbUtil.InsUpDel.Reason.cs">
+    <Compile Include="db\DbUtil.CUD.Notes.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
-    <Compile Include="db\DbUtil.InsUpDel.Transactions.cs">
+    <Compile Include="db\DbUtil.CUD.Reason.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
-    <Compile Include="db\DbUtil.InsUpDel.TransferLocation.cs">
+    <Compile Include="db\DbUtil.CUD.Transactions.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
-    <Compile Include="db\DbUtil.Mining.cs">
+    <Compile Include="db\DbUtil.CUD.TransferLocation.cs">
+      <DependentUpon>DbUtil.cs</DependentUpon>
+    </Compile>
+    <Compile Include="db\DbUtil.Reading.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
     <Compile Include="db\DbUtil.Properties.cs">
