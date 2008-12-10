@@ -41,10 +41,6 @@ namespace awareness.ui
             Data2Ui();
         }
 
-        void FormEditPropertiesFormClosing(object sender, FormClosingEventArgs e){
-            Ui2Data();
-        }
-
         void Data2Ui() {
             symbolBox.Text = Configuration.DbProperties.CurrencySymbol;
             placementCheck.Checked = Configuration.DbProperties.PlaceCurrencySymbolAfterValue;
@@ -54,6 +50,21 @@ namespace awareness.ui
             Configuration.DbProperties.CurrencySymbol = symbolBox.Text;
             Configuration.DbProperties.PlaceCurrencySymbolAfterValue = placementCheck.Checked;
             DbUtil.UpdateProperties();
+        }
+        
+        void SymbolBoxValidating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (string.IsNullOrEmpty(symbolBox.Text.Trim())){
+                e.Cancel = true;
+                errorProvider.SetError((Control) sender, "Please enter a non-empty name");
+            } else {
+                errorProvider.Clear();
+            }
+        }
+        
+        void OkButtonClick(object sender, EventArgs e)
+        {
+        	Ui2Data();
         }
     }
 }
