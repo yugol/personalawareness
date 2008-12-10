@@ -127,6 +127,7 @@ namespace awareness.ui
         	this.controlDayActionsReport1 = new awareness.ui.ControlDayActionsReport();
         	this.tabPage3 = new System.Windows.Forms.TabPage();
         	this.controlWeekActionsReport1 = new awareness.ui.ControlWeekActionsReport();
+        	this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenu.SuspendLayout();
         	this.statusBar.SuspendLayout();
         	this.actionPages.SuspendLayout();
@@ -330,6 +331,8 @@ namespace awareness.ui
         	// 
         	// helpToolStripMenuItem
         	// 
+        	this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+        	        	        	this.aboutToolStripMenuItem});
         	this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
         	this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
         	this.helpToolStripMenuItem.Text = "&Help";
@@ -517,6 +520,7 @@ namespace awareness.ui
         	// financesControl
         	// 
         	this.financesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.financesControl.IsDisplayed = false;
         	this.financesControl.Location = new System.Drawing.Point(3, 3);
         	this.financesControl.Margin = new System.Windows.Forms.Padding(0);
         	this.financesControl.Name = "financesControl";
@@ -538,6 +542,7 @@ namespace awareness.ui
         	// 
         	this.transactionsControl.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.transactionsControl.EditPanelExpanded = true;
+        	this.transactionsControl.IsDisplayed = false;
         	this.transactionsControl.Location = new System.Drawing.Point(3, 3);
         	this.transactionsControl.Name = "transactionsControl";
         	this.transactionsControl.SelectPanelExpanded = true;
@@ -795,6 +800,13 @@ namespace awareness.ui
         	this.controlWeekActionsReport1.Size = new System.Drawing.Size(776, 444);
         	this.controlWeekActionsReport1.TabIndex = 0;
         	// 
+        	// aboutToolStripMenuItem
+        	// 
+        	this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+        	this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+        	this.aboutToolStripMenuItem.Text = "&About";
+        	this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItemClick);
+        	// 
         	// FormMain
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -838,6 +850,7 @@ namespace awareness.ui
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.Panel mealPanel;
         private System.Windows.Forms.Panel centralPark;
         private System.Windows.Forms.ToolStripButton financesToolButton;

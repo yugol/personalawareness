@@ -353,5 +353,10 @@ namespace awareness.ui
             financialPages.SelectedTab = transactionsPage;
             transactionsControl.ShowAllTransactionsForAccount(account);
         }
+        
+        void AboutToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            new FormAbout().ShowDialog();
+        }
     }
 }
