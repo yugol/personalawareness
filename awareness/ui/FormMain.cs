@@ -1,4 +1,10 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 30/08/2008
+ * Time: 22:07
+ *
+ *
  * Copyright (c) 2008 Iulian GORIAC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,13 +26,6 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 30/08/2008
- * Time: 22:07
- *
- */
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -130,6 +129,7 @@ namespace awareness.ui
         }
 
         void BuddiExportToolStripMenuItemClick(object sender, EventArgs e){
+#if DEBUG
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Buddi export (*.csv)|*.csv";
             if (ofd.ShowDialog() == DialogResult.OK){
@@ -142,6 +142,7 @@ namespace awareness.ui
                     DbUtil.ReOpenDataContext();
                 }
             }
+#endif
         }
 
         void DumpToolStripMenuItemClick(object sender, EventArgs e){
@@ -353,9 +354,8 @@ namespace awareness.ui
             financialPages.SelectedTab = transactionsPage;
             transactionsControl.ShowAllTransactionsForAccount(account);
         }
-        
-        void AboutToolStripMenuItemClick(object sender, EventArgs e)
-        {
+
+        void AboutToolStripMenuItemClick(object sender, EventArgs e){
             new FormAbout().ShowDialog();
         }
     }

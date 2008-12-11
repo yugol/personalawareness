@@ -29,6 +29,12 @@
     <WixExtension Include="$(WixToolPath)\WixUIExtension.dll" />
     <Compile Include="Files.wxs" />
     <Compile Include="Setup.wxs" />
+    <None Include="executable-license.txt" />
     <None Include="license.rtf" />
+    <None Include="ZedGraph-license.txt" />
+    <ProjectReference Include="..\awareness\awareness.csproj">
+      <Project>{6302D213-6AA1-42F8-8CA9-65F048A7E518}</Project>
+      <Name>awareness</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
