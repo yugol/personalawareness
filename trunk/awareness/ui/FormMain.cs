@@ -151,8 +151,8 @@ namespace Awareness.UI
             if (sfd.ShowDialog() == DialogResult.OK){
                 StreamWriter writer = new StreamWriter(sfd.FileName, false);
                 try {
-                    DBDumper dd = new DBDumper(DBUtil.GetDataContext());
-                    dd.DumpDb(writer);
+                    Dumper dd = new Dumper(DBUtil.GetDataContext());
+                    dd.DumpAll(writer);
                     MessageBox.Show("Operation completed successfully.", "Dump database", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 } catch (Exception ex) {
                     MessageBox.Show("There was an error when dumping the database.\n" + ex.Message, "Dump database",

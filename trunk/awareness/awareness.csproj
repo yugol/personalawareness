@@ -91,8 +91,8 @@
     <Compile Include="db\DalTransaction.cs" />
     <Compile Include="db\DalTransferLocation.cs" />
     <Compile Include="db\DbTest.cs" />
-    <Compile Include="db\DbDumper.cs" />
-    <Compile Include="db\DbDumperTest.cs" />
+    <Compile Include="db\Dumper.cs" />
+    <Compile Include="db\DumperTest.cs" />
     <Compile Include="db\DbSchema.cs" />
     <Compile Include="db\DbSchemaTest.cs" />
     <Compile Include="db\DbUtil.cs" />
@@ -127,10 +127,10 @@
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
     <Compile Include="db\DbUtilTest.cs" />
-    <Compile Include="db\INotable.cs" />
+    <Compile Include="db\Notable.cs" />
     <Compile Include="db\XmlProperties.cs" />
     <Compile Include="db\XmlPropertiesTest.cs" />
-    <Compile Include="ITimerable.cs" />
+    <Compile Include="Timerable.cs" />
     <Compile Include="ImporterBuddy.cs" />
     <Compile Include="ImporterBuddyTest.cs" />
     <Compile Include="Launcher.cs" />

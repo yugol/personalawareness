@@ -1,4 +1,10 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 08/09/2008
+ * Time: 13:01
+ *
+ *
  * Copyright (c) 2008 Iulian GORIAC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,13 +26,6 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 08/09/2008
- * Time: 13:01
- *
- */
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,18 +33,16 @@ using System.Linq;
 
 namespace Awareness.DB
 {
-    internal class DBDumper {
-        // TODO: check properties restore
-        
+    internal class Dumper {
         internal static readonly string YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss";
 
         AwarenessDataContext dc = null;
 
-        internal DBDumper(AwarenessDataContext dc){
+        internal Dumper(AwarenessDataContext dc){
             this.dc = dc;
         }
 
-        internal void DumpDb(TextWriter writer){
+        internal void DumpAll(TextWriter writer){
             DumpProperties(writer);
             IDictionary<int, int> notes = DumpNotes(writer);
             IDictionary<int, int> accountTypes = DumpAccountTypes(writer, notes);
@@ -58,7 +55,7 @@ namespace Awareness.DB
 
         internal void DumpProperties(TextWriter writer) {
             DalProperties dbProp = DBUtil.GetProperties();
-            writer.WriteLine("INSERT INTO properties (db_version, xml) VALUES ({0}, {1});",
+            writer.WriteLine("UPDATE properties SET db_version = {0}, xml = {1};",
                              dbProp.DBVersion,
                              String2SqlString(dbProp.Xml));
         }

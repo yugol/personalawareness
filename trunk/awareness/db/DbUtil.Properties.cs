@@ -40,11 +40,12 @@ namespace Awareness.DB
         }
 
         internal static void UpdateProperties() {
-            GetProperties().Xml = Configuration.DBProperties.XmlString;
+            DalProperties prop = GetProperties();
+            prop.Xml = Configuration.DBProperties.XmlString;
             dataContext.SubmitChanges();
             if (Configuration.DBProperties.CurrencyNotationChanged){
                 NotifyPropertiesChanged();
-                Configuration.DBProperties.CurrencyNotationChanged = false;
+                Configuration.DBProperties.ResetCurrencyNotationChanged();
             }
         }
 

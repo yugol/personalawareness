@@ -1,4 +1,10 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 31/08/2008
+ * Time: 00:33
+ *
+ *
  * Copyright (c) 2008 Iulian GORIAC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,13 +26,6 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 31/08/2008
- * Time: 00:33
- *
- */
 using System;
 using System.Drawing;
 using System.IO;
@@ -36,7 +35,7 @@ using Awareness.DB;
 
 namespace Awareness
 {
-    public static class Configuration {
+    internal static class Configuration {
         // TODO: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
 
 //#if DEBUG
@@ -45,7 +44,7 @@ namespace Awareness
 //#else
         static string dataFolder = Path.Combine(Application.StartupPath, "data");
         internal const string DATA_FILTER = "SQL Server Compact (*.sdf)|*.sdf|SQL Server (*.mdf)|*.mdf";
-//#endif        
+//#endif
 
         internal static string DATA_FOLDER { get { return dataFolder; } }
 
@@ -55,6 +54,8 @@ namespace Awareness
             if (!Directory.Exists(DATA_FOLDER)){
                 Directory.CreateDirectory(DATA_FOLDER);
             }
+
+            DBUtil.DataContextClosing += new DatabaseChangedHandler(ClearDBProperties);
         }
 
         static string lastDatabaseName = "";
@@ -80,13 +81,23 @@ namespace Awareness
         internal static readonly Font BOLD_FONT = new Font(DEFAULT_FONT.FontFamily, DEFAULT_FONT.Size, FontStyle.Bold);
         internal static readonly Font ITALIC_FONT = new Font(DEFAULT_FONT.FontFamily, DEFAULT_FONT.Size - 1, FontStyle.Italic);
 
-        private static XmlProperties dbProperties = new XmlProperties();
-        public static XmlProperties DBProperties {
-            get { return dbProperties; }
-        }        
+        #region DB Properties
 
-        internal static void ReadDbProperties() {
-            dbProperties.XmlString = DBUtil.GetProperties().Xml;
+        private static XmlProperties dbProperties = null;
+        
+        internal static XmlProperties DBProperties {
+            get {
+                if (dbProperties == null){
+                    dbProperties = new XmlProperties(DBUtil.GetProperties().Xml);
+                }
+                return dbProperties;
+            }
         }
+        
+        private static void ClearDBProperties() {
+            dbProperties = null;
+        }
+
+        #endregion
     }
 }
