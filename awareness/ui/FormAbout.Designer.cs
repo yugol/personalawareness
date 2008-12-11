@@ -62,6 +62,7 @@ namespace Awareness.UI
         	this.label1 = new System.Windows.Forms.Label();
         	this.label2 = new System.Windows.Forms.Label();
         	this.button1 = new System.Windows.Forms.Button();
+        	this.versionLabel = new System.Windows.Forms.Label();
         	((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
         	this.SuspendLayout();
         	// 
@@ -80,9 +81,9 @@ namespace Awareness.UI
         	this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         	this.label1.Location = new System.Drawing.Point(64, 16);
         	this.label1.Name = "label1";
-        	this.label1.Size = new System.Drawing.Size(165, 13);
+        	this.label1.Size = new System.Drawing.Size(121, 13);
         	this.label1.TabIndex = 1;
-        	this.label1.Text = "Personal Awareness 1.0.0.0";
+        	this.label1.Text = "Personal Awareness";
         	// 
         	// label2
         	// 
@@ -103,12 +104,23 @@ namespace Awareness.UI
         	this.button1.Text = "OK";
         	this.button1.UseVisualStyleBackColor = true;
         	// 
+        	// versionLabel
+        	// 
+        	this.versionLabel.AutoSize = true;
+        	this.versionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        	this.versionLabel.Location = new System.Drawing.Point(184, 16);
+        	this.versionLabel.Name = "versionLabel";
+        	this.versionLabel.Size = new System.Drawing.Size(48, 13);
+        	this.versionLabel.TabIndex = 4;
+        	this.versionLabel.Text = "version";
+        	// 
         	// FormAbout
         	// 
         	this.AcceptButton = this.button1;
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         	this.ClientSize = new System.Drawing.Size(249, 108);
+        	this.Controls.Add(this.versionLabel);
         	this.Controls.Add(this.button1);
         	this.Controls.Add(this.label2);
         	this.Controls.Add(this.label1);
@@ -124,6 +136,7 @@ namespace Awareness.UI
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
