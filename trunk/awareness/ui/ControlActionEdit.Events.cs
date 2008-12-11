@@ -62,6 +62,10 @@ namespace Awareness.UI
                     Ui2DataStartTime();
                     Ui2DataEndTime();
                     processEvents = true;
+                } else {
+                    action.HasWindowReminder = false;
+                    action.HasCommandReminder = false;
+                    action.HasSoundReminder = false;
                 }
                 action.IsTimePlanned = planTimeCheck.Checked;
                 DBUtil.UpdateActionTimeStamp(action);
