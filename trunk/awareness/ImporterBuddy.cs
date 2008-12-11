@@ -1,4 +1,10 @@
 /*
+ * Created by SharpDevelop.
+ * User: Iulian
+ * Date: 06/09/2008
+ * Time: 15:06
+ *
+ *
  * Copyright (c) 2008 Iulian GORIAC
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,13 +26,8 @@
  * THE SOFTWARE.
  */
 
-/*
- * Created by SharpDevelop.
- * User: Iulian
- * Date: 06/09/2008
- * Time: 15:06
- *
- */
+#if DEBUG
+
 using System;
 using System.Globalization;
 using System.IO;
@@ -156,3 +157,5 @@ namespace awareness
         }
     }
 }
+
+#endif
