@@ -38,6 +38,10 @@ namespace Awareness
     internal static class Configuration {
         // TODO: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
 
+        internal static readonly float DBVersion = 1.0F;
+        internal static readonly string AppVersion = "1.0.0";
+        
+        
 //#if DEBUG
 //        static string dataFolder = @"C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data";
 //        internal const string DATA_FILTER = "SQL Server (*.mdf)|*.mdf|SQL Server Compact (*.sdf)|*.sdf";

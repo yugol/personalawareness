@@ -48,7 +48,7 @@ namespace Awareness.DB
             get { return _id; }
         }
 
-        float _dbVersion = 1.00F;
+        float _dbVersion = Configuration.DBVersion;
         [Column(Storage = "_dbVersion",
                 Name = "db_version",
                 DbType="real NOT NULL",
