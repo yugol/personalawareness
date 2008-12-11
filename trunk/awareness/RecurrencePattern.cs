@@ -28,7 +28,7 @@
 
 using System;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     public struct RecurrencePattern
     {

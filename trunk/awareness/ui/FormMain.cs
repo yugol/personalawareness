@@ -31,9 +31,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class FormMain : Form {
         public FormMain(){
@@ -70,7 +70,7 @@ namespace awareness.ui
         }
 
         void OpenDatabase(){
-            string databaseName = ActionOpenDatabase.UiPickDatabaseName();
+            string databaseName = ActionOpenDatabase.UIPickDatabaseName();
             if (!string.IsNullOrEmpty(databaseName)) {
                 new ActionOpenDatabase(this, databaseName).Run();
             }
@@ -134,12 +134,12 @@ namespace awareness.ui
             ofd.Filter = "Buddi export (*.csv)|*.csv";
             if (ofd.ShowDialog() == DialogResult.OK){
                 try {
-                    ImporterBuddy importer = new ImporterBuddy(DbUtil.GetDataContext());
+                    ImporterBuddy importer = new ImporterBuddy(DBUtil.GetDataContext());
                     importer.Import(ofd.FileName);
                     MessageBox.Show("Operation completed successfully.", "Import Buddi CSV", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message, "Import failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    DbUtil.ReOpenDataContext();
+                    DBUtil.ReOpenDataContext();
                 }
             }
 #endif
@@ -151,7 +151,7 @@ namespace awareness.ui
             if (sfd.ShowDialog() == DialogResult.OK){
                 StreamWriter writer = new StreamWriter(sfd.FileName, false);
                 try {
-                    DbDumper dd = new DbDumper(DbUtil.GetDataContext());
+                    DBDumper dd = new DBDumper(DBUtil.GetDataContext());
                     dd.DumpDb(writer);
                     MessageBox.Show("Operation completed successfully.", "Dump database", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 } catch (Exception ex) {
@@ -177,7 +177,7 @@ namespace awareness.ui
                 ofd.Filter = "SQL Script (*.sql)|*.sql";
                 if (ofd.ShowDialog() == DialogResult.OK){
                     try {
-                        DbUtil.RestoreFromSqlDump(ofd.FileName);
+                        DBUtil.RestoreFromSqlDump(ofd.FileName);
                         MessageBox.Show("Operation completed successfully.", "Restore database", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     } catch (Exception ex) {
                         MessageBox.Show("There was an error when restoring the database.\n" + ex.Message, "Restore database",
@@ -192,7 +192,7 @@ namespace awareness.ui
         }
 
         void FormMainFormClosed(object sender, FormClosedEventArgs e){
-            DbUtil.CloseDataContext();
+            DBUtil.CloseDataContext();
         }
 
         void NewToolButtonClick(object sender, EventArgs e){

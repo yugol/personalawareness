@@ -27,7 +27,7 @@
  * Time: 18:33
  * 
  */
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class ControlJumperDatePicker
     {

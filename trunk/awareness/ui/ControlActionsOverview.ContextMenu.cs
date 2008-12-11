@@ -28,9 +28,9 @@
 
 using System;
 using System.Windows.Forms;
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class ControlActionsOverview {
         void UpdateContextMenu(){
@@ -79,7 +79,7 @@ namespace awareness.ui
             TreeNode clickNode = (TreeNode) actionTreeContextMenu.Tag;
             if (clickNode == null) {
                 actionsTree.Nodes.Add(node);
-                DbUtil.AddAction(action);
+                DBUtil.AddAction(action);
             } else {
                 int clickNodeIndex = -10;
                 if (clickNode.Parent == null){
@@ -90,7 +90,7 @@ namespace awareness.ui
                     clickNodeIndex = clickNode.Parent.Nodes.IndexOf(clickNode);
                     clickNode.Parent.Nodes.Insert(clickNodeIndex + 1, node);
                 }
-                DbUtil.InsertAction(clickNodeIndex + 1, action);
+                DBUtil.InsertAction(clickNodeIndex + 1, action);
             }
 
             actionsTree.SelectedNode = node;
@@ -104,7 +104,7 @@ namespace awareness.ui
             action.Parent = (DalAction) clickNode.Tag;
 
             clickNode.Nodes.Insert(0, node);
-            DbUtil.InsertAction(0, action);
+            DBUtil.InsertAction(0, action);
 
             actionsTree.SelectedNode = node;
             node.BeginEdit();
@@ -118,7 +118,7 @@ namespace awareness.ui
                                 MessageBoxDefaultButton.Button2) == DialogResult.OK){
                 DalAction action = (DalAction) node.Tag;
 
-                DbUtil.DeleteActionRecursive(action);
+                DBUtil.DeleteActionRecursive(action);
 
                 TreeNode nextSelected = node.NextVisibleNode;
                 if (nextSelected == null){

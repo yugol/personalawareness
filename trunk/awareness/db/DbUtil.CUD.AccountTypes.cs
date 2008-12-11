@@ -29,9 +29,9 @@
 
 using System;
 
-namespace awareness.db
+namespace Awareness.DB
 {
-    partial class DbUtil
+    partial class DBUtil
     {
         internal static void InsertAccountType(DalAccountType accountTypes, DalNote note){
             PreludeInsertNotable(accountTypes, note, AwarenessDataContext.NOTE_ACCOUNT_TYPES_ID);

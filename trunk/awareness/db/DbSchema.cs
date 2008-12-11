@@ -31,7 +31,7 @@ using System;
 using System.Linq;
 using System.Data.Linq;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     public class AwarenessDataContext : DataContext {
         // TODO: transaction_reasons -> reasons
@@ -234,19 +234,19 @@ namespace awareness.db
             switch (type){
             case DalReason.TYPE_DEFAULT:
                 command = string.Format("UPDATE transaction_reasons SET type = {0}, name = {1}, energy = null WHERE id = {2}",
-                                        type, DbDumper.String2SqlString(name), id);
+                                        type, DBDumper.String2SqlString(name), id);
                 break;
             case DalReason.TYPE_FOOD:
                 command = string.Format("UPDATE transaction_reasons SET type = {0}, name = {1}, energy = {2} WHERE id = {3}",
-                                        type, DbDumper.String2SqlString(name), energy, id);
+                                        type, DBDumper.String2SqlString(name), energy, id);
                 break;
             case DalReason.TYPE_RECIPE:
                 command = string.Format("UPDATE transaction_reasons SET type = {0}, name = {1}, energy = {2} WHERE id = {3}",
-                                        type, DbDumper.String2SqlString(name), DalFood.QUANTITY_FOR_ENERGY, id);
+                                        type, DBDumper.String2SqlString(name), DalFood.QUANTITY_FOR_ENERGY, id);
                 break;
             case DalReason.TYPE_CONSUMER:
                 command = string.Format("UPDATE transaction_reasons SET type = {0}, name = {1}, energy = null WHERE id = {2}",
-                                        type, DbDumper.String2SqlString(name), id);
+                                        type, DBDumper.String2SqlString(name), id);
                 break;
             }
             ExecuteCommand(command);

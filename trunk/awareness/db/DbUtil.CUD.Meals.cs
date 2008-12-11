@@ -30,9 +30,9 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 
-namespace awareness.db
+namespace Awareness.DB
 {
-    partial class DbUtil {
+    partial class DBUtil {
 
         internal static void InsertMeal(DalMeal meal){
             dataContext.meals.InsertOnSubmit(meal);

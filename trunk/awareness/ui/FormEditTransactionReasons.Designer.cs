@@ -27,7 +27,7 @@
  * Time: 09:00
  * 
  */
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class FormEditTransactionReasons
     {
@@ -73,7 +73,7 @@ namespace awareness.ui
         	this.lastMealButton = new System.Windows.Forms.Button();
         	this.averageMealsButton = new System.Windows.Forms.Button();
         	this.reasonCombo = new System.Windows.Forms.ComboBox();
-        	this.noteControl = new awareness.ui.ControlAddNote();
+        	this.noteControl = new Awareness.UI.ControlAddNote();
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
         	this.SuspendLayout();
         	// 
@@ -261,7 +261,7 @@ namespace awareness.ui
         	this.PerformLayout();
         }
         private System.Windows.Forms.ComboBox reasonCombo;
-        private awareness.ui.ControlAddNote noteControl;
+        private Awareness.UI.ControlAddNote noteControl;
         private System.Windows.Forms.Button averageMealsButton;
         private System.Windows.Forms.Button lastMealButton;
         private System.Windows.Forms.ComboBox selectedTypeCombo;

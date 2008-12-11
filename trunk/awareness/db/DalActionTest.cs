@@ -34,7 +34,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     [TestFixture]
     public class DalActionTest

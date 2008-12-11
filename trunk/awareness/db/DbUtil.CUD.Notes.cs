@@ -29,9 +29,9 @@
 
 using System;
 
-namespace awareness.db
+namespace Awareness.DB
 {
-    partial class DbUtil {
+    partial class DBUtil {
         private static bool IsEmpty (DalNote note) {
             if (note == null){
                 return true;
@@ -42,13 +42,13 @@ namespace awareness.db
             return false;
         }
 
-        private static void PrepareNoteForNotable(DalNote note, INotable notable, int noteParentId){
+        private static void PrepareNoteForNotable(DalNote note, Notable notable, int noteParentId){
             note.Parent = dataContext.GetNoteById(noteParentId);
             note.Title = notable.Name;
             note.IsPermanent = true;
         }
 
-        private static void PreludeInsertNotable(INotable notable, DalNote note, int noteParentId) {
+        private static void PreludeInsertNotable(Notable notable, DalNote note, int noteParentId) {
             if (!IsEmpty(note)){
                 PrepareNoteForNotable(note, notable, noteParentId);
                 StoreNote(note);
@@ -58,7 +58,7 @@ namespace awareness.db
             }
         }
 
-        private static void PreludeUpdateNotable(INotable notable, DalNote note, int noteParentId) {
+        private static void PreludeUpdateNotable(Notable notable, DalNote note, int noteParentId) {
             if (!notable.HasNote){
                 if (!IsEmpty(note)){
                     PrepareNoteForNotable(note, notable, noteParentId);

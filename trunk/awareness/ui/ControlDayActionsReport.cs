@@ -32,9 +32,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class ControlDayActionsReport : UserControl {
         bool updateActionsBit = true;
@@ -51,7 +51,7 @@ namespace awareness.ui
         public ControlDayActionsReport(){
             InitializeComponent();
             datePicker.ValueChanged += new EventHandler(DatePickerValueChanged);
-            DbUtil.ActionsChanged += new DatabaseChangedHandler(RequestUpdateActions);
+            DBUtil.ActionsChanged += new DatabaseChangedHandler(RequestUpdateActions);
         }
 
         void RequestUpdateActions(){

@@ -29,9 +29,9 @@
 
 using System;
 
-namespace awareness
+namespace Awareness
 {
-    public class BasicTimerable : ITimerable {
+    public class BasicTimerable : Timerable {
         private DateTime deadline;
         private bool completed = false;
 

@@ -27,7 +27,7 @@
  */
 
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class FormCalendar
     {
@@ -58,10 +58,10 @@ namespace awareness.ui
         private void InitializeComponent()
         {
         	this.matrixPanel = new System.Windows.Forms.TableLayoutPanel();
-        	this.datePicker = new awareness.ui.ControlJumperDatePicker();
-        	this.leftCalendar = new awareness.ui.ControlCalendar();
-        	this.middleCalendar = new awareness.ui.ControlCalendar();
-        	this.rightCalendar = new awareness.ui.ControlCalendar();
+        	this.datePicker = new Awareness.UI.ControlJumperDatePicker();
+        	this.leftCalendar = new Awareness.UI.ControlCalendar();
+        	this.middleCalendar = new Awareness.UI.ControlCalendar();
+        	this.rightCalendar = new Awareness.UI.ControlCalendar();
         	this.matrixPanel.SuspendLayout();
         	this.SuspendLayout();
         	// 
@@ -88,7 +88,7 @@ namespace awareness.ui
         	// 
         	this.matrixPanel.SetColumnSpan(this.datePicker, 3);
         	this.datePicker.Dock = System.Windows.Forms.DockStyle.Right;
-        	this.datePicker.JumpSize = awareness.ui.EJumpSize.Month;
+        	this.datePicker.JumpSize = Awareness.UI.EJumpSize.Month;
         	this.datePicker.Location = new System.Drawing.Point(177, 3);
         	this.datePicker.MinimumSize = new System.Drawing.Size(304, 20);
         	this.datePicker.Name = "datePicker";
@@ -139,10 +139,10 @@ namespace awareness.ui
         	this.matrixPanel.ResumeLayout(false);
         	this.ResumeLayout(false);
         }
-        private awareness.ui.ControlCalendar rightCalendar;
-        private awareness.ui.ControlCalendar middleCalendar;
-        private awareness.ui.ControlCalendar leftCalendar;
-        private awareness.ui.ControlJumperDatePicker datePicker;
+        private Awareness.UI.ControlCalendar rightCalendar;
+        private Awareness.UI.ControlCalendar middleCalendar;
+        private Awareness.UI.ControlCalendar leftCalendar;
+        private Awareness.UI.ControlJumperDatePicker datePicker;
         private System.Windows.Forms.TableLayoutPanel matrixPanel;
     }
 }

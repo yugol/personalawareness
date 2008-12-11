@@ -33,9 +33,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public enum ETitleFormats { HIDDEN, DAY_OF_WEEK, DAY_OF_MONTH }
 
@@ -117,7 +117,7 @@ namespace awareness.ui
             InitializeComponent();
             actionsView.Items.Clear();
             TimeInterval = null;
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(UpdateActions);
+            DBUtil.DataContextChanged += new DatabaseChangedHandler(UpdateActions);
         }
 
         void ActionsViewSizeChanged(object sender, EventArgs e){
@@ -129,11 +129,11 @@ namespace awareness.ui
         }
 
         public void UpdateActions(){
-            if (timeInterval != null && DbUtil.IsDbAvailable()){
+            if (timeInterval != null && DBUtil.IsDbAvailable()){
                 Debug.WriteLine("UpdateActions");
                 actionsView.BeginUpdate();
                 actionsView.Items.Clear();
-                List<ActionOccurrence> occurrences = DbUtil.GetActionOccurrences(timeInterval);
+                List<ActionOccurrence> occurrences = DBUtil.GetActionOccurrences(timeInterval);
                 foreach (ActionOccurrence occurrence in occurrences){
                     ListViewItem item = new ListViewItem();
                     item.Tag = occurrence;

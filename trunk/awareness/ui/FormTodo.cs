@@ -31,16 +31,16 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class FormTodo : Form {
         public FormTodo(){
             InitializeComponent();
             ReadTodoNote();
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(ReadTodoNote);
-            DbUtil.DataContextClosing += new DatabaseChangedHandler(NullifyTodoNote);
+            DBUtil.DataContextChanged += new DatabaseChangedHandler(ReadTodoNote);
+            DBUtil.DataContextClosing += new DatabaseChangedHandler(NullifyTodoNote);
         }
 
         void FormTodoFormClosing(object sender, FormClosingEventArgs e){
@@ -49,7 +49,7 @@ namespace awareness.ui
         }
 
         void ReadTodoNote() {
-            noteControl.Note = DbUtil.GetTodoNote();
+            noteControl.Note = DBUtil.GetTodoNote();
         }
 
         void NullifyTodoNote() {

@@ -29,9 +29,9 @@
 
 using System;
 
-namespace awareness.db
+namespace Awareness.DB
 {
-    partial class DbUtil {
+    partial class DBUtil {
 
         internal static void InsertTransactionReason(DalReason reason, DalNote note){
             PreludeInsertNotable(reason, note, AwarenessDataContext.NOTE_REASONS_ID);

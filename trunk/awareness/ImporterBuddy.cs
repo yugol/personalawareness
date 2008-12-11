@@ -33,10 +33,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
-using awareness.db;
+using Awareness.DB;
 using LumenWorks.Framework.IO.Csv;
 
-namespace awareness
+namespace Awareness
 {
     internal class ImporterBuddy {
         AwarenessDataContext dc;

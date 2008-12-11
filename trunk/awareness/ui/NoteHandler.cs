@@ -29,9 +29,9 @@
 
 using System;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public delegate void NoteHandler(object sender, DalNote note);
 }

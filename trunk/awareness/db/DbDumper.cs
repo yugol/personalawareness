@@ -32,16 +32,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace awareness.db
+namespace Awareness.DB
 {
-    internal class DbDumper {
+    internal class DBDumper {
         // TODO: check properties restore
         
         internal static readonly string YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss";
 
         AwarenessDataContext dc = null;
 
-        internal DbDumper(AwarenessDataContext dc){
+        internal DBDumper(AwarenessDataContext dc){
             this.dc = dc;
         }
 
@@ -57,9 +57,9 @@ namespace awareness.db
         }
 
         internal void DumpProperties(TextWriter writer) {
-            DalProperties dbProp = DbUtil.GetProperties();
+            DalProperties dbProp = DBUtil.GetProperties();
             writer.WriteLine("INSERT INTO properties (db_version, xml) VALUES ({0}, {1});",
-                             dbProp.DbVersion,
+                             dbProp.DBVersion,
                              String2SqlString(dbProp.Xml));
         }
 

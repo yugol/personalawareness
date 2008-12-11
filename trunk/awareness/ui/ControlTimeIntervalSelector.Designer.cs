@@ -27,7 +27,7 @@
  * Time: 12:35
  * 
  */
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class ControlTimeIntervalSelector
     {

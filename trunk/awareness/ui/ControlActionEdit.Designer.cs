@@ -27,7 +27,7 @@
  * Time: 19:23
  * 
  */
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class ControlActionEdit
     {
@@ -61,7 +61,7 @@ namespace awareness.ui
         	this.actionPages = new System.Windows.Forms.TabControl();
         	this.generalPage = new System.Windows.Forms.TabPage();
         	this.noteGroup = new System.Windows.Forms.GroupBox();
-        	this.noteTextView = new awareness.ui.ControlNoteTextView();
+        	this.noteTextView = new Awareness.UI.ControlNoteTextView();
         	this.planPage = new System.Windows.Forms.TabPage();
         	this.recurrenceGroup = new System.Windows.Forms.GroupBox();
         	this.anotherUpDown = new System.Windows.Forms.NumericUpDown();
@@ -72,7 +72,7 @@ namespace awareness.ui
         	this.indefinitelyRadio = new System.Windows.Forms.RadioButton();
         	this.label1 = new System.Windows.Forms.Label();
         	this.separatorPanel = new System.Windows.Forms.Panel();
-        	this.recurrencePatternEditControl = new awareness.ui.ControlRecurrencePatternEdit();
+        	this.recurrencePatternEditControl = new Awareness.UI.ControlRecurrencePatternEdit();
         	this.whenGroup = new System.Windows.Forms.GroupBox();
         	this.setEndCheck = new System.Windows.Forms.CheckBox();
         	this.repeatCheck = new System.Windows.Forms.CheckBox();
@@ -89,8 +89,8 @@ namespace awareness.ui
         	this.setupGroup = new System.Windows.Forms.GroupBox();
         	this.usageLabel = new System.Windows.Forms.Label();
         	this.label2 = new System.Windows.Forms.Label();
-        	this.soundSelector = new awareness.ui.ControlCommandSelector();
-        	this.commandSelector = new awareness.ui.ControlCommandSelector();
+        	this.soundSelector = new Awareness.UI.ControlCommandSelector();
+        	this.commandSelector = new Awareness.UI.ControlCommandSelector();
         	this.playSoundCheck = new System.Windows.Forms.CheckBox();
         	this.runCommandCheck = new System.Windows.Forms.CheckBox();
         	this.beforeOccurrenceLabel = new System.Windows.Forms.Label();
@@ -659,8 +659,8 @@ namespace awareness.ui
         private System.Windows.Forms.Label usageLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox reminderDurationCombo;
-        private awareness.ui.ControlCommandSelector commandSelector;
-        private awareness.ui.ControlCommandSelector soundSelector;
+        private Awareness.UI.ControlCommandSelector commandSelector;
+        private Awareness.UI.ControlCommandSelector soundSelector;
         private System.Windows.Forms.CheckBox showReminderCheck;
         private System.Windows.Forms.Label beforeOccurrenceLabel;
         private System.Windows.Forms.CheckBox runCommandCheck;
@@ -675,7 +675,7 @@ namespace awareness.ui
         private System.Windows.Forms.RadioButton anotherRadio;
         private System.Windows.Forms.Panel separatorPanel;
         private System.Windows.Forms.Label label1;
-        private awareness.ui.ControlRecurrencePatternEdit recurrencePatternEditControl;
+        private Awareness.UI.ControlRecurrencePatternEdit recurrencePatternEditControl;
         private System.Windows.Forms.CheckBox setEndCheck;
         private System.Windows.Forms.CheckBox repeatCheck;
         private System.Windows.Forms.GroupBox recurrenceGroup;
@@ -697,7 +697,7 @@ namespace awareness.ui
         private System.Windows.Forms.TextBox modifiedBox;
         private System.Windows.Forms.TextBox createdBox;
         private System.Windows.Forms.GroupBox timingGroup;
-        private awareness.ui.ControlNoteTextView noteTextView;
+        private Awareness.UI.ControlNoteTextView noteTextView;
         private System.Windows.Forms.GroupBox noteGroup;
         private System.Windows.Forms.TabPage aboutPage;
         private System.Windows.Forms.TabPage planPage;

@@ -32,9 +32,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class ControlTransactions : UserControl {
         bool readTransferLocationsBit = true;
@@ -59,7 +59,7 @@ namespace awareness.ui
         public ControlTransactions(){
             InitializeComponent();
 
-            UiUtil.SetMinMaxDatesFor(datePicker);
+            Util.SetMinMaxDatesFor(datePicker);
             
             fromCombo.DropDownHeight = 250;
             toCombo.DropDownHeight = 250;
@@ -73,14 +73,14 @@ namespace awareness.ui
             transactionsView.SelectedIndexChanged += new EventHandler(TransactionsViewSelectedIndexChanged);
             timeIntervalSelectorControl.TimeIntervalChanged += new TimeIntervalChangedHandler(RequestReadTransactions);
 
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransferLocations);
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransactionReasons);
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransactions);
-            DbUtil.TransactionReasonsChanged += new DatabaseChangedHandler(RequestReadTransactionReasons);
-            DbUtil.TransactionReasonsChanged += new DatabaseChangedHandler(RequestReadTransactions);
-            DbUtil.TransferLocationsChanged += new DatabaseChangedHandler(RequestReadTransferLocations);
-            DbUtil.TransferLocationsChanged += new DatabaseChangedHandler(RequestReadTransactions);
-            DbUtil.PropertiesChanged += new DatabaseChangedHandler(RequestReadTransactions);
+            DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransferLocations);
+            DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransactionReasons);
+            DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransactions);
+            DBUtil.TransactionReasonsChanged += new DatabaseChangedHandler(RequestReadTransactionReasons);
+            DBUtil.TransactionReasonsChanged += new DatabaseChangedHandler(RequestReadTransactions);
+            DBUtil.TransferLocationsChanged += new DatabaseChangedHandler(RequestReadTransferLocations);
+            DBUtil.TransferLocationsChanged += new DatabaseChangedHandler(RequestReadTransactions);
+            DBUtil.PropertiesChanged += new DatabaseChangedHandler(RequestReadTransactions);
         }
 
         void RequestReadTransferLocations(){
@@ -93,8 +93,8 @@ namespace awareness.ui
                 fromCombo.Items.Clear();
                 toCombo.Items.Clear();
 
-                IQueryable<DalAccount> accounts = DbUtil.GetAccounts();
-                IQueryable<DalBudgetCategory> budgetCategories = DbUtil.GetBudgetCategories();
+                IQueryable<DalAccount> accounts = DBUtil.GetAccounts();
+                IQueryable<DalBudgetCategory> budgetCategories = DBUtil.GetBudgetCategories();
                 IQueryable<DalBudgetCategory> incomes = budgetCategories.Where(bc => bc.IsIncome);
                 IQueryable<DalBudgetCategory> expenses = budgetCategories.Where(bc => !bc.IsIncome);
 
@@ -142,7 +142,7 @@ namespace awareness.ui
         void ReadTransactionReasons(){
             if (isDisplayed&&readTransactionReasonsBit){
                 reasonCombo.Items.Clear();
-                IQueryable<DalReason> reasons = DbUtil.GetTransferReasons();
+                IQueryable<DalReason> reasons = DBUtil.GetTransferReasons();
                 foreach (DalReason reason in reasons){
                     reasonCombo.Items.Add(reason);
                 }
@@ -158,7 +158,7 @@ namespace awareness.ui
 
         void ReadTransactions(){
             if (isDisplayed&&readTransactionsBit){
-                transactions = DbUtil.GetTransactions(timeIntervalSelectorControl.First, timeIntervalSelectorControl.Last);
+                transactions = DBUtil.GetTransactions(timeIntervalSelectorControl.First, timeIntervalSelectorControl.Last);
                 if (selectedTransferLocation != null){
                     transactions = transactions.Where(t => (t.FromId == selectedTransferLocation.Id)||(t.ToId == selectedTransferLocation.Id));
                 }

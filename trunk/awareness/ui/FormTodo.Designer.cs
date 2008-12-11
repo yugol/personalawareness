@@ -27,7 +27,7 @@
  */
 
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class FormTodo
     {
@@ -57,7 +57,7 @@ namespace awareness.ui
         /// </summary>
         private void InitializeComponent()
         {
-        	this.noteControl = new awareness.ui.ControlNoteTextView();
+        	this.noteControl = new Awareness.UI.ControlNoteTextView();
         	this.SuspendLayout();
         	// 
         	// noteControl
@@ -89,6 +89,6 @@ namespace awareness.ui
         	this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormTodoFormClosing);
         	this.ResumeLayout(false);
         }
-        private awareness.ui.ControlNoteTextView noteControl;
+        private Awareness.UI.ControlNoteTextView noteControl;
     }
 }

@@ -32,45 +32,45 @@ using System;
 using System.Linq;
 using NUnit.Framework;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     [TestFixture]
-    public class DbUtilTest {
+    public class DBUtilTest {
         [Test]
         public void IsTransferLocationUsed() {
             DalBudgetCategory bc = new DalBudgetCategory();
             bc.Name = "UsageTestBudget";
-            Assert.IsFalse(DbUtil.IsTransferLocationUsed(bc));
+            Assert.IsFalse(DBUtil.IsTransferLocationUsed(bc));
 
-            DbUtil.InsertTransferLocation(bc, null);
-            Assert.IsFalse(DbUtil.IsTransferLocationUsed(bc));
+            DBUtil.InsertTransferLocation(bc, null);
+            Assert.IsFalse(DBUtil.IsTransferLocationUsed(bc));
             
             DalReason r = new DalReason();
             r.Name = "Reason";
-            DbUtil.InsertTransactionReason(r, null);
+            DBUtil.InsertTransactionReason(r, null);
             DalTransaction t = new DalTransaction();
             t.Reason = r;
             t.From = bc;
             t.To = bc;
-            DbUtil.InsertTransaction(t, null);
-            Assert.IsTrue(DbUtil.IsTransferLocationUsed(bc));
+            DBUtil.InsertTransaction(t, null);
+            Assert.IsTrue(DBUtil.IsTransferLocationUsed(bc));
             
-            DbUtil.DeleteTransaction(t);
-            Assert.IsFalse(DbUtil.IsTransferLocationUsed(bc));
+            DBUtil.DeleteTransaction(t);
+            Assert.IsFalse(DBUtil.IsTransferLocationUsed(bc));
             
-            DbUtil.DeleteTransactionReason(r);
-            DbUtil.DeleteTransferLocation(bc);
+            DBUtil.DeleteTransactionReason(r);
+            DBUtil.DeleteTransferLocation(bc);
         }
         
         
         [Test]
         public void GetTodoNote() {
-            DalNote note = DbUtil.GetTodoNote();
+            DalNote note = DBUtil.GetTodoNote();
             Assert.IsNotNull(note);
             Assert.AreEqual("", note.Text);
             note.Text = "dummy";
-            DbUtil.UpdateNote(note);
-            note = DbUtil.GetTodoNote();
+            DBUtil.UpdateNote(note);
+            note = DBUtil.GetTodoNote();
             Assert.AreEqual("dummy", note.Text);
         }                
 
@@ -79,12 +79,12 @@ namespace awareness.db
             DalAccountType at = new DalAccountType() {
                 Name = "at"
             };
-            DbUtil.InsertAccountType(at, null);
+            DBUtil.InsertAccountType(at, null);
 
             DalReason tr = new DalReason() {
                 Name = "tr"
             };
-            DbUtil.InsertTransactionReason(tr, null);
+            DBUtil.InsertTransactionReason(tr, null);
 
             DalAccount a1 = new DalAccount() {
                 AccountType = at, Name = "a1", StartingBalance = 100
@@ -98,10 +98,10 @@ namespace awareness.db
             DalBudgetCategory bc2 = new DalBudgetCategory() {
                 IsIncome = false, Name = "bc2"
             };
-            DbUtil.InsertTransferLocation(a1, null);
-            DbUtil.InsertTransferLocation(a2, null);
-            DbUtil.InsertTransferLocation(bc1, null);
-            DbUtil.InsertTransferLocation(bc2, null);
+            DBUtil.InsertTransferLocation(a1, null);
+            DBUtil.InsertTransferLocation(a2, null);
+            DBUtil.InsertTransferLocation(bc1, null);
+            DBUtil.InsertTransferLocation(bc2, null);
 
             DalTransaction t1 = new DalTransaction() {
                 From = bc1, To = a1, Reason = tr, Ammount = 20
@@ -121,41 +121,41 @@ namespace awareness.db
             DalTransaction t6 = new DalTransaction() {
                 From = a2, To = bc2, Reason = tr, Ammount = 30
             };
-            DbUtil.InsertTransaction(t1, null);
-            DbUtil.InsertTransaction(t2, null);
-            DbUtil.InsertTransaction(t3, null);
-            DbUtil.InsertTransaction(t4, null);
-            DbUtil.InsertTransaction(t5, null);
-            DbUtil.InsertTransaction(t6, null);
+            DBUtil.InsertTransaction(t1, null);
+            DBUtil.InsertTransaction(t2, null);
+            DBUtil.InsertTransaction(t3, null);
+            DBUtil.InsertTransaction(t4, null);
+            DBUtil.InsertTransaction(t5, null);
+            DBUtil.InsertTransaction(t6, null);
 
-            Assert.AreEqual(60, DbUtil.GetTotalOutAmmount(a1));
-            Assert.AreEqual(90, DbUtil.GetTotalOutAmmount(a2));
-            Assert.AreEqual(30, DbUtil.GetTotalOutAmmount(bc1));
-            Assert.AreEqual(0, DbUtil.GetTotalOutAmmount(bc2));
+            Assert.AreEqual(60, DBUtil.GetTotalOutAmmount(a1));
+            Assert.AreEqual(90, DBUtil.GetTotalOutAmmount(a2));
+            Assert.AreEqual(30, DBUtil.GetTotalOutAmmount(bc1));
+            Assert.AreEqual(0, DBUtil.GetTotalOutAmmount(bc2));
 
-            Assert.AreEqual(30, DbUtil.GetTotalInAmmount(a1));
-            Assert.AreEqual(60, DbUtil.GetTotalInAmmount(a2));
-            Assert.AreEqual(0, DbUtil.GetTotalInAmmount(bc1));
-            Assert.AreEqual(90, DbUtil.GetTotalInAmmount(bc2));
+            Assert.AreEqual(30, DBUtil.GetTotalInAmmount(a1));
+            Assert.AreEqual(60, DBUtil.GetTotalInAmmount(a2));
+            Assert.AreEqual(0, DBUtil.GetTotalInAmmount(bc1));
+            Assert.AreEqual(90, DBUtil.GetTotalInAmmount(bc2));
 
-            Assert.AreEqual(70, DbUtil.GetBalance(a1));
-            Assert.AreEqual(-40, DbUtil.GetBalance(a2));
+            Assert.AreEqual(70, DBUtil.GetBalance(a1));
+            Assert.AreEqual(-40, DBUtil.GetBalance(a2));
 
-            DbUtil.DeleteTransaction(t6);
-            DbUtil.DeleteTransaction(t5);
-            DbUtil.DeleteTransaction(t4);
-            DbUtil.DeleteTransaction(t3);
-            DbUtil.DeleteTransaction(t2);
-            DbUtil.DeleteTransaction(t1);
+            DBUtil.DeleteTransaction(t6);
+            DBUtil.DeleteTransaction(t5);
+            DBUtil.DeleteTransaction(t4);
+            DBUtil.DeleteTransaction(t3);
+            DBUtil.DeleteTransaction(t2);
+            DBUtil.DeleteTransaction(t1);
 
-            DbUtil.DeleteTransactionReason(tr);
+            DBUtil.DeleteTransactionReason(tr);
 
-            DbUtil.DeleteTransferLocation(bc2);
-            DbUtil.DeleteTransferLocation(bc1);
-            DbUtil.DeleteTransferLocation(a2);
-            DbUtil.DeleteTransferLocation(a1);
+            DBUtil.DeleteTransferLocation(bc2);
+            DBUtil.DeleteTransferLocation(bc1);
+            DBUtil.DeleteTransferLocation(a2);
+            DBUtil.DeleteTransferLocation(a1);
 
-            DbUtil.DeleteAccountType(at);
+            DBUtil.DeleteAccountType(at);
         }
 
         [Test]
@@ -163,44 +163,44 @@ namespace awareness.db
             DalAction a1 = new DalAction() {
                 Name = "a1"
             };
-            DbUtil.AddAction(a1);
+            DBUtil.AddAction(a1);
             Assert.AreEqual(0, a1.Index);
 
             DalAction a2 = new DalAction() {
                 Name = "a2"
             };
-            DbUtil.AddAction(a2);
+            DBUtil.AddAction(a2);
             Assert.AreEqual(1, a2.Index);
 
             DalAction a3 = new DalAction() {
                 Name = "a3"
             };
-            DbUtil.AddAction(a3);
+            DBUtil.AddAction(a3);
             Assert.AreEqual(2, a3.Index);
 
             DalAction a11 = new DalAction() {
                 Name = "a11", Parent = a1
             };
-            DbUtil.AddAction(a11);
+            DBUtil.AddAction(a11);
             Assert.AreEqual(0, a11.Index);
 
             DalAction a12 = new DalAction() {
                 Name = "a12", Parent = a1
             };
-            DbUtil.AddAction(a12);
+            DBUtil.AddAction(a12);
             Assert.AreEqual(1, a12.Index);
 
             DalAction a31 = new DalAction() {
                 Name = "a31", Parent = a3
             };
-            DbUtil.AddAction(a31);
+            DBUtil.AddAction(a31);
             Assert.AreEqual(0, a31.Index);
 
-            DbUtil.DeleteActionRecursive(a1);
-            DbUtil.DeleteActionRecursive(a2);
-            DbUtil.DeleteActionRecursive(a3);
+            DBUtil.DeleteActionRecursive(a1);
+            DBUtil.DeleteActionRecursive(a2);
+            DBUtil.DeleteActionRecursive(a3);
 
-            Assert.AreEqual(0, DbUtil.GetRootActions().Count());
+            Assert.AreEqual(0, DBUtil.GetRootActions().Count());
         }
 
         [Test]
@@ -208,26 +208,26 @@ namespace awareness.db
             DalAction a = new DalAction() {
                 Name = "a"
             };
-            DbUtil.AddAction(a);
+            DBUtil.AddAction(a);
             Assert.AreEqual(0, a.Index);
 
             DalAction a1 = new DalAction() {
                 Name = "a1", Parent = a
             };
-            DbUtil.InsertAction(0, a1);
+            DBUtil.InsertAction(0, a1);
             Assert.AreEqual(0, a1.Index);
 
             DalAction a2 = new DalAction() {
                 Name = "a2", Parent = a
             };
-            DbUtil.InsertAction(0, a2);
+            DBUtil.InsertAction(0, a2);
             Assert.AreEqual(0, a2.Index);
             Assert.AreEqual(1, a1.Index);
 
             DalAction a3 = new DalAction() {
                 Name = "a3", Parent = a
             };
-            DbUtil.InsertAction(1, a3);
+            DBUtil.InsertAction(1, a3);
             Assert.AreEqual(1, a3.Index);
             Assert.AreEqual(0, a2.Index);
             Assert.AreEqual(2, a1.Index);
@@ -235,7 +235,7 @@ namespace awareness.db
             DalAction a4 = new DalAction() {
                 Name = "a4", Parent = a
             };
-            DbUtil.InsertAction(3, a4);
+            DBUtil.InsertAction(3, a4);
             Assert.AreEqual(3, a4.Index);
             Assert.AreEqual(1, a3.Index);
             Assert.AreEqual(0, a2.Index);
@@ -245,36 +245,36 @@ namespace awareness.db
                 Name = "a5", Parent = a
             };
 
-            DbUtil.DeleteActionRecursive(a);
-            Assert.AreEqual(0, DbUtil.GetRootActions().Count());
+            DBUtil.DeleteActionRecursive(a);
+            Assert.AreEqual(0, DBUtil.GetRootActions().Count());
         }
 
         [Test]
         public void Minutes2TimeSpanString(){
-            Assert.AreEqual("0 min", DbUtil.Minutes2TimeSpanString(0));
-            Assert.AreEqual("1 min", DbUtil.Minutes2TimeSpanString(1));
-            Assert.AreEqual("-1 min", DbUtil.Minutes2TimeSpanString(-1));
-            Assert.AreEqual("1 hour ", DbUtil.Minutes2TimeSpanString(60));
-            Assert.AreEqual("-1 hour ", DbUtil.Minutes2TimeSpanString(-60));
-            Assert.AreEqual("1 hour 30 min", DbUtil.Minutes2TimeSpanString(90));
-            Assert.AreEqual("-1 hour 30 min", DbUtil.Minutes2TimeSpanString(-90));
-            Assert.AreEqual("2 hours ", DbUtil.Minutes2TimeSpanString(120));
-            Assert.AreEqual("-2 hours ", DbUtil.Minutes2TimeSpanString(-120));
-            Assert.AreEqual("1 day ", DbUtil.Minutes2TimeSpanString(1440));
-            Assert.AreEqual("-1 day ", DbUtil.Minutes2TimeSpanString(-1440));
-            Assert.AreEqual("2 days ", DbUtil.Minutes2TimeSpanString(2880));
-            Assert.AreEqual("-2 days ", DbUtil.Minutes2TimeSpanString(-2880));
+            Assert.AreEqual("0 min", DBUtil.Minutes2TimeSpanString(0));
+            Assert.AreEqual("1 min", DBUtil.Minutes2TimeSpanString(1));
+            Assert.AreEqual("-1 min", DBUtil.Minutes2TimeSpanString(-1));
+            Assert.AreEqual("1 hour ", DBUtil.Minutes2TimeSpanString(60));
+            Assert.AreEqual("-1 hour ", DBUtil.Minutes2TimeSpanString(-60));
+            Assert.AreEqual("1 hour 30 min", DBUtil.Minutes2TimeSpanString(90));
+            Assert.AreEqual("-1 hour 30 min", DBUtil.Minutes2TimeSpanString(-90));
+            Assert.AreEqual("2 hours ", DBUtil.Minutes2TimeSpanString(120));
+            Assert.AreEqual("-2 hours ", DBUtil.Minutes2TimeSpanString(-120));
+            Assert.AreEqual("1 day ", DBUtil.Minutes2TimeSpanString(1440));
+            Assert.AreEqual("-1 day ", DBUtil.Minutes2TimeSpanString(-1440));
+            Assert.AreEqual("2 days ", DBUtil.Minutes2TimeSpanString(2880));
+            Assert.AreEqual("-2 days ", DBUtil.Minutes2TimeSpanString(-2880));
         }
 
         [TestFixtureSetUp]
         public void Init(){
-            DbUtil.CreateDataContext(DbTest.TEST_DB_NAME);
-            DbUtil.OpenDataContext(DbTest.TEST_DB_NAME);
+            DBUtil.CreateDataContext(DBTest.TEST_DB_NAME);
+            DBUtil.OpenDataContext(DBTest.TEST_DB_NAME);
         }
 
         [TestFixtureTearDown]
         public void Dispose(){
-            DbUtil.DeleteDataContext();
+            DBUtil.DeleteDataContext();
         }
     }
 }

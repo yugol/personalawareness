@@ -29,9 +29,9 @@
  */
 using System;
 
-namespace awareness.db
+namespace Awareness.DB
 {
-    partial class DbUtil {
+    partial class DBUtil {
         internal static void InsertTransaction(DalTransaction transaction, DalNote note){
             PreludeInsertNotable(transaction, note, AwarenessDataContext.NOTE_TRANSACTIONS_ID);
             dataContext.transactions.InsertOnSubmit(transaction);

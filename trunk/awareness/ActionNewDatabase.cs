@@ -30,10 +30,10 @@
 using System;
 using System.Windows.Forms;
 
-using awareness.db;
-using awareness.ui;
+using Awareness.DB;
+using Awareness.UI;
 
-namespace awareness
+namespace Awareness
 {
     public class ActionNewDatabase {
         FormMain mainForm = null;
@@ -48,7 +48,7 @@ namespace awareness
             sfd.InitialDirectory = Configuration.DATA_FOLDER;
             if (sfd.ShowDialog() == DialogResult.OK){
                 string newDatabaseName = sfd.FileName;
-                DbUtil.CreateDataContext(newDatabaseName);
+                DBUtil.CreateDataContext(newDatabaseName);
                 new ActionOpenDatabase(mainForm, newDatabaseName).Run();
             }
         }

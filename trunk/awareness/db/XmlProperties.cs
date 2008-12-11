@@ -31,7 +31,7 @@ using System;
 using System.Text;
 using System.Xml;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     public class XmlProperties {
         private static readonly string CURRENCY_SYMBOL_TAG = "symbol";

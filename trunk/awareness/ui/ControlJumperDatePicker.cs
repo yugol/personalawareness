@@ -32,7 +32,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public enum EJumpSize { Day, Week, Month }
 
@@ -77,7 +77,7 @@ namespace awareness.ui
 
         public ControlJumperDatePicker(){
             InitializeComponent();
-            UiUtil.SetMinMaxDatesFor(datePicker);
+            Util.SetMinMaxDatesFor(datePicker);
         }
 
         void LeftLeftButtonClick(object sender, EventArgs e){

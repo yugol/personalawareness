@@ -32,9 +32,9 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness
+namespace Awareness
 {
     public static class Configuration {
         // TODO: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
@@ -81,12 +81,12 @@ namespace awareness
         internal static readonly Font ITALIC_FONT = new Font(DEFAULT_FONT.FontFamily, DEFAULT_FONT.Size - 1, FontStyle.Italic);
 
         private static XmlProperties dbProperties = new XmlProperties();
-        public static XmlProperties DbProperties {
+        public static XmlProperties DBProperties {
             get { return dbProperties; }
         }        
 
         internal static void ReadDbProperties() {
-            dbProperties.XmlString = DbUtil.GetProperties().Xml;
+            dbProperties.XmlString = DBUtil.GetProperties().Xml;
         }
     }
 }

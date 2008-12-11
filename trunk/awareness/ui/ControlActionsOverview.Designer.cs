@@ -27,7 +27,7 @@
  * Time: 19:11
  * 
  */
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class ControlActionsOverview
     {
@@ -107,7 +107,7 @@ namespace awareness.ui
         	this.indentToolButton = new System.Windows.Forms.ToolStripButton();
         	this.moveUpToolButton = new System.Windows.Forms.ToolStripButton();
         	this.moveDownToolButton = new System.Windows.Forms.ToolStripButton();
-        	this.actionEditControl = new awareness.ui.ControlActionEdit();
+        	this.actionEditControl = new Awareness.UI.ControlActionEdit();
         	this.splitContainer.Panel1.SuspendLayout();
         	this.splitContainer.Panel2.SuspendLayout();
         	this.splitContainer.SuspendLayout();
@@ -391,7 +391,7 @@ namespace awareness.ui
         private System.Windows.Forms.ToolStripMenuItem newActionToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip actionTreeContextMenu;
         private System.Windows.Forms.ToolStrip toolStrip;
-        private awareness.ui.ControlActionEdit actionEditControl;
+        private Awareness.UI.ControlActionEdit actionEditControl;
         private System.Windows.Forms.ToolStripButton moveDownToolButton;
         private System.Windows.Forms.ToolStripButton moveUpToolButton;
         private System.Windows.Forms.ToolStripButton indentToolButton;

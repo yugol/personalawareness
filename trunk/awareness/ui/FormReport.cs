@@ -32,7 +32,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using ZedGraph;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class FormReport : Form {
         public ZedGraphControl Graph

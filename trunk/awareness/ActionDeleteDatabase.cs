@@ -29,10 +29,10 @@
  */
 using System;
 
-using awareness.db;
-using awareness.ui;
+using Awareness.DB;
+using Awareness.UI;
 
-namespace awareness
+namespace Awareness
 {
     public class ActionDeleteDatabase {
         FormMain mainForm = null;
@@ -42,7 +42,7 @@ namespace awareness
         }
 
         public void Run(){
-            DbUtil.DeleteDataContext();
+            DBUtil.DeleteDataContext();
             new ActionOpenDatabase(mainForm, "").Run();
         }
     }

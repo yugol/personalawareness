@@ -30,9 +30,9 @@
 using System;
 using System.Windows.Forms;
 
-using awareness.ui;
+using Awareness.UI;
 
-namespace awareness {
+namespace Awareness {
     internal sealed class Program {
         [STAThread]
         private static void Main(string[] args) {

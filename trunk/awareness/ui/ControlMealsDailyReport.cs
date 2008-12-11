@@ -33,9 +33,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class ControlMealsDailyReport : UserControl {
         bool updateReportBit = true;
@@ -55,13 +55,13 @@ namespace awareness.ui
             datePicker.JumpSize = EJumpSize.Day;
             datePicker.ValueChanged += new EventHandler(DatePickerValueChanged);
 
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateReport);
-            DbUtil.MealsChanged += new DatabaseChangedHandler(RequestUpdateReport);
-            DbUtil.FoodsChanged += new DatabaseChangedHandler(RequestUpdateReport);
+            DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateReport);
+            DBUtil.MealsChanged += new DatabaseChangedHandler(RequestUpdateReport);
+            DBUtil.FoodsChanged += new DatabaseChangedHandler(RequestUpdateReport);
 
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(UpdateWhyCombo);
-            DbUtil.RecipesChanged += new DatabaseChangedHandler(UpdateWhyCombo);
-            DbUtil.ConsumersChanged += new DatabaseChangedHandler(UpdateWhyCombo);
+            DBUtil.DataContextChanged += new DatabaseChangedHandler(UpdateWhyCombo);
+            DBUtil.RecipesChanged += new DatabaseChangedHandler(UpdateWhyCombo);
+            DBUtil.ConsumersChanged += new DatabaseChangedHandler(UpdateWhyCombo);
         }
 
         void RequestUpdateReport() {
@@ -74,7 +74,7 @@ namespace awareness.ui
                 mealsView.Items.Clear();
                 float totalEnergy = 0;
                 if (whyCombo.SelectedItem is DalReason){
-                    AwarenessDataContext dc = DbUtil.GetDataContext();
+                    AwarenessDataContext dc = DBUtil.GetDataContext();
                     DateTime date = datePicker.Value.Date;
                     IEnumerable<DalMeal> meals = from m in dc.meals
                                                  where m.When == date
@@ -100,8 +100,8 @@ namespace awareness.ui
         }
 
         void UpdateWhyCombo(){
-            UiUtil.FillFoodConsumptionReasons(whyCombo, null);
-            int id = Configuration.DbProperties.LastMealReportReason;
+            Util.FillFoodConsumptionReasons(whyCombo, null);
+            int id = Configuration.DBProperties.LastMealReportReason;
             foreach (object obj in whyCombo.Items){
                 if (obj is DalReason&&((DalReason) obj).Id == id){
                     whyCombo.SelectedItem = obj;
@@ -117,8 +117,8 @@ namespace awareness.ui
             if (!(whyCombo.SelectedItem is DalReason)){
                 whyCombo.SelectedItem = null;
             } else {
-                Configuration.DbProperties.LastMealReportReason = ((DalReason) whyCombo.SelectedItem).Id;
-                DbUtil.UpdateProperties();
+                Configuration.DBProperties.LastMealReportReason = ((DalReason) whyCombo.SelectedItem).Id;
+                DBUtil.UpdateProperties();
             }
             RequestUpdateReport();
         }

@@ -33,9 +33,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public delegate void AccountDoubleClickHandler(DalAccount account);
 
@@ -56,11 +56,11 @@ namespace awareness.ui
         public ControlFinances(){
             InitializeComponent();
 
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateBalances);
-            DbUtil.AccountTypesChanged += new DatabaseChangedHandler(RequestUpdateBalances);
-            DbUtil.AccountsChanged += new DatabaseChangedHandler(RequestUpdateBalances);
-            DbUtil.TransactionsChanged += new DatabaseChangedHandler(RequestUpdateBalances);
-            DbUtil.PropertiesChanged += new DatabaseChangedHandler(RequestUpdateBalances);
+            DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateBalances);
+            DBUtil.AccountTypesChanged += new DatabaseChangedHandler(RequestUpdateBalances);
+            DBUtil.AccountsChanged += new DatabaseChangedHandler(RequestUpdateBalances);
+            DBUtil.TransactionsChanged += new DatabaseChangedHandler(RequestUpdateBalances);
+            DBUtil.PropertiesChanged += new DatabaseChangedHandler(RequestUpdateBalances);
         }
 
         void RequestUpdateBalances() {
@@ -75,15 +75,15 @@ namespace awareness.ui
                 IDictionary<DalAccountType, decimal> accountTypeBalanceMap = new Dictionary<DalAccountType, decimal>();
                 IDictionary<DalAccount, decimal> accountBalanceMap = new Dictionary<DalAccount, decimal>();
 
-                IQueryable<DalAccountType> accountTypes = DbUtil.GetAccountTypes();
+                IQueryable<DalAccountType> accountTypes = DBUtil.GetAccountTypes();
                 foreach (DalAccountType accountType in accountTypes){
                     accountTypeBalanceMap[accountType] = 0;
                 }
 
                 decimal netWorth = 0;
-                IQueryable<DalAccount> accounts = DbUtil.GetAccounts();
+                IQueryable<DalAccount> accounts = DBUtil.GetAccounts();
                 foreach (DalAccount account in accounts){
-                    accountBalanceMap[account] = DbUtil.GetBalance(account);
+                    accountBalanceMap[account] = DBUtil.GetBalance(account);
                     accountTypeBalanceMap[account.AccountType] += accountBalanceMap[account];
                     netWorth += accountBalanceMap[account];
                 }
@@ -91,7 +91,7 @@ namespace awareness.ui
                 bool useAlternateBackground = false;
                 foreach (DalAccountType accountType in accountTypes){
                     ListViewItem typeNode = new ListViewItem(accountType.Name);
-                    typeNode.SubItems.Add(UiUtil.FormatCurrency(accountTypeBalanceMap[accountType]));
+                    typeNode.SubItems.Add(Util.FormatCurrency(accountTypeBalanceMap[accountType]));
                     typeNode.Font = Configuration.BOLD_FONT;
                     typeNode.BackColor = useAlternateBackground ? Configuration.ALTERNATE_BACKGROUND : Configuration.NORMAL_BACKGROUND;
                     useAlternateBackground = !useAlternateBackground;
@@ -100,7 +100,7 @@ namespace awareness.ui
                     foreach (DalAccount account in accounts){
                         if (account.AccountTypeId == accountType.Id){
                             ListViewItem accountNode = new ListViewItem("      " + account.Name);
-                            accountNode.SubItems.Add(UiUtil.FormatCurrency(accountBalanceMap[account]));
+                            accountNode.SubItems.Add(Util.FormatCurrency(accountBalanceMap[account]));
                             accountNode.BackColor = useAlternateBackground ? Configuration.ALTERNATE_BACKGROUND : Configuration.NORMAL_BACKGROUND;
                             useAlternateBackground = !useAlternateBackground;
                             accountNode.Tag = account;
@@ -108,7 +108,7 @@ namespace awareness.ui
                         }
                     }
                 }
-                netWorthValueLabel.Text = UiUtil.FormatCurrency(netWorth);
+                netWorthValueLabel.Text = Util.FormatCurrency(netWorth);
                 updateBalancesBit = false;
             }
         }

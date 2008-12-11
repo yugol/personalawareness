@@ -30,14 +30,14 @@ using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     [Table(Name = "transaction_reasons")]
     [InheritanceMapping(Code = DalReason.TYPE_DEFAULT, Type = typeof(DalReason), IsDefault = true)]
     [InheritanceMapping(Code = DalReason.TYPE_FOOD, Type = typeof(DalFood))]
     [InheritanceMapping(Code = DalReason.TYPE_RECIPE, Type = typeof(DalRecipe))]
     [InheritanceMapping(Code = DalReason.TYPE_CONSUMER, Type = typeof(DalConsumer))]
-    public class DalReason : INotable {
+    public class DalReason : Notable {
         public const sbyte TYPE_DEFAULT = 0;
         public const sbyte TYPE_FOOD = 1;
         public const sbyte TYPE_RECIPE = 2;

@@ -32,9 +32,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class FormEditTransactionReasons : Form {
         private DalReason lastSelectedReason;
@@ -59,7 +59,7 @@ namespace awareness.ui
         void ReadReasons(){
             // get reasons from db
             sbyte reasonType = GetTypeForCombo(selectedTypeCombo);
-            AwarenessDataContext dc = DbUtil.GetDataContext();
+            AwarenessDataContext dc = DBUtil.GetDataContext();
             IEnumerable<DalReason> reasons = null;
             if (reasonType < 0){
                 reasons = from t in dc.transactionReasons
@@ -135,12 +135,12 @@ namespace awareness.ui
         }
 
         void LastMealButtonClick(object sender, EventArgs e){
-            float energy = DbUtil.GetLastEnergyForRecipe((DalRecipe) lastSelectedReason);
+            float energy = DBUtil.GetLastEnergyForRecipe((DalRecipe) lastSelectedReason);
             energyBox.Text = energy.ToString("0.00");
         }
 
         void Button1Click(object sender, EventArgs e){
-            float energy = DbUtil.GetAverageEnergyForRecipe((DalRecipe) lastSelectedReason);
+            float energy = DBUtil.GetAverageEnergyForRecipe((DalRecipe) lastSelectedReason);
             energyBox.Text = energy.ToString("0.00");
         }
 
@@ -172,7 +172,7 @@ namespace awareness.ui
         void NewButtonClick(object sender, EventArgs e){
             DalReason newReason = DalReason.CreateReason(GetTypeForCombo(selectedTypeCombo));
             newReason.Name = reasonCombo.Text;
-            DbUtil.InsertTransactionReason(newReason, noteControl.Note);
+            DBUtil.InsertTransactionReason(newReason, noteControl.Note);
             ReadReasons();
             reasonCombo.SelectedItem = newReason;
         }
@@ -180,7 +180,7 @@ namespace awareness.ui
         void UpdateButtonClick(object sender, EventArgs e){
             int lastSelectedReasonId = lastSelectedReason.Id;
             if (lastSelectedReason.Type != ((NamingReasonTypes) typeCombo.SelectedItem).Type){
-                DbUtil.UpdateTransactionReason(lastSelectedReason.Id,
+                DBUtil.UpdateTransactionReason(lastSelectedReason.Id,
                                                ((NamingReasonTypes) typeCombo.SelectedItem).Type,
                                                reasonCombo.Text,
                                                float.Parse(energyBox.Text),
@@ -190,7 +190,7 @@ namespace awareness.ui
                 if (lastSelectedReason is DalFood){
                     ((DalFood) lastSelectedReason).Energy = float.Parse(energyBox.Text);
                 }
-                DbUtil.UpdateTransactionReason(lastSelectedReason, noteControl.Note);
+                DBUtil.UpdateTransactionReason(lastSelectedReason, noteControl.Note);
             }
             ReadReasons();
             foreach (object obj in reasonCombo.Items){
@@ -207,7 +207,7 @@ namespace awareness.ui
                                 MessageBoxButtons.OKCancel,
                                 MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK){
                 try {
-                    DbUtil.DeleteTransactionReason(lastSelectedReason);
+                    DBUtil.DeleteTransactionReason(lastSelectedReason);
                 } catch (Exception err) {
                     MessageBox.Show("Could not delete transaction reason:\n" + err.Message,
                                     "Delete reason",

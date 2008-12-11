@@ -31,11 +31,11 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     internal delegate void DatabaseChangedHandler();
 
-    internal abstract partial class DbUtil {
+    internal abstract partial class DBUtil {
         // TODO: hide reopendatacontext
 
         private static AwarenessDataContext dataContext = null;
@@ -71,7 +71,7 @@ namespace awareness.db
                 CreateDataContext(dbConnectionString);
                 OpenDataContext(dbConnectionString);
                 reader = new StreamReader(fileName);
-                DbDumper dd = new DbDumper(dataContext);
+                DBDumper dd = new DBDumper(dataContext);
                 dd.RestoreDb(reader);
             } catch (Exception ex) {
                 throw ex;

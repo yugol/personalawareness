@@ -4,8 +4,8 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>awareness</RootNamespace>
-    <AssemblyName>awareness</AssemblyName>
+    <RootNamespace>Awareness</RootNamespace>
+    <AssemblyName>Awareness</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SourceAnalysisOverrideSettingsFile>C:\Documents and Settings\Iulian\Application Data\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
@@ -306,8 +306,8 @@
       <DependentUpon>FormTodo.cs</DependentUpon>
     </Compile>
     <Compile Include="ui\NoteHandler.cs" />
-    <Compile Include="ui\UiUtil.cs" />
-    <Compile Include="ui\UiUtilTest.cs" />
+    <Compile Include="ui\Util.cs" />
+    <Compile Include="ui\UtilTest.cs" />
     <EmbeddedResource Include="ui\ControlActionEdit.resx">
       <DependentUpon>ControlActionEdit.cs</DependentUpon>
     </EmbeddedResource>

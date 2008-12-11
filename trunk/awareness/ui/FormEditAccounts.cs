@@ -30,9 +30,9 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class FormEditAccounts : Form {
         IQueryable<DalAccountType> accountTypes = null;
@@ -41,7 +41,7 @@ namespace awareness.ui
         public FormEditAccounts(){
             InitializeComponent();
             dataContextChangedDelegete = new DatabaseChangedHandler(ReadAccountTypes);
-            DbUtil.DataContextChanged += dataContextChangedDelegete;
+            DBUtil.DataContextChanged += dataContextChangedDelegete;
 
             noteControl.NoteAdded += new NoteHandler(NoteUpdated);
             noteControl.NoteTextChanged += new NoteHandler(NoteUpdated);
@@ -55,7 +55,7 @@ namespace awareness.ui
 
         void ReadAccountTypes(){
             typeCombo.Items.Clear();
-            accountTypes = DbUtil.GetAccountTypes();
+            accountTypes = DBUtil.GetAccountTypes();
             if (accountTypes.Count() <= 0){
                 throw new ApplicationException("No account types defined!");
             }
@@ -68,7 +68,7 @@ namespace awareness.ui
         void ReadAccounts(){
             accountsView.Nodes.Clear();
 
-            IQueryable<DalAccount> accounts = DbUtil.GetAccounts();
+            IQueryable<DalAccount> accounts = DBUtil.GetAccounts();
 
             TreeNode firstAccountNode = null;
             foreach (DalAccountType accountType in accountTypes){
@@ -138,7 +138,7 @@ namespace awareness.ui
             DalAccount account = new DalAccount() {
                 Name = "_New Account", StartingBalance = 0m, AccountType = (DalAccountType) typeCombo.SelectedItem
             };
-            DbUtil.InsertTransferLocation(account, noteControl.Note);
+            DBUtil.InsertTransferLocation(account, noteControl.Note);
             ReadAccounts();
             SelectNodeWithTag(account);
             UpdateUi();
@@ -161,7 +161,7 @@ namespace awareness.ui
             account.Name = nameBox.Text;
             account.AccountType = (DalAccountType) typeCombo.SelectedItem;
             account.StartingBalance = decimal.Parse(startingBalanceBox.Text);
-            DbUtil.UpdateTransferLocation(account, noteControl.Note);
+            DBUtil.UpdateTransferLocation(account, noteControl.Note);
             ReadAccounts();
         }
 
@@ -172,7 +172,7 @@ namespace awareness.ui
                                 MessageBoxButtons.OKCancel,
                                 MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK){
                 try {
-                    DbUtil.DeleteTransferLocation(account);
+                    DBUtil.DeleteTransferLocation(account);
                 } catch (Exception err) {
                     MessageBox.Show("Could not delete account:\n" + err.Message,
                                     "Delete account",
@@ -222,7 +222,7 @@ namespace awareness.ui
         }
 
         void FormEditAccountsFormClosed(object sender, FormClosedEventArgs e){
-            DbUtil.DataContextChanged -= dataContextChangedDelegete;
+            DBUtil.DataContextChanged -= dataContextChangedDelegete;
         }
 
         void AccountsViewAfterSelect(object sender, TreeViewEventArgs e){

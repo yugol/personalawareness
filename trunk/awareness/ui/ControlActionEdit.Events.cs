@@ -30,16 +30,16 @@ using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class ControlActionEdit {
         void NoteTextChanged(object sender, DalNote e){
             if (!action.HasNote){
                 string text = ((Control) sender).Text;
                 if (!string.IsNullOrEmpty(text)){
-                    DbUtil.AttachNote(action);
+                    DBUtil.AttachNote(action);
                     action.Note.Text = text;
                     noteTextView.Note = action.Note;
                 }
@@ -48,7 +48,7 @@ namespace awareness.ui
 
         void RecurrencePatternChanged(){
             action.RecurrencePattern = recurrencePatternEditControl.Pattern;
-            DbUtil.UpdateActionTimeStamp(action);
+            DBUtil.UpdateActionTimeStamp(action);
             Action = action;
         }
 
@@ -64,7 +64,7 @@ namespace awareness.ui
                     processEvents = true;
                 }
                 action.IsTimePlanned = planTimeCheck.Checked;
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -72,7 +72,7 @@ namespace awareness.ui
         void SetEndCheckCheckedChanged(object sender, EventArgs e){
             if (processEvents){
                 action.Type = (setEndCheck.Checked) ? (DalAction.TYPE_TASK) : (DalAction.TYPE_TODO);
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
                 ControlActionsOverview.SetNodeImage(node);
             }
@@ -83,7 +83,7 @@ namespace awareness.ui
                 Ui2DataStartTime();
                 if (true){
                 }
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -91,7 +91,7 @@ namespace awareness.ui
         void EndDatePickerValueChanged(object sender, EventArgs e){
             if (processEvents){
                 Ui2DataEndTime();
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -99,7 +99,7 @@ namespace awareness.ui
         void StartTimePickerValueChanged(object sender, EventArgs e){
             if (processEvents){
                 Ui2DataStartTime();
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -107,7 +107,7 @@ namespace awareness.ui
         void EndTimePickerValueChanged(object sender, EventArgs e){
             if (processEvents){
                 Ui2DataEndTime();
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -115,7 +115,7 @@ namespace awareness.ui
         void RepeatCheckCheckedChanged(object sender, EventArgs e){
             if (processEvents){
                 action.IsRecurrent = repeatCheck.Checked;
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -123,7 +123,7 @@ namespace awareness.ui
         void IndefinitelyRadioCheckedChanged(object sender, EventArgs e){
             if (processEvents&&indefinitelyRadio.Checked){
                 action.RepeatTimes = 0;
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -132,7 +132,7 @@ namespace awareness.ui
             if (processEvents&&anotherRadio.Checked){
                 action.RepeatTimes = (int) anotherUpDown.Value;
                 action.IsRepeatNoOfTimes = true;
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -141,7 +141,7 @@ namespace awareness.ui
             if (processEvents&&untilRadio.Checked){
                 action.RepeatUntil = untilPicker.Value;
                 action.IsRepeatNoOfTimes = false;
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -149,7 +149,7 @@ namespace awareness.ui
         void AnotherUpDownValueChanged(object sender, EventArgs e){
             if (processEvents){
                 action.RepeatTimes = (int) anotherUpDown.Value;
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -157,7 +157,7 @@ namespace awareness.ui
         void UntilPickerValueChanged(object sender, EventArgs e){
             if (processEvents){
                 action.RepeatUntil = untilPicker.Value;
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -165,7 +165,7 @@ namespace awareness.ui
         void ShowReminderCheckCheckedChanged(object sender, EventArgs e){
             if (processEvents){
                 action.HasWindowReminder = showReminderCheck.Checked;
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -181,7 +181,7 @@ namespace awareness.ui
         void RunCommandCheckCheckedChanged(object sender, EventArgs e){
             if (processEvents){
                 action.HasCommandReminder = runCommandCheck.Checked;
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -189,7 +189,7 @@ namespace awareness.ui
         void PlaySoundCheckCheckedChanged(object sender, EventArgs e){
             if (processEvents){
                 action.HasSoundReminder = playSoundCheck.Checked;
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -197,7 +197,7 @@ namespace awareness.ui
         void CommandSelectorCommandChanged(object sender, EventArgs e){
             if (processEvents){
                 action.ReminderCommand = commandSelector.Command;
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }
@@ -209,7 +209,7 @@ namespace awareness.ui
         void SoundSelectorCommandChanged(object sender, EventArgs e){
             if (processEvents){
                 action.ReminderSound = soundSelector.Command;
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
                 Action = action;
             }
         }

@@ -32,7 +32,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class ControlCalculatorInput : UserControl {
         public event EventHandler ValueChanged;
