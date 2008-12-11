@@ -29,10 +29,10 @@
  */
 using System;
 
-namespace awareness
+namespace Awareness
 {
     public class CalculatorLogic {
-        public const int MAX_DIGIT_LENGTH = 15;
+        public const int MaxDigitLength = 15;
 
         private double previousValue;
         private char operation;
@@ -59,7 +59,7 @@ namespace awareness
                     valueString = "" + ch;
                 } else if (valueString == "-0")   {
                     valueString = "-" + ch;
-                } else if (digitCount() < MAX_DIGIT_LENGTH)  {
+                } else if (digitCount() < MaxDigitLength)  {
                     valueString += ch;
                 }
             } else if (ch == '.')   {

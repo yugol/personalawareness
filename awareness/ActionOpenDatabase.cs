@@ -31,16 +31,16 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 
-using awareness.db;
-using awareness.ui;
+using Awareness.DB;
+using Awareness.UI;
 
-namespace awareness
+namespace Awareness
 {
     public class ActionOpenDatabase {
         string databaseName = null;
         FormMain mainForm = null;
 
-        public static string UiPickDatabaseName(){
+        public static string UIPickDatabaseName(){
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = Configuration.DATA_FILTER;
             ofd.InitialDirectory = Configuration.DATA_FOLDER;
@@ -63,7 +63,7 @@ namespace awareness
         public void Run(){
             if (!string.IsNullOrEmpty(databaseName)){
                 try {
-                    DbUtil.OpenDataContext(databaseName);
+                    DBUtil.OpenDataContext(databaseName);
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message, "Could not open database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     databaseName = "";
@@ -80,7 +80,7 @@ namespace awareness
         void ChangeUi(){
             mainForm.DisableEnableActions();
             string titleText = "Personal Awareness";
-            if (Configuration.LAST_DATABASE_NAME != ""){
+            if (!string.IsNullOrEmpty(Configuration.LAST_DATABASE_NAME)){
                 titleText += " - ";
                 titleText += Path.GetFileName(Configuration.LAST_DATABASE_NAME);
                 mainForm.SelectActionsView();

@@ -34,9 +34,9 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class ControlNotesViewer
     {
@@ -196,7 +196,7 @@ namespace awareness.ui
                 DalNote parentNote = null;
                 if (newParent == null)
                 {
-                    parentNote = DbUtil.GetRootNote();
+                    parentNote = DBUtil.GetRootNote();
                 }
                 else
                 {
@@ -204,7 +204,7 @@ namespace awareness.ui
                 }
                 DalNote note = (DalNote) node.Tag;
                 note.Parent = parentNote;
-                DbUtil.UpdateNote(note);
+                DBUtil.UpdateNote(note);
             }
             catch (Exception ex)
             {

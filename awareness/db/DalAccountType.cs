@@ -31,12 +31,12 @@ using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     [Table(Name = "account_types")]
-    public class DalAccountType : INotable
+    public class DalAccountType : Notable
     {
-        public const string MAX_NAME_CHAR_COUNT = "50";
+        public const string MaxNameCharCount = "50";
         
         int _id = 0;
         [Column(Storage = "_id",
@@ -53,7 +53,7 @@ namespace awareness.db
         string _name = null;
         [Column(Storage = "_name",
                 Name = "name",
-                DbType = "nvarchar(" + MAX_NAME_CHAR_COUNT + ") NOT NULL",
+                DbType = "nvarchar(" + MaxNameCharCount + ") NOT NULL",
                 CanBeNull = false)]
         public string Name
         {

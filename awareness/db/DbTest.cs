@@ -35,12 +35,10 @@ using System.Linq;
 
 using NUnit.Framework;
 
-namespace awareness.db
+namespace Awareness.DB
 {
-    [TestFixture]
-    public class DbTest
+    public class DBTest
     {
-        // internal static string TEST_DB_NAME = @"C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data\awareness_test.mdf";
         internal static string TEST_DB_NAME = "awareness_test.sdf";
     }
 }

@@ -33,10 +33,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using awareness.db;
+using Awareness.DB;
 using NUnit.Framework;
 
-namespace awareness
+namespace Awareness
 {
     [TestFixture]
     public class ImporterBuddyTest {
@@ -47,7 +47,7 @@ namespace awareness
         [Test]
         public void Import(){
             importer.Import(buddyFile);
-            AwarenessDataContext dc = DbUtil.GetDataContext();
+            AwarenessDataContext dc = DBUtil.GetDataContext();
             IEnumerable<DalTransaction> transactions =
                 from t in dc.transactions
                 orderby t.Reason.Name
@@ -179,15 +179,15 @@ namespace awareness
 
         [TestFixtureSetUp]
         public void Init(){
-            DbUtil.CreateDataContext(DbTest.TEST_DB_NAME);
-            DbUtil.OpenDataContext(DbTest.TEST_DB_NAME);
-            importer = new ImporterBuddy(DbUtil.GetDataContext());
+            DBUtil.CreateDataContext(DBTest.TEST_DB_NAME);
+            DBUtil.OpenDataContext(DBTest.TEST_DB_NAME);
+            importer = new ImporterBuddy(DBUtil.GetDataContext());
             importer.EnsureImportAccountType();
         }
 
         [TestFixtureTearDown]
         public void Dispose(){
-            DbUtil.DeleteDataContext();
+            DBUtil.DeleteDataContext();
         }
     }
 }

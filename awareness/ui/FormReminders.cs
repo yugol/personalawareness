@@ -31,9 +31,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-using awareness;
+using Awareness;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class FormReminders : Form {
         public FormReminders() {
@@ -44,7 +44,7 @@ namespace awareness.ui
             DateTime now = DateTime.Now;
             foreach (ListViewItem item in occurencesView.Items){
                 ActionOccurrence occurrence = (ActionOccurrence) item.Tag;
-                item.SubItems[2].Text = UiUtil.FormatTimeSpan(occurrence.Start.Subtract(now));
+                item.SubItems[2].Text = Util.FormatTimeSpan(occurrence.Start.Subtract(now));
             }
         }
 

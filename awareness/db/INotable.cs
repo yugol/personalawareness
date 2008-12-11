@@ -29,9 +29,9 @@
 
 using System;
 
-namespace awareness.db
+namespace Awareness.DB
 {
-    public interface INotable {
+    public interface Notable {
         DalNote Note { get; set; }
         bool HasNote { get; }
         string Name { get; }

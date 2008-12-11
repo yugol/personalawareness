@@ -37,14 +37,14 @@ using System.Text;
 
 using NUnit.Framework;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     [TestFixture]
-    public class DbDumperTest {
+    public class DBDumperTest {
         IDictionary<string, DateTime> dateTimeMap = new Dictionary<string, DateTime>();
 
         void PopulateDb(){
-            AwarenessDataContext dc = DbUtil.GetDataContext();
+            AwarenessDataContext dc = DBUtil.GetDataContext();
 
             DalAccount ra1 = (DalAccount) dc.GetTransferLocationById(AwarenessDataContext.ACCOUNT_FOODS_ID);
             DalAccount ra2 = (DalAccount) dc.GetTransferLocationById(AwarenessDataContext.ACCOUNT_RECIPES_ID);;
@@ -52,100 +52,100 @@ namespace awareness.db
             DalBudgetCategory bc1 = new DalBudgetCategory() {
                 IsIncome = true, Name = "bc1"
             };
-            DbUtil.InsertTransferLocation(bc1, null);
+            DBUtil.InsertTransferLocation(bc1, null);
             DalBudgetCategory bc2 = new DalBudgetCategory() {
                 IsIncome = false, Name = "bc'2'"
             };
-            DbUtil.InsertTransferLocation(bc2, null);
+            DBUtil.InsertTransferLocation(bc2, null);
 
             DalAccountType at1 = new DalAccountType { Name = "at1" };
-            DbUtil.InsertAccountType(at1, null);
+            DBUtil.InsertAccountType(at1, null);
             DalAccountType at = new DalAccountType { Name = "at" };
-            DbUtil.InsertAccountType(at, null);
-            DbUtil.DeleteAccountType(at);
+            DBUtil.InsertAccountType(at, null);
+            DBUtil.DeleteAccountType(at);
             DalAccountType at2 = new DalAccountType { Name = "at'2'" };
-            DbUtil.InsertAccountType(at2, null);
+            DBUtil.InsertAccountType(at2, null);
 
             DalAccount a1 = new DalAccount() {
                 AccountType = at1, Name = "a1", StartingBalance = -10m
             };
-            DbUtil.InsertTransferLocation(a1, null);
+            DBUtil.InsertTransferLocation(a1, null);
             DalAccount a2 = new DalAccount() {
                 AccountType = at2, Name = "a'2'", StartingBalance = 0.01m
             };
-            DbUtil.InsertTransferLocation(a2, null);
+            DBUtil.InsertTransferLocation(a2, null);
 
             DalReason tr1 = new DalReason() {
                 Name = "tr1"
             };
-            DbUtil.InsertTransactionReason(tr1, null);
+            DBUtil.InsertTransactionReason(tr1, null);
             DalReason tr2 = new DalReason() {
                 Name = "tr'2'"
             };
-            DbUtil.InsertTransactionReason(tr2, null);
+            DBUtil.InsertTransactionReason(tr2, null);
             DalFood tr3 = new DalFood() {
                 Name = "tr3", Energy = 50
             };
-            DbUtil.InsertTransactionReason(tr3, null);
+            DBUtil.InsertTransactionReason(tr3, null);
             DalRecipe tr4 = new DalRecipe() {
                 Name = "r1"
             };
-            DbUtil.InsertTransactionReason(tr4, null);
+            DBUtil.InsertTransactionReason(tr4, null);
             DalConsumer tr5 = new DalConsumer() {
                 Name = "c1"
             };
-            DbUtil.InsertTransactionReason(tr5, null);
+            DBUtil.InsertTransactionReason(tr5, null);
 
             DalTransaction t1 = new DalTransaction() {
                 When = new DateTime(2008, 01, 02), From = bc1, To = a1, Reason = tr1, Ammount = 1m, Quantity = 0
             };
-            DbUtil.InsertTransaction(t1, null);
+            DBUtil.InsertTransaction(t1, null);
             DalTransaction t2 = new DalTransaction() {
                 When = new DateTime(2008, 03, 04), From = a1, To = a2, Reason = tr2, Ammount = 2m, Quantity = 1
             };
-            DbUtil.InsertTransaction(t2, null);
+            DBUtil.InsertTransaction(t2, null);
             DalTransaction t3 = new DalTransaction() {
                 When = new DateTime(2008, 05, 06), From = a2, To = bc2, Reason = tr3, Ammount = 3m, Quantity = 200
             };
-            DbUtil.InsertTransaction(t3, null);
+            DBUtil.InsertTransaction(t3, null);
             DalTransaction t4 = new DalTransaction() {
                 When = new DateTime(2008, 07, 08), From = ra1, To = ra2, Reason = tr4, Ammount = 0m, Quantity = 1400
             };
-            DbUtil.InsertTransaction(t4, null);
+            DBUtil.InsertTransaction(t4, null);
 
             DalMeal m1 = new DalMeal() {
                 When = new DateTime(2008, 07, 08), What = tr3, Quantity = 150, Why = tr5
             };
-            DbUtil.InsertMeal(m1);
+            DBUtil.InsertMeal(m1);
             DalMeal m2 = new DalMeal() {
                 When = new DateTime(2008, 07, 09), What = tr3, Quantity = 200, Why = tr4
             };
-            DbUtil.InsertMeal(m2);
+            DBUtil.InsertMeal(m2);
             DalMeal m3 = new DalMeal() {
                 When = new DateTime(2008, 07, 10), What = tr4, Quantity = 250, Why = tr5
             };
-            DbUtil.InsertMeal(m3);
+            DBUtil.InsertMeal(m3);
 
             DalNote rootNote = dc.GetNoteById(AwarenessDataContext.NOTE_ROOT_ID);
             DalNote n1 = new DalNote() {
                 Parent = rootNote, IsExpanded = true, Icon = 0, Title = "n1"
             };
-            DbUtil.InsertNote(n1);
+            DBUtil.InsertNote(n1);
             DalNote n2 = new DalNote() {
                 Parent = rootNote, IsExpanded = true, Icon = 1, Title = "n2"
             };
-            DbUtil.InsertNote(n2);
+            DBUtil.InsertNote(n2);
             DalNote n3 = new DalNote() {
                 Parent = n2, IsExpanded = false, Icon = 2, Title = "n3", Text = "for (int i = 0; i < 10; ++i);"
             };
-            DbUtil.InsertNote(n3);
+            DBUtil.InsertNote(n3);
             DalNote n4 = new DalNote() {
                 Parent = n1, IsExpanded = false, Icon = 2, Title = "n4", Text = ""
             };
-            DbUtil.InsertNote(n4);
+            DBUtil.InsertNote(n4);
             n3.Parent = n4;
-            DbUtil.UpdateNote(n3);
-            DbUtil.DeleteNote(n2);
+            DBUtil.UpdateNote(n3);
+            DBUtil.DeleteNote(n2);
 
             dateTimeMap["note1_CreationTime"] = n1.CreationTime;
             dateTimeMap["note3_CreationTime"] = n3.CreationTime;
@@ -155,41 +155,41 @@ namespace awareness.db
             DalAction act1 = new DalAction() {
                 Parent = rootAction, Name = "act1"
             };
-            DbUtil.AddAction(act1);
+            DBUtil.AddAction(act1);
             DalAction act2 = new DalAction() {
                 Parent = rootAction, Name = "act2"
             };
             act2.HasWindowReminder = true;
             act2.HasSoundReminder = true;
             act2.HasCommandReminder = true;
-            DbUtil.AddAction(act2);
+            DBUtil.AddAction(act2);
             act1.Parent = act2;
-            DbUtil.UpdateAction(act1);
+            DBUtil.UpdateAction(act1);
         }
 
         [Test]
         public void _RunMeFirst_DumpRestore(){
             PopulateDb();
 
-            AwarenessDataContext dc = DbUtil.GetDataContext();
+            AwarenessDataContext dc = DBUtil.GetDataContext();
             
-            DalProperties dbProp = DbUtil.GetProperties();
-            Assert.AreEqual(1.00F, dbProp.DbVersion);
+            DalProperties dbProp = DBUtil.GetProperties();
+            Assert.AreEqual(1.00F, dbProp.DBVersion);
 
             StringBuilder sb = new StringBuilder();
             StringWriter writer = new StringWriter(sb);
-            DbDumper dd = new DbDumper(dc);
+            DBDumper dd = new DBDumper(dc);
             dd.DumpDb(writer);
 
-            DbUtil.DeleteDataContext();
-            DbUtil.CreateDataContext(DbTest.TEST_DB_NAME);
-            DbUtil.OpenDataContext(DbTest.TEST_DB_NAME);
+            DBUtil.DeleteDataContext();
+            DBUtil.CreateDataContext(DBTest.TEST_DB_NAME);
+            DBUtil.OpenDataContext(DBTest.TEST_DB_NAME);
 
-            dc = DbUtil.GetDataContext();
+            dc = DBUtil.GetDataContext();
 
             string dump = sb.ToString();
             StringReader reader = new StringReader(dump);
-            dd = new DbDumper(dc);
+            dd = new DBDumper(dc);
             dd.RestoreDb(reader);
 
             IEnumerable<DalTransaction> transactions = dc.transactions.Select(e => e);
@@ -274,7 +274,7 @@ namespace awareness.db
         [Test]
         public void DumpAccountTypes(){
             StringWriter writer = new StringWriter();
-            DbDumper dd = new DbDumper(DbUtil.GetDataContext());
+            DBDumper dd = new DBDumper(DBUtil.GetDataContext());
             dd.DumpAccountTypes(writer, null);
             Assert.AreEqual(
                 "INSERT INTO account_types (name, note) VALUES (N'at1', 1);\r\n" +
@@ -285,7 +285,7 @@ namespace awareness.db
         [Test]
         public void DumpTransferLocations(){
             StringWriter writer = new StringWriter();
-            DbDumper dd = new DbDumper(DbUtil.GetDataContext());
+            DBDumper dd = new DBDumper(DBUtil.GetDataContext());
             dd.DumpTransferLocations(writer, null, null);
             Assert.AreEqual(
                 "INSERT INTO transfer_locations (is_budget, is_income, name, note) VALUES (1, 1, N'bc1', 1);\r\n" +
@@ -298,7 +298,7 @@ namespace awareness.db
         [Test]
         public void DumpTransactionReasons(){
             StringWriter writer = new StringWriter();
-            DbDumper dd = new DbDumper(DbUtil.GetDataContext());
+            DBDumper dd = new DBDumper(DBUtil.GetDataContext());
             dd.DumpReasons(writer, null);
             Assert.AreEqual(
                 "INSERT INTO transaction_reasons (type, name, note) VALUES (0, N'tr1', 1);\r\n" +
@@ -312,7 +312,7 @@ namespace awareness.db
         [Test]
         public void DumpTransactions(){
             StringWriter writer = new StringWriter();
-            DbDumper dd = new DbDumper(DbUtil.GetDataContext());
+            DBDumper dd = new DBDumper(DBUtil.GetDataContext());
             dd.DumpTransactions(writer, null, null, null);
             Assert.AreEqual(
                 "INSERT INTO transactions ([when], [from], [to], reason, ammount, quantity, note) VALUES ('2008-01-02', 11, 13, 1, 1.00, 0, 1);\r\n" +
@@ -326,7 +326,7 @@ namespace awareness.db
         [Test]
         public void DumpMeals(){
             StringWriter writer = new StringWriter();
-            DbDumper dd = new DbDumper(DbUtil.GetDataContext());
+            DBDumper dd = new DBDumper(DBUtil.GetDataContext());
             dd.DumpMeals(writer, null);
             Assert.AreEqual(
                 "INSERT INTO meals ([when], what, quantity, why) VALUES ('2008-07-08', 3, 150, 5);\r\n" +
@@ -338,16 +338,16 @@ namespace awareness.db
         [Test]
         public void DumpNotes(){
             StringWriter writer = new StringWriter();
-            DbDumper dd = new DbDumper(DbUtil.GetDataContext());
+            DBDumper dd = new DBDumper(DBUtil.GetDataContext());
             dd.DumpNotes(writer);
             string dump = writer.GetStringBuilder().ToString();
             Assert.AreEqual(string.Format(
                                 "INSERT INTO notes (parent, permanent, expanded, created, icons, title, text) VALUES (1, 0, 1, '{0}', 0, N'n1', null);\r\n" +
                                 "INSERT INTO notes (parent, permanent, expanded, created, icons, title, text) VALUES (101, 0, 0, '{1}', 2, N'n4', null);\r\n" +
                                 "INSERT INTO notes (parent, permanent, expanded, created, icons, title, text) VALUES (102, 0, 0, '{2}', 2, N'n3', N'for (int i = 0; i < 10; ++i);');\r\n",
-                                dateTimeMap["note1_CreationTime"].ToString(DbDumper.YYYYMMDDHHMMSS),
-                                dateTimeMap["note4_CreationTime"].ToString(DbDumper.YYYYMMDDHHMMSS),
-                                dateTimeMap["note3_CreationTime"].ToString(DbDumper.YYYYMMDDHHMMSS)),
+                                dateTimeMap["note1_CreationTime"].ToString(DBDumper.YYYYMMDDHHMMSS),
+                                dateTimeMap["note4_CreationTime"].ToString(DBDumper.YYYYMMDDHHMMSS),
+                                dateTimeMap["note3_CreationTime"].ToString(DBDumper.YYYYMMDDHHMMSS)),
                             writer.GetStringBuilder().ToString());
         }
 
@@ -364,13 +364,13 @@ namespace awareness.db
 
         [TestFixtureSetUp]
         public void Init(){
-            DbUtil.CreateDataContext(DbTest.TEST_DB_NAME);
-            DbUtil.OpenDataContext(DbTest.TEST_DB_NAME);
+            DBUtil.CreateDataContext(DBTest.TEST_DB_NAME);
+            DBUtil.OpenDataContext(DBTest.TEST_DB_NAME);
         }
 
         [TestFixtureTearDown]
         public void Dispose(){
-            DbUtil.DeleteDataContext();
+            DBUtil.DeleteDataContext();
         }
     }
 }

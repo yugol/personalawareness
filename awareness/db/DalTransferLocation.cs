@@ -31,12 +31,12 @@ using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     [Table(Name = "transfer_locations")]
     [InheritanceMapping(Code = false, Type = typeof(DalAccount), IsDefault = true)]
     [InheritanceMapping(Code = true, Type = typeof(DalBudgetCategory))]
-    public class DalTransferLocation : INotable
+    public class DalTransferLocation : Notable
     {
         public const string MAX_NAME_CHAR_COUNT = "50";
         

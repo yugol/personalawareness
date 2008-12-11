@@ -30,9 +30,9 @@
 using System;
 using System.Linq;
 
-namespace awareness.db
+namespace Awareness.DB
 {
-    partial class DbUtil {
+    partial class DBUtil {
         internal static event DatabaseChangedHandler PropertiesChanged;
 
         internal static DalProperties GetProperties() {
@@ -40,11 +40,11 @@ namespace awareness.db
         }
 
         internal static void UpdateProperties() {
-            GetProperties().Xml = Configuration.DbProperties.XmlString;
+            GetProperties().Xml = Configuration.DBProperties.XmlString;
             dataContext.SubmitChanges();
-            if (Configuration.DbProperties.CurrencyNotationChanged){
+            if (Configuration.DBProperties.CurrencyNotationChanged){
                 NotifyPropertiesChanged();
-                Configuration.DbProperties.CurrencyNotationChanged = false;
+                Configuration.DBProperties.CurrencyNotationChanged = false;
             }
         }
 

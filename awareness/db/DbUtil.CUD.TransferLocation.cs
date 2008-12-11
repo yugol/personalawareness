@@ -29,9 +29,9 @@
 
 using System;
 
-namespace awareness.db
+namespace Awareness.DB
 {
-    partial class DbUtil {
+    partial class DBUtil {
         internal static void InsertTransferLocation(DalTransferLocation transferLocation, DalNote note){
             PreludeInsertNotable(transferLocation, note, AwarenessDataContext.NOTE_TRANSFER_LOCATIONS_ID);
             dataContext.transferLocations.InsertOnSubmit(transferLocation);

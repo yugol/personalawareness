@@ -31,7 +31,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class FormCalculatorInput : Form {
         private CalculatorLogic calculatorLogic = new CalculatorLogic();

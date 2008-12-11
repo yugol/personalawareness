@@ -32,9 +32,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class ControlNotesViewer : UserControl {
         bool updateNotesViewBit = false;
@@ -46,7 +46,7 @@ namespace awareness.ui
 
         public ControlNotesViewer(){
             InitializeComponent();
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateNotesView);
+            DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateNotesView);
         }
 
         void RequestUpdateNotesView() {
@@ -59,7 +59,7 @@ namespace awareness.ui
                 notesTree.BeginUpdate();
 
                 notesTree.Nodes.Clear();
-                IQueryable<DalNote> notes = DbUtil.GetRootNotes();
+                IQueryable<DalNote> notes = DBUtil.GetRootNotes();
                 if (notes.Count() > 0){
                     foreach (DalNote note in notes){
                         TreeNode node = new TreeNode();
@@ -82,7 +82,7 @@ namespace awareness.ui
 
         void _AddChildNodes(TreeNode parentNode){
             DalNote parentNote = (DalNote) parentNode.Tag;
-            IQueryable<DalNote> notes = DbUtil.GetChildNotes(parentNote);
+            IQueryable<DalNote> notes = DBUtil.GetChildNotes(parentNote);
             foreach (DalNote note in notes){
                 TreeNode node = new TreeNode();
                 AssignNote2Node(node, note);
@@ -111,7 +111,7 @@ namespace awareness.ui
         void AssignNode2Note(TreeNode node){
             DalNote note = (DalNote) node.Tag;
             note.IsExpanded = node.IsExpanded;
-            DbUtil.UpdateNote(note);
+            DBUtil.UpdateNote(note);
         }
 
         void NotesTreeAfterSelect(object sender, TreeViewEventArgs e){
@@ -125,7 +125,7 @@ namespace awareness.ui
             DalNote newNote = new DalNote() {
                 Icon = 0, Title = "New note"
             };
-            DbUtil.InsertNote(newNote);
+            DBUtil.InsertNote(newNote);
 
             TreeNode newNode = new TreeNode();
             AssignNote2Node(newNode, newNote);
@@ -147,7 +147,7 @@ namespace awareness.ui
                 Icon = 0, Title = "New note"
             };
             newNote.Parent = (DalNote) parentNode.Tag;
-            DbUtil.InsertNote(newNote);
+            DBUtil.InsertNote(newNote);
 
             TreeNode newNode = new TreeNode();
             AssignNote2Node(newNode, newNote);
@@ -169,7 +169,7 @@ namespace awareness.ui
                 Icon = 0, Title = "New note"
             };
             newNote.Parent = ((DalNote) siblingNode.Tag).Parent;
-            DbUtil.InsertNote(newNote);
+            DBUtil.InsertNote(newNote);
 
             TreeNode newNode = new TreeNode();
             AssignNote2Node(newNode, newNote);
@@ -239,7 +239,7 @@ namespace awareness.ui
             foreach (TreeNode child in node.Nodes){
                 _RecDeleteNode(child);
             }
-            DbUtil.DeleteNote((DalNote) node.Tag);
+            DBUtil.DeleteNote((DalNote) node.Tag);
         }
 
         void NotesTreeKeyDown(object sender, KeyEventArgs e){

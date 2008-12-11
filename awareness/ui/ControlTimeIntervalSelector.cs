@@ -31,9 +31,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public delegate void TimeIntervalChangedHandler();
 
@@ -68,8 +68,8 @@ namespace awareness.ui
         public ControlTimeIntervalSelector(){
             InitializeComponent();
 
-            UiUtil.SetMinMaxDatesFor(firstPicker);
-            UiUtil.SetMinMaxDatesFor(lastPicker);
+            Util.SetMinMaxDatesFor(firstPicker);
+            Util.SetMinMaxDatesFor(lastPicker);
             
             intervalCombo.DropDownHeight = 200;
             foreach (NamingTimeIntervals intervalName in NamingTimeIntervals.GetNames()){

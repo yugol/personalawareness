@@ -33,9 +33,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class ControlTransactionList : UserControl {
         public event EventHandler SelectedIndexChanged;
@@ -137,7 +137,7 @@ namespace awareness.ui
             // draw ammount
             int ammountX = 7;
             int ammountY = 4;
-            text = UiUtil.FormatCurrency(transaction.Ammount);
+            text = Util.FormatCurrency(transaction.Ammount);
             bounds = new Rectangle(e.Bounds.X, e.Bounds.Y + 1, e.Bounds.Width - ammountX, e.Bounds.Height - ammountY);
             sf.Alignment = StringAlignment.Far;
             sf.LineAlignment = StringAlignment.Far;

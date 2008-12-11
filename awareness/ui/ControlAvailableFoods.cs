@@ -33,9 +33,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class ControlAvailableFoods : UserControl {
         bool updateAvailableFoodsBit = true;
@@ -67,12 +67,12 @@ namespace awareness.ui
         public ControlAvailableFoods(){
             InitializeComponent();
 
-            UiUtil.SetMinMaxDatesFor(datePicker);
+            Util.SetMinMaxDatesFor(datePicker);
 
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
-            DbUtil.MealsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
-            DbUtil.FoodsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
-            DbUtil.TransactionsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
+            DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
+            DBUtil.MealsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
+            DBUtil.FoodsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
+            DBUtil.TransactionsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
         }
 
         void RequestUpdateAvailableFoods(){
@@ -82,12 +82,12 @@ namespace awareness.ui
 
         void UpdateAvailableFoods(){
             if (isDisplayed&&updateAvailableFoodsBit){
-                AwarenessDataContext dc = DbUtil.GetDataContext();
+                AwarenessDataContext dc = DBUtil.GetDataContext();
                 IEnumerable<DalFood> foods = dc.transactionReasons.OfType<DalFood>().OrderBy(f => f.Name);
                 availableFoodsView.Items.Clear();
                 bool useAlternateBackground = false;
                 foreach (DalFood food in foods){
-                    float available = DbUtil.GetAvailableQuantity(food);
+                    float available = DBUtil.GetAvailableQuantity(food);
                     if (available != 0){
                         ListViewItem item = new ListViewItem(food.Name);
                         item.Tag = food;
@@ -109,7 +109,7 @@ namespace awareness.ui
                 whatBox.Tag = what;
                 whatBox.Text = what.Name;
                 quantityInput.Value = double.Parse(availableFoodsView.SelectedItems[0].SubItems[1].Text);
-                UiUtil.FillFoodConsumptionReasons(whyCombo, what);
+                Util.FillFoodConsumptionReasons(whyCombo, what);
                 Dirty = true;
             } else {
                 ClearEditBoxes();
@@ -132,7 +132,7 @@ namespace awareness.ui
                     Quantity = (int) quantityInput.Value,
                     Why = (DalReason) whyCombo.SelectedItem
                 };
-                DbUtil.InsertMeal(meal);
+                DBUtil.InsertMeal(meal);
             }
         }
 

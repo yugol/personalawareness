@@ -27,7 +27,7 @@
  */
 
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class ControlAddNote
     {
@@ -65,7 +65,7 @@ namespace awareness.ui
         	this.enlargeBox = new System.Windows.Forms.PictureBox();
         	this.separatorPanel = new System.Windows.Forms.Panel();
         	this.deleteBox = new System.Windows.Forms.PictureBox();
-        	this.noteControl = new awareness.ui.ControlNoteTextView();
+        	this.noteControl = new Awareness.UI.ControlNoteTextView();
         	this.centerPanel = new System.Windows.Forms.Panel();
         	this.toolTip = new System.Windows.Forms.ToolTip(this.components);
         	this.topPanel.SuspendLayout();
@@ -158,7 +158,7 @@ namespace awareness.ui
         	this.noteControl.TitleReadOnly = false;
         	this.toolTip.SetToolTip(this.noteControl, "Memo");
         	this.noteControl.TopVisible = false;
-        	this.noteControl.NoteTextChanged += new awareness.ui.NoteHandler(this.NoteControlNoteTextChanged);
+        	this.noteControl.NoteTextChanged += new Awareness.UI.NoteHandler(this.NoteControlNoteTextChanged);
         	// 
         	// centerPanel
         	// 
@@ -190,7 +190,7 @@ namespace awareness.ui
         private System.Windows.Forms.PictureBox enlargeBox;
         private System.Windows.Forms.PictureBox deleteBox;
         private System.Windows.Forms.Panel centerPanel;
-        private awareness.ui.ControlNoteTextView noteControl;
+        private Awareness.UI.ControlNoteTextView noteControl;
         private System.Windows.Forms.Panel centerBottomPanel;
         private System.Windows.Forms.Panel topPanel;
         private System.Windows.Forms.Button addNoteButton;

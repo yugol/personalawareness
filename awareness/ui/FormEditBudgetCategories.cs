@@ -30,9 +30,9 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class FormEditBudgetCategories : Form {
         public FormEditBudgetCategories(){
@@ -47,7 +47,7 @@ namespace awareness.ui
         void ReadBudgetCategories(){
             categoriesList.Items.Clear();
 
-            IQueryable<DalBudgetCategory> categories = DbUtil.GetBudgetCategories();
+            IQueryable<DalBudgetCategory> categories = DBUtil.GetBudgetCategories();
 
             foreach (DalBudgetCategory category in categories){
                 categoriesList.Items.Add(category);
@@ -66,7 +66,7 @@ namespace awareness.ui
                 nameBox.Text = bc.Name;
                 incomeButton.Checked = bc.IsIncome;
                 expenseButton.Checked = !bc.IsIncome;
-                if (DbUtil.IsTransferLocationUsed(bc)) {
+                if (DBUtil.IsTransferLocationUsed(bc)) {
                     incomeButton.Visible = bc.IsIncome;
                     expenseButton.Visible = !bc.IsIncome;
                 } else {
@@ -101,7 +101,7 @@ namespace awareness.ui
             DalBudgetCategory bc = new DalBudgetCategory() {
                 Name = "_New Budget Category", IsIncome = false
             };
-            DbUtil.InsertTransferLocation(bc, noteControl.Note);
+            DBUtil.InsertTransferLocation(bc, noteControl.Note);
             ReadBudgetCategories();
             categoriesList.SelectedItem = bc;
             nameBox.Focus();
@@ -111,7 +111,7 @@ namespace awareness.ui
             DalBudgetCategory bc = (DalBudgetCategory) categoriesList.SelectedItem;
             bc.Name = nameBox.Text;
             bc.IsIncome = incomeButton.Checked;
-            DbUtil.UpdateTransferLocation(bc, noteControl.Note);
+            DBUtil.UpdateTransferLocation(bc, noteControl.Note);
             ReadBudgetCategories();
         }
 
@@ -122,7 +122,7 @@ namespace awareness.ui
                                 MessageBoxButtons.OKCancel,
                                 MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK){
                 try {
-                    DbUtil.DeleteTransferLocation(bc);
+                    DBUtil.DeleteTransferLocation(bc);
                 } catch (Exception err) {
                     MessageBox.Show("Could not delete budget category:\n" + err.Message,
                                     "Delete budget category",

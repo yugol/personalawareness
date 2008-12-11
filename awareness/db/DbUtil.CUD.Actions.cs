@@ -31,9 +31,9 @@ using System;
 
 using System.Linq;
 
-namespace awareness.db
+namespace Awareness.DB
 {
-    partial class DbUtil {
+    partial class DBUtil {
         internal static void AddAction(DalAction action){
             if (action.Parent == null){
                 action.Parent = dataContext.GetActionById(AwarenessDataContext.ACTION_ROOT_ID);

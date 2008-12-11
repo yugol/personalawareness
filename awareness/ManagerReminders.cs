@@ -31,10 +31,10 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-using awareness.ui;
-using awareness.db;
+using Awareness.UI;
+using Awareness.DB;
 
-namespace awareness
+namespace Awareness
 {
     public class ManagerReminders {
         public static void Load() {
@@ -59,9 +59,9 @@ namespace awareness
             timerLogic.Tick += new EventHandler(remindersWindow.RefreshDueTimes);
             timerLogic.Completed += new TaskCompletedHandler(TaskCompleted);
 
-            DbUtil.DataContextClosing += new DatabaseChangedHandler(Hide); // close the window when database is closed
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(ReadReminders); // read reminders when db changes
-            DbUtil.ActionsChanged += new DatabaseChangedHandler(ReadReminders); // read reminders when actions change
+            DBUtil.DataContextClosing += new DatabaseChangedHandler(Hide); // close the window when database is closed
+            DBUtil.DataContextChanged += new DatabaseChangedHandler(ReadReminders); // read reminders when db changes
+            DBUtil.ActionsChanged += new DatabaseChangedHandler(ReadReminders); // read reminders when actions change
 
             timer.Start();
             timerLogic.Start();
@@ -87,7 +87,7 @@ namespace awareness
             timerLogic.Clear();
             remindersWindow.Clear();
 
-            List<ActionOccurrence> occurrences = DbUtil.GetUncompletedActionOccurencesWithReminder(interval);
+            List<ActionOccurrence> occurrences = DBUtil.GetUncompletedActionOccurencesWithReminder(interval);
             foreach (ActionOccurrence occurrence in occurrences){
                 remindersWindow.Add(occurrence);
                 timerLogic.Add(occurrence);
@@ -96,7 +96,7 @@ namespace awareness
             remindersWindow.RefreshDueTimes(null, null);
         }
 
-        private static void TaskCompleted(object sender, ITimerable task) {
+        private static void TaskCompleted(object sender, Timerable task) {
             ActionOccurrence occurrence = (ActionOccurrence) task;
             if (occurrence.Action.HasSoundReminder){
                 string command = occurrence.Action.ReminderSound;

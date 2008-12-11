@@ -28,11 +28,11 @@
 
 using System;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness
+namespace Awareness
 {
-    public class ActionOccurrence : IComparable, ITimerable {
+    public class ActionOccurrence : IComparable, Timerable {
         DalAction action;
         DateTime start;
         DateTime end;
@@ -56,10 +56,9 @@ namespace awareness
 
         public ActionOccurrence(DalAction action, TimeInterval interval){
             this.action = action;
-            this.start = DbUtil.RemoveSeconds(interval.First);
-            this.end = DbUtil.RemoveSeconds(interval.Second);
-            if (action.HasReminder)
-            {
+            this.start = DBUtil.RemoveSeconds(interval.First);
+            this.end = DBUtil.RemoveSeconds(interval.Second);
+            if (action.HasReminder){
                 deadline = this.start.AddMinutes(-action.ReminderDuration);
                 completed = deadline < DateTime.Now;
             }
@@ -67,7 +66,6 @@ namespace awareness
 
         public int CompareTo(object obj){
             ActionOccurrence other = (ActionOccurrence) obj;
-
             int cmp = this.Start.CompareTo(other.Start);
             if (cmp != 0){
                 return cmp;
@@ -76,7 +74,7 @@ namespace awareness
             if (cmp != 0){
                 return cmp;
             }
-            return this.Action.Name.CompareTo(other.Action.Name);
+            return string.Compare(this.Action.Name, other.Action.Name);
         }
 
         public bool Completed {
@@ -93,5 +91,14 @@ namespace awareness
                 return deadline;
             }
         }
+
+        public override bool Equals(object obj){
+            return CompareTo(obj) == 0;
+        }
+        
+        public override int GetHashCode() {
+            return (int) (this.start.Ticks + this.end.Ticks + Action.Name.GetHashCode());
+        }
+        
     }
 }

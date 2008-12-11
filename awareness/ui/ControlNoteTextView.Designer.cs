@@ -27,7 +27,7 @@
  * Time: 14:45
  * 
  */
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class ControlNoteTextView
     {

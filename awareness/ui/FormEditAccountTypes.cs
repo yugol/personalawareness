@@ -30,9 +30,9 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class FormEditAccountTypes : Form {
         public FormEditAccountTypes(){
@@ -47,7 +47,7 @@ namespace awareness.ui
         void ReadAccountTypes(){
             typeList.Items.Clear();
 
-            IQueryable<DalAccountType> accountTypes = DbUtil.GetAccountTypes();
+            IQueryable<DalAccountType> accountTypes = DBUtil.GetAccountTypes();
             foreach (DalAccountType type in accountTypes){
                 typeList.Items.Add(type);
             }
@@ -87,7 +87,7 @@ namespace awareness.ui
             DalAccountType at = new DalAccountType() {
                 Name = "New Account Type"
             };
-            DbUtil.InsertAccountType(at, noteControl.Note);
+            DBUtil.InsertAccountType(at, noteControl.Note);
             ReadAccountTypes();
             typeList.SelectedItem = at;
             nameBox.Focus();
@@ -96,7 +96,7 @@ namespace awareness.ui
         void UpdateButtonClick(object sender, EventArgs e){
             DalAccountType accountType = (DalAccountType) typeList.SelectedItem;
             accountType.Name = nameBox.Text;
-            DbUtil.UpdateAccountType(accountType, noteControl.Note);
+            DBUtil.UpdateAccountType(accountType, noteControl.Note);
             ReadAccountTypes();
         }
 
@@ -107,7 +107,7 @@ namespace awareness.ui
                                 MessageBoxButtons.OKCancel,
                                 MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK){
                 try {
-                    DbUtil.DeleteAccountType(accountType);
+                    DBUtil.DeleteAccountType(accountType);
                 } catch (Exception err) {
                     MessageBox.Show("Could not delete account type:\n" + err.Message,
                                     "Delete account type",

@@ -29,9 +29,9 @@
 using System;
 using System.Linq;
 
-namespace awareness.db
+namespace Awareness.DB
 {
-    partial class DbUtil {
+    partial class DBUtil {
         internal static bool IsDbAvailable() {
             return dataContext != null;
         }

@@ -31,16 +31,16 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class ControlActionsOverview : UserControl
     {
         public ControlActionsOverview()
         {
             InitializeComponent();
-            DbUtil.DataContextChanged += new DatabaseChangedHandler(UpdateActionTree);
+            DBUtil.DataContextChanged += new DatabaseChangedHandler(UpdateActionTree);
         }
         
         void UpdateActionTree()
@@ -50,7 +50,7 @@ namespace awareness.ui
             actionsTree.Nodes.Clear();
             actionEditControl.Node = null;
             
-            IQueryable<DalAction> actions = DbUtil.GetRootActions();
+            IQueryable<DalAction> actions = DBUtil.GetRootActions();
             foreach (DalAction action in actions)
             {
                 TreeNode node = Action2Node(action);
@@ -68,7 +68,7 @@ namespace awareness.ui
 
         void _AddChildNodes(TreeNode parentNode)
         {
-            IQueryable<DalAction> actions = DbUtil.GetChildActions((DalAction) parentNode.Tag);
+            IQueryable<DalAction> actions = DBUtil.GetChildActions((DalAction) parentNode.Tag);
             foreach (DalAction action in actions)
             {
                 TreeNode node = Action2Node(action);
@@ -142,7 +142,7 @@ namespace awareness.ui
             if (e.Label != null)
             {
                 action.Name = e.Label;
-                DbUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateActionTimeStamp(action);
             }
         }
         
@@ -152,7 +152,7 @@ namespace awareness.ui
             if (action.IsExpanded)
             {
                 action.IsExpanded = false;
-                DbUtil.UpdateAction(action);
+                DBUtil.UpdateAction(action);
             }
             SetNodeImage(e.Node);
         }
@@ -163,7 +163,7 @@ namespace awareness.ui
             if (!action.IsExpanded)
             {
                 action.IsExpanded = true;
-                DbUtil.UpdateAction(action);
+                DBUtil.UpdateAction(action);
             }
             SetNodeImage(e.Node);
         }
@@ -175,11 +175,11 @@ namespace awareness.ui
             {
                 if (e.Node.Checked)
                 {
-                    DbUtil.CompleteAction(action);
+                    DBUtil.CompleteAction(action);
                 }
                 else
                 {
-                    DbUtil.UnCompleteAction(action);
+                    DBUtil.UnCompleteAction(action);
                 }
                 actionEditControl.Node = e.Node;
             }

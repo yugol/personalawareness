@@ -33,16 +33,16 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     /// <summary>
     /// Description of FormManageMeals.
     /// </summary>
     public partial class FormManageMeals : Form
     {
-        AwarenessDataContext dc = DbUtil.GetDataContext();
+        AwarenessDataContext dc = DBUtil.GetDataContext();
         
         public FormManageMeals()
         {
@@ -94,7 +94,7 @@ namespace awareness.ui
                                 MessageBoxIcon.Question, 
                                 MessageBoxDefaultButton.Button2) == DialogResult.OK)
             {
-                DbUtil.DeleteMeal((DalMeal) mealsView.SelectedItems[0].Tag);
+                DBUtil.DeleteMeal((DalMeal) mealsView.SelectedItems[0].Tag);
                 ReadMeals();
             }
         }

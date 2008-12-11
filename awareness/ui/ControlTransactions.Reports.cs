@@ -32,10 +32,10 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 using ZedGraph;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class ControlTransactions {
         enum EGrouping {DAILY, WEEKLY, MONTHLY, YEARLY}
@@ -161,10 +161,10 @@ namespace awareness.ui
 
             for (i = 0; i < sliceCount; ++i) {
                 double perCent = values[i] *100 / ((double) total);
-                labels[i] = string.Format("{0}\n{1} ({2}%)", labels[i], UiUtil.FormatCurrency((decimal) values[i]), perCent.ToString("#0.00"));
+                labels[i] = string.Format("{0}\n{1} ({2}%)", labels[i], Util.FormatCurrency((decimal) values[i]), perCent.ToString("#0.00"));
             }
 
-            string title = "Total ammount: " + UiUtil.FormatCurrency(total);
+            string title = "Total ammount: " + Util.FormatCurrency(total);
             title += "\n(" + timeIntervalSelectorControl.First.ToString("yyyy-MM-dd");
             title += " -> " + timeIntervalSelectorControl.Last.ToString("yyyy-MM-dd");
             title += ")";

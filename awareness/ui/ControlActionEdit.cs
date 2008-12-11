@@ -28,9 +28,9 @@
 
 using System;
 using System.Windows.Forms;
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class ControlActionEdit : UserControl {
         bool processEvents = true;
@@ -81,9 +81,9 @@ namespace awareness.ui
         public ControlActionEdit(){
             InitializeComponent();
             
-            UiUtil.SetMinMaxDatesFor(startDatePicker);
-            UiUtil.SetMinMaxDatesFor(endDatePicker);
-            UiUtil.SetMinMaxDatesFor(untilPicker);
+            Util.SetMinMaxDatesFor(startDatePicker);
+            Util.SetMinMaxDatesFor(endDatePicker);
+            Util.SetMinMaxDatesFor(untilPicker);
 
             noteTextView.TopVisible = false;
             noteTextView.NoteTextChanged += new NoteHandler(NoteTextChanged);
@@ -171,7 +171,7 @@ namespace awareness.ui
             soundSelector.Command = action.ReminderSound;
 
             reminderDurationCombo.Enabled = action.HasReminder;
-            reminderDurationCombo.Text = DbUtil.Minutes2TimeSpanString(action.ReminderDuration);
+            reminderDurationCombo.Text = DBUtil.Minutes2TimeSpanString(action.ReminderDuration);
         }
 
         void Data2UiAbout(){
@@ -261,7 +261,7 @@ namespace awareness.ui
         }
 
         void UpdateDuration(){
-            durationCombo.Text = UiUtil.FormatTimeSpan(action.End.Subtract(action.Start));
+            durationCombo.Text = Util.FormatTimeSpan(action.End.Subtract(action.Start));
         }
 
         void Ui2DataStartTime(){

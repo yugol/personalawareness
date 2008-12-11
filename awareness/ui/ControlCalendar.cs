@@ -33,7 +33,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class ControlCalendar : UserControl {
         private static readonly string[] MONTH_NAME = {"", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};

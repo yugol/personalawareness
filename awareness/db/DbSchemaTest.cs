@@ -37,10 +37,10 @@ using System.Linq;
 
 using NUnit.Framework;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     [TestFixture]
-    public class DbSchemaTest
+    public class DBSchemaTest
     {   
         AwarenessDataContext dc = null;
 
@@ -48,7 +48,7 @@ namespace awareness.db
         [TestFixtureSetUp]
         public void SetUp()
         {
-            dc = new AwarenessDataContext(DbTest.TEST_DB_NAME);
+            dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
             dc.CreateDatabase();
         }
 #endif        
@@ -63,10 +63,10 @@ namespace awareness.db
         public void CreateDatabase()
         {
 #if DEBUG_CREATE_DATABASE
-            dc = new AwarenessDataContext(DbTest.TEST_DB_NAME);
+            dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
             dc.CreateDatabase();
 #endif
-            Assert.AreEqual(0.0F, dc.GetProperties().DbVersion);
+            Assert.AreEqual(0.0F, dc.GetProperties().DBVersion);
             Assert.AreEqual(1, dc.accountTypes.Count());
             Assert.AreEqual(2, dc.transferLocations.Count());
             Assert.AreEqual(0, dc.transactionReasons.Count());
@@ -123,7 +123,7 @@ namespace awareness.db
             catch (Exception) 
             {
                 dc.Connection.Close();
-                dc = new AwarenessDataContext(DbTest.TEST_DB_NAME);
+                dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
             }
             
             
@@ -175,7 +175,7 @@ namespace awareness.db
             catch (Exception) 
             {
                 dc.Connection.Close();
-                dc = new AwarenessDataContext(DbTest.TEST_DB_NAME);
+                dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
             }
             
             try // check foreign key existence
@@ -188,7 +188,7 @@ namespace awareness.db
             catch (Exception) 
             {
                 dc.Connection.Close();
-                dc = new AwarenessDataContext(DbTest.TEST_DB_NAME);
+                dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
             }
             
             try // check foreign key existence
@@ -201,7 +201,7 @@ namespace awareness.db
             catch (Exception) 
             {
                 dc.Connection.Close();
-                dc = new AwarenessDataContext(DbTest.TEST_DB_NAME);
+                dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
             }
             
             dc.transactions.DeleteOnSubmit(dc.transactions.OfType<DalTransaction>().First());
@@ -231,7 +231,7 @@ namespace awareness.db
             dc.UpdateTransactionReasonType(id, DalReason.TYPE_FOOD, "tr'1'", 50);
             
             dc.Connection.Close();
-            dc = new AwarenessDataContext(DbTest.TEST_DB_NAME);
+            dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
 
             DalFood tr2 = dc.transactionReasons.OfType<DalFood>().First();
             Assert.AreEqual(id, tr2.Id);
@@ -239,7 +239,7 @@ namespace awareness.db
             Assert.AreEqual(50, tr2.Energy);
             
             dc.Connection.Close();
-            dc = new AwarenessDataContext(DbTest.TEST_DB_NAME);
+            dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
 
             dc.UpdateTransactionReasonType(id, DalReason.TYPE_RECIPE, "'t'r1", 0);
             tr1 = dc.transactionReasons.OfType<DalRecipe>().First();
@@ -248,7 +248,7 @@ namespace awareness.db
             Assert.AreEqual(100, ((DalRecipe) tr1).Energy);
 
             dc.Connection.Close();
-            dc = new AwarenessDataContext(DbTest.TEST_DB_NAME);
+            dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
 
             dc.UpdateTransactionReasonType(id, DalReason.TYPE_CONSUMER, "'t'r1", 0);
             tr1 = dc.transactionReasons.OfType<DalConsumer>().First();
@@ -256,7 +256,7 @@ namespace awareness.db
             Assert.AreEqual("'t'r1", tr1.Name);
 
             dc.Connection.Close();
-            dc = new AwarenessDataContext(DbTest.TEST_DB_NAME);
+            dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
 
             dc.UpdateTransactionReasonType(id, DalReason.TYPE_DEFAULT, "'t'r1", 100);
             tr1 = dc.transactionReasons.OfType<DalReason>().First();
@@ -292,7 +292,7 @@ namespace awareness.db
             catch (Exception) 
             {
                 dc.Connection.Close();
-                dc = new AwarenessDataContext(DbTest.TEST_DB_NAME);
+                dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
             }
             
             try // check foreign key for why
@@ -306,7 +306,7 @@ namespace awareness.db
             catch (Exception) 
             {
                 dc.Connection.Close();
-                dc = new AwarenessDataContext(DbTest.TEST_DB_NAME);
+                dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
             }
 
             m1 = dc.meals.First();
@@ -351,7 +351,7 @@ namespace awareness.db
             catch (Exception) 
             {
                 dc.Connection.Close();
-                dc = new AwarenessDataContext(DbTest.TEST_DB_NAME);
+                dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
             }
             
             dc.notes.DeleteOnSubmit(dc.notes.Where(n => n.Id > AwarenessDataContext.RESERVED_NOTES).First());

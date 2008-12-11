@@ -27,7 +27,7 @@
  * Time: 12:24
  * 
  */
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class ControlCommandSelector
     {

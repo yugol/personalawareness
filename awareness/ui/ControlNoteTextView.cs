@@ -32,9 +32,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class ControlNoteTextView : UserControl {
         public event NoteHandler NoteTextChanged;
@@ -126,7 +126,7 @@ namespace awareness.ui
             ScrollBars = true;
             TitleReadOnly = false;
             TextReadOnly = false;
-            DbUtil.DataContextClosing += new DatabaseChangedHandler(UpdateNote);
+            DBUtil.DataContextClosing += new DatabaseChangedHandler(UpdateNote);
         }
 
         public void FocusTitle(){
@@ -135,7 +135,7 @@ namespace awareness.ui
 
         public void UpdateNote(){
             if (Note != null){
-                DbUtil.UpdateNote(Note);
+                DBUtil.UpdateNote(Note);
             }
         }
 

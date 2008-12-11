@@ -31,9 +31,9 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class ControlTransactions {
         #region Layout
@@ -306,7 +306,7 @@ namespace awareness.ui
             reason.Name = "_" + reasonCombo.Text;
             DalNote note = new DalNote();
             note.Text = "Automatically created when the first transaction with this reason was created";
-            DbUtil.InsertTransactionReason(reason, note);
+            DBUtil.InsertTransactionReason(reason, note);
             return reason;
         }
 
@@ -383,7 +383,7 @@ namespace awareness.ui
                 if (IsTransactionValid()){
                     DalTransaction transaction = new DalTransaction();
                     UiData2Transaction(ref transaction);
-                    DbUtil.InsertTransaction(transaction, noteControl.Note);
+                    DBUtil.InsertTransaction(transaction, noteControl.Note);
                     RequestReadTransactions();
                     ClearEditBoxes();
                 }
@@ -399,7 +399,7 @@ namespace awareness.ui
             if (IsTransactionValid()){
                 DalTransaction transaction = transactionsView.SelectedTransaction;
                 UiData2Transaction(ref transaction);
-                DbUtil.UpdateTransaction(transaction, noteControl.Note);
+                DBUtil.UpdateTransaction(transaction, noteControl.Note);
                 RequestReadTransactions();
                 transactionsView.SelectedTransaction = transaction;
             }
@@ -411,7 +411,7 @@ namespace awareness.ui
                                 MessageBoxButtons.OKCancel,
                                 MessageBoxIcon.Question,
                                 MessageBoxDefaultButton.Button2) == DialogResult.OK){
-                DbUtil.DeleteTransaction(transactionsView.SelectedTransaction);
+                DBUtil.DeleteTransaction(transactionsView.SelectedTransaction);
                 RequestReadTransactions();
                 EditMode = EEditModes.NEW;
             }

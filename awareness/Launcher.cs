@@ -31,7 +31,7 @@ using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace awareness
+namespace Awareness
 {
     public class Launcher {
         public static void ExecuteComand(string cmd){

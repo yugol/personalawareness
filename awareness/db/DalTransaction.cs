@@ -31,10 +31,10 @@ using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     [Table(Name = "transactions")]
-    public class DalTransaction : INotable {
+    public class DalTransaction : Notable {
         int _id = 0;
         [Column(Storage = "_id",
                 Name = "id",

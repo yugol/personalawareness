@@ -32,17 +32,17 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
-    internal class UiUtil {
+    internal class Util {
         internal static string FormatCurrency(decimal ammount){
             string rep = ammount.ToString("#,###,##0.00");
-            if (Configuration.DbProperties.PlaceCurrencySymbolAfterValue){
-                rep += Configuration.DbProperties.CurrencySymbol;
+            if (Configuration.DBProperties.PlaceCurrencySymbolAfterValue){
+                rep += Configuration.DBProperties.CurrencySymbol;
             } else {
-                rep = Configuration.DbProperties.CurrencySymbol + rep;
+                rep = Configuration.DBProperties.CurrencySymbol + rep;
             }
             return rep;
         }
@@ -50,7 +50,7 @@ namespace awareness.ui
         internal static void FillFoodConsumptionReasons(ComboBox whyCombo, DalReason what){
             whyCombo.Items.Clear();
 
-            AwarenessDataContext dc = DbUtil.GetDataContext();
+            AwarenessDataContext dc = DBUtil.GetDataContext();
             IEnumerable<DalConsumer> consumers = from r in dc.transactionReasons.OfType<DalConsumer>()
                                                  orderby r.Name
                                                  select r;

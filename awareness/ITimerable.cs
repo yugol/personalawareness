@@ -29,9 +29,9 @@
 
 using System;
 
-namespace awareness
+namespace Awareness
 {
-    public interface ITimerable
+    public interface Timerable
     {
         bool Completed
         {

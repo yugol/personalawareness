@@ -31,7 +31,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class FormTeaTimer : Form {
         public enum EPresentationMode { EDIT, RUN }
@@ -121,7 +121,7 @@ namespace awareness.ui
             }
         }
 
-        void TimerLogicCompleted(object sender, ITimerable e) {
+        void TimerLogicCompleted(object sender, Timerable e) {
             MessageBox.Show("Time is up", "Tea Timer", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ResetTask();
         }

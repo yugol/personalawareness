@@ -31,7 +31,7 @@ using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     [Table(Name = "meals")]
     public class DalMeal

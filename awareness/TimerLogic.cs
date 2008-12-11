@@ -31,16 +31,16 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
-    public delegate void TaskCompletedHandler(object sender, ITimerable task);
+    public delegate void TaskCompletedHandler(object sender, Timerable task);
 
     public class TimerLogic {
         public event EventHandler Tick;
         public event TaskCompletedHandler Completed;
 
         private Timer timer;
-        private IList<ITimerable> schedule = new List<ITimerable>();
+        private IList<Timerable> schedule = new List<Timerable>();
 
         public TimerLogic(){
             timer = new Timer();
@@ -53,11 +53,11 @@ namespace awareness.ui
             set { timer.Interval = value; }
         }
 
-        public void Add(ITimerable task) {
+        public void Add(Timerable task) {
             schedule.Add(task);
         }
 
-        public void Remove(ITimerable task) {
+        public void Remove(Timerable task) {
             schedule.Remove(task);
         }
 
@@ -80,7 +80,7 @@ namespace awareness.ui
             
             if (Completed != null) {
                 DateTime now = DateTime.Now;
-                foreach (ITimerable task in schedule){
+                foreach (Timerable task in schedule){
                     if (!task.Completed&&IsTimeFor(task, now)){
                         task.Completed = true;
                         Completed(this, task);
@@ -89,7 +89,7 @@ namespace awareness.ui
             }
         }
 
-        bool IsTimeFor(ITimerable task, DateTime now) {
+        bool IsTimeFor(Timerable task, DateTime now) {
             if (now.Date == task.Deadline.Date){
                 if (now.Hour == task.Deadline.Hour&&now.Minute == task.Deadline.Minute){
                     if (now.Second >= task.Deadline.Second){

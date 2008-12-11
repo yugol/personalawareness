@@ -31,9 +31,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-using awareness.db;
+using Awareness.DB;
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     public partial class FormEditProperties : Form {
         public FormEditProperties(){
@@ -42,14 +42,14 @@ namespace awareness.ui
         }
 
         void Data2Ui() {
-            symbolBox.Text = Configuration.DbProperties.CurrencySymbol;
-            placementCheck.Checked = Configuration.DbProperties.PlaceCurrencySymbolAfterValue;
+            symbolBox.Text = Configuration.DBProperties.CurrencySymbol;
+            placementCheck.Checked = Configuration.DBProperties.PlaceCurrencySymbolAfterValue;
         }
 
         void Ui2Data() {
-            Configuration.DbProperties.CurrencySymbol = symbolBox.Text;
-            Configuration.DbProperties.PlaceCurrencySymbolAfterValue = placementCheck.Checked;
-            DbUtil.UpdateProperties();
+            Configuration.DBProperties.CurrencySymbol = symbolBox.Text;
+            Configuration.DBProperties.PlaceCurrencySymbolAfterValue = placementCheck.Checked;
+            DBUtil.UpdateProperties();
         }
         
         void SymbolBoxValidating(object sender, System.ComponentModel.CancelEventArgs e)

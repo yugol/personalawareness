@@ -31,7 +31,7 @@ using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     [Table(Name = "properties")]
     public class DalProperties
@@ -53,7 +53,7 @@ namespace awareness.db
                 Name = "db_version",
                 DbType="real NOT NULL",
                 CanBeNull=false)]
-        public float DbVersion
+        public float DBVersion
         {
             get { return _dbVersion; }
         }

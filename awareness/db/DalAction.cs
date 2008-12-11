@@ -31,18 +31,18 @@ using System.Collections.Generic;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     [Table(Name = "actions")]
     public class DalAction {
-        public const string MAX_NAME_CHAR_COUNT = "100";
+        public const string MaxNameCharCount = "100";
 
         public const byte TYPE_GROUP = 0;
         public const byte TYPE_TODO = 1;
         public const byte TYPE_TASK = 2;
 
         public DalAction(){
-            _created = DbUtil.RemoveMilliseconds(DateTime.Now);
+            _created = DBUtil.RemoveMilliseconds(DateTime.Now);
             _modified = _created;
             _start = _created.Date;
             _end = _start;
@@ -176,7 +176,7 @@ namespace awareness.db
         string _name = null;
         [Column(Storage = "_name",
                 Name = "name",
-                DbType = "nvarchar(" + MAX_NAME_CHAR_COUNT + ") NOT NULL",
+                DbType = "nvarchar(" + MaxNameCharCount + ") NOT NULL",
                 CanBeNull = false)]
         public string Name
         {

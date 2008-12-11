@@ -28,9 +28,9 @@
 
 
 using System;
-using awareness.ui;
+using Awareness.UI;
 
-namespace awareness
+namespace Awareness
 {
     public class ManagerCalendar {
         private static FormCalendar calendar = null;

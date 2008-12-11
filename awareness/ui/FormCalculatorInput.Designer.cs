@@ -27,7 +27,7 @@
  * Time: 20:19
  * 
  */
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class FormCalculatorInput
     {
@@ -410,7 +410,7 @@ namespace awareness.ui
         	this.calculatorPanel.ResumeLayout(false);
         	this.ResumeLayout(false);
         }
-        private awareness.CalculatorLogic calc = new CalculatorLogic();
+        private Awareness.CalculatorLogic calc = new CalculatorLogic();
         private System.Windows.Forms.TableLayoutPanel calculatorPanel;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;

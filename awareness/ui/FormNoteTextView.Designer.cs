@@ -27,7 +27,7 @@
  */
 
 
-namespace awareness.ui
+namespace Awareness.UI
 {
     partial class FormNoteTextView
     {
@@ -57,7 +57,7 @@ namespace awareness.ui
         /// </summary>
         private void InitializeComponent()
         {
-        	this.noteControl = new awareness.ui.ControlNoteTextView();
+        	this.noteControl = new Awareness.UI.ControlNoteTextView();
         	this.SuspendLayout();
         	// 
         	// noteControl
@@ -74,7 +74,7 @@ namespace awareness.ui
         	this.noteControl.TextReadOnly = false;
         	this.noteControl.TitleReadOnly = false;
         	this.noteControl.TopVisible = false;
-        	this.noteControl.NoteTextChanged += new awareness.ui.NoteHandler(this.NoteControlNoteTextChanged);
+        	this.noteControl.NoteTextChanged += new Awareness.UI.NoteHandler(this.NoteControlNoteTextChanged);
         	// 
         	// FormNoteTextView
         	// 
@@ -88,6 +88,6 @@ namespace awareness.ui
         	this.Text = "FormNoteTextView";
         	this.ResumeLayout(false);
         }
-        private awareness.ui.ControlNoteTextView noteControl;
+        private Awareness.UI.ControlNoteTextView noteControl;
     }
 }

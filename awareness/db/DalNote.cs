@@ -31,7 +31,7 @@ using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace awareness.db
+namespace Awareness.DB
 {
     [Table(Name = "notes")]
     public class DalNote
@@ -106,7 +106,7 @@ namespace awareness.db
             set { _icons = value; }
         }
         
-        DateTime _created = DbUtil.RemoveMilliseconds(DateTime.Now);
+        DateTime _created = DBUtil.RemoveMilliseconds(DateTime.Now);
         [Column(Storage = "_created",
                 Name = "created",
                 DbType = "datetime NOT NULL",

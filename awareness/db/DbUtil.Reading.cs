@@ -30,9 +30,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace awareness.db
+namespace Awareness.DB
 {
-    partial class DbUtil {
+    partial class DBUtil {
         internal static IQueryable<DalAccountType> GetAccountTypes(){
             IQueryable<DalAccountType> accountTypes = null;
             #if DEBUG
@@ -173,7 +173,7 @@ namespace awareness.db
             float quantity = 0;
             IQueryable<DalTransaction> reasonTransactions = dataContext.transactions.Where(t => t.ReasonId == reason.Id);
             foreach (DalTransaction transaction in reasonTransactions){
-                quantity += DbUtil.GetCompositeQuantity(transaction);
+                quantity += DBUtil.GetCompositeQuantity(transaction);
             }
             return quantity;
         }

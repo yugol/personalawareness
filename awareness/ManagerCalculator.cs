@@ -28,9 +28,9 @@
 
 
 using System;
-using awareness.ui;
+using Awareness.UI;
 
-namespace awareness
+namespace Awareness
 {
     public class ManagerCalculator {
         private static FormCalculatorInput calculatorInput = null;
