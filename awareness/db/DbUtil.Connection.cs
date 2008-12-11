@@ -47,21 +47,8 @@ namespace Awareness.DB
             if (dataContext != null){
                 CloseDataContext();
             }
+
             dataContext = new AwarenessDataContext(dbConnectionString);
-
-            Configuration.ReadDbProperties();
-
-            // object o = dataContext.accountTypes.First();
-            // o = dataContext.transferLocations.OfType<DalBudgetCategory>().First();
-            // o = dataContext.transferLocations.OfType<DalAccount>().First();
-            // o = dataContext.transactionReasons.OfType<DalReason>().First();
-            // o = dataContext.transactionReasons.OfType<DalFood>().First();
-            // o = dataContext.transactionReasons.OfType<DalRecipe>().First();
-            // o = dataContext.transactionReasons.OfType<DalConsumer>().First();
-            // o = dataContext.transactions.First();
-            // o = dataContext.meals.First();
-            // o = dataContext.notes.First();
-            // o = dataContext.actions.First();
 
             if (DataContextChanged != null){
                 DataContextChanged();

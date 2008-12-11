@@ -234,19 +234,19 @@ namespace Awareness.DB
             switch (type){
             case DalReason.TYPE_DEFAULT:
                 command = string.Format("UPDATE transaction_reasons SET type = {0}, name = {1}, energy = null WHERE id = {2}",
-                                        type, DBDumper.String2SqlString(name), id);
+                                        type, Dumper.String2SqlString(name), id);
                 break;
             case DalReason.TYPE_FOOD:
                 command = string.Format("UPDATE transaction_reasons SET type = {0}, name = {1}, energy = {2} WHERE id = {3}",
-                                        type, DBDumper.String2SqlString(name), energy, id);
+                                        type, Dumper.String2SqlString(name), energy, id);
                 break;
             case DalReason.TYPE_RECIPE:
                 command = string.Format("UPDATE transaction_reasons SET type = {0}, name = {1}, energy = {2} WHERE id = {3}",
-                                        type, DBDumper.String2SqlString(name), DalFood.QUANTITY_FOR_ENERGY, id);
+                                        type, Dumper.String2SqlString(name), DalFood.QUANTITY_FOR_ENERGY, id);
                 break;
             case DalReason.TYPE_CONSUMER:
                 command = string.Format("UPDATE transaction_reasons SET type = {0}, name = {1}, energy = null WHERE id = {2}",
-                                        type, DBDumper.String2SqlString(name), id);
+                                        type, Dumper.String2SqlString(name), id);
                 break;
             }
             ExecuteCommand(command);

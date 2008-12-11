@@ -67,19 +67,27 @@ namespace Awareness.DB
         private bool currencyNotationChanged = false;
         public bool CurrencyNotationChanged {
             get { return currencyNotationChanged; }
-            set { currencyNotationChanged = value; }
+        }
+        public void ResetCurrencyNotationChanged() {
+            currencyNotationChanged = false;
         }
 
         private string currencySymbol = "$";
         public string CurrencySymbol {
             get { return currencySymbol; }
-            set { currencySymbol = value; }
+            set {
+                currencySymbol = value;
+                currencyNotationChanged = true;
+            }
         }
 
         private bool placeCurrencySymbolAfterValue = false;
         public bool PlaceCurrencySymbolAfterValue {
             get { return placeCurrencySymbolAfterValue; }
-            set { placeCurrencySymbolAfterValue = value; }
+            set {
+                placeCurrencySymbolAfterValue = value;
+                currencyNotationChanged = true;
+            }
         }
 
         private int lastMealReportReason = 0 ;

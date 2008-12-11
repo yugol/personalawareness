@@ -40,7 +40,7 @@ using NUnit.Framework;
 namespace Awareness.DB
 {
     [TestFixture]
-    public class DBDumperTest {
+    public class DumperTest {
         IDictionary<string, DateTime> dateTimeMap = new Dictionary<string, DateTime>();
 
         void PopulateDb(){
@@ -165,6 +165,9 @@ namespace Awareness.DB
             DBUtil.AddAction(act2);
             act1.Parent = act2;
             DBUtil.UpdateAction(act1);
+            
+            Configuration.DBProperties.CurrencySymbol = "USD";
+            DBUtil.UpdateProperties();
         }
 
         [Test]
@@ -175,11 +178,13 @@ namespace Awareness.DB
             
             DalProperties dbProp = DBUtil.GetProperties();
             Assert.AreEqual(1.00F, dbProp.DBVersion);
+            XmlProperties xmlProp = new XmlProperties(dbProp.Xml);
+            Assert.AreEqual("USD", xmlProp.CurrencySymbol);
 
             StringBuilder sb = new StringBuilder();
             StringWriter writer = new StringWriter(sb);
-            DBDumper dd = new DBDumper(dc);
-            dd.DumpDb(writer);
+            Dumper dd = new Dumper(dc);
+            dd.DumpAll(writer);
 
             DBUtil.DeleteDataContext();
             DBUtil.CreateDataContext(DBTest.TEST_DB_NAME);
@@ -189,8 +194,12 @@ namespace Awareness.DB
 
             string dump = sb.ToString();
             StringReader reader = new StringReader(dump);
-            dd = new DBDumper(dc);
+            dd = new Dumper(dc);
             dd.RestoreDb(reader);
+
+            dbProp = DBUtil.GetProperties();
+            xmlProp = new XmlProperties(dbProp.Xml);
+            Assert.AreEqual("USD", xmlProp.CurrencySymbol);
 
             IEnumerable<DalTransaction> transactions = dc.transactions.Select(e => e);
             DalTransaction t = transactions.First();
@@ -236,7 +245,7 @@ namespace Awareness.DB
             Assert.AreEqual("c1", meal.Why.Name);
 
             IEnumerable<DalNote> notes = dc.notes.Select(r => r);
-            Assert.AreEqual(12, notes.Count());
+            Assert.AreEqual(13, notes.Count());
 
             DalNote n = dc.GetNoteById(AwarenessDataContext.RESERVED_NOTES + 1);
             Assert.AreEqual(1, n.ParentId);
@@ -268,13 +277,13 @@ namespace Awareness.DB
             Assert.IsTrue(act.HasSoundReminder);
             Assert.IsTrue(act.HasCommandReminder);
             act = dc.GetActionById(AwarenessDataContext.RESERVED_ACTIONS + 2);
-            Assert.AreEqual("act1", act.Name);
+            Assert.AreEqual("act1", act.Name);            
         }
 
         [Test]
         public void DumpAccountTypes(){
             StringWriter writer = new StringWriter();
-            DBDumper dd = new DBDumper(DBUtil.GetDataContext());
+            Dumper dd = new Dumper(DBUtil.GetDataContext());
             dd.DumpAccountTypes(writer, null);
             Assert.AreEqual(
                 "INSERT INTO account_types (name, note) VALUES (N'at1', 1);\r\n" +
@@ -285,7 +294,7 @@ namespace Awareness.DB
         [Test]
         public void DumpTransferLocations(){
             StringWriter writer = new StringWriter();
-            DBDumper dd = new DBDumper(DBUtil.GetDataContext());
+            Dumper dd = new Dumper(DBUtil.GetDataContext());
             dd.DumpTransferLocations(writer, null, null);
             Assert.AreEqual(
                 "INSERT INTO transfer_locations (is_budget, is_income, name, note) VALUES (1, 1, N'bc1', 1);\r\n" +
@@ -298,7 +307,7 @@ namespace Awareness.DB
         [Test]
         public void DumpTransactionReasons(){
             StringWriter writer = new StringWriter();
-            DBDumper dd = new DBDumper(DBUtil.GetDataContext());
+            Dumper dd = new Dumper(DBUtil.GetDataContext());
             dd.DumpReasons(writer, null);
             Assert.AreEqual(
                 "INSERT INTO transaction_reasons (type, name, note) VALUES (0, N'tr1', 1);\r\n" +
@@ -312,7 +321,7 @@ namespace Awareness.DB
         [Test]
         public void DumpTransactions(){
             StringWriter writer = new StringWriter();
-            DBDumper dd = new DBDumper(DBUtil.GetDataContext());
+            Dumper dd = new Dumper(DBUtil.GetDataContext());
             dd.DumpTransactions(writer, null, null, null);
             Assert.AreEqual(
                 "INSERT INTO transactions ([when], [from], [to], reason, ammount, quantity, note) VALUES ('2008-01-02', 11, 13, 1, 1.00, 0, 1);\r\n" +
@@ -326,7 +335,7 @@ namespace Awareness.DB
         [Test]
         public void DumpMeals(){
             StringWriter writer = new StringWriter();
-            DBDumper dd = new DBDumper(DBUtil.GetDataContext());
+            Dumper dd = new Dumper(DBUtil.GetDataContext());
             dd.DumpMeals(writer, null);
             Assert.AreEqual(
                 "INSERT INTO meals ([when], what, quantity, why) VALUES ('2008-07-08', 3, 150, 5);\r\n" +
@@ -338,16 +347,16 @@ namespace Awareness.DB
         [Test]
         public void DumpNotes(){
             StringWriter writer = new StringWriter();
-            DBDumper dd = new DBDumper(DBUtil.GetDataContext());
+            Dumper dd = new Dumper(DBUtil.GetDataContext());
             dd.DumpNotes(writer);
             string dump = writer.GetStringBuilder().ToString();
             Assert.AreEqual(string.Format(
                                 "INSERT INTO notes (parent, permanent, expanded, created, icons, title, text) VALUES (1, 0, 1, '{0}', 0, N'n1', null);\r\n" +
                                 "INSERT INTO notes (parent, permanent, expanded, created, icons, title, text) VALUES (101, 0, 0, '{1}', 2, N'n4', null);\r\n" +
                                 "INSERT INTO notes (parent, permanent, expanded, created, icons, title, text) VALUES (102, 0, 0, '{2}', 2, N'n3', N'for (int i = 0; i < 10; ++i);');\r\n",
-                                dateTimeMap["note1_CreationTime"].ToString(DBDumper.YYYYMMDDHHMMSS),
-                                dateTimeMap["note4_CreationTime"].ToString(DBDumper.YYYYMMDDHHMMSS),
-                                dateTimeMap["note3_CreationTime"].ToString(DBDumper.YYYYMMDDHHMMSS)),
+                                dateTimeMap["note1_CreationTime"].ToString(Dumper.YYYYMMDDHHMMSS),
+                                dateTimeMap["note4_CreationTime"].ToString(Dumper.YYYYMMDDHHMMSS),
+                                dateTimeMap["note3_CreationTime"].ToString(Dumper.YYYYMMDDHHMMSS)),
                             writer.GetStringBuilder().ToString());
         }
 
