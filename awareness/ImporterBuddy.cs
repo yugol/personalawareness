@@ -96,7 +96,6 @@ namespace Awareness
             transaction.To = CreateTransferLocation(record[6], false);
 
             if ( !string.IsNullOrEmpty(record[3]) ){
-                // TODO: import buddy note
                 // transaction.Memo = record[3];
             }
 

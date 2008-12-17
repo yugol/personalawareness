@@ -34,7 +34,6 @@ using System.Data.Linq;
 namespace Awareness.DB
 {
     public class AwarenessDataContext : DataContext {
-        // TODO: transaction_reasons -> reasons
 
         public const int RESERVED_ACCOUNT_TYPES = 5;
         public const int RESERVED_TRANSFER_LOCATIONS = 10;

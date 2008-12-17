@@ -39,7 +39,7 @@ namespace Awareness
         // TODO: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
 
         internal static readonly float DBVersion = 1.0F;
-        internal static readonly string AppVersion = "1.0.0";
+        internal static readonly string AppVersion = "1.0.1";
         
         
 //#if DEBUG
@@ -78,7 +78,7 @@ namespace Awareness
         internal static readonly string FOOD_ENERGY_MEASURE_UNIT = "kcal/100g";
         internal const int LIST_VIEW_SCROLL_BAR_WIDTH = 25;
 
-        internal static readonly Color ALTERNATE_BACKGROUND = SystemColors.Control; // Color.FromArgb(235, 235, 235); // TODO: search for show selection when unfocused
+        internal static readonly Color ALTERNATE_BACKGROUND = SystemColors.Control; // Color.FromArgb(235, 235, 235);
         internal static readonly Color NORMAL_BACKGROUND = SystemColors.Window; //Color.FromArgb(255, 255, 255);
 
         internal static readonly Font DEFAULT_FONT = new Font(SystemFonts.DefaultFont.FontFamily, SystemFonts.DefaultFont.Size, FontStyle.Regular);

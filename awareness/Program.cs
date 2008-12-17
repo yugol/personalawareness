@@ -33,6 +33,10 @@ using System.Windows.Forms;
 using Awareness.UI;
 
 namespace Awareness {
+    
+    // TODO: start folder in home folder (My Documents)
+    // TODO: config file - holds last opent database and reopens it automatically
+    
     internal sealed class Program {
         [STAThread]
         private static void Main(string[] args) {
