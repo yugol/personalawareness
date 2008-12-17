@@ -36,8 +36,7 @@ namespace Awareness.DB
     internal delegate void DatabaseChangedHandler();
 
     internal abstract partial class DBUtil {
-        // TODO: hide reopendatacontext
-
+        
         private static AwarenessDataContext dataContext = null;
 
         internal static event DatabaseChangedHandler DataContextChanged;

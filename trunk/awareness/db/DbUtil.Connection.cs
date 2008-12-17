@@ -55,7 +55,7 @@ namespace Awareness.DB
             }
         }
 
-        internal static AwarenessDataContext ReOpenDataContext(){
+        private static AwarenessDataContext ReOpenDataContext(){
             string dbConnectionString = dataContext.Connection.ConnectionString;
             CloseDataContext();
             OpenDataContext(dbConnectionString);
