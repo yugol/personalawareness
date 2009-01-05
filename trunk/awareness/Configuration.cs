@@ -39,7 +39,7 @@ namespace Awareness
         // TODO: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
 
         internal static readonly float DBVersion = 1.0F;
-        internal static readonly string AppVersion = "1.0.1";
+        internal static readonly string AppVersion = "0.1.2.3";
         
         
 //#if DEBUG

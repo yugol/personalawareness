@@ -462,7 +462,7 @@ namespace Awareness.UI
         	this.usageLabel.TabIndex = 14;
         	this.usageLabel.Text = "Only the actions with start time planned can have reminders. If you want to attac" +
         	"h a reminder to this action please go to the \'Plan\' tab and check the \'Plan time" +
-        	"\' button.";
+        	"\' check box";
         	// 
         	// label2
         	// 
