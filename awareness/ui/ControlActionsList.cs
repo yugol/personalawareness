@@ -35,6 +35,9 @@ using System.Windows.Forms;
 
 using Awareness.DB;
 
+// TODO: items have note as tooltip
+// TODO: double click on item allows action edit
+
 namespace Awareness.UI
 {
     public enum ETitleFormats { HIDDEN, DAY_OF_WEEK, DAY_OF_MONTH }

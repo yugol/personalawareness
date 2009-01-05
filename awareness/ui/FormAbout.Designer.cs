@@ -90,9 +90,9 @@ namespace Awareness.UI
         	this.label2.AutoSize = true;
         	this.label2.Location = new System.Drawing.Point(64, 40);
         	this.label2.Name = "label2";
-        	this.label2.Size = new System.Drawing.Size(155, 13);
+        	this.label2.Size = new System.Drawing.Size(156, 13);
         	this.label2.TabIndex = 2;
-        	this.label2.Text = "Copyright (c) 2008 Iulian Goriac";
+        	this.label2.Text = "Copyright (C) 2008 Iulian Goriac";
         	// 
         	// button1
         	// 

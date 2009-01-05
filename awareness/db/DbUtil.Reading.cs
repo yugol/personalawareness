@@ -187,6 +187,7 @@ namespace Awareness.DB
             return quantity;
         }
 
+        // TODO: optimise query
         internal static float GetAvailableQuantity(DalFood reason){
             return GetTransactedQuantity(reason) - GetConsumedQuantity(reason);
         }
