@@ -41,10 +41,10 @@ namespace Awareness.DB
         int _id = 0;
         [Column(Storage = "_id",
                 Name = "id",
-                DbType="int NOT NULL IDENTITY",
-                IsPrimaryKey=true,
-                IsDbGenerated=true,
-                CanBeNull=false)]
+                DbType = "int NOT NULL IDENTITY",
+                IsPrimaryKey = true,
+                IsDbGenerated = true,
+                CanBeNull = false)]
         public int Id
         {
             get { return _id; }

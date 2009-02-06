@@ -36,6 +36,7 @@ namespace Awareness.DB
 
         internal static void InsertMeal(DalMeal meal){
             dataContext.meals.InsertOnSubmit(meal);
+            meal.What.AvailableQuantitySetNull();
             dataContext.SubmitChanges();
 
             if (meal.Why is DalRecipe){
@@ -60,6 +61,7 @@ namespace Awareness.DB
             DateTime when = meal.When;
             DalReason why = meal.Why;
 
+            meal.What.AvailableQuantitySetNull();
             dataContext.meals.DeleteOnSubmit(meal);
             dataContext.SubmitChanges();
 

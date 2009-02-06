@@ -43,8 +43,8 @@ namespace Awareness.DB
         bool _isIncome = false;
         [Column(Storage = "_isIncome",
                 Name = "is_income",
-                DbType = "bit",
-                CanBeNull = true)]
+                DbType = "bit default 0",
+                CanBeNull = false)]
         public bool IsIncome
         {
             get { return _isIncome; }

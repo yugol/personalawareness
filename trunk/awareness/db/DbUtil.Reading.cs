@@ -186,10 +186,15 @@ namespace Awareness.DB
             }
             return quantity;
         }
-
-        // TODO: optimise query
+        
         internal static float GetAvailableQuantity(DalFood reason){
-            return GetTransactedQuantity(reason) - GetConsumedQuantity(reason);
+        	try {
+        		return reason.AvailableQuantity;
+        	} catch (CashEmpty) {
+            	reason.AvailableQuantity = GetTransactedQuantity(reason) - GetConsumedQuantity(reason);
+            	dataContext.SubmitChanges();
+            	return reason.AvailableQuantity;
+        	}
         }
 
         internal static float GetAverageEnergyForRecipe(DalRecipe recipe){

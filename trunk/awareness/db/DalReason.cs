@@ -73,10 +73,10 @@ namespace Awareness.DB
         int _id = 0;
         [Column(Storage = "_id",
                 Name = "id",
-                DbType="int NOT NULL IDENTITY",
-                IsPrimaryKey=true,
-                IsDbGenerated=true,
-                CanBeNull=false)]
+                DbType = "int NOT NULL IDENTITY",
+                IsPrimaryKey = true,
+                IsDbGenerated = true,
+                CanBeNull = false)]
         public int Id
         {
             get { return _id; }
@@ -136,12 +136,25 @@ namespace Awareness.DB
             return Name;
         }
 
-        // CASHING - do not save
+        float _quantity = 0F;
+        [Column(Storage = "_quantity",
+                Name = "quantity",
+                DbType = "real default 0",
+                CanBeNull = false)]
+        public float Quantity
+        {
+            get { return _quantity; }
+            set { _quantity = value; }
+        }
+
+        #region CASHING_FIELDS
+        // do not save these fields
+        
         decimal _ammount = 0;
         [Column(Storage = "_ammount",
                 Name = "ammount",
                 DbType = "numeric(18, 2) default 0",
-                CanBeNull = true)]
+                CanBeNull = false)]
         public decimal Ammount
         {
             get { return _ammount; }
@@ -151,8 +164,8 @@ namespace Awareness.DB
         int _fromId = 0;
         [Column(Storage = "_fromId",
                 Name = "from",
-                DbType="int default 0",
-                CanBeNull=true)]
+                DbType = "int default 0",
+                CanBeNull = false)]
         public int FromId
         {
             get { return _fromId; }
@@ -169,16 +182,36 @@ namespace Awareness.DB
             get { return _toId; }
             set { _toId = value; }
         }
-
-        float _quantity = 0F;
-        [Column(Storage = "_quantity",
-                Name = "quantity",
-                DbType = "real default 0",
+                
+        string _availableQuantity = null;
+        [Column(Storage = "_availableQuantity",
+                Name = "available_quantity",
+                DbType = "nvarchar(20)",
                 CanBeNull = true)]
-        public float Quantity
+        private string _AvailableQuantityRep
         {
-            get { return _quantity; }
-            set { _quantity = value; }
+        	get { return _availableQuantity; }
+        	set { _availableQuantity = value; }
         }
+        
+        #endregion
+        
+        public float AvailableQuantity
+        {
+        	get {
+        		try {
+        			return float.Parse(_availableQuantity);
+        		} catch (Exception) {
+        			throw new CashEmpty();
+        		}
+        	}
+        	set { _availableQuantity = value.ToString(); }
+        }
+        
+        public void AvailableQuantitySetNull() {
+        	_availableQuantity = null;
+        }
+
+
     }
 }

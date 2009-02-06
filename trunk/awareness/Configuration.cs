@@ -38,9 +38,9 @@ namespace Awareness
     internal static class Configuration {
         // TODO: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
         // TODO: yes / no dialog when you want to delete note
-
+        
         internal static readonly float DBVersion = 1.0F;
-        internal static readonly string AppVersion = "0.1.2.3";
+        internal static readonly string AppVersion = "0.1.5";
         
         
 //#if DEBUG
