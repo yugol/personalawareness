@@ -76,6 +76,7 @@
     <Compile Include="BasicTimerable.cs" />
     <Compile Include="CalculatorLogic.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="db\CashEmpty.cs" />
     <Compile Include="db\DalAccount.cs" />
     <Compile Include="db\DalAccountType.cs" />
     <Compile Include="db\DalAction.cs" />

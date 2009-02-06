@@ -44,7 +44,7 @@ namespace Awareness.DB
                 DbType = "int NOT NULL IDENTITY",
                 IsPrimaryKey = true,
                 IsDbGenerated = true,
-                CanBeNull=false)]
+                CanBeNull = false)]
         public int Id
         {
             get { return _id; }

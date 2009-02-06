@@ -39,10 +39,10 @@ namespace Awareness.DB
         int _id = 0;
         [Column(Storage = "_id",
                 Name = "id",
-                DbType="int NOT NULL IDENTITY",
-                IsPrimaryKey=true,
-                IsDbGenerated=true,
-                CanBeNull=false)]
+                DbType = "int NOT NULL IDENTITY",
+                IsPrimaryKey = true,
+                IsDbGenerated = true,
+                CanBeNull = false)]
         public int Id
         {
             get { return _id; }
@@ -51,8 +51,8 @@ namespace Awareness.DB
         DateTime _when = DateTime.Now;
         [Column(Storage = "_when",
                 Name = "when",
-                DbType="datetime NOT NULL",
-                CanBeNull=false)]        
+                DbType = "datetime NOT NULL",
+                CanBeNull = false)]        
         public DateTime When
         {
             get { return _when; }

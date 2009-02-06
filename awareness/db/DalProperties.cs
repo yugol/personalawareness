@@ -39,10 +39,10 @@ namespace Awareness.DB
         int _id = 0;
         [Column(Storage = "_id",
                 Name = "id",
-                DbType="int NOT NULL IDENTITY",
-                IsPrimaryKey=true,
-                IsDbGenerated=true,
-                CanBeNull=false)]
+                DbType = "int NOT NULL IDENTITY",
+                IsPrimaryKey = true,
+                IsDbGenerated = true,
+                CanBeNull = false)]
         public int Id
         {
             get { return _id; }
@@ -51,8 +51,8 @@ namespace Awareness.DB
         float _dbVersion = Configuration.DBVersion;
         [Column(Storage = "_dbVersion",
                 Name = "db_version",
-                DbType="real NOT NULL",
-                CanBeNull=false)]
+                DbType = "real NOT NULL",
+                CanBeNull = false)]
         public float DBVersion
         {
             get { return _dbVersion; }

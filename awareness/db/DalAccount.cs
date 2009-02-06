@@ -66,8 +66,8 @@ namespace Awareness.DB
         decimal _startingBalance = 0;
         [Column(Storage = "_startingBalance",
                 Name = "starting_balance",
-                DbType = "numeric(18, 2)",
-                CanBeNull = true)]        
+                DbType = "numeric(18, 2) default 0",
+                CanBeNull = false)]        
         public decimal StartingBalance
         {
             get { return _startingBalance; }

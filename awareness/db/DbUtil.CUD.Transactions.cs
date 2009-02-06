@@ -33,6 +33,7 @@ namespace Awareness.DB
 {
     partial class DBUtil {
         internal static void InsertTransaction(DalTransaction transaction, DalNote note){
+			transaction.Reason.AvailableQuantitySetNull();
             PreludeInsertNotable(transaction, note, AwarenessDataContext.NOTE_TRANSACTIONS_ID);
             dataContext.transactions.InsertOnSubmit(transaction);
             dataContext.SubmitChanges();
@@ -40,11 +41,13 @@ namespace Awareness.DB
         }
 
         internal static void UpdateTransaction(DalTransaction transaction, DalNote note){
+			transaction.Reason.AvailableQuantitySetNull();
             PreludeUpdateNotable(transaction, note, AwarenessDataContext.NOTE_TRANSACTIONS_ID);
             NotifyTransactionsChanged(transaction);
         }
 
         internal static void DeleteTransaction(DalTransaction transaction){
+			transaction.Reason.AvailableQuantitySetNull();
             DalNote note = (transaction.HasNote) ? (transaction.Note) : (null);
             dataContext.transactions.DeleteOnSubmit(transaction);
             dataContext.SubmitChanges();
