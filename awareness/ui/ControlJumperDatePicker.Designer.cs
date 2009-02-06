@@ -104,6 +104,8 @@ namespace Awareness.UI
         	// 
         	// datePicker
         	// 
+        	this.datePicker.CustomFormat = "dd-MMM-yyyy";
+        	this.datePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
         	this.datePicker.Location = new System.Drawing.Point(56, 0);
         	this.datePicker.Name = "datePicker";
         	this.datePicker.Size = new System.Drawing.Size(132, 20);

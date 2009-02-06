@@ -40,7 +40,7 @@ namespace Awareness.DB
         [Test]
         public void CreateNewPropertiesXml(){
             XmlProperties prop = new XmlProperties();
-            Assert.AreEqual("<?xml version=\"1.0\" encoding=\"utf-16\"?><properties><currency><symbol>$</symbol><placeAfterValue>False</placeAfterValue></currency></properties>", prop.XmlString);
+            Assert.AreEqual("<?xml version=\"1.0\" encoding=\"utf-16\"?><properties><currency><symbol>$</symbol><placeAfterValue>False</placeAfterValue></currency><lastMealReportReason>0</lastMealReportReason></properties>", prop.XmlString);
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Awareness.DB
             Assert.AreEqual("$", prop.CurrencySymbol);
             prop.CurrencySymbol = "RON";
             Assert.AreEqual("RON", prop.CurrencySymbol);
-            Assert.AreEqual("<?xml version=\"1.0\" encoding=\"utf-16\"?><properties><currency><symbol>RON</symbol><placeAfterValue>False</placeAfterValue></currency></properties>", prop.XmlString);
+            Assert.AreEqual("<?xml version=\"1.0\" encoding=\"utf-16\"?><properties><currency><symbol>RON</symbol><placeAfterValue>False</placeAfterValue></currency><lastMealReportReason>0</lastMealReportReason></properties>", prop.XmlString);
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace Awareness.DB
             Assert.AreEqual(false, prop.PlaceCurrencySymbolAfterValue);
             prop.PlaceCurrencySymbolAfterValue = true;
             Assert.AreEqual(true, prop.PlaceCurrencySymbolAfterValue);
-            Assert.AreEqual("<?xml version=\"1.0\" encoding=\"utf-16\"?><properties><currency><symbol>$</symbol><placeAfterValue>True</placeAfterValue></currency></properties>", prop.XmlString);
+            Assert.AreEqual("<?xml version=\"1.0\" encoding=\"utf-16\"?><properties><currency><symbol>$</symbol><placeAfterValue>True</placeAfterValue></currency><lastMealReportReason>0</lastMealReportReason></properties>", prop.XmlString);
         }
     }
 }

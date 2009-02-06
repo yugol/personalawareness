@@ -94,7 +94,7 @@ namespace Awareness.UI
         	this.datePicker.Name = "datePicker";
         	this.datePicker.Size = new System.Drawing.Size(304, 20);
         	this.datePicker.TabIndex = 0;
-        	this.datePicker.Value = new System.DateTime(2008, 12, 3, 21, 15, 22, 453);
+        	this.datePicker.Value = new System.DateTime(2009, 2, 6, 8, 45, 56, 828);
         	this.datePicker.ValueChanged += new System.EventHandler(this.DatePickerValueChanged);
         	// 
         	// leftCalendar
@@ -135,6 +135,7 @@ namespace Awareness.UI
         	this.Name = "FormCalendar";
         	this.ShowInTaskbar = false;
         	this.Text = "Calendar";
+        	this.Load += new System.EventHandler(this.FormCalendarLoad);
         	this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormCalendarFormClosing);
         	this.matrixPanel.ResumeLayout(false);
         	this.ResumeLayout(false);

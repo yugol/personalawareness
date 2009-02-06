@@ -41,7 +41,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
     <Reference Include="LumenWorks.Framework.IO">
-      <HintPath>D:\lib\CsvReader\LumenWorks.Framework.IO.dll</HintPath>
+      <HintPath>D:\lib\CsvReader\bin\LumenWorks.Framework.IO.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="nunit.framework">
@@ -65,7 +65,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="ZedGraph">
-      <HintPath>D:\lib\zedgraph_dll_v514_464\zedgraph_dll_v5.1.4\ZedGraph.dll</HintPath>
+      <HintPath>D:\lib\zedgraph_dll_v515\zedgraph_dll_v5.1.5\ZedGraph.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

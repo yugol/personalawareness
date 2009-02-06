@@ -66,13 +66,13 @@ namespace Awareness.DB
             dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
             dc.CreateDatabase();
 #endif
-            Assert.AreEqual(0.0F, dc.GetProperties().DBVersion);
+            Assert.AreEqual(1.0F, dc.GetProperties().DBVersion);
             Assert.AreEqual(1, dc.accountTypes.Count());
             Assert.AreEqual(2, dc.transferLocations.Count());
             Assert.AreEqual(0, dc.transactionReasons.Count());
             Assert.AreEqual(0, dc.transactions.Count());
             Assert.AreEqual(0, dc.meals.Count());
-            Assert.AreEqual(9, dc.notes.Count());
+            Assert.AreEqual(10, dc.notes.Count());
             Assert.AreEqual(1, dc.actions.Count());
         }
         
@@ -357,7 +357,7 @@ namespace Awareness.DB
             dc.notes.DeleteOnSubmit(dc.notes.Where(n => n.Id > AwarenessDataContext.RESERVED_NOTES).First());
             dc.SubmitChanges();
             
-            Assert.AreEqual(9, dc.notes.Count());
+            Assert.AreEqual(10, dc.notes.Count());
         }
     }
 }
