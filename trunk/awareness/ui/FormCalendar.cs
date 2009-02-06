@@ -36,7 +36,6 @@ namespace Awareness.UI
     public partial class FormCalendar : Form {
         public FormCalendar(){
             InitializeComponent();
-            UpdateDisplay();
         }
 
         void FormCalendarFormClosing(object sender, FormClosingEventArgs e){
@@ -55,6 +54,11 @@ namespace Awareness.UI
             leftCalendar.Date = left;
             middleCalendar.Date = middle;
             rightCalendar.Date = right;
+        }
+        
+        void FormCalendarLoad(object sender, EventArgs e)
+        {
+        	this.datePicker.Value = DateTime.Now;
         }
     }
 }
