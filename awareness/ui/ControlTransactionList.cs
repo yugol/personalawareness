@@ -121,8 +121,8 @@ namespace Awareness.UI
             }
 
             // draw date
-            int dateX = 7;
-            string text = transaction.When.ToShortDateString();
+            int dateX = 11;
+            string text = transaction.When.ToString(Configuration.DATE_FORMAT);
             Rectangle bounds = new Rectangle(e.Bounds.X + dateX, e.Bounds.Y + 1, e.Bounds.Width - dateX, e.Bounds.Height - 1);
             sf.Alignment = StringAlignment.Near;
             sf.LineAlignment = StringAlignment.Near;

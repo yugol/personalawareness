@@ -204,7 +204,7 @@ namespace Awareness.UI
         }
 
         void UpdateStatusTime(){
-            timeStatusLabel.Text = DateTime.Now.ToString("dddd, d-MMM-yyyy . ( HH:mm )");
+            timeStatusLabel.Text = DateTime.Now.ToString(Configuration.SATUS_DATE_TIME_FORMAT);
         }
 
         void StatusTimerTick(object sender, EventArgs e){

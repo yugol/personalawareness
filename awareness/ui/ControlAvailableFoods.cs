@@ -67,7 +67,7 @@ namespace Awareness.UI
         public ControlAvailableFoods(){
             InitializeComponent();
 
-            Util.SetMinMaxDatesFor(datePicker);
+            Util.SetMinMaxDatesAndShortFormatFor(datePicker);
 
             DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
             DBUtil.MealsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
