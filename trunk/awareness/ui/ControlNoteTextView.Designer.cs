@@ -71,7 +71,7 @@ namespace Awareness.UI
         	this.topPanel.ColumnCount = 3;
         	this.topPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 26F));
         	this.topPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-        	this.topPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+        	this.topPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
         	this.topPanel.Controls.Add(this.iconsPicture, 0, 0);
         	this.topPanel.Controls.Add(this.titleBox, 1, 0);
         	this.topPanel.Controls.Add(this.creationTimeBox, 2, 0);
@@ -99,7 +99,7 @@ namespace Awareness.UI
         	this.titleBox.Location = new System.Drawing.Point(29, 0);
         	this.titleBox.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
         	this.titleBox.Name = "titleBox";
-        	this.titleBox.Size = new System.Drawing.Size(396, 20);
+        	this.titleBox.Size = new System.Drawing.Size(386, 20);
         	this.titleBox.TabIndex = 1;
         	this.titleBox.TextChanged += new System.EventHandler(this.TitleBoxTextChanged);
         	this.titleBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TitleBoxKeyDown);
@@ -109,11 +109,11 @@ namespace Awareness.UI
         	// creationTimeBox
         	// 
         	this.creationTimeBox.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.creationTimeBox.Location = new System.Drawing.Point(431, 0);
+        	this.creationTimeBox.Location = new System.Drawing.Point(421, 0);
         	this.creationTimeBox.Margin = new System.Windows.Forms.Padding(3, 0, 0, 3);
         	this.creationTimeBox.Name = "creationTimeBox";
         	this.creationTimeBox.ReadOnly = true;
-        	this.creationTimeBox.Size = new System.Drawing.Size(117, 20);
+        	this.creationTimeBox.Size = new System.Drawing.Size(127, 20);
         	this.creationTimeBox.TabIndex = 2;
         	this.creationTimeBox.Text = "0000-00-00 00:00:00";
         	this.creationTimeBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

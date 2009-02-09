@@ -62,7 +62,7 @@ namespace Awareness.UI
             bool useAlternateBackground = false;
             foreach (DalMeal meal in meals)
             {
-                ListViewItem item = new ListViewItem(meal.When.ToShortDateString());
+                ListViewItem item = new ListViewItem(meal.When.ToString(Configuration.DATE_FORMAT));
                 item.Tag = meal;
                 item.SubItems.Add(meal.What.Name);
                 item.SubItems.Add(meal.Quantity.ToString());

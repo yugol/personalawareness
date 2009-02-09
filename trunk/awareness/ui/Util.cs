@@ -89,7 +89,19 @@ namespace Awareness.UI
             return buf.ToString();
         }
         
-        internal static void SetMinMaxDatesFor(DateTimePicker picker) {
+        internal static void SetMinMaxDatesAndShortFormatFor(DateTimePicker picker) {
+			SetMinMaxDatesFor(picker);
+            picker.CustomFormat = Configuration.DATE_FORMAT;
+        	picker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+        }
+
+        internal static void SetMinMaxDatesAndLongFormatFor(DateTimePicker picker) {
+			SetMinMaxDatesFor(picker);
+            picker.CustomFormat = Configuration.DATE_TIME_FORMAT;
+        	picker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+        }
+
+		private static void SetMinMaxDatesFor(DateTimePicker picker) {
             picker.MinDate = Configuration.MIN_DATE_TIME;
             picker.MaxDate = Configuration.MAX_DATE_TIME;
         }

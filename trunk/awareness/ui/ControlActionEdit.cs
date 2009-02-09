@@ -81,9 +81,9 @@ namespace Awareness.UI
         public ControlActionEdit(){
             InitializeComponent();
             
-            Util.SetMinMaxDatesFor(startDatePicker);
-            Util.SetMinMaxDatesFor(endDatePicker);
-            Util.SetMinMaxDatesFor(untilPicker);
+            Util.SetMinMaxDatesAndShortFormatFor(startDatePicker);
+            Util.SetMinMaxDatesAndShortFormatFor(endDatePicker);
+            Util.SetMinMaxDatesAndLongFormatFor(untilPicker);
 
             noteTextView.TopVisible = false;
             noteTextView.NoteTextChanged += new NoteHandler(NoteTextChanged);
@@ -175,11 +175,10 @@ namespace Awareness.UI
         }
 
         void Data2UiAbout(){
-            string dateTimeFormat = "yyyy-MM-dd   HH:mm:ss";
-            createdBox.Text = action.CreationTime.ToString(dateTimeFormat);
-            modifiedBox.Text = action.ModificationTime.ToString(dateTimeFormat);
+            createdBox.Text = action.CreationTime.ToString(Configuration.DATE_FULL_TIME_FORMAT);
+            modifiedBox.Text = action.ModificationTime.ToString(Configuration.DATE_FULL_TIME_FORMAT);
             if (action.IsCompleted){
-                completedBox.Text = action.CompletionTime.ToString(dateTimeFormat);
+                completedBox.Text = action.CompletionTime.ToString(Configuration.DATE_FULL_TIME_FORMAT);
             } else {
                 completedBox.Text = "Not yet";
             }
@@ -296,6 +295,6 @@ namespace Awareness.UI
             {
                 untilPicker.MinDate = untilPicker.MaxDate;   
             }            
-        }
+        }        
     }
 }

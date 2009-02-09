@@ -74,7 +74,7 @@ namespace Awareness.UI
                 } else {
                     // iconsPicture.Image = null;
                     titleBox.Text = note.Title;
-                    creationTimeBox.Text = note.CreationTime.ToString("yyyy/MM/dd HH:mm:ss");
+                    creationTimeBox.Text = note.CreationTime.ToString(Configuration.DATE_FULL_TIME_FORMAT);
                     textBox.Text = note.Text;
                     TitleReadOnly = note.IsPermanent;
                 }
