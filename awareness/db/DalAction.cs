@@ -78,7 +78,7 @@ namespace Awareness.DB
             get { return _parent.Entity; }
             set
             {
-                // TODO: create reparent method in dbutil class
+                // SHOULD: create reparent method in dbutil class
                 _parent.Entity = value;
                 _parentId = value.Id;
             }

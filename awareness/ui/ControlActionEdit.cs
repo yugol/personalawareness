@@ -30,6 +30,9 @@ using System;
 using System.Windows.Forms;
 using Awareness.DB;
 
+// MUST: replace noteTextView with ControlAddNote
+// MUST: alingn action dbutil operations with the others
+
 namespace Awareness.UI
 {
     public partial class ControlActionEdit : UserControl {

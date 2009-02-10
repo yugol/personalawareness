@@ -85,7 +85,7 @@ namespace Awareness
                 titleText += Path.GetFileName(Configuration.LAST_DATABASE_NAME);
                 mainForm.SelectActionsView();
             }
-            mainForm.Text = titleText;
+            mainForm.SetTitle(titleText);
         }
     }
 }

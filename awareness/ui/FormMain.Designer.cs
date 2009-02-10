@@ -83,6 +83,7 @@ namespace Awareness.UI
         	this.mealsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.manageMealsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.statusBar = new System.Windows.Forms.StatusStrip();
         	this.timeStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
         	this.actionPages = new System.Windows.Forms.TabControl();
@@ -127,7 +128,13 @@ namespace Awareness.UI
         	this.controlDayActionsReport1 = new Awareness.UI.ControlDayActionsReport();
         	this.tabPage3 = new System.Windows.Forms.TabPage();
         	this.controlWeekActionsReport1 = new Awareness.UI.ControlWeekActionsReport();
-        	this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+        	this.toolsMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+        	this.calculatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.teaTimerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.remindersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.calendarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.todoListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenu.SuspendLayout();
         	this.statusBar.SuspendLayout();
         	this.actionPages.SuspendLayout();
@@ -149,6 +156,7 @@ namespace Awareness.UI
         	this.tabPage1.SuspendLayout();
         	this.tabPage2.SuspendLayout();
         	this.tabPage3.SuspendLayout();
+        	this.toolsMenuStrip.SuspendLayout();
         	this.SuspendLayout();
         	// 
         	// mainMenu
@@ -182,41 +190,41 @@ namespace Awareness.UI
         	// newDatabaseToolStripMenuItem
         	// 
         	this.newDatabaseToolStripMenuItem.Name = "newDatabaseToolStripMenuItem";
-        	this.newDatabaseToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+        	this.newDatabaseToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
         	this.newDatabaseToolStripMenuItem.Text = "&New Database...";
         	this.newDatabaseToolStripMenuItem.Click += new System.EventHandler(this.NewDatabaseToolStripMenuItemClick);
         	// 
         	// openDatabaseToolStripMenuItem
         	// 
         	this.openDatabaseToolStripMenuItem.Name = "openDatabaseToolStripMenuItem";
-        	this.openDatabaseToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+        	this.openDatabaseToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
         	this.openDatabaseToolStripMenuItem.Text = "&Open Database...";
         	this.openDatabaseToolStripMenuItem.Click += new System.EventHandler(this.OpenDatabaseToolStripMenuItemClick);
         	// 
         	// deleteDatabaseToolStripMenuItem
         	// 
         	this.deleteDatabaseToolStripMenuItem.Name = "deleteDatabaseToolStripMenuItem";
-        	this.deleteDatabaseToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+        	this.deleteDatabaseToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
         	this.deleteDatabaseToolStripMenuItem.Text = "&Delete Database";
         	this.deleteDatabaseToolStripMenuItem.Click += new System.EventHandler(this.DeleteDatabaseToolStripMenuItemClick);
         	// 
         	// fileMenuSeparator
         	// 
         	this.fileMenuSeparator.Name = "fileMenuSeparator";
-        	this.fileMenuSeparator.Size = new System.Drawing.Size(158, 6);
+        	this.fileMenuSeparator.Size = new System.Drawing.Size(169, 6);
         	// 
         	// exportToolStripMenuItem
         	// 
         	this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.dumpToolStripMenuItem});
         	this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-        	this.exportToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+        	this.exportToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
         	this.exportToolStripMenuItem.Text = "&Export";
         	// 
         	// dumpToolStripMenuItem
         	// 
         	this.dumpToolStripMenuItem.Name = "dumpToolStripMenuItem";
-        	this.dumpToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+        	this.dumpToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
         	this.dumpToolStripMenuItem.Text = "SQL &Dump...";
         	this.dumpToolStripMenuItem.Click += new System.EventHandler(this.DumpToolStripMenuItemClick);
         	// 
@@ -226,32 +234,32 @@ namespace Awareness.UI
         	        	        	this.dumpToolStripMenuItem1,
         	        	        	this.buddiCSVToolStripMenuItem});
         	this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-        	this.importToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+        	this.importToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
         	this.importToolStripMenuItem.Text = "&Import";
         	// 
         	// dumpToolStripMenuItem1
         	// 
         	this.dumpToolStripMenuItem1.Name = "dumpToolStripMenuItem1";
-        	this.dumpToolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
+        	this.dumpToolStripMenuItem1.Size = new System.Drawing.Size(146, 22);
         	this.dumpToolStripMenuItem1.Text = "SQL &Dump...";
         	this.dumpToolStripMenuItem1.Click += new System.EventHandler(this.DumpToolStripMenuItem1Click);
         	// 
         	// buddiCSVToolStripMenuItem
         	// 
         	this.buddiCSVToolStripMenuItem.Name = "buddiCSVToolStripMenuItem";
-        	this.buddiCSVToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+        	this.buddiCSVToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
         	this.buddiCSVToolStripMenuItem.Text = "&Buddi CSV...";
         	this.buddiCSVToolStripMenuItem.Click += new System.EventHandler(this.BuddiExportToolStripMenuItemClick);
         	// 
         	// toolStripMenuItem2
         	// 
         	this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-        	this.toolStripMenuItem2.Size = new System.Drawing.Size(158, 6);
+        	this.toolStripMenuItem2.Size = new System.Drawing.Size(169, 6);
         	// 
         	// exitToolStripMenuItem
         	// 
         	this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-        	this.exitToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+        	this.exitToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
         	this.exitToolStripMenuItem.Text = "E&xit";
         	this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
         	// 
@@ -272,45 +280,45 @@ namespace Awareness.UI
         	// accountsToolStripMenuItem
         	// 
         	this.accountsToolStripMenuItem.Name = "accountsToolStripMenuItem";
-        	this.accountsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+        	this.accountsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
         	this.accountsToolStripMenuItem.Text = "&Accounts...";
         	this.accountsToolStripMenuItem.Click += new System.EventHandler(this.AccountsToolStripMenuItemClick);
         	// 
         	// accoutTypesToolStripMenuItem
         	// 
         	this.accoutTypesToolStripMenuItem.Name = "accoutTypesToolStripMenuItem";
-        	this.accoutTypesToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+        	this.accoutTypesToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
         	this.accoutTypesToolStripMenuItem.Text = "Accout &Types...";
         	this.accoutTypesToolStripMenuItem.Click += new System.EventHandler(this.AccoutTypesToolStripMenuItemClick);
         	// 
         	// productCategoriesToolStripMenuItem
         	// 
         	this.productCategoriesToolStripMenuItem.Name = "productCategoriesToolStripMenuItem";
-        	this.productCategoriesToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+        	this.productCategoriesToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
         	this.productCategoriesToolStripMenuItem.Text = "&Budget Categories...";
         	this.productCategoriesToolStripMenuItem.Click += new System.EventHandler(this.BudgetCategoriesToolStripMenuItemClick);
         	// 
         	// toolStripMenuItem4
         	// 
         	this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-        	this.toolStripMenuItem4.Size = new System.Drawing.Size(172, 6);
+        	this.toolStripMenuItem4.Size = new System.Drawing.Size(183, 6);
         	// 
         	// transferreasonsToolStripMenuItem
         	// 
         	this.transferreasonsToolStripMenuItem.Name = "transferreasonsToolStripMenuItem";
-        	this.transferreasonsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+        	this.transferreasonsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
         	this.transferreasonsToolStripMenuItem.Text = "Transfer &Reasons...";
         	this.transferreasonsToolStripMenuItem.Click += new System.EventHandler(this.TransferreasonsToolStripMenuItemClick);
         	// 
         	// toolStripMenuItem7
         	// 
         	this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-        	this.toolStripMenuItem7.Size = new System.Drawing.Size(172, 6);
+        	this.toolStripMenuItem7.Size = new System.Drawing.Size(183, 6);
         	// 
         	// preferencesToolStripMenuItem
         	// 
         	this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-        	this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+        	this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
         	this.preferencesToolStripMenuItem.Text = "Pre&ferences...";
         	this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.PreferencesToolStripMenuItemClick);
         	// 
@@ -325,7 +333,7 @@ namespace Awareness.UI
         	// manageMealsToolStripMenuItem
         	// 
         	this.manageMealsToolStripMenuItem.Name = "manageMealsToolStripMenuItem";
-        	this.manageMealsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+        	this.manageMealsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
         	this.manageMealsToolStripMenuItem.Text = "&Manage Meals...";
         	this.manageMealsToolStripMenuItem.Click += new System.EventHandler(this.ManageMealsToolStripMenuItemClick);
         	// 
@@ -336,6 +344,13 @@ namespace Awareness.UI
         	this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
         	this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
         	this.helpToolStripMenuItem.Text = "&Help";
+        	// 
+        	// aboutToolStripMenuItem
+        	// 
+        	this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+        	this.aboutToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+        	this.aboutToolStripMenuItem.Text = "&About";
+        	this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItemClick);
         	// 
         	// statusBar
         	// 
@@ -800,12 +815,59 @@ namespace Awareness.UI
         	this.controlWeekActionsReport1.Size = new System.Drawing.Size(776, 444);
         	this.controlWeekActionsReport1.TabIndex = 0;
         	// 
-        	// aboutToolStripMenuItem
+        	// trayIcon
         	// 
-        	this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-        	this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-        	this.aboutToolStripMenuItem.Text = "&About";
-        	this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItemClick);
+        	this.trayIcon.ContextMenuStrip = this.toolsMenuStrip;
+        	this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
+        	this.trayIcon.Visible = true;
+        	this.trayIcon.DoubleClick += new System.EventHandler(this.TrayIconDoubleClick);
+        	this.trayIcon.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TrayIconMouseDown);
+        	// 
+        	// toolsMenuStrip
+        	// 
+        	this.toolsMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+        	        	        	this.calculatorToolStripMenuItem,
+        	        	        	this.teaTimerToolStripMenuItem,
+        	        	        	this.remindersToolStripMenuItem,
+        	        	        	this.calendarToolStripMenuItem,
+        	        	        	this.todoListToolStripMenuItem});
+        	this.toolsMenuStrip.Name = "toolsMenuStrip";
+        	this.toolsMenuStrip.Size = new System.Drawing.Size(136, 114);
+        	// 
+        	// calculatorToolStripMenuItem
+        	// 
+        	this.calculatorToolStripMenuItem.Name = "calculatorToolStripMenuItem";
+        	this.calculatorToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+        	this.calculatorToolStripMenuItem.Text = "C&alculator";
+        	this.calculatorToolStripMenuItem.Click += new System.EventHandler(this.CalculatorToolStripMenuItemClick);
+        	// 
+        	// teaTimerToolStripMenuItem
+        	// 
+        	this.teaTimerToolStripMenuItem.Name = "teaTimerToolStripMenuItem";
+        	this.teaTimerToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+        	this.teaTimerToolStripMenuItem.Text = "&Tea timer";
+        	this.teaTimerToolStripMenuItem.Click += new System.EventHandler(this.TeaTimerToolStripMenuItemClick);
+        	// 
+        	// remindersToolStripMenuItem
+        	// 
+        	this.remindersToolStripMenuItem.Name = "remindersToolStripMenuItem";
+        	this.remindersToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+        	this.remindersToolStripMenuItem.Text = "&Reminders";
+        	this.remindersToolStripMenuItem.Click += new System.EventHandler(this.RemindersToolStripMenuItemClick);
+        	// 
+        	// calendarToolStripMenuItem
+        	// 
+        	this.calendarToolStripMenuItem.Name = "calendarToolStripMenuItem";
+        	this.calendarToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+        	this.calendarToolStripMenuItem.Text = "&Calendar";
+        	this.calendarToolStripMenuItem.Click += new System.EventHandler(this.CalendarToolStripMenuItemClick);
+        	// 
+        	// todoListToolStripMenuItem
+        	// 
+        	this.todoListToolStripMenuItem.Name = "todoListToolStripMenuItem";
+        	this.todoListToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+        	this.todoListToolStripMenuItem.Text = "To &do list";
+        	this.todoListToolStripMenuItem.Click += new System.EventHandler(this.TodoListToolStripMenuItemClick);
         	// 
         	// FormMain
         	// 
@@ -821,6 +883,8 @@ namespace Awareness.UI
         	this.Text = "Awareness";
         	this.Load += new System.EventHandler(this.FormMainLoad);
         	this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMainFormClosed);
+        	this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMainFormClosing);
+        	this.Resize += new System.EventHandler(this.FormMainResize);
         	this.mainMenu.ResumeLayout(false);
         	this.mainMenu.PerformLayout();
         	this.statusBar.ResumeLayout(false);
@@ -847,9 +911,17 @@ namespace Awareness.UI
         	this.tabPage1.ResumeLayout(false);
         	this.tabPage2.ResumeLayout(false);
         	this.tabPage3.ResumeLayout(false);
+        	this.toolsMenuStrip.ResumeLayout(false);
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripMenuItem todoListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem calendarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem remindersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem teaTimerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem calculatorToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip toolsMenuStrip;
+        private System.Windows.Forms.NotifyIcon trayIcon;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.Panel mealPanel;
         private System.Windows.Forms.Panel centralPark;
