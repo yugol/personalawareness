@@ -34,7 +34,7 @@ using System.Linq;
 
 using Awareness.DB;
 
-// TODO: in update mode don't use cashed values for transfer reason
+// MUST: in update mode don't use cashed values for transfer reason
 
 namespace Awareness.UI
 {

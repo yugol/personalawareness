@@ -34,10 +34,8 @@ using Awareness.UI;
 
 namespace Awareness {
     
-    // TODO: start folder in home folder (My Documents)
-    // TODO: config file - holds last opent database and reopens it automatically
-    // TODO: minimize to tray
-    // TODO: tray icon right click menu
+    // SHOULD: start folder in home folder (My Documents)
+    // SHOULD: config file - holds last opent database and reopens it automatically
     
     internal sealed class Program {
         [STAThread]

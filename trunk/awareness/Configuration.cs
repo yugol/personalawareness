@@ -36,12 +36,12 @@ using Awareness.DB;
 namespace Awareness
 {
     internal static class Configuration {
-        // TODO: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
-        // TODO: yes / no dialog when you want to delete note
-        // TODO: calendar colors
+        // COULD: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
+        // MUST: yes / no dialog when you want to delete note
+        // SHOULD: calendar colors
         
         internal static readonly float DBVersion = 1.0F;
-        internal static readonly string AppVersion = "0.1.6";
+        internal static readonly string AppVersion = "0.1.7";
         
         
 //#if DEBUG

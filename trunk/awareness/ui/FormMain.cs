@@ -36,6 +36,7 @@ using Awareness.DB;
 namespace Awareness.UI
 {
     public partial class FormMain : Form {
+		
         public FormMain(){
             InitializeComponent();
 
@@ -53,41 +54,12 @@ namespace Awareness.UI
 
             financesControl.AccountDoubleClick += new AccountDoubleClickHandler(ShowAllTransactionsForAccount);
         }
-
-        void FormMainLoad(object sender, EventArgs e){
-            UpdateStatusTime();
-            statusTimer.Start();
-            new ActionOpenDatabase(this).Run();
-            ResetPanelsView();
-        }
-
-        void NewDatabaseToolStripMenuItemClick(object sender, EventArgs e){
-            new ActionNewDatabase(this).Run();
-        }
-
-        void OpenDatabaseToolStripMenuItemClick(object sender, EventArgs e){
-            OpenDatabase();
-        }
-
-        void OpenDatabase(){
-            string databaseName = ActionOpenDatabase.UIPickDatabaseName();
-            if (!string.IsNullOrEmpty(databaseName)) {
-                new ActionOpenDatabase(this, databaseName).Run();
-            }
-        }
-
-        void DeleteDatabaseToolStripMenuItemClick(object sender, EventArgs e){
-            if (MessageBox.Show("Are you sure you want to delete database\n'" + Configuration.LAST_DATABASE_NAME + "'?",
-                                "Delete database",
-                                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK){
-                new ActionDeleteDatabase(this).Run();
-            }
-        }
-
-        void ExitToolStripMenuItemClick(object sender, EventArgs e){
-            Close();
-        }
-
+		
+		internal void SetTitle(string title) {
+			Text = title;
+			trayIcon.Text = title;
+		}
+		
         internal void DisableEnableActions(){
             bool isDbOperational = !string.IsNullOrEmpty(Configuration.LAST_DATABASE_NAME);
             fileMenuSeparator.Visible = isDbOperational;
@@ -104,103 +76,11 @@ namespace Awareness.UI
 
             remindersToolButton.Visible = isDbOperational;
             todoToolButton.Visible = isDbOperational;
+            
+            remindersToolStripMenuItem.Visible = isDbOperational;
+            todoListToolStripMenuItem.Visible = isDbOperational;
 
             ResetPanelsView();
-        }
-
-        void BudgetCategoriesToolStripMenuItemClick(object sender, EventArgs e){
-            new FormEditBudgetCategories().ShowDialog();
-        }
-
-        void AccoutTypesToolStripMenuItemClick(object sender, EventArgs e){
-            new FormEditAccountTypes().ShowDialog();
-        }
-
-        void AccountsToolStripMenuItemClick(object sender, EventArgs e){
-            try {
-                new FormEditAccounts().ShowDialog();
-            } catch (ApplicationException) {
-                MessageBox.Show("No account types defined!\nYou can edit account types by going to Edit -> Account Types...", "Cannot edit accounts", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        void TransferreasonsToolStripMenuItemClick(object sender, EventArgs e){
-            new FormEditTransactionReasons().ShowDialog();
-        }
-
-        void BuddiExportToolStripMenuItemClick(object sender, EventArgs e){
-#if DEBUG
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Buddi export (*.csv)|*.csv";
-            if (ofd.ShowDialog() == DialogResult.OK){
-                try {
-                    ImporterBuddy importer = new ImporterBuddy(DBUtil.GetDataContext());
-                    importer.Import(ofd.FileName);
-                    MessageBox.Show("Operation completed successfully.", "Import Buddi CSV", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                } catch (Exception ex) {
-                    MessageBox.Show(ex.Message, "Import failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    DBUtil.ReOpenDataContext();
-                }
-            }
-#endif
-        }
-
-        void DumpToolStripMenuItemClick(object sender, EventArgs e){
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "SQL Script (*.sql)|*.sql";
-            if (sfd.ShowDialog() == DialogResult.OK){
-                StreamWriter writer = new StreamWriter(sfd.FileName, false);
-                try {
-                    Dumper dd = new Dumper(DBUtil.GetDataContext());
-                    dd.DumpAll(writer);
-                    MessageBox.Show("Operation completed successfully.", "Dump database", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                } catch (Exception ex) {
-                    MessageBox.Show("There was an error when dumping the database.\n" + ex.Message, "Dump database",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    if (writer != null){
-                        writer.Close();
-                    }
-                }
-            }
-        }
-
-        void DumpToolStripMenuItem1Click(object sender, EventArgs e){
-            if (MessageBox.Show("This operation will COMPLETELY ERASE the current database!\nAre you sure you want to continue?",
-                                "Restore database",
-                                MessageBoxButtons.OKCancel,
-                                MessageBoxIcon.Question,
-                                MessageBoxDefaultButton.Button2) == DialogResult.OK){
-                OpenFileDialog ofd = new OpenFileDialog();
-                ofd.Filter = "SQL Script (*.sql)|*.sql";
-                if (ofd.ShowDialog() == DialogResult.OK){
-                    try {
-                        DBUtil.RestoreFromSqlDump(ofd.FileName);
-                        MessageBox.Show("Operation completed successfully.", "Restore database", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    } catch (Exception ex) {
-                        MessageBox.Show("There was an error when restoring the database.\n" + ex.Message, "Restore database",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
-
-        void ManageMealsToolStripMenuItemClick(object sender, EventArgs e){
-            new FormManageMeals().ShowDialog();
-        }
-
-        void FormMainFormClosed(object sender, FormClosedEventArgs e){
-            DBUtil.CloseDataContext();
-        }
-
-        void NewToolButtonClick(object sender, EventArgs e){
-            new ActionNewDatabase(this).Run();
-        }
-
-        void OpenToolButtonClick(object sender, EventArgs e){
-            OpenDatabase();
         }
 
         void UpdateStatusTime(){
@@ -211,7 +91,84 @@ namespace Awareness.UI
             UpdateStatusTime();
         }
 
+		void ShowAllTransactionsForAccount(DalAccount account) {
+            financialPages.SelectedTab = transactionsPage;
+            transactionsControl.ShowAllTransactionsForAccount(account);
+        }
+
+		#region FormManagement
+		
+		FormWindowState savedWindowState;
+		
+        void FormMainLoad(object sender, EventArgs e){
+            UpdateStatusTime();
+            statusTimer.Start();
+            new ActionOpenDatabase(this).Run();
+            ResetPanelsView();
+            trayIcon.Visible = false;
+        }
+		
+        void FormMainResize(object sender, EventArgs e)
+        {
+        	switch (WindowState) {
+        		case FormWindowState.Maximized:
+        			savedWindowState = FormWindowState.Maximized;
+        			break;
+        		case FormWindowState.Normal:
+        			savedWindowState = FormWindowState.Normal;
+        			break;
+        		case FormWindowState.Minimized:
+        			MinimizeToTray();
+        			break;
+        	}
+        }
+
+        void TrayIconDoubleClick(object sender, EventArgs e)
+        {
+        	RestoreFromTray();
+        }
+
+        void TrayIconMouseDown(object sender, MouseEventArgs e)
+        {
+        	if (e.Button == MouseButtons.Left) {
+        		RestoreFromTray();
+        	}
+        }
+        
+        private void MinimizeToTray()
+        {
+            WindowState = FormWindowState.Minimized;
+            Visible = false;
+            ShowInTaskbar = false;
+            trayIcon.Visible = true;
+        }
+
+        private void RestoreFromTray()
+        {
+            trayIcon.Visible = false;
+            ShowInTaskbar = true;
+            Visible = true;
+            WindowState = savedWindowState;
+        }
+
+        void FormMainFormClosing(object sender, FormClosingEventArgs e) {
+        	if (MessageBox.Show("Are you sure you want to quit Persoanl Awareness?", 
+        	                    "Personal Awareness", 
+        	                    MessageBoxButtons.YesNo, 
+        	                    MessageBoxIcon.Question, 
+        	                    MessageBoxDefaultButton.Button2) != DialogResult.Yes) {
+        		e.Cancel = true;
+        	}
+        }
+
+		void FormMainFormClosed(object sender, FormClosedEventArgs e){
+            DBUtil.CloseDataContext();
+        }
+		
+		#endregion
+
         #region Panels
+        
         void ResetPanelsView() {
             actionPages.Visible = false;
             notesViewer.Visible = false;
@@ -229,22 +186,6 @@ namespace Awareness.UI
             notesToolButton.Checked = false;
             mealsToolButton.Checked = false;
             financesToolButton.Checked = false;
-        }
-
-        void ActionsToolButtonClick(object sender, EventArgs e){
-            SelectActionsView();
-        }
-
-        void NotesToolButtonClick(object sender, EventArgs e){
-            SelectNotesView();
-        }
-
-        void MealsToolButtonClick(object sender, EventArgs e){
-            SelectMealsView();
-        }
-
-        void FinancesToolButtonClick(object sender, EventArgs e){
-            SelectFinancesView();
         }
 
         public void SelectActionsView() {
@@ -321,7 +262,158 @@ namespace Awareness.UI
 
         #endregion
 
-        #region Tools
+        #region MainMenu
+        
+		void NewDatabaseToolStripMenuItemClick(object sender, EventArgs e){
+            new ActionNewDatabase(this).Run();
+        }
+
+        void OpenDatabaseToolStripMenuItemClick(object sender, EventArgs e){
+            OpenDatabase();
+        }
+
+        void OpenDatabase(){
+            string databaseName = ActionOpenDatabase.UIPickDatabaseName();
+            if (!string.IsNullOrEmpty(databaseName)) {
+                new ActionOpenDatabase(this, databaseName).Run();
+            }
+        }
+
+        void DeleteDatabaseToolStripMenuItemClick(object sender, EventArgs e){
+            if (MessageBox.Show("Are you sure you want to delete database\n'" + Configuration.LAST_DATABASE_NAME + "'?",
+                                "Delete database",
+                                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK){
+                new ActionDeleteDatabase(this).Run();
+            }
+        }
+
+        void BuddiExportToolStripMenuItemClick(object sender, EventArgs e){
+#if DEBUG
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Buddi export (*.csv)|*.csv";
+            if (ofd.ShowDialog() == DialogResult.OK){
+                try {
+                    ImporterBuddy importer = new ImporterBuddy(DBUtil.GetDataContext());
+                    importer.Import(ofd.FileName);
+                    MessageBox.Show("Operation completed successfully.", "Import Buddi CSV", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message, "Import failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    DBUtil.ReOpenDataContext();
+                }
+            }
+#endif
+        }
+
+        void DumpToolStripMenuItemClick(object sender, EventArgs e){
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "SQL Script (*.sql)|*.sql";
+            if (sfd.ShowDialog() == DialogResult.OK){
+                StreamWriter writer = new StreamWriter(sfd.FileName, false);
+                try {
+                    Dumper dd = new Dumper(DBUtil.GetDataContext());
+                    dd.DumpAll(writer);
+                    MessageBox.Show("Operation completed successfully.", "Dump database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                } catch (Exception ex) {
+                    MessageBox.Show("There was an error when dumping the database.\n" + ex.Message, "Dump database",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (writer != null){
+                        writer.Close();
+                    }
+                }
+            }
+        }
+
+        void DumpToolStripMenuItem1Click(object sender, EventArgs e){
+            if (MessageBox.Show("This operation will COMPLETELY ERASE the current database!\nAre you sure you want to continue?",
+                                "Restore database",
+                                MessageBoxButtons.OKCancel,
+                                MessageBoxIcon.Question,
+                                MessageBoxDefaultButton.Button2) == DialogResult.OK){
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Filter = "SQL Script (*.sql)|*.sql";
+                if (ofd.ShowDialog() == DialogResult.OK){
+                    try {
+                        DBUtil.RestoreFromSqlDump(ofd.FileName);
+                        MessageBox.Show("Operation completed successfully.", "Restore database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    } catch (Exception ex) {
+                        MessageBox.Show("There was an error when restoring the database.\n" + ex.Message, "Restore database",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        void ExitToolStripMenuItemClick(object sender, EventArgs e){
+            Close();
+        }
+        
+        void BudgetCategoriesToolStripMenuItemClick(object sender, EventArgs e){
+            new FormEditBudgetCategories().ShowDialog();
+        }
+
+        void AccoutTypesToolStripMenuItemClick(object sender, EventArgs e){
+            new FormEditAccountTypes().ShowDialog();
+        }
+
+        void AccountsToolStripMenuItemClick(object sender, EventArgs e){
+            try {
+                new FormEditAccounts().ShowDialog();
+            } catch (ApplicationException) {
+                MessageBox.Show("No account types defined!\nYou can edit account types by going to Edit -> Account Types...", "Cannot edit accounts", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        void TransferreasonsToolStripMenuItemClick(object sender, EventArgs e){
+            new FormEditTransactionReasons().ShowDialog();
+        }
+
+        void PreferencesToolStripMenuItemClick(object sender, EventArgs e) {
+            FormEditProperties dialog = new FormEditProperties();
+            dialog.ShowDialog();
+        }
+
+        void ManageMealsToolStripMenuItemClick(object sender, EventArgs e){
+            new FormManageMeals().ShowDialog();
+        }
+
+        void AboutToolStripMenuItemClick(object sender, EventArgs e){
+            new FormAbout().ShowDialog();
+        }
+
+        #endregion
+        
+        #region ToolBar
+        
+        void NewToolButtonClick(object sender, EventArgs e){
+            new ActionNewDatabase(this).Run();
+        }
+
+        void OpenToolButtonClick(object sender, EventArgs e){
+            OpenDatabase();
+        }
+        
+        
+
+        void ActionsToolButtonClick(object sender, EventArgs e){
+            SelectActionsView();
+        }
+
+        void NotesToolButtonClick(object sender, EventArgs e){
+            SelectNotesView();
+        }
+
+        void MealsToolButtonClick(object sender, EventArgs e){
+            SelectMealsView();
+        }
+
+        void FinancesToolButtonClick(object sender, EventArgs e){
+            SelectFinancesView();
+        }
+        
+        
 
         void CalculatorToolButtonClick(object sender, EventArgs e){
             ManagerCalculator.Display();
@@ -343,20 +435,31 @@ namespace Awareness.UI
             ManagerTodo.Display();
         }
 
+        #endregion        
+        
+        #region Tools
+        
+        void CalculatorToolStripMenuItemClick(object sender, EventArgs e) {
+        	ManagerCalculator.Display();
+        }
+        
+        void TeaTimerToolStripMenuItemClick(object sender, EventArgs e) {
+        	ManagerTeaTimer.Display();
+        }
+        
+        void RemindersToolStripMenuItemClick(object sender, EventArgs e) {
+        	ManagerReminders.Display();
+        }
+        
+        void CalendarToolStripMenuItemClick(object sender, EventArgs e) {
+        	ManagerCalendar.Display();
+        }
+        
+        void TodoListToolStripMenuItemClick(object sender, EventArgs e) {
+        	ManagerTodo.Display();
+        }
+
         #endregion
-
-        void PreferencesToolStripMenuItemClick(object sender, EventArgs e) {
-            FormEditProperties dialog = new FormEditProperties();
-            dialog.ShowDialog();
-        }
-
-        void ShowAllTransactionsForAccount(DalAccount account) {
-            financialPages.SelectedTab = transactionsPage;
-            transactionsControl.ShowAllTransactionsForAccount(account);
-        }
-
-        void AboutToolStripMenuItemClick(object sender, EventArgs e){
-            new FormAbout().ShowDialog();
-        }
+                
     }
 }

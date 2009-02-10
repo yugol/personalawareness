@@ -35,8 +35,8 @@ using System.Windows.Forms;
 
 using Awareness.DB;
 
-// TODO: items have note as tooltip
-// TODO: double click on item allows action edit
+// SHOULD: items have note as tooltip
+// SHOULD: double click on item allows action edit
 
 namespace Awareness.UI
 {
