@@ -39,12 +39,11 @@ namespace Awareness
         // COULD: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
         // MUST: yes / no dialog when you want to delete note
         // SHOULD: calendar colors
-        // SHOULD: tray icon is always visible
         
         #region Version
 
         internal static readonly float DBVersion = 1.0F;
-        internal static readonly string AppVersion = "0.1.7";
+        internal static readonly string AppVersion = "0.1.8";
         
         #endregion
         
@@ -87,8 +86,8 @@ namespace Awareness
         internal static string DATA_FOLDER 
         { 
         	get { 
-	            if (!Directory.Exists(DATA_FOLDER)){
-	                Directory.CreateDirectory(DATA_FOLDER);
+	            if (!Directory.Exists(dataFolder)){
+	                Directory.CreateDirectory(dataFolder);
 	            }
         		return dataFolder; 
         	}
@@ -98,7 +97,10 @@ namespace Awareness
         internal static string LAST_DATABASE_NAME
         {
             get {return lastDatabaseName;}
-            set {lastDatabaseName = value;}
+            set {
+            	lastDatabaseName = value;
+            	SaveFileProperties();
+            }
         }
 
         private static XmlProperties dbProperties = null;
@@ -120,16 +122,34 @@ namespace Awareness
 
 		#region Config file
 		
+		internal static string ConfigFileName {
+			get {
+				string configFileName = Path.Combine(Application.StartupPath,"config.properties");
+				if(!File.Exists(configFileName)) {
+					File.CreateText(configFileName).Close();
+				}
+				return configFileName;
+			}
+		}
 		
+		internal static void ReadFileProperties() {
+			string[] properties = File.ReadAllLines(ConfigFileName);
+			if (properties.Length > 0) {
+				lastDatabaseName = properties[0];
+			}
+		}		
+		
+		internal static void SaveFileProperties() {
+			string[] properties = new string[1];
+			properties[0] = lastDatabaseName;
+			File.WriteAllLines(ConfigFileName, properties);
+		}
 		
 		#endregion
         
         static Configuration(){
-        	
             DBUtil.DataContextClosing += new DatabaseChangedHandler(ClearDBProperties);
+            ReadFileProperties();
         }
-
-    
-
 	}
 }

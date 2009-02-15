@@ -105,7 +105,7 @@ namespace Awareness.UI
             statusTimer.Start();
             new ActionOpenDatabase(this).Run();
             ResetPanelsView();
-            trayIcon.Visible = false;
+            trayIcon.Visible = true;
         }
 		
         void FormMainResize(object sender, EventArgs e)
@@ -140,12 +140,10 @@ namespace Awareness.UI
             WindowState = FormWindowState.Minimized;
             Visible = false;
             ShowInTaskbar = false;
-            trayIcon.Visible = true;
         }
 
         private void RestoreFromTray()
         {
-            trayIcon.Visible = false;
             ShowInTaskbar = true;
             Visible = true;
             WindowState = savedWindowState;
