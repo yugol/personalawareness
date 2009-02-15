@@ -39,38 +39,17 @@ namespace Awareness
         // COULD: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
         // MUST: yes / no dialog when you want to delete note
         // SHOULD: calendar colors
+        // SHOULD: tray icon is always visible
         
+        #region Version
+
         internal static readonly float DBVersion = 1.0F;
         internal static readonly string AppVersion = "0.1.7";
         
+        #endregion
         
-//#if DEBUG
-//        static string dataFolder = @"C:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Data";
-//        internal const string DATA_FILTER = "SQL Server (*.mdf)|*.mdf|SQL Server Compact (*.sdf)|*.sdf";
-//#else
-        static string dataFolder = Path.Combine(Application.StartupPath, "data");
-        internal const string DATA_FILTER = "SQL Server Compact (*.sdf)|*.sdf|SQL Server (*.mdf)|*.mdf";
-//#endif
-
-        internal static string DATA_FOLDER { get { return dataFolder; } }
-
-        static Configuration(){
-            ManagerReminders.Load();
-
-            if (!Directory.Exists(DATA_FOLDER)){
-                Directory.CreateDirectory(DATA_FOLDER);
-            }
-
-            DBUtil.DataContextClosing += new DatabaseChangedHandler(ClearDBProperties);
-        }
-
-        static string lastDatabaseName = "";
-        internal static string LAST_DATABASE_NAME
-        {
-            get {return lastDatabaseName;}
-            set {lastDatabaseName = value;}
-        }
-
+        #region Formatting
+        
         internal static readonly DateTime ZERO_DATE = new DateTime(1800, 01, 01, 0, 0, 0);
         internal static readonly DateTime MIN_DATE_TIME = new DateTime(1900, 1, 1);
         internal static readonly DateTime MAX_DATE_TIME = new DateTime(3000, 1, 1);
@@ -80,7 +59,11 @@ namespace Awareness
         internal static readonly string DATE_TIME_FORMAT = DATE_FORMAT + "   " + TIME_FORMAT;
         internal static readonly string DATE_FULL_TIME_FORMAT = DATE_FORMAT + "   " + FULL_TIME_FORMAT;
         internal static readonly string SATUS_DATE_TIME_FORMAT = "dddd, " + DATE_FORMAT + " . ( " + TIME_FORMAT + " )";
+
+        #endregion
         
+        #region Appearance
+
         internal const int MAX_REPEAT_TIMES = 10000;
         internal static readonly RecurrencePattern DEFAULT_RECURRENCE_PATTERN = new RecurrencePattern(RecurrencePattern.STEP_DAILY, 1, 0);
 
@@ -93,8 +76,30 @@ namespace Awareness
         internal static readonly Font DEFAULT_FONT = new Font(SystemFonts.DefaultFont.FontFamily, SystemFonts.DefaultFont.Size, FontStyle.Regular);
         internal static readonly Font BOLD_FONT = new Font(DEFAULT_FONT.FontFamily, DEFAULT_FONT.Size, FontStyle.Bold);
         internal static readonly Font ITALIC_FONT = new Font(DEFAULT_FONT.FontFamily, DEFAULT_FONT.Size - 1, FontStyle.Italic);
+        
+        #endregion
 
-        #region DB Properties
+        #region Database
+
+        internal const string DATA_FILTER = "SQL Server Compact (*.sdf)|*.sdf|SQL Server (*.mdf)|*.mdf";
+
+        static readonly string dataFolder = Path.Combine(Application.StartupPath, "data");
+        internal static string DATA_FOLDER 
+        { 
+        	get { 
+	            if (!Directory.Exists(DATA_FOLDER)){
+	                Directory.CreateDirectory(DATA_FOLDER);
+	            }
+        		return dataFolder; 
+        	}
+        }
+
+        static string lastDatabaseName = "";
+        internal static string LAST_DATABASE_NAME
+        {
+            get {return lastDatabaseName;}
+            set {lastDatabaseName = value;}
+        }
 
         private static XmlProperties dbProperties = null;
         
@@ -112,5 +117,19 @@ namespace Awareness
         }
 
         #endregion
-    }
+
+		#region Config file
+		
+		
+		
+		#endregion
+        
+        static Configuration(){
+        	
+            DBUtil.DataContextClosing += new DatabaseChangedHandler(ClearDBProperties);
+        }
+
+    
+
+	}
 }

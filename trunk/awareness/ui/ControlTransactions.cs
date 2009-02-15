@@ -36,6 +36,7 @@ using Awareness.DB;
 
 // MUST: in update mode don't use cashed values for transfer reason
 
+
 namespace Awareness.UI
 {
     public partial class ControlTransactions : UserControl {

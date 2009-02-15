@@ -424,7 +424,7 @@ namespace Awareness.UI
         }
 
         void RemindersToolButtonClick(object sender, EventArgs e){
-            ManagerReminders.Display();
+            ManagerReminders.Instance.Display();
         }
 
         void CalendarToolButtonClick(object sender, EventArgs e){
@@ -448,7 +448,7 @@ namespace Awareness.UI
         }
         
         void RemindersToolStripMenuItemClick(object sender, EventArgs e) {
-        	ManagerReminders.Display();
+        	ManagerReminders.Instance.Display();
         }
         
         void CalendarToolStripMenuItemClick(object sender, EventArgs e) {
