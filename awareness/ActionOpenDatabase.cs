@@ -61,6 +61,7 @@ namespace Awareness
         }
 
         public void Run(){
+        	ManagerReminders.CreateInstance();
             if (!string.IsNullOrEmpty(databaseName)){
                 try {
                     DBUtil.OpenDataContext(databaseName);

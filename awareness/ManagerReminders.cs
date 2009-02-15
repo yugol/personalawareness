@@ -37,15 +37,26 @@ using Awareness.DB;
 namespace Awareness
 {
     public class ManagerReminders {
-        public static void Load() {
-            // used to initialize the static class
-        }
+		
+		private static ManagerReminders instance = null;		
+		internal static ManagerReminders Instance {
+			get { 				
+				return instance; 
+			}
+		}
+		
+		internal static void CreateInstance() {
+			if (instance == null) {
+					instance = new ManagerReminders();
+				}
+		}
 
-        private static Timer timer;
-        private static TimerLogic timerLogic;
-        private static FormReminders remindersWindow;
+        private Timer timer;
+        private TimerLogic timerLogic;
+        private FormReminders remindersWindow;
 
-        static ManagerReminders() {
+        ManagerReminders() 
+        {
             timer = new Timer();
             timer.Interval = 10000000;
 
@@ -68,20 +79,20 @@ namespace Awareness
             remindersWindow.Clear();
         }
 
-        public static void Display() {
+        internal void Display() {
             remindersWindow.Visible = false;
             remindersWindow.Visible = true;
         }
 
-        static void Hide() {
+        void Hide() {
             remindersWindow.Visible = false;
         }
 
-        private static void TimerTick(object sender, EventArgs e) {
+        private void TimerTick(object sender, EventArgs e) {
             ReadReminders();
         }
 
-        private static void ReadReminders() {
+        private void ReadReminders() {
             TimeInterval interval = new TimeInterval(DateTime.Now.AddDays(-1), DateTime.Now.AddDays(1));
 
             timerLogic.Clear();
@@ -96,7 +107,7 @@ namespace Awareness
             remindersWindow.RefreshDueTimes(null, null);
         }
 
-        private static void TaskCompleted(object sender, Timerable task) {
+        private void TaskCompleted(object sender, Timerable task) {
             ActionOccurrence occurrence = (ActionOccurrence) task;
             if (occurrence.Action.HasSoundReminder){
                 string command = occurrence.Action.ReminderSound;
