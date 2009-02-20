@@ -97,9 +97,18 @@ namespace Awareness.UI
         }
 
 		#region FormManagement
-		
+				
+		const int WM_QUERYENDSESSION = 0x11;
+        bool endSessionPending = false;
 		FormWindowState savedWindowState;
-		
+
+        protected override void WndProc(ref Message m) {
+        	if (m.Msg == WM_QUERYENDSESSION) {
+                endSessionPending = true;
+        	}
+            base.WndProc(ref m);
+        }
+        
         void FormMainLoad(object sender, EventArgs e){
             UpdateStatusTime();
             statusTimer.Start();
@@ -150,11 +159,12 @@ namespace Awareness.UI
         }
 
         void FormMainFormClosing(object sender, FormClosingEventArgs e) {
-        	if (MessageBox.Show("Are you sure you want to quit Persoanl Awareness?", 
+        	if ((!endSessionPending) &&
+        		(MessageBox.Show("Are you sure you want to quit Persoanl Awareness?",
         	                    "Personal Awareness", 
         	                    MessageBoxButtons.YesNo, 
         	                    MessageBoxIcon.Question, 
-        	                    MessageBoxDefaultButton.Button2) != DialogResult.Yes) {
+        	                    MessageBoxDefaultButton.Button2) != DialogResult.Yes)) {
         		e.Cancel = true;
         	}
         }

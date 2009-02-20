@@ -336,22 +336,24 @@ namespace Awareness.UI
         void ReasonComboSelectedIndexChanged(object sender, EventArgs e){
             if (reasonCombo.SelectedItem is DalReason){
                 DalReason reason = (DalReason) reasonCombo.SelectedItem;
-                ammountBox.Text = reason.Ammount.ToString("0.00");
-                foreach (object obj in fromCombo.Items){
-                    if (obj is DalTransferLocation){
-                        if (((DalTransferLocation) obj).Id == reason.FromId){
-                            fromCombo.SelectedItem = obj;
-                        }
-                    }
+                if (EditMode == EEditModes.NEW) {
+	                ammountBox.Text = reason.Ammount.ToString("0.00");
+	                foreach (object obj in fromCombo.Items){
+	                    if (obj is DalTransferLocation){
+	                        if (((DalTransferLocation) obj).Id == reason.FromId){
+	                            fromCombo.SelectedItem = obj;
+	                        }
+	                    }
+	                }
+	                foreach (object obj in toCombo.Items){
+	                    if (obj is DalTransferLocation){
+	                        if (((DalTransferLocation) obj).Id == reason.ToId){
+	                            toCombo.SelectedItem = obj;
+	                        }
+	                    }
+	                }
+	                quantityInput.Value = reason.Quantity;
                 }
-                foreach (object obj in toCombo.Items){
-                    if (obj is DalTransferLocation){
-                        if (((DalTransferLocation) obj).Id == reason.ToId){
-                            toCombo.SelectedItem = obj;
-                        }
-                    }
-                }
-                quantityInput.Value = reason.Quantity;
             }
         }
 
@@ -380,7 +382,7 @@ namespace Awareness.UI
         void RecordButtonClick(object sender, EventArgs e){
             switch (EditMode){
             case EEditModes.NEW:
-                if (IsTransactionValid()){
+                if (IsTransactionValid()) {
                     DalTransaction transaction = new DalTransaction();
                     UiData2Transaction(ref transaction);
                     DBUtil.InsertTransaction(transaction, noteControl.Note);
@@ -389,8 +391,16 @@ namespace Awareness.UI
                 }
                 break;
             case EEditModes.UPDATE:
-                EditMode = EEditModes.NEW;
-                ClearEditBoxes();
+                if (Dirty && 
+                    MessageBox.Show("This will discard all the changes you have made to this transaction.\nAre you sure you want to continue?",
+	                                 "Transaction change detected",
+	                                 MessageBoxButtons.YesNo,
+	                                 MessageBoxIcon.Question,
+	                                 MessageBoxDefaultButton.Button2) != DialogResult.Yes) {
+                } else {
+	                EditMode = EEditModes.NEW;
+	                ClearEditBoxes();                	
+                }
                 break;
             }
         }
