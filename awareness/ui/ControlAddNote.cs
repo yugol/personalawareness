@@ -85,9 +85,9 @@ namespace Awareness.UI
         void DeleteBoxClick(object sender, EventArgs e){
             if (MessageBox.Show("Are you sure you want to delete this note?",
                                 Note.Title,
-                                MessageBoxButtons.OK,
+                                MessageBoxButtons.YesNo,
                                 MessageBoxIcon.Question,
-                                MessageBoxDefaultButton.Button2) == DialogResult.OK){
+                                MessageBoxDefaultButton.Button2) == DialogResult.Yes){
                 if (NoteRemoved != null){
                     NoteRemoved(sender, Note);
                 }
