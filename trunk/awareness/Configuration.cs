@@ -42,7 +42,7 @@ namespace Awareness
         #region Version
 
         internal static readonly float DBVersion = 1.0F;
-        internal static readonly string AppVersion = "0.1.9";
+        internal static readonly string AppVersion = "0.1.10";
         
         #endregion
         
