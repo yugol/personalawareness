@@ -33,6 +33,8 @@ using System.Windows.Forms;
 
 using Awareness.DB;
 
+//MUST: data change sets dirty bit
+
 namespace Awareness.UI
 {
     partial class ControlTransactions {

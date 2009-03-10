@@ -883,7 +883,6 @@ namespace Awareness.UI
         	this.Text = "Awareness";
         	this.Load += new System.EventHandler(this.FormMainLoad);
         	this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMainFormClosed);
-        	this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMainFormClosing);
         	this.Resize += new System.EventHandler(this.FormMainResize);
         	this.mainMenu.ResumeLayout(false);
         	this.mainMenu.PerformLayout();

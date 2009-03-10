@@ -37,6 +37,9 @@ namespace Awareness.DB
         internal static void InsertMeal(DalMeal meal){
             dataContext.meals.InsertOnSubmit(meal);
             meal.What.AvailableQuantitySetNull();
+            if (meal.Why.Type == DalReason.TYPE_FOOD) {
+            	meal.Why.AvailableQuantitySetNull();
+            }
             dataContext.SubmitChanges();
 
             if (meal.Why is DalRecipe){
