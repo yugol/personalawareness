@@ -187,12 +187,12 @@ namespace Awareness.UI
             mealPanel.Visible = false;
             financialPages.Visible = false;
 
-            financesControl.IsDisplayed = false;
-            transactionsControl.IsDisplayed = false;
-            mealsDailyReportControl.IsDisplayed = false;
-            availableFoodsControl.IsDisplayed = false;
-            dayActionsReportControl.IsDisplayed = false;
-            weekActionsReport.IsDisplayed = false;
+//            financesControl.IsDisplayed = false;
+//            transactionsControl.IsDisplayed = false;
+//            mealsDailyReportControl.IsDisplayed = false;
+//            availableFoodsControl.IsDisplayed = false;
+//            dayActionsReportControl.IsDisplayed = false;
+//            weekActionsReport.IsDisplayed = false;
 
             actionsToolButton.Checked = false;
             notesToolButton.Checked = false;
@@ -203,6 +203,7 @@ namespace Awareness.UI
         public void SelectActionsView() {
             if (!actionsToolButton.Checked){
                 ResetPanelsView();
+                UpdateActionsPages();
                 actionPages.Visible = true;
                 actionsToolButton.Checked = true;
             }
@@ -235,11 +236,23 @@ namespace Awareness.UI
         }
 
         void ActionPagesSelecting(object sender, TabControlCancelEventArgs e){
+            UpdateActionsPages();
+        }
+
+        void MealPagesSelected(object sender, TabControlEventArgs e){
+            UpdateMealPages();
+        }
+
+        void FinancialPagesSelected(object sender, TabControlEventArgs e){
+            UpdateFinancialPages();
+        }
+
+        void UpdateActionsPages() {
             dayActionsReportControl.IsDisplayed = false;
             weekActionsReport.IsDisplayed = false;
-            if (e.TabPage.Equals(dayPage)){
+            if (actionPages.SelectedTab.Equals(dayPage)){
                 dayActionsReportControl.IsDisplayed = true;
-            } else if (e.TabPage.Equals(weekPage)) {
+            } else if (actionPages.SelectedTab.Equals(weekPage)) {
                 weekActionsReport.IsDisplayed = true;
             }
         }
@@ -262,14 +275,6 @@ namespace Awareness.UI
             } else if (financialPages.SelectedTab.Equals(transactionsPage)){
                 transactionsControl.IsDisplayed = true;
             }
-        }
-
-        void MealPagesSelected(object sender, TabControlEventArgs e){
-            UpdateMealPages();
-        }
-
-        void FinancialPagesSelected(object sender, TabControlEventArgs e){
-            UpdateFinancialPages();
         }
 
         #endregion
@@ -407,8 +412,6 @@ namespace Awareness.UI
             OpenDatabase();
         }
         
-        
-
         void ActionsToolButtonClick(object sender, EventArgs e){
             SelectActionsView();
         }
