@@ -77,7 +77,7 @@
     <Compile Include="CalculatorLogic.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationTest.cs" />
-    <Compile Include="db\CashEmpty.cs" />
+    <Compile Include="db\CashEmptyException.cs" />
     <Compile Include="db\DalAccount.cs" />
     <Compile Include="db\DalAccountType.cs" />
     <Compile Include="db\DalAction.cs" />
@@ -267,6 +267,10 @@
     <Compile Include="ui\FormEditAccountTypes.Designer.cs">
       <DependentUpon>FormEditAccountTypes.cs</DependentUpon>
     </Compile>
+    <Compile Include="ui\FormEditAction.cs" />
+    <Compile Include="ui\FormEditAction.Designer.cs">
+      <DependentUpon>FormEditAction.cs</DependentUpon>
+    </Compile>
     <Compile Include="ui\FormEditBudgetCategories.cs" />
     <Compile Include="ui\FormEditBudgetCategories.Designer.cs">
       <DependentUpon>FormEditBudgetCategories.cs</DependentUpon>
@@ -381,6 +385,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ui\FormEditAccountTypes.resx">
       <DependentUpon>FormEditAccountTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\FormEditAction.resx">
+      <DependentUpon>FormEditAction.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ui\FormEditBudgetCategories.resx">
       <DependentUpon>FormEditBudgetCategories.cs</DependentUpon>

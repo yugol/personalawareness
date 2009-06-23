@@ -1,11 +1,11 @@
 /*
  * Created by SharpDevelop.
  * User: Iulian
- * Date: 2/6/2009
- * Time: 12:17 PM
+ * Date: 6/23/2009
+ * Time: 9:56 AM
  * 
  *
- * Copyright (c) 2008 Iulian GORIAC
+ * Copyright (c) 2008, 2009 Iulian GORIAC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,20 +26,32 @@
  * THE SOFTWARE.
  */
 using System;
+using System.Drawing;
+using System.Windows.Forms;
 
-namespace Awareness.DB
+using Awareness.DB;
+
+namespace Awareness.UI
 {
-	/// <summary>
-	/// Description of CashEmpty.
-	/// </summary>
-	public class CashEmpty : Exception
-	{
-		public CashEmpty()
-		{
-		}
-
-		public CashEmpty(string message) : base(message)
-		{
-		}
-}
+    public partial class FormEditAction : Form
+    {
+        public DalAction Action
+        {
+            get { return controlActionEdit.Action; }
+            set 
+            {
+                Text = "Edit action - " + value.Name;
+                controlActionEdit.Action = value;
+            }
+        }
+        public FormEditAction()
+        {
+            InitializeComponent();
+        }
+        
+        void FormEditActionFormClosing(object sender, FormClosingEventArgs e)
+        {
+            DBUtil.UpdateAction(Action);
+        }
+    }
 }

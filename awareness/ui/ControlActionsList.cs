@@ -80,26 +80,26 @@ namespace Awareness.UI
                     titleLabel.Text = "";
                 } else {
                     switch (titleFormat){
-                    case ETitleFormats.DAY_OF_WEEK:
-                        titleLabel.Text = timeInterval.First.ToString("dddd, MMM d");
-                        switch (timeInterval.First.Day){
-                        case 1:
-                            titleLabel.Text += "st";
+                        case ETitleFormats.DAY_OF_WEEK:
+                            titleLabel.Text = timeInterval.First.ToString("dddd, MMM d");
+                            switch (timeInterval.First.Day){
+                                case 1:
+                                    titleLabel.Text += "st";
+                                    break;
+                                case 2:
+                                    titleLabel.Text += "nd";
+                                    break;
+                                case 3:
+                                    titleLabel.Text += "rd";
+                                    break;
+                                default:
+                                    titleLabel.Text += "th";
+                                    break;
+                            }
                             break;
-                        case 2:
-                            titleLabel.Text += "nd";
+                        case ETitleFormats.DAY_OF_MONTH:
+                            titleLabel.Text = timeInterval.First.ToString("d");
                             break;
-                        case 3:
-                            titleLabel.Text += "rd";
-                            break;
-                        default:
-                            titleLabel.Text += "th";
-                            break;
-                        }
-                        break;
-                    case ETitleFormats.DAY_OF_MONTH:
-                        titleLabel.Text = timeInterval.First.ToString("d");
-                        break;
                     }
 
                     if (timeInterval.First.Date.Equals(DateTime.Now.Date)){
@@ -125,10 +125,10 @@ namespace Awareness.UI
 
         void ActionsViewSizeChanged(object sender, EventArgs e){
             int whatWidth = actionsView.Width -
-                            actionsView.Columns[0].Width -
-                            actionsView.Columns[1].Width -
-                            Configuration.LIST_VIEW_SCROLL_BAR_WIDTH;
-            actionsView.Columns[2].Width = whatWidth;
+                actionsView.Columns[1].Width -
+                actionsView.Columns[2].Width -
+                Configuration.LIST_VIEW_SCROLL_BAR_WIDTH;
+            actionsView.Columns[0].Width = whatWidth;
         }
 
         public void UpdateActions(){
@@ -138,16 +138,63 @@ namespace Awareness.UI
                 actionsView.Items.Clear();
                 List<ActionOccurrence> occurrences = DBUtil.GetActionOccurrences(timeInterval);
                 foreach (ActionOccurrence occurrence in occurrences){
-                    ListViewItem item = new ListViewItem();
-                    item.Tag = occurrence;
-                    item.Text = occurrence.Start.ToString("HH:mm");
-                    item.SubItems.Add((occurrence.Action.Start.Equals(occurrence.Action.End)) ?
-                                      ("") : (occurrence.End.ToString("HH:mm")));
-                    item.SubItems.Add(occurrence.Action.Name);
-                    actionsView.Items.Add(item);
+                    actionsView.Items.Add(ItemFromAction(occurrence));
                 }
                 actionsView.EndUpdate();
             }
+        }
+
+        ListViewItem ItemFromAction(ActionOccurrence occurrence)
+        {
+            ListViewItem item = new ListViewItem();
+            item.Tag = occurrence;
+            item.Text = occurrence.Action.Name;
+            item.SubItems.Add(occurrence.Start.ToString("HH:mm"));
+            item.SubItems.Add((occurrence.Action.Start.Equals(occurrence.Action.End)) ? ("") : (occurrence.End.ToString("HH:mm")));
+            if (occurrence.Action.HasNote) {
+                item.ToolTipText = occurrence.Action.Note.Text;
+            }
+            return item;
+        }
+        
+        void ActionsViewMouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right) {
+                ListViewItem item = actionsView.GetItemAt(e.X, e.Y);
+                if (item == null) {
+                    DalAction action = new DalAction();
+                    action.Name = DalAction.DefaultNewActionName;
+                    action.Start = TimeInterval.First.Date;
+                    action.End = action.Start;
+                    
+                    TimeInterval time = new TimeInterval(action.Start, action.End);
+                    ActionOccurrence occurrence = new ActionOccurrence(action, time);
+                    
+                    item = ItemFromAction(occurrence);
+                    actionsView.Items.Add(item);
+                    item.BeginEdit();
+                } else {
+                    FormEditAction dlg = new FormEditAction();
+                    dlg.Action = ((ActionOccurrence) item.Tag).Action;
+                    dlg.ShowDialog();
+                }
+            }
+        }
+        
+        void ActionsViewAfterLabelEdit(object sender, LabelEditEventArgs e)
+        {
+            ListViewItem item = actionsView.Items[e.Item];
+            if (string.IsNullOrEmpty(e.Label)) {
+        	    actionsView.Items.Remove(item);
+        	} else {
+                DalAction action = ((ActionOccurrence) item.Tag).Action;
+        	    action.Name = e.Label;
+            	if (action.Parent == null) {
+            	    DBUtil.AddAction(action);
+            	} else {
+            	    DBUtil.UpdateAction(action);
+            	}
+        	}
         }
     }
 }

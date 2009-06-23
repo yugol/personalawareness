@@ -121,9 +121,9 @@ namespace Awareness.UI
         	// 
         	// actionPages
         	// 
-        	this.actionPages.Controls.Add(this.generalPage);
         	this.actionPages.Controls.Add(this.planPage);
         	this.actionPages.Controls.Add(this.reminderPage);
+        	this.actionPages.Controls.Add(this.generalPage);
         	this.actionPages.Controls.Add(this.aboutPage);
         	this.actionPages.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.actionPages.Location = new System.Drawing.Point(0, 0);

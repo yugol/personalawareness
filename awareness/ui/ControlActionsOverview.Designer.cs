@@ -104,10 +104,11 @@ namespace Awareness.UI
         	this.actionIcons = new System.Windows.Forms.ImageList(this.components);
         	this.toolStrip = new System.Windows.Forms.ToolStrip();
         	this.unindentToolButton = new System.Windows.Forms.ToolStripButton();
-        	this.indentToolButton = new System.Windows.Forms.ToolStripButton();
         	this.moveUpToolButton = new System.Windows.Forms.ToolStripButton();
         	this.moveDownToolButton = new System.Windows.Forms.ToolStripButton();
+        	this.indentToolButton = new System.Windows.Forms.ToolStripButton();
         	this.actionEditControl = new Awareness.UI.ControlActionEdit();
+        	this.reminderToolButton = new System.Windows.Forms.ToolStripButton();
         	this.splitContainer.Panel1.SuspendLayout();
         	this.splitContainer.Panel2.SuspendLayout();
         	this.splitContainer.SuspendLayout();
@@ -233,57 +234,57 @@ namespace Awareness.UI
         	        	        	this.deleteActionToolStripMenuItem,
         	        	        	this.deleteGroupToolStripMenuItem});
         	this.actionTreeContextMenu.Name = "actionTreeContextMenu";
-        	this.actionTreeContextMenu.Size = new System.Drawing.Size(155, 148);
+        	this.actionTreeContextMenu.Size = new System.Drawing.Size(159, 148);
         	// 
         	// newActionToolStripMenuItem
         	// 
         	this.newActionToolStripMenuItem.Name = "newActionToolStripMenuItem";
-        	this.newActionToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+        	this.newActionToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
         	this.newActionToolStripMenuItem.Text = "New Action";
         	this.newActionToolStripMenuItem.Click += new System.EventHandler(this.NewActionToolStripMenuItemClick);
         	// 
         	// newChildActionToolStripMenuItem
         	// 
         	this.newChildActionToolStripMenuItem.Name = "newChildActionToolStripMenuItem";
-        	this.newChildActionToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+        	this.newChildActionToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
         	this.newChildActionToolStripMenuItem.Text = "New Child Action";
         	this.newChildActionToolStripMenuItem.Click += new System.EventHandler(this.NewChildActionToolStripMenuItemClick);
         	// 
         	// toolStripSeparatorAction
         	// 
         	this.toolStripSeparatorAction.Name = "toolStripSeparatorAction";
-        	this.toolStripSeparatorAction.Size = new System.Drawing.Size(151, 6);
+        	this.toolStripSeparatorAction.Size = new System.Drawing.Size(155, 6);
         	// 
         	// newGroupToolStripMenuItem
         	// 
         	this.newGroupToolStripMenuItem.Name = "newGroupToolStripMenuItem";
-        	this.newGroupToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+        	this.newGroupToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
         	this.newGroupToolStripMenuItem.Text = "New Group";
         	this.newGroupToolStripMenuItem.Click += new System.EventHandler(this.NewGroupToolStripMenuItemClick);
         	// 
         	// newSubgroupToolStripMenuItem
         	// 
         	this.newSubgroupToolStripMenuItem.Name = "newSubgroupToolStripMenuItem";
-        	this.newSubgroupToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+        	this.newSubgroupToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
         	this.newSubgroupToolStripMenuItem.Text = "New Subgroup";
         	this.newSubgroupToolStripMenuItem.Click += new System.EventHandler(this.NewSubgroupToolStripMenuItemClick);
         	// 
         	// toolStripSeparatorGroup
         	// 
         	this.toolStripSeparatorGroup.Name = "toolStripSeparatorGroup";
-        	this.toolStripSeparatorGroup.Size = new System.Drawing.Size(151, 6);
+        	this.toolStripSeparatorGroup.Size = new System.Drawing.Size(155, 6);
         	// 
         	// deleteActionToolStripMenuItem
         	// 
         	this.deleteActionToolStripMenuItem.Name = "deleteActionToolStripMenuItem";
-        	this.deleteActionToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+        	this.deleteActionToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
         	this.deleteActionToolStripMenuItem.Text = "Delete Action";
         	this.deleteActionToolStripMenuItem.Click += new System.EventHandler(this.DeleteActionToolStripMenuItemClick);
         	// 
         	// deleteGroupToolStripMenuItem
         	// 
         	this.deleteGroupToolStripMenuItem.Name = "deleteGroupToolStripMenuItem";
-        	this.deleteGroupToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+        	this.deleteGroupToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
         	this.deleteGroupToolStripMenuItem.Text = "Delete Group";
         	this.deleteGroupToolStripMenuItem.Click += new System.EventHandler(this.DeleteGroupToolStripMenuItemClick);
         	// 
@@ -301,6 +302,7 @@ namespace Awareness.UI
         	this.toolStrip.Dock = System.Windows.Forms.DockStyle.None;
         	this.toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
         	this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+        	        	        	this.reminderToolButton,
         	        	        	this.unindentToolButton,
         	        	        	this.moveUpToolButton,
         	        	        	this.moveDownToolButton,
@@ -308,7 +310,7 @@ namespace Awareness.UI
         	this.toolStrip.Location = new System.Drawing.Point(3, 0);
         	this.toolStrip.Name = "toolStrip";
         	this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-        	this.toolStrip.Size = new System.Drawing.Size(95, 25);
+        	this.toolStrip.Size = new System.Drawing.Size(149, 25);
         	this.toolStrip.TabIndex = 0;
         	// 
         	// unindentToolButton
@@ -320,16 +322,6 @@ namespace Awareness.UI
         	this.unindentToolButton.Size = new System.Drawing.Size(23, 22);
         	this.unindentToolButton.Text = "Unindent";
         	this.unindentToolButton.ToolTipText = "Unindent";
-        	// 
-        	// indentToolButton
-        	// 
-        	this.indentToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.indentToolButton.Image = ((System.Drawing.Image)(resources.GetObject("indentToolButton.Image")));
-        	this.indentToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.indentToolButton.Name = "indentToolButton";
-        	this.indentToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.indentToolButton.Text = "Indent";
-        	this.indentToolButton.ToolTipText = "Indent";
         	// 
         	// moveUpToolButton
         	// 
@@ -351,14 +343,35 @@ namespace Awareness.UI
         	this.moveDownToolButton.Text = "Move down";
         	this.moveDownToolButton.ToolTipText = "Move down";
         	// 
+        	// indentToolButton
+        	// 
+        	this.indentToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.indentToolButton.Image = ((System.Drawing.Image)(resources.GetObject("indentToolButton.Image")));
+        	this.indentToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.indentToolButton.Name = "indentToolButton";
+        	this.indentToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.indentToolButton.Text = "Indent";
+        	this.indentToolButton.ToolTipText = "Indent";
+        	// 
         	// actionEditControl
         	// 
+        	this.actionEditControl.Action = null;
         	this.actionEditControl.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.actionEditControl.Location = new System.Drawing.Point(0, 0);
         	this.actionEditControl.Name = "actionEditControl";
         	this.actionEditControl.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
         	this.actionEditControl.Size = new System.Drawing.Size(463, 480);
         	this.actionEditControl.TabIndex = 0;
+        	// 
+        	// reminderToolButton
+        	// 
+        	this.reminderToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.reminderToolButton.Image = ((System.Drawing.Image)(resources.GetObject("reminderToolButton.Image")));
+        	this.reminderToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.reminderToolButton.Name = "reminderToolButton";
+        	this.reminderToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.reminderToolButton.Text = "toolStripButton1";
+        	this.reminderToolButton.Click += new System.EventHandler(this.ReminderToolButtonClick);
         	// 
         	// ControlActionsOverview
         	// 
@@ -380,6 +393,9 @@ namespace Awareness.UI
         	this.toolStrip.PerformLayout();
         	this.ResumeLayout(false);
         }
+        private System.Windows.Forms.ToolStripButton reminderToolButton;
+        bool isDisplayed = false;
+        bool updateActionsBit = true;
         private System.Windows.Forms.ImageList actionIcons;
         private System.Windows.Forms.ToolStripMenuItem newChildActionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newSubgroupToolStripMenuItem;

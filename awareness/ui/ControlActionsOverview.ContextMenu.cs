@@ -140,22 +140,22 @@ namespace Awareness.UI
         }
 
         void NewActionToolStripMenuItemClick(object sender, EventArgs e){
-            TreeNode node = CreateNewNode("New Action", DalAction.TYPE_TODO);
+            TreeNode node = CreateNewNode(DalAction.DefaultNewActionName, DalAction.TYPE_TODO);
             AddNode(node);
         }
 
         void NewChildActionToolStripMenuItemClick(object sender, EventArgs e){
-            TreeNode node = CreateNewNode("New Action", DalAction.TYPE_TODO);
+            TreeNode node = CreateNewNode(DalAction.DefaultNewActionName, DalAction.TYPE_TODO);
             AddSubnode(node);
         }
 
         void NewGroupToolStripMenuItemClick(object sender, EventArgs e){
-            TreeNode node = CreateNewNode("New Group", DalAction.TYPE_GROUP);
+            TreeNode node = CreateNewNode(DalAction.DefaultNewGroupName, DalAction.TYPE_GROUP);
             AddNode(node);
         }
 
         void NewSubgroupToolStripMenuItemClick(object sender, EventArgs e){
-            TreeNode node = CreateNewNode("New Group", DalAction.TYPE_GROUP);
+            TreeNode node = CreateNewNode(DalAction.DefaultNewGroupName, DalAction.TYPE_GROUP);
             AddSubnode(node);
         }
 

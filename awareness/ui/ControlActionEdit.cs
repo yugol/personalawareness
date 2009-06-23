@@ -55,7 +55,7 @@ namespace Awareness.UI
 
         DalAction action;
 
-        DalAction Action
+        public DalAction Action
         {
             get
             {
@@ -257,7 +257,7 @@ namespace Awareness.UI
                 }
             } else {
                 if (b){
-                    actionPages.TabPages.Insert(2, reminderPage);
+                    actionPages.TabPages.Insert(1, reminderPage);
                 }
             }
         }

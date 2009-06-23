@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2008 Iulian GORIAC
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -57,15 +57,11 @@ namespace Awareness.UI
         /// </summary>
         private void InitializeComponent()
         {
-        	System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-        	        	        	"00:00",
-        	        	        	"00:00",
-        	        	        	"Action"}, -1);
         	this.titleLabel = new System.Windows.Forms.Label();
         	this.actionsView = new System.Windows.Forms.ListView();
+        	this.whatColumn = new System.Windows.Forms.ColumnHeader();
         	this.startColumn = new System.Windows.Forms.ColumnHeader();
         	this.endColumn = new System.Windows.Forms.ColumnHeader();
-        	this.whatColumn = new System.Windows.Forms.ColumnHeader();
         	this.SuspendLayout();
         	// 
         	// titleLabel
@@ -83,23 +79,30 @@ namespace Awareness.UI
         	// 
         	// actionsView
         	// 
+        	this.actionsView.AllowColumnReorder = true;
         	this.actionsView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+        	        	        	this.whatColumn,
         	        	        	this.startColumn,
-        	        	        	this.endColumn,
-        	        	        	this.whatColumn});
+        	        	        	this.endColumn});
         	this.actionsView.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.actionsView.FullRowSelect = true;
         	this.actionsView.HideSelection = false;
-        	this.actionsView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-        	        	        	listViewItem1});
+        	this.actionsView.LabelEdit = true;
         	this.actionsView.Location = new System.Drawing.Point(0, 16);
         	this.actionsView.MultiSelect = false;
         	this.actionsView.Name = "actionsView";
+        	this.actionsView.ShowItemToolTips = true;
         	this.actionsView.Size = new System.Drawing.Size(348, 230);
         	this.actionsView.TabIndex = 1;
         	this.actionsView.UseCompatibleStateImageBehavior = false;
         	this.actionsView.View = System.Windows.Forms.View.Details;
+        	this.actionsView.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.ActionsViewAfterLabelEdit);
         	this.actionsView.SizeChanged += new System.EventHandler(this.ActionsViewSizeChanged);
+        	this.actionsView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ActionsViewMouseUp);
+        	// 
+        	// whatColumn
+        	// 
+        	this.whatColumn.Text = "What";
         	// 
         	// startColumn
         	// 
@@ -110,10 +113,6 @@ namespace Awareness.UI
         	// 
         	this.endColumn.Text = "End";
         	this.endColumn.Width = 45;
-        	// 
-        	// whatColumn
-        	// 
-        	this.whatColumn.Text = "What";
         	// 
         	// ControlActionsList
         	// 

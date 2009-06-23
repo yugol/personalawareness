@@ -98,7 +98,7 @@ namespace Awareness.UI
 
 		#region FormManagement
 				
-		const int WM_QUERYENDSESSION = 0x11;
+		// const int WM_QUERYENDSESSION = 0x11;
         // bool endSessionPending = false;
 		FormWindowState savedWindowState;
 		
