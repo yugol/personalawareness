@@ -394,8 +394,6 @@ namespace Awareness.UI
         	this.ResumeLayout(false);
         }
         private System.Windows.Forms.ToolStripButton reminderToolButton;
-        bool isDisplayed = false;
-        bool updateActionsBit = true;
         private System.Windows.Forms.ImageList actionIcons;
         private System.Windows.Forms.ToolStripMenuItem newChildActionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newSubgroupToolStripMenuItem;

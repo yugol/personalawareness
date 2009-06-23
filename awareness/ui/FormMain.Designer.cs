@@ -122,12 +122,6 @@ namespace Awareness.UI
         	this.calendarToolButton = new System.Windows.Forms.ToolStripButton();
         	this.todoToolButton = new System.Windows.Forms.ToolStripButton();
         	this.statusTimer = new System.Windows.Forms.Timer(this.components);
-        	this.tabPage1 = new System.Windows.Forms.TabPage();
-        	this.controlActionsOverview1 = new Awareness.UI.ControlActionsOverview();
-        	this.tabPage2 = new System.Windows.Forms.TabPage();
-        	this.controlDayActionsReport1 = new Awareness.UI.ControlDayActionsReport();
-        	this.tabPage3 = new System.Windows.Forms.TabPage();
-        	this.controlWeekActionsReport1 = new Awareness.UI.ControlWeekActionsReport();
         	this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
         	this.toolsMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
         	this.calculatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -153,9 +147,6 @@ namespace Awareness.UI
         	this.centralPark.SuspendLayout();
         	this.mealPanel.SuspendLayout();
         	this.defaultToolStrip.SuspendLayout();
-        	this.tabPage1.SuspendLayout();
-        	this.tabPage2.SuspendLayout();
-        	this.tabPage3.SuspendLayout();
         	this.toolsMenuStrip.SuspendLayout();
         	this.SuspendLayout();
         	// 
@@ -757,64 +748,6 @@ namespace Awareness.UI
         	this.statusTimer.Interval = 1000;
         	this.statusTimer.Tick += new System.EventHandler(this.StatusTimerTick);
         	// 
-        	// tabPage1
-        	// 
-        	this.tabPage1.Controls.Add(this.controlActionsOverview1);
-        	this.tabPage1.Location = new System.Drawing.Point(4, 25);
-        	this.tabPage1.Name = "tabPage1";
-        	this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-        	this.tabPage1.Size = new System.Drawing.Size(776, 444);
-        	this.tabPage1.TabIndex = 0;
-        	this.tabPage1.Text = "Overview";
-        	this.tabPage1.UseVisualStyleBackColor = true;
-        	// 
-        	// controlActionsOverview1
-        	// 
-        	this.controlActionsOverview1.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.controlActionsOverview1.Location = new System.Drawing.Point(3, 3);
-        	this.controlActionsOverview1.Name = "controlActionsOverview1";
-        	this.controlActionsOverview1.Size = new System.Drawing.Size(770, 438);
-        	this.controlActionsOverview1.TabIndex = 0;
-        	// 
-        	// tabPage2
-        	// 
-        	this.tabPage2.Controls.Add(this.controlDayActionsReport1);
-        	this.tabPage2.Location = new System.Drawing.Point(4, 25);
-        	this.tabPage2.Name = "tabPage2";
-        	this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-        	this.tabPage2.Size = new System.Drawing.Size(776, 444);
-        	this.tabPage2.TabIndex = 1;
-        	this.tabPage2.Text = "Day";
-        	this.tabPage2.UseVisualStyleBackColor = true;
-        	// 
-        	// controlDayActionsReport1
-        	// 
-        	this.controlDayActionsReport1.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.controlDayActionsReport1.IsDisplayed = false;
-        	this.controlDayActionsReport1.Location = new System.Drawing.Point(3, 3);
-        	this.controlDayActionsReport1.Name = "controlDayActionsReport1";
-        	this.controlDayActionsReport1.Size = new System.Drawing.Size(770, 438);
-        	this.controlDayActionsReport1.TabIndex = 0;
-        	// 
-        	// tabPage3
-        	// 
-        	this.tabPage3.Controls.Add(this.controlWeekActionsReport1);
-        	this.tabPage3.Location = new System.Drawing.Point(4, 25);
-        	this.tabPage3.Name = "tabPage3";
-        	this.tabPage3.Size = new System.Drawing.Size(776, 444);
-        	this.tabPage3.TabIndex = 2;
-        	this.tabPage3.Text = "Week";
-        	this.tabPage3.UseVisualStyleBackColor = true;
-        	// 
-        	// controlWeekActionsReport1
-        	// 
-        	this.controlWeekActionsReport1.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.controlWeekActionsReport1.IsDisplayed = false;
-        	this.controlWeekActionsReport1.Location = new System.Drawing.Point(0, 0);
-        	this.controlWeekActionsReport1.Name = "controlWeekActionsReport1";
-        	this.controlWeekActionsReport1.Size = new System.Drawing.Size(776, 444);
-        	this.controlWeekActionsReport1.TabIndex = 0;
-        	// 
         	// trayIcon
         	// 
         	this.trayIcon.ContextMenuStrip = this.toolsMenuStrip;
@@ -907,9 +840,6 @@ namespace Awareness.UI
         	this.mealPanel.ResumeLayout(false);
         	this.defaultToolStrip.ResumeLayout(false);
         	this.defaultToolStrip.PerformLayout();
-        	this.tabPage1.ResumeLayout(false);
-        	this.tabPage2.ResumeLayout(false);
-        	this.tabPage3.ResumeLayout(false);
         	this.toolsMenuStrip.ResumeLayout(false);
         	this.ResumeLayout(false);
         	this.PerformLayout();
@@ -941,12 +871,6 @@ namespace Awareness.UI
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton newToolButton;
         private System.Windows.Forms.ToolStripButton openToolButton;
-        private Awareness.UI.ControlWeekActionsReport controlWeekActionsReport1;
-        private System.Windows.Forms.TabPage tabPage3;
-        private Awareness.UI.ControlDayActionsReport controlDayActionsReport1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private Awareness.UI.ControlActionsOverview controlActionsOverview1;
-        private System.Windows.Forms.TabPage tabPage1;
         private Awareness.UI.ControlWeekActionsReport weekActionsReport;
         private System.Windows.Forms.TabPage weekPage;
         private Awareness.UI.ControlDayActionsReport dayActionsReportControl;
