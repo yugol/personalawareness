@@ -58,10 +58,21 @@ namespace Awareness.UI
         private void InitializeComponent()
         {
         	this.components = new System.ComponentModel.Container();
-        	this.actionPages = new System.Windows.Forms.TabControl();
+        	this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
         	this.generalPage = new System.Windows.Forms.TabPage();
         	this.noteGroup = new System.Windows.Forms.GroupBox();
-        	this.noteTextView = new Awareness.UI.ControlNoteTextView();
+        	this.noteControl = new Awareness.UI.ControlAddNote();
+        	this.reminderPage = new System.Windows.Forms.TabPage();
+        	this.setupGroup = new System.Windows.Forms.GroupBox();
+        	this.usageLabel = new System.Windows.Forms.Label();
+        	this.label2 = new System.Windows.Forms.Label();
+        	this.soundSelector = new Awareness.UI.ControlCommandSelector();
+        	this.commandSelector = new Awareness.UI.ControlCommandSelector();
+        	this.playSoundCheck = new System.Windows.Forms.CheckBox();
+        	this.runCommandCheck = new System.Windows.Forms.CheckBox();
+        	this.beforeOccurrenceLabel = new System.Windows.Forms.Label();
+        	this.reminderDurationCombo = new System.Windows.Forms.ComboBox();
+        	this.showReminderCheck = new System.Windows.Forms.CheckBox();
         	this.planPage = new System.Windows.Forms.TabPage();
         	this.recurrenceGroup = new System.Windows.Forms.GroupBox();
         	this.anotherUpDown = new System.Windows.Forms.NumericUpDown();
@@ -85,52 +96,22 @@ namespace Awareness.UI
         	this.durationLabel = new System.Windows.Forms.Label();
         	this.endLabel = new System.Windows.Forms.Label();
         	this.startLabel = new System.Windows.Forms.Label();
-        	this.reminderPage = new System.Windows.Forms.TabPage();
-        	this.setupGroup = new System.Windows.Forms.GroupBox();
-        	this.usageLabel = new System.Windows.Forms.Label();
-        	this.label2 = new System.Windows.Forms.Label();
-        	this.soundSelector = new Awareness.UI.ControlCommandSelector();
-        	this.commandSelector = new Awareness.UI.ControlCommandSelector();
-        	this.playSoundCheck = new System.Windows.Forms.CheckBox();
-        	this.runCommandCheck = new System.Windows.Forms.CheckBox();
-        	this.beforeOccurrenceLabel = new System.Windows.Forms.Label();
-        	this.reminderDurationCombo = new System.Windows.Forms.ComboBox();
-        	this.showReminderCheck = new System.Windows.Forms.CheckBox();
-        	this.aboutPage = new System.Windows.Forms.TabPage();
-        	this.timingGroup = new System.Windows.Forms.GroupBox();
-        	this.createdBox = new System.Windows.Forms.TextBox();
-        	this.modifiedBox = new System.Windows.Forms.TextBox();
-        	this.completedBox = new System.Windows.Forms.TextBox();
-        	this.completedLabel = new System.Windows.Forms.Label();
-        	this.modifiedLabel = new System.Windows.Forms.Label();
-        	this.createdLabel = new System.Windows.Forms.Label();
-        	this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-        	this.actionPages.SuspendLayout();
+        	this.actionPages = new System.Windows.Forms.TabControl();
+        	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
         	this.generalPage.SuspendLayout();
         	this.noteGroup.SuspendLayout();
+        	this.reminderPage.SuspendLayout();
+        	this.setupGroup.SuspendLayout();
         	this.planPage.SuspendLayout();
         	this.recurrenceGroup.SuspendLayout();
         	((System.ComponentModel.ISupportInitialize)(this.anotherUpDown)).BeginInit();
         	this.whenGroup.SuspendLayout();
-        	this.reminderPage.SuspendLayout();
-        	this.setupGroup.SuspendLayout();
-        	this.aboutPage.SuspendLayout();
-        	this.timingGroup.SuspendLayout();
-        	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+        	this.actionPages.SuspendLayout();
         	this.SuspendLayout();
         	// 
-        	// actionPages
+        	// errorProvider
         	// 
-        	this.actionPages.Controls.Add(this.planPage);
-        	this.actionPages.Controls.Add(this.reminderPage);
-        	this.actionPages.Controls.Add(this.generalPage);
-        	this.actionPages.Controls.Add(this.aboutPage);
-        	this.actionPages.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.actionPages.Location = new System.Drawing.Point(0, 0);
-        	this.actionPages.Name = "actionPages";
-        	this.actionPages.SelectedIndex = 0;
-        	this.actionPages.Size = new System.Drawing.Size(501, 428);
-        	this.actionPages.TabIndex = 0;
+        	this.errorProvider.ContainerControl = this;
         	// 
         	// generalPage
         	// 
@@ -145,7 +126,7 @@ namespace Awareness.UI
         	// 
         	// noteGroup
         	// 
-        	this.noteGroup.Controls.Add(this.noteTextView);
+        	this.noteGroup.Controls.Add(this.noteControl);
         	this.noteGroup.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.noteGroup.Location = new System.Drawing.Point(3, 3);
         	this.noteGroup.Name = "noteGroup";
@@ -154,20 +135,136 @@ namespace Awareness.UI
         	this.noteGroup.TabStop = false;
         	this.noteGroup.Text = "Note:";
         	// 
-        	// noteTextView
+        	// noteControl
         	// 
-        	this.noteTextView.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.noteTextView.IconVisible = false;
-        	this.noteTextView.Location = new System.Drawing.Point(3, 16);
-        	this.noteTextView.Name = "noteTextView";
-        	this.noteTextView.Node = null;
-        	this.noteTextView.Note = null;
-        	this.noteTextView.ScrollBars = true;
-        	this.noteTextView.Size = new System.Drawing.Size(481, 377);
-        	this.noteTextView.TabIndex = 0;
-        	this.noteTextView.TextReadOnly = false;
-        	this.noteTextView.TitleReadOnly = false;
-        	this.noteTextView.TopVisible = false;
+        	this.noteControl.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.noteControl.Location = new System.Drawing.Point(3, 16);
+        	this.noteControl.Name = "noteControl";
+        	this.noteControl.Note = null;
+        	this.noteControl.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
+        	this.noteControl.Size = new System.Drawing.Size(481, 377);
+        	this.noteControl.TabIndex = 2;
+        	// 
+        	// reminderPage
+        	// 
+        	this.reminderPage.Controls.Add(this.setupGroup);
+        	this.reminderPage.Location = new System.Drawing.Point(4, 22);
+        	this.reminderPage.Name = "reminderPage";
+        	this.reminderPage.Padding = new System.Windows.Forms.Padding(3);
+        	this.reminderPage.Size = new System.Drawing.Size(493, 402);
+        	this.reminderPage.TabIndex = 3;
+        	this.reminderPage.Text = "Reminder";
+        	this.reminderPage.UseVisualStyleBackColor = true;
+        	// 
+        	// setupGroup
+        	// 
+        	this.setupGroup.Controls.Add(this.usageLabel);
+        	this.setupGroup.Controls.Add(this.label2);
+        	this.setupGroup.Controls.Add(this.soundSelector);
+        	this.setupGroup.Controls.Add(this.commandSelector);
+        	this.setupGroup.Controls.Add(this.playSoundCheck);
+        	this.setupGroup.Controls.Add(this.runCommandCheck);
+        	this.setupGroup.Controls.Add(this.beforeOccurrenceLabel);
+        	this.setupGroup.Controls.Add(this.reminderDurationCombo);
+        	this.setupGroup.Controls.Add(this.showReminderCheck);
+        	this.setupGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.setupGroup.Location = new System.Drawing.Point(3, 3);
+        	this.setupGroup.Name = "setupGroup";
+        	this.setupGroup.Size = new System.Drawing.Size(487, 396);
+        	this.setupGroup.TabIndex = 0;
+        	this.setupGroup.TabStop = false;
+        	this.setupGroup.Text = "Setup:";
+        	// 
+        	// usageLabel
+        	// 
+        	this.usageLabel.ForeColor = System.Drawing.Color.Red;
+        	this.usageLabel.Location = new System.Drawing.Point(16, 288);
+        	this.usageLabel.Name = "usageLabel";
+        	this.usageLabel.Size = new System.Drawing.Size(296, 48);
+        	this.usageLabel.TabIndex = 14;
+        	this.usageLabel.Text = "Only the actions with start time planned can have reminders. If you want to attac" +
+        	"h a reminder to this action please go to the \'Plan\' tab and check the \'Plan time" +
+        	"\' check box";
+        	// 
+        	// label2
+        	// 
+        	this.label2.AutoSize = true;
+        	this.label2.Location = new System.Drawing.Point(16, 224);
+        	this.label2.Name = "label2";
+        	this.label2.Size = new System.Drawing.Size(123, 13);
+        	this.label2.TabIndex = 13;
+        	this.label2.Text = "Remind me of this action";
+        	this.label2.Visible = false;
+        	// 
+        	// soundSelector
+        	// 
+        	this.soundSelector.Command = "";
+        	this.soundSelector.Location = new System.Drawing.Point(40, 168);
+        	this.soundSelector.MinimumSize = new System.Drawing.Size(140, 28);
+        	this.soundSelector.Name = "soundSelector";
+        	this.soundSelector.Size = new System.Drawing.Size(288, 28);
+        	this.soundSelector.TabIndex = 5;
+        	// 
+        	// commandSelector
+        	// 
+        	this.commandSelector.Command = "";
+        	this.commandSelector.Location = new System.Drawing.Point(40, 96);
+        	this.commandSelector.MinimumSize = new System.Drawing.Size(140, 28);
+        	this.commandSelector.Name = "commandSelector";
+        	this.commandSelector.Size = new System.Drawing.Size(288, 28);
+        	this.commandSelector.TabIndex = 3;
+        	// 
+        	// playSoundCheck
+        	// 
+        	this.playSoundCheck.Location = new System.Drawing.Point(16, 136);
+        	this.playSoundCheck.Name = "playSoundCheck";
+        	this.playSoundCheck.Size = new System.Drawing.Size(104, 24);
+        	this.playSoundCheck.TabIndex = 4;
+        	this.playSoundCheck.Text = "&Play sound";
+        	this.playSoundCheck.UseVisualStyleBackColor = true;
+        	this.playSoundCheck.CheckedChanged += new System.EventHandler(this.PlaySoundCheckCheckedChanged);
+        	// 
+        	// runCommandCheck
+        	// 
+        	this.runCommandCheck.Location = new System.Drawing.Point(16, 64);
+        	this.runCommandCheck.Name = "runCommandCheck";
+        	this.runCommandCheck.Size = new System.Drawing.Size(192, 24);
+        	this.runCommandCheck.TabIndex = 2;
+        	this.runCommandCheck.Text = "&Run operating system command";
+        	this.runCommandCheck.UseVisualStyleBackColor = true;
+        	this.runCommandCheck.CheckedChanged += new System.EventHandler(this.RunCommandCheckCheckedChanged);
+        	// 
+        	// beforeOccurrenceLabel
+        	// 
+        	this.beforeOccurrenceLabel.AutoSize = true;
+        	this.beforeOccurrenceLabel.Location = new System.Drawing.Point(192, 248);
+        	this.beforeOccurrenceLabel.Name = "beforeOccurrenceLabel";
+        	this.beforeOccurrenceLabel.Size = new System.Drawing.Size(123, 13);
+        	this.beforeOccurrenceLabel.TabIndex = 7;
+        	this.beforeOccurrenceLabel.Text = "before every occurrence";
+        	this.beforeOccurrenceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+        	this.beforeOccurrenceLabel.Visible = false;
+        	// 
+        	// reminderDurationCombo
+        	// 
+        	this.reminderDurationCombo.FormattingEnabled = true;
+        	this.reminderDurationCombo.Location = new System.Drawing.Point(16, 248);
+        	this.reminderDurationCombo.Name = "reminderDurationCombo";
+        	this.reminderDurationCombo.Size = new System.Drawing.Size(150, 21);
+        	this.reminderDurationCombo.TabIndex = 6;
+        	this.reminderDurationCombo.Visible = false;
+        	this.reminderDurationCombo.Validating += new System.ComponentModel.CancelEventHandler(this.ReminderDurationComboValidating);
+        	this.reminderDurationCombo.TextChanged += new System.EventHandler(this.ReminderDurationComboTextChanged);
+        	// 
+        	// showReminderCheck
+        	// 
+        	this.showReminderCheck.Location = new System.Drawing.Point(16, 24);
+        	this.showReminderCheck.Name = "showReminderCheck";
+        	this.showReminderCheck.Size = new System.Drawing.Size(320, 24);
+        	this.showReminderCheck.TabIndex = 1;
+        	this.showReminderCheck.Text = "&Show reminder dialog";
+        	this.showReminderCheck.UseVisualStyleBackColor = true;
+        	this.showReminderCheck.CheckedChanged += new System.EventHandler(this.ShowReminderCheckCheckedChanged);
         	// 
         	// planPage
         	// 
@@ -423,214 +520,17 @@ namespace Awareness.UI
         	this.startLabel.TabIndex = 0;
         	this.startLabel.Text = "Start:";
         	// 
-        	// reminderPage
+        	// actionPages
         	// 
-        	this.reminderPage.Controls.Add(this.setupGroup);
-        	this.reminderPage.Location = new System.Drawing.Point(4, 22);
-        	this.reminderPage.Name = "reminderPage";
-        	this.reminderPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.reminderPage.Size = new System.Drawing.Size(493, 402);
-        	this.reminderPage.TabIndex = 3;
-        	this.reminderPage.Text = "Reminder";
-        	this.reminderPage.UseVisualStyleBackColor = true;
-        	// 
-        	// setupGroup
-        	// 
-        	this.setupGroup.Controls.Add(this.usageLabel);
-        	this.setupGroup.Controls.Add(this.label2);
-        	this.setupGroup.Controls.Add(this.soundSelector);
-        	this.setupGroup.Controls.Add(this.commandSelector);
-        	this.setupGroup.Controls.Add(this.playSoundCheck);
-        	this.setupGroup.Controls.Add(this.runCommandCheck);
-        	this.setupGroup.Controls.Add(this.beforeOccurrenceLabel);
-        	this.setupGroup.Controls.Add(this.reminderDurationCombo);
-        	this.setupGroup.Controls.Add(this.showReminderCheck);
-        	this.setupGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.setupGroup.Location = new System.Drawing.Point(3, 3);
-        	this.setupGroup.Name = "setupGroup";
-        	this.setupGroup.Size = new System.Drawing.Size(487, 396);
-        	this.setupGroup.TabIndex = 0;
-        	this.setupGroup.TabStop = false;
-        	this.setupGroup.Text = "Setup:";
-        	// 
-        	// usageLabel
-        	// 
-        	this.usageLabel.ForeColor = System.Drawing.Color.Red;
-        	this.usageLabel.Location = new System.Drawing.Point(16, 288);
-        	this.usageLabel.Name = "usageLabel";
-        	this.usageLabel.Size = new System.Drawing.Size(296, 48);
-        	this.usageLabel.TabIndex = 14;
-        	this.usageLabel.Text = "Only the actions with start time planned can have reminders. If you want to attac" +
-        	"h a reminder to this action please go to the \'Plan\' tab and check the \'Plan time" +
-        	"\' check box";
-        	// 
-        	// label2
-        	// 
-        	this.label2.AutoSize = true;
-        	this.label2.Location = new System.Drawing.Point(16, 224);
-        	this.label2.Name = "label2";
-        	this.label2.Size = new System.Drawing.Size(123, 13);
-        	this.label2.TabIndex = 13;
-        	this.label2.Text = "Remind me of this action";
-        	this.label2.Visible = false;
-        	// 
-        	// soundSelector
-        	// 
-        	this.soundSelector.Command = "";
-        	this.soundSelector.Location = new System.Drawing.Point(40, 168);
-        	this.soundSelector.MinimumSize = new System.Drawing.Size(140, 28);
-        	this.soundSelector.Name = "soundSelector";
-        	this.soundSelector.Size = new System.Drawing.Size(288, 28);
-        	this.soundSelector.TabIndex = 5;
-        	// 
-        	// commandSelector
-        	// 
-        	this.commandSelector.Command = "";
-        	this.commandSelector.Location = new System.Drawing.Point(40, 96);
-        	this.commandSelector.MinimumSize = new System.Drawing.Size(140, 28);
-        	this.commandSelector.Name = "commandSelector";
-        	this.commandSelector.Size = new System.Drawing.Size(288, 28);
-        	this.commandSelector.TabIndex = 3;
-        	// 
-        	// playSoundCheck
-        	// 
-        	this.playSoundCheck.Location = new System.Drawing.Point(16, 136);
-        	this.playSoundCheck.Name = "playSoundCheck";
-        	this.playSoundCheck.Size = new System.Drawing.Size(104, 24);
-        	this.playSoundCheck.TabIndex = 4;
-        	this.playSoundCheck.Text = "&Play sound";
-        	this.playSoundCheck.UseVisualStyleBackColor = true;
-        	this.playSoundCheck.CheckedChanged += new System.EventHandler(this.PlaySoundCheckCheckedChanged);
-        	// 
-        	// runCommandCheck
-        	// 
-        	this.runCommandCheck.Location = new System.Drawing.Point(16, 64);
-        	this.runCommandCheck.Name = "runCommandCheck";
-        	this.runCommandCheck.Size = new System.Drawing.Size(192, 24);
-        	this.runCommandCheck.TabIndex = 2;
-        	this.runCommandCheck.Text = "&Run operating system command";
-        	this.runCommandCheck.UseVisualStyleBackColor = true;
-        	this.runCommandCheck.CheckedChanged += new System.EventHandler(this.RunCommandCheckCheckedChanged);
-        	// 
-        	// beforeOccurrenceLabel
-        	// 
-        	this.beforeOccurrenceLabel.AutoSize = true;
-        	this.beforeOccurrenceLabel.Location = new System.Drawing.Point(192, 248);
-        	this.beforeOccurrenceLabel.Name = "beforeOccurrenceLabel";
-        	this.beforeOccurrenceLabel.Size = new System.Drawing.Size(123, 13);
-        	this.beforeOccurrenceLabel.TabIndex = 7;
-        	this.beforeOccurrenceLabel.Text = "before every occurrence";
-        	this.beforeOccurrenceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-        	this.beforeOccurrenceLabel.Visible = false;
-        	// 
-        	// reminderDurationCombo
-        	// 
-        	this.reminderDurationCombo.FormattingEnabled = true;
-        	this.reminderDurationCombo.Location = new System.Drawing.Point(16, 248);
-        	this.reminderDurationCombo.Name = "reminderDurationCombo";
-        	this.reminderDurationCombo.Size = new System.Drawing.Size(150, 21);
-        	this.reminderDurationCombo.TabIndex = 6;
-        	this.reminderDurationCombo.Visible = false;
-        	this.reminderDurationCombo.Validating += new System.ComponentModel.CancelEventHandler(this.ReminderDurationComboValidating);
-        	this.reminderDurationCombo.TextChanged += new System.EventHandler(this.ReminderDurationComboTextChanged);
-        	// 
-        	// showReminderCheck
-        	// 
-        	this.showReminderCheck.Location = new System.Drawing.Point(16, 24);
-        	this.showReminderCheck.Name = "showReminderCheck";
-        	this.showReminderCheck.Size = new System.Drawing.Size(320, 24);
-        	this.showReminderCheck.TabIndex = 1;
-        	this.showReminderCheck.Text = "&Show reminder dialog";
-        	this.showReminderCheck.UseVisualStyleBackColor = true;
-        	this.showReminderCheck.CheckedChanged += new System.EventHandler(this.ShowReminderCheckCheckedChanged);
-        	// 
-        	// aboutPage
-        	// 
-        	this.aboutPage.Controls.Add(this.timingGroup);
-        	this.aboutPage.Location = new System.Drawing.Point(4, 22);
-        	this.aboutPage.Name = "aboutPage";
-        	this.aboutPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.aboutPage.Size = new System.Drawing.Size(493, 402);
-        	this.aboutPage.TabIndex = 2;
-        	this.aboutPage.Text = "About";
-        	this.aboutPage.UseVisualStyleBackColor = true;
-        	// 
-        	// timingGroup
-        	// 
-        	this.timingGroup.Controls.Add(this.createdBox);
-        	this.timingGroup.Controls.Add(this.modifiedBox);
-        	this.timingGroup.Controls.Add(this.completedBox);
-        	this.timingGroup.Controls.Add(this.completedLabel);
-        	this.timingGroup.Controls.Add(this.modifiedLabel);
-        	this.timingGroup.Controls.Add(this.createdLabel);
-        	this.timingGroup.Dock = System.Windows.Forms.DockStyle.Top;
-        	this.timingGroup.Location = new System.Drawing.Point(3, 3);
-        	this.timingGroup.Name = "timingGroup";
-        	this.timingGroup.Size = new System.Drawing.Size(487, 133);
-        	this.timingGroup.TabIndex = 0;
-        	this.timingGroup.TabStop = false;
-        	this.timingGroup.Text = "Action timing:";
-        	// 
-        	// createdBox
-        	// 
-        	this.createdBox.Location = new System.Drawing.Point(96, 32);
-        	this.createdBox.Name = "createdBox";
-        	this.createdBox.ReadOnly = true;
-        	this.createdBox.Size = new System.Drawing.Size(144, 20);
-        	this.createdBox.TabIndex = 5;
-        	this.createdBox.Text = "0000/00/00 00:00:00";
-        	this.createdBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-        	// 
-        	// modifiedBox
-        	// 
-        	this.modifiedBox.Location = new System.Drawing.Point(96, 64);
-        	this.modifiedBox.Name = "modifiedBox";
-        	this.modifiedBox.ReadOnly = true;
-        	this.modifiedBox.Size = new System.Drawing.Size(144, 20);
-        	this.modifiedBox.TabIndex = 4;
-        	this.modifiedBox.Text = "0000/00/00 00:00:00";
-        	this.modifiedBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-        	// 
-        	// completedBox
-        	// 
-        	this.completedBox.Location = new System.Drawing.Point(96, 96);
-        	this.completedBox.Name = "completedBox";
-        	this.completedBox.ReadOnly = true;
-        	this.completedBox.Size = new System.Drawing.Size(144, 20);
-        	this.completedBox.TabIndex = 3;
-        	this.completedBox.Text = "0000/00/00 00:00:00";
-        	this.completedBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-        	// 
-        	// completedLabel
-        	// 
-        	this.completedLabel.AutoSize = true;
-        	this.completedLabel.Location = new System.Drawing.Point(16, 96);
-        	this.completedLabel.Name = "completedLabel";
-        	this.completedLabel.Size = new System.Drawing.Size(60, 13);
-        	this.completedLabel.TabIndex = 2;
-        	this.completedLabel.Text = "Completed:";
-        	// 
-        	// modifiedLabel
-        	// 
-        	this.modifiedLabel.AutoSize = true;
-        	this.modifiedLabel.Location = new System.Drawing.Point(16, 64);
-        	this.modifiedLabel.Name = "modifiedLabel";
-        	this.modifiedLabel.Size = new System.Drawing.Size(50, 13);
-        	this.modifiedLabel.TabIndex = 1;
-        	this.modifiedLabel.Text = "Modified:";
-        	// 
-        	// createdLabel
-        	// 
-        	this.createdLabel.AutoSize = true;
-        	this.createdLabel.Location = new System.Drawing.Point(16, 32);
-        	this.createdLabel.Name = "createdLabel";
-        	this.createdLabel.Size = new System.Drawing.Size(47, 13);
-        	this.createdLabel.TabIndex = 0;
-        	this.createdLabel.Text = "Created:";
-        	// 
-        	// errorProvider
-        	// 
-        	this.errorProvider.ContainerControl = this;
+        	this.actionPages.Controls.Add(this.planPage);
+        	this.actionPages.Controls.Add(this.reminderPage);
+        	this.actionPages.Controls.Add(this.generalPage);
+        	this.actionPages.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.actionPages.Location = new System.Drawing.Point(0, 0);
+        	this.actionPages.Name = "actionPages";
+        	this.actionPages.SelectedIndex = 0;
+        	this.actionPages.Size = new System.Drawing.Size(501, 428);
+        	this.actionPages.TabIndex = 0;
         	// 
         	// ControlActionEdit
         	// 
@@ -639,23 +539,21 @@ namespace Awareness.UI
         	this.Controls.Add(this.actionPages);
         	this.Name = "ControlActionEdit";
         	this.Size = new System.Drawing.Size(501, 428);
-        	this.actionPages.ResumeLayout(false);
+        	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
         	this.generalPage.ResumeLayout(false);
         	this.noteGroup.ResumeLayout(false);
+        	this.reminderPage.ResumeLayout(false);
+        	this.setupGroup.ResumeLayout(false);
+        	this.setupGroup.PerformLayout();
         	this.planPage.ResumeLayout(false);
         	this.recurrenceGroup.ResumeLayout(false);
         	((System.ComponentModel.ISupportInitialize)(this.anotherUpDown)).EndInit();
         	this.whenGroup.ResumeLayout(false);
         	this.whenGroup.PerformLayout();
-        	this.reminderPage.ResumeLayout(false);
-        	this.setupGroup.ResumeLayout(false);
-        	this.setupGroup.PerformLayout();
-        	this.aboutPage.ResumeLayout(false);
-        	this.timingGroup.ResumeLayout(false);
-        	this.timingGroup.PerformLayout();
-        	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+        	this.actionPages.ResumeLayout(false);
         	this.ResumeLayout(false);
         }
+        private Awareness.UI.ControlAddNote noteControl;
         private System.Windows.Forms.Label usageLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox reminderDurationCombo;
@@ -690,16 +588,7 @@ namespace Awareness.UI
         private System.Windows.Forms.DateTimePicker startDatePicker;
         private System.Windows.Forms.GroupBox whenGroup;
         private System.Windows.Forms.TabPage reminderPage;
-        private System.Windows.Forms.Label createdLabel;
-        private System.Windows.Forms.Label modifiedLabel;
-        private System.Windows.Forms.Label completedLabel;
-        private System.Windows.Forms.TextBox completedBox;
-        private System.Windows.Forms.TextBox modifiedBox;
-        private System.Windows.Forms.TextBox createdBox;
-        private System.Windows.Forms.GroupBox timingGroup;
-        private Awareness.UI.ControlNoteTextView noteTextView;
         private System.Windows.Forms.GroupBox noteGroup;
-        private System.Windows.Forms.TabPage aboutPage;
         private System.Windows.Forms.TabPage planPage;
         private System.Windows.Forms.TabPage generalPage;
         private System.Windows.Forms.TabControl actionPages;

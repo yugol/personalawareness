@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="*" Name="Personal Awareness" Language="1033" Version="0.1.10" UpgradeCode="6045AEB7-134D-4881-8139-BB52EBEB2F01" Manufacturer="Iulian Goriac">
+    <Product Id="*" Name="Personal Awareness" Language="1033" Version="0.2.1" UpgradeCode="6045AEB7-134D-4881-8139-BB52EBEB2F01" Manufacturer="Iulian Goriac">
         <Package Description="This application allows you to keep track of your personal data" Comments="Manage Your Time - Ideas - Energy - Finances" InstallerVersion="200" Compressed="yes" />
         <!--
             Source media for the installation. 

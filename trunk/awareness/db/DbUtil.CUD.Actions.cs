@@ -34,112 +34,39 @@ using System.Linq;
 namespace Awareness.DB
 {
     partial class DBUtil {
-        internal static void AddAction(DalAction action){
+        
+        internal static void InsertAction(DalAction action, DalNote note){
             if (action.Parent == null){
-                action.Parent = dataContext.GetActionById(AwarenessDataContext.ACTION_ROOT_ID);
+                action.Parent = GetRootAction();
             }
-
-            action.Index = GetChildActions(action.Parent).Count();
-
+            PreludeInsertNotable(action, note, AwarenessDataContext.NOTE_ACTIONS_ID);
             dataContext.actions.InsertOnSubmit(action);
             dataContext.SubmitChanges();
-
             NotifyActionsChanged();
         }
 
-        internal static void InsertAction(int index, DalAction action){
-            if (index < 0){
-                index = 0;
-            }
-
-            if (action.Parent == null){
-                action.Parent = dataContext.GetActionById(AwarenessDataContext.ACTION_ROOT_ID);
-            }
-
-            IQueryable<DalAction> postSiblings = GetChildActions(action.Parent).Where(a => a.Index >= index);
-            foreach (DalAction sibling in postSiblings){
-                sibling.Index += 1;
-            }
-
-            if (postSiblings.Count() > 0){
-                action.Index = index;
-            } else {
-                action.Index = GetChildActions(action.Parent).Count();
-            }
-
-            dataContext.actions.InsertOnSubmit(action);
-            dataContext.SubmitChanges();
-
+        internal static void UpdateAction(DalAction action, DalNote note){
+            PreludeUpdateNotable(action, note, AwarenessDataContext.NOTE_ACTIONS_ID);
             NotifyActionsChanged();
         }
 
-        internal static void AttachNote(DalAction action){
-            if (!action.HasNote){
-                DalNote note = new DalNote();
-                note.Parent = dataContext.GetNoteById(AwarenessDataContext.NOTE_ACTIONS_ID);
-                note.Title = "";
-                note.IsPermanent = true;
-                InsertNote(note);
-                action.Note = note;
-                UpdateActionTimeStamp(action);
-            }
-        }
-
-        internal static void UpdateActionTimeStamp(DalAction action){
-            action.ModificationTime = RemoveMilliseconds(DateTime.Now);
-            UpdateAction(action);
-        }
-
-        internal static void CompleteAction(DalAction action){
-            action.CompletionTime = RemoveMilliseconds(DateTime.Now);
-            UpdateAction(action);
-        }
-
-        internal static void UnCompleteAction(DalAction action){
-            action.CompletionTime = Configuration.ZERO_DATE;
-            UpdateAction(action);
-        }
-
-        internal static void UpdateAction(DalAction action){
-            if (action.Id == action.ParentId){
-                throw new ArgumentException("Cannot parent an action to self");
-            }
-            if (action.HasNote){
-                action.Note.Title = action.Name;
-                UpdateNote(action.Note);
-            }
-            dataContext.SubmitChanges();
-
-            NotifyActionsChanged();
-        }
-
-        internal static void DeleteActionRecursive(DalAction action){
+        internal static void DeleteActionRec(DalAction action){
             foreach (DalAction child in GetChildActions(action)){
-                DeleteActionRecursive(child);
+                DeleteActionRec(child);
             }
-            DeleteAction(action);
-
+            DeleteOneAction(action);
             NotifyActionsChanged();
         }
 
-        private static void DeleteAction(DalAction action){
-            DalNote note = (action.HasNote) ? action.Note : null;
-            int index = action.Index;
-
+        private static void DeleteOneAction(DalAction action){
+            DalNote note = (action.HasNote) ? (action.Note) : (null);
             dataContext.actions.DeleteOnSubmit(action);
             dataContext.SubmitChanges();
-
-            IQueryable<DalAction> postSiblings = GetChildActions(action.Parent).Where(a => a.Index > index);
-            foreach (DalAction sibling in postSiblings){
-                sibling.Index -= 1;
-            }
-            dataContext.SubmitChanges();
-
             if (note != null){
                 DeleteNote(note);
             }
         }
-
+        
         private static void NotifyActionsChanged() {
             if (ActionsChanged != null){
                 ActionsChanged();

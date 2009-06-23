@@ -35,6 +35,7 @@ namespace Awareness.DB
 {
     internal class Dumper {
         internal static readonly string YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss";
+        internal static readonly string YYYYMMDD = "yyyy-MM-dd";
 
         AwarenessDataContext dc = null;
 
@@ -127,8 +128,8 @@ namespace Awareness.DB
         internal void DumpTransactions(TextWriter writer, IDictionary<int, int> transferLocations, IDictionary<int, int> transactionReasons, IDictionary<int, int> notes){
             foreach (DalTransaction entry in dc.transactions){
                 writer.WriteLine("INSERT INTO transactions ([when], [from], [to], reason, ammount, quantity, note) " +
-                                 "VALUES ('{0}', {1}, {2}, {3}, {4}, {5}, {6});",
-                                 entry.When.ToString("yyyy-MM-dd"),
+                                 "VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6});",
+                                 Date2String(entry.When),
                                  (transferLocations != null&&transferLocations.ContainsKey(entry.FromId)) ? transferLocations[entry.FromId] : entry.FromId,
                                  (transferLocations != null&&transferLocations.ContainsKey(entry.FromId)) ? transferLocations[entry.ToId] : entry.ToId,
                                  (transactionReasons != null) ? transactionReasons[entry.ReasonId] : entry.ReasonId,
@@ -140,8 +141,9 @@ namespace Awareness.DB
 
         internal void DumpMeals(TextWriter writer, IDictionary<int, int> transactionReasons){
             foreach (DalMeal entry in dc.meals){
-                writer.WriteLine("INSERT INTO meals ([when], what, quantity, why) VALUES ('{0}', {1}, {2}, {3});",
-                                 entry.When.ToString("yyyy-MM-dd"),
+                writer.WriteLine("INSERT INTO meals ([when], what, quantity, why) " +
+                                 "VALUES ({0}, {1}, {2}, {3});",
+                                 Date2String(entry.When),
                                  (transactionReasons != null) ? transactionReasons[entry.WhatId] : entry.WhatId,
                                  entry.Quantity,
                                  (transactionReasons != null) ? transactionReasons[entry.WhyId] : entry.WhyId);
@@ -183,24 +185,21 @@ namespace Awareness.DB
 
         void _RecursiveDumpActions(TextWriter writer, int parentId, IDictionary<int, int> notes, IDictionary<int, int> idMap, ref int id){
             foreach (DalAction entry in dc.actions.Where(n => n.Id > AwarenessDataContext.RESERVED_ACTIONS&&n.ParentId == parentId)){
-                writer.WriteLine("INSERT INTO actions (parent, [index], type, expanded, created, modified, completed, name, note, time_planned, start, [end], recurrent, pattern, repeat_no_of_times, repeat_until, has_window_reminder, reminder_duration, has_command_reminder, reminder_command, has_sound_reminder, reminder_sound) " +
-                                 "VALUES ({0}, {1}, {2}, {3}, '{4}', '{5}', '{6}', {7}, {8}, {9}, '{10}', '{11}', {12}, {13}, {14}, '{15}', {16}, {17}, {18}, {19}, {20}, {21});",
+                writer.WriteLine("INSERT INTO actions (parent, checked, type, expanded, name, note, time_planned, start, [end], recurrent, pattern, repeat_no_of_times, repeat_until, has_window_reminder, reminder_duration, has_command_reminder, reminder_command, has_sound_reminder, reminder_sound) " +
+                                 "VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18});",
                                  idMap.ContainsKey(entry.ParentId) ? idMap[entry.ParentId] : entry.ParentId,
-                                 entry.Index,
+                                 Bool2String(entry.IsChecked),
                                  entry.Type,
                                  Bool2String(entry.IsExpanded),
-                                 entry.CreationTime.ToString(YYYYMMDDHHMMSS),
-                                 entry.ModificationTime.ToString(YYYYMMDDHHMMSS),
-                                 entry.CompletionTime.ToString(YYYYMMDDHHMMSS),
                                  String2SqlString(entry.Name),
                                  (notes != null&&notes.ContainsKey(entry.NoteId)) ? (notes[entry.NoteId]) : (entry.NoteId),
                                  Bool2String(entry.IsTimePlanned),
-                                 entry.Start.ToString(YYYYMMDDHHMMSS),
-                                 entry.End.ToString(YYYYMMDDHHMMSS),
+                                 DateTime2String(entry.Start),
+                                 DateTime2String(entry.End),
                                  Bool2String(entry.IsRecurrent),
                                  entry.Pattern,
                                  Bool2String(entry.IsRepeatNoOfTimes),
-                                 entry.RepeatUntil.ToString(YYYYMMDDHHMMSS),
+                                 DateTime2String(entry.RepeatUntil),
                                  Bool2String(entry.HasWindowReminder),
                                  entry.ReminderDuration,
                                  Bool2String(entry.HasCommandReminder),
@@ -216,6 +215,9 @@ namespace Awareness.DB
         internal void RestoreDb(TextReader reader){
             string command;
             while ((command = reader.ReadLine()) != null){
+                #if DEBUG
+                File.AppendAllText("importlog.txt", command + "\n");
+                #endif
                 dc.ExecuteCommand(command);
             }
         }
@@ -233,6 +235,16 @@ namespace Awareness.DB
                 escaped = escaped.Replace("\n", "' + NCHAR(10) + N'");
                 return string.Format("N'{0}'", escaped);
             }
+        }
+        
+        internal static string DateTime2String(DateTime dateTime)
+        {
+            return string.Format("'{0}'", dateTime.ToString(YYYYMMDDHHMMSS));
+        }
+
+        internal static string Date2String(DateTime dateTime)
+        {
+            return string.Format("'{0}'", dateTime.ToString(YYYYMMDD));
         }
     }
 }

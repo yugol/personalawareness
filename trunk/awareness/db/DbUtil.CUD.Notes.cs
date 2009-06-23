@@ -36,6 +36,9 @@ namespace Awareness.DB
             if (note == null){
                 return true;
             }
+            if (note.Text == null){
+                return true;
+            }            
             if (note.Text.Trim() == ""){
                 return true;
             }

@@ -35,20 +35,10 @@ using Awareness.DB;
 namespace Awareness.UI
 {
     partial class ControlActionEdit {
-        void NoteTextChanged(object sender, DalNote e){
-            if (!action.HasNote){
-                string text = ((Control) sender).Text;
-                if (!string.IsNullOrEmpty(text)){
-                    DBUtil.AttachNote(action);
-                    action.Note.Text = text;
-                    noteTextView.Note = action.Note;
-                }
-            }
-        }
 
         void RecurrencePatternChanged(){
             action.RecurrencePattern = recurrencePatternEditControl.Pattern;
-            DBUtil.UpdateActionTimeStamp(action);
+            UpdateAction();
             Action = action;
         }
 
@@ -68,7 +58,7 @@ namespace Awareness.UI
                     action.HasSoundReminder = false;
                 }
                 action.IsTimePlanned = planTimeCheck.Checked;
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -76,7 +66,7 @@ namespace Awareness.UI
         void SetEndCheckCheckedChanged(object sender, EventArgs e){
             if (processEvents){
                 action.Type = (setEndCheck.Checked) ? (DalAction.TYPE_TASK) : (DalAction.TYPE_TODO);
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
                 ControlActionsOverview.SetNodeImage(node);
             }
@@ -85,9 +75,7 @@ namespace Awareness.UI
         void StartDatePickerValueChanged(object sender, EventArgs e){
             if (processEvents){
                 Ui2DataStartTime();
-                if (true){
-                }
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -95,7 +83,7 @@ namespace Awareness.UI
         void EndDatePickerValueChanged(object sender, EventArgs e){
             if (processEvents){
                 Ui2DataEndTime();
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -103,7 +91,7 @@ namespace Awareness.UI
         void StartTimePickerValueChanged(object sender, EventArgs e){
             if (processEvents){
                 Ui2DataStartTime();
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -111,7 +99,7 @@ namespace Awareness.UI
         void EndTimePickerValueChanged(object sender, EventArgs e){
             if (processEvents){
                 Ui2DataEndTime();
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -119,7 +107,7 @@ namespace Awareness.UI
         void RepeatCheckCheckedChanged(object sender, EventArgs e){
             if (processEvents){
                 action.IsRecurrent = repeatCheck.Checked;
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -127,7 +115,7 @@ namespace Awareness.UI
         void IndefinitelyRadioCheckedChanged(object sender, EventArgs e){
             if (processEvents&&indefinitelyRadio.Checked){
                 action.RepeatTimes = 0;
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -136,7 +124,7 @@ namespace Awareness.UI
             if (processEvents&&anotherRadio.Checked){
                 action.RepeatTimes = (int) anotherUpDown.Value;
                 action.IsRepeatNoOfTimes = true;
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -145,7 +133,7 @@ namespace Awareness.UI
             if (processEvents&&untilRadio.Checked){
                 action.RepeatUntil = untilPicker.Value;
                 action.IsRepeatNoOfTimes = false;
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -153,7 +141,7 @@ namespace Awareness.UI
         void AnotherUpDownValueChanged(object sender, EventArgs e){
             if (processEvents){
                 action.RepeatTimes = (int) anotherUpDown.Value;
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -161,7 +149,7 @@ namespace Awareness.UI
         void UntilPickerValueChanged(object sender, EventArgs e){
             if (processEvents){
                 action.RepeatUntil = untilPicker.Value;
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -169,7 +157,7 @@ namespace Awareness.UI
         void ShowReminderCheckCheckedChanged(object sender, EventArgs e){
             if (processEvents){
                 action.HasWindowReminder = showReminderCheck.Checked;
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -185,7 +173,7 @@ namespace Awareness.UI
         void RunCommandCheckCheckedChanged(object sender, EventArgs e){
             if (processEvents){
                 action.HasCommandReminder = runCommandCheck.Checked;
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -193,7 +181,7 @@ namespace Awareness.UI
         void PlaySoundCheckCheckedChanged(object sender, EventArgs e){
             if (processEvents){
                 action.HasSoundReminder = playSoundCheck.Checked;
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -201,7 +189,7 @@ namespace Awareness.UI
         void CommandSelectorCommandChanged(object sender, EventArgs e){
             if (processEvents){
                 action.ReminderCommand = commandSelector.Command;
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -213,7 +201,7 @@ namespace Awareness.UI
         void SoundSelectorCommandChanged(object sender, EventArgs e){
             if (processEvents){
                 action.ReminderSound = soundSelector.Command;
-                DBUtil.UpdateActionTimeStamp(action);
+                UpdateAction();
                 Action = action;
             }
         }
@@ -221,5 +209,6 @@ namespace Awareness.UI
         void SoundSelectorTestClick(object sender, EventArgs e){
             Launcher.PlayMediaFile(action.ReminderSound);
         }
+        
     }
 }

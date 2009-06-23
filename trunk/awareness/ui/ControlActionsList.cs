@@ -35,14 +35,14 @@ using System.Windows.Forms;
 
 using Awareness.DB;
 
-// SHOULD: items have note as tooltip
-// SHOULD: double click on item allows action edit
-
 namespace Awareness.UI
 {
     public enum ETitleFormats { HIDDEN, DAY_OF_WEEK, DAY_OF_MONTH }
 
     public partial class ControlActionsList : UserControl {
+        
+        bool processEvents = true;
+        
         public string Title
         {
             get { return titleLabel.Text; }
@@ -132,7 +132,7 @@ namespace Awareness.UI
         }
 
         public void UpdateActions(){
-            if (timeInterval != null && DBUtil.IsDbAvailable()){
+            if (processEvents && timeInterval != null && DBUtil.IsDbAvailable()){
                 Debug.WriteLine("UpdateActions");
                 actionsView.BeginUpdate();
                 actionsView.Items.Clear();
@@ -146,14 +146,23 @@ namespace Awareness.UI
 
         ListViewItem ItemFromAction(ActionOccurrence occurrence)
         {
+            DalAction action = occurrence.Action;
+
             ListViewItem item = new ListViewItem();
+            
             item.Tag = occurrence;
             item.Text = occurrence.Action.Name;
-            item.SubItems.Add(occurrence.Start.ToString("HH:mm"));
-            item.SubItems.Add((occurrence.Action.Start.Equals(occurrence.Action.End)) ? ("") : (occurrence.End.ToString("HH:mm")));
-            if (occurrence.Action.HasNote) {
-                item.ToolTipText = occurrence.Action.Note.Text;
+            item.Checked = action.IsChecked;
+            if (action.HasNote) {
+                item.ToolTipText = action.Note.Text;
             }
+            
+            string time = occurrence.Start.ToString("HH:mm");
+            item.SubItems.Add((time == "00:00") ? ("") : (time));
+
+            time = occurrence.End.ToString("HH:mm");
+            item.SubItems.Add((action.Type == DalAction.TYPE_TODO) ? ("") : (time));
+            
             return item;
         }
         
@@ -184,17 +193,51 @@ namespace Awareness.UI
         void ActionsViewAfterLabelEdit(object sender, LabelEditEventArgs e)
         {
             ListViewItem item = actionsView.Items[e.Item];
+            DalAction action = ((ActionOccurrence) item.Tag).Action;
+            
             if (string.IsNullOrEmpty(e.Label)) {
-        	    actionsView.Items.Remove(item);
+                action.Name = item.Text;
         	} else {
-                DalAction action = ((ActionOccurrence) item.Tag).Action;
         	    action.Name = e.Label;
-            	if (action.Parent == null) {
-            	    DBUtil.AddAction(action);
-            	} else {
-            	    DBUtil.UpdateAction(action);
-            	}
         	}
+            
+        	if (action.Parent == null) {
+        	    DBUtil.InsertAction(action, null);
+        	} else {
+        	    DBUtil.UpdateAction(action, null);
+        	}
+            
+            e.CancelEdit = true;
+        }
+        
+        void ActionsViewItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            if (processEvents) {
+                DalAction action = ((ActionOccurrence) e.Item.Tag).Action;
+                if (action.IsChecked != e.Item.Checked) {
+                    action.IsChecked = e.Item.Checked;
+                    processEvents = false;
+                    DBUtil.UpdateAction(action, action.Note);
+                    processEvents = true;
+                }
+            }
+        }
+        
+        void ActionsViewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (actionsView.SelectedItems.Count > 0) {
+                if (e.KeyCode == Keys.Delete) {
+                    if (MessageBox.Show("Are you sure you want to delete the action?",
+                                        "Delete action",
+                                        MessageBoxButtons.OKCancel,
+                                        MessageBoxIcon.Question,
+                                        MessageBoxDefaultButton.Button2) == DialogResult.OK) {
+                        ListViewItem item = actionsView.SelectedItems[0];
+                        DalAction action = ((ActionOccurrence) item.Tag).Action;
+                        DBUtil.DeleteActionRec(action);
+                    }
+                }
+            }
         }
     }
 }

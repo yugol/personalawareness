@@ -49,9 +49,10 @@ namespace Awareness.UI
             InitializeComponent();
         }
         
+        
         void FormEditActionFormClosing(object sender, FormClosingEventArgs e)
         {
-            DBUtil.UpdateAction(Action);
+            controlActionEdit.UpdateAction();
         }
     }
 }

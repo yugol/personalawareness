@@ -133,7 +133,6 @@ namespace Awareness.DB
             IQueryable<DalAction> actions = from a in dataContext.actions
                                             where a.Id > 1
                                             where a.ParentId == 1
-                                            orderby a.Index
                                             select a;
             return actions;
         }
@@ -142,7 +141,6 @@ namespace Awareness.DB
             IQueryable<DalAction> actions = from a in dataContext.actions
                                             where a.Id > 1
                                             where a.ParentId == action.Id
-                                            orderby a.Index
                                             select a;
             return actions;
         }
@@ -260,8 +258,10 @@ namespace Awareness.DB
         }
 
         internal static List<ActionOccurrence> GetActionOccurrences(TimeInterval interval){
-            IQueryable<DalAction> actions = dataContext.actions
-                                            .Where(a => a.Type != DalAction.TYPE_GROUP);
+            IQueryable<DalAction> actions = from a in dataContext.actions
+                                            where a.Type != DalAction.TYPE_GROUP
+                                            orderby a.Start, a.End, a.Name
+                                            select a;
             return SplitAndSortOccurrences(interval, actions);
         }
 
@@ -274,10 +274,10 @@ namespace Awareness.DB
             return occurrences;
         }
 
-        internal static List<ActionOccurrence> GetUncompletedActionOccurencesWithReminder(TimeInterval interval) {
+        internal static List<ActionOccurrence> GetUncheckedActionOccurencesWithReminder(TimeInterval interval) {
             IQueryable<DalAction> actions = dataContext.actions
                                             .Where(a => a.Type != DalAction.TYPE_GROUP)
-                                            .Where(a => a.CompletionTime < a.CreationTime)
+                                            .Where(a => !a.IsChecked)
                                             .Where(a => a.HasCommandReminder||a.HasSoundReminder||a.HasWindowReminder);
             return SplitAndSortOccurrences(interval, actions);
         }
@@ -300,7 +300,8 @@ namespace Awareness.DB
         }
 
         internal static bool IsTransferLocationUsed(DalTransferLocation tl) {
-            IQueryable<DalTransaction> q = dataContext.transactions.Where(d => d.FromId == tl.Id||d.ToId == tl.Id);
+            IQueryable<DalTransaction> q = dataContext.transactions
+                                           .Where(d => d.FromId == tl.Id||d.ToId == tl.Id);
             if (q.Count() > 0){
                 return true;
             }

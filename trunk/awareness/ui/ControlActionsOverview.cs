@@ -83,13 +83,16 @@ namespace Awareness.UI
             TreeNode node = new TreeNode();
             node.Tag = action;
             node.Text = action.Name;
-            node.Checked = action.IsCompleted;
+            node.Checked = action.IsChecked;
             SetNodeImage(node);
             return node;
         }
 
         public static void SetNodeImage(TreeNode node)
         {
+            if (node == null) {
+                return;    
+            }
             DalAction action = (DalAction) node.Tag;
             switch (action.Type) 
             {
@@ -142,7 +145,7 @@ namespace Awareness.UI
             if (e.Label != null)
             {
                 action.Name = e.Label;
-                DBUtil.UpdateActionTimeStamp(action);
+                DBUtil.UpdateAction(action, action.Note);
             }
         }
         
@@ -152,7 +155,7 @@ namespace Awareness.UI
             if (action.IsExpanded)
             {
                 action.IsExpanded = false;
-                DBUtil.UpdateAction(action);
+                DBUtil.UpdateAction(action, action.Note);
             }
             SetNodeImage(e.Node);
         }
@@ -163,7 +166,7 @@ namespace Awareness.UI
             if (!action.IsExpanded)
             {
                 action.IsExpanded = true;
-                DBUtil.UpdateAction(action);
+                DBUtil.UpdateAction(action, action.Note);
             }
             SetNodeImage(e.Node);
         }
@@ -173,14 +176,8 @@ namespace Awareness.UI
             DalAction action = (DalAction) e.Node.Tag;
             if (action.Type != DalAction.TYPE_GROUP)
             {
-                if (e.Node.Checked)
-                {
-                    DBUtil.CompleteAction(action);
-                }
-                else
-                {
-                    DBUtil.UnCompleteAction(action);
-                }
+                action.IsChecked = e.Node.Checked;
+                DBUtil.UpdateAction(action, action.Note);
                 actionEditControl.Node = e.Node;
             }
         }
@@ -197,6 +194,11 @@ namespace Awareness.UI
         void ReminderToolButtonClick(object sender, EventArgs e)
         {
             UpdateActionsTree();
+        }
+        
+        void ActionsTreeBeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            actionEditControl.UpdateAction();
         }
     }
 }

@@ -34,7 +34,7 @@ using System.Data.Linq.Mapping;
 namespace Awareness.DB
 {
     [Table(Name = "actions")]
-    public class DalAction {
+    public class DalAction : Notable {
         public const string MaxNameCharCount = "100";
         public const string DefaultNewActionName = "New Action";
         public const string DefaultNewGroupName = "New Group";
@@ -44,10 +44,7 @@ namespace Awareness.DB
         public const byte TYPE_TASK = 2;
 
         public DalAction(){
-            _created = DBUtil.RemoveMilliseconds(DateTime.Now);
-            _modified = _created;
-            _start = _created.Date;
-            _end = _start;
+            Start = DBUtil.RemoveMilliseconds(DateTime.Now);
         }
 
         int _id = 0;
@@ -86,18 +83,7 @@ namespace Awareness.DB
             }
         }
 
-        int _index = 0;
-        [Column(Storage = "_index",
-                Name = "index",
-                DbType = "int NOT NULL",
-                CanBeNull = false)]
-        public int Index
-        {
-            get { return _index; }
-            set { _index = value; }
-        }
-
-        byte _type = TYPE_TASK;
+        byte _type = TYPE_TODO;
         [Column(Storage = "_type",
                 Name = "type",
                 DbType = "tinyint NOT NULL",
@@ -109,20 +95,6 @@ namespace Awareness.DB
             {
                 if (_type != value){
                     _type = value;
-                    switch (value){
-                    case TYPE_TODO:
-                        _end = _start;
-                        break;
-
-                    case TYPE_TASK:
-                        break;
-
-                    case TYPE_GROUP:
-                        break;
-
-                    default:
-                        throw new ArgumentException("Unknown type");
-                    }
                 }
             }
         }
@@ -138,41 +110,15 @@ namespace Awareness.DB
             set { _expanded = value; }
         }
 
-        DateTime _created;
-        [Column(Storage = "_created",
-                Name = "created",
-                DbType = "datetime NOT NULL",
+        bool _checked = false;
+        [Column(Storage = "_checked",
+                Name = "checked",
+                DbType = "bit NOT NULL",
                 CanBeNull = false)]
-        public DateTime CreationTime
+        public bool IsChecked
         {
-            get { return _created; }
-        }
-
-        DateTime _modified;
-        [Column(Storage = "_modified",
-                Name = "modified",
-                DbType = "datetime NOT NULL",
-                CanBeNull = false)]
-        public DateTime ModificationTime
-        {
-            get { return _modified; }
-            set { _modified = value; }
-        }
-
-        DateTime _completed = Configuration.ZERO_DATE;
-        [Column(Storage = "_completed",
-                Name = "completed",
-                DbType = "datetime NOT NULL",
-                CanBeNull = false)]
-        public DateTime CompletionTime
-        {
-            get { return _completed; }
-            set { _completed = value; }
-        }
-
-        public bool IsCompleted
-        {
-            get { return _completed > _created; }
+            get { return _checked; }
+            set { _checked = value; }
         }
 
         string _name = null;
@@ -226,9 +172,9 @@ namespace Awareness.DB
             {
                 _timePlanned = value;
                 if (!value){
-                    _start = _start.Date;
-                    UpdateRecurrence();
-                    _end = _end.Date;
+                    Start = Start.Date;
+                    // UpdateRecurrence();
+                    End = End.Date;
                 }
             }
         }
@@ -252,8 +198,9 @@ namespace Awareness.DB
                 _start = value;
                 if (_start.CompareTo(_end) > 0){
                     _end = _start;
+                } else {
+                    UpdateRecurrence();
                 }
-                UpdateRecurrence();
             }
         }
 
@@ -264,7 +211,13 @@ namespace Awareness.DB
                 CanBeNull = false)]
         public DateTime End
         {
-            get { return _end; }
+            get 
+            { 
+                if (Type == TYPE_TODO) {
+                    return Start;    
+                }
+                return _end;
+            }
             set
             {
                 if (value.CompareTo(Configuration.MAX_DATE_TIME) > 0){
@@ -276,6 +229,7 @@ namespace Awareness.DB
                 _end = value;
                 if (_start.CompareTo(_end) > 0){
                     _start = _end;
+                } else {
                     UpdateRecurrence();
                 }
             }
@@ -417,7 +371,7 @@ namespace Awareness.DB
 
         public TimeSpan Duration
         {
-            get { return _end.Subtract(_start); }
+            get { return End.Subtract(Start); }
         }
 
         bool _hasWindowReminder = false;
