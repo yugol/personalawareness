@@ -60,7 +60,7 @@ namespace Awareness.UI
         }
 
         public void UpdateActions(){
-            if (isDisplayed&&updateActionsBit){
+            if (isDisplayed && updateActionsBit){
                 actionsListControl.UpdateActions();
                 updateActionsBit = false;
                 //MessageBox.Show("DayActionsReport updated");

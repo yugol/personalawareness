@@ -60,7 +60,7 @@ namespace Awareness.UI
         }
 
         void UpdateActions(){
-            if (isDisplayed&&updateActionsBit){
+            if (isDisplayed && updateActionsBit){
                 mondayActions.UpdateActions();
                 tuesdayActions.UpdateActions();
                 wednesdayActions.UpdateActions();

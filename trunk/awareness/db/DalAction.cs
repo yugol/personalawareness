@@ -36,6 +36,8 @@ namespace Awareness.DB
     [Table(Name = "actions")]
     public class DalAction {
         public const string MaxNameCharCount = "100";
+        public const string DefaultNewActionName = "New Action";
+        public const string DefaultNewGroupName = "New Group";
 
         public const byte TYPE_GROUP = 0;
         public const byte TYPE_TODO = 1;

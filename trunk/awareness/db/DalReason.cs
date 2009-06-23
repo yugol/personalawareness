@@ -202,7 +202,7 @@ namespace Awareness.DB
         		try {
         			return float.Parse(_availableQuantity);
         		} catch (Exception) {
-        			throw new CashEmpty();
+        			throw new CashEmptyException();
         		}
         	}
         	set { _availableQuantity = value.ToString(); }

@@ -40,10 +40,10 @@ namespace Awareness.UI
         public ControlActionsOverview()
         {
             InitializeComponent();
-            DBUtil.DataContextChanged += new DatabaseChangedHandler(UpdateActionTree);
+            DBUtil.DataContextChanged += new DatabaseChangedHandler(UpdateActionsTree);
         }
         
-        void UpdateActionTree()
+        void UpdateActionsTree()
         {
             actionsTree.BeginUpdate();
             
@@ -194,5 +194,9 @@ namespace Awareness.UI
             }
         }
         
+        void ReminderToolButtonClick(object sender, EventArgs e)
+        {
+            UpdateActionsTree();
+        }
     }
 }

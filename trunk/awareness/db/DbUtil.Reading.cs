@@ -190,7 +190,7 @@ namespace Awareness.DB
         internal static float GetAvailableQuantity(DalFood reason){
         	try {
         		return reason.AvailableQuantity;
-        	} catch (CashEmpty) {
+        	} catch (CashEmptyException) {
             	reason.AvailableQuantity = GetTransactedQuantity(reason) - GetConsumedQuantity(reason);
             	dataContext.SubmitChanges();
             	return reason.AvailableQuantity;
