@@ -79,19 +79,16 @@ namespace Awareness.UI
             TreeNode clickNode = (TreeNode) actionTreeContextMenu.Tag;
             if (clickNode == null) {
                 actionsTree.Nodes.Add(node);
-                DBUtil.AddAction(action);
             } else {
-                int clickNodeIndex = -10;
                 if (clickNode.Parent == null){
-                    clickNodeIndex = actionsTree.Nodes.IndexOf(clickNode);
-                    actionsTree.Nodes.Insert(clickNodeIndex + 1, node);
+                    actionsTree.Nodes.Add(node);
                 } else {
                     action.Parent = (DalAction) clickNode.Parent.Tag;
-                    clickNodeIndex = clickNode.Parent.Nodes.IndexOf(clickNode);
-                    clickNode.Parent.Nodes.Insert(clickNodeIndex + 1, node);
+                    clickNode.Parent.Nodes.Add(node);
                 }
-                DBUtil.InsertAction(clickNodeIndex + 1, action);
             }
+            
+            DBUtil.InsertAction(action, null);
 
             actionsTree.SelectedNode = node;
             node.BeginEdit();
@@ -103,8 +100,8 @@ namespace Awareness.UI
             TreeNode clickNode = (TreeNode) actionTreeContextMenu.Tag;
             action.Parent = (DalAction) clickNode.Tag;
 
-            clickNode.Nodes.Insert(0, node);
-            DBUtil.InsertAction(0, action);
+            clickNode.Nodes.Add(node);
+            DBUtil.InsertAction(action, null);
 
             actionsTree.SelectedNode = node;
             node.BeginEdit();
@@ -118,7 +115,7 @@ namespace Awareness.UI
                                 MessageBoxDefaultButton.Button2) == DialogResult.OK){
                 DalAction action = (DalAction) node.Tag;
 
-                DBUtil.DeleteActionRecursive(action);
+                DBUtil.DeleteActionRec(action);
 
                 TreeNode nextSelected = node.NextVisibleNode;
                 if (nextSelected == null){

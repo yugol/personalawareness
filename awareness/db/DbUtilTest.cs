@@ -163,89 +163,37 @@ namespace Awareness.DB
             DalAction a1 = new DalAction() {
                 Name = "a1"
             };
-            DBUtil.AddAction(a1);
-            Assert.AreEqual(0, a1.Index);
+            DBUtil.InsertAction(a1, null);
 
             DalAction a2 = new DalAction() {
                 Name = "a2"
             };
-            DBUtil.AddAction(a2);
-            Assert.AreEqual(1, a2.Index);
+            DBUtil.InsertAction(a2, null);
 
             DalAction a3 = new DalAction() {
                 Name = "a3"
             };
-            DBUtil.AddAction(a3);
-            Assert.AreEqual(2, a3.Index);
+            DBUtil.InsertAction(a3, null);
 
             DalAction a11 = new DalAction() {
                 Name = "a11", Parent = a1
             };
-            DBUtil.AddAction(a11);
-            Assert.AreEqual(0, a11.Index);
+            DBUtil.InsertAction(a11, null);
 
             DalAction a12 = new DalAction() {
                 Name = "a12", Parent = a1
             };
-            DBUtil.AddAction(a12);
-            Assert.AreEqual(1, a12.Index);
+            DBUtil.InsertAction(a12, null);
 
             DalAction a31 = new DalAction() {
                 Name = "a31", Parent = a3
             };
-            DBUtil.AddAction(a31);
-            Assert.AreEqual(0, a31.Index);
+            DBUtil.InsertAction(a31, null);
 
-            DBUtil.DeleteActionRecursive(a1);
-            DBUtil.DeleteActionRecursive(a2);
-            DBUtil.DeleteActionRecursive(a3);
+            DBUtil.DeleteActionRec(a1);
+            DBUtil.DeleteActionRec(a2);
+            DBUtil.DeleteActionRec(a3);
 
-            Assert.AreEqual(0, DBUtil.GetRootActions().Count());
-        }
-
-        [Test]
-        public void InsertDeleteAction(){
-            DalAction a = new DalAction() {
-                Name = "a"
-            };
-            DBUtil.AddAction(a);
-            Assert.AreEqual(0, a.Index);
-
-            DalAction a1 = new DalAction() {
-                Name = "a1", Parent = a
-            };
-            DBUtil.InsertAction(0, a1);
-            Assert.AreEqual(0, a1.Index);
-
-            DalAction a2 = new DalAction() {
-                Name = "a2", Parent = a
-            };
-            DBUtil.InsertAction(0, a2);
-            Assert.AreEqual(0, a2.Index);
-            Assert.AreEqual(1, a1.Index);
-
-            DalAction a3 = new DalAction() {
-                Name = "a3", Parent = a
-            };
-            DBUtil.InsertAction(1, a3);
-            Assert.AreEqual(1, a3.Index);
-            Assert.AreEqual(0, a2.Index);
-            Assert.AreEqual(2, a1.Index);
-
-            DalAction a4 = new DalAction() {
-                Name = "a4", Parent = a
-            };
-            DBUtil.InsertAction(3, a4);
-            Assert.AreEqual(3, a4.Index);
-            Assert.AreEqual(1, a3.Index);
-            Assert.AreEqual(0, a2.Index);
-            Assert.AreEqual(2, a1.Index);
-
-            DalAction a5 = new DalAction() {
-                Name = "a5", Parent = a
-            };
-
-            DBUtil.DeleteActionRecursive(a);
             Assert.AreEqual(0, DBUtil.GetRootActions().Count());
         }
 

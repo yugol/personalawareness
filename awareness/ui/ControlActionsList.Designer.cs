@@ -80,6 +80,7 @@ namespace Awareness.UI
         	// actionsView
         	// 
         	this.actionsView.AllowColumnReorder = true;
+        	this.actionsView.CheckBoxes = true;
         	this.actionsView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
         	        	        	this.whatColumn,
         	        	        	this.startColumn,
@@ -96,9 +97,11 @@ namespace Awareness.UI
         	this.actionsView.TabIndex = 1;
         	this.actionsView.UseCompatibleStateImageBehavior = false;
         	this.actionsView.View = System.Windows.Forms.View.Details;
+        	this.actionsView.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ActionsViewItemChecked);
         	this.actionsView.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.ActionsViewAfterLabelEdit);
         	this.actionsView.SizeChanged += new System.EventHandler(this.ActionsViewSizeChanged);
         	this.actionsView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ActionsViewMouseUp);
+        	this.actionsView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActionsViewKeyDown);
         	// 
         	// whatColumn
         	// 

@@ -116,7 +116,11 @@ namespace Awareness.DB
         }
 
         internal static DalNote GetRootNote(){
-            return dataContext.notes.Where(n => n.Id == AwarenessDataContext.NOTE_ROOT_ID).First();
+            return dataContext.GetNoteById(AwarenessDataContext.NOTE_ROOT_ID);
+        }
+
+        internal static DalAction GetRootAction(){
+            return dataContext.GetActionById(AwarenessDataContext.ACTION_ROOT_ID);
         }
 
         internal static string Minutes2TimeSpanString(int minutes){

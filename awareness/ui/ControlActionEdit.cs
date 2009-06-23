@@ -30,9 +30,6 @@ using System;
 using System.Windows.Forms;
 using Awareness.DB;
 
-// MUST: replace noteTextView with ControlAddNote
-// MUST: alingn action dbutil operations with the others
-
 namespace Awareness.UI
 {
     public partial class ControlActionEdit : UserControl {
@@ -73,7 +70,6 @@ namespace Awareness.UI
                     Visible = true;
                     Data2UiPlan();
                     Data2UiReminder();
-                    Data2UiAbout();
                     Data2UiGeneral();
                 }
 
@@ -88,8 +84,6 @@ namespace Awareness.UI
             Util.SetMinMaxDatesAndShortFormatFor(endDatePicker);
             Util.SetMinMaxDatesAndLongFormatFor(untilPicker);
 
-            noteTextView.TopVisible = false;
-            noteTextView.NoteTextChanged += new NoteHandler(NoteTextChanged);
             recurrencePatternEditControl.PatternChanged += new PatternChangedHandler(RecurrencePatternChanged);
             commandSelector.CommandChanged += new EventHandler(CommandSelectorCommandChanged);
             commandSelector.TestClick += new EventHandler(CommandSelectorTestClick);
@@ -99,25 +93,21 @@ namespace Awareness.UI
 
         void Data2UiGeneral(){
             switch (action.Type){
-            case DalAction.TYPE_TODO:
-                setEndCheck.Checked = false;
-                SetTodoUi();
-                break;
-            case DalAction.TYPE_TASK:
-                setEndCheck.Checked = true;
-                SetTaskUi();
-                break;
-            case DalAction.TYPE_GROUP:
-                SetGroupUi();
-                break;
-            default:
-                throw new ApplicationException("Unknown action type");
+                case DalAction.TYPE_TODO:
+                    setEndCheck.Checked = false;
+                    SetTodoUi();
+                    break;
+                case DalAction.TYPE_TASK:
+                    setEndCheck.Checked = true;
+                    SetTaskUi();
+                    break;
+                case DalAction.TYPE_GROUP:
+                    SetGroupUi();
+                    break;
+                default:
+                    throw new ApplicationException("Unknown action type");
             }
-            if (action.Note.Id != AwarenessDataContext.NOTE_ROOT_ID){
-                noteTextView.Note = action.Note;
-            } else {
-                noteTextView.Note = null;
-            }
+            noteControl.Note = action.Note;
         }
 
         void Data2UiPlan(){
@@ -175,16 +165,6 @@ namespace Awareness.UI
 
             reminderDurationCombo.Enabled = action.HasReminder;
             reminderDurationCombo.Text = DBUtil.Minutes2TimeSpanString(action.ReminderDuration);
-        }
-
-        void Data2UiAbout(){
-            createdBox.Text = action.CreationTime.ToString(Configuration.DATE_FULL_TIME_FORMAT);
-            modifiedBox.Text = action.ModificationTime.ToString(Configuration.DATE_FULL_TIME_FORMAT);
-            if (action.IsCompleted){
-                completedBox.Text = action.CompletionTime.ToString(Configuration.DATE_FULL_TIME_FORMAT);
-            } else {
-                completedBox.Text = "Not yet";
-            }
         }
 
         void SetTodoUi(){
@@ -299,5 +279,13 @@ namespace Awareness.UI
                 untilPicker.MinDate = untilPicker.MaxDate;   
             }            
         }        
+        
+        public void UpdateAction()
+        {
+            if (action != null) {
+                DBUtil.UpdateAction(action, noteControl.Note);
+            }
+        }
+        
     }
 }

@@ -103,12 +103,12 @@ namespace Awareness.UI
         	this.deleteGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.actionIcons = new System.Windows.Forms.ImageList(this.components);
         	this.toolStrip = new System.Windows.Forms.ToolStrip();
+        	this.reminderToolButton = new System.Windows.Forms.ToolStripButton();
         	this.unindentToolButton = new System.Windows.Forms.ToolStripButton();
         	this.moveUpToolButton = new System.Windows.Forms.ToolStripButton();
         	this.moveDownToolButton = new System.Windows.Forms.ToolStripButton();
         	this.indentToolButton = new System.Windows.Forms.ToolStripButton();
         	this.actionEditControl = new Awareness.UI.ControlActionEdit();
-        	this.reminderToolButton = new System.Windows.Forms.ToolStripButton();
         	this.splitContainer.Panel1.SuspendLayout();
         	this.splitContainer.Panel2.SuspendLayout();
         	this.splitContainer.SuspendLayout();
@@ -220,6 +220,7 @@ namespace Awareness.UI
         	this.actionsTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ActionsTreeAfterSelect);
         	this.actionsTree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ActionsTreeMouseDown);
         	this.actionsTree.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.ActionsTreeBeforeCheck);
+        	this.actionsTree.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.ActionsTreeBeforeSelect);
         	this.actionsTree.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.ActionsTreeAfterExpand);
         	// 
         	// actionTreeContextMenu
@@ -310,8 +311,18 @@ namespace Awareness.UI
         	this.toolStrip.Location = new System.Drawing.Point(3, 0);
         	this.toolStrip.Name = "toolStrip";
         	this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-        	this.toolStrip.Size = new System.Drawing.Size(149, 25);
+        	this.toolStrip.Size = new System.Drawing.Size(118, 25);
         	this.toolStrip.TabIndex = 0;
+        	// 
+        	// reminderToolButton
+        	// 
+        	this.reminderToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.reminderToolButton.Image = ((System.Drawing.Image)(resources.GetObject("reminderToolButton.Image")));
+        	this.reminderToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        	this.reminderToolButton.Name = "reminderToolButton";
+        	this.reminderToolButton.Size = new System.Drawing.Size(23, 22);
+        	this.reminderToolButton.Text = "toolStripButton1";
+        	this.reminderToolButton.Click += new System.EventHandler(this.ReminderToolButtonClick);
         	// 
         	// unindentToolButton
         	// 
@@ -362,16 +373,6 @@ namespace Awareness.UI
         	this.actionEditControl.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
         	this.actionEditControl.Size = new System.Drawing.Size(463, 480);
         	this.actionEditControl.TabIndex = 0;
-        	// 
-        	// reminderToolButton
-        	// 
-        	this.reminderToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.reminderToolButton.Image = ((System.Drawing.Image)(resources.GetObject("reminderToolButton.Image")));
-        	this.reminderToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.reminderToolButton.Name = "reminderToolButton";
-        	this.reminderToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.reminderToolButton.Text = "toolStripButton1";
-        	this.reminderToolButton.Click += new System.EventHandler(this.ReminderToolButtonClick);
         	// 
         	// ControlActionsOverview
         	// 

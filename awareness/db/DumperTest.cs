@@ -155,16 +155,16 @@ namespace Awareness.DB
             DalAction act1 = new DalAction() {
                 Parent = rootAction, Name = "act1"
             };
-            DBUtil.AddAction(act1);
+            DBUtil.InsertAction(act1, null);
             DalAction act2 = new DalAction() {
                 Parent = rootAction, Name = "act2"
             };
             act2.HasWindowReminder = true;
             act2.HasSoundReminder = true;
             act2.HasCommandReminder = true;
-            DBUtil.AddAction(act2);
+            DBUtil.InsertAction(act2, null);
             act1.Parent = act2;
-            DBUtil.UpdateAction(act1);
+            DBUtil.UpdateAction(act1, null);
             
             Configuration.DBProperties.CurrencySymbol = "USD";
             DBUtil.UpdateProperties();
