@@ -41,8 +41,6 @@ namespace Awareness.UI
 
     public partial class ControlActionsList : UserControl {
         
-        bool processEvents = true;
-        
         public string Title
         {
             get { return titleLabel.Text; }
@@ -132,13 +130,14 @@ namespace Awareness.UI
         }
 
         public void UpdateActions(){
-            if (processEvents && timeInterval != null && DBUtil.IsDbAvailable()){
+            if (timeInterval != null && DBUtil.IsDbAvailable()){
                 Debug.WriteLine("UpdateActions");
                 actionsView.BeginUpdate();
                 actionsView.Items.Clear();
                 List<ActionOccurrence> occurrences = DBUtil.GetActionOccurrences(timeInterval);
                 foreach (ActionOccurrence occurrence in occurrences){
-                    actionsView.Items.Add(ItemFromAction(occurrence));
+                    ListViewItem item = ItemFromAction(occurrence);
+                    actionsView.Items.Add(item);
                 }
                 actionsView.EndUpdate();
             }
@@ -212,14 +211,10 @@ namespace Awareness.UI
         
         void ActionsViewItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            if (processEvents) {
-                DalAction action = ((ActionOccurrence) e.Item.Tag).Action;
-                if (action.IsChecked != e.Item.Checked) {
-                    action.IsChecked = e.Item.Checked;
-                    processEvents = false;
-                    DBUtil.UpdateAction(action, action.Note);
-                    processEvents = true;
-                }
+            DalAction action = ((ActionOccurrence) e.Item.Tag).Action;
+            if (action.IsChecked != e.Item.Checked) {
+                action.IsChecked = e.Item.Checked;
+                DBUtil.UpdateActionNoNotification(action, action.Note);
             }
         }
         
