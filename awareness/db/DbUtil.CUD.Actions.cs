@@ -46,8 +46,12 @@ namespace Awareness.DB
         }
 
         internal static void UpdateAction(DalAction action, DalNote note){
-            PreludeUpdateNotable(action, note, AwarenessDataContext.NOTE_ACTIONS_ID);
+            UpdateActionNoNotification(action, note);
             NotifyActionsChanged();
+        }
+
+        internal static void UpdateActionNoNotification(DalAction action, DalNote note){
+            PreludeUpdateNotable(action, note, AwarenessDataContext.NOTE_ACTIONS_ID);
         }
 
         internal static void DeleteActionRec(DalAction action){
