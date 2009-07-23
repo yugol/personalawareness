@@ -129,6 +129,8 @@ namespace Awareness.UI
         	this.remindersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.calendarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.todoListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.openStorgeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
         	this.mainMenu.SuspendLayout();
         	this.statusBar.SuspendLayout();
         	this.actionPages.SuspendLayout();
@@ -166,6 +168,8 @@ namespace Awareness.UI
         	// fileToolStripMenuItem
         	// 
         	this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+        	        	        	this.openStorgeToolStripMenuItem,
+        	        	        	this.toolStripMenuItem1,
         	        	        	this.newDatabaseToolStripMenuItem,
         	        	        	this.openDatabaseToolStripMenuItem,
         	        	        	this.deleteDatabaseToolStripMenuItem,
@@ -802,6 +806,18 @@ namespace Awareness.UI
         	this.todoListToolStripMenuItem.Text = "To &do list";
         	this.todoListToolStripMenuItem.Click += new System.EventHandler(this.TodoListToolStripMenuItemClick);
         	// 
+        	// openStorgeToolStripMenuItem
+        	// 
+        	this.openStorgeToolStripMenuItem.Name = "openStorgeToolStripMenuItem";
+        	this.openStorgeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+        	this.openStorgeToolStripMenuItem.Text = "Open Storge ...";
+        	this.openStorgeToolStripMenuItem.Click += new System.EventHandler(this.OpenStorgeToolStripMenuItemClick);
+        	// 
+        	// toolStripMenuItem1
+        	// 
+        	this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+        	this.toolStripMenuItem1.Size = new System.Drawing.Size(158, 6);
+        	// 
         	// FormMain
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -844,6 +860,8 @@ namespace Awareness.UI
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem openStorgeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem todoListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem calendarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem remindersToolStripMenuItem;

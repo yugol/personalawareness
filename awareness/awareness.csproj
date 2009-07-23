@@ -76,6 +76,7 @@
     <Compile Include="BasicTimerable.cs" />
     <Compile Include="CalculatorLogic.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Controller.cs" />
     <Compile Include="db\CashEmptyException.cs" />
     <Compile Include="db\DalAccount.cs" />
     <Compile Include="db\DalAccountType.cs" />
@@ -128,6 +129,8 @@
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
     <Compile Include="db\DbUtilTest.cs" />
+    <Compile Include="db\DataStorage.cs" />
+    <Compile Include="db\mssql\DataStorage.cs" />
     <Compile Include="db\Notable.cs" />
     <Compile Include="db\XmlProperties.cs" />
     <Compile Include="db\XmlPropertiesTest.cs" />
@@ -421,6 +424,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="db" />
+    <Folder Include="db\mssql" />
     <Folder Include="ui" />
   </ItemGroup>
 </Project>

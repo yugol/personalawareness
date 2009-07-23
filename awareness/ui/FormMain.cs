@@ -61,7 +61,7 @@ namespace Awareness.UI
 		}
 		
         internal void DisableEnableActions(){
-            bool isDbOperational = !string.IsNullOrEmpty(Configuration.LAST_DATABASE_NAME);
+            bool isDbOperational = !string.IsNullOrEmpty(Configuration.LastStorageId);
             fileMenuSeparator.Visible = isDbOperational;
             importToolStripMenuItem.Visible = isDbOperational;
             exportToolStripMenuItem.Visible = isDbOperational;
@@ -112,11 +112,13 @@ namespace Awareness.UI
 		*/      
 
         void FormMainLoad(object sender, EventArgs e){
+            trayIcon.Visible = true;
+            ResetPanelsView();            
             UpdateStatusTime();
             statusTimer.Start();
-            new ActionOpenDatabase(this).Run();
-            ResetPanelsView();
-            trayIcon.Visible = true;
+            if (!string.IsNullOrEmpty(Configuration.LastStorageId)) {
+                Controller.OpenStorage(Configuration.LastStorageId);
+            }
         }
 		
         void FormMainResize(object sender, EventArgs e)
@@ -297,7 +299,7 @@ namespace Awareness.UI
         }
 
         void DeleteDatabaseToolStripMenuItemClick(object sender, EventArgs e){
-            if (MessageBox.Show("Are you sure you want to delete database\n'" + Configuration.LAST_DATABASE_NAME + "'?",
+            if (MessageBox.Show("Are you sure you want to delete database\n'" + Configuration.LastStorageId + "'?",
                                 "Delete database",
                                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK){
                 new ActionDeleteDatabase(this).Run();
@@ -476,5 +478,16 @@ namespace Awareness.UI
 
         #endregion
                 
+        
+        void OpenStorgeToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            OpenFileDialog fd = new OpenFileDialog();
+            fd.Title = "Choose storage";
+            fd.CheckFileExists = false;
+            fd.Filter = Configuration.DataFilter;
+            fd.InitialDirectory = Configuration.DataFolder;
+            fd.ShowDialog();
+            Controller.OpenStorage(fd.FileName);
+        }
     }
 }
