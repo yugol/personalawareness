@@ -30,7 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Awareness.DB
+namespace Awareness.db
 {
     partial class DBUtil {
         internal static IQueryable<DalAccountType> GetAccountTypes(){

@@ -31,7 +31,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-using Awareness.DB;
+using Awareness.db;
 
 namespace Awareness
 {

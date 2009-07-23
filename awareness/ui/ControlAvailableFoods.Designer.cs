@@ -27,7 +27,7 @@
  * Time: 10:56
  * 
  */
-namespace Awareness.UI
+namespace Awareness.ui
 {
     partial class ControlAvailableFoods
     {
@@ -66,7 +66,7 @@ namespace Awareness.UI
         	this.consumeButton = new System.Windows.Forms.Button();
         	this.availableFoodsBottomPanel = new System.Windows.Forms.TableLayoutPanel();
         	this.whyCombo = new System.Windows.Forms.ComboBox();
-        	this.quantityInput = new Awareness.UI.ControlCalculatorInput();
+        	this.quantityInput = new Awareness.ui.ControlCalculatorInput();
         	this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
         	this.availableFoodsBottomPanel.SuspendLayout();
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -198,7 +198,7 @@ namespace Awareness.UI
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
         	this.ResumeLayout(false);
         }
-        private Awareness.UI.ControlCalculatorInput quantityInput;
+        private Awareness.ui.ControlCalculatorInput quantityInput;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.ComboBox whyCombo;
         private System.Windows.Forms.DateTimePicker datePicker;

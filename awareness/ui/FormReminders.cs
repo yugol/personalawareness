@@ -33,7 +33,7 @@ using System.Windows.Forms;
 
 using Awareness;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     public partial class FormReminders : Form {
         public FormReminders() {

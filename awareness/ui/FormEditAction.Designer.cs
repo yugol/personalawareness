@@ -25,7 +25,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Awareness.UI
+namespace Awareness.ui
 {
     partial class FormEditAction
     {
@@ -55,7 +55,7 @@ namespace Awareness.UI
         /// </summary>
         private void InitializeComponent()
         {
-        	this.controlActionEdit = new Awareness.UI.ControlActionEdit();
+        	this.controlActionEdit = new Awareness.ui.ControlActionEdit();
         	this.SuspendLayout();
         	// 
         	// controlActionEdit
@@ -81,6 +81,6 @@ namespace Awareness.UI
         	this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormEditActionFormClosing);
         	this.ResumeLayout(false);
         }
-        private Awareness.UI.ControlActionEdit controlActionEdit;
+        private Awareness.ui.ControlActionEdit controlActionEdit;
     }
 }

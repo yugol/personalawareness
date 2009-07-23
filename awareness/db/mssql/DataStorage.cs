@@ -27,9 +27,9 @@
  */
 using System;
 
-namespace Awareness.DB.mssql
+namespace Awareness.db.mssql
 {
-    public class DataStorage : Awareness.DB.DataStorage
+    public class DataStorage : Awareness.db.DataStorage
     {
         public DataStorage(string storageId) 
             : base(storageId)

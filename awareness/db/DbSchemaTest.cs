@@ -37,7 +37,7 @@ using System.Linq;
 
 using NUnit.Framework;
 
-namespace Awareness.DB
+namespace Awareness.db
 {
     [TestFixture]
     public class DBSchemaTest
@@ -157,7 +157,7 @@ namespace Awareness.DB
             dc.transferLocations.InsertOnSubmit(bc);
             dc.SubmitChanges();
             
-            DalReason tr = new DalReason() { Name = "Pâine" };
+            DalReason tr = new DalReason() { Name = "P?ine" };
             dc.transactionReasons.InsertOnSubmit(tr);
             dc.SubmitChanges();
             

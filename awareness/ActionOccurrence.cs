@@ -28,7 +28,7 @@
 
 using System;
 
-using Awareness.DB;
+using Awareness.db;
 
 namespace Awareness
 {

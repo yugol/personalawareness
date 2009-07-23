@@ -33,7 +33,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
-using Awareness.DB;
+using Awareness.db;
 using LumenWorks.Framework.IO.Csv;
 
 namespace Awareness

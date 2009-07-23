@@ -30,7 +30,7 @@ using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace Awareness.DB
+namespace Awareness.db
 {
     [Table(Name = "transaction_reasons")]
     [InheritanceMapping(Code = DalReason.TYPE_DEFAULT, Type = typeof(DalReason), IsDefault = true)]

@@ -31,7 +31,7 @@ using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace Awareness.DB
+namespace Awareness.db
 {
     [Table(Name = "transfer_locations")]
     [InheritanceMapping(Code = false, Type = typeof(DalAccount), IsDefault = true)]

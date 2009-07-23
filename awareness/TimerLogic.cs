@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     public delegate void TaskCompletedHandler(object sender, Timerable task);
 

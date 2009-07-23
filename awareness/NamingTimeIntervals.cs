@@ -30,9 +30,9 @@
 using System;
 using System.Collections.Generic;
 
-using Awareness.DB;
+using Awareness.db;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     public struct NamingTimeIntervals : IEquatable<NamingTimeIntervals>
     {

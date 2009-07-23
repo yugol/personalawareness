@@ -27,7 +27,7 @@
  * Time: 20:58
  * 
  */
-namespace Awareness.UI
+namespace Awareness.ui
 {
     partial class ControlDayActionsReport
     {
@@ -57,14 +57,14 @@ namespace Awareness.UI
         /// </summary>
         private void InitializeComponent()
         {
-        	this.datePicker = new Awareness.UI.ControlJumperDatePicker();
-        	this.actionsListControl = new Awareness.UI.ControlActionsList();
+        	this.datePicker = new Awareness.ui.ControlJumperDatePicker();
+        	this.actionsListControl = new Awareness.ui.ControlActionsList();
         	this.SuspendLayout();
         	// 
         	// datePicker
         	// 
         	this.datePicker.Dock = System.Windows.Forms.DockStyle.Top;
-        	this.datePicker.JumpSize = Awareness.UI.EJumpSize.Day;
+        	this.datePicker.JumpSize = Awareness.ui.EJumpSize.Day;
         	this.datePicker.Location = new System.Drawing.Point(0, 0);
         	this.datePicker.MinimumSize = new System.Drawing.Size(244, 20);
         	this.datePicker.Name = "datePicker";
@@ -82,7 +82,7 @@ namespace Awareness.UI
         	this.actionsListControl.TabIndex = 1;
         	this.actionsListControl.TimeInterval = null;
         	this.actionsListControl.Title = "When";
-        	this.actionsListControl.TitleFormat = Awareness.UI.ETitleFormats.HIDDEN;
+        	this.actionsListControl.TitleFormat = Awareness.ui.ETitleFormats.HIDDEN;
         	// 
         	// ControlDayActionsReport
         	// 
@@ -95,7 +95,7 @@ namespace Awareness.UI
         	this.Load += new System.EventHandler(this.ControlDayActionsReportLoad);
         	this.ResumeLayout(false);
         }
-        private Awareness.UI.ControlActionsList actionsListControl;
-        private Awareness.UI.ControlJumperDatePicker datePicker;
+        private Awareness.ui.ControlActionsList actionsListControl;
+        private Awareness.ui.ControlJumperDatePicker datePicker;
     }
 }

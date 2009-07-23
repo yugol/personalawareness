@@ -32,9 +32,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
 
-using Awareness.DB;
+using Awareness.db;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     public partial class ControlTransactions : UserControl {
         bool readTransferLocationsBit = true;

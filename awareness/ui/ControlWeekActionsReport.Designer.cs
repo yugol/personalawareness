@@ -27,7 +27,7 @@
  * Time: 22:59
  * 
  */
-namespace Awareness.UI
+namespace Awareness.ui
 {
     partial class ControlWeekActionsReport
     {
@@ -57,22 +57,22 @@ namespace Awareness.UI
         /// </summary>
         private void InitializeComponent()
         {
-        	this.datePicker = new Awareness.UI.ControlJumperDatePicker();
+        	this.datePicker = new Awareness.ui.ControlJumperDatePicker();
         	this.reportPanel = new System.Windows.Forms.TableLayoutPanel();
-        	this.saturdayActions = new Awareness.UI.ControlActionsList();
-        	this.fridayActions = new Awareness.UI.ControlActionsList();
-        	this.thursdayActions = new Awareness.UI.ControlActionsList();
-        	this.mondayActions = new Awareness.UI.ControlActionsList();
-        	this.tuesdayActions = new Awareness.UI.ControlActionsList();
-        	this.wednesdayActions = new Awareness.UI.ControlActionsList();
-        	this.sundayActions = new Awareness.UI.ControlActionsList();
+        	this.saturdayActions = new Awareness.ui.ControlActionsList();
+        	this.fridayActions = new Awareness.ui.ControlActionsList();
+        	this.thursdayActions = new Awareness.ui.ControlActionsList();
+        	this.mondayActions = new Awareness.ui.ControlActionsList();
+        	this.tuesdayActions = new Awareness.ui.ControlActionsList();
+        	this.wednesdayActions = new Awareness.ui.ControlActionsList();
+        	this.sundayActions = new Awareness.ui.ControlActionsList();
         	this.reportPanel.SuspendLayout();
         	this.SuspendLayout();
         	// 
         	// datePicker
         	// 
         	this.datePicker.Dock = System.Windows.Forms.DockStyle.Top;
-        	this.datePicker.JumpSize = Awareness.UI.EJumpSize.Week;
+        	this.datePicker.JumpSize = Awareness.ui.EJumpSize.Week;
         	this.datePicker.Location = new System.Drawing.Point(0, 0);
         	this.datePicker.MinimumSize = new System.Drawing.Size(244, 20);
         	this.datePicker.Name = "datePicker";
@@ -114,7 +114,7 @@ namespace Awareness.UI
         	this.saturdayActions.TabIndex = 5;
         	this.saturdayActions.TimeInterval = null;
         	this.saturdayActions.Title = "When";
-        	this.saturdayActions.TitleFormat = Awareness.UI.ETitleFormats.DAY_OF_WEEK;
+        	this.saturdayActions.TitleFormat = Awareness.ui.ETitleFormats.DAY_OF_WEEK;
         	// 
         	// fridayActions
         	// 
@@ -127,7 +127,7 @@ namespace Awareness.UI
         	this.fridayActions.TabIndex = 4;
         	this.fridayActions.TimeInterval = null;
         	this.fridayActions.Title = "When";
-        	this.fridayActions.TitleFormat = Awareness.UI.ETitleFormats.DAY_OF_WEEK;
+        	this.fridayActions.TitleFormat = Awareness.ui.ETitleFormats.DAY_OF_WEEK;
         	// 
         	// thursdayActions
         	// 
@@ -140,7 +140,7 @@ namespace Awareness.UI
         	this.thursdayActions.TabIndex = 3;
         	this.thursdayActions.TimeInterval = null;
         	this.thursdayActions.Title = "When";
-        	this.thursdayActions.TitleFormat = Awareness.UI.ETitleFormats.DAY_OF_WEEK;
+        	this.thursdayActions.TitleFormat = Awareness.ui.ETitleFormats.DAY_OF_WEEK;
         	// 
         	// mondayActions
         	// 
@@ -153,7 +153,7 @@ namespace Awareness.UI
         	this.mondayActions.TabIndex = 0;
         	this.mondayActions.TimeInterval = null;
         	this.mondayActions.Title = "When";
-        	this.mondayActions.TitleFormat = Awareness.UI.ETitleFormats.DAY_OF_WEEK;
+        	this.mondayActions.TitleFormat = Awareness.ui.ETitleFormats.DAY_OF_WEEK;
         	// 
         	// tuesdayActions
         	// 
@@ -166,7 +166,7 @@ namespace Awareness.UI
         	this.tuesdayActions.TabIndex = 1;
         	this.tuesdayActions.TimeInterval = null;
         	this.tuesdayActions.Title = "When";
-        	this.tuesdayActions.TitleFormat = Awareness.UI.ETitleFormats.DAY_OF_WEEK;
+        	this.tuesdayActions.TitleFormat = Awareness.ui.ETitleFormats.DAY_OF_WEEK;
         	// 
         	// wednesdayActions
         	// 
@@ -180,7 +180,7 @@ namespace Awareness.UI
         	this.wednesdayActions.TabIndex = 2;
         	this.wednesdayActions.TimeInterval = null;
         	this.wednesdayActions.Title = "When";
-        	this.wednesdayActions.TitleFormat = Awareness.UI.ETitleFormats.DAY_OF_WEEK;
+        	this.wednesdayActions.TitleFormat = Awareness.ui.ETitleFormats.DAY_OF_WEEK;
         	// 
         	// sundayActions
         	// 
@@ -193,7 +193,7 @@ namespace Awareness.UI
         	this.sundayActions.TabIndex = 6;
         	this.sundayActions.TimeInterval = null;
         	this.sundayActions.Title = "When";
-        	this.sundayActions.TitleFormat = Awareness.UI.ETitleFormats.DAY_OF_WEEK;
+        	this.sundayActions.TitleFormat = Awareness.ui.ETitleFormats.DAY_OF_WEEK;
         	// 
         	// ControlWeekActionsReport
         	// 
@@ -207,14 +207,14 @@ namespace Awareness.UI
         	this.reportPanel.ResumeLayout(false);
         	this.ResumeLayout(false);
         }
-        private Awareness.UI.ControlActionsList sundayActions;
-        private Awareness.UI.ControlActionsList wednesdayActions;
-        private Awareness.UI.ControlActionsList tuesdayActions;
-        private Awareness.UI.ControlActionsList mondayActions;
-        private Awareness.UI.ControlActionsList thursdayActions;
-        private Awareness.UI.ControlActionsList fridayActions;
-        private Awareness.UI.ControlActionsList saturdayActions;
+        private Awareness.ui.ControlActionsList sundayActions;
+        private Awareness.ui.ControlActionsList wednesdayActions;
+        private Awareness.ui.ControlActionsList tuesdayActions;
+        private Awareness.ui.ControlActionsList mondayActions;
+        private Awareness.ui.ControlActionsList thursdayActions;
+        private Awareness.ui.ControlActionsList fridayActions;
+        private Awareness.ui.ControlActionsList saturdayActions;
         private System.Windows.Forms.TableLayoutPanel reportPanel;
-        private Awareness.UI.ControlJumperDatePicker datePicker;
+        private Awareness.ui.ControlJumperDatePicker datePicker;
     }
 }

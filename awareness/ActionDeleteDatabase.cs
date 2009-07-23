@@ -29,8 +29,8 @@
  */
 using System;
 
-using Awareness.DB;
-using Awareness.UI;
+using Awareness.db;
+using Awareness.ui;
 
 namespace Awareness
 {

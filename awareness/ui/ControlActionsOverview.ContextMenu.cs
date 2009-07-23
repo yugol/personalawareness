@@ -28,9 +28,9 @@
 
 using System;
 using System.Windows.Forms;
-using Awareness.DB;
+using Awareness.db;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     partial class ControlActionsOverview {
         void UpdateContextMenu(){

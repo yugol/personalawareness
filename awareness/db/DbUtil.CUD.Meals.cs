@@ -30,7 +30,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Awareness.DB
+namespace Awareness.db
 {
     partial class DBUtil {
 

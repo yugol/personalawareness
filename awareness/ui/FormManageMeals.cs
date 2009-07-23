@@ -33,9 +33,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-using Awareness.DB;
+using Awareness.db;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     /// <summary>
     /// Description of FormManageMeals.

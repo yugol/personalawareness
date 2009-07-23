@@ -27,7 +27,7 @@
  */
 using System;
 
-namespace Awareness.DB
+namespace Awareness.db
 {
     public abstract class DataStorage
     {

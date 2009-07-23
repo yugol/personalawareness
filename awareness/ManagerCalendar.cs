@@ -28,7 +28,7 @@
 
 
 using System;
-using Awareness.UI;
+using Awareness.ui;
 
 namespace Awareness
 {

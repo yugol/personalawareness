@@ -27,7 +27,7 @@
  * Time: 11:28
  * 
  */
-namespace Awareness.UI
+namespace Awareness.ui
 {
     partial class ControlFinances
     {

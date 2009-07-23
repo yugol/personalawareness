@@ -32,10 +32,10 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-using Awareness.DB;
+using Awareness.db;
 using ZedGraph;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     partial class ControlTransactions {
         enum EGrouping {DAILY, WEEKLY, MONTHLY, YEARLY}

@@ -32,7 +32,7 @@ using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     [TestFixture]
     public class UtilTest {

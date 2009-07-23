@@ -26,8 +26,8 @@
  * THE SOFTWARE.
  */
 using System;
-using Awareness.UI;
-using Awareness.DB;
+using Awareness.ui;
+using Awareness.db;
 
 namespace Awareness
 {
@@ -53,7 +53,7 @@ namespace Awareness
         {
             string ext = storageId.Substring(storageId.LastIndexOf('.') + 1).ToLower();
             if (ext == "sdf" || ext == "mfd") {
-                storage = new Awareness.DB.mssql.DataStorage(storageId);
+                storage = new Awareness.db.mssql.DataStorage(storageId);
             }
             if (StorageOpened != null) {
                 StorageOpened();

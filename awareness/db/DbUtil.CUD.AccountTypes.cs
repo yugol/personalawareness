@@ -29,7 +29,7 @@
 
 using System;
 
-namespace Awareness.DB
+namespace Awareness.db
 {
     partial class DBUtil
     {
