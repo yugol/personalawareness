@@ -42,8 +42,8 @@ namespace Awareness
 
         public static string UIPickDatabaseName(){
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = Configuration.DATA_FILTER;
-            ofd.InitialDirectory = Configuration.DATA_FOLDER;
+            ofd.Filter = Configuration.DataFilter;
+            ofd.InitialDirectory = Configuration.DataFolder;
             if (ofd.ShowDialog() == DialogResult.OK){
                 return ofd.FileName;
             }
@@ -52,7 +52,7 @@ namespace Awareness
 
         public ActionOpenDatabase(FormMain mainForm){
             this.mainForm = mainForm;
-            this.databaseName = Configuration.LAST_DATABASE_NAME;
+            this.databaseName = Configuration.LastStorageId;
         }
 
         public ActionOpenDatabase(FormMain mainForm, string databaseName){
@@ -75,15 +75,15 @@ namespace Awareness
         }
 
         void ChangeConfiguration(){
-            Configuration.LAST_DATABASE_NAME = databaseName;
+            Configuration.LastStorageId = databaseName;
         }
 
         void ChangeUi(){
             mainForm.DisableEnableActions();
             string titleText = "Personal Awareness";
-            if (!string.IsNullOrEmpty(Configuration.LAST_DATABASE_NAME)){
+            if (!string.IsNullOrEmpty(Configuration.LastStorageId)){
                 titleText += " - ";
-                titleText += Path.GetFileName(Configuration.LAST_DATABASE_NAME);
+                titleText += Path.GetFileName(Configuration.LastStorageId);
                 mainForm.SelectActionsView();
             }
             mainForm.SetTitle(titleText);

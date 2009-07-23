@@ -79,10 +79,10 @@ namespace Awareness
 
         #region Database
 
-        internal const string DATA_FILTER = "SQL Server Compact (*.sdf)|*.sdf|SQL Server (*.mdf)|*.mdf";
+        internal const string DataFilter = "SQL Server Compact (*.sdf)|*.sdf|SQL Server (*.mdf)|*.mdf|All files (*.*)|*.*";
 
         static readonly string dataFolder = Path.Combine(Application.StartupPath, "data");
-        internal static string DATA_FOLDER 
+        internal static string DataFolder 
         { 
         	get { 
 	            if (!Directory.Exists(dataFolder)){
@@ -91,37 +91,37 @@ namespace Awareness
         		return dataFolder; 
         	}
         }
-
-        static string lastDatabaseName = "";
-        internal static string LAST_DATABASE_NAME
-        {
-            get {return lastDatabaseName;}
-            set {
-            	lastDatabaseName = value;
-            	SaveFileProperties();
-            }
-        }
-
-        private static XmlProperties dbProperties = null;
+        
+        static XmlProperties storageProperties = null;
         
         internal static XmlProperties DBProperties {
             get {
-                if (dbProperties == null){
-                    dbProperties = new XmlProperties(DBUtil.GetProperties().Xml);
+                if (storageProperties == null){
+                    storageProperties = new XmlProperties(DBUtil.GetProperties().Xml);
                 }
-                return dbProperties;
+                return storageProperties;
             }
         }
         
-        private static void ClearDBProperties() {
-            dbProperties = null;
+        static void ClearDBProperties() {
+            storageProperties = null;
         }
 
         #endregion
 
-		#region Config file
+		#region Global Properties
 		
-		internal static string ConfigFileName {
+        static string lastStorageId = "";
+        internal static string LastStorageId
+        {
+            get {return lastStorageId;}
+            set {
+            	lastStorageId = value;
+            	SaveGlobalProperties();
+            }
+        }
+
+        internal static string ConfigFileName {
 			get {
 				string configFileName = Path.Combine(Application.StartupPath,"config.properties");
 				if(!File.Exists(configFileName)) {
@@ -131,24 +131,23 @@ namespace Awareness
 			}
 		}
 		
-		internal static void ReadFileProperties() {
+		internal static void ReadGlobalProperties() {
 			string[] properties = File.ReadAllLines(ConfigFileName);
 			if (properties.Length > 0) {
-				lastDatabaseName = properties[0];
+				lastStorageId = properties[0];
 			}
 		}		
 		
-		internal static void SaveFileProperties() {
+		internal static void SaveGlobalProperties() {
 			string[] properties = new string[1];
-			properties[0] = lastDatabaseName;
+			properties[0] = lastStorageId;
 			File.WriteAllLines(ConfigFileName, properties);
 		}
 		
 		#endregion
         
         static Configuration(){
-            DBUtil.DataContextClosing += new DatabaseChangedHandler(ClearDBProperties);
-            ReadFileProperties();
+            ReadGlobalProperties();
         }
 	}
 }
