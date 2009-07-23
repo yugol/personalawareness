@@ -27,7 +27,7 @@
  */
 
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 using Awareness.db;
@@ -47,7 +47,7 @@ namespace Awareness.ui
         void ReadAccountTypes(){
             typeList.Items.Clear();
 
-            IQueryable<DalAccountType> accountTypes = DBUtil.GetAccountTypes();
+            IEnumerable<DalAccountType> accountTypes = Controller.Storage.GetAccountTypes();
             foreach (DalAccountType type in accountTypes){
                 typeList.Items.Add(type);
             }
@@ -87,7 +87,7 @@ namespace Awareness.ui
             DalAccountType at = new DalAccountType() {
                 Name = "New Account Type"
             };
-            DBUtil.InsertAccountType(at, noteControl.Note);
+            Controller.Storage.InsertAccountType(at, noteControl.Note);
             ReadAccountTypes();
             typeList.SelectedItem = at;
             nameBox.Focus();
@@ -96,7 +96,7 @@ namespace Awareness.ui
         void UpdateButtonClick(object sender, EventArgs e){
             DalAccountType accountType = (DalAccountType) typeList.SelectedItem;
             accountType.Name = nameBox.Text;
-            DBUtil.UpdateAccountType(accountType, noteControl.Note);
+            Controller.Storage.UpdateAccountType(accountType, noteControl.Note);
             ReadAccountTypes();
         }
 
@@ -107,7 +107,7 @@ namespace Awareness.ui
                                 MessageBoxButtons.OKCancel,
                                 MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK){
                 try {
-                    DBUtil.DeleteAccountType(accountType);
+                    Controller.Storage.DeleteAccountType(accountType);
                 } catch (Exception err) {
                     MessageBox.Show("Could not delete account type:\n" + err.Message,
                                     "Delete account type",

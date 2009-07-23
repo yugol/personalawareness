@@ -1,11 +1,11 @@
 /*
  * Created by SharpDevelop.
  * User: Iulian
- * Date: 24/11/2008
- * Time: 09:01
+ * Date: 7/23/2009
+ * Time: 5:21 PM
+ * 
  *
- *
- * Copyright (c) 2008 Iulian GORIAC
+ * Copyright (c) 2008, 2009 Iulian GORIAC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,34 +25,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
 using System;
-using System.Linq;
-using Awareness.db.mssql;
-namespace Awareness.db
+
+namespace Awareness.db.mssql
 {
-    partial class DBUtil {
-        internal static event DatabaseChangedHandler PropertiesChanged;
-
-        internal static DalProperties GetProperties() {
-            return dataContext.properties.First();
-        }
-
-        internal static void UpdateProperties() {
-            DalProperties prop = GetProperties();
-            prop.Xml = Configuration.DBProperties.XmlString;
+    partial class DataStorage
+    {
+        
+        public override void InsertAccountType(DalAccountType accountTypes, DalNote note)
+        {
+            PreludeInsertNotable(accountTypes, note, DataStorage.NOTE_ACCOUNT_TYPES_ID);
+            dataContext.accountTypes.InsertOnSubmit(accountTypes);
             dataContext.SubmitChanges();
-            if (Configuration.DBProperties.CurrencyNotationChanged){
-                NotifyPropertiesChanged();
-                Configuration.DBProperties.ResetCurrencyNotationChanged();
-            }
+            NotifyAccountTypesChanged();
         }
-
-        internal static void NotifyPropertiesChanged() {
-            if (PropertiesChanged != null){
-                PropertiesChanged();
-            }
+        
+        public override void UpdateAccountType(DalAccountType accountTypes, DalNote note)
+        {
+            PreludeUpdateNotable(accountTypes, note, DataStorage.NOTE_ACCOUNT_TYPES_ID);
+            NotifyAccountTypesChanged();
         }
+        
+        public override void DeleteAccountType(DalAccountType accountType)
+        {
+            DalNote note = (accountType.HasNote) ? (accountType.Note) : (null);
+            dataContext.accountTypes.DeleteOnSubmit(accountType);
+            dataContext.SubmitChanges();
+            if (note != null){
+                DeleteNote(note);
+            }
+            NotifyAccountTypesChanged();
+        }
+        
     }
 }

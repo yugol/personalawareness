@@ -61,15 +61,7 @@ namespace Awareness.ui
         	System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
         	this.mainMenu = new System.Windows.Forms.MenuStrip();
         	this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.newDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.openDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.deleteDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.fileMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
-        	this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.dumpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.dumpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-        	this.buddiCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.openStorgeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
         	this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -129,8 +121,6 @@ namespace Awareness.ui
         	this.remindersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.calendarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.todoListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.openStorgeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
         	this.mainMenu.SuspendLayout();
         	this.statusBar.SuspendLayout();
         	this.actionPages.SuspendLayout();
@@ -169,92 +159,28 @@ namespace Awareness.ui
         	// 
         	this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.openStorgeToolStripMenuItem,
-        	        	        	this.toolStripMenuItem1,
-        	        	        	this.newDatabaseToolStripMenuItem,
-        	        	        	this.openDatabaseToolStripMenuItem,
-        	        	        	this.deleteDatabaseToolStripMenuItem,
-        	        	        	this.fileMenuSeparator,
-        	        	        	this.exportToolStripMenuItem,
-        	        	        	this.importToolStripMenuItem,
         	        	        	this.toolStripMenuItem2,
         	        	        	this.exitToolStripMenuItem});
         	this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
         	this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
         	this.fileToolStripMenuItem.Text = "&File";
         	// 
-        	// newDatabaseToolStripMenuItem
+        	// openStorgeToolStripMenuItem
         	// 
-        	this.newDatabaseToolStripMenuItem.Name = "newDatabaseToolStripMenuItem";
-        	this.newDatabaseToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-        	this.newDatabaseToolStripMenuItem.Text = "&New Database...";
-        	this.newDatabaseToolStripMenuItem.Click += new System.EventHandler(this.NewDatabaseToolStripMenuItemClick);
-        	// 
-        	// openDatabaseToolStripMenuItem
-        	// 
-        	this.openDatabaseToolStripMenuItem.Name = "openDatabaseToolStripMenuItem";
-        	this.openDatabaseToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-        	this.openDatabaseToolStripMenuItem.Text = "&Open Database...";
-        	this.openDatabaseToolStripMenuItem.Click += new System.EventHandler(this.OpenDatabaseToolStripMenuItemClick);
-        	// 
-        	// deleteDatabaseToolStripMenuItem
-        	// 
-        	this.deleteDatabaseToolStripMenuItem.Name = "deleteDatabaseToolStripMenuItem";
-        	this.deleteDatabaseToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-        	this.deleteDatabaseToolStripMenuItem.Text = "&Delete Database";
-        	this.deleteDatabaseToolStripMenuItem.Click += new System.EventHandler(this.DeleteDatabaseToolStripMenuItemClick);
-        	// 
-        	// fileMenuSeparator
-        	// 
-        	this.fileMenuSeparator.Name = "fileMenuSeparator";
-        	this.fileMenuSeparator.Size = new System.Drawing.Size(158, 6);
-        	// 
-        	// exportToolStripMenuItem
-        	// 
-        	this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        	        	        	this.dumpToolStripMenuItem});
-        	this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-        	this.exportToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-        	this.exportToolStripMenuItem.Text = "&Export";
-        	// 
-        	// dumpToolStripMenuItem
-        	// 
-        	this.dumpToolStripMenuItem.Name = "dumpToolStripMenuItem";
-        	this.dumpToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-        	this.dumpToolStripMenuItem.Text = "SQL &Dump...";
-        	this.dumpToolStripMenuItem.Click += new System.EventHandler(this.DumpToolStripMenuItemClick);
-        	// 
-        	// importToolStripMenuItem
-        	// 
-        	this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        	        	        	this.dumpToolStripMenuItem1,
-        	        	        	this.buddiCSVToolStripMenuItem});
-        	this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-        	this.importToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-        	this.importToolStripMenuItem.Text = "&Import";
-        	// 
-        	// dumpToolStripMenuItem1
-        	// 
-        	this.dumpToolStripMenuItem1.Name = "dumpToolStripMenuItem1";
-        	this.dumpToolStripMenuItem1.Size = new System.Drawing.Size(138, 22);
-        	this.dumpToolStripMenuItem1.Text = "SQL &Dump...";
-        	this.dumpToolStripMenuItem1.Click += new System.EventHandler(this.DumpToolStripMenuItem1Click);
-        	// 
-        	// buddiCSVToolStripMenuItem
-        	// 
-        	this.buddiCSVToolStripMenuItem.Name = "buddiCSVToolStripMenuItem";
-        	this.buddiCSVToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-        	this.buddiCSVToolStripMenuItem.Text = "&Buddi CSV...";
-        	this.buddiCSVToolStripMenuItem.Click += new System.EventHandler(this.BuddiExportToolStripMenuItemClick);
+        	this.openStorgeToolStripMenuItem.Name = "openStorgeToolStripMenuItem";
+        	this.openStorgeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+        	this.openStorgeToolStripMenuItem.Text = "Open Storge ...";
+        	this.openStorgeToolStripMenuItem.Click += new System.EventHandler(this.OpenStorgeToolStripMenuItemClick);
         	// 
         	// toolStripMenuItem2
         	// 
         	this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-        	this.toolStripMenuItem2.Size = new System.Drawing.Size(158, 6);
+        	this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
         	// 
         	// exitToolStripMenuItem
         	// 
         	this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-        	this.exitToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+        	this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
         	this.exitToolStripMenuItem.Text = "E&xit";
         	this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
         	// 
@@ -806,18 +732,6 @@ namespace Awareness.ui
         	this.todoListToolStripMenuItem.Text = "To &do list";
         	this.todoListToolStripMenuItem.Click += new System.EventHandler(this.TodoListToolStripMenuItemClick);
         	// 
-        	// openStorgeToolStripMenuItem
-        	// 
-        	this.openStorgeToolStripMenuItem.Name = "openStorgeToolStripMenuItem";
-        	this.openStorgeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-        	this.openStorgeToolStripMenuItem.Text = "Open Storge ...";
-        	this.openStorgeToolStripMenuItem.Click += new System.EventHandler(this.OpenStorgeToolStripMenuItemClick);
-        	// 
-        	// toolStripMenuItem1
-        	// 
-        	this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-        	this.toolStripMenuItem1.Size = new System.Drawing.Size(158, 6);
-        	// 
         	// FormMain
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -860,7 +774,6 @@ namespace Awareness.ui
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem openStorgeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem todoListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem calendarToolStripMenuItem;
@@ -908,11 +821,6 @@ namespace Awareness.ui
         private System.Windows.Forms.TabPage dailyPage;
         private System.Windows.Forms.TabPage availableFoodsPage;
         private System.Windows.Forms.ToolStripMenuItem manageMealsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator fileMenuSeparator;
-        private System.Windows.Forms.ToolStripMenuItem dumpToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem dumpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem buddiCSVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem transferreasonsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
@@ -922,10 +830,6 @@ namespace Awareness.ui
         private System.Windows.Forms.ToolStripMenuItem productCategoriesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteDatabaseToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openDatabaseToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newDatabaseToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusBar;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mealsToolStripMenuItem;

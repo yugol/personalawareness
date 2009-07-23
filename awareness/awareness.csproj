@@ -95,8 +95,6 @@
     <Compile Include="db\DbTest.cs" />
     <Compile Include="db\Dumper.cs" />
     <Compile Include="db\DumperTest.cs" />
-    <Compile Include="db\DbSchema.cs" />
-    <Compile Include="db\DbSchemaTest.cs" />
     <Compile Include="db\DbUtil.cs" />
     <Compile Include="db\DbUtil.Connection.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
@@ -131,6 +129,17 @@
     <Compile Include="db\DbUtilTest.cs" />
     <Compile Include="db\DataStorage.cs" />
     <Compile Include="db\mssql\DataStorage.cs" />
+    <Compile Include="db\mssql\AwarenessDataContext.cs" />
+    <Compile Include="db\mssql\AwarenessDataContextTest.cs" />
+    <Compile Include="db\mssql\DataStorage.CUD.AccountTypes.cs">
+      <DependentUpon>DataStorage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="db\mssql\DataStorage.CUD.Notes.cs">
+      <DependentUpon>DataStorage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="db\mssql\DataStorage.Query.cs">
+      <DependentUpon>DataStorage.cs</DependentUpon>
+    </Compile>
     <Compile Include="db\Notable.cs" />
     <Compile Include="db\XmlProperties.cs" />
     <Compile Include="db\XmlPropertiesTest.cs" />

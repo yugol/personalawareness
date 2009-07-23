@@ -29,7 +29,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Awareness.db.mssql;
 namespace Awareness.db
 {
     partial class DBUtil {
@@ -285,14 +285,14 @@ namespace Awareness.db
         internal static DalNote GetTodoNote() {
             DalNote note = null;
             try {
-                note = dataContext.notes.Where(n => n.ParentId == AwarenessDataContext.NOTE_TODOS_ID).First();
+                note = dataContext.notes.Where(n => n.ParentId == DataStorage.NOTE_TODOS_ID).First();
             } catch (InvalidOperationException ex) {
                 if (ex.Message == "Sequence contains no elements"){
                     note = new DalNote();
                     note.Title = "Todo list";
                     note.Text = "";
                     note.IsPermanent = true;
-                    note.Parent = dataContext.GetNoteById(AwarenessDataContext.NOTE_TODOS_ID);
+                    note.Parent = dataContext.GetNoteById(DataStorage.NOTE_TODOS_ID);
                     InsertNote(note);
                 }
             }

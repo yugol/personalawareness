@@ -1,11 +1,11 @@
 /*
  * Created by SharpDevelop.
  * User: Iulian
- * Date: 19/11/2008
- * Time: 11:48
+ * Date: 7/23/2009
+ * Time: 5:28 PM
+ * 
  *
- *
- * Copyright (c) 2008 Iulian GORIAC
+ * Copyright (c) 2008, 2009 Iulian GORIAC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,13 +25,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
 using System;
-using Awareness.db.mssql;
-namespace Awareness.db
+
+namespace Awareness.db.mssql
 {
-    partial class DBUtil {
+    partial class DataStorage
+    {
         private static bool IsEmpty (DalNote note) {
             if (note == null){
                 return true;
@@ -45,13 +44,13 @@ namespace Awareness.db
             return false;
         }
 
-        private static void PrepareNoteForNotable(DalNote note, Notable notable, int noteParentId){
+        private void PrepareNoteForNotable(DalNote note, Notable notable, int noteParentId){
             note.Parent = dataContext.GetNoteById(noteParentId);
             note.Title = notable.Name;
             note.IsPermanent = true;
         }
 
-        private static void PreludeInsertNotable(Notable notable, DalNote note, int noteParentId) {
+        private void PreludeInsertNotable(Notable notable, DalNote note, int noteParentId) {
             if (!IsEmpty(note)){
                 PrepareNoteForNotable(note, notable, noteParentId);
                 StoreNote(note);
@@ -61,7 +60,7 @@ namespace Awareness.db
             }
         }
 
-        private static void PreludeUpdateNotable(Notable notable, DalNote note, int noteParentId) {
+        private void PreludeUpdateNotable(Notable notable, DalNote note, int noteParentId) {
             if (!notable.HasNote){
                 if (!IsEmpty(note)){
                     PrepareNoteForNotable(note, notable, noteParentId);
@@ -89,7 +88,7 @@ namespace Awareness.db
             }
         }
 
-        internal static void InsertNote(DalNote note){
+        void InsertNote(DalNote note){
             if (note.Parent == null){
                 note.Parent = GetRootNote();
             }
@@ -97,14 +96,14 @@ namespace Awareness.db
             dataContext.SubmitChanges();
         }
 
-        internal static void UpdateNote(DalNote note){
+        public override void UpdateNote(DalNote note){
             if (note.Id == note.ParentId){
                 throw new ArgumentException("Cannot parent a note to self");
             }
             dataContext.SubmitChanges();
         }
 
-        internal static void StoreNote(DalNote note) {
+        void StoreNote(DalNote note) {
             if (note.Id == 0){
                 InsertNote(note);
             } else {
@@ -112,13 +111,16 @@ namespace Awareness.db
             }
         }
 
-        internal static void DeleteNote(DalNote note){
-            if (note.Id <= DataStorage.RESERVED_NOTES){
+        public override void DeleteNote(DalNote note)
+        {
+            if (note.Id <= RESERVED_NOTES){
                 throw new ArgumentException("Trying to delete a reserved note");
             }
             dataContext.notes.DeleteOnSubmit(note);
             dataContext.SubmitChanges();
         }
-        
+
+
+
     }
 }

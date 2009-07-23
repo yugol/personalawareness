@@ -28,13 +28,14 @@
  *
  */
 using System;
+using Awareness.db.mssql;
 
 namespace Awareness.db
 {
     partial class DBUtil {
         internal static void InsertTransaction(DalTransaction transaction, DalNote note){
 			transaction.Reason.AvailableQuantitySetNull();
-            PreludeInsertNotable(transaction, note, AwarenessDataContext.NOTE_TRANSACTIONS_ID);
+            PreludeInsertNotable(transaction, note, DataStorage.NOTE_TRANSACTIONS_ID);
             dataContext.transactions.InsertOnSubmit(transaction);
             dataContext.SubmitChanges();
             NotifyTransactionsChanged(transaction);
@@ -42,7 +43,7 @@ namespace Awareness.db
 
         internal static void UpdateTransaction(DalTransaction transaction, DalNote note){
 			transaction.Reason.AvailableQuantitySetNull();
-            PreludeUpdateNotable(transaction, note, AwarenessDataContext.NOTE_TRANSACTIONS_ID);
+            PreludeUpdateNotable(transaction, note, DataStorage.NOTE_TRANSACTIONS_ID);
             NotifyTransactionsChanged(transaction);
         }
 

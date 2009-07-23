@@ -34,6 +34,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Awareness.db.mssql;
 
 using NUnit.Framework;
 
@@ -46,8 +47,8 @@ namespace Awareness.db
         void PopulateDb(){
             AwarenessDataContext dc = DBUtil.GetDataContext();
 
-            DalAccount ra1 = (DalAccount) dc.GetTransferLocationById(AwarenessDataContext.ACCOUNT_FOODS_ID);
-            DalAccount ra2 = (DalAccount) dc.GetTransferLocationById(AwarenessDataContext.ACCOUNT_RECIPES_ID);;
+            DalAccount ra1 = (DalAccount) dc.GetTransferLocationById(DataStorage.ACCOUNT_FOODS_ID);
+            DalAccount ra2 = (DalAccount) dc.GetTransferLocationById(DataStorage.ACCOUNT_RECIPES_ID);;
 
             DalBudgetCategory bc1 = new DalBudgetCategory() {
                 IsIncome = true, Name = "bc1"
@@ -126,7 +127,7 @@ namespace Awareness.db
             };
             DBUtil.InsertMeal(m3);
 
-            DalNote rootNote = dc.GetNoteById(AwarenessDataContext.NOTE_ROOT_ID);
+            DalNote rootNote = dc.GetNoteById(DataStorage.NOTE_ROOT_ID);
             DalNote n1 = new DalNote() {
                 Parent = rootNote, IsExpanded = true, Icon = 0, Title = "n1"
             };
@@ -151,7 +152,7 @@ namespace Awareness.db
             dateTimeMap["note3_CreationTime"] = n3.CreationTime;
             dateTimeMap["note4_CreationTime"] = n4.CreationTime;
 
-            DalAction rootAction = dc.GetActionById(AwarenessDataContext.ACTION_ROOT_ID);
+            DalAction rootAction = dc.GetActionById(DataStorage.ACTION_ROOT_ID);
             DalAction act1 = new DalAction() {
                 Parent = rootAction, Name = "act1"
             };
@@ -247,7 +248,7 @@ namespace Awareness.db
             IEnumerable<DalNote> notes = dc.notes.Select(r => r);
             Assert.AreEqual(13, notes.Count());
 
-            DalNote n = dc.GetNoteById(AwarenessDataContext.RESERVED_NOTES + 1);
+            DalNote n = dc.GetNoteById(DataStorage.RESERVED_NOTES + 1);
             Assert.AreEqual(1, n.ParentId);
             Assert.AreEqual(true, n.IsExpanded);
             Assert.AreEqual(dateTimeMap["note1_CreationTime"], n.CreationTime);
@@ -255,28 +256,28 @@ namespace Awareness.db
             Assert.AreEqual("n1", n.Title);
             Assert.IsNull(n.Text);
 
-            n = dc.GetNoteById(AwarenessDataContext.RESERVED_NOTES + 2);
-            Assert.AreEqual(AwarenessDataContext.RESERVED_NOTES + 1, n.ParentId);
+            n = dc.GetNoteById(DataStorage.RESERVED_NOTES + 2);
+            Assert.AreEqual(DataStorage.RESERVED_NOTES + 1, n.ParentId);
             Assert.AreEqual(false, n.IsExpanded);
             Assert.AreEqual(dateTimeMap["note4_CreationTime"], n.CreationTime);
             Assert.AreEqual(2, n.Icon);
             Assert.AreEqual("n4", n.Title);
             Assert.IsNull(n.Text);
 
-            n = dc.GetNoteById(AwarenessDataContext.RESERVED_NOTES + 3);
-            Assert.AreEqual(AwarenessDataContext.RESERVED_NOTES + 2, n.ParentId);
+            n = dc.GetNoteById(DataStorage.RESERVED_NOTES + 3);
+            Assert.AreEqual(DataStorage.RESERVED_NOTES + 2, n.ParentId);
             Assert.AreEqual(false, n.IsExpanded);
             Assert.AreEqual(dateTimeMap["note3_CreationTime"], n.CreationTime);
             Assert.AreEqual(2, n.Icon);
             Assert.AreEqual("n3", n.Title);
             Assert.AreEqual("for (int i = 0; i < 10; ++i);", n.Text);
 
-            DalAction act = dc.GetActionById(AwarenessDataContext.RESERVED_ACTIONS + 1);
+            DalAction act = dc.GetActionById(DataStorage.RESERVED_ACTIONS + 1);
             Assert.AreEqual("act2", act.Name);
             Assert.IsTrue(act.HasWindowReminder);
             Assert.IsTrue(act.HasSoundReminder);
             Assert.IsTrue(act.HasCommandReminder);
-            act = dc.GetActionById(AwarenessDataContext.RESERVED_ACTIONS + 2);
+            act = dc.GetActionById(DataStorage.RESERVED_ACTIONS + 2);
             Assert.AreEqual("act1", act.Name);            
         }
 

@@ -28,10 +28,14 @@
 
 using System;
 using System.Linq;
+using Awareness.db.mssql;
 
 namespace Awareness.db
 {
     partial class DBUtil {
+        
+        private static AwarenessDataContext dataContext = null;
+
         internal static bool IsDbAvailable() {
             return dataContext != null;
         }

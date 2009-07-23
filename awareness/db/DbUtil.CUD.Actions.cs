@@ -28,7 +28,7 @@
 
 
 using System;
-
+using Awareness.db.mssql;
 using System.Linq;
 
 namespace Awareness.db
@@ -39,7 +39,7 @@ namespace Awareness.db
             if (action.Parent == null){
                 action.Parent = GetRootAction();
             }
-            PreludeInsertNotable(action, note, AwarenessDataContext.NOTE_ACTIONS_ID);
+            PreludeInsertNotable(action, note, DataStorage.NOTE_ACTIONS_ID);
             dataContext.actions.InsertOnSubmit(action);
             dataContext.SubmitChanges();
             NotifyActionsChanged();
@@ -51,7 +51,7 @@ namespace Awareness.db
         }
 
         internal static void UpdateActionNoNotification(DalAction action, DalNote note){
-            PreludeUpdateNotable(action, note, AwarenessDataContext.NOTE_ACTIONS_ID);
+            PreludeUpdateNotable(action, note, DataStorage.NOTE_ACTIONS_ID);
         }
 
         internal static void DeleteActionRec(DalAction action){
