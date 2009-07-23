@@ -31,9 +31,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-using Awareness.DB;
+using Awareness.db;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     public partial class FormTodo : Form {
         public FormTodo(){

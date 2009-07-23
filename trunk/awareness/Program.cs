@@ -30,7 +30,7 @@
 using System;
 using System.Windows.Forms;
 
-using Awareness.UI;
+using Awareness.ui;
 
 namespace Awareness {
     

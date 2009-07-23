@@ -27,7 +27,7 @@
  * Time: 22:07
  * 
  */
-namespace Awareness.UI
+namespace Awareness.ui
 {
     partial class FormMain
     {
@@ -88,22 +88,22 @@ namespace Awareness.UI
         	this.timeStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
         	this.actionPages = new System.Windows.Forms.TabControl();
         	this.weekPage = new System.Windows.Forms.TabPage();
-        	this.weekActionsReport = new Awareness.UI.ControlWeekActionsReport();
+        	this.weekActionsReport = new Awareness.ui.ControlWeekActionsReport();
         	this.dayPage = new System.Windows.Forms.TabPage();
-        	this.dayActionsReportControl = new Awareness.UI.ControlDayActionsReport();
+        	this.dayActionsReportControl = new Awareness.ui.ControlDayActionsReport();
         	this.overviewPage = new System.Windows.Forms.TabPage();
-        	this.controlActionsOverview = new Awareness.UI.ControlActionsOverview();
-        	this.notesViewer = new Awareness.UI.ControlNotesViewer();
+        	this.controlActionsOverview = new Awareness.ui.ControlActionsOverview();
+        	this.notesViewer = new Awareness.ui.ControlNotesViewer();
         	this.mealPages = new System.Windows.Forms.TabControl();
         	this.dailyPage = new System.Windows.Forms.TabPage();
-        	this.mealsDailyReportControl = new Awareness.UI.ControlMealsDailyReport();
+        	this.mealsDailyReportControl = new Awareness.ui.ControlMealsDailyReport();
         	this.availableFoodsPage = new System.Windows.Forms.TabPage();
-        	this.availableFoodsControl = new Awareness.UI.ControlAvailableFoods();
+        	this.availableFoodsControl = new Awareness.ui.ControlAvailableFoods();
         	this.financialPages = new System.Windows.Forms.TabControl();
         	this.accountsPage = new System.Windows.Forms.TabPage();
-        	this.financesControl = new Awareness.UI.ControlFinances();
+        	this.financesControl = new Awareness.ui.ControlFinances();
         	this.transactionsPage = new System.Windows.Forms.TabPage();
-        	this.transactionsControl = new Awareness.UI.ControlTransactions();
+        	this.transactionsControl = new Awareness.ui.ControlTransactions();
         	this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
         	this.centralPark = new System.Windows.Forms.Panel();
         	this.mealPanel = new System.Windows.Forms.Panel();
@@ -880,7 +880,7 @@ namespace Awareness.UI
         private System.Windows.Forms.ToolStripButton calendarToolButton;
         private System.Windows.Forms.ToolStripButton remindersToolButton;
         private System.Windows.Forms.ToolStripButton teaTimerToolButton;
-        private Awareness.UI.ControlTransactions transactionsControl;
+        private Awareness.ui.ControlTransactions transactionsControl;
         private System.Windows.Forms.TabPage transactionsPage;
         private System.Windows.Forms.TabPage accountsPage;
         private System.Windows.Forms.TabControl financialPages;
@@ -889,22 +889,22 @@ namespace Awareness.UI
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton newToolButton;
         private System.Windows.Forms.ToolStripButton openToolButton;
-        private Awareness.UI.ControlWeekActionsReport weekActionsReport;
+        private Awareness.ui.ControlWeekActionsReport weekActionsReport;
         private System.Windows.Forms.TabPage weekPage;
-        private Awareness.UI.ControlDayActionsReport dayActionsReportControl;
+        private Awareness.ui.ControlDayActionsReport dayActionsReportControl;
         private System.Windows.Forms.Timer statusTimer;
         private System.Windows.Forms.ToolStripStatusLabel timeStatusLabel;
-        private Awareness.UI.ControlActionsOverview controlActionsOverview;
+        private Awareness.ui.ControlActionsOverview controlActionsOverview;
         private System.Windows.Forms.ToolStrip defaultToolStrip;
         private System.Windows.Forms.ToolStripContainer toolStripContainer;
         private System.Windows.Forms.TabPage dayPage;
         private System.Windows.Forms.TabPage overviewPage;
         private System.Windows.Forms.TabControl actionPages;
         private System.Windows.Forms.TabControl mealPages;
-        private Awareness.UI.ControlNotesViewer notesViewer;
-        private Awareness.UI.ControlMealsDailyReport mealsDailyReportControl;
-        private Awareness.UI.ControlFinances financesControl;
-        private Awareness.UI.ControlAvailableFoods availableFoodsControl;
+        private Awareness.ui.ControlNotesViewer notesViewer;
+        private Awareness.ui.ControlMealsDailyReport mealsDailyReportControl;
+        private Awareness.ui.ControlFinances financesControl;
+        private Awareness.ui.ControlAvailableFoods availableFoodsControl;
         private System.Windows.Forms.TabPage dailyPage;
         private System.Windows.Forms.TabPage availableFoodsPage;
         private System.Windows.Forms.ToolStripMenuItem manageMealsToolStripMenuItem;

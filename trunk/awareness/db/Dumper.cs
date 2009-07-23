@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Awareness.DB
+namespace Awareness.db
 {
     internal class Dumper {
         internal static readonly string YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss";

@@ -33,9 +33,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-using Awareness.DB;
+using Awareness.db;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     public enum ETitleFormats { HIDDEN, DAY_OF_WEEK, DAY_OF_MONTH }
 

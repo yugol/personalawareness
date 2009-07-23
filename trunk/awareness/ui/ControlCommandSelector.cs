@@ -31,7 +31,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     public partial class ControlCommandSelector : UserControl {
         public event EventHandler CommandChanged;

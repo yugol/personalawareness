@@ -33,7 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Awareness.DB;
+using Awareness.db;
 using NUnit.Framework;
 
 namespace Awareness

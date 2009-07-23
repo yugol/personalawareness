@@ -32,9 +32,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-using Awareness.DB;
+using Awareness.db;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     public delegate void PatternChangedHandler();
 

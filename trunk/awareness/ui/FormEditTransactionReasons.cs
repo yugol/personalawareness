@@ -32,9 +32,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-using Awareness.DB;
+using Awareness.db;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     public partial class FormEditTransactionReasons : Form {
         private DalReason lastSelectedReason;

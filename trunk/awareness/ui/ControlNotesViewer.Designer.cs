@@ -27,7 +27,7 @@
  * Time: 15:12
  * 
  */
-namespace Awareness.UI
+namespace Awareness.ui
 {
     partial class ControlNotesViewer
     {
@@ -68,7 +68,7 @@ namespace Awareness.UI
         	this.collapseToolButton = new System.Windows.Forms.ToolStripButton();
         	this.expandAllToolButton = new System.Windows.Forms.ToolStripButton();
         	this.collapseAllToolButton = new System.Windows.Forms.ToolStripButton();
-        	this.noteTextView = new Awareness.UI.ControlNoteTextView();
+        	this.noteTextView = new Awareness.ui.ControlNoteTextView();
         	this.treeContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
         	this.newNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.newChildNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -308,7 +308,7 @@ namespace Awareness.UI
         private System.Windows.Forms.ToolStripSeparator sep1;
         private System.Windows.Forms.ContextMenuStrip treeContextMenu;
         private System.Windows.Forms.ToolStripMenuItem newNoteToolStripMenuItem;
-        private Awareness.UI.ControlNoteTextView noteTextView;
+        private Awareness.ui.ControlNoteTextView noteTextView;
         private System.Windows.Forms.TreeView notesTree;
         private System.Windows.Forms.SplitContainer viewSplitter;
     }

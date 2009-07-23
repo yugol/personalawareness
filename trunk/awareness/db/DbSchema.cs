@@ -31,7 +31,7 @@ using System;
 using System.Linq;
 using System.Data.Linq;
 
-namespace Awareness.DB
+namespace Awareness.db
 {
     public class AwarenessDataContext : DataContext {
 

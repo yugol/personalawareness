@@ -27,7 +27,7 @@
  * Time: 22:55
  * 
  */
-namespace Awareness.UI
+namespace Awareness.ui
 {
     partial class FormReport
     {

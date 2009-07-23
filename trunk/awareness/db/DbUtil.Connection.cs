@@ -29,7 +29,7 @@
 using System;
 using System.Linq;
 
-namespace Awareness.DB
+namespace Awareness.db
 {
     partial class DBUtil {
         internal static bool IsDbAvailable() {

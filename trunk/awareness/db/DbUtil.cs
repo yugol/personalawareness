@@ -31,7 +31,7 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace Awareness.DB
+namespace Awareness.db
 {
     internal delegate void DatabaseChangedHandler();
 

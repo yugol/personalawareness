@@ -31,7 +31,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     /// <summary>
     /// Description of FormAbout.

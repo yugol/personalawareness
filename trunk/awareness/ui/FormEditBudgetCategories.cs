@@ -30,9 +30,9 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 
-using Awareness.DB;
+using Awareness.db;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     public partial class FormEditBudgetCategories : Form {
         public FormEditBudgetCategories(){

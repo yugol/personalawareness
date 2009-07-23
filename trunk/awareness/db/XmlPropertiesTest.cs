@@ -33,7 +33,7 @@ using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
-namespace Awareness.DB
+namespace Awareness.db
 {
     [TestFixture]
     public class XmlPropertiesTest {

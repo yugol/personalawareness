@@ -32,9 +32,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using Awareness.DB;
+using Awareness.db;
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     internal class Util {
         internal static string FormatCurrency(decimal ammount){

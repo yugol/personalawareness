@@ -27,7 +27,7 @@
  */
 
 
-namespace Awareness.UI
+namespace Awareness.ui
 {
     partial class ControlCalculatorInput
     {

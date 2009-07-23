@@ -37,7 +37,7 @@ using System.Text;
 
 using NUnit.Framework;
 
-namespace Awareness.DB
+namespace Awareness.db
 {
     [TestFixture]
     public class DumperTest {
