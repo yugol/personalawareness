@@ -35,15 +35,20 @@ using Awareness.db;
 
 namespace Awareness.ui
 {
-    public partial class FormMain : Form {
-		
-        public FormMain(){
+    public partial class FormMain : Form 
+    {
+	    string genericTitle = "Personal Awareness";
+        
+        public FormMain()
+        {
             InitializeComponent();
 
             #if !DEBUG
             buddiCSVToolStripMenuItem.Visible = false;
             #endif
 
+            trayIcon.Visible = true;
+            
             transactionsControl.SelectPanelExpanded = false;
             transactionsControl.EditPanelExpanded = true;
 
@@ -53,19 +58,50 @@ namespace Awareness.ui
             financialPages.Dock = DockStyle.Fill;
 
             financesControl.AccountDoubleClick += new AccountDoubleClickHandler(ShowAllTransactionsForAccount);
+            
+            Controller.StorageOpened += new DataChangedHandler(OpenStorageUpdate);
+            Controller.StorageClosing += new DataChangedHandler(CloseStorageUpdate);
         }
 		
-		internal void SetTitle(string title) {
+        void OpenStorageUpdate()
+        {
+            SetTitle(genericTitle + " - " + Controller.Storage.Nick);
+            SetDataOperatonsVisible(true);
+            SelectActionsView();
+        }
+        
+        void CloseStorageUpdate()
+        {
+            SetTitle(genericTitle);
+            SetDataOperatonsVisible(false);
+            ResetPanelsView();
+        }
+        
+        void SetDataOperatonsVisible(bool b)
+        {
+            editToolStripMenuItem.Visible = b;
+            mealsToolStripMenuItem.Visible = b;
+
+            actionsToolButton.Visible = b;
+            notesToolButton.Visible = b;
+            mealsToolButton.Visible = b;
+            financesToolButton.Visible = b;
+
+            remindersToolButton.Visible = b;
+            todoToolButton.Visible = b;
+            
+            remindersToolStripMenuItem.Visible = b;
+            todoListToolStripMenuItem.Visible = b;
+        }
+        
+
+        internal void SetTitle(string title) {
 			Text = title;
 			trayIcon.Text = title;
 		}
 		
         internal void DisableEnableActions(){
             bool isDbOperational = !string.IsNullOrEmpty(Configuration.LastStorageId);
-            fileMenuSeparator.Visible = isDbOperational;
-            importToolStripMenuItem.Visible = isDbOperational;
-            exportToolStripMenuItem.Visible = isDbOperational;
-            deleteDatabaseToolStripMenuItem.Enabled = isDbOperational;
             editToolStripMenuItem.Visible = isDbOperational;
             mealsToolStripMenuItem.Visible = isDbOperational;
 
@@ -111,11 +147,12 @@ namespace Awareness.ui
         }
 		*/      
 
-        void FormMainLoad(object sender, EventArgs e){
-            trayIcon.Visible = true;
-            ResetPanelsView();            
+        void FormMainLoad(object sender, EventArgs e)
+        {
+            CloseStorageUpdate();
             UpdateStatusTime();
             statusTimer.Start();
+            
             if (!string.IsNullOrEmpty(Configuration.LastStorageId)) {
                 Controller.OpenStorage(Configuration.LastStorageId);
             }
@@ -183,18 +220,12 @@ namespace Awareness.ui
 
         #region Panels
         
-        void ResetPanelsView() {
+        void ResetPanelsView() 
+        {
             actionPages.Visible = false;
             notesViewer.Visible = false;
             mealPanel.Visible = false;
             financialPages.Visible = false;
-
-//            financesControl.IsDisplayed = false;
-//            transactionsControl.IsDisplayed = false;
-//            mealsDailyReportControl.IsDisplayed = false;
-//            availableFoodsControl.IsDisplayed = false;
-//            dayActionsReportControl.IsDisplayed = false;
-//            weekActionsReport.IsDisplayed = false;
 
             actionsToolButton.Checked = false;
             notesToolButton.Checked = false;

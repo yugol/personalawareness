@@ -28,26 +28,26 @@
 
 
 using System;
-
+using Awareness.db.mssql;
 namespace Awareness.db
 {
     partial class DBUtil {
 
         internal static void InsertTransactionReason(DalReason reason, DalNote note){
-            PreludeInsertNotable(reason, note, AwarenessDataContext.NOTE_REASONS_ID);
+            PreludeInsertNotable(reason, note, DataStorage.NOTE_REASONS_ID);
             dataContext.transactionReasons.InsertOnSubmit(reason);
             dataContext.SubmitChanges();
             NotifyTransactionReasonsChanged(reason);
         }
 
         internal static void UpdateTransactionReason(DalReason reason, DalNote note){
-            PreludeUpdateNotable(reason, note, AwarenessDataContext.NOTE_REASONS_ID);
+            PreludeUpdateNotable(reason, note, DataStorage.NOTE_REASONS_ID);
             NotifyTransactionReasonsChanged(reason);
         }
 
         internal static void UpdateTransactionReason(int id, sbyte type, string name, float energy, DalNote note){
             DalReason reason = dataContext.GetReasonById(id);
-            PreludeUpdateNotable(reason, note, AwarenessDataContext.NOTE_REASONS_ID);
+            PreludeUpdateNotable(reason, note, DataStorage.NOTE_REASONS_ID);
             dataContext.UpdateTransactionReasonType(id, type, name, energy);
             ReOpenDataContext();
         }

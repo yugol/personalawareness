@@ -34,6 +34,7 @@ using System.IO;
 using System.Linq;
 
 using Awareness.db;
+using Awareness.db.mssql;
 using LumenWorks.Framework.IO.Csv;
 
 namespace Awareness

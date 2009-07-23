@@ -126,7 +126,7 @@ namespace Awareness.ui
             ScrollBars = true;
             TitleReadOnly = false;
             TextReadOnly = false;
-            DBUtil.DataContextClosing += new DatabaseChangedHandler(UpdateNote);
+            Controller.StorageClosing += new DataChangedHandler(UpdateNote);
         }
 
         public void FocusTitle(){
@@ -135,7 +135,7 @@ namespace Awareness.ui
 
         public void UpdateNote(){
             if (Note != null){
-                DBUtil.UpdateNote(Note);
+                Controller.Storage.UpdateNote(Note);
             }
         }
 

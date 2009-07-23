@@ -34,6 +34,7 @@ using System.Linq;
 using System.Windows.Forms;
 
 using Awareness.db;
+using Awareness.db.mssql;
 
 namespace Awareness.ui
 {

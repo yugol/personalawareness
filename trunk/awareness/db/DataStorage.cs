@@ -26,21 +26,83 @@
  * THE SOFTWARE.
  */
 using System;
+using System.Collections.Generic;
 
 namespace Awareness.db
 {
     public abstract class DataStorage
     {
-        string storageId;
-        public string StorageId
+        public const int RESERVED_NOTES = 100;
+        public const int RESERVED_ACCOUNT_TYPES = 5;
+        public const int RESERVED_TRANSFER_LOCATIONS = 10;
+        public const int RESERVED_ACTIONS = 100;
+        
+        public const int ACCOUNT_TYPE_APPLICATION_INTERNAL_ID = 1;
+
+        public const int ACCOUNT_FOODS_ID = 1;
+        public const int ACCOUNT_RECIPES_ID = 2;
+        
+        public const int NOTE_ROOT_ID = 1;
+        public const int ACTION_ROOT_ID = 1;
+
+        public const int NOTE_APPLICATION_INTERNAL_ID = 2;
+        public const int NOTE_PROPERTIES_ID = 3;
+        public const int NOTE_ACCOUNT_TYPES_ID = 4;
+        public const int NOTE_TRANSFER_LOCATIONS_ID = 5;
+        public const int NOTE_REASONS_ID = 6;
+        public const int NOTE_TRANSACTIONS_ID = 7;
+        public const int NOTE_MEALS_ID = 8;
+        public const int NOTE_ACTIONS_ID = 9;
+        public const int NOTE_TODOS_ID = 10;
+
+        public event DataChangedHandler AccountTypesChanged;
+        
+        string id;
+        public string Id
         {
-            get { return storageId; }
+            get { return id; }
         }
+        
+        protected string nick;
+        public string Nick
+        {
+            get { return nick; }
+        }
+        
         
         public DataStorage(string storageId)
         {
-            this.storageId = storageId;
+            this.id = storageId;
+            this.nick = storageId;
         }
+        
+        public abstract void Close();
+        public abstract void Delete();
+            
+        // Query
+        
+        public abstract IEnumerable<DalAccountType> GetAccountTypes();
+        
+        
+        // Create, Update, Delete
+        
+        // Notes
+        public abstract void UpdateNote(DalNote note);
+        public abstract void DeleteNote(DalNote note);
+        
+        
+        // AccountTypes
+        public abstract void InsertAccountType(DalAccountType accountTypes, DalNote note);        
+        public abstract void UpdateAccountType(DalAccountType accountTypes, DalNote note);
+        public abstract void DeleteAccountType(DalAccountType accountType);
+
+        protected void NotifyAccountTypesChanged()
+        {
+            if (AccountTypesChanged != null){
+                AccountTypesChanged();
+            }
+        }
+
         
     }
 }

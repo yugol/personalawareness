@@ -36,7 +36,7 @@ namespace Awareness
     public static class Controller
     {
         public static event DataChangedHandler StorageOpened;
-        public static event DataChangedHandler StorageClosed;
+        public static event DataChangedHandler StorageClosing;
         
         static DataStorage storage = null;
         public static DataStorage Storage { get { return storage; } }
@@ -51,20 +51,34 @@ namespace Awareness
         
         public static void OpenStorage(string storageId)
         {
+            CloseStorage();
+            
             string ext = storageId.Substring(storageId.LastIndexOf('.') + 1).ToLower();
+            
             if (ext == "sdf" || ext == "mfd") {
                 storage = new Awareness.db.mssql.DataStorage(storageId);
             }
-            if (StorageOpened != null) {
-                StorageOpened();
+            
+            if (storage != null) {
+                Configuration.LastStorageId = storageId;
+                if (StorageOpened != null) {
+                    StorageOpened();
+                }
             }
+            
         }
         
         public static void CloseStorage()
         {
-            if (StorageClosed != null) {
-                StorageClosed();
+            if (storage != null) {
+                if (StorageClosing != null) {
+                    StorageClosing();
+                }
+                storage.Close();
             }
+            storage = null;
         }
+        
+        
     }
 }

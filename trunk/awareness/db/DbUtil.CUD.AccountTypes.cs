@@ -28,20 +28,20 @@
 
 
 using System;
-
+using Awareness.db.mssql;
 namespace Awareness.db
 {
     partial class DBUtil
     {
         internal static void InsertAccountType(DalAccountType accountTypes, DalNote note){
-            PreludeInsertNotable(accountTypes, note, AwarenessDataContext.NOTE_ACCOUNT_TYPES_ID);
+            PreludeInsertNotable(accountTypes, note, DataStorage.NOTE_ACCOUNT_TYPES_ID);
             dataContext.accountTypes.InsertOnSubmit(accountTypes);
             dataContext.SubmitChanges();
             NotifyAccountTypesChanged();
         }
 
         internal static void UpdateAccountType(DalAccountType accountTypes, DalNote note){
-            PreludeUpdateNotable(accountTypes, note, AwarenessDataContext.NOTE_ACCOUNT_TYPES_ID);
+            PreludeUpdateNotable(accountTypes, note, DataStorage.NOTE_ACCOUNT_TYPES_ID);
             NotifyAccountTypesChanged();
         }
 

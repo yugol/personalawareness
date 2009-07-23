@@ -31,6 +31,8 @@ using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
+using Awareness.db.mssql;
+
 namespace Awareness.db
 {
     [Table(Name = "transactions")]
@@ -149,7 +151,7 @@ namespace Awareness.db
             set { _quantity = value; }
         }
 
-        int _noteId = AwarenessDataContext.NOTE_ROOT_ID;
+        int _noteId = DataStorage.NOTE_ROOT_ID;
         [Column(Storage = "_noteId",
                 Name = "note",
                 DbType = "int NOT NULL",
@@ -173,7 +175,7 @@ namespace Awareness.db
 
         public bool HasNote
         {
-            get { return _noteId != AwarenessDataContext.NOTE_ROOT_ID; }
+            get { return _noteId != DataStorage.NOTE_ROOT_ID; }
         }
         
         public string Name {

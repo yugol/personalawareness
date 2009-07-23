@@ -30,6 +30,7 @@
 using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
+using Awareness.db.mssql;
 
 namespace Awareness.db
 {
@@ -50,7 +51,7 @@ namespace Awareness.db
             get { return _id; }
         }
 
-        int _parentId = AwarenessDataContext.NOTE_ROOT_ID;
+        int _parentId = DataStorage.NOTE_ROOT_ID;
         [Column(Storage = "_parentId",
                 Name = "parent",
                 DbType = "int NOT NULL",

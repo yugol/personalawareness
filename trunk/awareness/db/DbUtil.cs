@@ -30,6 +30,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using Awareness.db.mssql;
 
 namespace Awareness.db
 {
@@ -37,7 +38,6 @@ namespace Awareness.db
 
     internal abstract partial class DBUtil {
         
-        private static AwarenessDataContext dataContext = null;
 
         internal static event DatabaseChangedHandler DataContextChanged;
         internal static event DatabaseChangedHandler DataContextClosing;
@@ -85,11 +85,11 @@ namespace Awareness.db
         }
 
         static DalAccount GetFoodsAccount(){
-            return (DalAccount) dataContext.GetTransferLocationById(AwarenessDataContext.ACCOUNT_FOODS_ID);
+            return (DalAccount) dataContext.GetTransferLocationById(DataStorage.ACCOUNT_FOODS_ID);
         }
 
         static DalAccount GetRecipesAccount(){
-            return (DalAccount) dataContext.GetTransferLocationById(AwarenessDataContext.ACCOUNT_RECIPES_ID);
+            return (DalAccount) dataContext.GetTransferLocationById(DataStorage.ACCOUNT_RECIPES_ID);
         }
 
         static DalTransaction GetRecipeTransaction(DalRecipe why, DateTime when){
@@ -116,11 +116,11 @@ namespace Awareness.db
         }
 
         internal static DalNote GetRootNote(){
-            return dataContext.GetNoteById(AwarenessDataContext.NOTE_ROOT_ID);
+            return dataContext.GetNoteById(DataStorage.NOTE_ROOT_ID);
         }
 
         internal static DalAction GetRootAction(){
-            return dataContext.GetActionById(AwarenessDataContext.ACTION_ROOT_ID);
+            return dataContext.GetActionById(DataStorage.ACTION_ROOT_ID);
         }
 
         internal static string Minutes2TimeSpanString(int minutes){

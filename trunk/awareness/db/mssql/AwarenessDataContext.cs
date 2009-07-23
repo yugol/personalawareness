@@ -31,32 +31,9 @@ using System;
 using System.Linq;
 using System.Data.Linq;
 
-namespace Awareness.db
+namespace Awareness.db.mssql
 {
     public class AwarenessDataContext : DataContext {
-
-        public const int RESERVED_ACCOUNT_TYPES = 5;
-        public const int RESERVED_TRANSFER_LOCATIONS = 10;
-        public const int RESERVED_NOTES = 100;
-        public const int RESERVED_ACTIONS = 100;
-
-        public const int ACCOUNT_TYPE_APPLICATION_INTERNAL_ID = 1;
-
-        public const int ACCOUNT_FOODS_ID = 1;
-        public const int ACCOUNT_RECIPES_ID = 2;
-
-        public const int NOTE_ROOT_ID = 1;
-        public const int NOTE_APPLICATION_INTERNAL_ID = 2;
-        public const int NOTE_PROPERTIES_ID = 3;
-        public const int NOTE_ACCOUNT_TYPES_ID = 4;
-        public const int NOTE_TRANSFER_LOCATIONS_ID = 5;
-        public const int NOTE_REASONS_ID = 6;
-        public const int NOTE_TRANSACTIONS_ID = 7;
-        public const int NOTE_MEALS_ID = 8;
-        public const int NOTE_ACTIONS_ID = 9;
-        public const int NOTE_TODOS_ID = 10;
-
-        public const int ACTION_ROOT_ID = 1;
 
         public AwarenessDataContext(string connectionString) : base (connectionString) {
         }
@@ -94,7 +71,7 @@ namespace Awareness.db
             SubmitChanges();
             ++reserved;
 
-            for (int i = reserved; i < RESERVED_ACTIONS; ++i){
+            for (int i = reserved; i < DataStorage.RESERVED_ACTIONS; ++i){
                 actions.InsertOnSubmit(new DalAction() {
                                            Name = "Reserved"
                                        });
@@ -138,7 +115,7 @@ namespace Awareness.db
             notes.InsertOnSubmit(new DalNote { Parent = applicationInternalNote, IsPermanent = true, Title = "Todos" });
             ++reserved;
 
-            for (int i = reserved; i < RESERVED_NOTES; ++i){
+            for (int i = reserved; i < DataStorage.RESERVED_NOTES; ++i){
                 notes.InsertOnSubmit(new DalNote { Parent = rootNote, Title = "Reserved" });
             }
             SubmitChanges();
@@ -148,14 +125,14 @@ namespace Awareness.db
 
         void ReserveTransferLocations(){
             int reserved = 0;
-            DalAccountType rat1 = GetAccountTypeById(ACCOUNT_TYPE_APPLICATION_INTERNAL_ID);
+            DalAccountType rat1 = GetAccountTypeById(DataStorage.ACCOUNT_TYPE_APPLICATION_INTERNAL_ID);
 
             transferLocations.InsertOnSubmit(new DalAccount { Name = "Foods", AccountType = rat1, StartingBalance = 0 });
             ++reserved;
             transferLocations.InsertOnSubmit(new DalAccount { Name = "Recipes", AccountType = rat1, StartingBalance = 0 });
             ++reserved;
 
-            for ( int i = reserved; i < RESERVED_TRANSFER_LOCATIONS; ++i){
+            for ( int i = reserved; i < DataStorage.RESERVED_TRANSFER_LOCATIONS; ++i){
                 transferLocations.InsertOnSubmit(new DalBudgetCategory() {
                                                      Name = "Reserved"
                                                  } );
@@ -171,7 +148,7 @@ namespace Awareness.db
             accountTypes.InsertOnSubmit(new DalAccountType { Name = "Application Specific" });
             ++reserved;
 
-            for ( int i = reserved; i < RESERVED_ACCOUNT_TYPES; ++i){
+            for ( int i = reserved; i < DataStorage.RESERVED_ACCOUNT_TYPES; ++i){
                 accountTypes.InsertOnSubmit(new DalAccountType() {
                                                 Name = "Reserved"
                                             } );

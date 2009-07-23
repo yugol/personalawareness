@@ -37,10 +37,10 @@ using System.Linq;
 
 using NUnit.Framework;
 
-namespace Awareness.db
+namespace Awareness.db.mssql
 {
     [TestFixture]
-    public class DBSchemaTest
+    public class AwarenessDataContextTest
     {   
         AwarenessDataContext dc = null;
 
@@ -62,11 +62,11 @@ namespace Awareness.db
         [Test]
         public void CreateDatabase()
         {
-#if DEBUG_CREATE_DATABASE
+            #if DEBUG_CREATE_DATABASE
             dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
             dc.CreateDatabase();
-#endif
-            Assert.AreEqual(1.0F, dc.GetProperties().DBVersion);
+            #endif
+            Assert.AreEqual("01.10", dc.GetProperties().DBVersion.ToString("00.00"));
             Assert.AreEqual(1, dc.accountTypes.Count());
             Assert.AreEqual(2, dc.transferLocations.Count());
             Assert.AreEqual(0, dc.transactionReasons.Count());
@@ -354,7 +354,7 @@ namespace Awareness.db
                 dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
             }
             
-            dc.notes.DeleteOnSubmit(dc.notes.Where(n => n.Id > AwarenessDataContext.RESERVED_NOTES).First());
+            dc.notes.DeleteOnSubmit(dc.notes.Where(n => n.Id > DataStorage.RESERVED_NOTES).First());
             dc.SubmitChanges();
             
             Assert.AreEqual(10, dc.notes.Count());

@@ -28,19 +28,19 @@
 
 
 using System;
-
+using Awareness.db.mssql;
 namespace Awareness.db
 {
     partial class DBUtil {
         internal static void InsertTransferLocation(DalTransferLocation transferLocation, DalNote note){
-            PreludeInsertNotable(transferLocation, note, AwarenessDataContext.NOTE_TRANSFER_LOCATIONS_ID);
+            PreludeInsertNotable(transferLocation, note, DataStorage.NOTE_TRANSFER_LOCATIONS_ID);
             dataContext.transferLocations.InsertOnSubmit(transferLocation);
             dataContext.SubmitChanges();
             NotifyTransferLocationsChanged(transferLocation);
         }
 
         internal static void UpdateTransferLocation(DalTransferLocation transferLocation, DalNote note){
-            PreludeUpdateNotable(transferLocation, note, AwarenessDataContext.NOTE_TRANSFER_LOCATIONS_ID);
+            PreludeUpdateNotable(transferLocation, note, DataStorage.NOTE_TRANSFER_LOCATIONS_ID);
             NotifyTransferLocationsChanged(transferLocation);
         }
 

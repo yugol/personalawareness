@@ -30,6 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Awareness.db.mssql;
 
 namespace Awareness.db
 {
@@ -63,8 +64,8 @@ namespace Awareness.db
 
         internal IDictionary<int, int> DumpAccountTypes(TextWriter writer, IDictionary<int, int> notes){
             IDictionary<int, int> accountType = new Dictionary<int, int>();
-            int id = AwarenessDataContext.RESERVED_ACCOUNT_TYPES + 1;
-            foreach (DalAccountType entry in dc.accountTypes.Where(r => r.Id > AwarenessDataContext.RESERVED_ACCOUNT_TYPES)){
+            int id = DataStorage.RESERVED_ACCOUNT_TYPES + 1;
+            foreach (DalAccountType entry in dc.accountTypes.Where(r => r.Id > DataStorage.RESERVED_ACCOUNT_TYPES)){
                 writer.WriteLine("INSERT INTO account_types (name, note) " +
                                  "VALUES ({0}, {1});",
                                  String2SqlString(entry.Name),
@@ -77,8 +78,8 @@ namespace Awareness.db
 
         internal IDictionary<int, int> DumpTransferLocations(TextWriter writer, IDictionary<int, int> accountTypes, IDictionary<int, int> notes){
             IDictionary<int, int> transferReasons = new Dictionary<int, int>();
-            int id = AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS + 1;
-            foreach (DalTransferLocation entry in dc.transferLocations.Where(r => r.Id > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS)){
+            int id = DataStorage.RESERVED_TRANSFER_LOCATIONS + 1;
+            foreach (DalTransferLocation entry in dc.transferLocations.Where(r => r.Id > DataStorage.RESERVED_TRANSFER_LOCATIONS)){
                 if (entry is DalAccount){
                     writer.WriteLine("INSERT INTO transfer_locations (is_budget, account_type, name, starting_balance, note) " +
                                      "VALUES ({0}, {1}, {2}, {3}, {4});",
@@ -152,15 +153,15 @@ namespace Awareness.db
 
         internal IDictionary<int, int> DumpNotes(TextWriter writer){
             IDictionary<int, int> idMap = new Dictionary<int, int>();
-            int id = AwarenessDataContext.RESERVED_NOTES + 1;
-            for (int parentId = 1; parentId <= AwarenessDataContext.RESERVED_NOTES; ++parentId){
+            int id = DataStorage.RESERVED_NOTES + 1;
+            for (int parentId = 1; parentId <= DataStorage.RESERVED_NOTES; ++parentId){
                 _RecursiveDumpNotes(writer, parentId, idMap, ref id);
             }
             return idMap;
         }
 
         void _RecursiveDumpNotes(TextWriter writer, int parentId, IDictionary<int, int> idMap, ref int id){
-            foreach (DalNote note in dc.notes.Where(n => n.Id > AwarenessDataContext.RESERVED_NOTES&&n.ParentId == parentId)){
+            foreach (DalNote note in dc.notes.Where(n => n.Id > DataStorage.RESERVED_NOTES&&n.ParentId == parentId)){
                 writer.WriteLine("INSERT INTO notes (parent, permanent, expanded, created, icons, title, text) " +
                                  "VALUES ({0}, {1}, {2}, '{3}', {4}, {5}, {6});",
                                  idMap.ContainsKey(note.ParentId) ? idMap[note.ParentId] : note.ParentId,
@@ -177,14 +178,14 @@ namespace Awareness.db
 
         internal void DumpActions(TextWriter writer, IDictionary<int, int> notes){
             IDictionary<int, int> idMap = new Dictionary<int, int>();
-            int id = AwarenessDataContext.RESERVED_ACTIONS + 1;
-            for (int parentId = 1; parentId <= AwarenessDataContext.RESERVED_ACTIONS; ++parentId){
+            int id = DataStorage.RESERVED_ACTIONS + 1;
+            for (int parentId = 1; parentId <= DataStorage.RESERVED_ACTIONS; ++parentId){
                 _RecursiveDumpActions(writer, parentId, notes, idMap, ref id);
             }
         }
 
         void _RecursiveDumpActions(TextWriter writer, int parentId, IDictionary<int, int> notes, IDictionary<int, int> idMap, ref int id){
-            foreach (DalAction entry in dc.actions.Where(n => n.Id > AwarenessDataContext.RESERVED_ACTIONS&&n.ParentId == parentId)){
+            foreach (DalAction entry in dc.actions.Where(n => n.Id > DataStorage.RESERVED_ACTIONS&&n.ParentId == parentId)){
                 writer.WriteLine("INSERT INTO actions (parent, checked, type, expanded, name, note, time_planned, start, [end], recurrent, pattern, repeat_no_of_times, repeat_until, has_window_reminder, reminder_duration, has_command_reminder, reminder_command, has_sound_reminder, reminder_sound) " +
                                  "VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18});",
                                  idMap.ContainsKey(entry.ParentId) ? idMap[entry.ParentId] : entry.ParentId,

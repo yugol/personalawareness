@@ -26,14 +26,38 @@
  * THE SOFTWARE.
  */
 using System;
+using System.IO;
 
 namespace Awareness.db.mssql
 {
-    public class DataStorage : Awareness.db.DataStorage
+    public partial class DataStorage : Awareness.db.DataStorage
     {
+        AwarenessDataContext dataContext;
+        
         public DataStorage(string storageId) 
             : base(storageId)
         {
+            if (!File.Exists(storageId)) {
+                dataContext = new AwarenessDataContext(storageId);
+                dataContext.CreateDatabase();
+            } else {
+                dataContext = new AwarenessDataContext(storageId);
+            }
+            
+            nick = Path.GetFileName(storageId);
         }
+        
+        public override void Close()
+        {
+            dataContext.Connection.Close();
+            dataContext.Dispose();
+        }
+        
+        public override void Delete()
+        {
+            dataContext.Connection.Close();
+            dataContext.DeleteDatabase();
+        }
+        
     }
 }

@@ -27,10 +27,7 @@
  */
 
 using System;
-using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
-
 using Awareness.db;
 
 namespace Awareness.ui
@@ -43,7 +40,7 @@ namespace Awareness.ui
         public DalNote Note {
             get { return noteControl.Note; }
             set {
-                if (value != null && value.Id == AwarenessDataContext.NOTE_ROOT_ID){
+                if (value != null && value.Id == DataStorage.NOTE_ROOT_ID){
                     value = null;
                 }
                 noteControl.Note = value;

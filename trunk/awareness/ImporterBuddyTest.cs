@@ -35,6 +35,7 @@ using System.Linq;
 
 using Awareness.db;
 using NUnit.Framework;
+using Awareness.db.mssql;
 
 namespace Awareness
 {
