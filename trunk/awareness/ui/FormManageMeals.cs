@@ -38,29 +38,19 @@ using Awareness.db.mssql;
 
 namespace Awareness.ui
 {
-    /// <summary>
-    /// Description of FormManageMeals.
-    /// </summary>
     public partial class FormManageMeals : Form
     {
-        AwarenessDataContext dc = DBUtil.GetDataContext();
-        
         public FormManageMeals()
         {
-            //
-            // The InitializeComponent() call is required for Windows Forms designer support.
-            //
             InitializeComponent();
             ReadMeals();
         }
         
         void ReadMeals()
         {
-            IEnumerable<DalMeal> meals = from m in dc.meals
-                orderby m.When descending, m.What.Name
-                select m;
+            IEnumerable<DalMeal> meals = Controller.Storage.GetMealsTimeDesc(Configuration.MealManagerHistoryLength);
             mealsView.Items.Clear();
-            bool useAlternateBackground = false;
+            int index = 0;
             foreach (DalMeal meal in meals)
             {
                 ListViewItem item = new ListViewItem(meal.When.ToString(Configuration.DATE_FORMAT));
@@ -68,23 +58,16 @@ namespace Awareness.ui
                 item.SubItems.Add(meal.What.Name);
                 item.SubItems.Add(meal.Quantity.ToString());
                 item.SubItems.Add(meal.Why.Name);
-                item.BackColor = useAlternateBackground ? Configuration.ALTERNATE_BACKGROUND : Configuration.NORMAL_BACKGROUND;
-                useAlternateBackground = !useAlternateBackground;
+                item.BackColor = ((index % 2) == 1) ? Configuration.ALTERNATE_BACKGROUND : Configuration.NORMAL_BACKGROUND;
                 mealsView.Items.Add(item);
+                ++index;
             }
             deleteButton.Enabled = false;
         }
                 
         void MealsViewSelectedIndexChanged(object sender, EventArgs e)
         {
-            if (mealsView.SelectedItems.Count > 0)
-            {
-                deleteButton.Enabled = true;
-            }
-            else
-            {
-                deleteButton.Enabled = false;
-            }
+            deleteButton.Enabled = mealsView.SelectedItems.Count > 0;
         }
         
         void DeleteButtonClick(object sender, EventArgs e)
@@ -95,7 +78,7 @@ namespace Awareness.ui
                                 MessageBoxIcon.Question, 
                                 MessageBoxDefaultButton.Button2) == DialogResult.OK)
             {
-                DBUtil.DeleteMeal((DalMeal) mealsView.SelectedItems[0].Tag);
+                Controller.Storage.DeleteMeal((DalMeal) mealsView.SelectedItems[0].Tag);
                 ReadMeals();
             }
         }

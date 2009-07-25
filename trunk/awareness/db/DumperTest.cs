@@ -167,7 +167,7 @@ namespace Awareness.db
             act1.Parent = act2;
             DBUtil.UpdateAction(act1, null);
             
-            Configuration.DBProperties.CurrencySymbol = "USD";
+            Configuration.StorageProperties.CurrencySymbol = "USD";
             DBUtil.UpdateProperties();
         }
 

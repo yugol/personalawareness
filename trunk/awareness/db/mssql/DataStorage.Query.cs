@@ -53,5 +53,151 @@ namespace Awareness.db.mssql
             #endif
             return accountTypes;
         }
+        
+        public override IEnumerable<DalAccount> GetAccounts()
+        {
+            IQueryable<DalAccount> accounts = null;
+            #if DEBUG
+            accounts = from a in dataContext.transferLocations.OfType<DalAccount>()
+                       orderby a.Name
+                       select a;
+            #else
+            accounts = from a in dataContext.transferLocations.OfType<DalAccount>()
+                       where a.Id > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS
+                       orderby a.Name
+                       select a;
+            #endif
+            return accounts;
+        }
+        
+        public override IEnumerable<DalBudgetCategory> GetBudgetCategories()
+        {
+            IQueryable<DalBudgetCategory> categories = null;
+            #if DEBUG
+            categories = from c in dataContext.transferLocations.OfType<DalBudgetCategory>()
+                         orderby c.Name
+                         select c;
+            #else
+            categories = from c in dataContext.transferLocations.OfType<DalBudgetCategory>()
+                         where c.Id > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS
+                         orderby c.Name
+                         select c;
+            #endif
+            return categories;
+        }
+        
+        public override bool IsTransferLocationUsed(DalTransferLocation tl) 
+        {
+            IQueryable<DalTransaction> q = dataContext.transactions
+                                           .Where(tr => tr.FromId == tl.Id || tr.ToId == tl.Id);
+            if (q.Count() > 0){
+                return true;
+            }
+            return false;
+        }
+
+        public override IEnumerable<DalReason> GetTransactionReasons(sbyte reasonType)
+        {
+            IQueryable<DalReason> reasons = dataContext.transactionReasons.OrderBy(r => r.Name);
+            if (reasonType >= 0) {
+                reasons = reasons.Where(r => r.Type == reasonType);
+            }
+            #if !DEBUG
+            reasons = reasons.Where(r => (r.Type == TYPE_DEFAULT) || (r.Type == TYPE_FOOD));
+            #endif
+            return reasons;
+        }
+        
+        public override float GetLastEnergyForRecipe(DalRecipe recipe)
+        {
+            float energy = 0, quantity = 0;
+
+            try {
+                var lastWhen = dataContext.meals.Where(m => m.WhyId == recipe.Id).Max(m => m.When);
+
+                IQueryable<DalMeal> meals = from m in dataContext.meals
+                                            where m.WhyId == recipe.Id
+                                            where m.When == lastWhen
+                                            select m;
+
+                foreach (DalMeal meal in meals){
+                    quantity += meal.Quantity;
+                    energy += meal.What.GetEnergy(meal.Quantity);
+                }
+
+                return DalFood.QUANTITY_FOR_ENERGY * energy / quantity;
+            } catch (Exception) {
+                return 0;
+            }
+        }
+
+        public override float GetAverageEnergyForRecipe(DalRecipe recipe)
+        {
+            float energy = 0, quantity = 0;
+
+            IQueryable<DalMeal> meals = from m in dataContext.meals
+                                        where m.WhyId == recipe.Id
+                                        select m;
+
+            foreach (DalMeal meal in meals){
+                quantity += meal.Quantity;
+                energy += meal.What.GetEnergy(meal.Quantity);
+            }
+
+            if (energy == 0){
+                return 0;
+            }
+
+            return DalFood.QUANTITY_FOR_ENERGY * energy / quantity;
+        }
+        
+        public override IEnumerable<DalMeal> GetMealsTimeDesc(int history)
+        {
+            IQueryable<DalMeal> meals = from m in dataContext.meals
+                                        
+                                        orderby m.When descending, m.What.Name
+                                        select m;
+            if (history > 0) {
+                return meals.Take(history);
+            }
+            return meals;
+        }
+        
+        DalTransaction GetRecipeTransaction(DalRecipe why, DateTime when)
+        {
+            DalTransaction recipeTransaction = null;
+
+            IQueryable<DalTransaction> cookings = from t in dataContext.transactions
+                                                  where t.Reason.Id == why.Id
+                                                  where t.When == when
+                                                  select t;
+
+            if (cookings.Count() > 0){
+                recipeTransaction = cookings.First();
+            }
+
+            return recipeTransaction;
+        }
+        
+        DalAccount GetFoodsAccount()
+        {
+            return (DalAccount) dataContext.GetTransferLocationById(DataStorage.ACCOUNT_FOODS_ID);
+        }
+
+        DalAccount GetRecipesAccount()
+        {
+            return (DalAccount) dataContext.GetTransferLocationById(DataStorage.ACCOUNT_RECIPES_ID);
+        }
+        
+        int GetRecipeConstituentCount(DalRecipe recipe, DateTime when)
+        {
+            IQueryable<DalMeal> meals = from m in dataContext.meals
+                                        where m.WhyId == recipe.Id
+                                        where m.When.Equals(when)
+                                        select m;
+            return meals.Count();
+        }
+        
+        
     }
 }

@@ -33,13 +33,15 @@ using System.Xml;
 
 namespace Awareness.db
 {
-    public class XmlProperties {
+    public class XmlProperties
+    {
         private static readonly string CURRENCY_SYMBOL_TAG = "symbol";
         private static readonly string PLACE_AFTER_VALUE_TAG = "placeAfterValue";
         private static readonly string LAST_MEAL_REPORT_REASON_TAG = "lastMealReportReason";
 
 
-        public string XmlString {
+        public string XmlString
+        {
             get { return BuildPropertiesXml(); }
             set {
                 XmlDocument xmlDoc = new XmlDocument();
@@ -64,47 +66,45 @@ namespace Awareness.db
             }
         }
 
-        private bool currencyNotationChanged = false;
-        public bool CurrencyNotationChanged {
-            get { return currencyNotationChanged; }
-        }
-        public void ResetCurrencyNotationChanged() {
-            currencyNotationChanged = false;
-        }
-
         private string currencySymbol = "$";
-        public string CurrencySymbol {
+        public string CurrencySymbol 
+        {
             get { return currencySymbol; }
-            set {
+            set 
+            {
                 currencySymbol = value;
-                currencyNotationChanged = true;
             }
         }
 
         private bool placeCurrencySymbolAfterValue = false;
-        public bool PlaceCurrencySymbolAfterValue {
+        public bool PlaceCurrencySymbolAfterValue 
+        {
             get { return placeCurrencySymbolAfterValue; }
-            set {
+            set
+            {
                 placeCurrencySymbolAfterValue = value;
-                currencyNotationChanged = true;
             }
         }
 
         private int lastMealReportReason = 0 ;
-        public int LastMealReportReason {
+        public int LastMealReportReason 
+        {
             get { return lastMealReportReason; }
             set { lastMealReportReason = value; }
         }
 
-        public XmlProperties() {
+        public XmlProperties() 
+        {
             XmlString = null;
         }
 
-        public XmlProperties(string xmlText){
+        public XmlProperties(string xmlText)
+        {
             XmlString = xmlText;
         }
 
-        private string BuildPropertiesXml() {
+        private string BuildPropertiesXml()
+        {
             StringBuilder sb = new StringBuilder();
             XmlWriter xml = XmlWriter.Create(sb);
 

@@ -52,11 +52,13 @@ namespace Awareness.ui
             }
         }
 
-        public FormNoteTextView(){
+        public FormNoteTextView()
+        {
             InitializeComponent();
         }
 
-        void NoteControlNoteTextChanged(object sender, DalNote note){
+        void NoteControlNoteTextChanged(object sender, DalNote note)
+        {
             if (NoteTextChanged != null){
                 NoteTextChanged(sender, note);
             }

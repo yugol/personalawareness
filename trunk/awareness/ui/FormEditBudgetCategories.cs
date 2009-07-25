@@ -27,15 +27,17 @@
  */
 
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 using Awareness.db;
 
 namespace Awareness.ui
 {
-    public partial class FormEditBudgetCategories : Form {
-        public FormEditBudgetCategories(){
+    public partial class FormEditBudgetCategories : Form 
+    {
+        public FormEditBudgetCategories()
+        {
             InitializeComponent();
             ReadBudgetCategories();
 
@@ -44,10 +46,11 @@ namespace Awareness.ui
             noteControl.NoteRemoved += new NoteHandler(NoteUpdated);
         }
 
-        void ReadBudgetCategories(){
+        void ReadBudgetCategories()
+        {
             categoriesList.Items.Clear();
 
-            IQueryable<DalBudgetCategory> categories = DBUtil.GetBudgetCategories();
+            IEnumerable<DalBudgetCategory> categories = Controller.Storage.GetBudgetCategories();
 
             foreach (DalBudgetCategory category in categories){
                 categoriesList.Items.Add(category);
@@ -60,13 +63,14 @@ namespace Awareness.ui
             }
         }
 
-        void CategoriesListSelectedIndexChanged(object sender, EventArgs e){
+        void CategoriesListSelectedIndexChanged(object sender, EventArgs e)
+        {
             if (categoriesList.SelectedItem is DalBudgetCategory){
                 DalBudgetCategory bc = (DalBudgetCategory) categoriesList.SelectedItem;
                 nameBox.Text = bc.Name;
                 incomeButton.Checked = bc.IsIncome;
                 expenseButton.Checked = !bc.IsIncome;
-                if (DBUtil.IsTransferLocationUsed(bc)) {
+                if (Controller.Storage.IsTransferLocationUsed(bc)) {
                     incomeButton.Visible = bc.IsIncome;
                     expenseButton.Visible = !bc.IsIncome;
                 } else {
@@ -81,7 +85,8 @@ namespace Awareness.ui
             }
         }
 
-        void EditControlsEnabled(bool val){
+        void EditControlsEnabled(bool val)
+        {
             nameLabel.Enabled = val;
             nameBox.Enabled = val;
             incomeButton.Enabled = val;
@@ -91,38 +96,42 @@ namespace Awareness.ui
             noteControl.Enabled = val;
         }
 
-        void ClearEditBoxes(){
+        void ClearEditBoxes()
+        {
             nameBox.Text = "";
             incomeButton.Checked = false;
             expenseButton.Checked = false;
         }
 
-        void NewButtonClick(object sender, EventArgs e){
+        void NewButtonClick(object sender, EventArgs e)
+        {
             DalBudgetCategory bc = new DalBudgetCategory() {
                 Name = "_New Budget Category", IsIncome = false
             };
-            DBUtil.InsertTransferLocation(bc, noteControl.Note);
+            Controller.Storage.InsertTransferLocation(bc, noteControl.Note);
             ReadBudgetCategories();
             categoriesList.SelectedItem = bc;
             nameBox.Focus();
         }
 
-        void UpdateButtonClick(object sender, EventArgs e){
+        void UpdateButtonClick(object sender, EventArgs e)
+        {
             DalBudgetCategory bc = (DalBudgetCategory) categoriesList.SelectedItem;
             bc.Name = nameBox.Text;
             bc.IsIncome = incomeButton.Checked;
-            DBUtil.UpdateTransferLocation(bc, noteControl.Note);
+            Controller.Storage.UpdateTransferLocation(bc, noteControl.Note);
             ReadBudgetCategories();
         }
 
-        void DeleteButtonClick(object sender, EventArgs e){
+        void DeleteButtonClick(object sender, EventArgs e)
+        {
             DalBudgetCategory bc = (DalBudgetCategory) categoriesList.SelectedItem;
             if (MessageBox.Show("Are sure you want to delete\n" + bc.Name,
                                 "Delete budget category",
                                 MessageBoxButtons.OKCancel,
                                 MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK){
                 try {
-                    DBUtil.DeleteTransferLocation(bc);
+                    Controller.Storage.DeleteTransferLocation(bc);
                 } catch (Exception err) {
                     MessageBox.Show("Could not delete budget category:\n" + err.Message,
                                     "Delete budget category",
@@ -135,23 +144,28 @@ namespace Awareness.ui
             }
         }
 
-        void NameBoxTextChanged(object sender, EventArgs e){
+        void NameBoxTextChanged(object sender, EventArgs e)
+        {
             updateButton.Enabled = true;
         }
 
-        void IncomeButtonCheckedChanged(object sender, EventArgs e){
+        void IncomeButtonCheckedChanged(object sender, EventArgs e)
+        {
             updateButton.Enabled = true;
         }
 
-        void ExpenseButtonCheckedChanged(object sender, EventArgs e){
+        void ExpenseButtonCheckedChanged(object sender, EventArgs e)
+        {
             updateButton.Enabled = true;
         }
 
-        void NoteUpdated(object sender, DalNote note) {
+        void NoteUpdated(object sender, DalNote note)
+        {
             updateButton.Enabled = true;
         }
 
-        void NameBoxValidating(object sender, System.ComponentModel.CancelEventArgs e){
+        void NameBoxValidating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
             if (string.IsNullOrEmpty(nameBox.Text.Trim())){
                 e.Cancel = true;
                 errorProvider.SetError((Control) sender, "Please enter a name");

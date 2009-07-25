@@ -27,48 +27,55 @@
  */
 
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 using Awareness.db;
 
 namespace Awareness.ui
 {
-    public partial class FormEditAccounts : Form {
-        IQueryable<DalAccountType> accountTypes = null;
-        DatabaseChangedHandler dataContextChangedDelegete = null;
+    public partial class FormEditAccounts : Form 
+    {
+        IEnumerable<DalAccountType> accountTypes = null;
 
-        public FormEditAccounts(){
+        public FormEditAccounts()
+        {
             InitializeComponent();
-            dataContextChangedDelegete = new DatabaseChangedHandler(ReadAccountTypes);
-            DBUtil.DataContextChanged += dataContextChangedDelegete;
-
+            
             noteControl.NoteAdded += new NoteHandler(NoteUpdated);
             noteControl.NoteTextChanged += new NoteHandler(NoteUpdated);
             noteControl.NoteRemoved += new NoteHandler(NoteUpdated);
         }
 
-        void FormEditAccountsLoad(object sender, EventArgs e){
+        void FormEditAccountsLoad(object sender, EventArgs e)
+        {
             ReadAccountTypes();
             ReadAccounts();
         }
 
-        void ReadAccountTypes(){
+        void ReadAccountTypes()
+        {
             typeCombo.Items.Clear();
-            accountTypes = DBUtil.GetAccountTypes();
-            if (accountTypes.Count() <= 0){
-                throw new ApplicationException("No account types defined!");
-            }
+            int accountTypesCount = 0;
+
+            accountTypes = Controller.Storage.GetAccountTypes();
             foreach (DalAccountType at in accountTypes){
                 typeCombo.Items.Add(at);
+                ++accountTypesCount;
             }
+            
+            if (accountTypesCount <= 0){
+                throw new ApplicationException("No account types defined!");
+            }
+            
             typeCombo.SelectedIndex = 0;
         }
 
-        void ReadAccounts(){
+        void ReadAccounts()
+        {
             accountsView.Nodes.Clear();
 
-            IQueryable<DalAccount> accounts = DBUtil.GetAccounts();
+            IEnumerable<DalAccount> accounts = Controller.Storage.GetAccounts();
 
             TreeNode firstAccountNode = null;
             foreach (DalAccountType accountType in accountTypes){
@@ -99,7 +106,8 @@ namespace Awareness.ui
             }
         }
 
-        void UpdateUi(){
+        void UpdateUi()
+        {
             if (accountsView.SelectedNode != null&&accountsView.SelectedNode.Tag is DalAccount){
                 DalAccount a = (DalAccount) accountsView.SelectedNode.Tag;
                 nameBox.Text = a.Name;
@@ -117,7 +125,8 @@ namespace Awareness.ui
             }
         }
 
-        void EditControlsEnabled(bool val){
+        void EditControlsEnabled(bool val)
+        {
             nameLabel.Enabled = val;
             nameBox.Enabled = val;
             typeLabel.Enabled = val;
@@ -129,23 +138,26 @@ namespace Awareness.ui
             noteControl.Enabled = val;
         }
 
-        void ClearEditBoxes(){
+        void ClearEditBoxes()
+        {
             nameBox.Text = "";
             startingBalanceBox.Text = "";
         }
 
-        void NewButtonClick(object sender, EventArgs e){
+        void NewButtonClick(object sender, EventArgs e)
+        {
             DalAccount account = new DalAccount() {
                 Name = "_New Account", StartingBalance = 0m, AccountType = (DalAccountType) typeCombo.SelectedItem
             };
-            DBUtil.InsertTransferLocation(account, noteControl.Note);
+            Controller.Storage.InsertTransferLocation(account, noteControl.Note);
             ReadAccounts();
             SelectNodeWithTag(account);
             UpdateUi();
             nameBox.Focus();
         }
 
-        void SelectNodeWithTag(DalAccount account){
+        void SelectNodeWithTag(DalAccount account)
+        {
             foreach (TreeNode typeNode in accountsView.Nodes){
                 foreach (TreeNode accountNode in typeNode.Nodes){
                     if (accountNode.Tag.Equals(account)){
@@ -156,23 +168,25 @@ namespace Awareness.ui
             }
         }
 
-        void UpdateButtonClick(object sender, EventArgs e){
+        void UpdateButtonClick(object sender, EventArgs e)
+        {
             DalAccount account = (DalAccount) accountsView.SelectedNode.Tag;
             account.Name = nameBox.Text;
             account.AccountType = (DalAccountType) typeCombo.SelectedItem;
             account.StartingBalance = decimal.Parse(startingBalanceBox.Text);
-            DBUtil.UpdateTransferLocation(account, noteControl.Note);
+            Controller.Storage.UpdateTransferLocation(account, noteControl.Note);
             ReadAccounts();
         }
 
-        void DeleteButtonClick(object sender, EventArgs e){
+        void DeleteButtonClick(object sender, EventArgs e)
+        {
             DalAccount account = (DalAccount) accountsView.SelectedNode.Tag;
             if (MessageBox.Show("Are sure you want to delete\n" + account.Name,
                                 "Delete account",
                                 MessageBoxButtons.OKCancel,
                                 MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK){
                 try {
-                    DBUtil.DeleteTransferLocation(account);
+                    Controller.Storage.DeleteTransferLocation(account);
                 } catch (Exception err) {
                     MessageBox.Show("Could not delete account:\n" + err.Message,
                                     "Delete account",
@@ -186,23 +200,28 @@ namespace Awareness.ui
             }
         }
 
-        void NameBoxTextChanged(object sender, EventArgs e){
+        void NameBoxTextChanged(object sender, EventArgs e)
+        {
             updateButton.Enabled = true;
         }
 
-        void TypeComboSelectedIndexChanged(object sender, EventArgs e){
+        void TypeComboSelectedIndexChanged(object sender, EventArgs e)
+        {
             updateButton.Enabled = true;
         }
 
-        void StartingBalanceBoxTextChanged(object sender, EventArgs e){
+        void StartingBalanceBoxTextChanged(object sender, EventArgs e)
+        {
             updateButton.Enabled = true;
         }
 
-        void NoteUpdated(object sender, DalNote note) {
+        void NoteUpdated(object sender, DalNote note) 
+        {
             updateButton.Enabled = true;
         }
 
-        void NameBoxValidating(object sender, System.ComponentModel.CancelEventArgs e){
+        void NameBoxValidating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
             if (string.IsNullOrEmpty(nameBox.Text.Trim())){
                 e.Cancel = true;
                 errorProvider.SetError((Control) sender, "Please enter a name");
@@ -211,7 +230,8 @@ namespace Awareness.ui
             }
         }
 
-        void StartingBalanceBoxValidating(object sender, System.ComponentModel.CancelEventArgs e){
+        void StartingBalanceBoxValidating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
             try {
                 errorProvider.Clear();
                 decimal.Parse(startingBalanceBox.Text);
@@ -221,11 +241,8 @@ namespace Awareness.ui
             }
         }
 
-        void FormEditAccountsFormClosed(object sender, FormClosedEventArgs e){
-            DBUtil.DataContextChanged -= dataContextChangedDelegete;
-        }
-
-        void AccountsViewAfterSelect(object sender, TreeViewEventArgs e){
+        void AccountsViewAfterSelect(object sender, TreeViewEventArgs e)
+        {
             UpdateUi();
         }
     }

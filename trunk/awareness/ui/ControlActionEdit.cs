@@ -164,7 +164,7 @@ namespace Awareness.ui
             soundSelector.Command = action.ReminderSound;
 
             reminderDurationCombo.Enabled = action.HasReminder;
-            reminderDurationCombo.Text = DBUtil.Minutes2TimeSpanString(action.ReminderDuration);
+            reminderDurationCombo.Text = Util.Minutes2TimeSpanString(action.ReminderDuration);
         }
 
         void SetTodoUi(){

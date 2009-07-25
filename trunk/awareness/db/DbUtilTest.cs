@@ -197,23 +197,6 @@ namespace Awareness.db
             Assert.AreEqual(0, DBUtil.GetRootActions().Count());
         }
 
-        [Test]
-        public void Minutes2TimeSpanString(){
-            Assert.AreEqual("0 min", DBUtil.Minutes2TimeSpanString(0));
-            Assert.AreEqual("1 min", DBUtil.Minutes2TimeSpanString(1));
-            Assert.AreEqual("-1 min", DBUtil.Minutes2TimeSpanString(-1));
-            Assert.AreEqual("1 hour ", DBUtil.Minutes2TimeSpanString(60));
-            Assert.AreEqual("-1 hour ", DBUtil.Minutes2TimeSpanString(-60));
-            Assert.AreEqual("1 hour 30 min", DBUtil.Minutes2TimeSpanString(90));
-            Assert.AreEqual("-1 hour 30 min", DBUtil.Minutes2TimeSpanString(-90));
-            Assert.AreEqual("2 hours ", DBUtil.Minutes2TimeSpanString(120));
-            Assert.AreEqual("-2 hours ", DBUtil.Minutes2TimeSpanString(-120));
-            Assert.AreEqual("1 day ", DBUtil.Minutes2TimeSpanString(1440));
-            Assert.AreEqual("-1 day ", DBUtil.Minutes2TimeSpanString(-1440));
-            Assert.AreEqual("2 days ", DBUtil.Minutes2TimeSpanString(2880));
-            Assert.AreEqual("-2 days ", DBUtil.Minutes2TimeSpanString(-2880));
-        }
-
         [TestFixtureSetUp]
         public void Init(){
             DBUtil.CreateDataContext(DBTest.TEST_DB_NAME);

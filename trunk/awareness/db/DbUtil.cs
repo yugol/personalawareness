@@ -54,14 +54,6 @@ namespace Awareness.db
         internal static event DatabaseChangedHandler MealsChanged;
         internal static event DatabaseChangedHandler ActionsChanged;
         
-        internal static DateTime RemoveMilliseconds(DateTime when){
-            return new DateTime(when.Year, when.Month, when.Day, when.Hour, when.Minute, when.Second);
-        }
-
-        internal static DateTime RemoveSeconds(DateTime when){
-            return new DateTime(when.Year, when.Month, when.Day, when.Hour, when.Minute, 0);
-        }
-
         internal static void RestoreFromSqlDump(string fileName){
             StreamReader reader = null;
             try {
@@ -123,35 +115,5 @@ namespace Awareness.db
             return dataContext.GetActionById(DataStorage.ACTION_ROOT_ID);
         }
 
-        internal static string Minutes2TimeSpanString(int minutes){
-            bool negative = minutes < 0;
-
-            TimeSpan timeSpan = new TimeSpan(0, Math.Abs(minutes), 0);
-            int days = (int) timeSpan.TotalDays;
-            int hours = timeSpan.Hours;
-            minutes = timeSpan.Minutes;
-
-            string duration = "";
-
-            if (days != 0){
-                duration += days.ToString();
-                duration += (days == 1) ? (" day ") : (" days ");
-            }
-
-            if (hours != 0){
-                duration += hours.ToString();
-                duration += (hours == 1) ? (" hour ") : (" hours ");
-            }
-
-            if (string.IsNullOrEmpty(duration)||(!string.IsNullOrEmpty(duration)&&(minutes != 0))){
-                duration += minutes.ToString() + " min";
-            }
-
-            if (negative){
-                duration = "-" + duration;
-            }
-
-            return duration;
-        }
     }
 }

@@ -36,20 +36,24 @@ using Awareness.db;
 namespace Awareness.ui
 {
     public partial class FormEditProperties : Form {
-        public FormEditProperties(){
+        public FormEditProperties()
+        {
             InitializeComponent();
             Data2Ui();
         }
 
-        void Data2Ui() {
-            symbolBox.Text = Configuration.DBProperties.CurrencySymbol;
-            placementCheck.Checked = Configuration.DBProperties.PlaceCurrencySymbolAfterValue;
+        void Data2Ui()
+        {
+            symbolBox.Text = Configuration.StorageProperties.CurrencySymbol;
+            placementCheck.Checked = Configuration.StorageProperties.PlaceCurrencySymbolAfterValue;
         }
 
-        void Ui2Data() {
-            Configuration.DBProperties.CurrencySymbol = symbolBox.Text;
-            Configuration.DBProperties.PlaceCurrencySymbolAfterValue = placementCheck.Checked;
-            DBUtil.UpdateProperties();
+        void Ui2Data()
+        {
+            XmlProperties xmlProp = new XmlProperties();
+            xmlProp.CurrencySymbol = symbolBox.Text;
+            xmlProp.PlaceCurrencySymbolAfterValue = placementCheck.Checked;
+            Controller.Storage.UpdateProperties(xmlProp);
         }
         
         void SymbolBoxValidating(object sender, System.ComponentModel.CancelEventArgs e)

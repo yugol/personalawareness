@@ -95,7 +95,7 @@ namespace Awareness.db
             return transactions;
         }
 
-        internal static IQueryable<DalReason> GetTransferReasons(){
+        internal static IQueryable<DalReason> GetTransferReasons(){ // -> GetTransactionReaso
             IQueryable<DalReason> reasons = null;
             #if DEBUG
             reasons = from r in dataContext.transactionReasons

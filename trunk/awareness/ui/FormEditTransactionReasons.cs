@@ -37,10 +37,12 @@ using Awareness.db;
 
 namespace Awareness.ui
 {
-    public partial class FormEditTransactionReasons : Form {
+    public partial class FormEditTransactionReasons : Form 
+    {
         private DalReason lastSelectedReason;
 
-        public FormEditTransactionReasons(){
+        public FormEditTransactionReasons()
+        {
             InitializeComponent();
 
             noteControl.NoteAdded += new NoteHandler(NoteUpdated);
@@ -57,21 +59,11 @@ namespace Awareness.ui
             selectedTypeCombo.SelectedIndex = 0; // calls ReadTransactionReasons()
         }
 
-        void ReadReasons(){
+        void ReadReasons()
+        {
             // get reasons from db
             sbyte reasonType = GetTypeForCombo(selectedTypeCombo);
-            AwarenessDataContext dc = DBUtil.GetDataContext();
-            IEnumerable<DalReason> reasons = null;
-            if (reasonType < 0){
-                reasons = from t in dc.transactionReasons
-                          orderby t.Name
-                          select t;
-            } else {
-                reasons = from t in dc.transactionReasons
-                          where t.Type == reasonType
-                          orderby t.Name
-                          select t;
-            }
+            IEnumerable<DalReason> reasons = Controller.Storage.GetTransactionReasons(reasonType);
 
             // fill reason list
             reasonCombo.Text = string.Empty;
@@ -90,11 +82,13 @@ namespace Awareness.ui
 
         #region Edit events
 
-        void SelectedTypeComboSelectedIndexChanged(object sender, EventArgs e){
+        void SelectedTypeComboSelectedIndexChanged(object sender, EventArgs e)
+        {
             ReadReasons();
         }
 
-        void ReasonComboTextChanged(object sender, EventArgs e){
+        void ReasonComboTextChanged(object sender, EventArgs e)
+        {
             if (string.IsNullOrEmpty(reasonCombo.Text)){
                 newButton.Enabled = false;
                 Dirty = false;
@@ -104,7 +98,8 @@ namespace Awareness.ui
             }
         }
 
-        void ReasonComboSelectedIndexChanged(object sender, EventArgs e){
+        void ReasonComboSelectedIndexChanged(object sender, EventArgs e)
+        {
             if (reasonCombo.SelectedItem is DalReason){
                 lastSelectedReason = (DalReason) reasonCombo.SelectedItem;
                 foreach (NamingReasonTypes typeName in NamingReasonTypes.GetNames()){
@@ -126,26 +121,31 @@ namespace Awareness.ui
             Dirty = false;
         }
 
-        void TypeComboSelectedIndexChanged(object sender, EventArgs e){
+        void TypeComboSelectedIndexChanged(object sender, EventArgs e)
+        {
             ShowControlsForType(((NamingReasonTypes) typeCombo.SelectedItem).Type);
             Dirty = true;
         }
 
-        void EnergyBoxTextChanged(object sender, EventArgs e){
+        void EnergyBoxTextChanged(object sender, EventArgs e)
+        {
             Dirty = true;
         }
 
-        void LastMealButtonClick(object sender, EventArgs e){
-            float energy = DBUtil.GetLastEnergyForRecipe((DalRecipe) lastSelectedReason);
+        void LastMealButtonClick(object sender, EventArgs e)
+        {
+            float energy = Controller.Storage.GetLastEnergyForRecipe((DalRecipe) lastSelectedReason);
             energyBox.Text = energy.ToString("0.00");
         }
 
-        void Button1Click(object sender, EventArgs e){
-            float energy = DBUtil.GetAverageEnergyForRecipe((DalRecipe) lastSelectedReason);
+        void Button1Click(object sender, EventArgs e)
+        {
+            float energy = Controller.Storage.GetAverageEnergyForRecipe((DalRecipe) lastSelectedReason);
             energyBox.Text = energy.ToString("0.00");
         }
 
-        void NoteUpdated(object sender, DalNote note) {
+        void NoteUpdated(object sender, DalNote note)
+        {
             Dirty = true;
         }
 
@@ -153,7 +153,8 @@ namespace Awareness.ui
 
         #region Validation
 
-        void EnergyBoxValidating(object sender, System.ComponentModel.CancelEventArgs e){
+        void EnergyBoxValidating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
             try {
                 float val = float.Parse(energyBox.Text);
                 if (val < 0){
@@ -170,18 +171,20 @@ namespace Awareness.ui
 
         #region CUD
 
-        void NewButtonClick(object sender, EventArgs e){
+        void NewButtonClick(object sender, EventArgs e)
+        {
             DalReason newReason = DalReason.CreateReason(GetTypeForCombo(selectedTypeCombo));
             newReason.Name = reasonCombo.Text;
-            DBUtil.InsertTransactionReason(newReason, noteControl.Note);
+            Controller.Storage.InsertTransactionReason(newReason, noteControl.Note);
             ReadReasons();
             reasonCombo.SelectedItem = newReason;
         }
 
-        void UpdateButtonClick(object sender, EventArgs e){
+        void UpdateButtonClick(object sender, EventArgs e)
+        {
             int lastSelectedReasonId = lastSelectedReason.Id;
             if (lastSelectedReason.Type != ((NamingReasonTypes) typeCombo.SelectedItem).Type){
-                DBUtil.UpdateTransactionReason(lastSelectedReason.Id,
+                Controller.Storage.UpdateTransactionReason(lastSelectedReason.Id,
                                                ((NamingReasonTypes) typeCombo.SelectedItem).Type,
                                                reasonCombo.Text,
                                                float.Parse(energyBox.Text),
@@ -191,7 +194,7 @@ namespace Awareness.ui
                 if (lastSelectedReason is DalFood){
                     ((DalFood) lastSelectedReason).Energy = float.Parse(energyBox.Text);
                 }
-                DBUtil.UpdateTransactionReason(lastSelectedReason, noteControl.Note);
+                Controller.Storage.UpdateTransactionReason(lastSelectedReason, noteControl.Note);
             }
             ReadReasons();
             foreach (object obj in reasonCombo.Items){
@@ -202,13 +205,14 @@ namespace Awareness.ui
             }
         }
 
-        void DeleteButtonClick(object sender, EventArgs e){
+        void DeleteButtonClick(object sender, EventArgs e)
+        {
             if (MessageBox.Show("Are sure you want to delete\n" + lastSelectedReason.Name,
                                 "Delete reason",
                                 MessageBoxButtons.OKCancel,
                                 MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK){
                 try {
-                    DBUtil.DeleteTransactionReason(lastSelectedReason);
+                    Controller.Storage.DeleteTransactionReason(lastSelectedReason);
                 } catch (Exception err) {
                     MessageBox.Show("Could not delete transaction reason:\n" + err.Message,
                                     "Delete reason",
@@ -236,7 +240,8 @@ namespace Awareness.ui
             }
         }
 
-        sbyte GetTypeForCombo(ComboBox combo){
+        sbyte GetTypeForCombo(ComboBox combo)
+        {
             sbyte type = -1;
             if (combo.SelectedItem is NamingReasonTypes) {
                 type = ((NamingReasonTypes) combo.SelectedItem).Type;
@@ -244,7 +249,8 @@ namespace Awareness.ui
             return type;
         }
 
-        void ShowControlsForType(sbyte reasonType){
+        void ShowControlsForType(sbyte reasonType)
+        {
             bool isFood = (reasonType == DalReason.TYPE_FOOD);
             bool isRecipe = (reasonType == DalReason.TYPE_RECIPE);
             energyLabel.Visible = isFood||isRecipe;
@@ -254,7 +260,8 @@ namespace Awareness.ui
             averageMealsButton.Visible = isRecipe;
         }
 
-        void EnableControls(bool val){
+        void EnableControls(bool val)
+        {
             typeLabel.Enabled = val;
             typeCombo.Enabled = val&&(GetTypeForCombo(typeCombo) == DalReason.TYPE_DEFAULT);
             energyLabel.Enabled = val;
@@ -266,7 +273,8 @@ namespace Awareness.ui
             deleteButton.Enabled = val;
         }
 
-        void ClearEditBoxes(){
+        void ClearEditBoxes()
+        {
             energyBox.Text = "0.0";
             noteControl.Note = null;
         }

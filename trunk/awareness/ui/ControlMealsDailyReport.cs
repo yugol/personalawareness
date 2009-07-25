@@ -101,7 +101,7 @@ namespace Awareness.ui
 
         void UpdateWhyCombo(){
             Util.FillFoodConsumptionReasons(whyCombo, null);
-            int id = Configuration.DBProperties.LastMealReportReason;
+            int id = Configuration.StorageProperties.LastMealReportReason;
             foreach (object obj in whyCombo.Items){
                 if (obj is DalReason&&((DalReason) obj).Id == id){
                     whyCombo.SelectedItem = obj;
@@ -117,7 +117,7 @@ namespace Awareness.ui
             if (!(whyCombo.SelectedItem is DalReason)){
                 whyCombo.SelectedItem = null;
             } else {
-                Configuration.DBProperties.LastMealReportReason = ((DalReason) whyCombo.SelectedItem).Id;
+                Configuration.StorageProperties.LastMealReportReason = ((DalReason) whyCombo.SelectedItem).Id;
                 DBUtil.UpdateProperties();
             }
             RequestUpdateReport();

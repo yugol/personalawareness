@@ -107,7 +107,7 @@ namespace Awareness.db
             set { _icons = value; }
         }
         
-        DateTime _created = DBUtil.RemoveMilliseconds(DateTime.Now);
+        DateTime _created = DataUtil.RemoveMilliseconds(DateTime.Now);
         [Column(Storage = "_created",
                 Name = "created",
                 DbType = "datetime NOT NULL",

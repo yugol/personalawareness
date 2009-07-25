@@ -1,11 +1,11 @@
 /*
  * Created by SharpDevelop.
  * User: Iulian
- * Date: 24/11/2008
- * Time: 09:01
+ * Date: 7/25/2009
+ * Time: 4:22 PM
+ * 
  *
- *
- * Copyright (c) 2008 Iulian GORIAC
+ * Copyright (c) 2008, 2009 Iulian GORIAC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,31 +25,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
 using System;
-using System.Linq;
-using Awareness.db.mssql;
+
 namespace Awareness.db
 {
-    partial class DBUtil {
-        internal static event DatabaseChangedHandler PropertiesChanged;
-
-        internal static DalProperties GetProperties() {
-            return dataContext.properties.First();
+    internal static class DataUtil
+    {
+        internal static DateTime RemoveMilliseconds(DateTime when)
+        {
+            return new DateTime(when.Year, when.Month, when.Day, when.Hour, when.Minute, when.Second);
         }
 
-        internal static void UpdateProperties() {
-            DalProperties prop = GetProperties();
-            prop.Xml = Configuration.StorageProperties.XmlString;
-            dataContext.SubmitChanges();
-            NotifyPropertiesChanged();
-        }
-
-        internal static void NotifyPropertiesChanged() {
-            if (PropertiesChanged != null){
-                PropertiesChanged();
-            }
+        internal static DateTime RemoveSeconds(DateTime when)
+        {
+            return new DateTime(when.Year, when.Month, when.Day, when.Hour, when.Minute, 0);
         }
     }
 }

@@ -58,6 +58,24 @@ namespace Awareness.ui
             ts = new TimeSpan(-1, 0, 0, 0);
             Assert.AreEqual("-1.00:00:00", Util.FormatTimeSpan(ts));
         }
+        
+        [Test]
+        public void Minutes2TimeSpanString(){
+            Assert.AreEqual("0 min", Util.Minutes2TimeSpanString(0));
+            Assert.AreEqual("1 min", Util.Minutes2TimeSpanString(1));
+            Assert.AreEqual("-1 min", Util.Minutes2TimeSpanString(-1));
+            Assert.AreEqual("1 hour ", Util.Minutes2TimeSpanString(60));
+            Assert.AreEqual("-1 hour ", Util.Minutes2TimeSpanString(-60));
+            Assert.AreEqual("1 hour 30 min", Util.Minutes2TimeSpanString(90));
+            Assert.AreEqual("-1 hour 30 min", Util.Minutes2TimeSpanString(-90));
+            Assert.AreEqual("2 hours ", Util.Minutes2TimeSpanString(120));
+            Assert.AreEqual("-2 hours ", Util.Minutes2TimeSpanString(-120));
+            Assert.AreEqual("1 day ", Util.Minutes2TimeSpanString(1440));
+            Assert.AreEqual("-1 day ", Util.Minutes2TimeSpanString(-1440));
+            Assert.AreEqual("2 days ", Util.Minutes2TimeSpanString(2880));
+            Assert.AreEqual("-2 days ", Util.Minutes2TimeSpanString(-2880));
+        }
+        
     }
 }
 #endif
