@@ -1,8 +1,8 @@
 /*
  * Created by SharpDevelop.
  * User: Iulian
- * Date: 7/23/2009
- * Time: 3:41 PM
+ * Date: 7/25/2009
+ * Time: 12:17 PM
  * 
  *
  * Copyright (c) 2008, 2009 Iulian GORIAC
@@ -26,48 +26,34 @@
  * THE SOFTWARE.
  */
 using System;
-using System.IO;
 
 namespace Awareness.db.mssql
 {
-    public partial class DataStorage : Awareness.db.DataStorage
+    partial class DataStorage
     {
-        AwarenessDataContext dataContext;
-        
-        public DataStorage(string storageId) 
-            : base(storageId)
+        public override void InsertTransferLocation(DalTransferLocation transferLocation, DalNote note)
         {
-            Open();
-            nick = Path.GetFileName(storageId);
+            PreludeInsertNotable(transferLocation, note, NOTE_TRANSFER_LOCATIONS_ID);
+            dataContext.transferLocations.InsertOnSubmit(transferLocation);
+            dataContext.SubmitChanges();
+            NotifyTransferLocationsChanged(transferLocation);
         }
-        
-        void Open()
+
+        public override void UpdateTransferLocation(DalTransferLocation transferLocation, DalNote note)
         {
-            if (!File.Exists(ConnectionString)) {
-                dataContext = new AwarenessDataContext(ConnectionString);
-                dataContext.CreateDatabase();
-            } else {
-                dataContext = new AwarenessDataContext(ConnectionString);
+            PreludeUpdateNotable(transferLocation, note, NOTE_TRANSFER_LOCATIONS_ID);
+            NotifyTransferLocationsChanged(transferLocation);
+        }
+
+        public override void DeleteTransferLocation(DalTransferLocation transferLocation)
+        {
+            DalNote note = (transferLocation.HasNote) ? (transferLocation.Note) : (null);
+            dataContext.transferLocations.DeleteOnSubmit(transferLocation);
+            dataContext.SubmitChanges();
+            if (note != null){
+                DeleteNote(note);
             }
+            NotifyTransferLocationsChanged(transferLocation);
         }
-        
-        void ReOpen()
-        {
-            Close();
-            Open();
-        }
-        
-        public override void Close()
-        {
-            dataContext.Connection.Close();
-            dataContext.Dispose();
-        }
-        
-        public override void Delete()
-        {
-            dataContext.Connection.Close();
-            dataContext.DeleteDatabase();
-        }
-        
     }
 }

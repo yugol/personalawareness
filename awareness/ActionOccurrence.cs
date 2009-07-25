@@ -56,8 +56,8 @@ namespace Awareness
 
         public ActionOccurrence(DalAction action, TimeInterval interval){
             this.action = action;
-            this.start = DBUtil.RemoveSeconds(interval.First);
-            this.end = DBUtil.RemoveSeconds(interval.Second);
+            this.start = DataUtil.RemoveSeconds(interval.First);
+            this.end = DataUtil.RemoveSeconds(interval.Second);
             if (action.HasReminder){
                 deadline = this.start.AddMinutes(-action.ReminderDuration);
                 completed = deadline < DateTime.Now;

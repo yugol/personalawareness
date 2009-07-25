@@ -55,12 +55,95 @@ namespace Awareness.db
         public const int NOTE_ACTIONS_ID = 9;
         public const int NOTE_TODOS_ID = 10;
 
+        #region Events & handling
+
         public event DataChangedHandler AccountTypesChanged;
+        public event DataChangedHandler TransferLocationsChanged;
+        public event DataChangedHandler AccountsChanged;
+        public event DataChangedHandler BudgetCategoriesChanged;
+        public event DataChangedHandler RecipesChanged;
+        public event DataChangedHandler FoodsChanged;
+        public event DataChangedHandler ConsumersChanged;
+        public event DataChangedHandler ReasonsChanged;
+        public event DataChangedHandler TransactionReasonsChanged;
+        public event DataChangedHandler PropertiesChanged;
+        public event DataChangedHandler MealsChanged;
+        public event DataChangedHandler TransactionsChanged;
+
         
-        string id;
-        public string Id
+        protected void NotifyAccountTypesChanged()
         {
-            get { return id; }
+            if (AccountTypesChanged != null){
+                AccountTypesChanged();
+            }
+        }
+
+        protected void NotifyTransferLocationsChanged(DalTransferLocation transferLocation)
+        {
+            if (transferLocation is DalAccount){
+                if (AccountsChanged != null){
+                    AccountsChanged();
+                }
+            } else if (transferLocation is DalBudgetCategory) {
+                if (BudgetCategoriesChanged != null){
+                    BudgetCategoriesChanged();
+                }
+            }
+            if (TransferLocationsChanged != null){
+                TransferLocationsChanged();
+            }
+        }
+        
+        protected void NotifyTransactionReasonsChanged(DalReason transactionReason){
+            if (transactionReason is DalRecipe){
+                if (RecipesChanged != null){
+                    RecipesChanged();
+                }
+            } else if (transactionReason is DalFood) {
+                if (FoodsChanged != null){
+                    FoodsChanged();
+                }
+            } else if (transactionReason is DalConsumer) {
+                if (ConsumersChanged != null){
+                    ConsumersChanged();
+                }
+            } else {
+                if (ReasonsChanged != null){
+                    ReasonsChanged();
+                }
+            }
+            if (TransactionReasonsChanged != null){
+                TransactionReasonsChanged();
+            }
+        }
+        
+        protected void NotifyPropertiesChanged() 
+        {
+            if (PropertiesChanged != null){
+                PropertiesChanged();
+            }
+        }
+        
+        protected void NotifyMealsChanged()
+        {
+            if (MealsChanged != null){
+                MealsChanged();
+            }
+        }
+
+        protected void NotifyTransactionsChanged(DalTransaction transaction)
+        {
+            if (TransactionsChanged != null){
+                TransactionsChanged();
+            }
+        }
+        
+        #endregion
+
+        string connectionString;
+        public string ConnectionString
+        {
+            get { return connectionString; }
         }
         
         protected string nick;
@@ -70,39 +153,55 @@ namespace Awareness.db
         }
         
         
-        public DataStorage(string storageId)
+        public DataStorage(string connectionString)
         {
-            this.id = storageId;
-            this.nick = storageId;
+            this.connectionString = connectionString;
+            this.nick = connectionString;
         }
         
         public abstract void Close();
         public abstract void Delete();
             
-        // Query
+        /* Read | Query */
         
+        public abstract DalProperties GetProperties();
         public abstract IEnumerable<DalAccountType> GetAccountTypes();
+        public abstract IEnumerable<DalAccount> GetAccounts();
+        public abstract IEnumerable<DalBudgetCategory> GetBudgetCategories();
+        public abstract bool IsTransferLocationUsed(DalTransferLocation transferLocation);
+        public abstract IEnumerable<DalReason> GetTransactionReasons(sbyte reasonType);
+        public abstract float GetLastEnergyForRecipe(DalRecipe recipe);
+        public abstract float GetAverageEnergyForRecipe(DalRecipe recipe);
+        public abstract IEnumerable<DalMeal> GetMealsTimeDesc(int history);
         
-        
-        // Create, Update, Delete
+        /* Create, Update, Delete */
         
         // Notes
         public abstract void UpdateNote(DalNote note);
         public abstract void DeleteNote(DalNote note);
-        
-        
+                
         // AccountTypes
         public abstract void InsertAccountType(DalAccountType accountTypes, DalNote note);        
         public abstract void UpdateAccountType(DalAccountType accountTypes, DalNote note);
         public abstract void DeleteAccountType(DalAccountType accountType);
-
-        protected void NotifyAccountTypesChanged()
-        {
-            if (AccountTypesChanged != null){
-                AccountTypesChanged();
-            }
-        }
-
+        
+        // Transfer Locations
+        public abstract void InsertTransferLocation(DalTransferLocation transferLocation, DalNote note);
+        public abstract void UpdateTransferLocation(DalTransferLocation transferLocation, DalNote note);
+        public abstract void DeleteTransferLocation(DalTransferLocation transferLocation);
+                    
+        // Transaction Reasons
+        public abstract void InsertTransactionReason(DalReason reason, DalNote note);
+        public abstract void UpdateTransactionReason(DalReason reason, DalNote note);
+        public abstract void UpdateTransactionReason(int id, sbyte type, string name, float energy, DalNote note);
+        public abstract void DeleteTransactionReason(DalReason reason);
+        
+        // Properties
+        public abstract void UpdateProperties(XmlProperties xmlProp);
+        
+        // Meals
+        public abstract void InsertMeal(DalMeal meal);
+        public abstract void DeleteMeal(DalMeal meal);
         
     }
 }

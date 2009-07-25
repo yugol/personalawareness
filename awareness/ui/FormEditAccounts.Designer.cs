@@ -227,7 +227,6 @@ namespace Awareness.ui
         	this.ShowInTaskbar = false;
         	this.Text = "Accounts";
         	this.Load += new System.EventHandler(this.FormEditAccountsLoad);
-        	this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormEditAccountsFormClosed);
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
         	this.ResumeLayout(false);
         	this.PerformLayout();

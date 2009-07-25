@@ -39,10 +39,10 @@ namespace Awareness.ui
     internal class Util {
         internal static string FormatCurrency(decimal ammount){
             string rep = ammount.ToString("#,###,##0.00");
-            if (Configuration.DBProperties.PlaceCurrencySymbolAfterValue){
-                rep += Configuration.DBProperties.CurrencySymbol;
+            if (Configuration.StorageProperties.PlaceCurrencySymbolAfterValue){
+                rep += Configuration.StorageProperties.CurrencySymbol;
             } else {
-                rep = Configuration.DBProperties.CurrencySymbol + rep;
+                rep = Configuration.StorageProperties.CurrencySymbol + rep;
             }
             return rep;
         }
@@ -101,9 +101,43 @@ namespace Awareness.ui
         	picker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
         }
 
-		private static void SetMinMaxDatesFor(DateTimePicker picker) {
+		static void SetMinMaxDatesFor(DateTimePicker picker) 
+		{
             picker.MinDate = Configuration.MIN_DATE_TIME;
             picker.MaxDate = Configuration.MAX_DATE_TIME;
         }
+        
+        internal static string Minutes2TimeSpanString(int minutes)
+        {
+            bool negative = minutes < 0;
+
+            TimeSpan timeSpan = new TimeSpan(0, Math.Abs(minutes), 0);
+            int days = (int) timeSpan.TotalDays;
+            int hours = timeSpan.Hours;
+            minutes = timeSpan.Minutes;
+
+            string duration = "";
+
+            if (days != 0){
+                duration += days.ToString();
+                duration += (days == 1) ? (" day ") : (" days ");
+            }
+
+            if (hours != 0){
+                duration += hours.ToString();
+                duration += (hours == 1) ? (" hour ") : (" hours ");
+            }
+
+            if (string.IsNullOrEmpty(duration)||(!string.IsNullOrEmpty(duration)&&(minutes != 0))){
+                duration += minutes.ToString() + " min";
+            }
+
+            if (negative){
+                duration = "-" + duration;
+            }
+
+            return duration;
+        }
+        
     }
 }

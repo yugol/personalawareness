@@ -38,6 +38,12 @@ namespace Awareness
     internal static class Configuration {
         // COULD: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
         // SHOULD: calendar colors
+
+        static Configuration()
+        {
+            ReadGlobalProperties();
+            Controller.StorageOpened += new DataChangedHandler(ResetStorageProperties);
+        }
         
         #region Version
 
@@ -77,52 +83,44 @@ namespace Awareness
         
         #endregion
 
-        #region Database
+        #region Storage
 
         internal const string DataFilter = "SQL Server Compact (*.sdf)|*.sdf|SQL Server (*.mdf)|*.mdf|All files (*.*)|*.*";
 
         static readonly string dataFolder = Path.Combine(Application.StartupPath, "data");
         internal static string DataFolder 
         { 
-        	get { 
-	            if (!Directory.Exists(dataFolder)){
+        	get 
+        	{
+	            if (!Directory.Exists(dataFolder)) {
 	                Directory.CreateDirectory(dataFolder);
 	            }
         		return dataFolder; 
         	}
         }
         
-        static XmlProperties storageProperties = null;
-        
-        internal static XmlProperties DBProperties {
-            get {
-                if (storageProperties == null){
-                    storageProperties = new XmlProperties(DBUtil.GetProperties().Xml);
-                }
-                return storageProperties;
-            }
-        }
-        
-        static void ClearDBProperties() {
-            storageProperties = null;
-        }
-
         #endregion
-
+        
 		#region Global Properties
+		
+		static int mealManagerHistoryLength = 50;
+        public static int MealManagerHistoryLength { get { return mealManagerHistoryLength; } }
 		
         static string lastStorageId = "";
         internal static string LastStorageId
         {
-            get {return lastStorageId;}
-            set {
+            get { return lastStorageId; }
+            set 
+            {
             	lastStorageId = value;
             	SaveGlobalProperties();
             }
         }
 
-        internal static string ConfigFileName {
-			get {
+        static string ConfigFileName 
+        {
+			get 
+			{
 				string configFileName = Path.Combine(Application.StartupPath,"config.properties");
 				if(!File.Exists(configFileName)) {
 					File.CreateText(configFileName).Close();
@@ -131,14 +129,16 @@ namespace Awareness
 			}
 		}
 		
-		internal static void ReadGlobalProperties() {
+		static void ReadGlobalProperties() 
+		{
 			string[] properties = File.ReadAllLines(ConfigFileName);
 			if (properties.Length > 0) {
 				lastStorageId = properties[0];
 			}
 		}		
 		
-		internal static void SaveGlobalProperties() {
+		static void SaveGlobalProperties() 
+		{
 			string[] properties = new string[1];
 			properties[0] = lastStorageId;
 			File.WriteAllLines(ConfigFileName, properties);
@@ -146,8 +146,23 @@ namespace Awareness
 		
 		#endregion
         
-        static Configuration(){
-            ReadGlobalProperties();
+        #region Storage Properties
+        
+        static XmlProperties storageProperties = null;
+        internal static XmlProperties StorageProperties {
+            get {
+                if (storageProperties == null){
+                    storageProperties = new XmlProperties(Controller.Storage.GetProperties().Xml);
+                }
+                return storageProperties;
+            }
         }
+        static void ResetStorageProperties()
+        {
+            storageProperties = null;
+        }
+        
+        #endregion
+
 	}
 }

@@ -45,7 +45,7 @@ namespace Awareness.db
         public const byte TYPE_TASK = 2;
 
         public DalAction(){
-            Start = DBUtil.RemoveMilliseconds(DateTime.Now);
+            Start = DataUtil.RemoveMilliseconds(DateTime.Now);
         }
 
         int _id = 0;

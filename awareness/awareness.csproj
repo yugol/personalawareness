@@ -92,6 +92,7 @@
     <Compile Include="db\DalRecipe.cs" />
     <Compile Include="db\DalTransaction.cs" />
     <Compile Include="db\DalTransferLocation.cs" />
+    <Compile Include="db\DataUtil.cs" />
     <Compile Include="db\DbTest.cs" />
     <Compile Include="db\Dumper.cs" />
     <Compile Include="db\DumperTest.cs" />
@@ -134,7 +135,22 @@
     <Compile Include="db\mssql\DataStorage.CUD.AccountTypes.cs">
       <DependentUpon>DataStorage.cs</DependentUpon>
     </Compile>
+    <Compile Include="db\mssql\DataStorage.CUD.Meals.cs">
+      <DependentUpon>DataStorage.cs</DependentUpon>
+    </Compile>
     <Compile Include="db\mssql\DataStorage.CUD.Notes.cs">
+      <DependentUpon>DataStorage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="db\mssql\DataStorage.CUD.TransactionReasons.cs">
+      <DependentUpon>DataStorage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="db\mssql\DataStorage.CUD.Transactions.cs">
+      <DependentUpon>DataStorage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="db\mssql\DataStorage.CUD.TransferLocations.cs">
+      <DependentUpon>DataStorage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="db\mssql\DataStorage.Properties.cs">
       <DependentUpon>DataStorage.cs</DependentUpon>
     </Compile>
     <Compile Include="db\mssql\DataStorage.Query.cs">
@@ -430,6 +446,7 @@
     <EmbeddedResource Include="ui\FormTodo.resx">
       <DependentUpon>FormTodo.cs</DependentUpon>
     </EmbeddedResource>
+    <Content Include="ProfilingSessions\Session20090725_155723.sdps" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="db" />

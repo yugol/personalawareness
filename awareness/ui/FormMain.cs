@@ -35,9 +35,9 @@ using Awareness.db;
 
 namespace Awareness.ui
 {
-    public partial class FormMain : Form 
+    public partial class FormMain : Form
     {
-	    string genericTitle = "Personal Awareness";
+        string genericTitle = "Personal Awareness";
         
         public FormMain()
         {
@@ -62,7 +62,7 @@ namespace Awareness.ui
             Controller.StorageOpened += new DataChangedHandler(OpenStorageUpdate);
             Controller.StorageClosing += new DataChangedHandler(CloseStorageUpdate);
         }
-		
+        
         void OpenStorageUpdate()
         {
             SetTitle(genericTitle + " - " + Controller.Storage.Nick);
@@ -96,10 +96,10 @@ namespace Awareness.ui
         
 
         internal void SetTitle(string title) {
-			Text = title;
-			trayIcon.Text = title;
-		}
-		
+            Text = title;
+            trayIcon.Text = title;
+        }
+        
         internal void DisableEnableActions(){
             bool isDbOperational = !string.IsNullOrEmpty(Configuration.LastStorageId);
             editToolStripMenuItem.Visible = isDbOperational;
@@ -127,25 +127,25 @@ namespace Awareness.ui
             UpdateStatusTime();
         }
 
-		void ShowAllTransactionsForAccount(DalAccount account) {
+        void ShowAllTransactionsForAccount(DalAccount account) {
             financialPages.SelectedTab = transactionsPage;
             transactionsControl.ShowAllTransactionsForAccount(account);
         }
 
-		#region FormManagement
-				
-		// const int WM_QUERYENDSESSION = 0x11;
+        #region FormManagement
+        
+        // const int WM_QUERYENDSESSION = 0x11;
         // bool endSessionPending = false;
-		FormWindowState savedWindowState;
-		
-		/*
+        FormWindowState savedWindowState;
+        
+        /*
         protected override void WndProc(ref Message m) {
         	if (m.Msg == WM_QUERYENDSESSION) {
                 endSessionPending = true;
         	}
             base.WndProc(ref m);
         }
-		*/      
+         */
 
         void FormMainLoad(object sender, EventArgs e)
         {
@@ -157,32 +157,32 @@ namespace Awareness.ui
                 Controller.OpenStorage(Configuration.LastStorageId);
             }
         }
-		
+        
         void FormMainResize(object sender, EventArgs e)
         {
-        	switch (WindowState) {
-        		case FormWindowState.Maximized:
-        			savedWindowState = FormWindowState.Maximized;
-        			break;
-        		case FormWindowState.Normal:
-        			savedWindowState = FormWindowState.Normal;
-        			break;
-        		case FormWindowState.Minimized:
-        			MinimizeToTray();
-        			break;
-        	}
+            switch (WindowState) {
+                case FormWindowState.Maximized:
+                    savedWindowState = FormWindowState.Maximized;
+                    break;
+                case FormWindowState.Normal:
+                    savedWindowState = FormWindowState.Normal;
+                    break;
+                case FormWindowState.Minimized:
+                    MinimizeToTray();
+                    break;
+            }
         }
 
         void TrayIconDoubleClick(object sender, EventArgs e)
         {
-        	RestoreFromTray();
+            RestoreFromTray();
         }
 
         void TrayIconMouseDown(object sender, MouseEventArgs e)
         {
-        	if (e.Button == MouseButtons.Left) {
-        		RestoreFromTray();
-        	}
+            if (e.Button == MouseButtons.Left) {
+                RestoreFromTray();
+            }
         }
         
         private void MinimizeToTray()
@@ -203,24 +203,24 @@ namespace Awareness.ui
         void FormMainFormClosing(object sender, FormClosingEventArgs e) {
         	if ((!endSessionPending) &&
         		(MessageBox.Show("Are you sure you want to quit Persoanl Awareness?",
-        	                    "Personal Awareness", 
-        	                    MessageBoxButtons.YesNo, 
-        	                    MessageBoxIcon.Question, 
+        	                    "Personal Awareness",
+        	                    MessageBoxButtons.YesNo,
+        	                    MessageBoxIcon.Question,
         	                    MessageBoxDefaultButton.Button2) != DialogResult.Yes)) {
         		e.Cancel = true;
         	}
         }
-        */
+         */
 
-		void FormMainFormClosed(object sender, FormClosedEventArgs e){
+        void FormMainFormClosed(object sender, FormClosedEventArgs e){
             DBUtil.CloseDataContext();
         }
-		
-		#endregion
+        
+        #endregion
 
         #region Panels
         
-        void ResetPanelsView() 
+        void ResetPanelsView()
         {
             actionPages.Visible = false;
             notesViewer.Visible = false;
@@ -314,31 +314,8 @@ namespace Awareness.ui
 
         #region MainMenu
         
-		void NewDatabaseToolStripMenuItemClick(object sender, EventArgs e){
-            new ActionNewDatabase(this).Run();
-        }
-
-        void OpenDatabaseToolStripMenuItemClick(object sender, EventArgs e){
-            OpenDatabase();
-        }
-
-        void OpenDatabase(){
-            string databaseName = ActionOpenDatabase.UIPickDatabaseName();
-            if (!string.IsNullOrEmpty(databaseName)) {
-                new ActionOpenDatabase(this, databaseName).Run();
-            }
-        }
-
-        void DeleteDatabaseToolStripMenuItemClick(object sender, EventArgs e){
-            if (MessageBox.Show("Are you sure you want to delete database\n'" + Configuration.LastStorageId + "'?",
-                                "Delete database",
-                                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK){
-                new ActionDeleteDatabase(this).Run();
-            }
-        }
-
         void BuddiExportToolStripMenuItemClick(object sender, EventArgs e){
-#if DEBUG
+            #if DEBUG
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Buddi export (*.csv)|*.csv";
             if (ofd.ShowDialog() == DialogResult.OK){
@@ -351,7 +328,7 @@ namespace Awareness.ui
                     DBUtil.ReOpenDataContext();
                 }
             }
-#endif
+            #endif
         }
 
         void DumpToolStripMenuItemClick(object sender, EventArgs e){
@@ -437,12 +414,9 @@ namespace Awareness.ui
         
         #region ToolBar
         
-        void NewToolButtonClick(object sender, EventArgs e){
-            new ActionNewDatabase(this).Run();
-        }
-
-        void OpenToolButtonClick(object sender, EventArgs e){
-            OpenDatabase();
+        void OpenToolButtonClick(object sender, EventArgs e)
+        {
+            OpenStorage();
         }
         
         void ActionsToolButtonClick(object sender, EventArgs e){
@@ -483,34 +457,39 @@ namespace Awareness.ui
             ManagerTodo.Display();
         }
 
-        #endregion        
+        #endregion
         
         #region Tools
         
         void CalculatorToolStripMenuItemClick(object sender, EventArgs e) {
-        	ManagerCalculator.Display();
+            ManagerCalculator.Display();
         }
         
         void TeaTimerToolStripMenuItemClick(object sender, EventArgs e) {
-        	ManagerTeaTimer.Display();
+            ManagerTeaTimer.Display();
         }
         
         void RemindersToolStripMenuItemClick(object sender, EventArgs e) {
-        	ManagerReminders.Instance.Display();
+            ManagerReminders.Instance.Display();
         }
         
         void CalendarToolStripMenuItemClick(object sender, EventArgs e) {
-        	ManagerCalendar.Display();
+            ManagerCalendar.Display();
         }
         
         void TodoListToolStripMenuItemClick(object sender, EventArgs e) {
-        	ManagerTodo.Display();
+            ManagerTodo.Display();
         }
 
         #endregion
-                
+        
         
         void OpenStorgeToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            OpenStorage();
+        }
+
+        void OpenStorage()
         {
             OpenFileDialog fd = new OpenFileDialog();
             fd.Title = "Choose storage";
