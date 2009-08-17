@@ -31,20 +31,22 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace Awareness.db
 {
     [TestFixture]
-    public class XmlPropertiesTest {
+    public class XmlPropertiesTest
+    {
         [Test]
-        public void CreateNewPropertiesXml(){
+        public void CreateNewPropertiesXml()
+        {
             XmlProperties prop = new XmlProperties();
             Assert.AreEqual("<?xml version=\"1.0\" encoding=\"utf-16\"?><properties><currency><symbol>$</symbol><placeAfterValue>False</placeAfterValue></currency><lastMealReportReason>0</lastMealReportReason></properties>", prop.XmlString);
         }
 
         [Test]
-        public void CurrencySymbol(){
+        public void CurrencySymbol()
+        {
             XmlProperties prop = new XmlProperties();
             Assert.AreEqual("$", prop.CurrencySymbol);
             prop.CurrencySymbol = "RON";
@@ -53,7 +55,8 @@ namespace Awareness.db
         }
 
         [Test]
-        public void PlaceCurrencySymbolAfterValue(){
+        public void PlaceCurrencySymbolAfterValue()
+        {
             XmlProperties prop = new XmlProperties();
             Assert.AreEqual(false, prop.PlaceCurrencySymbolAfterValue);
             prop.PlaceCurrencySymbolAfterValue = true;

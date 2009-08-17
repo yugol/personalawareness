@@ -3,7 +3,7 @@
  * User: Iulian
  * Date: 7/25/2009
  * Time: 2:47 PM
- * 
+ *
  *
  * Copyright (c) 2008, 2009 Iulian GORIAC
  *
@@ -36,21 +36,20 @@ namespace Awareness.db.mssql
             dataContext.meals.InsertOnSubmit(meal);
             meal.What.AvailableQuantitySetNull();
             if (meal.Why.Type == DalReason.TYPE_FOOD) {
-            	meal.Why.AvailableQuantitySetNull();
+                meal.Why.AvailableQuantitySetNull();
             }
             dataContext.SubmitChanges();
 
-            if (meal.Why is DalRecipe){
+            if (meal.Why is DalRecipe) {
                 DalTransaction recipeTransaction = GetRecipeTransaction((DalRecipe) meal.Why, meal.When);
-                if (recipeTransaction == null){
-                    recipeTransaction = new DalTransaction()
-                    {
+                if (recipeTransaction == null) {
+                    recipeTransaction = new DalTransaction() {
                         When = meal.When,
-                        Reason = meal.Why,
-                        Ammount = 0m,
-                        From = GetFoodsAccount(),
-                        To = GetRecipesAccount(),
-                    };
+                               Reason = meal.Why,
+                                        Ammount = 0m,
+                                                  From = GetFoodsAccount(),
+                                                         To = GetRecipesAccount(),
+                                                          };
                     InsertTransaction(recipeTransaction, null);
                 }
             }
@@ -67,9 +66,9 @@ namespace Awareness.db.mssql
             dataContext.meals.DeleteOnSubmit(meal);
             dataContext.SubmitChanges();
 
-            if (why is DalRecipe){
+            if (why is DalRecipe) {
                 int constituentCount = GetRecipeConstituentCount((DalRecipe) why, when);
-                if (constituentCount == 0){
+                if (constituentCount == 0) {
                     DalTransaction recipeTransaction = GetRecipeTransaction((DalRecipe) why, when);
                     DeleteTransaction(recipeTransaction);
                 }

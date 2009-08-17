@@ -30,8 +30,6 @@ using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-using Awareness.db.mssql;
-
 namespace Awareness.db
 {
     [Table(Name = "transaction_reasons")]
@@ -39,7 +37,8 @@ namespace Awareness.db
     [InheritanceMapping(Code = DalReason.TYPE_FOOD, Type = typeof(DalFood))]
     [InheritanceMapping(Code = DalReason.TYPE_RECIPE, Type = typeof(DalRecipe))]
     [InheritanceMapping(Code = DalReason.TYPE_CONSUMER, Type = typeof(DalConsumer))]
-    public class DalReason : Notable {
+    public class DalReason : Notable
+    {
         public const sbyte TYPE_DEFAULT = 0;
         public const sbyte TYPE_FOOD = 1;
         public const sbyte TYPE_RECIPE = 2;
@@ -47,10 +46,11 @@ namespace Awareness.db
 
         public const string MAX_NAME_CHAR_COUNT = "100";
 
-        internal static DalReason CreateReason(sbyte type){
+        internal static DalReason CreateReason(sbyte type)
+        {
             DalReason reason = null;
 
-            switch (type){
+            switch (type) {
             case DalReason.TYPE_FOOD:
                 reason = new DalFood();
                 break;
@@ -68,7 +68,8 @@ namespace Awareness.db
             return reason;
         }
 
-        public DalReason(){
+        public DalReason()
+        {
             _type = DalReason.TYPE_DEFAULT;
         }
 
@@ -81,7 +82,9 @@ namespace Awareness.db
                 CanBeNull = false)]
         public int Id
         {
-            get { return _id; }
+            get {
+                return _id;
+            }
         }
 
         protected sbyte _type;
@@ -92,7 +95,9 @@ namespace Awareness.db
                 IsDiscriminator = true)]
         public sbyte Type
         {
-            get { return _type; }
+            get {
+                return _type;
+            }
         }
 
         string _name = null;
@@ -102,8 +107,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public string Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get {
+                return _name;
+            }
+            set {
+                _name = value;
+            }
         }
 
         int _noteId = DataStorage.NOTE_ROOT_ID;
@@ -113,7 +122,9 @@ namespace Awareness.db
                 CanBeNull = false)]
         public int NoteId
         {
-            get { return _noteId; }
+            get {
+                return _noteId;
+            }
         }
 
         private EntityRef<DalNote> _note;
@@ -121,9 +132,10 @@ namespace Awareness.db
                      ThisKey = "NoteId")]
         public DalNote Note
         {
-            get { return _note.Entity; }
-            set
-            {
+            get {
+                return _note.Entity;
+            }
+            set {
                 _note.Entity = value;
                 _noteId = value.Id;
             }
@@ -131,10 +143,13 @@ namespace Awareness.db
 
         public bool HasNote
         {
-            get { return _noteId != DataStorage.NOTE_ROOT_ID; }
+            get {
+                return _noteId != DataStorage.NOTE_ROOT_ID;
+            }
         }
 
-        public override string ToString(){
+        public override string ToString()
+        {
             return Name;
         }
 
@@ -145,13 +160,17 @@ namespace Awareness.db
                 CanBeNull = false)]
         public float Quantity
         {
-            get { return _quantity; }
-            set { _quantity = value; }
+            get {
+                return _quantity;
+            }
+            set {
+                _quantity = value;
+            }
         }
 
         #region CASHING_FIELDS
         // do not save these fields
-        
+
         decimal _ammount = 0;
         [Column(Storage = "_ammount",
                 Name = "ammount",
@@ -159,8 +178,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public decimal Ammount
         {
-            get { return _ammount; }
-            set { _ammount = value; }
+            get {
+                return _ammount;
+            }
+            set {
+                _ammount = value;
+            }
         }
 
         int _fromId = 0;
@@ -170,8 +193,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public int FromId
         {
-            get { return _fromId; }
-            set { _fromId = value; }
+            get {
+                return _fromId;
+            }
+            set {
+                _fromId = value;
+            }
         }
 
         int _toId = 0;
@@ -181,10 +208,14 @@ namespace Awareness.db
                 CanBeNull = true)]
         public int ToId
         {
-            get { return _toId; }
-            set { _toId = value; }
+            get {
+                return _toId;
+            }
+            set {
+                _toId = value;
+            }
         }
-                
+
         string _availableQuantity = null;
         [Column(Storage = "_availableQuantity",
                 Name = "available_quantity",
@@ -192,26 +223,33 @@ namespace Awareness.db
                 CanBeNull = true)]
         private string _AvailableQuantityRep
         {
-        	get { return _availableQuantity; }
-        	set { _availableQuantity = value; }
+            get {
+                return _availableQuantity;
+            }
+            set {
+                _availableQuantity = value;
+            }
         }
-        
+
         #endregion
-        
+
         public float AvailableQuantity
         {
-        	get {
-        		try {
-        			return float.Parse(_availableQuantity);
-        		} catch (Exception) {
-        			throw new CashEmptyException();
-        		}
-        	}
-        	set { _availableQuantity = value.ToString(); }
+            get {
+                try {
+                    return float.Parse(_availableQuantity);
+                } catch (Exception) {
+                    throw new CashEmptyException();
+                }
+            }
+            set {
+                _availableQuantity = value.ToString();
+            }
         }
-        
-        public void AvailableQuantitySetNull() {
-        	_availableQuantity = null;
+
+        public void AvailableQuantitySetNull()
+        {
+            _availableQuantity = null;
         }
 
 

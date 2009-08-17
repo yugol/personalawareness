@@ -3,7 +3,7 @@
  * User: Iulian
  * Date: 7/25/2009
  * Time: 1:59 PM
- * 
+ *
  *
  * Copyright (c) 2008, 2009 Iulian GORIAC
  *
@@ -32,12 +32,12 @@ namespace Awareness.db.mssql
 {
     partial class DataStorage
     {
-        public override DalProperties GetProperties() 
+        public override DalProperties GetProperties()
         {
             return dataContext.properties.First();
         }
 
-        public override void UpdateProperties(XmlProperties xmlProp) 
+        public override void UpdateProperties(XmlProperties xmlProp)
         {
             DalProperties prop = GetProperties();
             prop.Xml = xmlProp.XmlString;

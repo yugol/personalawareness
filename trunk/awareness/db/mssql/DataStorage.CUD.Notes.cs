@@ -3,7 +3,7 @@
  * User: Iulian
  * Date: 7/23/2009
  * Time: 5:28 PM
- * 
+ *
  *
  * Copyright (c) 2008, 2009 Iulian GORIAC
  *
@@ -31,27 +31,30 @@ namespace Awareness.db.mssql
 {
     partial class DataStorage
     {
-        private static bool IsEmpty (DalNote note) {
-            if (note == null){
+        private static bool IsEmpty (DalNote note)
+        {
+            if (note == null) {
                 return true;
             }
-            if (note.Text == null){
+            if (note.Text == null) {
                 return true;
-            }            
-            if (note.Text.Trim() == ""){
+            }
+            if (note.Text.Trim() == "") {
                 return true;
             }
             return false;
         }
 
-        private void PrepareNoteForNotable(DalNote note, Notable notable, int noteParentId){
+        private void PrepareNoteForNotable(DalNote note, Notable notable, int noteParentId)
+        {
             note.Parent = dataContext.GetNoteById(noteParentId);
             note.Title = notable.Name;
             note.IsPermanent = true;
         }
 
-        private void PreludeInsertNotable(Notable notable, DalNote note, int noteParentId) {
-            if (!IsEmpty(note)){
+        private void PreludeInsertNotable(Notable notable, DalNote note, int noteParentId)
+        {
+            if (!IsEmpty(note)) {
                 PrepareNoteForNotable(note, notable, noteParentId);
                 StoreNote(note);
                 notable.Note = note;
@@ -60,9 +63,10 @@ namespace Awareness.db.mssql
             }
         }
 
-        private void PreludeUpdateNotable(Notable notable, DalNote note, int noteParentId) {
-            if (!notable.HasNote){
-                if (!IsEmpty(note)){
+        private void PreludeUpdateNotable(Notable notable, DalNote note, int noteParentId)
+        {
+            if (!notable.HasNote) {
+                if (!IsEmpty(note)) {
                     PrepareNoteForNotable(note, notable, noteParentId);
                     StoreNote(note);
                     notable.Note = note;
@@ -70,14 +74,14 @@ namespace Awareness.db.mssql
                 dataContext.SubmitChanges();
             } else {
                 DalNote oldNote = notable.Note;
-                if (IsEmpty(note)){
+                if (IsEmpty(note)) {
                     notable.Note = GetRootNote();
                     dataContext.SubmitChanges();
                     DeleteNote(oldNote);
                 } else {
                     PrepareNoteForNotable(note, notable, noteParentId);
                     StoreNote(note);
-                    if (note.Id != oldNote.Id){
+                    if (note.Id != oldNote.Id) {
                         notable.Note = note;
                         dataContext.SubmitChanges();
                         DeleteNote(oldNote);
@@ -88,23 +92,26 @@ namespace Awareness.db.mssql
             }
         }
 
-        void InsertNote(DalNote note){
-            if (note.Parent == null){
+        void InsertNote(DalNote note)
+        {
+            if (note.Parent == null) {
                 note.Parent = GetRootNote();
             }
             dataContext.notes.InsertOnSubmit(note);
             dataContext.SubmitChanges();
         }
 
-        public override void UpdateNote(DalNote note){
-            if (note.Id == note.ParentId){
+        public override void UpdateNote(DalNote note)
+        {
+            if (note.Id == note.ParentId) {
                 throw new ArgumentException("Cannot parent a note to self");
             }
             dataContext.SubmitChanges();
         }
 
-        void StoreNote(DalNote note) {
-            if (note.Id == 0){
+        void StoreNote(DalNote note)
+        {
+            if (note.Id == 0) {
                 InsertNote(note);
             } else {
                 UpdateNote(note);
@@ -113,7 +120,7 @@ namespace Awareness.db.mssql
 
         public override void DeleteNote(DalNote note)
         {
-            if (note.Id <= RESERVED_NOTES){
+            if (note.Id <= RESERVED_NOTES) {
                 throw new ArgumentException("Trying to delete a reserved note");
             }
             dataContext.notes.DeleteOnSubmit(note);

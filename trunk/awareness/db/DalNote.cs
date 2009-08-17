@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2008 Iulian GORIAC
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,12 +25,11 @@
  * User: Iulian
  * Date: 25/09/2008
  * Time: 12:53
- * 
+ *
  */
 using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
-using Awareness.db.mssql;
 
 namespace Awareness.db
 {
@@ -38,7 +37,7 @@ namespace Awareness.db
     public class DalNote
     {
         public const string MAX_TITLE_CHAR_COUNT = "1000";
-        
+
         int _id = 0;
         [Column(Storage = "_id",
                 Name = "id",
@@ -48,7 +47,9 @@ namespace Awareness.db
                 CanBeNull = false)]
         public int Id
         {
-            get { return _id; }
+            get {
+                return _id;
+            }
         }
 
         int _parentId = DataStorage.NOTE_ROOT_ID;
@@ -58,7 +59,9 @@ namespace Awareness.db
                 CanBeNull = false)]
         public int ParentId
         {
-            get { return _parentId; }
+            get {
+                return _parentId;
+            }
         }
 
         private EntityRef<DalNote> _parent;
@@ -66,14 +69,15 @@ namespace Awareness.db
                      ThisKey = "ParentId")]
         public DalNote Parent
         {
-            get { return _parent.Entity; }
-            set
-            {
+            get {
+                return _parent.Entity;
+            }
+            set {
                 _parent.Entity = value;
                 _parentId = value.Id;
             }
         }
-        
+
         bool _expanded = true;
         [Column(Storage = "_expanded",
                 Name = "expanded",
@@ -81,10 +85,14 @@ namespace Awareness.db
                 CanBeNull = false)]
         public bool IsExpanded
         {
-            get { return _expanded; }
-            set { _expanded = value; }
+            get {
+                return _expanded;
+            }
+            set {
+                _expanded = value;
+            }
         }
-        
+
         bool _permanent = false;
         [Column(Storage = "_permanent",
                 Name = "permanent",
@@ -92,8 +100,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public bool IsPermanent
         {
-            get { return _permanent; }
-            set { _permanent = value; }
+            get {
+                return _permanent;
+            }
+            set {
+                _permanent = value;
+            }
         }
 
         byte _icons = 0;
@@ -103,10 +115,14 @@ namespace Awareness.db
                 CanBeNull = false)]
         public byte Icon
         {
-            get { return _icons; }
-            set { _icons = value; }
+            get {
+                return _icons;
+            }
+            set {
+                _icons = value;
+            }
         }
-        
+
         DateTime _created = DataUtil.RemoveMilliseconds(DateTime.Now);
         [Column(Storage = "_created",
                 Name = "created",
@@ -114,9 +130,11 @@ namespace Awareness.db
                 CanBeNull = false)]
         public DateTime CreationTime
         {
-            get { return _created; }
+            get {
+                return _created;
+            }
         }
-        
+
         string _title = null;
         [Column(Storage = "_title",
                 Name = "title",
@@ -124,10 +142,14 @@ namespace Awareness.db
                 CanBeNull = false)]
         public string Title
         {
-            get { return _title; }
-            set { _title = value; }
+            get {
+                return _title;
+            }
+            set {
+                _title = value;
+            }
         }
-        
+
         string _text = null;
         [Column(Storage = "_text",
                 Name = "text",
@@ -136,9 +158,13 @@ namespace Awareness.db
                 UpdateCheck = UpdateCheck.Never)]
         public string Text
         {
-            get { return _text; }
-            set { _text = value; }
+            get {
+                return _text;
+            }
+            set {
+                _text = value;
+            }
         }
-        
+
     }
 }

@@ -3,7 +3,7 @@
  * User: Iulian
  * Date: 7/23/2009
  * Time: 5:21 PM
- * 
+ *
  *
  * Copyright (c) 2008, 2009 Iulian GORIAC
  *
@@ -31,7 +31,7 @@ namespace Awareness.db.mssql
 {
     partial class DataStorage
     {
-        
+
         public override void InsertAccountType(DalAccountType accountTypes, DalNote note)
         {
             PreludeInsertNotable(accountTypes, note, DataStorage.NOTE_ACCOUNT_TYPES_ID);
@@ -39,23 +39,23 @@ namespace Awareness.db.mssql
             dataContext.SubmitChanges();
             NotifyAccountTypesChanged();
         }
-        
+
         public override void UpdateAccountType(DalAccountType accountTypes, DalNote note)
         {
             PreludeUpdateNotable(accountTypes, note, DataStorage.NOTE_ACCOUNT_TYPES_ID);
             NotifyAccountTypesChanged();
         }
-        
+
         public override void DeleteAccountType(DalAccountType accountType)
         {
             DalNote note = (accountType.HasNote) ? (accountType.Note) : (null);
             dataContext.accountTypes.DeleteOnSubmit(accountType);
             dataContext.SubmitChanges();
-            if (note != null){
+            if (note != null) {
                 DeleteNote(note);
             }
             NotifyAccountTypesChanged();
         }
-        
+
     }
 }

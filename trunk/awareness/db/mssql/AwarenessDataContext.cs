@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2008 Iulian GORIAC
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,9 +33,11 @@ using System.Data.Linq;
 
 namespace Awareness.db.mssql
 {
-    public class AwarenessDataContext : DataContext {
+    public class AwarenessDataContext : DataContext
+    {
 
-        public AwarenessDataContext(string connectionString) : base (connectionString) {
+        public AwarenessDataContext(string connectionString) : base (connectionString)
+        {
         }
 
         public Table<DalProperties> properties;
@@ -47,8 +49,9 @@ namespace Awareness.db.mssql
         public Table<DalNote> notes;
         public Table<DalAction> actions;
 
-        public new void CreateDatabase(){
-            if (DatabaseExists()){
+        public new void CreateDatabase()
+        {
+            if (DatabaseExists()) {
                 DeleteDatabase();
             }
             base.CreateDatabase();
@@ -62,38 +65,41 @@ namespace Awareness.db.mssql
             ReserveActions();
         }
 
-        void ReserveActions(){
+        void ReserveActions()
+        {
             int reserved = 0;
             DalAction rootAction = new DalAction() {
                 Name = "Root", Type = DalAction.TYPE_GROUP
-            };
+                                  };
             actions.InsertOnSubmit(rootAction);
             SubmitChanges();
             ++reserved;
 
-            for (int i = reserved; i < DataStorage.RESERVED_ACTIONS; ++i){
+            for (int i = reserved; i < DataStorage.RESERVED_ACTIONS; ++i) {
                 actions.InsertOnSubmit(new DalAction() {
-                                           Name = "Reserved"
-                                       });
+                    Name = "Reserved"
+                       }
+                                      );
             }
             SubmitChanges();
             actions.DeleteAllOnSubmit(actions.Where(n => n.Id > reserved));
             SubmitChanges();
         }
 
-        void ReserveNotes(){
+        void ReserveNotes()
+        {
             int reserved = 0;
 
             DalNote rootNote = new DalNote() {
                 Title = "Root", Icon = 1
-            };
+                                   };
             notes.InsertOnSubmit(rootNote);
             SubmitChanges();
             ++reserved;
 
             DalNote applicationInternalNote = new DalNote() {
                 IsPermanent = true, Title = "Application Specific", Icon = 1, IsExpanded = false
-            };
+                                        };
             notes.InsertOnSubmit(applicationInternalNote);
             SubmitChanges();
             ++reserved;
@@ -115,7 +121,7 @@ namespace Awareness.db.mssql
             notes.InsertOnSubmit(new DalNote { Parent = applicationInternalNote, IsPermanent = true, Title = "Todos" });
             ++reserved;
 
-            for (int i = reserved; i < DataStorage.RESERVED_NOTES; ++i){
+            for (int i = reserved; i < DataStorage.RESERVED_NOTES; ++i) {
                 notes.InsertOnSubmit(new DalNote { Parent = rootNote, Title = "Reserved" });
             }
             SubmitChanges();
@@ -123,7 +129,8 @@ namespace Awareness.db.mssql
             SubmitChanges();
         }
 
-        void ReserveTransferLocations(){
+        void ReserveTransferLocations()
+        {
             int reserved = 0;
             DalAccountType rat1 = GetAccountTypeById(DataStorage.ACCOUNT_TYPE_APPLICATION_INTERNAL_ID);
 
@@ -132,40 +139,45 @@ namespace Awareness.db.mssql
             transferLocations.InsertOnSubmit(new DalAccount { Name = "Recipes", AccountType = rat1, StartingBalance = 0 });
             ++reserved;
 
-            for ( int i = reserved; i < DataStorage.RESERVED_TRANSFER_LOCATIONS; ++i){
+            for ( int i = reserved; i < DataStorage.RESERVED_TRANSFER_LOCATIONS; ++i) {
                 transferLocations.InsertOnSubmit(new DalBudgetCategory() {
-                                                     Name = "Reserved"
-                                                 } );
+                    Name = "Reserved"
+                       }
+                                                );
             }
             SubmitChanges();
             transferLocations.DeleteAllOnSubmit(transferLocations.Where(n => n.Id > reserved));
             SubmitChanges();
         }
 
-        void ReserveAccountTypes(){
+        void ReserveAccountTypes()
+        {
             int reserved = 0;
 
             accountTypes.InsertOnSubmit(new DalAccountType { Name = "Application Specific" });
             ++reserved;
 
-            for ( int i = reserved; i < DataStorage.RESERVED_ACCOUNT_TYPES; ++i){
+            for ( int i = reserved; i < DataStorage.RESERVED_ACCOUNT_TYPES; ++i) {
                 accountTypes.InsertOnSubmit(new DalAccountType() {
-                                                Name = "Reserved"
-                                            } );
+                    Name = "Reserved"
+                       }
+                                           );
             }
             SubmitChanges();
             accountTypes.DeleteAllOnSubmit(accountTypes.Where(n => n.Id > reserved));
             SubmitChanges();
         }
 
-        void CreateProperties(){
+        void CreateProperties()
+        {
             DalProperties prop = new DalProperties();
             prop.Xml = new XmlProperties().XmlString;
             properties.InsertOnSubmit(prop);
             SubmitChanges();
         }
 
-        void CreateForeignKeys(){
+        void CreateForeignKeys()
+        {
             ExecuteCommand("ALTER TABLE transfer_locations ADD FOREIGN KEY (account_type) REFERENCES account_types(id) ON DELETE NO ACTION");
             ExecuteCommand("ALTER TABLE transactions ADD FOREIGN KEY (reason) REFERENCES transaction_reasons(id) ON DELETE NO ACTION");
             ExecuteCommand("ALTER TABLE transactions ADD FOREIGN KEY ([from]) REFERENCES transfer_locations(id) ON DELETE NO ACTION");
@@ -181,33 +193,40 @@ namespace Awareness.db.mssql
             ExecuteCommand("ALTER TABLE transfer_locations ADD FOREIGN KEY (note) REFERENCES notes(id) ON DELETE NO ACTION");
         }
 
-        public DalAccountType GetAccountTypeById(int id){
+        public DalAccountType GetAccountTypeById(int id)
+        {
             return accountTypes.Where(r => r.Id == id).First();
         }
 
-        public DalTransferLocation GetTransferLocationById(int id){
+        public DalTransferLocation GetTransferLocationById(int id)
+        {
             return transferLocations.Where(r => r.Id == id).First();
         }
 
-        public DalNote GetNoteById(int id){
+        public DalNote GetNoteById(int id)
+        {
             return notes.Where(r => r.Id == id).First();
         }
 
-        public DalAction GetActionById(int id){
+        public DalAction GetActionById(int id)
+        {
             return actions.Where(r => r.Id == id).First();
         }
-        
-        public DalReason GetReasonById(int id) {
+
+        public DalReason GetReasonById(int id)
+        {
             return transactionReasons.Where(r => r.Id == id).First();
         }
 
-        public DalProperties GetProperties(){
+        public DalProperties GetProperties()
+        {
             return properties.First();
         }
 
-        public void UpdateTransactionReasonType(int id, sbyte type, string name, float energy){
+        public void UpdateTransactionReasonType(int id, sbyte type, string name, float energy)
+        {
             string command = null;
-            switch (type){
+            switch (type) {
             case DalReason.TYPE_DEFAULT:
                 command = string.Format("UPDATE transaction_reasons SET type = {0}, name = {1}, energy = null WHERE id = {2}",
                                         type, Dumper.String2SqlString(name), id);

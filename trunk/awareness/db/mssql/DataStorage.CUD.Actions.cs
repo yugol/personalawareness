@@ -1,8 +1,8 @@
 /*
  * Created by SharpDevelop.
  * User: Iulian
- * Date: 7/25/2009
- * Time: 12:17 PM
+ * Date: 8/17/2009
+ * Time: 6:22 PM
  *
  *
  * Copyright (c) 2008, 2009 Iulian GORIAC
@@ -31,29 +31,45 @@ namespace Awareness.db.mssql
 {
     partial class DataStorage
     {
-        public override void InsertTransferLocation(DalTransferLocation transferLocation, DalNote note)
+        public override void InsertAction(DalAction action, DalNote note)
         {
-            PreludeInsertNotable(transferLocation, note, NOTE_TRANSFER_LOCATIONS_ID);
-            dataContext.transferLocations.InsertOnSubmit(transferLocation);
+            if (action.Parent == null) {
+                action.Parent = GetRootAction();
+            }
+            PreludeInsertNotable(action, note, DataStorage.NOTE_ACTIONS_ID);
+            dataContext.actions.InsertOnSubmit(action);
             dataContext.SubmitChanges();
-            NotifyTransferLocationsChanged(transferLocation);
+            NotifyActionsChanged();
         }
 
-        public override void UpdateTransferLocation(DalTransferLocation transferLocation, DalNote note)
+        void UpdateAction(DalAction action, DalNote note)
         {
-            PreludeUpdateNotable(transferLocation, note, NOTE_TRANSFER_LOCATIONS_ID);
-            NotifyTransferLocationsChanged(transferLocation);
+            UpdateActionNoNotification(action, note);
+            NotifyActionsChanged();
         }
 
-        public override void DeleteTransferLocation(DalTransferLocation transferLocation)
+        void UpdateActionNoNotification(DalAction action, DalNote note)
         {
-            DalNote note = (transferLocation.HasNote) ? (transferLocation.Note) : (null);
-            dataContext.transferLocations.DeleteOnSubmit(transferLocation);
+            PreludeUpdateNotable(action, note, DataStorage.NOTE_ACTIONS_ID);
+        }
+
+        public override void DeleteActionRec(DalAction action)
+        {
+            foreach (DalAction child in GetChildActions(action)) {
+                DeleteActionRec(child);
+            }
+            DeleteOneAction(action);
+            NotifyActionsChanged();
+        }
+
+        void DeleteOneAction(DalAction action)
+        {
+            DalNote note = (action.HasNote) ? (action.Note) : (null);
+            dataContext.actions.DeleteOnSubmit(action);
             dataContext.SubmitChanges();
             if (note != null) {
                 DeleteNote(note);
             }
-            NotifyTransferLocationsChanged(transferLocation);
         }
     }
 }

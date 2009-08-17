@@ -34,12 +34,11 @@ using System.Windows.Forms;
 using Awareness.db.mssql;
 using Awareness.db;
 
-namespace Awareness.ui
-{
+namespace Awareness.ui {
     internal class Util {
-        internal static string FormatCurrency(decimal ammount){
+        internal static string FormatCurrency(decimal ammount) {
             string rep = ammount.ToString("#,###,##0.00");
-            if (Configuration.StorageProperties.PlaceCurrencySymbolAfterValue){
+            if (Configuration.StorageProperties.PlaceCurrencySymbolAfterValue) {
                 rep += Configuration.StorageProperties.CurrencySymbol;
             } else {
                 rep = Configuration.StorageProperties.CurrencySymbol + rep;
@@ -47,7 +46,7 @@ namespace Awareness.ui
             return rep;
         }
 
-        internal static void FillFoodConsumptionReasons(ComboBox whyCombo, DalReason what){
+        internal static void FillFoodConsumptionReasons(ComboBox whyCombo, DalReason what) {
             whyCombo.Items.Clear();
 
             AwarenessDataContext dc = DBUtil.GetDataContext();
@@ -59,7 +58,7 @@ namespace Awareness.ui
                 whyCombo.Items.Add(consumer);
             }
 
-            if (!(what is DalRecipe)){
+            if (!(what is DalRecipe)) {
                 IEnumerable<DalRecipe> recipes = from r in dc.transactionReasons.OfType<DalRecipe>()
                                                  orderby r.Name
                                                  select r;
@@ -73,11 +72,11 @@ namespace Awareness.ui
 
         internal static string FormatTimeSpan(TimeSpan ts) {
             StringBuilder buf = new StringBuilder();
-            if (ts.TotalMinutes < 0){
+            if (ts.TotalMinutes < 0) {
                 buf.Append("-");
             }
             int days = Math.Abs((int) ts.TotalDays);
-            if (days > 0){
+            if (days > 0) {
                 buf.Append(days);
                 buf.Append(".");
             }
@@ -88,27 +87,25 @@ namespace Awareness.ui
             buf.Append(Math.Abs(ts.Seconds).ToString("00"));
             return buf.ToString();
         }
-        
+
         internal static void SetMinMaxDatesAndShortFormatFor(DateTimePicker picker) {
-			SetMinMaxDatesFor(picker);
+            SetMinMaxDatesFor(picker);
             picker.CustomFormat = Configuration.DATE_FORMAT;
-        	picker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            picker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
         }
 
         internal static void SetMinMaxDatesAndLongFormatFor(DateTimePicker picker) {
-			SetMinMaxDatesFor(picker);
+            SetMinMaxDatesFor(picker);
             picker.CustomFormat = Configuration.DATE_TIME_FORMAT;
-        	picker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            picker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
         }
 
-		static void SetMinMaxDatesFor(DateTimePicker picker) 
-		{
+        static void SetMinMaxDatesFor(DateTimePicker picker) {
             picker.MinDate = Configuration.MIN_DATE_TIME;
             picker.MaxDate = Configuration.MAX_DATE_TIME;
         }
-        
-        internal static string Minutes2TimeSpanString(int minutes)
-        {
+
+        internal static string Minutes2TimeSpanString(int minutes) {
             bool negative = minutes < 0;
 
             TimeSpan timeSpan = new TimeSpan(0, Math.Abs(minutes), 0);
@@ -118,26 +115,26 @@ namespace Awareness.ui
 
             string duration = "";
 
-            if (days != 0){
+            if (days != 0) {
                 duration += days.ToString();
                 duration += (days == 1) ? (" day ") : (" days ");
             }
 
-            if (hours != 0){
+            if (hours != 0) {
                 duration += hours.ToString();
                 duration += (hours == 1) ? (" hour ") : (" hours ");
             }
 
-            if (string.IsNullOrEmpty(duration)||(!string.IsNullOrEmpty(duration)&&(minutes != 0))){
+            if (string.IsNullOrEmpty(duration)||(!string.IsNullOrEmpty(duration)&&(minutes != 0))) {
                 duration += minutes.ToString() + " min";
             }
 
-            if (negative){
+            if (negative) {
                 duration = "-" + duration;
             }
 
             return duration;
         }
-        
+
     }
 }

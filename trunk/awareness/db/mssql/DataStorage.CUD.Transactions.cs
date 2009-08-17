@@ -3,7 +3,7 @@
  * User: Iulian
  * Date: 7/25/2009
  * Time: 2:57 PM
- * 
+ *
  *
  * Copyright (c) 2008, 2009 Iulian GORIAC
  *
@@ -31,29 +31,29 @@ namespace Awareness.db.mssql
 {
     partial class DataStorage
     {
-        void InsertTransaction(DalTransaction transaction, DalNote note)
+        public override void InsertTransaction(DalTransaction transaction, DalNote note)
         {
-			transaction.Reason.AvailableQuantitySetNull();
+            transaction.Reason.AvailableQuantitySetNull();
             PreludeInsertNotable(transaction, note, DataStorage.NOTE_TRANSACTIONS_ID);
             dataContext.transactions.InsertOnSubmit(transaction);
             dataContext.SubmitChanges();
             NotifyTransactionsChanged(transaction);
         }
 
-        void UpdateTransaction(DalTransaction transaction, DalNote note)
+        public override void UpdateTransaction(DalTransaction transaction, DalNote note)
         {
-			transaction.Reason.AvailableQuantitySetNull();
+            transaction.Reason.AvailableQuantitySetNull();
             PreludeUpdateNotable(transaction, note, DataStorage.NOTE_TRANSACTIONS_ID);
             NotifyTransactionsChanged(transaction);
         }
 
-        void DeleteTransaction(DalTransaction transaction)
+        public override void DeleteTransaction(DalTransaction transaction)
         {
-			transaction.Reason.AvailableQuantitySetNull();
+            transaction.Reason.AvailableQuantitySetNull();
             DalNote note = (transaction.HasNote) ? (transaction.Note) : (null);
             dataContext.transactions.DeleteOnSubmit(transaction);
             dataContext.SubmitChanges();
-            if (note != null){
+            if (note != null) {
                 DeleteNote(note);
             }
             NotifyTransactionsChanged(transaction);

@@ -3,7 +3,7 @@
  * User: Iulian
  * Date: 2/6/2009
  * Time: 12:17 PM
- * 
+ *
  *
  * Copyright (c) 2008 Iulian GORIAC
  *
@@ -29,17 +29,17 @@ using System;
 
 namespace Awareness.db
 {
-	/// <summary>
-	/// Description of CashEmpty.
-	/// </summary>
-	public class CashEmptyException : Exception
-	{
-		public CashEmptyException()
-		{
-		}
+    /// <summary>
+    /// Description of CashEmpty.
+    /// </summary>
+    public class CashEmptyException : Exception
+    {
+        public CashEmptyException()
+        {
+        }
 
-		public CashEmptyException(string message) : base(message)
-		{
-		}
-}
+        public CashEmptyException(string message) : base(message)
+        {
+        }
+    }
 }

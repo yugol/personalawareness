@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2008 Iulian GORIAC
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -31,12 +31,11 @@ using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-using Awareness.db.mssql;
-
 namespace Awareness.db
 {
     [Table(Name = "transactions")]
-    public class DalTransaction : Notable {
+    public class DalTransaction : Notable
+    {
         int _id = 0;
         [Column(Storage = "_id",
                 Name = "id",
@@ -46,7 +45,9 @@ namespace Awareness.db
                 CanBeNull=false)]
         public int Id
         {
-            get { return _id; }
+            get {
+                return _id;
+            }
         }
 
         DateTime _when = DateTime.Now;
@@ -56,8 +57,12 @@ namespace Awareness.db
                 CanBeNull=false)]
         public DateTime When
         {
-            get { return _when; }
-            set { _when = value; }
+            get {
+                return _when;
+            }
+            set {
+                _when = value;
+            }
         }
 
         int _fromId = 0;
@@ -67,7 +72,9 @@ namespace Awareness.db
                 CanBeNull=false)]
         public int FromId
         {
-            get { return _fromId; }
+            get {
+                return _fromId;
+            }
         }
 
         private EntityRef<DalTransferLocation> _from;
@@ -75,9 +82,10 @@ namespace Awareness.db
                      ThisKey = "FromId")]
         public DalTransferLocation From
         {
-            get { return _from.Entity; }
-            set
-            {
+            get {
+                return _from.Entity;
+            }
+            set {
                 _from.Entity = value;
                 _fromId = value.Id;
             }
@@ -90,7 +98,9 @@ namespace Awareness.db
                 CanBeNull = false)]
         public int ToId
         {
-            get { return _toId; }
+            get {
+                return _toId;
+            }
         }
 
         private EntityRef<DalTransferLocation> _to;
@@ -98,9 +108,10 @@ namespace Awareness.db
                      ThisKey = "ToId")]
         public DalTransferLocation To
         {
-            get { return _to.Entity; }
-            set
-            {
+            get {
+                return _to.Entity;
+            }
+            set {
                 _to.Entity = value;
                 _toId = value.Id;
             }
@@ -113,8 +124,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public decimal Ammount
         {
-            get { return _ammount; }
-            set { _ammount = value; }
+            get {
+                return _ammount;
+            }
+            set {
+                _ammount = value;
+            }
         }
 
         int _reasonId = 0;
@@ -124,7 +139,9 @@ namespace Awareness.db
                 CanBeNull = false)]
         public int ReasonId
         {
-            get { return _reasonId; }
+            get {
+                return _reasonId;
+            }
         }
 
         private EntityRef<DalReason> _reason;
@@ -132,9 +149,10 @@ namespace Awareness.db
                      ThisKey = "ReasonId")]
         public DalReason Reason
         {
-            get { return _reason.Entity; }
-            set
-            {
+            get {
+                return _reason.Entity;
+            }
+            set {
                 _reason.Entity = value;
                 _reasonId = value.Id;
             }
@@ -147,8 +165,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public float Quantity
         {
-            get { return _quantity; }
-            set { _quantity = value; }
+            get {
+                return _quantity;
+            }
+            set {
+                _quantity = value;
+            }
         }
 
         int _noteId = DataStorage.NOTE_ROOT_ID;
@@ -158,7 +180,9 @@ namespace Awareness.db
                 CanBeNull = false)]
         public int NoteId
         {
-            get { return _noteId; }
+            get {
+                return _noteId;
+            }
         }
 
         private EntityRef<DalNote> _note;
@@ -166,7 +190,9 @@ namespace Awareness.db
                      ThisKey = "NoteId")]
         public DalNote Note
         {
-            get { return _note.Entity; }
+            get {
+                return _note.Entity;
+            }
             set {
                 _note.Entity = value;
                 _noteId = value.Id;
@@ -175,14 +201,20 @@ namespace Awareness.db
 
         public bool HasNote
         {
-            get { return _noteId != DataStorage.NOTE_ROOT_ID; }
-        }
-        
-        public string Name {
-            get { return Reason.Name; }
+            get {
+                return _noteId != DataStorage.NOTE_ROOT_ID;
+            }
         }
 
-        public override string ToString(){
+        public string Name
+        {
+            get {
+                return Reason.Name;
+            }
+        }
+
+        public override string ToString()
+        {
             return string.Format("{0} {1} {2}", Reason.ToString(), From.ToString(), To.ToString());
         }
     }

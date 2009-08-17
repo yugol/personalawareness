@@ -135,6 +135,9 @@
     <Compile Include="db\mssql\DataStorage.CUD.AccountTypes.cs">
       <DependentUpon>DataStorage.cs</DependentUpon>
     </Compile>
+    <Compile Include="db\mssql\DataStorage.CUD.Actions.cs">
+      <DependentUpon>DataStorage.cs</DependentUpon>
+    </Compile>
     <Compile Include="db\mssql\DataStorage.CUD.Meals.cs">
       <DependentUpon>DataStorage.cs</DependentUpon>
     </Compile>
@@ -156,6 +159,7 @@
     <Compile Include="db\mssql\DataStorage.Query.cs">
       <DependentUpon>DataStorage.cs</DependentUpon>
     </Compile>
+    <Compile Include="db\mssql\DataStorageTest.cs" />
     <Compile Include="db\Notable.cs" />
     <Compile Include="db\XmlProperties.cs" />
     <Compile Include="db\XmlPropertiesTest.cs" />
