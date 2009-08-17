@@ -3,7 +3,7 @@
  * User: Iulian
  * Date: 7/23/2009
  * Time: 2:14 PM
- * 
+ *
  *
  * Copyright (c) 2008, 2009 Iulian GORIAC
  *
@@ -26,48 +26,89 @@
  * THE SOFTWARE.
  */
 using System;
-using Awareness.ui;
+using System.IO;
 using Awareness.db;
+using Awareness.ui;
 
 namespace Awareness
 {
     public delegate void DataChangedHandler();
-    
+
     public static class Controller
     {
         public static event DataChangedHandler StorageOpened;
         public static event DataChangedHandler StorageClosing;
-        
+
         static DataStorage storage = null;
-        public static DataStorage Storage { get { return storage; } }
-        
+        public static DataStorage Storage
+        {
+            get {
+                return storage;
+            }
+        }
+
         static FormMain view = null;
-        public static FormMain View { get { return view; } }
-        
+        public static FormMain View
+        {
+            get {
+                return view;
+            }
+        }
+
         static Controller()
         {
             view  = new FormMain();
         }
-        
+
         public static void OpenStorage(string storageId)
         {
             CloseStorage();
-            
+
             string ext = storageId.Substring(storageId.LastIndexOf('.') + 1).ToLower();
-            
+
             if (ext == "sdf" || ext == "mfd") {
                 storage = new Awareness.db.mssql.DataStorage(storageId);
             }
-            
+
             if (storage != null) {
                 Configuration.LastStorageId = storageId;
                 if (StorageOpened != null) {
                     StorageOpened();
                 }
             }
-            
         }
-        
+
+        public static void DumpSql(string fileName)
+        {
+            StreamWriter writer = new StreamWriter(fileName, false);
+            try {
+                new Dumper(storage).DumpAll(writer);
+            } finally {
+                if (writer != null) {
+                    writer.Dispose();
+                }
+            }
+        }
+
+        public static void RestoreFromSqlDump(string fileName)
+        {
+            StreamReader reader = null;
+            try {
+                reader = new StreamReader(fileName);
+                if (StorageClosing != null) {
+                    StorageClosing();
+                }
+                storage.RestoreDb(reader);
+            } finally {
+                if (reader != null) {
+                    reader.Dispose();
+                }
+                if (StorageOpened != null) {
+                    StorageOpened();
+                }
+            }
+        }
+
         public static void CloseStorage()
         {
             if (storage != null) {
@@ -78,7 +119,7 @@ namespace Awareness
             }
             storage = null;
         }
-        
-        
+
+
     }
 }

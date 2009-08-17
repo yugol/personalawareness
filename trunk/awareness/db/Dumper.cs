@@ -29,25 +29,22 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 using Awareness.db.mssql;
 
 namespace Awareness.db
 {
-    internal class Dumper
+    public class Dumper
     {
-        internal static readonly string YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss";
-        internal static readonly string YYYYMMDD = "yyyy-MM-dd";
 
-        AwarenessDataContext dc = null;
+        DataStorage storage = null;
 
-        internal Dumper(AwarenessDataContext dc)
+        public Dumper(DataStorage storage)
         {
-            this.dc = dc;
+            this.storage = storage;
         }
 
-        internal void DumpAll(TextWriter writer)
+        public void DumpAll(TextWriter writer)
         {
             DumpProperties(writer);
             IDictionary<int, int> notes = DumpNotes(writer);
@@ -61,20 +58,20 @@ namespace Awareness.db
 
         internal void DumpProperties(TextWriter writer)
         {
-            DalProperties dbProp = DBUtil.GetProperties();
+            DalProperties dbProp = storage.GetProperties();
             writer.WriteLine("UPDATE properties SET db_version = {0}, xml = {1};",
                              dbProp.DBVersion,
-                             String2SqlString(dbProp.Xml));
+                             DataUtil.String2SqlString(dbProp.Xml));
         }
 
         internal IDictionary<int, int> DumpAccountTypes(TextWriter writer, IDictionary<int, int> notes)
         {
             IDictionary<int, int> accountType = new Dictionary<int, int>();
             int id = DataStorage.RESERVED_ACCOUNT_TYPES + 1;
-            foreach (DalAccountType entry in dc.accountTypes.Where(r => r.Id > DataStorage.RESERVED_ACCOUNT_TYPES)) {
+            foreach (DalAccountType entry in storage.GetDumperAccountTypes()) {
                 writer.WriteLine("INSERT INTO account_types (name, note) " +
                                  "VALUES ({0}, {1});",
-                                 String2SqlString(entry.Name),
+                                 DataUtil.String2SqlString(entry.Name),
                                  (notes != null&&notes.ContainsKey(entry.NoteId)) ? (notes[entry.NoteId]) : (entry.NoteId));
                 accountType[entry.Id] = id;
                 ++id;
@@ -86,21 +83,21 @@ namespace Awareness.db
         {
             IDictionary<int, int> transferReasons = new Dictionary<int, int>();
             int id = DataStorage.RESERVED_TRANSFER_LOCATIONS + 1;
-            foreach (DalTransferLocation entry in dc.transferLocations.Where(r => r.Id > DataStorage.RESERVED_TRANSFER_LOCATIONS)) {
+            foreach (DalTransferLocation entry in storage.GetDumperTransferLocations()) {
                 if (entry is DalAccount) {
                     writer.WriteLine("INSERT INTO transfer_locations (is_budget, account_type, name, starting_balance, note) " +
                                      "VALUES ({0}, {1}, {2}, {3}, {4});",
-                                     Bool2String(entry.IsBudget),
+                                     DataUtil.Bool2String(entry.IsBudget),
                                      (accountTypes != null) ? accountTypes[((DalAccount) entry).AccountTypeId] : ((DalAccount) entry).AccountTypeId,
-                                     String2SqlString(entry.Name),
+                                     DataUtil.String2SqlString(entry.Name),
                                      ((DalAccount) entry).StartingBalance,
                                      (notes != null&&notes.ContainsKey(entry.NoteId)) ? (notes[entry.NoteId]) : (entry.NoteId));
                 } else if ( entry is DalBudgetCategory) {
                     writer.WriteLine("INSERT INTO transfer_locations (is_budget, is_income, name, note) " +
                                      "VALUES ({0}, {1}, {2}, {3});",
-                                     Bool2String(entry.IsBudget),
-                                     Bool2String(((DalBudgetCategory) entry).IsIncome),
-                                     String2SqlString(entry.Name),
+                                     DataUtil.Bool2String(entry.IsBudget),
+                                     DataUtil.Bool2String(((DalBudgetCategory) entry).IsIncome),
+                                     DataUtil.String2SqlString(entry.Name),
                                      (notes != null&&notes.ContainsKey(entry.NoteId)) ? (notes[entry.NoteId]) : (entry.NoteId));
                 }
                 transferReasons[entry.Id] = id;
@@ -113,19 +110,19 @@ namespace Awareness.db
         {
             IDictionary<int, int> transactionReasons = new Dictionary<int, int>();
             int id = 1;
-            foreach (DalReason entry in dc.transactionReasons) {
+            foreach (DalReason entry in storage.GetDumperTransactionReasons()) {
                 if (entry is DalFood) {
                     writer.WriteLine("INSERT INTO transaction_reasons (type, name, energy, note) " +
                                      "VALUES ({0}, {1}, {2}, {3});",
                                      entry.Type,
-                                     String2SqlString(entry.Name),
+                                     DataUtil.String2SqlString(entry.Name),
                                      ((DalFood) entry).Energy,
                                      (notes != null&&notes.ContainsKey(entry.NoteId)) ? (notes[entry.NoteId]) : (entry.NoteId));
                 } else {
                     writer.WriteLine("INSERT INTO transaction_reasons (type, name, note) " +
                                      "VALUES ({0}, {1}, {2});",
                                      entry.Type,
-                                     String2SqlString(entry.Name),
+                                     DataUtil.String2SqlString(entry.Name),
                                      (notes != null&&notes.ContainsKey(entry.NoteId)) ? (notes[entry.NoteId]) : (entry.NoteId));
                 }
                 transactionReasons[entry.Id] = id;
@@ -136,10 +133,10 @@ namespace Awareness.db
 
         internal void DumpTransactions(TextWriter writer, IDictionary<int, int> transferLocations, IDictionary<int, int> transactionReasons, IDictionary<int, int> notes)
         {
-            foreach (DalTransaction entry in dc.transactions) {
+            foreach (DalTransaction entry in storage.GetDumperTransactions()) {
                 writer.WriteLine("INSERT INTO transactions ([when], [from], [to], reason, ammount, quantity, note) " +
                                  "VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6});",
-                                 Date2String(entry.When),
+                                 DataUtil.Date2String(entry.When),
                                  (transferLocations != null&&transferLocations.ContainsKey(entry.FromId)) ? transferLocations[entry.FromId] : entry.FromId,
                                  (transferLocations != null&&transferLocations.ContainsKey(entry.FromId)) ? transferLocations[entry.ToId] : entry.ToId,
                                  (transactionReasons != null) ? transactionReasons[entry.ReasonId] : entry.ReasonId,
@@ -151,10 +148,10 @@ namespace Awareness.db
 
         internal void DumpMeals(TextWriter writer, IDictionary<int, int> transactionReasons)
         {
-            foreach (DalMeal entry in dc.meals) {
+            foreach (DalMeal entry in storage.GetDumperMeals()) {
                 writer.WriteLine("INSERT INTO meals ([when], what, quantity, why) " +
                                  "VALUES ({0}, {1}, {2}, {3});",
-                                 Date2String(entry.When),
+                                 DataUtil.Date2String(entry.When),
                                  (transactionReasons != null) ? transactionReasons[entry.WhatId] : entry.WhatId,
                                  entry.Quantity,
                                  (transactionReasons != null) ? transactionReasons[entry.WhyId] : entry.WhyId);
@@ -173,15 +170,15 @@ namespace Awareness.db
 
         void _RecursiveDumpNotes(TextWriter writer, int parentId, IDictionary<int, int> idMap, ref int id)
         {
-            foreach (DalNote note in dc.notes.Where(n => n.Id > DataStorage.RESERVED_NOTES&&n.ParentId == parentId)) {
+            foreach (DalNote note in storage.GetDumperNotes(parentId)) {
                 writer.WriteLine("INSERT INTO notes (parent, permanent, expanded, created, icons, title, text) " +
                                  "VALUES ({0}, {1}, {2}, '{3}', {4}, {5}, {6});",
                                  idMap.ContainsKey(note.ParentId) ? idMap[note.ParentId] : note.ParentId,
-                                 Bool2String(note.IsPermanent),
-                                 Bool2String(note.IsExpanded),
-                                 note.CreationTime.ToString(YYYYMMDDHHMMSS),
-                                 note.Icon, String2SqlString(note.Title),
-                                 String2SqlString(note.Text));
+                                 DataUtil.Bool2String(note.IsPermanent),
+                                 DataUtil.Bool2String(note.IsExpanded),
+                                 note.CreationTime.ToString(DataUtil.YYYYMMDDHHMMSS),
+                                 note.Icon, DataUtil.String2SqlString(note.Title),
+                                 DataUtil.String2SqlString(note.Text));
                 idMap[note.Id] = id;
                 ++id;
                 _RecursiveDumpNotes(writer, note.Id, idMap, ref id);
@@ -199,70 +196,33 @@ namespace Awareness.db
 
         void _RecursiveDumpActions(TextWriter writer, int parentId, IDictionary<int, int> notes, IDictionary<int, int> idMap, ref int id)
         {
-            foreach (DalAction entry in dc.actions.Where(n => n.Id > DataStorage.RESERVED_ACTIONS&&n.ParentId == parentId)) {
+            foreach (DalAction entry in storage.GetDumperActions(parentId)) {
                 writer.WriteLine("INSERT INTO actions (parent, checked, type, expanded, name, note, time_planned, start, [end], recurrent, pattern, repeat_no_of_times, repeat_until, has_window_reminder, reminder_duration, has_command_reminder, reminder_command, has_sound_reminder, reminder_sound) " +
                                  "VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18});",
                                  idMap.ContainsKey(entry.ParentId) ? idMap[entry.ParentId] : entry.ParentId,
-                                 Bool2String(entry.IsChecked),
+                                 DataUtil.Bool2String(entry.IsChecked),
                                  entry.Type,
-                                 Bool2String(entry.IsExpanded),
-                                 String2SqlString(entry.Name),
+                                 DataUtil.Bool2String(entry.IsExpanded),
+                                 DataUtil.String2SqlString(entry.Name),
                                  (notes != null&&notes.ContainsKey(entry.NoteId)) ? (notes[entry.NoteId]) : (entry.NoteId),
-                                 Bool2String(entry.IsTimePlanned),
-                                 DateTime2String(entry.Start),
-                                 DateTime2String(entry.End),
-                                 Bool2String(entry.IsRecurrent),
+                                 DataUtil.Bool2String(entry.IsTimePlanned),
+                                 DataUtil.DateTime2String(entry.Start),
+                                 DataUtil.DateTime2String(entry.End),
+                                 DataUtil.Bool2String(entry.IsRecurrent),
                                  entry.Pattern,
-                                 Bool2String(entry.IsRepeatNoOfTimes),
-                                 DateTime2String(entry.RepeatUntil),
-                                 Bool2String(entry.HasWindowReminder),
+                                 DataUtil.Bool2String(entry.IsRepeatNoOfTimes),
+                                 DataUtil.DateTime2String(entry.RepeatUntil),
+                                 DataUtil.Bool2String(entry.HasWindowReminder),
                                  entry.ReminderDuration,
-                                 Bool2String(entry.HasCommandReminder),
-                                 String2SqlString(entry.ReminderCommand),
-                                 Bool2String(entry.HasSoundReminder),
-                                 String2SqlString(entry.ReminderSound));
+                                 DataUtil.Bool2String(entry.HasCommandReminder),
+                                 DataUtil.String2SqlString(entry.ReminderCommand),
+                                 DataUtil.Bool2String(entry.HasSoundReminder),
+                                 DataUtil.String2SqlString(entry.ReminderSound));
                 idMap[entry.Id] = id;
                 ++id;
                 _RecursiveDumpActions(writer, entry.Id, notes, idMap, ref id);
             }
         }
 
-        internal void RestoreDb(TextReader reader)
-        {
-            string command;
-            while ((command = reader.ReadLine()) != null) {
-                #if DEBUG
-                File.AppendAllText("importlog.txt", command + "\n");
-                #endif
-                dc.ExecuteCommand(command);
-            }
-        }
-
-        internal static string Bool2String(bool b)
-        {
-            return b ? "1" : "0";
-        }
-
-        internal static string String2SqlString(string memo)
-        {
-            if (string.IsNullOrEmpty(memo)) {
-                return "null";
-            } else {
-                string escaped = memo.Replace("'", "''");
-                escaped = escaped.Replace("\r", "' + NCHAR(13) + N'");
-                escaped = escaped.Replace("\n", "' + NCHAR(10) + N'");
-                return string.Format("N'{0}'", escaped);
-            }
-        }
-
-        internal static string DateTime2String(DateTime dateTime)
-        {
-            return string.Format("'{0}'", dateTime.ToString(YYYYMMDDHHMMSS));
-        }
-
-        internal static string Date2String(DateTime dateTime)
-        {
-            return string.Format("'{0}'", dateTime.ToString(YYYYMMDD));
-        }
     }
 }

@@ -42,13 +42,14 @@ namespace Awareness.db.mssql
     [TestFixture]
     public class AwarenessDataContextTest
     {
+        static readonly string TEST_DB_NAME = "awareness_test.sdf";
         AwarenessDataContext dc = null;
 
         #if !DEBUG_CREATE_DATABASE
         [TestFixtureSetUp]
         public void SetUp()
         {
-            dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
+            dc = new AwarenessDataContext(TEST_DB_NAME);
             dc.CreateDatabase();
         }
         #endif
@@ -63,7 +64,7 @@ namespace Awareness.db.mssql
         public void CreateDatabase()
         {
             #if DEBUG_CREATE_DATABASE
-            dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
+            dc = new AwarenessDataContext(TEST_DB_NAME);
             dc.CreateDatabase();
             #endif
             Assert.AreEqual("01.10", dc.GetProperties().DBVersion.ToString("00.00"));
@@ -127,7 +128,7 @@ namespace Awareness.db.mssql
                 throw e;
             } catch (Exception) {
                 dc.Connection.Close();
-                dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
+                dc = new AwarenessDataContext(TEST_DB_NAME);
             }
 
 
@@ -187,7 +188,7 @@ namespace Awareness.db.mssql
                 throw e;
             } catch (Exception) {
                 dc.Connection.Close();
-                dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
+                dc = new AwarenessDataContext(TEST_DB_NAME);
             }
 
             try { // check foreign key existence
@@ -198,7 +199,7 @@ namespace Awareness.db.mssql
                 throw e;
             } catch (Exception) {
                 dc.Connection.Close();
-                dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
+                dc = new AwarenessDataContext(TEST_DB_NAME);
             }
 
             try { // check foreign key existence
@@ -209,7 +210,7 @@ namespace Awareness.db.mssql
                 throw e;
             } catch (Exception) {
                 dc.Connection.Close();
-                dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
+                dc = new AwarenessDataContext(TEST_DB_NAME);
             }
 
             dc.transactions.DeleteOnSubmit(dc.transactions.OfType<DalTransaction>().First());
@@ -241,7 +242,7 @@ namespace Awareness.db.mssql
             dc.UpdateTransactionReasonType(id, DalReason.TYPE_FOOD, "tr'1'", 50);
 
             dc.Connection.Close();
-            dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
+            dc = new AwarenessDataContext(TEST_DB_NAME);
 
             DalFood tr2 = dc.transactionReasons.OfType<DalFood>().First();
             Assert.AreEqual(id, tr2.Id);
@@ -249,7 +250,7 @@ namespace Awareness.db.mssql
             Assert.AreEqual(50, tr2.Energy);
 
             dc.Connection.Close();
-            dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
+            dc = new AwarenessDataContext(TEST_DB_NAME);
 
             dc.UpdateTransactionReasonType(id, DalReason.TYPE_RECIPE, "'t'r1", 0);
             tr1 = dc.transactionReasons.OfType<DalRecipe>().First();
@@ -258,7 +259,7 @@ namespace Awareness.db.mssql
             Assert.AreEqual(100, ((DalRecipe) tr1).Energy);
 
             dc.Connection.Close();
-            dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
+            dc = new AwarenessDataContext(TEST_DB_NAME);
 
             dc.UpdateTransactionReasonType(id, DalReason.TYPE_CONSUMER, "'t'r1", 0);
             tr1 = dc.transactionReasons.OfType<DalConsumer>().First();
@@ -266,7 +267,7 @@ namespace Awareness.db.mssql
             Assert.AreEqual("'t'r1", tr1.Name);
 
             dc.Connection.Close();
-            dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
+            dc = new AwarenessDataContext(TEST_DB_NAME);
 
             dc.UpdateTransactionReasonType(id, DalReason.TYPE_DEFAULT, "'t'r1", 100);
             tr1 = dc.transactionReasons.OfType<DalReason>().First();
@@ -306,7 +307,7 @@ namespace Awareness.db.mssql
                 throw e;
             } catch (Exception) {
                 dc.Connection.Close();
-                dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
+                dc = new AwarenessDataContext(TEST_DB_NAME);
             }
 
             try { // check foreign key for why
@@ -318,7 +319,7 @@ namespace Awareness.db.mssql
                 throw e;
             } catch (Exception) {
                 dc.Connection.Close();
-                dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
+                dc = new AwarenessDataContext(TEST_DB_NAME);
             }
 
             m1 = dc.meals.First();
@@ -363,7 +364,7 @@ namespace Awareness.db.mssql
                 throw e;
             } catch (Exception) {
                 dc.Connection.Close();
-                dc = new AwarenessDataContext(DBTest.TEST_DB_NAME);
+                dc = new AwarenessDataContext(TEST_DB_NAME);
             }
 
             dc.notes.DeleteOnSubmit(dc.notes.Where(n => n.Id > DataStorage.RESERVED_NOTES).First());

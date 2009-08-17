@@ -33,11 +33,37 @@ namespace Awareness.db.mssql
 {
     partial class DataStorage
     {
-        DalNote GetRootNote()
+        public override DalNote GetRootNote()
         {
             return dataContext.GetNoteById(NOTE_ROOT_ID);
         }
 
+        public override DalAccount GetFoodsAccount()
+        {
+            return (DalAccount) dataContext.GetTransferLocationById(DataStorage.ACCOUNT_FOODS_ID);
+        }
+
+        public override DalAccount GetRecipesAccount()
+        {
+            return (DalAccount) dataContext.GetTransferLocationById(DataStorage.ACCOUNT_RECIPES_ID);
+        }
+
+        public override DalAction GetRootAction()
+        {
+            return dataContext.GetActionById(DataStorage.ACTION_ROOT_ID);
+        }
+
+        public override IEnumerable<DalNote> GetNotes()
+        {
+            return dataContext.notes;
+        }
+        
+        public override IEnumerable<DalAction> GetActions()
+        {
+            return dataContext.actions;
+        }
+        
+        
         public override IEnumerable<DalAccountType> GetAccountTypes()
         {
             IQueryable<DalAccountType> accountTypes = null;
@@ -179,16 +205,6 @@ namespace Awareness.db.mssql
             return recipeTransaction;
         }
 
-        DalAccount GetFoodsAccount()
-        {
-            return (DalAccount) dataContext.GetTransferLocationById(DataStorage.ACCOUNT_FOODS_ID);
-        }
-
-        DalAccount GetRecipesAccount()
-        {
-            return (DalAccount) dataContext.GetTransferLocationById(DataStorage.ACCOUNT_RECIPES_ID);
-        }
-
         int GetRecipeConstituentCount(DalRecipe recipe, DateTime when)
         {
             IQueryable<DalMeal> meals = from m in dataContext.meals
@@ -259,10 +275,41 @@ namespace Awareness.db.mssql
             return actions;
         }
 
-        DalAction GetRootAction()
+        public override IEnumerable<DalAccountType> GetDumperAccountTypes()
         {
-            return dataContext.GetActionById(DataStorage.ACTION_ROOT_ID);
+            return dataContext.accountTypes.Where(r => r.Id > DataStorage.RESERVED_ACCOUNT_TYPES);
         }
+
+        public override IEnumerable<DalAction> GetDumperActions(int parentId)
+        {
+            return dataContext.actions.Where(n => n.Id > DataStorage.RESERVED_ACTIONS&&n.ParentId == parentId);
+        }
+
+        public override IEnumerable<DalMeal> GetDumperMeals()
+        {
+            return dataContext.meals;
+        }
+
+        public override IEnumerable<DalNote> GetDumperNotes(int parentId)
+        {
+            return dataContext.notes.Where(n => n.Id > DataStorage.RESERVED_NOTES && n.ParentId == parentId);
+        }
+
+        public override IEnumerable<DalReason> GetDumperTransactionReasons()
+        {
+            return dataContext.transactionReasons;
+        }
+
+        public override IEnumerable<DalTransaction> GetDumperTransactions()
+        {
+            return dataContext.transactions;
+        }
+
+        public override IEnumerable<DalTransferLocation> GetDumperTransferLocations()
+        {
+            return dataContext.transferLocations.Where(r => r.Id > DataStorage.RESERVED_TRANSFER_LOCATIONS);
+        }
+
 
     }
 }

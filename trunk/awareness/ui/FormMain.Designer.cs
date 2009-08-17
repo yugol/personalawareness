@@ -120,6 +120,8 @@ namespace Awareness.ui
         	this.remindersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.calendarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.todoListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+        	this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenu.SuspendLayout();
         	this.statusBar.SuspendLayout();
         	this.actionPages.SuspendLayout();
@@ -543,7 +545,7 @@ namespace Awareness.ui
         	        	        	this.todoToolButton});
         	this.defaultToolStrip.Location = new System.Drawing.Point(3, 0);
         	this.defaultToolStrip.Name = "defaultToolStrip";
-        	this.defaultToolStrip.Size = new System.Drawing.Size(276, 25);
+        	this.defaultToolStrip.Size = new System.Drawing.Size(245, 25);
         	this.defaultToolStrip.TabIndex = 0;
         	// 
         	// openToolButton
@@ -680,9 +682,11 @@ namespace Awareness.ui
         	        	        	this.teaTimerToolStripMenuItem,
         	        	        	this.remindersToolStripMenuItem,
         	        	        	this.calendarToolStripMenuItem,
-        	        	        	this.todoListToolStripMenuItem});
+        	        	        	this.todoListToolStripMenuItem,
+        	        	        	this.toolStripMenuItem1,
+        	        	        	this.exitToolStripMenuItem1});
         	this.toolsMenuStrip.Name = "toolsMenuStrip";
-        	this.toolsMenuStrip.Size = new System.Drawing.Size(128, 114);
+        	this.toolsMenuStrip.Size = new System.Drawing.Size(128, 142);
         	// 
         	// calculatorToolStripMenuItem
         	// 
@@ -719,6 +723,18 @@ namespace Awareness.ui
         	this.todoListToolStripMenuItem.Text = "To &do list";
         	this.todoListToolStripMenuItem.Click += new System.EventHandler(this.TodoListToolStripMenuItemClick);
         	// 
+        	// toolStripMenuItem1
+        	// 
+        	this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+        	this.toolStripMenuItem1.Size = new System.Drawing.Size(124, 6);
+        	// 
+        	// exitToolStripMenuItem1
+        	// 
+        	this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
+        	this.exitToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+        	this.exitToolStripMenuItem1.Text = "E&xit";
+        	this.exitToolStripMenuItem1.Click += new System.EventHandler(this.ExitToolStripMenuItem1Click);
+        	// 
         	// FormMain
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -730,6 +746,7 @@ namespace Awareness.ui
         	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
         	this.MainMenuStrip = this.mainMenu;
         	this.Name = "FormMain";
+        	this.ShowInTaskbar = false;
         	this.Text = "Awareness";
         	this.Load += new System.EventHandler(this.FormMainLoad);
         	this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMainFormClosed);
@@ -761,6 +778,8 @@ namespace Awareness.ui
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem openStorgeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem todoListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem calendarToolStripMenuItem;

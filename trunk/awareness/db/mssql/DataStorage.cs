@@ -69,5 +69,19 @@ namespace Awareness.db.mssql
             dataContext.DeleteDatabase();
         }
 
+        public override void RestoreDb(TextReader reader)
+        {
+            Delete();
+            Open();
+            string command;
+            while ((command = reader.ReadLine()) != null) {
+                #if DEBUG
+                File.AppendAllText("importlog.txt", command + "\n");
+                #endif
+                dataContext.ExecuteCommand(command);
+            }
+            ReOpen();
+        }
+        
     }
 }
