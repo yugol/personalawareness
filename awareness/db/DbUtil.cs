@@ -62,8 +62,9 @@ namespace Awareness.db
                 CreateDataContext(dbConnectionString);
                 OpenDataContext(dbConnectionString);
                 reader = new StreamReader(fileName);
-                Dumper dd = new Dumper(dataContext);
-                dd.RestoreDb(reader);
+                throw new NotImplementedException();
+                // Dumper dd = new Dumper(dataContext);
+                // dd.RestoreDb(reader);
             } catch (Exception ex) {
                 throw ex;
             }

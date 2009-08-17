@@ -92,7 +92,7 @@ namespace Awareness.db.mssql
             }
         }
 
-        void InsertNote(DalNote note)
+        public override void InsertNote(DalNote note)
         {
             if (note.Parent == null) {
                 note.Parent = GetRootNote();

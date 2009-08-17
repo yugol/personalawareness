@@ -42,7 +42,7 @@ namespace Awareness.db.mssql
             NotifyActionsChanged();
         }
 
-        void UpdateAction(DalAction action, DalNote note)
+        public override void UpdateAction(DalAction action, DalNote note)
         {
             UpdateActionNoNotification(action, note);
             NotifyActionsChanged();

@@ -27,6 +27,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Awareness.db
 {
@@ -173,11 +174,18 @@ namespace Awareness.db
 
         public abstract void Close();
         public abstract void Delete();
+        public abstract void RestoreDb(TextReader reader);
 
-        
+
         /* Read | Query */
 
         public abstract DalProperties GetProperties();
+        public abstract DalNote GetRootNote();
+        public abstract DalNote GetTodoNote();
+        public abstract DalAccount GetFoodsAccount();
+        public abstract DalAccount GetRecipesAccount();
+        public abstract DalAction GetRootAction();
+
         public abstract IEnumerable<DalAccountType> GetAccountTypes();
         public abstract IEnumerable<DalAccount> GetAccounts();
         public abstract IEnumerable<DalBudgetCategory> GetBudgetCategories();
@@ -186,17 +194,27 @@ namespace Awareness.db
         public abstract float GetLastEnergyForRecipe(DalRecipe recipe);
         public abstract float GetAverageEnergyForRecipe(DalRecipe recipe);
         public abstract IEnumerable<DalMeal> GetMealsTimeDesc(int history);
-        public abstract DalNote GetTodoNote();
         public abstract decimal GetTotalOutAmmount(DalTransferLocation location);
         public abstract decimal GetTotalInAmmount(DalTransferLocation location);
         public abstract decimal GetBalance(DalAccount a);
         public abstract IEnumerable<DalAction> GetRootActions();
         public abstract IEnumerable<DalAction> GetChildActions(DalAction action);
+
+        public abstract IEnumerable<DalAccountType> GetDumperAccountTypes();
+        public abstract IEnumerable<DalTransferLocation> GetDumperTransferLocations();
+        public abstract IEnumerable<DalReason> GetDumperTransactionReasons();
+        public abstract IEnumerable<DalTransaction> GetDumperTransactions();
+        public abstract IEnumerable<DalMeal> GetDumperMeals();
+        public abstract IEnumerable<DalNote> GetDumperNotes(int parentId);
+        public abstract IEnumerable<DalAction> GetDumperActions(int parentId);
+        public abstract IEnumerable<DalNote> GetNotes();
+        public abstract IEnumerable<DalAction> GetActions();
         
-        
+
         /* Create, Update, Delete */
 
         // Notes
+        public abstract void InsertNote(DalNote note);
         public abstract void UpdateNote(DalNote note);
         public abstract void DeleteNote(DalNote note);
 
@@ -230,6 +248,7 @@ namespace Awareness.db
 
         // Actions
         public abstract void InsertAction(DalAction action, DalNote note);
+        public abstract void UpdateAction(DalAction action, DalNote note);
         public abstract void DeleteActionRec(DalAction action);
 
     }

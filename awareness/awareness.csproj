@@ -69,8 +69,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionDeleteDatabase.cs" />
-    <Compile Include="ActionNewDatabase.cs" />
     <Compile Include="ActionOccurrence.cs" />
     <Compile Include="ActionOpenDatabase.cs" />
     <Compile Include="BasicTimerable.cs" />
@@ -93,7 +91,6 @@
     <Compile Include="db\DalTransaction.cs" />
     <Compile Include="db\DalTransferLocation.cs" />
     <Compile Include="db\DataUtil.cs" />
-    <Compile Include="db\DbTest.cs" />
     <Compile Include="db\Dumper.cs" />
     <Compile Include="db\DumperTest.cs" />
     <Compile Include="db\DbUtil.cs" />
@@ -127,7 +124,6 @@
     <Compile Include="db\DbUtil.Properties.cs">
       <DependentUpon>DbUtil.cs</DependentUpon>
     </Compile>
-    <Compile Include="db\DbUtilTest.cs" />
     <Compile Include="db\DataStorage.cs" />
     <Compile Include="db\mssql\DataStorage.cs" />
     <Compile Include="db\mssql\AwarenessDataContext.cs" />
@@ -164,8 +160,6 @@
     <Compile Include="db\XmlProperties.cs" />
     <Compile Include="db\XmlPropertiesTest.cs" />
     <Compile Include="Timerable.cs" />
-    <Compile Include="ImporterBuddy.cs" />
-    <Compile Include="ImporterBuddyTest.cs" />
     <Compile Include="Launcher.cs" />
     <Compile Include="ManagerCalculator.cs" />
     <Compile Include="ManagerCalendar.cs" />

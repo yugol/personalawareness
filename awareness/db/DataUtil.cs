@@ -29,14 +29,44 @@ using System;
 
 namespace Awareness.db
 {
-    internal static class DataUtil
+    public static class DataUtil
     {
-        internal static DateTime RemoveMilliseconds(DateTime when)
+        public static readonly string YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss";
+        public static readonly string YYYYMMDD = "yyyy-MM-dd";
+
+        public static string Bool2String(bool b)
+        {
+            return b ? "1" : "0";
+        }
+
+        public static string String2SqlString(string memo)
+        {
+            if (string.IsNullOrEmpty(memo)) {
+                return "null";
+            } else {
+                string escaped = memo.Replace("'", "''");
+                escaped = escaped.Replace("\r", "' + NCHAR(13) + N'");
+                escaped = escaped.Replace("\n", "' + NCHAR(10) + N'");
+                return string.Format("N'{0}'", escaped);
+            }
+        }
+
+        public static string DateTime2String(DateTime dateTime)
+        {
+            return string.Format("'{0}'", dateTime.ToString(YYYYMMDDHHMMSS));
+        }
+
+        public static string Date2String(DateTime dateTime)
+        {
+            return string.Format("'{0}'", dateTime.ToString(YYYYMMDD));
+        }
+
+        public static DateTime RemoveMilliseconds(DateTime when)
         {
             return new DateTime(when.Year, when.Month, when.Day, when.Hour, when.Minute, when.Second);
         }
 
-        internal static DateTime RemoveSeconds(DateTime when)
+        public static DateTime RemoveSeconds(DateTime when)
         {
             return new DateTime(when.Year, when.Month, when.Day, when.Hour, when.Minute, 0);
         }
