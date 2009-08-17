@@ -3,7 +3,7 @@
  * User: Iulian
  * Date: 7/23/2009
  * Time: 2:11 PM
- * 
+ *
  *
  * Copyright (c) 2008, 2009 Iulian GORIAC
  *
@@ -36,12 +36,12 @@ namespace Awareness.db
         public const int RESERVED_ACCOUNT_TYPES = 5;
         public const int RESERVED_TRANSFER_LOCATIONS = 10;
         public const int RESERVED_ACTIONS = 100;
-        
+
         public const int ACCOUNT_TYPE_APPLICATION_INTERNAL_ID = 1;
 
         public const int ACCOUNT_FOODS_ID = 1;
         public const int ACCOUNT_RECIPES_ID = 2;
-        
+
         public const int NOTE_ROOT_ID = 1;
         public const int ACTION_ROOT_ID = 1;
 
@@ -69,101 +69,114 @@ namespace Awareness.db
         public event DataChangedHandler PropertiesChanged;
         public event DataChangedHandler MealsChanged;
         public event DataChangedHandler TransactionsChanged;
+        public event DataChangedHandler ActionsChanged;
 
-        
+
         protected void NotifyAccountTypesChanged()
         {
-            if (AccountTypesChanged != null){
+            if (AccountTypesChanged != null) {
                 AccountTypesChanged();
             }
         }
 
         protected void NotifyTransferLocationsChanged(DalTransferLocation transferLocation)
         {
-            if (transferLocation is DalAccount){
-                if (AccountsChanged != null){
+            if (transferLocation is DalAccount) {
+                if (AccountsChanged != null) {
                     AccountsChanged();
                 }
             } else if (transferLocation is DalBudgetCategory) {
-                if (BudgetCategoriesChanged != null){
+                if (BudgetCategoriesChanged != null) {
                     BudgetCategoriesChanged();
                 }
             }
-            if (TransferLocationsChanged != null){
+            if (TransferLocationsChanged != null) {
                 TransferLocationsChanged();
             }
         }
-        
-        protected void NotifyTransactionReasonsChanged(DalReason transactionReason){
-            if (transactionReason is DalRecipe){
-                if (RecipesChanged != null){
+
+        protected void NotifyTransactionReasonsChanged(DalReason transactionReason)
+        {
+            if (transactionReason is DalRecipe) {
+                if (RecipesChanged != null) {
                     RecipesChanged();
                 }
             } else if (transactionReason is DalFood) {
-                if (FoodsChanged != null){
+                if (FoodsChanged != null) {
                     FoodsChanged();
                 }
             } else if (transactionReason is DalConsumer) {
-                if (ConsumersChanged != null){
+                if (ConsumersChanged != null) {
                     ConsumersChanged();
                 }
             } else {
-                if (ReasonsChanged != null){
+                if (ReasonsChanged != null) {
                     ReasonsChanged();
                 }
             }
-            if (TransactionReasonsChanged != null){
+            if (TransactionReasonsChanged != null) {
                 TransactionReasonsChanged();
             }
         }
-        
-        protected void NotifyPropertiesChanged() 
+
+        protected void NotifyPropertiesChanged()
         {
-            if (PropertiesChanged != null){
+            if (PropertiesChanged != null) {
                 PropertiesChanged();
             }
         }
-        
+
         protected void NotifyMealsChanged()
         {
-            if (MealsChanged != null){
+            if (MealsChanged != null) {
                 MealsChanged();
             }
         }
 
         protected void NotifyTransactionsChanged(DalTransaction transaction)
         {
-            if (TransactionsChanged != null){
+            if (TransactionsChanged != null) {
                 TransactionsChanged();
             }
         }
-        
+
+        protected void NotifyActionsChanged()
+        {
+            if (ActionsChanged != null) {
+                ActionsChanged();
+            }
+        }
+
         #endregion
 
         string connectionString;
         public string ConnectionString
         {
-            get { return connectionString; }
+            get {
+                return connectionString;
+            }
         }
-        
+
         protected string nick;
         public string Nick
         {
-            get { return nick; }
+            get {
+                return nick;
+            }
         }
-        
-        
+
         public DataStorage(string connectionString)
         {
             this.connectionString = connectionString;
             this.nick = connectionString;
         }
-        
+
         public abstract void Close();
         public abstract void Delete();
-            
-        /* Read | Query */
+
         
+        /* Read | Query */
+
         public abstract DalProperties GetProperties();
         public abstract IEnumerable<DalAccountType> GetAccountTypes();
         public abstract IEnumerable<DalAccount> GetAccounts();
@@ -173,35 +186,51 @@ namespace Awareness.db
         public abstract float GetLastEnergyForRecipe(DalRecipe recipe);
         public abstract float GetAverageEnergyForRecipe(DalRecipe recipe);
         public abstract IEnumerable<DalMeal> GetMealsTimeDesc(int history);
+        public abstract DalNote GetTodoNote();
+        public abstract decimal GetTotalOutAmmount(DalTransferLocation location);
+        public abstract decimal GetTotalInAmmount(DalTransferLocation location);
+        public abstract decimal GetBalance(DalAccount a);
+        public abstract IEnumerable<DalAction> GetRootActions();
+        public abstract IEnumerable<DalAction> GetChildActions(DalAction action);
+        
         
         /* Create, Update, Delete */
-        
+
         // Notes
         public abstract void UpdateNote(DalNote note);
         public abstract void DeleteNote(DalNote note);
-                
+
         // AccountTypes
-        public abstract void InsertAccountType(DalAccountType accountTypes, DalNote note);        
+        public abstract void InsertAccountType(DalAccountType accountTypes, DalNote note);
         public abstract void UpdateAccountType(DalAccountType accountTypes, DalNote note);
         public abstract void DeleteAccountType(DalAccountType accountType);
-        
+
         // Transfer Locations
         public abstract void InsertTransferLocation(DalTransferLocation transferLocation, DalNote note);
         public abstract void UpdateTransferLocation(DalTransferLocation transferLocation, DalNote note);
         public abstract void DeleteTransferLocation(DalTransferLocation transferLocation);
-                    
+
         // Transaction Reasons
         public abstract void InsertTransactionReason(DalReason reason, DalNote note);
         public abstract void UpdateTransactionReason(DalReason reason, DalNote note);
         public abstract void UpdateTransactionReason(int id, sbyte type, string name, float energy, DalNote note);
         public abstract void DeleteTransactionReason(DalReason reason);
-        
+
         // Properties
         public abstract void UpdateProperties(XmlProperties xmlProp);
-        
+
         // Meals
         public abstract void InsertMeal(DalMeal meal);
         public abstract void DeleteMeal(DalMeal meal);
-        
+
+        // Transactions
+        public abstract void InsertTransaction(DalTransaction transaction, DalNote note);
+        public abstract void UpdateTransaction(DalTransaction transaction, DalNote note);
+        public abstract void DeleteTransaction(DalTransaction transaction);
+
+        // Actions
+        public abstract void InsertAction(DalAction action, DalNote note);
+        public abstract void DeleteActionRec(DalAction action);
+
     }
 }

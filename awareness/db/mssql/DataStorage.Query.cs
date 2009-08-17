@@ -3,7 +3,7 @@
  * User: Iulian
  * Date: 7/23/2009
  * Time: 5:13 PM
- * 
+ *
  *
  * Copyright (c) 2008, 2009 Iulian GORIAC
  *
@@ -37,7 +37,7 @@ namespace Awareness.db.mssql
         {
             return dataContext.GetNoteById(NOTE_ROOT_ID);
         }
-        
+
         public override IEnumerable<DalAccountType> GetAccountTypes()
         {
             IQueryable<DalAccountType> accountTypes = null;
@@ -53,7 +53,7 @@ namespace Awareness.db.mssql
             #endif
             return accountTypes;
         }
-        
+
         public override IEnumerable<DalAccount> GetAccounts()
         {
             IQueryable<DalAccount> accounts = null;
@@ -69,7 +69,7 @@ namespace Awareness.db.mssql
             #endif
             return accounts;
         }
-        
+
         public override IEnumerable<DalBudgetCategory> GetBudgetCategories()
         {
             IQueryable<DalBudgetCategory> categories = null;
@@ -85,12 +85,12 @@ namespace Awareness.db.mssql
             #endif
             return categories;
         }
-        
-        public override bool IsTransferLocationUsed(DalTransferLocation tl) 
+
+        public override bool IsTransferLocationUsed(DalTransferLocation tl)
         {
             IQueryable<DalTransaction> q = dataContext.transactions
                                            .Where(tr => tr.FromId == tl.Id || tr.ToId == tl.Id);
-            if (q.Count() > 0){
+            if (q.Count() > 0) {
                 return true;
             }
             return false;
@@ -107,7 +107,7 @@ namespace Awareness.db.mssql
             #endif
             return reasons;
         }
-        
+
         public override float GetLastEnergyForRecipe(DalRecipe recipe)
         {
             float energy = 0, quantity = 0;
@@ -120,7 +120,7 @@ namespace Awareness.db.mssql
                                             where m.When == lastWhen
                                             select m;
 
-                foreach (DalMeal meal in meals){
+                foreach (DalMeal meal in meals) {
                     quantity += meal.Quantity;
                     energy += meal.What.GetEnergy(meal.Quantity);
                 }
@@ -139,22 +139,22 @@ namespace Awareness.db.mssql
                                         where m.WhyId == recipe.Id
                                         select m;
 
-            foreach (DalMeal meal in meals){
+            foreach (DalMeal meal in meals) {
                 quantity += meal.Quantity;
                 energy += meal.What.GetEnergy(meal.Quantity);
             }
 
-            if (energy == 0){
+            if (energy == 0) {
                 return 0;
             }
 
             return DalFood.QUANTITY_FOR_ENERGY * energy / quantity;
         }
-        
+
         public override IEnumerable<DalMeal> GetMealsTimeDesc(int history)
         {
             IQueryable<DalMeal> meals = from m in dataContext.meals
-                                        
+
                                         orderby m.When descending, m.What.Name
                                         select m;
             if (history > 0) {
@@ -162,7 +162,7 @@ namespace Awareness.db.mssql
             }
             return meals;
         }
-        
+
         DalTransaction GetRecipeTransaction(DalRecipe why, DateTime when)
         {
             DalTransaction recipeTransaction = null;
@@ -172,13 +172,13 @@ namespace Awareness.db.mssql
                                                   where t.When == when
                                                   select t;
 
-            if (cookings.Count() > 0){
+            if (cookings.Count() > 0) {
                 recipeTransaction = cookings.First();
             }
 
             return recipeTransaction;
         }
-        
+
         DalAccount GetFoodsAccount()
         {
             return (DalAccount) dataContext.GetTransferLocationById(DataStorage.ACCOUNT_FOODS_ID);
@@ -188,7 +188,7 @@ namespace Awareness.db.mssql
         {
             return (DalAccount) dataContext.GetTransferLocationById(DataStorage.ACCOUNT_RECIPES_ID);
         }
-        
+
         int GetRecipeConstituentCount(DalRecipe recipe, DateTime when)
         {
             IQueryable<DalMeal> meals = from m in dataContext.meals
@@ -197,7 +197,72 @@ namespace Awareness.db.mssql
                                         select m;
             return meals.Count();
         }
-        
-        
+
+        public override DalNote GetTodoNote()
+        {
+            DalNote note = null;
+            try {
+                note = dataContext.notes.Where(n => n.ParentId == DataStorage.NOTE_TODOS_ID).First();
+            } catch (InvalidOperationException ex) {
+                if (ex.Message == "Sequence contains no elements") {
+                    note = new DalNote();
+                    note.Title = "Todo list";
+                    note.Text = "";
+                    note.IsPermanent = true;
+                    note.Parent = dataContext.GetNoteById(DataStorage.NOTE_TODOS_ID);
+                    InsertNote(note);
+                }
+            }
+            return note;
+        }
+
+        public override decimal GetTotalOutAmmount(DalTransferLocation location)
+        {
+            decimal ammount = 0;
+            IQueryable<DalTransaction> locationTransactions = dataContext.transactions.Where(t => t.FromId == location.Id);
+            foreach (DalTransaction transaction in locationTransactions) {
+                ammount += transaction.Ammount;
+            }
+            return ammount;
+        }
+
+        public override decimal GetTotalInAmmount(DalTransferLocation location)
+        {
+            decimal ammount = 0;
+            IQueryable<DalTransaction> locationTransactions = dataContext.transactions.Where(t => t.ToId == location.Id);
+            foreach (DalTransaction transaction in locationTransactions) {
+                ammount += transaction.Ammount;
+            }
+            return ammount;
+        }
+
+        public override decimal GetBalance(DalAccount a)
+        {
+            return a.StartingBalance + GetTotalInAmmount(a) - GetTotalOutAmmount(a);
+        }
+
+        public override IEnumerable<DalAction> GetRootActions()
+        {
+            IQueryable<DalAction> actions = from a in dataContext.actions
+                                            where a.Id > 1
+                                            where a.ParentId == 1
+                                            select a;
+            return actions;
+        }
+
+        public override IEnumerable<DalAction> GetChildActions(DalAction action)
+        {
+            IQueryable<DalAction> actions = from a in dataContext.actions
+                                            where a.Id > 1
+                                            where a.ParentId == action.Id
+                                            select a;
+            return actions;
+        }
+
+        DalAction GetRootAction()
+        {
+            return dataContext.GetActionById(DataStorage.ACTION_ROOT_ID);
+        }
+
     }
 }

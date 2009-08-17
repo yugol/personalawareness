@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2008 Iulian GORIAC
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -34,17 +34,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Awareness.db.mssql;
 
+using Awareness.db.mssql;
 using NUnit.Framework;
 
 namespace Awareness.db
 {
     [TestFixture]
-    public class DumperTest {
+    public class DumperTest
+    {
         IDictionary<string, DateTime> dateTimeMap = new Dictionary<string, DateTime>();
 
-        void PopulateDb(){
+        void PopulateDb()
+        {
             AwarenessDataContext dc = DBUtil.GetDataContext();
 
             DalAccount ra1 = (DalAccount) dc.GetTransferLocationById(DataStorage.ACCOUNT_FOODS_ID);
@@ -52,11 +54,11 @@ namespace Awareness.db
 
             DalBudgetCategory bc1 = new DalBudgetCategory() {
                 IsIncome = true, Name = "bc1"
-            };
+                                    };
             DBUtil.InsertTransferLocation(bc1, null);
             DalBudgetCategory bc2 = new DalBudgetCategory() {
                 IsIncome = false, Name = "bc'2'"
-            };
+                                     };
             DBUtil.InsertTransferLocation(bc2, null);
 
             DalAccountType at1 = new DalAccountType { Name = "at1" };
@@ -69,80 +71,80 @@ namespace Awareness.db
 
             DalAccount a1 = new DalAccount() {
                 AccountType = at1, Name = "a1", StartingBalance = -10m
-            };
+                                      };
             DBUtil.InsertTransferLocation(a1, null);
             DalAccount a2 = new DalAccount() {
                 AccountType = at2, Name = "a'2'", StartingBalance = 0.01m
-            };
+                                      };
             DBUtil.InsertTransferLocation(a2, null);
 
             DalReason tr1 = new DalReason() {
                 Name = "tr1"
-            };
+                   };
             DBUtil.InsertTransactionReason(tr1, null);
             DalReason tr2 = new DalReason() {
                 Name = "tr'2'"
-            };
+                   };
             DBUtil.InsertTransactionReason(tr2, null);
             DalFood tr3 = new DalFood() {
                 Name = "tr3", Energy = 50
-            };
+                                   };
             DBUtil.InsertTransactionReason(tr3, null);
             DalRecipe tr4 = new DalRecipe() {
                 Name = "r1"
-            };
+                   };
             DBUtil.InsertTransactionReason(tr4, null);
             DalConsumer tr5 = new DalConsumer() {
                 Name = "c1"
-            };
+                   };
             DBUtil.InsertTransactionReason(tr5, null);
 
             DalTransaction t1 = new DalTransaction() {
                 When = new DateTime(2008, 01, 02), From = bc1, To = a1, Reason = tr1, Ammount = 1m, Quantity = 0
-            };
+                    };
             DBUtil.InsertTransaction(t1, null);
             DalTransaction t2 = new DalTransaction() {
                 When = new DateTime(2008, 03, 04), From = a1, To = a2, Reason = tr2, Ammount = 2m, Quantity = 1
-            };
+                    };
             DBUtil.InsertTransaction(t2, null);
             DalTransaction t3 = new DalTransaction() {
                 When = new DateTime(2008, 05, 06), From = a2, To = bc2, Reason = tr3, Ammount = 3m, Quantity = 200
-            };
+                    };
             DBUtil.InsertTransaction(t3, null);
             DalTransaction t4 = new DalTransaction() {
                 When = new DateTime(2008, 07, 08), From = ra1, To = ra2, Reason = tr4, Ammount = 0m, Quantity = 1400
-            };
+                    };
             DBUtil.InsertTransaction(t4, null);
 
             DalMeal m1 = new DalMeal() {
                 When = new DateTime(2008, 07, 08), What = tr3, Quantity = 150, Why = tr5
-            };
+                    };
             DBUtil.InsertMeal(m1);
             DalMeal m2 = new DalMeal() {
                 When = new DateTime(2008, 07, 09), What = tr3, Quantity = 200, Why = tr4
-            };
+                    };
             DBUtil.InsertMeal(m2);
             DalMeal m3 = new DalMeal() {
                 When = new DateTime(2008, 07, 10), What = tr4, Quantity = 250, Why = tr5
-            };
+                    };
             DBUtil.InsertMeal(m3);
 
             DalNote rootNote = dc.GetNoteById(DataStorage.NOTE_ROOT_ID);
             DalNote n1 = new DalNote() {
                 Parent = rootNote, IsExpanded = true, Icon = 0, Title = "n1"
-            };
+                                            };
             DBUtil.InsertNote(n1);
             DalNote n2 = new DalNote() {
                 Parent = rootNote, IsExpanded = true, Icon = 1, Title = "n2"
-            };
+                                            };
             DBUtil.InsertNote(n2);
             DalNote n3 = new DalNote() {
                 Parent = n2, IsExpanded = false, Icon = 2, Title = "n3", Text = "for (int i = 0; i < 10; ++i);"
-            };
+                                                    };
             DBUtil.InsertNote(n3);
             DalNote n4 = new DalNote() {
                 Parent = n1, IsExpanded = false, Icon = 2, Title = "n4", Text = ""
-            };
+                                                    };
             DBUtil.InsertNote(n4);
             n3.Parent = n4;
             DBUtil.UpdateNote(n3);
@@ -155,28 +157,29 @@ namespace Awareness.db
             DalAction rootAction = dc.GetActionById(DataStorage.ACTION_ROOT_ID);
             DalAction act1 = new DalAction() {
                 Parent = rootAction, Name = "act1"
-            };
+                                        };
             DBUtil.InsertAction(act1, null);
             DalAction act2 = new DalAction() {
                 Parent = rootAction, Name = "act2"
-            };
+                                        };
             act2.HasWindowReminder = true;
             act2.HasSoundReminder = true;
             act2.HasCommandReminder = true;
             DBUtil.InsertAction(act2, null);
             act1.Parent = act2;
             DBUtil.UpdateAction(act1, null);
-            
+
             Configuration.StorageProperties.CurrencySymbol = "USD";
             DBUtil.UpdateProperties();
         }
 
         [Test]
-        public void _RunMeFirst_DumpRestore(){
+        public void _RunMeFirst_DumpRestore()
+        {
             PopulateDb();
 
             AwarenessDataContext dc = DBUtil.GetDataContext();
-            
+
             DalProperties dbProp = DBUtil.GetProperties();
             Assert.AreEqual(1.00F, dbProp.DBVersion);
             XmlProperties xmlProp = new XmlProperties(dbProp.Xml);
@@ -278,11 +281,12 @@ namespace Awareness.db
             Assert.IsTrue(act.HasSoundReminder);
             Assert.IsTrue(act.HasCommandReminder);
             act = dc.GetActionById(DataStorage.RESERVED_ACTIONS + 2);
-            Assert.AreEqual("act1", act.Name);            
+            Assert.AreEqual("act1", act.Name);
         }
 
         [Test]
-        public void DumpAccountTypes(){
+        public void DumpAccountTypes()
+        {
             StringWriter writer = new StringWriter();
             Dumper dd = new Dumper(DBUtil.GetDataContext());
             dd.DumpAccountTypes(writer, null);
@@ -293,7 +297,8 @@ namespace Awareness.db
         }
 
         [Test]
-        public void DumpTransferLocations(){
+        public void DumpTransferLocations()
+        {
             StringWriter writer = new StringWriter();
             Dumper dd = new Dumper(DBUtil.GetDataContext());
             dd.DumpTransferLocations(writer, null, null);
@@ -306,7 +311,8 @@ namespace Awareness.db
         }
 
         [Test]
-        public void DumpTransactionReasons(){
+        public void DumpTransactionReasons()
+        {
             StringWriter writer = new StringWriter();
             Dumper dd = new Dumper(DBUtil.GetDataContext());
             dd.DumpReasons(writer, null);
@@ -320,7 +326,8 @@ namespace Awareness.db
         }
 
         [Test]
-        public void DumpTransactions(){
+        public void DumpTransactions()
+        {
             StringWriter writer = new StringWriter();
             Dumper dd = new Dumper(DBUtil.GetDataContext());
             dd.DumpTransactions(writer, null, null, null);
@@ -334,7 +341,8 @@ namespace Awareness.db
         }
 
         [Test]
-        public void DumpMeals(){
+        public void DumpMeals()
+        {
             StringWriter writer = new StringWriter();
             Dumper dd = new Dumper(DBUtil.GetDataContext());
             dd.DumpMeals(writer, null);
@@ -346,7 +354,8 @@ namespace Awareness.db
         }
 
         [Test]
-        public void DumpNotes(){
+        public void DumpNotes()
+        {
             StringWriter writer = new StringWriter();
             Dumper dd = new Dumper(DBUtil.GetDataContext());
             dd.DumpNotes(writer);
@@ -362,7 +371,8 @@ namespace Awareness.db
         }
 
         // [Test]
-        public void SqlServerEscapedString(){
+        public void SqlServerEscapedString()
+        {
             System.Console.WriteLine();
             string str = "abc\r\nabc";
             System.Console.WriteLine("'" + str + "'");
@@ -373,13 +383,15 @@ namespace Awareness.db
         }
 
         [TestFixtureSetUp]
-        public void Init(){
+        public void Init()
+        {
             DBUtil.CreateDataContext(DBTest.TEST_DB_NAME);
             DBUtil.OpenDataContext(DBTest.TEST_DB_NAME);
         }
 
         [TestFixtureTearDown]
-        public void Dispose(){
+        public void Dispose()
+        {
             DBUtil.DeleteDataContext();
         }
     }

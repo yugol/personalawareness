@@ -3,7 +3,7 @@
  * User: Iulian
  * Date: 7/25/2009
  * Time: 1:36 PM
- * 
+ *
  *
  * Copyright (c) 2008, 2009 Iulian GORIAC
  *
@@ -59,7 +59,7 @@ namespace Awareness.db.mssql
                 DalNote note = (reason.HasNote) ? (reason.Note) : (null);
                 dataContext.transactionReasons.DeleteOnSubmit(reason);
                 dataContext.SubmitChanges();
-                if (note != null){
+                if (note != null) {
                     DeleteNote(note);
                 }
                 NotifyTransactionReasonsChanged(reason);

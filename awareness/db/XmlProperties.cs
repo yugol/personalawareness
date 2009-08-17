@@ -42,10 +42,12 @@ namespace Awareness.db
 
         public string XmlString
         {
-            get { return BuildPropertiesXml(); }
+            get {
+                return BuildPropertiesXml();
+            }
             set {
                 XmlDocument xmlDoc = new XmlDocument();
-                if (string.IsNullOrEmpty(value)){
+                if (string.IsNullOrEmpty(value)) {
                     xmlDoc.LoadXml(BuildPropertiesXml());
                 } else {
                     xmlDoc.LoadXml(value);
@@ -67,33 +69,39 @@ namespace Awareness.db
         }
 
         private string currencySymbol = "$";
-        public string CurrencySymbol 
+        public string CurrencySymbol
         {
-            get { return currencySymbol; }
-            set 
-            {
+            get {
+                return currencySymbol;
+            }
+            set {
                 currencySymbol = value;
             }
         }
 
         private bool placeCurrencySymbolAfterValue = false;
-        public bool PlaceCurrencySymbolAfterValue 
+        public bool PlaceCurrencySymbolAfterValue
         {
-            get { return placeCurrencySymbolAfterValue; }
-            set
-            {
+            get {
+                return placeCurrencySymbolAfterValue;
+            }
+            set {
                 placeCurrencySymbolAfterValue = value;
             }
         }
 
         private int lastMealReportReason = 0 ;
-        public int LastMealReportReason 
+        public int LastMealReportReason
         {
-            get { return lastMealReportReason; }
-            set { lastMealReportReason = value; }
+            get {
+                return lastMealReportReason;
+            }
+            set {
+                lastMealReportReason = value;
+            }
         }
 
-        public XmlProperties() 
+        public XmlProperties()
         {
             XmlString = null;
         }

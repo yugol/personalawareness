@@ -3,7 +3,7 @@
  * User: Iulian
  * Date: 7/23/2009
  * Time: 3:41 PM
- * 
+ *
  *
  * Copyright (c) 2008, 2009 Iulian GORIAC
  *
@@ -33,14 +33,14 @@ namespace Awareness.db.mssql
     public partial class DataStorage : Awareness.db.DataStorage
     {
         AwarenessDataContext dataContext;
-        
-        public DataStorage(string storageId) 
-            : base(storageId)
+
+        public DataStorage(string storageId)
+        : base(storageId)
         {
             Open();
             nick = Path.GetFileName(storageId);
         }
-        
+
         void Open()
         {
             if (!File.Exists(ConnectionString)) {
@@ -50,24 +50,24 @@ namespace Awareness.db.mssql
                 dataContext = new AwarenessDataContext(ConnectionString);
             }
         }
-        
+
         void ReOpen()
         {
             Close();
             Open();
         }
-        
+
         public override void Close()
         {
             dataContext.Connection.Close();
             dataContext.Dispose();
         }
-        
+
         public override void Delete()
         {
             dataContext.Connection.Close();
             dataContext.DeleteDatabase();
         }
-        
+
     }
 }

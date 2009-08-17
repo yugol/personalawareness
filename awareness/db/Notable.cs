@@ -32,8 +32,15 @@ using System;
 namespace Awareness.db
 {
     public interface Notable {
-        DalNote Note { get; set; }
-        bool HasNote { get; }
-        string Name { get; }
+        DalNote Note {
+            get;
+            set;
+        }
+        bool HasNote {
+            get;
+        }
+        string Name {
+            get;
+        }
     }
 }

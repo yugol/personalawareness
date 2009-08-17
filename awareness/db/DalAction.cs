@@ -30,12 +30,12 @@ using System;
 using System.Collections.Generic;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
-using Awareness.db.mssql;
 
 namespace Awareness.db
 {
     [Table(Name = "actions")]
-    public class DalAction : Notable {
+    public class DalAction : Notable
+    {
         public const string MaxNameCharCount = "100";
         public const string DefaultNewActionName = "New Action";
         public const string DefaultNewGroupName = "New Group";
@@ -44,7 +44,8 @@ namespace Awareness.db
         public const byte TYPE_TODO = 1;
         public const byte TYPE_TASK = 2;
 
-        public DalAction(){
+        public DalAction()
+        {
             Start = DataUtil.RemoveMilliseconds(DateTime.Now);
         }
 
@@ -57,7 +58,9 @@ namespace Awareness.db
                 CanBeNull = false)]
         public int Id
         {
-            get { return _id; }
+            get {
+                return _id;
+            }
         }
 
         int _parentId = DataStorage.ACTION_ROOT_ID;
@@ -67,7 +70,9 @@ namespace Awareness.db
                 CanBeNull = false)]
         public int ParentId
         {
-            get { return _parentId; }
+            get {
+                return _parentId;
+            }
         }
 
         private EntityRef<DalAction> _parent;
@@ -75,9 +80,10 @@ namespace Awareness.db
                      ThisKey = "ParentId")]
         public DalAction Parent
         {
-            get { return _parent.Entity; }
-            set
-            {
+            get {
+                return _parent.Entity;
+            }
+            set {
                 // SHOULD: create reparent method in dbutil class
                 _parent.Entity = value;
                 _parentId = value.Id;
@@ -91,10 +97,11 @@ namespace Awareness.db
                 CanBeNull = false)]
         public byte Type
         {
-            get { return _type; }
-            set
-            {
-                if (_type != value){
+            get {
+                return _type;
+            }
+            set {
+                if (_type != value) {
                     _type = value;
                 }
             }
@@ -107,8 +114,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public bool IsExpanded
         {
-            get { return _expanded; }
-            set { _expanded = value; }
+            get {
+                return _expanded;
+            }
+            set {
+                _expanded = value;
+            }
         }
 
         bool _checked = false;
@@ -118,8 +129,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public bool IsChecked
         {
-            get { return _checked; }
-            set { _checked = value; }
+            get {
+                return _checked;
+            }
+            set {
+                _checked = value;
+            }
         }
 
         string _name = null;
@@ -129,8 +144,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public string Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get {
+                return _name;
+            }
+            set {
+                _name = value;
+            }
         }
 
         int _noteId = DataStorage.NOTE_ROOT_ID;
@@ -140,7 +159,9 @@ namespace Awareness.db
                 CanBeNull = false)]
         public int NoteId
         {
-            get { return _noteId; }
+            get {
+                return _noteId;
+            }
         }
 
         private EntityRef<DalNote> _note;
@@ -148,9 +169,10 @@ namespace Awareness.db
                      ThisKey = "NoteId")]
         public DalNote Note
         {
-            get { return _note.Entity; }
-            set
-            {
+            get {
+                return _note.Entity;
+            }
+            set {
                 _note.Entity = value;
                 _noteId = value.Id;
             }
@@ -158,7 +180,9 @@ namespace Awareness.db
 
         public bool HasNote
         {
-            get { return _noteId != DataStorage.NOTE_ROOT_ID; }
+            get {
+                return _noteId != DataStorage.NOTE_ROOT_ID;
+            }
         }
 
         bool _timePlanned = false;
@@ -168,11 +192,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public bool IsTimePlanned
         {
-            get { return _timePlanned; }
-            set
-            {
+            get {
+                return _timePlanned;
+            }
+            set {
                 _timePlanned = value;
-                if (!value){
+                if (!value) {
                     Start = Start.Date;
                     // UpdateRecurrence();
                     End = End.Date;
@@ -187,17 +212,18 @@ namespace Awareness.db
                 CanBeNull = false)]
         public DateTime Start
         {
-            get { return _start; }
-            set
-            {
-                if (value.CompareTo(Configuration.MAX_DATE_TIME) > 0){
+            get {
+                return _start;
+            }
+            set {
+                if (value.CompareTo(Configuration.MAX_DATE_TIME) > 0) {
                     value = Configuration.MAX_DATE_TIME;
                 }
-                if (value.CompareTo(Configuration.MIN_DATE_TIME) < 0){
+                if (value.CompareTo(Configuration.MIN_DATE_TIME) < 0) {
                     value = Configuration.MIN_DATE_TIME;
                 }
                 _start = value;
-                if (_start.CompareTo(_end) > 0){
+                if (_start.CompareTo(_end) > 0) {
                     _end = _start;
                 } else {
                     UpdateRecurrence();
@@ -212,23 +238,21 @@ namespace Awareness.db
                 CanBeNull = false)]
         public DateTime End
         {
-            get 
-            { 
+            get {
                 if (Type == TYPE_TODO) {
-                    return Start;    
+                    return Start;
                 }
                 return _end;
             }
-            set
-            {
-                if (value.CompareTo(Configuration.MAX_DATE_TIME) > 0){
+            set {
+                if (value.CompareTo(Configuration.MAX_DATE_TIME) > 0) {
                     value = Configuration.MAX_DATE_TIME;
                 }
-                if (value.CompareTo(Configuration.MIN_DATE_TIME) < 0){
+                if (value.CompareTo(Configuration.MIN_DATE_TIME) < 0) {
                     value = Configuration.MIN_DATE_TIME;
                 }
                 _end = value;
-                if (_start.CompareTo(_end) > 0){
+                if (_start.CompareTo(_end) > 0) {
                     _start = _end;
                 } else {
                     UpdateRecurrence();
@@ -243,8 +267,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public bool IsRecurrent
         {
-            get { return _recurrent; }
-            set { _recurrent = value; }
+            get {
+                return _recurrent;
+            }
+            set {
+                _recurrent = value;
+            }
         }
 
         UInt32 _pattern = Configuration.DEFAULT_RECURRENCE_PATTERN.Pattern;
@@ -254,22 +282,26 @@ namespace Awareness.db
                 CanBeNull = false)]
         public UInt32 Pattern
         {
-            get { return _pattern; }
+            get {
+                return _pattern;
+            }
         }
 
         public RecurrencePattern RecurrencePattern
         {
-            get { return new RecurrencePattern(_pattern); }
-            set
-            {
+            get {
+                return new RecurrencePattern(_pattern);
+            }
+            set {
                 _pattern = value.Pattern;
                 UpdateRecurrence();
             }
         }
 
-        void UpdateRecurrence(){
-            if (!IsRepeatIndefinitely){
-                if (IsRepeatNoOfTimes){
+        void UpdateRecurrence()
+        {
+            if (!IsRepeatIndefinitely) {
+                if (IsRepeatNoOfTimes) {
                     RepeatTimes = RepeatTimes;
                 } else {
                     RepeatUntil = RepeatUntil;
@@ -284,8 +316,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public bool IsRepeatNoOfTimes
         {
-            get { return _repeatNoOfTimes; }
-            set { _repeatNoOfTimes = value; }
+            get {
+                return _repeatNoOfTimes;
+            }
+            set {
+                _repeatNoOfTimes = value;
+            }
         }
 
         DateTime _repeatUntil = Configuration.ZERO_DATE;
@@ -295,33 +331,35 @@ namespace Awareness.db
                 CanBeNull = false)]
         public DateTime RepeatUntil
         {
-            get { return _repeatUntil; }
-            set
-            {
-                if (value.CompareTo(Configuration.MAX_DATE_TIME) > 0){
+            get {
+                return _repeatUntil;
+            }
+            set {
+                if (value.CompareTo(Configuration.MAX_DATE_TIME) > 0) {
                     value = Configuration.MAX_DATE_TIME;
                 }
-                if (value.CompareTo(Configuration.MIN_DATE_TIME) < 0){
+                if (value.CompareTo(Configuration.MIN_DATE_TIME) < 0) {
                     value = Configuration.MIN_DATE_TIME;
                 }
                 _repeatUntil = value;
 
                 _repeatTimes = -1;
                 if (_repeatUntil.CompareTo(Start) <= 0||
-                    Configuration.MAX_DATE_TIME.CompareTo(_repeatUntil) <= 0){
+                        Configuration.MAX_DATE_TIME.CompareTo(_repeatUntil) <= 0) {
                     _repeatUntil = Configuration.ZERO_DATE;
                 }
             }
         }
 
-        int CalculateRepeatTimes(){
+        int CalculateRepeatTimes()
+        {
             int counter = 0;
-            if (!_repeatUntil.Equals(Configuration.ZERO_DATE)){
+            if (!_repeatUntil.Equals(Configuration.ZERO_DATE)) {
                 RecurrencePattern p = RecurrencePattern;
                 DateTime temp = p.NextOccurrence(Start);
-                while (temp.CompareTo(_repeatUntil) <= 0){
+                while (temp.CompareTo(_repeatUntil) <= 0) {
                     ++counter;
-                    if (counter >= Configuration.MAX_REPEAT_TIMES){
+                    if (counter >= Configuration.MAX_REPEAT_TIMES) {
                         counter = 0;
                         break;
                     }
@@ -334,23 +372,21 @@ namespace Awareness.db
         int _repeatTimes = -1;
         public int RepeatTimes
         {
-            get
-            {
-                if (_repeatTimes < 0){
+            get {
+                if (_repeatTimes < 0) {
                     _repeatTimes =  CalculateRepeatTimes();
                 }
                 return _repeatTimes;
             }
-            set
-            {
+            set {
                 _repeatTimes = value;
 
-                if (0 < _repeatTimes&&_repeatTimes < Configuration.MAX_REPEAT_TIMES){
+                if (0 < _repeatTimes&&_repeatTimes < Configuration.MAX_REPEAT_TIMES) {
                     RecurrencePattern p = RecurrencePattern;
                     _repeatUntil = _start;
-                    for (int i = 0; i < _repeatTimes; ++i){
+                    for (int i = 0; i < _repeatTimes; ++i) {
                         _repeatUntil = p.NextOccurrence(_repeatUntil);
-                        if (Configuration.MAX_DATE_TIME.CompareTo(_repeatUntil) <= 0){
+                        if (Configuration.MAX_DATE_TIME.CompareTo(_repeatUntil) <= 0) {
                             _repeatTimes = 0;
                             break;
                         }
@@ -359,7 +395,7 @@ namespace Awareness.db
                     _repeatTimes = 0;
                 }
 
-                if (_repeatTimes == 0){
+                if (_repeatTimes == 0) {
                     _repeatUntil = Configuration.ZERO_DATE;
                 }
             }
@@ -367,12 +403,16 @@ namespace Awareness.db
 
         public bool IsRepeatIndefinitely
         {
-            get { return _repeatUntil.Equals(Configuration.ZERO_DATE); }
+            get {
+                return _repeatUntil.Equals(Configuration.ZERO_DATE);
+            }
         }
 
         public TimeSpan Duration
         {
-            get { return End.Subtract(Start); }
+            get {
+                return End.Subtract(Start);
+            }
         }
 
         bool _hasWindowReminder = false;
@@ -382,8 +422,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public bool HasWindowReminder
         {
-            get { return _hasWindowReminder; }
-            set { _hasWindowReminder = value; }
+            get {
+                return _hasWindowReminder;
+            }
+            set {
+                _hasWindowReminder = value;
+            }
         }
 
         int _reminderDuration = 0;
@@ -393,8 +437,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public int ReminderDuration
         {
-            get { return _reminderDuration; }
-            set { _reminderDuration = value; }
+            get {
+                return _reminderDuration;
+            }
+            set {
+                _reminderDuration = value;
+            }
         }
 
         bool _hasCommandReminder = false;
@@ -404,8 +452,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public bool HasCommandReminder
         {
-            get { return _hasCommandReminder; }
-            set { _hasCommandReminder = value; }
+            get {
+                return _hasCommandReminder;
+            }
+            set {
+                _hasCommandReminder = value;
+            }
         }
 
         string _reminderCommand = null;
@@ -416,8 +468,12 @@ namespace Awareness.db
                 UpdateCheck = UpdateCheck.Never)]
         public string ReminderCommand
         {
-            get { return _reminderCommand; }
-            set { _reminderCommand = value; }
+            get {
+                return _reminderCommand;
+            }
+            set {
+                _reminderCommand = value;
+            }
         }
 
         bool _hasSoundReminder = false;
@@ -427,8 +483,12 @@ namespace Awareness.db
                 CanBeNull = false)]
         public bool HasSoundReminder
         {
-            get { return _hasSoundReminder; }
-            set { _hasSoundReminder = value; }
+            get {
+                return _hasSoundReminder;
+            }
+            set {
+                _hasSoundReminder = value;
+            }
         }
 
         string _reminderSound = null;
@@ -439,49 +499,56 @@ namespace Awareness.db
                 UpdateCheck = UpdateCheck.Never)]
         public string ReminderSound
         {
-            get { return _reminderSound; }
-            set { _reminderSound = value; }
+            get {
+                return _reminderSound;
+            }
+            set {
+                _reminderSound = value;
+            }
         }
 
         public bool HasReminder
         {
-            get { return HasWindowReminder||HasSoundReminder||HasCommandReminder; }
+            get {
+                return HasWindowReminder||HasSoundReminder||HasCommandReminder;
+            }
         }
 
-        public List<ActionOccurrence> GetOccurrences(TimeInterval interval){
+        public List<ActionOccurrence> GetOccurrences(TimeInterval interval)
+        {
             List<ActionOccurrence> occurrences = new List<ActionOccurrence>();
 
             TimeInterval when = new TimeInterval(Start, End);
             TimeInterval occurrenceInterval = interval.Intersect(when);
-            if (occurrenceInterval != null){
+            if (occurrenceInterval != null) {
                 ActionOccurrence occurrence = new ActionOccurrence(this, occurrenceInterval);
                 occurrences.Add(occurrence);
             }
 
-            if (IsRecurrent){
+            if (IsRecurrent) {
                 DateTime recurrenceFirst = RecurrencePattern.NextOccurrence(Start);
-                
-                if (recurrenceFirst.CompareTo(Configuration.MAX_DATE_TIME) <= 0){
+
+                if (recurrenceFirst.CompareTo(Configuration.MAX_DATE_TIME) <= 0) {
                     TimeSpan actionDuration = Duration;
 
                     TimeInterval recurrenceInterval = null;
 
-                    if (IsRepeatIndefinitely){
+                    if (IsRepeatIndefinitely) {
                         recurrenceInterval = new TimeInterval(recurrenceFirst, Configuration.MAX_DATE_TIME);
                     } else {
                         recurrenceInterval = new TimeInterval(recurrenceFirst, RepeatUntil.Add(actionDuration));
                     }
 
-                    if (interval.Intersect(recurrenceInterval) != null){
+                    if (interval.Intersect(recurrenceInterval) != null) {
                         do {
                             when = new TimeInterval(recurrenceFirst, recurrenceFirst.Add(actionDuration));
                             occurrenceInterval = interval.Intersect(when);
-                            if (occurrenceInterval != null){
+                            if (occurrenceInterval != null) {
                                 ActionOccurrence occurrence = new ActionOccurrence(this, occurrenceInterval);
                                 occurrences.Add(occurrence);
                             }
                             recurrenceFirst = RecurrencePattern.NextOccurrence(recurrenceFirst);
-                            if (!IsRepeatIndefinitely&&RepeatUntil.CompareTo(recurrenceFirst) < 0){
+                            if (!IsRepeatIndefinitely&&RepeatUntil.CompareTo(recurrenceFirst) < 0) {
                                 break;
                             }
                         } while (when.Second.CompareTo(interval.Second) <= 0);

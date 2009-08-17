@@ -27,20 +27,16 @@
  */
 
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
 using Awareness.db;
 
-namespace Awareness.ui
-{
-    public partial class FormMain : Form
-    {
+namespace Awareness.ui {
+    public partial class FormMain : Form {
         string genericTitle = "Personal Awareness";
-        
-        public FormMain()
-        {
+
+        public FormMain() {
             InitializeComponent();
 
             #if !DEBUG
@@ -48,7 +44,7 @@ namespace Awareness.ui
             #endif
 
             trayIcon.Visible = true;
-            
+
             transactionsControl.SelectPanelExpanded = false;
             transactionsControl.EditPanelExpanded = true;
 
@@ -58,27 +54,24 @@ namespace Awareness.ui
             financialPages.Dock = DockStyle.Fill;
 
             financesControl.AccountDoubleClick += new AccountDoubleClickHandler(ShowAllTransactionsForAccount);
-            
+
             Controller.StorageOpened += new DataChangedHandler(OpenStorageUpdate);
             Controller.StorageClosing += new DataChangedHandler(CloseStorageUpdate);
         }
-        
-        void OpenStorageUpdate()
-        {
+
+        void OpenStorageUpdate() {
             SetTitle(genericTitle + " - " + Controller.Storage.Nick);
             SetDataOperatonsVisible(true);
             SelectActionsView();
         }
-        
-        void CloseStorageUpdate()
-        {
+
+        void CloseStorageUpdate() {
             SetTitle(genericTitle);
             SetDataOperatonsVisible(false);
             ResetPanelsView();
         }
-        
-        void SetDataOperatonsVisible(bool b)
-        {
+
+        void SetDataOperatonsVisible(bool b) {
             editToolStripMenuItem.Visible = b;
             mealsToolStripMenuItem.Visible = b;
 
@@ -89,18 +82,18 @@ namespace Awareness.ui
 
             remindersToolButton.Visible = b;
             todoToolButton.Visible = b;
-            
+
             remindersToolStripMenuItem.Visible = b;
             todoListToolStripMenuItem.Visible = b;
         }
-        
+
 
         internal void SetTitle(string title) {
             Text = title;
             trayIcon.Text = title;
         }
-        
-        internal void DisableEnableActions(){
+
+        internal void DisableEnableActions() {
             bool isDbOperational = !string.IsNullOrEmpty(Configuration.LastStorageId);
             editToolStripMenuItem.Visible = isDbOperational;
             mealsToolStripMenuItem.Visible = isDbOperational;
@@ -112,18 +105,18 @@ namespace Awareness.ui
 
             remindersToolButton.Visible = isDbOperational;
             todoToolButton.Visible = isDbOperational;
-            
+
             remindersToolStripMenuItem.Visible = isDbOperational;
             todoListToolStripMenuItem.Visible = isDbOperational;
 
             ResetPanelsView();
         }
 
-        void UpdateStatusTime(){
+        void UpdateStatusTime() {
             timeStatusLabel.Text = DateTime.Now.ToString(Configuration.SATUS_DATE_TIME_FORMAT);
         }
 
-        void StatusTimerTick(object sender, EventArgs e){
+        void StatusTimerTick(object sender, EventArgs e) {
             UpdateStatusTime();
         }
 
@@ -133,67 +126,61 @@ namespace Awareness.ui
         }
 
         #region FormManagement
-        
+
         // const int WM_QUERYENDSESSION = 0x11;
         // bool endSessionPending = false;
         FormWindowState savedWindowState;
-        
+
         /*
         protected override void WndProc(ref Message m) {
-        	if (m.Msg == WM_QUERYENDSESSION) {
+         if (m.Msg == WM_QUERYENDSESSION) {
                 endSessionPending = true;
-        	}
+         }
             base.WndProc(ref m);
         }
          */
 
-        void FormMainLoad(object sender, EventArgs e)
-        {
+        void FormMainLoad(object sender, EventArgs e) {
             CloseStorageUpdate();
             UpdateStatusTime();
             statusTimer.Start();
-            
+
             if (!string.IsNullOrEmpty(Configuration.LastStorageId)) {
                 Controller.OpenStorage(Configuration.LastStorageId);
             }
         }
-        
-        void FormMainResize(object sender, EventArgs e)
-        {
+
+        void FormMainResize(object sender, EventArgs e) {
             switch (WindowState) {
-                case FormWindowState.Maximized:
-                    savedWindowState = FormWindowState.Maximized;
-                    break;
-                case FormWindowState.Normal:
-                    savedWindowState = FormWindowState.Normal;
-                    break;
-                case FormWindowState.Minimized:
-                    MinimizeToTray();
-                    break;
+            case FormWindowState.Maximized:
+                savedWindowState = FormWindowState.Maximized;
+                break;
+            case FormWindowState.Normal:
+                savedWindowState = FormWindowState.Normal;
+                break;
+            case FormWindowState.Minimized:
+                MinimizeToTray();
+                break;
             }
         }
 
-        void TrayIconDoubleClick(object sender, EventArgs e)
-        {
+        void TrayIconDoubleClick(object sender, EventArgs e) {
             RestoreFromTray();
         }
 
-        void TrayIconMouseDown(object sender, MouseEventArgs e)
-        {
+        void TrayIconMouseDown(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 RestoreFromTray();
             }
         }
-        
-        private void MinimizeToTray()
-        {
+
+        private void MinimizeToTray() {
             WindowState = FormWindowState.Minimized;
             Visible = false;
             ShowInTaskbar = false;
         }
 
-        private void RestoreFromTray()
-        {
+        private void RestoreFromTray() {
             ShowInTaskbar = true;
             Visible = true;
             WindowState = savedWindowState;
@@ -201,27 +188,26 @@ namespace Awareness.ui
 
         /*
         void FormMainFormClosing(object sender, FormClosingEventArgs e) {
-        	if ((!endSessionPending) &&
-        		(MessageBox.Show("Are you sure you want to quit Persoanl Awareness?",
-        	                    "Personal Awareness",
-        	                    MessageBoxButtons.YesNo,
-        	                    MessageBoxIcon.Question,
-        	                    MessageBoxDefaultButton.Button2) != DialogResult.Yes)) {
-        		e.Cancel = true;
-        	}
+         if ((!endSessionPending) &&
+          (MessageBox.Show("Are you sure you want to quit Persoanl Awareness?",
+                             "Personal Awareness",
+                             MessageBoxButtons.YesNo,
+                             MessageBoxIcon.Question,
+                             MessageBoxDefaultButton.Button2) != DialogResult.Yes)) {
+          e.Cancel = true;
+         }
         }
          */
 
-        void FormMainFormClosed(object sender, FormClosedEventArgs e){
+        void FormMainFormClosed(object sender, FormClosedEventArgs e) {
             DBUtil.CloseDataContext();
         }
-        
+
         #endregion
 
         #region Panels
-        
-        void ResetPanelsView()
-        {
+
+        void ResetPanelsView() {
             actionPages.Visible = false;
             notesViewer.Visible = false;
             mealPanel.Visible = false;
@@ -234,7 +220,7 @@ namespace Awareness.ui
         }
 
         public void SelectActionsView() {
-            if (!actionsToolButton.Checked){
+            if (!actionsToolButton.Checked) {
                 ResetPanelsView();
                 UpdateActionsPages();
                 actionPages.Visible = true;
@@ -243,7 +229,7 @@ namespace Awareness.ui
         }
 
         public void SelectNotesView() {
-            if (!notesToolButton.Checked){
+            if (!notesToolButton.Checked) {
                 ResetPanelsView();
                 notesViewer.Visible = true;
                 notesToolButton.Checked = true;
@@ -251,7 +237,7 @@ namespace Awareness.ui
         }
 
         public void SelectMealsView() {
-            if (!mealsToolButton.Checked){
+            if (!mealsToolButton.Checked) {
                 ResetPanelsView();
                 UpdateMealPages();
                 mealPanel.Visible = true;
@@ -260,7 +246,7 @@ namespace Awareness.ui
         }
 
         public void SelectFinancesView() {
-            if (!financesToolButton.Checked){
+            if (!financesToolButton.Checked) {
                 ResetPanelsView();
                 UpdateFinancialPages();
                 financialPages.Visible = true;
@@ -268,22 +254,22 @@ namespace Awareness.ui
             }
         }
 
-        void ActionPagesSelecting(object sender, TabControlCancelEventArgs e){
+        void ActionPagesSelecting(object sender, TabControlCancelEventArgs e) {
             UpdateActionsPages();
         }
 
-        void MealPagesSelected(object sender, TabControlEventArgs e){
+        void MealPagesSelected(object sender, TabControlEventArgs e) {
             UpdateMealPages();
         }
 
-        void FinancialPagesSelected(object sender, TabControlEventArgs e){
+        void FinancialPagesSelected(object sender, TabControlEventArgs e) {
             UpdateFinancialPages();
         }
 
         void UpdateActionsPages() {
             dayActionsReportControl.IsDisplayed = false;
             weekActionsReport.IsDisplayed = false;
-            if (actionPages.SelectedTab.Equals(dayPage)){
+            if (actionPages.SelectedTab.Equals(dayPage)) {
                 dayActionsReportControl.IsDisplayed = true;
             } else if (actionPages.SelectedTab.Equals(weekPage)) {
                 weekActionsReport.IsDisplayed = true;
@@ -293,7 +279,7 @@ namespace Awareness.ui
         void UpdateMealPages() {
             mealsDailyReportControl.IsDisplayed = false;
             availableFoodsControl.IsDisplayed = false;
-            if (mealPages.SelectedTab.Equals(dailyPage)){
+            if (mealPages.SelectedTab.Equals(dailyPage)) {
                 mealsDailyReportControl.IsDisplayed = true;
             } else if (mealPages.SelectedTab.Equals(availableFoodsPage)) {
                 availableFoodsControl.IsDisplayed = true;
@@ -303,9 +289,9 @@ namespace Awareness.ui
         void UpdateFinancialPages() {
             financesControl.IsDisplayed = false;
             transactionsControl.IsDisplayed = false;
-            if (financialPages.SelectedTab.Equals(accountsPage)){
+            if (financialPages.SelectedTab.Equals(accountsPage)) {
                 financesControl.IsDisplayed = true;
-            } else if (financialPages.SelectedTab.Equals(transactionsPage)){
+            } else if (financialPages.SelectedTab.Equals(transactionsPage)) {
                 transactionsControl.IsDisplayed = true;
             }
         }
@@ -313,12 +299,12 @@ namespace Awareness.ui
         #endregion
 
         #region MainMenu
-        
-        void BuddiExportToolStripMenuItemClick(object sender, EventArgs e){
+
+        void BuddiExportToolStripMenuItemClick(object sender, EventArgs e) {
             #if DEBUG
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Buddi export (*.csv)|*.csv";
-            if (ofd.ShowDialog() == DialogResult.OK){
+            if (ofd.ShowDialog() == DialogResult.OK) {
                 try {
                     ImporterBuddy importer = new ImporterBuddy(DBUtil.GetDataContext());
                     importer.Import(ofd.FileName);
@@ -331,10 +317,10 @@ namespace Awareness.ui
             #endif
         }
 
-        void DumpToolStripMenuItemClick(object sender, EventArgs e){
+        void DumpToolStripMenuItemClick(object sender, EventArgs e) {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "SQL Script (*.sql)|*.sql";
-            if (sfd.ShowDialog() == DialogResult.OK){
+            if (sfd.ShowDialog() == DialogResult.OK) {
                 StreamWriter writer = new StreamWriter(sfd.FileName, false);
                 try {
                     Dumper dd = new Dumper(DBUtil.GetDataContext());
@@ -343,25 +329,23 @@ namespace Awareness.ui
                 } catch (Exception ex) {
                     MessageBox.Show("There was an error when dumping the database.\n" + ex.Message, "Dump database",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    if (writer != null){
+                } finally {
+                    if (writer != null) {
                         writer.Close();
                     }
                 }
             }
         }
 
-        void DumpToolStripMenuItem1Click(object sender, EventArgs e){
+        void DumpToolStripMenuItem1Click(object sender, EventArgs e) {
             if (MessageBox.Show("This operation will COMPLETELY ERASE the current database!\nAre you sure you want to continue?",
                                 "Restore database",
                                 MessageBoxButtons.OKCancel,
                                 MessageBoxIcon.Question,
-                                MessageBoxDefaultButton.Button2) == DialogResult.OK){
+                                MessageBoxDefaultButton.Button2) == DialogResult.OK) {
                 OpenFileDialog ofd = new OpenFileDialog();
                 ofd.Filter = "SQL Script (*.sql)|*.sql";
-                if (ofd.ShowDialog() == DialogResult.OK){
+                if (ofd.ShowDialog() == DialogResult.OK) {
                     try {
                         DBUtil.RestoreFromSqlDump(ofd.FileName);
                         MessageBox.Show("Operation completed successfully.", "Restore database", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -373,19 +357,19 @@ namespace Awareness.ui
             }
         }
 
-        void ExitToolStripMenuItemClick(object sender, EventArgs e){
+        void ExitToolStripMenuItemClick(object sender, EventArgs e) {
             Close();
         }
-        
-        void BudgetCategoriesToolStripMenuItemClick(object sender, EventArgs e){
+
+        void BudgetCategoriesToolStripMenuItemClick(object sender, EventArgs e) {
             new FormEditBudgetCategories().ShowDialog();
         }
 
-        void AccoutTypesToolStripMenuItemClick(object sender, EventArgs e){
+        void AccoutTypesToolStripMenuItemClick(object sender, EventArgs e) {
             new FormEditAccountTypes().ShowDialog();
         }
 
-        void AccountsToolStripMenuItemClick(object sender, EventArgs e){
+        void AccountsToolStripMenuItemClick(object sender, EventArgs e) {
             try {
                 new FormEditAccounts().ShowDialog();
             } catch (ApplicationException) {
@@ -393,7 +377,7 @@ namespace Awareness.ui
             }
         }
 
-        void TransferreasonsToolStripMenuItemClick(object sender, EventArgs e){
+        void TransferreasonsToolStripMenuItemClick(object sender, EventArgs e) {
             new FormEditTransactionReasons().ShowDialog();
         }
 
@@ -402,95 +386,92 @@ namespace Awareness.ui
             dialog.ShowDialog();
         }
 
-        void ManageMealsToolStripMenuItemClick(object sender, EventArgs e){
+        void ManageMealsToolStripMenuItemClick(object sender, EventArgs e) {
             new FormManageMeals().ShowDialog();
         }
 
-        void AboutToolStripMenuItemClick(object sender, EventArgs e){
+        void AboutToolStripMenuItemClick(object sender, EventArgs e) {
             new FormAbout().ShowDialog();
         }
 
         #endregion
-        
+
         #region ToolBar
-        
-        void OpenToolButtonClick(object sender, EventArgs e)
-        {
+
+        void OpenToolButtonClick(object sender, EventArgs e) {
             OpenStorage();
         }
-        
-        void ActionsToolButtonClick(object sender, EventArgs e){
+
+        void ActionsToolButtonClick(object sender, EventArgs e) {
             SelectActionsView();
         }
 
-        void NotesToolButtonClick(object sender, EventArgs e){
+        void NotesToolButtonClick(object sender, EventArgs e) {
             SelectNotesView();
         }
 
-        void MealsToolButtonClick(object sender, EventArgs e){
+        void MealsToolButtonClick(object sender, EventArgs e) {
             SelectMealsView();
         }
 
-        void FinancesToolButtonClick(object sender, EventArgs e){
+        void FinancesToolButtonClick(object sender, EventArgs e) {
             SelectFinancesView();
         }
-        
-        
 
-        void CalculatorToolButtonClick(object sender, EventArgs e){
+
+
+        void CalculatorToolButtonClick(object sender, EventArgs e) {
             ManagerCalculator.Display();
         }
 
-        void TeaTimerToolButtonClick(object sender, EventArgs e){
+        void TeaTimerToolButtonClick(object sender, EventArgs e) {
             ManagerTeaTimer.Display();
         }
 
-        void RemindersToolButtonClick(object sender, EventArgs e){
+        void RemindersToolButtonClick(object sender, EventArgs e) {
             ManagerReminders.Instance.Display();
         }
 
-        void CalendarToolButtonClick(object sender, EventArgs e){
+        void CalendarToolButtonClick(object sender, EventArgs e) {
             ManagerCalendar.Display();
         }
 
-        void TodoToolButtonClick(object sender, EventArgs e){
+        void TodoToolButtonClick(object sender, EventArgs e) {
             ManagerTodo.Display();
         }
 
         #endregion
-        
+
         #region Tools
-        
+
         void CalculatorToolStripMenuItemClick(object sender, EventArgs e) {
             ManagerCalculator.Display();
         }
-        
+
         void TeaTimerToolStripMenuItemClick(object sender, EventArgs e) {
             ManagerTeaTimer.Display();
         }
-        
+
         void RemindersToolStripMenuItemClick(object sender, EventArgs e) {
             ManagerReminders.Instance.Display();
         }
-        
+
         void CalendarToolStripMenuItemClick(object sender, EventArgs e) {
             ManagerCalendar.Display();
         }
-        
+
         void TodoListToolStripMenuItemClick(object sender, EventArgs e) {
             ManagerTodo.Display();
         }
 
         #endregion
-        
-        
-        void OpenStorgeToolStripMenuItemClick(object sender, EventArgs e)
-        {
+
+
+        void OpenStorgeToolStripMenuItemClick(object sender, EventArgs e) {
             OpenStorage();
         }
 
-        void OpenStorage()
-        {
+        void OpenStorage() {
             OpenFileDialog fd = new OpenFileDialog();
             fd.Title = "Choose storage";
             fd.CheckFileExists = false;
