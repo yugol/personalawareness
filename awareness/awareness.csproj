@@ -70,7 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionOccurrence.cs" />
-    <Compile Include="ActionOpenDatabase.cs" />
     <Compile Include="BasicTimerable.cs" />
     <Compile Include="CalculatorLogic.cs" />
     <Compile Include="Configuration.cs" />

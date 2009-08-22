@@ -37,19 +37,24 @@ using Awareness.db;
 
 namespace Awareness.ui
 {
-    public partial class ControlMealsDailyReport : UserControl {
+    public partial class ControlMealsDailyReport : UserControl
+    {
         bool updateReportBit = true;
         bool isDisplayed = false;
 
-        public bool IsDisplayed {
-            get { return isDisplayed; }
+        public bool IsDisplayed
+        {
+            get {
+                return isDisplayed;
+            }
             set {
                 isDisplayed = value;
                 UpdateReport();
             }
         }
 
-        public ControlMealsDailyReport(){
+        public ControlMealsDailyReport()
+        {
             InitializeComponent();
 
             datePicker.JumpSize = EJumpSize.Day;
@@ -64,25 +69,23 @@ namespace Awareness.ui
             DBUtil.ConsumersChanged += new DatabaseChangedHandler(UpdateWhyCombo);
         }
 
-        void RequestUpdateReport() {
+        void RequestUpdateReport()
+        {
             updateReportBit = true;
             UpdateReport();
         }
 
-        void UpdateReport(){
-            if (isDisplayed&&updateReportBit){
+        void UpdateReport()
+        {
+            if (isDisplayed&&updateReportBit) {
                 mealsView.Items.Clear();
                 float totalEnergy = 0;
-                if (whyCombo.SelectedItem is DalReason){
-                    AwarenessDataContext dc = DBUtil.GetDataContext();
-                    DateTime date = datePicker.Value.Date;
-                    IEnumerable<DalMeal> meals = from m in dc.meals
-                                                 where m.When == date
-                                                 where m.Why.Id == ((DalReason) whyCombo.SelectedItem).Id
-                                                 orderby m.What.Name
-                                                 select m;
+                if (whyCombo.SelectedItem is DalReason) {
+                    IEnumerable<DalMeal> meals = Controller.Storage.GetMeals(
+                                                     datePicker.Value.Date,
+                                                     (DalReason) whyCombo.SelectedItem);
                     bool useAlternateBackground = false;
-                    foreach (DalMeal meal in meals){
+                    foreach (DalMeal meal in meals) {
                         float energy = meal.What.GetEnergy(meal.Quantity);
                         totalEnergy += energy;
                         ListViewItem item = new ListViewItem(meal.What.Name);
@@ -99,31 +102,35 @@ namespace Awareness.ui
             }
         }
 
-        void UpdateWhyCombo(){
+        void UpdateWhyCombo()
+        {
             Util.FillFoodConsumptionReasons(whyCombo, null);
             int id = Configuration.StorageProperties.LastMealReportReason;
-            foreach (object obj in whyCombo.Items){
-                if (obj is DalReason&&((DalReason) obj).Id == id){
+            foreach (object obj in whyCombo.Items) {
+                if (obj is DalReason&&((DalReason) obj).Id == id) {
                     whyCombo.SelectedItem = obj;
                 }
             }
         }
 
-        void DatePickerValueChanged(object sender, EventArgs e){
+        void DatePickerValueChanged(object sender, EventArgs e)
+        {
             RequestUpdateReport();
         }
 
-        void WhyComboSelectedIndexChanged(object sender, EventArgs e){
-            if (!(whyCombo.SelectedItem is DalReason)){
+        void WhyComboSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!(whyCombo.SelectedItem is DalReason)) {
                 whyCombo.SelectedItem = null;
             } else {
                 Configuration.StorageProperties.LastMealReportReason = ((DalReason) whyCombo.SelectedItem).Id;
-                DBUtil.UpdateProperties();
+                Controller.Storage.UpdateProperties(Configuration.StorageProperties);
             }
             RequestUpdateReport();
         }
 
-        void ControlMealsDailyReportLoad(object sender, EventArgs e){
+        void ControlMealsDailyReportLoad(object sender, EventArgs e)
+        {
             datePicker.Value = DateTime.Now;
         }
     }

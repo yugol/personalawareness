@@ -308,7 +308,7 @@ namespace Awareness.ui
             reason.Name = "_" + reasonCombo.Text;
             DalNote note = new DalNote();
             note.Text = "Automatically created when the first transaction with this reason was created";
-            DBUtil.InsertTransactionReason(reason, note);
+            Controller.Storage.InsertTransactionReason(reason, note);
             return reason;
         }
 
@@ -387,7 +387,7 @@ namespace Awareness.ui
                 if (IsTransactionValid()) {
                     DalTransaction transaction = new DalTransaction();
                     UiData2Transaction(ref transaction);
-                    DBUtil.InsertTransaction(transaction, noteControl.Note);
+                    Controller.Storage.InsertTransaction(transaction, noteControl.Note);
                     RequestReadTransactions();
                     ClearEditBoxes();
                 }
@@ -411,7 +411,7 @@ namespace Awareness.ui
             if (IsTransactionValid()){
                 DalTransaction transaction = transactionsView.SelectedTransaction;
                 UiData2Transaction(ref transaction);
-                DBUtil.UpdateTransaction(transaction, noteControl.Note);
+                Controller.Storage.UpdateTransaction(transaction, noteControl.Note);
                 RequestReadTransactions();
                 transactionsView.SelectedTransaction = transaction;
             }
@@ -423,7 +423,7 @@ namespace Awareness.ui
                                 MessageBoxButtons.OKCancel,
                                 MessageBoxIcon.Question,
                                 MessageBoxDefaultButton.Button2) == DialogResult.OK){
-                DBUtil.DeleteTransaction(transactionsView.SelectedTransaction);
+                Controller.Storage.DeleteTransaction(transactionsView.SelectedTransaction);
                 RequestReadTransactions();
                 EditMode = EEditModes.NEW;
             }

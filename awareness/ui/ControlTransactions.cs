@@ -27,23 +27,25 @@
  */
 
 using System;
-using System.ComponentModel;
-using System.Drawing;
+using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Linq;
 
 using Awareness.db;
 
 namespace Awareness.ui
 {
-    public partial class ControlTransactions : UserControl {
+    public partial class ControlTransactions : UserControl
+    {
         bool readTransferLocationsBit = true;
         bool readTransactionReasonsBit = true;
         bool readTransactionsBit = true;
         bool isDisplayed = false;
 
-        public bool IsDisplayed {
-            get { return isDisplayed; }
+        public bool IsDisplayed
+        {
+            get {
+                return isDisplayed;
+            }
             set {
                 isDisplayed = value;
                 ReadTransferLocations();
@@ -54,13 +56,14 @@ namespace Awareness.ui
 
         DalTransferLocation selectedTransferLocation = null;
         string reasonSelectionPattern = null;
-        IQueryable<DalTransaction> transactions = null;
+        IEnumerable<DalTransaction> transactions = null;
 
-        public ControlTransactions(){
+        public ControlTransactions()
+        {
             InitializeComponent();
 
             Util.SetMinMaxDatesAndShortFormatFor(datePicker);
-            
+
             fromCombo.DropDownHeight = 250;
             toCombo.DropDownHeight = 250;
 
@@ -83,50 +86,50 @@ namespace Awareness.ui
             DBUtil.PropertiesChanged += new DatabaseChangedHandler(RequestReadTransactions);
         }
 
-        void RequestReadTransferLocations(){
+        void RequestReadTransferLocations()
+        {
             readTransferLocationsBit = true;
             ReadTransferLocations();
         }
 
-        void ReadTransferLocations(){
-            if (isDisplayed&&readTransferLocationsBit){
+        void ReadTransferLocations()
+        {
+            if (isDisplayed&&readTransferLocationsBit) {
                 fromCombo.Items.Clear();
                 toCombo.Items.Clear();
 
-                IQueryable<DalAccount> accounts = DBUtil.GetAccounts();
-                IQueryable<DalBudgetCategory> budgetCategories = DBUtil.GetBudgetCategories();
-                IQueryable<DalBudgetCategory> incomes = budgetCategories.Where(bc => bc.IsIncome);
-                IQueryable<DalBudgetCategory> expenses = budgetCategories.Where(bc => !bc.IsIncome);
+                IEnumerable<DalAccount> accounts = Controller.Storage.GetAccounts();
+                IEnumerable<DalBudgetCategory> incomes = Controller.Storage.GetIncomeBudgetCategories();
+                IEnumerable<DalBudgetCategory> expenses = Controller.Storage.GetExpensesBudgetCategories();
 
                 fromCombo.Items.Add("---Accounts---");
-                foreach (DalTransferLocation item in accounts){
+                toCombo.Items.Add("---Accounts---");
+                foreach (DalTransferLocation item in accounts) {
                     fromCombo.Items.Add(item);
+                    toCombo.Items.Add(item);
                 }
+
                 fromCombo.Items.Add("");
                 fromCombo.Items.Add("---Budget categories---");
-                foreach (DalBudgetCategory item in incomes){
+                foreach (DalBudgetCategory item in incomes) {
                     fromCombo.Items.Add(item);
                 }
 
-                toCombo.Items.Add("---Accounts---");
-                foreach (DalTransferLocation item in accounts){
-                    toCombo.Items.Add(item);
-                }
                 toCombo.Items.Add("");
                 toCombo.Items.Add("---Budget categories---");
-                foreach (DalBudgetCategory item in expenses){
+                foreach (DalBudgetCategory item in expenses) {
                     toCombo.Items.Add(item);
                 }
 
                 transferLocationSelectionCombo.Items.Clear();
                 transferLocationSelectionCombo.Items.Add("(All)");
-                foreach (DalBudgetCategory item in expenses){
+                foreach (DalBudgetCategory item in expenses) {
                     transferLocationSelectionCombo.Items.Add(item);
                 }
-                foreach (DalBudgetCategory item in incomes){
+                foreach (DalBudgetCategory item in incomes) {
                     transferLocationSelectionCombo.Items.Add(item);
                 }
-                foreach (DalTransferLocation item in accounts){
+                foreach (DalTransferLocation item in accounts) {
                     transferLocationSelectionCombo.Items.Add(item);
                 }
                 readTransferLocationsBit = false;
@@ -134,16 +137,18 @@ namespace Awareness.ui
             }
         }
 
-        void RequestReadTransactionReasons(){
+        void RequestReadTransactionReasons()
+        {
             readTransactionReasonsBit = true;
             ReadTransactionReasons();
         }
 
-        void ReadTransactionReasons(){
-            if (isDisplayed&&readTransactionReasonsBit){
+        void ReadTransactionReasons()
+        {
+            if (isDisplayed&&readTransactionReasonsBit) {
                 reasonCombo.Items.Clear();
-                IQueryable<DalReason> reasons = DBUtil.GetTransferReasons();
-                foreach (DalReason reason in reasons){
+                IEnumerable<DalReason> reasons = Controller.Storage.GetTransactionReasons();
+                foreach (DalReason reason in reasons) {
                     reasonCombo.Items.Add(reason);
                 }
                 readTransactionReasonsBit = false;
@@ -151,18 +156,20 @@ namespace Awareness.ui
             }
         }
 
-        void RequestReadTransactions(){
+        void RequestReadTransactions()
+        {
             readTransactionsBit = true;
             ReadTransactions();
         }
 
-        void ReadTransactions(){
-            if (isDisplayed&&readTransactionsBit){
-                transactions = DBUtil.GetTransactions(timeIntervalSelectorControl.First, timeIntervalSelectorControl.Last);
-                if (selectedTransferLocation != null){
+        void ReadTransactions()
+        {
+            if (isDisplayed&&readTransactionsBit) {
+                transactions = Controller.Storage.GetTransactions(timeIntervalSelectorControl.First, timeIntervalSelectorControl.Last);
+                if (selectedTransferLocation != null) {
                     transactions = transactions.Where(t => (t.FromId == selectedTransferLocation.Id)||(t.ToId == selectedTransferLocation.Id));
                 }
-                if (reasonSelectionPattern != null){
+                if (reasonSelectionPattern != null) {
                     transactions = transactions.Where(t => t.Reason.Name.Contains(reasonSelectionPattern));
                 }
 
@@ -175,9 +182,10 @@ namespace Awareness.ui
             }
         }
 
-        public void ShowAllTransactionsForAccount(DalAccount account) {
-            foreach (object obj in transferLocationSelectionCombo.Items){
-                if (obj is DalTransferLocation&&((DalTransferLocation) obj).Id == account.Id){
+        public void ShowAllTransactionsForAccount(DalAccount account)
+        {
+            foreach (object obj in transferLocationSelectionCombo.Items) {
+                if (obj is DalTransferLocation&&((DalTransferLocation) obj).Id == account.Id) {
                     transferLocationSelectionCombo.SelectedItem = obj;
                 }
             }

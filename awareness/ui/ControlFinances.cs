@@ -28,9 +28,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 using Awareness.db;
@@ -39,21 +36,26 @@ namespace Awareness.ui
 {
     public delegate void AccountDoubleClickHandler(DalAccount account);
 
-    public partial class ControlFinances : UserControl {
+    public partial class ControlFinances : UserControl
+    {
         bool updateBalancesBit = true;
         bool isDisplayed = false;
 
         public event AccountDoubleClickHandler AccountDoubleClick;
 
-        public bool IsDisplayed {
-            get { return isDisplayed; }
+        public bool IsDisplayed
+        {
+            get {
+                return isDisplayed;
+            }
             set {
                 isDisplayed = value;
                 UpdateBalances();
             }
         }
 
-        public ControlFinances(){
+        public ControlFinances()
+        {
             InitializeComponent();
 
             DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateBalances);
@@ -63,33 +65,35 @@ namespace Awareness.ui
             DBUtil.PropertiesChanged += new DatabaseChangedHandler(RequestUpdateBalances);
         }
 
-        void RequestUpdateBalances() {
+        void RequestUpdateBalances()
+        {
             updateBalancesBit = true;
             UpdateBalances();
         }
 
-        void UpdateBalances(){
-            if (isDisplayed&&updateBalancesBit){
+        void UpdateBalances()
+        {
+            if (isDisplayed&&updateBalancesBit) {
                 accountsBalanceView.Items.Clear();
 
                 IDictionary<DalAccountType, decimal> accountTypeBalanceMap = new Dictionary<DalAccountType, decimal>();
                 IDictionary<DalAccount, decimal> accountBalanceMap = new Dictionary<DalAccount, decimal>();
 
-                IQueryable<DalAccountType> accountTypes = DBUtil.GetAccountTypes();
-                foreach (DalAccountType accountType in accountTypes){
+                IEnumerable<DalAccountType> accountTypes = Controller.Storage.GetAccountTypes();
+                foreach (DalAccountType accountType in accountTypes) {
                     accountTypeBalanceMap[accountType] = 0;
                 }
 
                 decimal netWorth = 0;
-                IQueryable<DalAccount> accounts = DBUtil.GetAccounts();
-                foreach (DalAccount account in accounts){
-                    accountBalanceMap[account] = DBUtil.GetBalance(account);
+                IEnumerable<DalAccount> accounts = Controller.Storage.GetAccounts();
+                foreach (DalAccount account in accounts) {
+                    accountBalanceMap[account] = Controller.Storage.GetBalance(account);
                     accountTypeBalanceMap[account.AccountType] += accountBalanceMap[account];
                     netWorth += accountBalanceMap[account];
                 }
 
                 bool useAlternateBackground = false;
-                foreach (DalAccountType accountType in accountTypes){
+                foreach (DalAccountType accountType in accountTypes) {
                     ListViewItem typeNode = new ListViewItem(accountType.Name);
                     typeNode.SubItems.Add(Util.FormatCurrency(accountTypeBalanceMap[accountType]));
                     typeNode.Font = Configuration.BOLD_FONT;
@@ -97,8 +101,8 @@ namespace Awareness.ui
                     useAlternateBackground = !useAlternateBackground;
                     accountsBalanceView.Items.Add(typeNode);
 
-                    foreach (DalAccount account in accounts){
-                        if (account.AccountTypeId == accountType.Id){
+                    foreach (DalAccount account in accounts) {
+                        if (account.AccountTypeId == accountType.Id) {
                             ListViewItem accountNode = new ListViewItem("      " + account.Name);
                             accountNode.SubItems.Add(Util.FormatCurrency(accountBalanceMap[account]));
                             accountNode.BackColor = useAlternateBackground ? Configuration.ALTERNATE_BACKGROUND : Configuration.NORMAL_BACKGROUND;
@@ -113,11 +117,12 @@ namespace Awareness.ui
             }
         }
 
-        void AccountsBalanceViewDoubleClick(object sender, EventArgs e){
-            if (accountsBalanceView.SelectedItems.Count > 0){
-                if (accountsBalanceView.SelectedItems[0].Tag is DalAccount){
+        void AccountsBalanceViewDoubleClick(object sender, EventArgs e)
+        {
+            if (accountsBalanceView.SelectedItems.Count > 0) {
+                if (accountsBalanceView.SelectedItems[0].Tag is DalAccount) {
                     DalAccount account = (DalAccount) accountsBalanceView.SelectedItems[0].Tag;
-                    if (AccountDoubleClick != null){
+                    if (AccountDoubleClick != null) {
                         AccountDoubleClick(account);
                     }
                 }

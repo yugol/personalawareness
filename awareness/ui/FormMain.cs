@@ -217,7 +217,7 @@ namespace Awareness.ui
 
         void FormMainFormClosed(object sender, FormClosedEventArgs e)
         {
-            DBUtil.CloseDataContext();
+            Controller.CloseStorage();
         }
 
         #endregion

@@ -32,17 +32,17 @@ using Awareness.db;
 
 namespace Awareness.ui
 {
-    public partial class ControlActionEdit : UserControl {
+    public partial class ControlActionEdit : UserControl
+    {
         bool processEvents = true;
 
         TreeNode node = null;
 
         public TreeNode Node
         {
-            set
-            {
+            set {
                 node = value;
-                if (node != null){
+                if (node != null) {
                     Action = (DalAction) node.Tag;
                 } else {
                     Action = null;
@@ -54,17 +54,15 @@ namespace Awareness.ui
 
         public DalAction Action
         {
-            get
-            {
+            get {
                 return action;
             }
-            set
-            {
+            set {
                 processEvents = false;
                 action = value;
 
                 errorProvider.Clear();
-                if (action == null){
+                if (action == null) {
                     Visible = false;
                 } else {
                     Visible = true;
@@ -77,9 +75,10 @@ namespace Awareness.ui
             }
         }
 
-        public ControlActionEdit(){
+        public ControlActionEdit()
+        {
             InitializeComponent();
-            
+
             Util.SetMinMaxDatesAndShortFormatFor(startDatePicker);
             Util.SetMinMaxDatesAndShortFormatFor(endDatePicker);
             Util.SetMinMaxDatesAndLongFormatFor(untilPicker);
@@ -91,26 +90,28 @@ namespace Awareness.ui
             soundSelector.TestClick += new EventHandler(SoundSelectorTestClick);
         }
 
-        void Data2UiGeneral(){
-            switch (action.Type){
-                case DalAction.TYPE_TODO:
-                    setEndCheck.Checked = false;
-                    SetTodoUi();
-                    break;
-                case DalAction.TYPE_TASK:
-                    setEndCheck.Checked = true;
-                    SetTaskUi();
-                    break;
-                case DalAction.TYPE_GROUP:
-                    SetGroupUi();
-                    break;
-                default:
-                    throw new ApplicationException("Unknown action type");
+        void Data2UiGeneral()
+        {
+            switch (action.Type) {
+            case DalAction.TYPE_TODO:
+                setEndCheck.Checked = false;
+                SetTodoUi();
+                break;
+            case DalAction.TYPE_TASK:
+                setEndCheck.Checked = true;
+                SetTaskUi();
+                break;
+            case DalAction.TYPE_GROUP:
+                SetGroupUi();
+                break;
+            default:
+                throw new ApplicationException("Unknown action type");
             }
             noteControl.Note = action.Note;
         }
 
-        void Data2UiPlan(){
+        void Data2UiPlan()
+        {
             startDatePicker.Value = action.Start;
             endDatePicker.Value = action.End;
             startTimePicker.Value = action.Start;
@@ -128,13 +129,13 @@ namespace Awareness.ui
 
             SetRecurrenceConstraints();
 
-            if (action.IsRepeatIndefinitely){
+            if (action.IsRepeatIndefinitely) {
                 indefinitelyRadio.Checked = true;
 
                 anotherUpDown.Value = 1;
                 untilPicker.Value = untilPicker.MinDate;
             } else {
-                if (action.IsRepeatNoOfTimes){
+                if (action.IsRepeatNoOfTimes) {
                     anotherRadio.Checked = true;
                     anotherUpDown.Enabled = true;
                 } else {
@@ -146,7 +147,8 @@ namespace Awareness.ui
             }
         }
 
-        void Data2UiReminder(){
+        void Data2UiReminder()
+        {
             usageLabel.Visible = !action.IsTimePlanned;
 
             showReminderCheck.Enabled = action.IsTimePlanned;
@@ -167,7 +169,8 @@ namespace Awareness.ui
             reminderDurationCombo.Text = Util.Minutes2TimeSpanString(action.ReminderDuration);
         }
 
-        void SetTodoUi(){
+        void SetTodoUi()
+        {
             SetReminderPageVisible(true);
 
             startDatePicker.Enabled = true;
@@ -188,7 +191,8 @@ namespace Awareness.ui
             recurrenceGroup.Visible = action.IsRecurrent;
         }
 
-        void SetTaskUi(){
+        void SetTaskUi()
+        {
             SetReminderPageVisible(true);
 
             startDatePicker.Enabled = true;
@@ -209,7 +213,8 @@ namespace Awareness.ui
             recurrenceGroup.Visible = action.IsRecurrent;
         }
 
-        void SetGroupUi(){
+        void SetGroupUi()
+        {
             SetReminderPageVisible(false);
 
             startDatePicker.Enabled = false;
@@ -230,23 +235,26 @@ namespace Awareness.ui
             recurrenceGroup.Visible = false;
         }
 
-        void SetReminderPageVisible(bool b){
-            if (actionPages.TabPages.Contains(reminderPage)){
-                if (!b){
+        void SetReminderPageVisible(bool b)
+        {
+            if (actionPages.TabPages.Contains(reminderPage)) {
+                if (!b) {
                     actionPages.TabPages.Remove(reminderPage);
                 }
             } else {
-                if (b){
+                if (b) {
                     actionPages.TabPages.Insert(1, reminderPage);
                 }
             }
         }
 
-        void UpdateDuration(){
+        void UpdateDuration()
+        {
             durationCombo.Text = Util.FormatTimeSpan(action.End.Subtract(action.Start));
         }
 
-        void Ui2DataStartTime(){
+        void Ui2DataStartTime()
+        {
             DateTime start = new DateTime(startDatePicker.Value.Year,
                                           startDatePicker.Value.Month,
                                           startDatePicker.Value.Day,
@@ -254,12 +262,13 @@ namespace Awareness.ui
                                           startTimePicker.Value.Minute,
                                           0);
             action.Start = start;
-            if (action.Type == DalAction.TYPE_TODO){
+            if (action.Type == DalAction.TYPE_TODO) {
                 action.End = start;
             }
         }
 
-        void Ui2DataEndTime(){
+        void Ui2DataEndTime()
+        {
             DateTime end = new DateTime(endDatePicker.Value.Year,
                                         endDatePicker.Value.Month,
                                         endDatePicker.Value.Day,
@@ -269,23 +278,21 @@ namespace Awareness.ui
             action.End = end;
         }
 
-        void SetRecurrenceConstraints(){
-            try
-            {
+        void SetRecurrenceConstraints()
+        {
+            try {
                 untilPicker.MinDate = action.RecurrencePattern.NextOccurrence(action.Start);
+            } catch (Exception) {
+                untilPicker.MinDate = untilPicker.MaxDate;
             }
-            catch (Exception)
-            {
-                untilPicker.MinDate = untilPicker.MaxDate;   
-            }            
-        }        
-        
+        }
+
         public void UpdateAction()
         {
             if (action != null) {
-                DBUtil.UpdateAction(action, noteControl.Note);
+                Controller.Storage.UpdateAction(action, noteControl.Note);
             }
         }
-        
+
     }
 }

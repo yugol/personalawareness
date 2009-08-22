@@ -119,7 +119,11 @@ namespace Awareness
             }
             storage = null;
         }
-
+        
+        public static bool IsDbAvailable()
+        {
+            return (storage != null);
+        }
 
     }
 }

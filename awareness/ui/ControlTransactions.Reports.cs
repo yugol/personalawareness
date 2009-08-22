@@ -61,7 +61,6 @@ namespace Awareness.ui
             IQueryable<NameAmmount> pieSlices = from t in transactions
                                                 where t.To.IsBudget&&!((DalBudgetCategory) t.To).IsIncome
                                                 group t by t.To into slice
-                                                // orderby slice.Key.Name
                                                 select new NameAmmount() {
                 Name = slice.Key.Name, Ammount = slice.Sum(t => t.Ammount)
             };

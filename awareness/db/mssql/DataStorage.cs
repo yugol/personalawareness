@@ -82,6 +82,8 @@ namespace Awareness.db.mssql
             }
             ReOpen();
         }
-        
+
+
+
     }
 }

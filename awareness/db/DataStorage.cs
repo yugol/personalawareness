@@ -56,7 +56,29 @@ namespace Awareness.db
         public const int NOTE_ACTIONS_ID = 9;
         public const int NOTE_TODOS_ID = 10;
 
-        #region Events & handling
+        string connectionString;
+        public string ConnectionString
+        {
+            get {
+                return connectionString;
+            }
+        }
+
+        protected string nick;
+        public string Nick
+        {
+            get {
+                return nick;
+            }
+        }
+
+        public DataStorage(string connectionString)
+        {
+            this.connectionString = connectionString;
+            this.nick = connectionString;
+        }
+
+        #region Events
 
         public event DataChangedHandler AccountTypesChanged;
         public event DataChangedHandler TransferLocationsChanged;
@@ -72,6 +94,105 @@ namespace Awareness.db
         public event DataChangedHandler TransactionsChanged;
         public event DataChangedHandler ActionsChanged;
 
+        #endregion
+
+        #region Interface
+
+        public abstract void Close();
+        public abstract void Delete();
+        public abstract void RestoreDb(TextReader reader);
+
+
+        /* Read | Query */
+
+        public abstract DalProperties GetProperties();
+        public abstract DalNote GetRootNote();
+        public abstract DalNote GetTodoNote();
+        public abstract DalAccount GetFoodsAccount();
+        public abstract DalAccount GetRecipesAccount();
+        public abstract DalAction GetRootAction();
+
+        public abstract IEnumerable<DalAccountType> GetAccountTypes();
+        public abstract IEnumerable<DalAccount> GetAccounts();
+        public abstract IEnumerable<DalBudgetCategory> GetBudgetCategories();
+        public abstract bool IsTransferLocationUsed(DalTransferLocation transferLocation);
+        public abstract IEnumerable<DalReason> GetTransactionReasons(sbyte reasonType);
+        public abstract float GetLastEnergyForRecipe(DalRecipe recipe);
+        public abstract float GetAverageEnergyForRecipe(DalRecipe recipe);
+        public abstract IEnumerable<DalMeal> GetMealsTimeDesc(int history);
+        public abstract IEnumerable<DalMeal> GetMeals(DateTime date, DalReason why);
+        public abstract decimal GetTotalOutAmmount(DalTransferLocation location);
+        public abstract decimal GetTotalInAmmount(DalTransferLocation location);
+        public abstract decimal GetBalance(DalAccount a);
+        public abstract IEnumerable<DalAction> GetRootActions();
+        public abstract IEnumerable<DalAction> GetChildActions(DalAction action);
+        public abstract IEnumerable<DalConsumer> GetConsumers();
+        public abstract IEnumerable<DalRecipe> GetRecipes();
+        public abstract IEnumerable<DalFood> GetFoods();
+        public abstract List<ActionOccurrence> GetUncheckedActionOccurencesWithReminder(TimeInterval interval);
+        public abstract List<ActionOccurrence> GetActionOccurrences(TimeInterval interval);
+        public abstract float GetAvailableQuantity(DalFood reason);
+        public abstract IEnumerable<DalNote> GetRootNotes();
+        public abstract IEnumerable<DalNote> GetChildNotes(DalNote note);
+        public abstract IEnumerable<DalBudgetCategory> GetIncomeBudgetCategories();
+        public abstract IEnumerable<DalBudgetCategory> GetExpensesBudgetCategories();
+        public abstract IEnumerable<DalReason> GetTransactionReasons();
+
+        public abstract IEnumerable<DalAccountType> GetDumperAccountTypes();
+        public abstract IEnumerable<DalTransferLocation> GetDumperTransferLocations();
+        public abstract IEnumerable<DalReason> GetDumperTransactionReasons();
+        public abstract IEnumerable<DalTransaction> GetDumperTransactions();
+        public abstract IEnumerable<DalMeal> GetDumperMeals();
+        public abstract IEnumerable<DalNote> GetDumperNotes(int parentId);
+        public abstract IEnumerable<DalAction> GetDumperActions(int parentId);
+        public abstract IEnumerable<DalNote> GetNotes();
+        public abstract IEnumerable<DalAction> GetActions();
+
+
+        /* Create, Update, Delete */
+
+        // Notes
+        public abstract void InsertNote(DalNote note);
+        public abstract void UpdateNote(DalNote note);
+        public abstract void DeleteNote(DalNote note);
+
+        // AccountTypes
+        public abstract void InsertAccountType(DalAccountType accountTypes, DalNote note);
+        public abstract void UpdateAccountType(DalAccountType accountTypes, DalNote note);
+        public abstract void DeleteAccountType(DalAccountType accountType);
+
+        // Transfer Locations
+        public abstract void InsertTransferLocation(DalTransferLocation transferLocation, DalNote note);
+        public abstract void UpdateTransferLocation(DalTransferLocation transferLocation, DalNote note);
+        public abstract void DeleteTransferLocation(DalTransferLocation transferLocation);
+
+        // Transaction Reasons
+        public abstract void InsertTransactionReason(DalReason reason, DalNote note);
+        public abstract void UpdateTransactionReason(DalReason reason, DalNote note);
+        public abstract void UpdateTransactionReason(int id, sbyte type, string name, float energy, DalNote note);
+        public abstract void DeleteTransactionReason(DalReason reason);
+
+        // Properties
+        public abstract void UpdateProperties(XmlProperties xmlProp);
+
+        // Meals
+        public abstract void InsertMeal(DalMeal meal);
+        public abstract void DeleteMeal(DalMeal meal);
+
+        // Transactions
+        public abstract void InsertTransaction(DalTransaction transaction, DalNote note);
+        public abstract void UpdateTransaction(DalTransaction transaction, DalNote note);
+        public abstract void DeleteTransaction(DalTransaction transaction);
+
+        // Actions
+        public abstract void InsertAction(DalAction action, DalNote note);
+        public abstract void UpdateAction(DalAction action, DalNote note);
+        public abstract void UpdateActionNoNotification(DalAction action, DalNote note);
+        public abstract void DeleteActionRec(DalAction action);
+
+        #endregion
+
+        #region Event handling
 
         protected void NotifyAccountTypesChanged()
         {
@@ -150,106 +271,19 @@ namespace Awareness.db
 
         #endregion
 
-        string connectionString;
-        public string ConnectionString
+        #region Util
+
+        protected List<ActionOccurrence> SplitAndSortOccurrences(TimeInterval interval, IEnumerable<DalAction> actions)
         {
-            get {
-                return connectionString;
+            List<ActionOccurrence> occurrences = new List<ActionOccurrence>();
+            foreach (DalAction action in actions) {
+                occurrences.AddRange(action.GetOccurrences(interval));
             }
+            occurrences.Sort();
+            return occurrences;
         }
 
-        protected string nick;
-        public string Nick
-        {
-            get {
-                return nick;
-            }
-        }
-
-        public DataStorage(string connectionString)
-        {
-            this.connectionString = connectionString;
-            this.nick = connectionString;
-        }
-
-        public abstract void Close();
-        public abstract void Delete();
-        public abstract void RestoreDb(TextReader reader);
-
-
-        /* Read | Query */
-
-        public abstract DalProperties GetProperties();
-        public abstract DalNote GetRootNote();
-        public abstract DalNote GetTodoNote();
-        public abstract DalAccount GetFoodsAccount();
-        public abstract DalAccount GetRecipesAccount();
-        public abstract DalAction GetRootAction();
-
-        public abstract IEnumerable<DalAccountType> GetAccountTypes();
-        public abstract IEnumerable<DalAccount> GetAccounts();
-        public abstract IEnumerable<DalBudgetCategory> GetBudgetCategories();
-        public abstract bool IsTransferLocationUsed(DalTransferLocation transferLocation);
-        public abstract IEnumerable<DalReason> GetTransactionReasons(sbyte reasonType);
-        public abstract float GetLastEnergyForRecipe(DalRecipe recipe);
-        public abstract float GetAverageEnergyForRecipe(DalRecipe recipe);
-        public abstract IEnumerable<DalMeal> GetMealsTimeDesc(int history);
-        public abstract decimal GetTotalOutAmmount(DalTransferLocation location);
-        public abstract decimal GetTotalInAmmount(DalTransferLocation location);
-        public abstract decimal GetBalance(DalAccount a);
-        public abstract IEnumerable<DalAction> GetRootActions();
-        public abstract IEnumerable<DalAction> GetChildActions(DalAction action);
-
-        public abstract IEnumerable<DalAccountType> GetDumperAccountTypes();
-        public abstract IEnumerable<DalTransferLocation> GetDumperTransferLocations();
-        public abstract IEnumerable<DalReason> GetDumperTransactionReasons();
-        public abstract IEnumerable<DalTransaction> GetDumperTransactions();
-        public abstract IEnumerable<DalMeal> GetDumperMeals();
-        public abstract IEnumerable<DalNote> GetDumperNotes(int parentId);
-        public abstract IEnumerable<DalAction> GetDumperActions(int parentId);
-        public abstract IEnumerable<DalNote> GetNotes();
-        public abstract IEnumerable<DalAction> GetActions();
-        
-
-        /* Create, Update, Delete */
-
-        // Notes
-        public abstract void InsertNote(DalNote note);
-        public abstract void UpdateNote(DalNote note);
-        public abstract void DeleteNote(DalNote note);
-
-        // AccountTypes
-        public abstract void InsertAccountType(DalAccountType accountTypes, DalNote note);
-        public abstract void UpdateAccountType(DalAccountType accountTypes, DalNote note);
-        public abstract void DeleteAccountType(DalAccountType accountType);
-
-        // Transfer Locations
-        public abstract void InsertTransferLocation(DalTransferLocation transferLocation, DalNote note);
-        public abstract void UpdateTransferLocation(DalTransferLocation transferLocation, DalNote note);
-        public abstract void DeleteTransferLocation(DalTransferLocation transferLocation);
-
-        // Transaction Reasons
-        public abstract void InsertTransactionReason(DalReason reason, DalNote note);
-        public abstract void UpdateTransactionReason(DalReason reason, DalNote note);
-        public abstract void UpdateTransactionReason(int id, sbyte type, string name, float energy, DalNote note);
-        public abstract void DeleteTransactionReason(DalReason reason);
-
-        // Properties
-        public abstract void UpdateProperties(XmlProperties xmlProp);
-
-        // Meals
-        public abstract void InsertMeal(DalMeal meal);
-        public abstract void DeleteMeal(DalMeal meal);
-
-        // Transactions
-        public abstract void InsertTransaction(DalTransaction transaction, DalNote note);
-        public abstract void UpdateTransaction(DalTransaction transaction, DalNote note);
-        public abstract void DeleteTransaction(DalTransaction transaction);
-
-        // Actions
-        public abstract void InsertAction(DalAction action, DalNote note);
-        public abstract void UpdateAction(DalAction action, DalNote note);
-        public abstract void DeleteActionRec(DalAction action);
+        #endregion
 
     }
 }

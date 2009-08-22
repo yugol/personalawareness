@@ -57,13 +57,13 @@ namespace Awareness.db.mssql
         {
             return dataContext.notes;
         }
-        
+
         public override IEnumerable<DalAction> GetActions()
         {
             return dataContext.actions;
         }
-        
-        
+
+
         public override IEnumerable<DalAccountType> GetAccountTypes()
         {
             IQueryable<DalAccountType> accountTypes = null;
@@ -110,6 +110,22 @@ namespace Awareness.db.mssql
                          select c;
             #endif
             return categories;
+        }
+
+        public override IEnumerable<DalReason> GetTransactionReasons()
+        {
+            IQueryable<DalReason> reasons = null;
+            #if DEBUG
+            reasons = from r in dataContext.transactionReasons
+                      orderby r.Name
+                      select r;
+            #else
+            reasons = from r in dataContext.transactionReasons
+                      where (r.Type == DalReason.TYPE_DEFAULT)||(r.Type == DalReason.TYPE_FOOD)
+                      orderby r.Name
+                      select r;
+            #endif
+            return reasons;
         }
 
         public override bool IsTransferLocationUsed(DalTransferLocation tl)
@@ -310,6 +326,134 @@ namespace Awareness.db.mssql
             return dataContext.transferLocations.Where(r => r.Id > DataStorage.RESERVED_TRANSFER_LOCATIONS);
         }
 
+        public override IEnumerable<DalConsumer> GetConsumers()
+        {
+            return from r in dataContext.transactionReasons.OfType<DalConsumer>()
+                   orderby r.Name
+                   select r;
+        }
 
+        public override IEnumerable<DalRecipe> GetRecipes()
+        {
+            return from r in dataContext.transactionReasons.OfType<DalRecipe>()
+                   orderby r.Name
+                   select r;
+        }
+
+        public override IEnumerable<DalFood> GetFoods()
+        {
+            return dataContext.transactionReasons.OfType<DalFood>().OrderBy(f => f.Name);
+        }
+
+        public override List<ActionOccurrence> GetUncheckedActionOccurencesWithReminder(TimeInterval interval)
+        {
+            IQueryable<DalAction> actions = dataContext.actions
+                                            .Where(a => a.Type != DalAction.TYPE_GROUP)
+                                            .Where(a => !a.IsChecked)
+                                            .Where(a => a.HasCommandReminder||a.HasSoundReminder||a.HasWindowReminder);
+            return SplitAndSortOccurrences(interval, actions);
+        }
+
+        public override List<ActionOccurrence> GetActionOccurrences(TimeInterval interval)
+        {
+            IQueryable<DalAction> actions = from a in dataContext.actions
+                                            where a.Type != DalAction.TYPE_GROUP
+                                            orderby a.Start, a.End, a.Name
+                                            select a;
+            return SplitAndSortOccurrences(interval, actions);
+        }
+
+        public override float GetAvailableQuantity(DalFood reason)
+        {
+            try {
+                return reason.AvailableQuantity;
+            } catch (CashEmptyException) {
+                reason.AvailableQuantity = GetTransactedQuantity(reason) - GetConsumedQuantity(reason);
+                dataContext.SubmitChanges();
+                return reason.AvailableQuantity;
+            }
+        }
+
+        float GetConsumedQuantity(DalFood reason)
+        {
+            float quantity = 0;
+            IQueryable<DalMeal> reasonMeals = dataContext.meals.Where(m => m.WhatId == reason.Id);
+            foreach (DalMeal meal in reasonMeals) {
+                quantity += meal.Quantity;
+            }
+            return quantity;
+        }
+
+        float GetTransactedQuantity(DalFood reason)
+        {
+            float quantity = 0;
+            IQueryable<DalTransaction> reasonTransactions = dataContext.transactions.Where(t => t.ReasonId == reason.Id);
+            foreach (DalTransaction transaction in reasonTransactions) {
+                quantity += GetCompositeQuantity(transaction);
+            }
+            return quantity;
+        }
+
+        float GetCompositeQuantity(DalTransaction transaction)
+        {
+            if (transaction.Reason is DalRecipe) {
+                float quantity = 0;
+
+                IQueryable<DalMeal> meals = from m in dataContext.meals
+                                            where m.WhyId == transaction.ReasonId
+                                            where m.When.Equals(transaction.When)
+                                            select m;
+
+                if (meals.Count()> 0) {
+                    foreach (DalMeal meal in meals) {
+                        quantity += meal.Quantity;
+                    }
+                }
+
+                return quantity;
+            } else {
+                return transaction.Quantity;
+            }
+        }
+
+        public override IEnumerable<DalMeal> GetMeals(DateTime date, DalReason why)
+        {
+            IQueryable<DalMeal> meals = from m in dataContext.meals
+                                        where m.When == date
+                                        where m.Why.Id == why.Id
+                                        orderby m.What.Name
+                                        select m;
+            return meals;
+        }
+
+        public override IEnumerable<DalNote> GetRootNotes()
+        {
+            IQueryable<DalNote> notes = from n in dataContext.notes
+                                        where n.Id > 1
+                                        where n.ParentId == 1
+                                        orderby n.Title
+                                        select n;
+            return notes;
+        }
+
+        public override IEnumerable<DalNote> GetChildNotes(DalNote note)
+        {
+            IQueryable<DalNote> notes = from n in dataContext.notes
+                                        where n.Id > 1
+                                        where n.ParentId == note.Id
+                                        orderby n.Title
+                                        select n;
+            return notes;
+        }
+
+        public override IEnumerable<DalBudgetCategory> GetIncomeBudgetCategories()
+        {
+            return GetBudgetCategories().Where(bc => bc.IsIncome);
+        }
+
+        public override IEnumerable<DalBudgetCategory> GetExpensesBudgetCategories()
+        {
+            return GetBudgetCategories().Where(bc => !bc.IsIncome);
+        }
     }
 }

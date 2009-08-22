@@ -48,7 +48,7 @@ namespace Awareness.db.mssql
             NotifyActionsChanged();
         }
 
-        void UpdateActionNoNotification(DalAction action, DalNote note)
+        public override void UpdateActionNoNotification(DalAction action, DalNote note)
         {
             PreludeUpdateNotable(action, note, DataStorage.NOTE_ACTIONS_ID);
         }
