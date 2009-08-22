@@ -29,20 +29,23 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
-using Awareness.db.mssql;
+
 using Awareness.db;
+using Awareness.db.mssql;
 
 namespace Awareness.ui
 {
-    public partial class ControlAvailableFoods : UserControl {
+    public partial class ControlAvailableFoods : UserControl
+    {
         bool updateAvailableFoodsBit = true;
         bool isDisplayed = false;
 
-        public bool IsDisplayed {
-            get { return isDisplayed; }
+        public bool IsDisplayed
+        {
+            get {
+                return isDisplayed;
+            }
             set {
                 isDisplayed = value;
                 UpdateAvailableFoods();
@@ -52,9 +55,10 @@ namespace Awareness.ui
         bool dirty;
         bool Dirty
         {
-            get { return dirty; }
-            set
-            {
+            get {
+                return dirty;
+            }
+            set {
                 datePicker.Enabled = value;
                 whatBox.Enabled = value;
                 whyCombo.Enabled = value;
@@ -64,7 +68,8 @@ namespace Awareness.ui
             }
         }
 
-        public ControlAvailableFoods(){
+        public ControlAvailableFoods()
+        {
             InitializeComponent();
 
             Util.SetMinMaxDatesAndShortFormatFor(datePicker);
@@ -75,20 +80,21 @@ namespace Awareness.ui
             DBUtil.TransactionsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
         }
 
-        void RequestUpdateAvailableFoods(){
+        void RequestUpdateAvailableFoods()
+        {
             updateAvailableFoodsBit = true;
             UpdateAvailableFoods();
         }
 
-        void UpdateAvailableFoods(){
-            if (isDisplayed&&updateAvailableFoodsBit){
-                AwarenessDataContext dc = DBUtil.GetDataContext();
-                IEnumerable<DalFood> foods = dc.transactionReasons.OfType<DalFood>().OrderBy(f => f.Name);
+        void UpdateAvailableFoods()
+        {
+            if (isDisplayed&&updateAvailableFoodsBit) {
+                IEnumerable<DalFood> foods = Controller.Storage.GetFoods();
                 availableFoodsView.Items.Clear();
                 bool useAlternateBackground = false;
-                foreach (DalFood food in foods){
-                    float available = DBUtil.GetAvailableQuantity(food);
-                    if (available != 0){
+                foreach (DalFood food in foods) {
+                    float available = Controller.Storage.GetAvailableQuantity(food);
+                    if (available != 0) {
                         ListViewItem item = new ListViewItem(food.Name);
                         item.Tag = food;
                         item.SubItems.Add(available.ToString());
@@ -103,8 +109,9 @@ namespace Awareness.ui
             }
         }
 
-        void AvailableFoodsViewSelectedIndexChanged(object sender, EventArgs e){
-            if (availableFoodsView.SelectedItems.Count > 0){
+        void AvailableFoodsViewSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (availableFoodsView.SelectedItems.Count > 0) {
                 DalFood what = (DalFood) availableFoodsView.SelectedItems[0].Tag;
                 whatBox.Tag = what;
                 whatBox.Text = what.Name;
@@ -116,28 +123,30 @@ namespace Awareness.ui
             }
         }
 
-        void ClearEditBoxes(){
+        void ClearEditBoxes()
+        {
             whatBox.Tag = null;
             whatBox.Text = "";
             quantityInput.Value = 0;
             Dirty = false;
         }
 
-        void ConsumeButtonClick(object sender, EventArgs e){
-            if (IsTransactionValid()){
-                DalMeal meal = new DalMeal()
-                {
+        void ConsumeButtonClick(object sender, EventArgs e)
+        {
+            if (IsTransactionValid()) {
+                DalMeal meal = new DalMeal() {
                     When = datePicker.Value.Date,
-                    What = (DalFood) whatBox.Tag,
-                    Quantity = (int) quantityInput.Value,
-                    Why = (DalReason) whyCombo.SelectedItem
-                };
-                DBUtil.InsertMeal(meal);
+                           What = (DalFood) whatBox.Tag,
+                                  Quantity = (int) quantityInput.Value,
+                                             Why = (DalReason) whyCombo.SelectedItem
+                                               };
+                Controller.Storage.InsertMeal(meal);
             }
         }
 
-        void WhyComboSelectedIndexChanged(object sender, EventArgs e){
-            if (!(whyCombo.SelectedItem is DalReason)){
+        void WhyComboSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!(whyCombo.SelectedItem is DalReason)) {
                 whyCombo.SelectedItem = null;
             }
         }
@@ -146,7 +155,8 @@ namespace Awareness.ui
 
         private bool performValidation = false;
 
-        bool IsTransactionValid(){
+        bool IsTransactionValid()
+        {
             performValidation = true;
 
             quantityInput.Focus();
@@ -162,9 +172,10 @@ namespace Awareness.ui
             return string.IsNullOrEmpty(error);
         }
 
-        void QuantityInputValidating(object sender, CancelEventArgs e){
-            if (performValidation){
-                if (quantityInput.Value <= 0){
+        void QuantityInputValidating(object sender, CancelEventArgs e)
+        {
+            if (performValidation) {
+                if (quantityInput.Value <= 0) {
                     e.Cancel = true;
                     errorProvider.SetError((Control) sender, "Please enter a positive integer value");
                 } else {
@@ -173,8 +184,9 @@ namespace Awareness.ui
             }
         }
 
-        void WhyComboValidating(object sender, CancelEventArgs e){
-            if (performValidation){
+        void WhyComboValidating(object sender, CancelEventArgs e)
+        {
+            if (performValidation) {
                 try {
                     if ((DalReason) whyCombo.SelectedItem != null) {
                         errorProvider.Clear();

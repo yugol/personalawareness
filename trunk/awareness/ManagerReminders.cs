@@ -98,7 +98,7 @@ namespace Awareness
             timerLogic.Clear();
             remindersWindow.Clear();
 
-            List<ActionOccurrence> occurrences = DBUtil.GetUncheckedActionOccurencesWithReminder(interval);
+            List<ActionOccurrence> occurrences = Controller.Storage.GetUncheckedActionOccurencesWithReminder(interval);
             foreach (ActionOccurrence occurrence in occurrences){
                 remindersWindow.Add(occurrence);
                 timerLogic.Add(occurrence);

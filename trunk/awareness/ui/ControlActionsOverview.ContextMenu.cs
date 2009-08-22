@@ -32,16 +32,18 @@ using Awareness.db;
 
 namespace Awareness.ui
 {
-    partial class ControlActionsOverview {
-        void UpdateContextMenu(){
+    partial class ControlActionsOverview
+    {
+        void UpdateContextMenu()
+        {
             TreeNode clickNode = (TreeNode) actionTreeContextMenu.Tag;
             bool onNode = clickNode != null;
 
             newActionToolStripMenuItem.Visible = true;
             toolStripSeparatorAction.Visible = true;
-            if (onNode){
+            if (onNode) {
                 DalAction action = (DalAction) clickNode.Tag;
-                if (action.Type == DalAction.TYPE_GROUP){
+                if (action.Type == DalAction.TYPE_GROUP) {
                     newChildActionToolStripMenuItem.Visible = true;
                     newGroupToolStripMenuItem.Visible = true;
                     newSubgroupToolStripMenuItem.Visible = true;
@@ -66,69 +68,73 @@ namespace Awareness.ui
             }
         }
 
-        TreeNode CreateNewNode(string name, byte type){
+        TreeNode CreateNewNode(string name, byte type)
+        {
             DalAction action = new DalAction() {
                 Name = name, Type = type
-            };
+                                };
             return Action2Node(action);
         }
 
-        void AddNode(TreeNode node){
+        void AddNode(TreeNode node)
+        {
             DalAction action = (DalAction) node.Tag;
 
             TreeNode clickNode = (TreeNode) actionTreeContextMenu.Tag;
             if (clickNode == null) {
                 actionsTree.Nodes.Add(node);
             } else {
-                if (clickNode.Parent == null){
+                if (clickNode.Parent == null) {
                     actionsTree.Nodes.Add(node);
                 } else {
                     action.Parent = (DalAction) clickNode.Parent.Tag;
                     clickNode.Parent.Nodes.Add(node);
                 }
             }
-            
-            DBUtil.InsertAction(action, null);
+
+            Controller.Storage.InsertAction(action, null);
 
             actionsTree.SelectedNode = node;
             node.BeginEdit();
         }
 
-        void AddSubnode(TreeNode node){
+        void AddSubnode(TreeNode node)
+        {
             DalAction action = (DalAction) node.Tag;
 
             TreeNode clickNode = (TreeNode) actionTreeContextMenu.Tag;
             action.Parent = (DalAction) clickNode.Tag;
 
             clickNode.Nodes.Add(node);
-            DBUtil.InsertAction(action, null);
+            Controller.Storage.InsertAction(action, null);
 
             actionsTree.SelectedNode = node;
             node.BeginEdit();
         }
 
-        void DeleteNode(TreeNode node){
+        void DeleteNode(TreeNode node)
+        {
             if (MessageBox.Show("Are you sure you want to delete the action?",
                                 "Delete action",
                                 MessageBoxButtons.OKCancel,
                                 MessageBoxIcon.Question,
-                                MessageBoxDefaultButton.Button2) == DialogResult.OK){
+                                MessageBoxDefaultButton.Button2) == DialogResult.OK) {
                 DalAction action = (DalAction) node.Tag;
 
-                DBUtil.DeleteActionRec(action);
+                Controller.Storage.DeleteActionRec(action);
 
                 TreeNode nextSelected = node.NextVisibleNode;
-                if (nextSelected == null){
+                if (nextSelected == null) {
                     nextSelected = node.PrevNode;
                 }
 
-                if (node.Parent == null){
+                if (node.Parent == null) {
                     actionsTree.Nodes.Remove(node);
                 } else {
                     node.Parent.Nodes.Remove(node);
                 }
 
-                if (nextSelected == null){
+                if (nextSelected == null) {
                     actionEditControl.Node = null;
                 } else {
                     actionsTree.SelectedNode = nextSelected;
@@ -136,32 +142,38 @@ namespace Awareness.ui
             }
         }
 
-        void NewActionToolStripMenuItemClick(object sender, EventArgs e){
+        void NewActionToolStripMenuItemClick(object sender, EventArgs e)
+        {
             TreeNode node = CreateNewNode(DalAction.DefaultNewActionName, DalAction.TYPE_TODO);
             AddNode(node);
         }
 
-        void NewChildActionToolStripMenuItemClick(object sender, EventArgs e){
+        void NewChildActionToolStripMenuItemClick(object sender, EventArgs e)
+        {
             TreeNode node = CreateNewNode(DalAction.DefaultNewActionName, DalAction.TYPE_TODO);
             AddSubnode(node);
         }
 
-        void NewGroupToolStripMenuItemClick(object sender, EventArgs e){
+        void NewGroupToolStripMenuItemClick(object sender, EventArgs e)
+        {
             TreeNode node = CreateNewNode(DalAction.DefaultNewGroupName, DalAction.TYPE_GROUP);
             AddNode(node);
         }
 
-        void NewSubgroupToolStripMenuItemClick(object sender, EventArgs e){
+        void NewSubgroupToolStripMenuItemClick(object sender, EventArgs e)
+        {
             TreeNode node = CreateNewNode(DalAction.DefaultNewGroupName, DalAction.TYPE_GROUP);
             AddSubnode(node);
         }
 
-        void DeleteActionToolStripMenuItemClick(object sender, EventArgs e){
+        void DeleteActionToolStripMenuItemClick(object sender, EventArgs e)
+        {
             TreeNode clickNode = (TreeNode) actionTreeContextMenu.Tag;
             DeleteNode(clickNode);
         }
 
-        void DeleteGroupToolStripMenuItemClick(object sender, EventArgs e){
+        void DeleteGroupToolStripMenuItemClick(object sender, EventArgs e)
+        {
             TreeNode clickNode = (TreeNode) actionTreeContextMenu.Tag;
             DeleteNode(clickNode);
         }

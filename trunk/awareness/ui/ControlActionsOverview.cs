@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2008 Iulian GORIAC
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,10 +25,10 @@
  * User: Iulian
  * Date: 28/09/2008
  * Time: 19:11
- * 
+ *
  */
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 using Awareness.db;
@@ -42,42 +42,39 @@ namespace Awareness.ui
             InitializeComponent();
             DBUtil.DataContextChanged += new DatabaseChangedHandler(UpdateActionsTree);
         }
-        
+
         void UpdateActionsTree()
         {
             actionsTree.BeginUpdate();
-            
+
             actionsTree.Nodes.Clear();
             actionEditControl.Node = null;
-            
-            IQueryable<DalAction> actions = DBUtil.GetRootActions();
-            foreach (DalAction action in actions)
-            {
+
+            IEnumerable<DalAction> actions = Controller.Storage.GetRootActions();
+            foreach (DalAction action in actions) {
                 TreeNode node = Action2Node(action);
                 actionsTree.Nodes.Add(node);
                 _AddChildNodes(node);
                 SetExpanded(node);
             }
-            if (actionsTree.Nodes.Count > 0)
-            {
+            if (actionsTree.Nodes.Count > 0) {
                 actionsTree.SelectedNode = actionsTree.Nodes[0];
             }
-            
+
             actionsTree.EndUpdate();
         }
 
         void _AddChildNodes(TreeNode parentNode)
         {
-            IQueryable<DalAction> actions = DBUtil.GetChildActions((DalAction) parentNode.Tag);
-            foreach (DalAction action in actions)
-            {
+            IEnumerable<DalAction> actions = Controller.Storage.GetChildActions((DalAction) parentNode.Tag);
+            foreach (DalAction action in actions) {
                 TreeNode node = Action2Node(action);
                 parentNode.Nodes.Add(node);
                 _AddChildNodes(node);
                 SetExpanded(node);
             }
         }
-        
+
         TreeNode Action2Node(DalAction action)
         {
             TreeNode node = new TreeNode();
@@ -91,34 +88,32 @@ namespace Awareness.ui
         public static void SetNodeImage(TreeNode node)
         {
             if (node == null) {
-                return;    
+                return;
             }
             DalAction action = (DalAction) node.Tag;
-            switch (action.Type) 
-            {
-                case DalAction.TYPE_GROUP:
-                    node.ImageIndex = (action.IsExpanded && node.Nodes.Count > 0) ? (1) : (0);
-                    break;
-                case DalAction.TYPE_TODO:
-                    node.ImageIndex = 2;
-                    break;
-                case DalAction.TYPE_TASK:
-                    node.ImageIndex = 3;
-                    break;
-                default:
-                    throw new ArgumentException("Unknown action type");
+            switch (action.Type) {
+            case DalAction.TYPE_GROUP:
+                node.ImageIndex = (action.IsExpanded && node.Nodes.Count > 0) ? (1) : (0);
+                break;
+            case DalAction.TYPE_TODO:
+                node.ImageIndex = 2;
+                break;
+            case DalAction.TYPE_TASK:
+                node.ImageIndex = 3;
+                break;
+            default:
+                throw new ArgumentException("Unknown action type");
             }
             node.SelectedImageIndex = node.ImageIndex;
         }
-        
+
         void SetExpanded(TreeNode node)
         {
-            if (((DalAction) node.Tag).IsExpanded)
-            {
+            if (((DalAction) node.Tag).IsExpanded) {
                 node.Expand();
             }
         }
-        
+
         void ActionsTreeAfterSelect(object sender, TreeViewEventArgs e)
         {
             actionEditControl.Node = e.Node;
@@ -127,75 +122,69 @@ namespace Awareness.ui
         void ActionsTreeMouseDown(object sender, MouseEventArgs e)
         {
             TreeNode mouseDownNode = actionsTree.GetNodeAt(e.Location);
-            if (mouseDownNode != null)
-            {
+            if (mouseDownNode != null) {
                 actionsTree.SelectedNode = mouseDownNode;
             }
         }
-        
+
         void ActionsTreeMouseUp(object sender, MouseEventArgs e)
         {
             actionTreeContextMenu.Tag = actionsTree.GetNodeAt(e.Location);
             UpdateContextMenu();
         }
-        
+
         void ActionsTreeAfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
             DalAction action = (DalAction) e.Node.Tag;
-            if (e.Label != null)
-            {
+            if (e.Label != null) {
                 action.Name = e.Label;
-                DBUtil.UpdateAction(action, action.Note);
+                Controller.Storage.UpdateAction(action, action.Note);
             }
         }
-        
+
         void ActionsTreeAfterCollapse(object sender, TreeViewEventArgs e)
         {
             DalAction action = (DalAction) e.Node.Tag;
-            if (action.IsExpanded)
-            {
+            if (action.IsExpanded) {
                 action.IsExpanded = false;
-                DBUtil.UpdateAction(action, action.Note);
+                Controller.Storage.UpdateAction(action, action.Note);
             }
             SetNodeImage(e.Node);
         }
-        
+
         void ActionsTreeAfterExpand(object sender, TreeViewEventArgs e)
         {
             DalAction action = (DalAction) e.Node.Tag;
-            if (!action.IsExpanded)
-            {
+            if (!action.IsExpanded) {
                 action.IsExpanded = true;
-                DBUtil.UpdateAction(action, action.Note);
+                Controller.Storage.UpdateAction(action, action.Note);
             }
             SetNodeImage(e.Node);
         }
-        
+
         void ActionsTreeAfterCheck(object sender, TreeViewEventArgs e)
         {
             DalAction action = (DalAction) e.Node.Tag;
-            if (action.Type != DalAction.TYPE_GROUP)
-            {
+            if (action.Type != DalAction.TYPE_GROUP) {
                 action.IsChecked = e.Node.Checked;
-                DBUtil.UpdateAction(action, action.Note);
+                Controller.Storage.UpdateAction(action, action.Note);
                 actionEditControl.Node = e.Node;
             }
         }
-        
+
         void ActionsTreeBeforeCheck(object sender, TreeViewCancelEventArgs e)
         {
-        	DalAction action = (DalAction) e.Node.Tag;
-            if (action.Type == DalAction.TYPE_GROUP)
-            {
+            DalAction action = (DalAction) e.Node.Tag;
+            if (action.Type == DalAction.TYPE_GROUP) {
                 e.Cancel = true;
             }
         }
-        
+
         void ReminderToolButtonClick(object sender, EventArgs e)
         {
             UpdateActionsTree();
         }
-        
+
         void ActionsTreeBeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
             actionEditControl.UpdateAction();

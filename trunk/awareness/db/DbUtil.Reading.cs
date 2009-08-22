@@ -32,8 +32,10 @@ using System.Linq;
 using Awareness.db.mssql;
 namespace Awareness.db
 {
-    partial class DBUtil {
-        internal static IQueryable<DalAccountType> GetAccountTypes(){
+    partial class DBUtil
+    {
+        internal static IQueryable<DalAccountType> GetAccountTypes()
+        {
             IQueryable<DalAccountType> accountTypes = null;
             #if DEBUG
             accountTypes = from t in dataContext.accountTypes
@@ -48,7 +50,8 @@ namespace Awareness.db
             return accountTypes;
         }
 
-        internal static IQueryable<DalAccount> GetAccounts(){
+        internal static IQueryable<DalAccount> GetAccounts()
+        {
             IQueryable<DalAccount> accounts = null;
             #if DEBUG
             accounts = from a in dataContext.transferLocations.OfType<DalAccount>()
@@ -63,7 +66,8 @@ namespace Awareness.db
             return accounts;
         }
 
-        internal static IQueryable<DalBudgetCategory> GetBudgetCategories(){
+        internal static IQueryable<DalBudgetCategory> GetBudgetCategories()
+        {
             IQueryable<DalBudgetCategory> categories = null;
             #if DEBUG
             categories = from c in dataContext.transferLocations.OfType<DalBudgetCategory>()
@@ -78,24 +82,26 @@ namespace Awareness.db
             return categories;
         }
 
-        internal static IQueryable<DalTransaction> GetTransactions(DateTime first, DateTime last){
+        internal static IQueryable<DalTransaction> GetTransactions(DateTime first, DateTime last)
+        {
             IQueryable<DalTransaction> transactions = null;
             #if DEBUG
             transactions = from t in dataContext.transactions
                            where (t.When >= first)&&(t.When <= last)
                            orderby t.When, t.Reason.Name, t.From.Name, t.To.Name
-            select t;
+                           select t;
             #else
             transactions = from t in dataContext.transactions
                            where (t.When >= first)&&(t.When <= last)
                            where t.FromId > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS&&t.ToId > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS
                            orderby t.When, t.Reason.Name, t.From.Name, t.To.Name
-            select t;
+                           select t;
             #endif
             return transactions;
         }
 
-        internal static IQueryable<DalReason> GetTransferReasons(){ // -> GetTransactionReaso
+        internal static IQueryable<DalReason> GetTransferReasons()  // -> GetTransactionReaso
+        {
             IQueryable<DalReason> reasons = null;
             #if DEBUG
             reasons = from r in dataContext.transactionReasons
@@ -110,7 +116,8 @@ namespace Awareness.db
             return reasons;
         }
 
-        internal static IQueryable<DalNote> GetRootNotes(){
+        internal static IQueryable<DalNote> GetRootNotes()
+        {
             IQueryable<DalNote> notes = null;
             notes = from n in dataContext.notes
                     where n.Id > 1
@@ -120,7 +127,8 @@ namespace Awareness.db
             return notes;
         }
 
-        internal static IQueryable<DalNote> GetChildNotes(DalNote note){
+        internal static IQueryable<DalNote> GetChildNotes(DalNote note)
+        {
             IQueryable<DalNote> notes = from n in dataContext.notes
                                         where n.Id > 1
                                         where n.ParentId == note.Id
@@ -129,7 +137,8 @@ namespace Awareness.db
             return notes;
         }
 
-        internal static IQueryable<DalAction> GetRootActions(){
+        internal static IQueryable<DalAction> GetRootActions()
+        {
             IQueryable<DalAction> actions = from a in dataContext.actions
                                             where a.Id > 1
                                             where a.ParentId == 1
@@ -137,7 +146,8 @@ namespace Awareness.db
             return actions;
         }
 
-        internal static IQueryable<DalAction> GetChildActions(DalAction action){
+        internal static IQueryable<DalAction> GetChildActions(DalAction action)
+        {
             IQueryable<DalAction> actions = from a in dataContext.actions
                                             where a.Id > 1
                                             where a.ParentId == action.Id
@@ -145,76 +155,84 @@ namespace Awareness.db
             return actions;
         }
 
-        internal static decimal GetTotalOutAmmount(DalTransferLocation location){
+        internal static decimal GetTotalOutAmmount(DalTransferLocation location)
+        {
             decimal ammount = 0;
             IQueryable<DalTransaction> locationTransactions = dataContext.transactions.Where(t => t.FromId == location.Id);
-            foreach (DalTransaction transaction in locationTransactions){
+            foreach (DalTransaction transaction in locationTransactions) {
                 ammount += transaction.Ammount;
             }
             return ammount;
         }
 
-        internal static decimal GetTotalInAmmount(DalTransferLocation location){
+        internal static decimal GetTotalInAmmount(DalTransferLocation location)
+        {
             decimal ammount = 0;
             IQueryable<DalTransaction> locationTransactions = dataContext.transactions.Where(t => t.ToId == location.Id);
-            foreach (DalTransaction transaction in locationTransactions){
+            foreach (DalTransaction transaction in locationTransactions) {
                 ammount += transaction.Ammount;
             }
             return ammount;
         }
 
-        internal static decimal GetBalance(DalAccount a){
+        internal static decimal GetBalance(DalAccount a)
+        {
             return a.StartingBalance + GetTotalInAmmount(a) - GetTotalOutAmmount(a);
         }
 
-        internal static float GetTransactedQuantity(DalFood reason){
+        internal static float GetTransactedQuantity(DalFood reason)
+        {
             float quantity = 0;
             IQueryable<DalTransaction> reasonTransactions = dataContext.transactions.Where(t => t.ReasonId == reason.Id);
-            foreach (DalTransaction transaction in reasonTransactions){
-                quantity += DBUtil.GetCompositeQuantity(transaction);
+            foreach (DalTransaction transaction in reasonTransactions) {
+                quantity += GetCompositeQuantity(transaction);
             }
             return quantity;
         }
 
-        internal static float GetConsumedQuantity(DalFood reason){
+        internal static float GetConsumedQuantity(DalFood reason)
+        {
             float quantity = 0;
             IQueryable<DalMeal> reasonMeals = dataContext.meals.Where(m => m.WhatId == reason.Id);
-            foreach (DalMeal meal in reasonMeals){
+            foreach (DalMeal meal in reasonMeals) {
                 quantity += meal.Quantity;
             }
             return quantity;
         }
-        
-        internal static float GetAvailableQuantity(DalFood reason){
-        	try {
-        		return reason.AvailableQuantity;
-        	} catch (CashEmptyException) {
-            	reason.AvailableQuantity = GetTransactedQuantity(reason) - GetConsumedQuantity(reason);
-            	dataContext.SubmitChanges();
-            	return reason.AvailableQuantity;
-        	}
+
+        internal static float GetAvailableQuantity(DalFood reason)
+        {
+            try {
+                return reason.AvailableQuantity;
+            } catch (CashEmptyException) {
+                reason.AvailableQuantity = GetTransactedQuantity(reason) - GetConsumedQuantity(reason);
+                dataContext.SubmitChanges();
+                return reason.AvailableQuantity;
+            }
         }
 
-        internal static float GetAverageEnergyForRecipe(DalRecipe recipe){
+        internal static float GetAverageEnergyForRecipe(DalRecipe recipe)
+        {
             float energy = 0, quantity = 0;
 
             IQueryable<DalMeal> meals = from m in dataContext.meals
                                         where m.WhyId == recipe.Id
                                         select m;
 
-            foreach (DalMeal meal in meals){
+            foreach (DalMeal meal in meals) {
                 quantity += meal.Quantity;
                 energy += meal.What.GetEnergy(meal.Quantity);
             }
 
-            if (energy == 0){
+            if (energy == 0) {
                 return 0;
             }
 
             return DalFood.QUANTITY_FOR_ENERGY * energy / quantity;
         }
 
-        internal static float GetLastEnergyForRecipe(DalRecipe recipe){
+        internal static float GetLastEnergyForRecipe(DalRecipe recipe)
+        {
             float energy = 0, quantity = 0;
 
             try {
@@ -225,7 +243,7 @@ namespace Awareness.db
                                             where m.When == lastWhen
                                             select m;
 
-                foreach (DalMeal meal in meals){
+                foreach (DalMeal meal in meals) {
                     quantity += meal.Quantity;
                     energy += meal.What.GetEnergy(meal.Quantity);
                 }
@@ -236,8 +254,9 @@ namespace Awareness.db
             }
         }
 
-        internal static float GetCompositeQuantity(DalTransaction transaction){
-            if (transaction.Reason is DalRecipe){
+        internal static float GetCompositeQuantity(DalTransaction transaction)
+        {
+            if (transaction.Reason is DalRecipe) {
                 float quantity = 0;
 
                 IQueryable<DalMeal> meals = from m in dataContext.meals
@@ -245,8 +264,8 @@ namespace Awareness.db
                                             where m.When.Equals(transaction.When)
                                             select m;
 
-                if (meals.Count()> 0){
-                    foreach (DalMeal meal in meals){
+                if (meals.Count()> 0) {
+                    foreach (DalMeal meal in meals) {
                         quantity += meal.Quantity;
                     }
                 }
@@ -257,7 +276,8 @@ namespace Awareness.db
             }
         }
 
-        internal static List<ActionOccurrence> GetActionOccurrences(TimeInterval interval){
+        internal static List<ActionOccurrence> GetActionOccurrences(TimeInterval interval)
+        {
             IQueryable<DalAction> actions = from a in dataContext.actions
                                             where a.Type != DalAction.TYPE_GROUP
                                             orderby a.Start, a.End, a.Name
@@ -265,7 +285,8 @@ namespace Awareness.db
             return SplitAndSortOccurrences(interval, actions);
         }
 
-        static List<ActionOccurrence> SplitAndSortOccurrences(TimeInterval interval, IQueryable<DalAction> actions){
+        static List<ActionOccurrence> SplitAndSortOccurrences(TimeInterval interval, IQueryable<DalAction> actions)
+        {
             List<ActionOccurrence> occurrences = new List<ActionOccurrence>();
             foreach (DalAction action in actions) {
                 occurrences.AddRange(action.GetOccurrences(interval));
@@ -274,7 +295,8 @@ namespace Awareness.db
             return occurrences;
         }
 
-        internal static List<ActionOccurrence> GetUncheckedActionOccurencesWithReminder(TimeInterval interval) {
+        internal static List<ActionOccurrence> GetUncheckedActionOccurencesWithReminder(TimeInterval interval)
+        {
             IQueryable<DalAction> actions = dataContext.actions
                                             .Where(a => a.Type != DalAction.TYPE_GROUP)
                                             .Where(a => !a.IsChecked)
@@ -282,12 +304,13 @@ namespace Awareness.db
             return SplitAndSortOccurrences(interval, actions);
         }
 
-        internal static DalNote GetTodoNote() {
+        internal static DalNote GetTodoNote()
+        {
             DalNote note = null;
             try {
                 note = dataContext.notes.Where(n => n.ParentId == DataStorage.NOTE_TODOS_ID).First();
             } catch (InvalidOperationException ex) {
-                if (ex.Message == "Sequence contains no elements"){
+                if (ex.Message == "Sequence contains no elements") {
                     note = new DalNote();
                     note.Title = "Todo list";
                     note.Text = "";
@@ -299,10 +322,11 @@ namespace Awareness.db
             return note;
         }
 
-        internal static bool IsTransferLocationUsed(DalTransferLocation tl) {
+        internal static bool IsTransferLocationUsed(DalTransferLocation tl)
+        {
             IQueryable<DalTransaction> q = dataContext.transactions
                                            .Where(d => d.FromId == tl.Id||d.ToId == tl.Id);
-            if (q.Count() > 0){
+            if (q.Count() > 0) {
                 return true;
             }
             return false;

@@ -49,7 +49,7 @@ namespace Awareness.ui
         }
 
         void ReadTodoNote() {
-            noteControl.Note = DBUtil.GetTodoNote();
+            noteControl.Note = Controller.Storage.GetTodoNote();
         }
 
         void NullifyTodoNote() {

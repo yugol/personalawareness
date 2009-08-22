@@ -196,7 +196,7 @@ namespace Awareness.ui
                 DalNote parentNote = null;
                 if (newParent == null)
                 {
-                    parentNote = DBUtil.GetRootNote();
+                    parentNote = Controller.Storage.GetRootNote();
                 }
                 else
                 {
@@ -204,7 +204,7 @@ namespace Awareness.ui
                 }
                 DalNote note = (DalNote) node.Tag;
                 note.Parent = parentNote;
-                DBUtil.UpdateNote(note);
+                Controller.Storage.UpdateNote(note);
             }
             catch (Exception ex)
             {

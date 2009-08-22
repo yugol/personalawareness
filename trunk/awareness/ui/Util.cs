@@ -28,15 +28,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Awareness.db.mssql;
-using Awareness.db;
 
-namespace Awareness.ui {
-    internal class Util {
-        internal static string FormatCurrency(decimal ammount) {
+using Awareness.db;
+using Awareness.db.mssql;
+
+namespace Awareness.ui
+{
+    internal class Util
+    {
+        internal static string FormatCurrency(decimal ammount)
+        {
             string rep = ammount.ToString("#,###,##0.00");
             if (Configuration.StorageProperties.PlaceCurrencySymbolAfterValue) {
                 rep += Configuration.StorageProperties.CurrencySymbol;
@@ -46,22 +49,18 @@ namespace Awareness.ui {
             return rep;
         }
 
-        internal static void FillFoodConsumptionReasons(ComboBox whyCombo, DalReason what) {
+        internal static void FillFoodConsumptionReasons(ComboBox whyCombo, DalReason what)
+        {
             whyCombo.Items.Clear();
 
-            AwarenessDataContext dc = DBUtil.GetDataContext();
-            IEnumerable<DalConsumer> consumers = from r in dc.transactionReasons.OfType<DalConsumer>()
-                                                 orderby r.Name
-                                                 select r;
+            IEnumerable<DalConsumer> consumers = Controller.Storage.GetConsumers();
             whyCombo.Items.Add("---Consumers---");
             foreach (DalConsumer consumer in consumers) {
                 whyCombo.Items.Add(consumer);
             }
 
             if (!(what is DalRecipe)) {
-                IEnumerable<DalRecipe> recipes = from r in dc.transactionReasons.OfType<DalRecipe>()
-                                                 orderby r.Name
-                                                 select r;
+                IEnumerable<DalRecipe> recipes = Controller.Storage.GetRecipes();
                 whyCombo.Items.Add("");
                 whyCombo.Items.Add("---Recipes---");
                 foreach (DalRecipe recipe in recipes) {
@@ -70,7 +69,8 @@ namespace Awareness.ui {
             }
         }
 
-        internal static string FormatTimeSpan(TimeSpan ts) {
+        internal static string FormatTimeSpan(TimeSpan ts)
+        {
             StringBuilder buf = new StringBuilder();
             if (ts.TotalMinutes < 0) {
                 buf.Append("-");
@@ -88,24 +88,28 @@ namespace Awareness.ui {
             return buf.ToString();
         }
 
-        internal static void SetMinMaxDatesAndShortFormatFor(DateTimePicker picker) {
+        internal static void SetMinMaxDatesAndShortFormatFor(DateTimePicker picker)
+        {
             SetMinMaxDatesFor(picker);
             picker.CustomFormat = Configuration.DATE_FORMAT;
             picker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
         }
 
-        internal static void SetMinMaxDatesAndLongFormatFor(DateTimePicker picker) {
+        internal static void SetMinMaxDatesAndLongFormatFor(DateTimePicker picker)
+        {
             SetMinMaxDatesFor(picker);
             picker.CustomFormat = Configuration.DATE_TIME_FORMAT;
             picker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
         }
 
-        static void SetMinMaxDatesFor(DateTimePicker picker) {
+        static void SetMinMaxDatesFor(DateTimePicker picker)
+        {
             picker.MinDate = Configuration.MIN_DATE_TIME;
             picker.MaxDate = Configuration.MAX_DATE_TIME;
         }
 
-        internal static string Minutes2TimeSpanString(int minutes) {
+        internal static string Minutes2TimeSpanString(int minutes)
+        {
             bool negative = minutes < 0;
 
             TimeSpan timeSpan = new TimeSpan(0, Math.Abs(minutes), 0);
