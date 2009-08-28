@@ -30,9 +30,9 @@
 using System;
 using System.IO;
 using System.Linq;
-using Awareness.db.mssql;
+using Awareness.DB.Mssql;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     internal delegate void DatabaseChangedHandler();
 
@@ -88,7 +88,7 @@ namespace Awareness.db
         static DalTransaction GetRecipeTransaction(DalRecipe why, DateTime when){
             DalTransaction recipeTransaction = null;
 
-            IQueryable<DalTransaction> cookings = from t in dataContext.transactions
+            IQueryable<DalTransaction> cookings = from t in dataContext.Transactions
                                                   where t.Reason.Id == why.Id
                                                   where t.When == when
                                                   select t;
@@ -101,7 +101,7 @@ namespace Awareness.db
         }
 
         static int GetRecipeConstituentCount(DalRecipe recipe, DateTime when){
-            IQueryable<DalMeal> meals = from m in dataContext.meals
+            IQueryable<DalMeal> meals = from m in dataContext.Meals
                                         where m.WhyId == recipe.Id
                                         where m.When.Equals(when)
                                         select m;

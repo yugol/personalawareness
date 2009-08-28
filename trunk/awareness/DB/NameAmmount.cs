@@ -27,7 +27,7 @@
  */
 using System;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     public class NameAmmount
     {

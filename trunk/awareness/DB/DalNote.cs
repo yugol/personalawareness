@@ -31,7 +31,7 @@ using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     [Table(Name = "notes")]
     public class DalNote

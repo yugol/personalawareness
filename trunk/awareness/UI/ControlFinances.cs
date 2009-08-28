@@ -30,9 +30,9 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-using Awareness.db;
+using Awareness.DB;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     public delegate void AccountDoubleClickHandler(DalAccount account);
 

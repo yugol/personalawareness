@@ -27,14 +27,14 @@
  */
 using System;
 
-namespace Awareness.db.mssql
+namespace Awareness.DB.Mssql
 {
     partial class DataStorage
     {
         public override void InsertTransferLocation(DalTransferLocation transferLocation, DalNote note)
         {
             PreludeInsertNotable(transferLocation, note, NOTE_TRANSFER_LOCATIONS_ID);
-            dataContext.transferLocations.InsertOnSubmit(transferLocation);
+            dataContext.TransferLocations.InsertOnSubmit(transferLocation);
             dataContext.SubmitChanges();
             NotifyTransferLocationsChanged(transferLocation);
         }
@@ -48,7 +48,7 @@ namespace Awareness.db.mssql
         public override void DeleteTransferLocation(DalTransferLocation transferLocation)
         {
             DalNote note = (transferLocation.HasNote) ? (transferLocation.Note) : (null);
-            dataContext.transferLocations.DeleteOnSubmit(transferLocation);
+            dataContext.TransferLocations.DeleteOnSubmit(transferLocation);
             dataContext.SubmitChanges();
             if (note != null) {
                 DeleteNote(note);

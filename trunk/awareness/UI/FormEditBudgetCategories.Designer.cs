@@ -27,7 +27,7 @@
  * Time: 18:09
  * 
  */
-namespace Awareness.ui
+namespace Awareness.UI
 {
     partial class FormEditBudgetCategories
     {
@@ -69,7 +69,7 @@ namespace Awareness.ui
         	this.incomeButton = new System.Windows.Forms.RadioButton();
         	this.expenseButton = new System.Windows.Forms.RadioButton();
         	this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-        	this.noteControl = new Awareness.ui.ControlAddNote();
+        	this.noteControl = new Awareness.UI.ControlAddNote();
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
         	this.SuspendLayout();
         	// 
@@ -214,7 +214,7 @@ namespace Awareness.ui
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
-        private Awareness.ui.ControlAddNote noteControl;
+        private Awareness.UI.ControlAddNote noteControl;
         private System.Windows.Forms.Label nameLabel;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.TextBox nameBox;

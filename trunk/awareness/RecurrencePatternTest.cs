@@ -30,9 +30,8 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     [TestFixture]
     public class RecurrencePatternTest {

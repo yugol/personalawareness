@@ -29,13 +29,13 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
-using Awareness.db.mssql;
-namespace Awareness.db
+using Awareness.DB.Mssql;
+namespace Awareness.DB
 {
     partial class DBUtil {
 
         internal static void InsertMeal(DalMeal meal){
-            dataContext.meals.InsertOnSubmit(meal);
+            dataContext.Meals.InsertOnSubmit(meal);
             meal.What.AvailableQuantitySetNull();
             if (meal.Why.Type == DalReason.TYPE_FOOD) {
             	meal.Why.AvailableQuantitySetNull();
@@ -65,7 +65,7 @@ namespace Awareness.db
             DalReason why = meal.Why;
 
             meal.What.AvailableQuantitySetNull();
-            dataContext.meals.DeleteOnSubmit(meal);
+            dataContext.Meals.DeleteOnSubmit(meal);
             dataContext.SubmitChanges();
 
             if (why is DalRecipe){

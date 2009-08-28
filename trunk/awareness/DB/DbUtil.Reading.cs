@@ -29,8 +29,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Awareness.db.mssql;
-namespace Awareness.db
+
+using Awareness.DB.Mssql;
+
+namespace Awareness.DB
 {
     partial class DBUtil
     {
@@ -38,12 +40,12 @@ namespace Awareness.db
         {
             IQueryable<DalAccountType> accountTypes = null;
             #if DEBUG
-            accountTypes = from t in dataContext.accountTypes
+            accountTypes = from t in dataContext.AccountTypes
                            orderby t.Name
                            select t;
             #else
-            accountTypes = from t in dataContext.accountTypes
-                           where t.Id > AwarenessDataContext.RESERVED_ACCOUNT_TYPES
+            accountTypes = from t in dataContext.AccountTypes
+                           where t.Id > DataStorage.RESERVED_ACCOUNT_TYPES
                            orderby t.Name
                            select t;
             #endif
@@ -54,12 +56,12 @@ namespace Awareness.db
         {
             IQueryable<DalAccount> accounts = null;
             #if DEBUG
-            accounts = from a in dataContext.transferLocations.OfType<DalAccount>()
+            accounts = from a in dataContext.TransferLocations.OfType<DalAccount>()
                        orderby a.Name
                        select a;
             #else
-            accounts = from a in dataContext.transferLocations.OfType<DalAccount>()
-                       where a.Id > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS
+            accounts = from a in dataContext.TransferLocations.OfType<DalAccount>()
+                       where a.Id > DataStorage.RESERVED_TRANSFER_LOCATIONS
                        orderby a.Name
                        select a;
             #endif
@@ -70,12 +72,12 @@ namespace Awareness.db
         {
             IQueryable<DalBudgetCategory> categories = null;
             #if DEBUG
-            categories = from c in dataContext.transferLocations.OfType<DalBudgetCategory>()
+            categories = from c in dataContext.TransferLocations.OfType<DalBudgetCategory>()
                          orderby c.Name
                          select c;
             #else
-            categories = from c in dataContext.transferLocations.OfType<DalBudgetCategory>()
-                         where c.Id > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS
+            categories = from c in dataContext.TransferLocations.OfType<DalBudgetCategory>()
+                         where c.Id > DataStorage.RESERVED_TRANSFER_LOCATIONS
                          orderby c.Name
                          select c;
             #endif
@@ -86,14 +88,14 @@ namespace Awareness.db
         {
             IQueryable<DalTransaction> transactions = null;
             #if DEBUG
-            transactions = from t in dataContext.transactions
+            transactions = from t in dataContext.Transactions
                            where (t.When >= first)&&(t.When <= last)
                            orderby t.When, t.Reason.Name, t.From.Name, t.To.Name
                            select t;
             #else
-            transactions = from t in dataContext.transactions
+            transactions = from t in dataContext.Transactions
                            where (t.When >= first)&&(t.When <= last)
-                           where t.FromId > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS&&t.ToId > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS
+                           where t.FromId > DataStorage.RESERVED_TRANSFER_LOCATIONS&&t.ToId > DataStorage.RESERVED_TRANSFER_LOCATIONS
                            orderby t.When, t.Reason.Name, t.From.Name, t.To.Name
                            select t;
             #endif
@@ -104,11 +106,11 @@ namespace Awareness.db
         {
             IQueryable<DalReason> reasons = null;
             #if DEBUG
-            reasons = from r in dataContext.transactionReasons
+            reasons = from r in dataContext.TransactionReasons
                       orderby r.Name
                       select r;
             #else
-            reasons = from r in dataContext.transactionReasons
+            reasons = from r in dataContext.TransactionReasons
                       where (r.Type == DalReason.TYPE_DEFAULT)||(r.Type == DalReason.TYPE_FOOD)
                       orderby r.Name
                       select r;
@@ -119,7 +121,7 @@ namespace Awareness.db
         internal static IQueryable<DalNote> GetRootNotes()
         {
             IQueryable<DalNote> notes = null;
-            notes = from n in dataContext.notes
+            notes = from n in dataContext.Notes
                     where n.Id > 1
                     where n.ParentId == 1
                     orderby n.Title
@@ -129,7 +131,7 @@ namespace Awareness.db
 
         internal static IQueryable<DalNote> GetChildNotes(DalNote note)
         {
-            IQueryable<DalNote> notes = from n in dataContext.notes
+            IQueryable<DalNote> notes = from n in dataContext.Notes
                                         where n.Id > 1
                                         where n.ParentId == note.Id
                                         orderby n.Title
@@ -139,7 +141,7 @@ namespace Awareness.db
 
         internal static IQueryable<DalAction> GetRootActions()
         {
-            IQueryable<DalAction> actions = from a in dataContext.actions
+            IQueryable<DalAction> actions = from a in dataContext.Actions
                                             where a.Id > 1
                                             where a.ParentId == 1
                                             select a;
@@ -148,7 +150,7 @@ namespace Awareness.db
 
         internal static IQueryable<DalAction> GetChildActions(DalAction action)
         {
-            IQueryable<DalAction> actions = from a in dataContext.actions
+            IQueryable<DalAction> actions = from a in dataContext.Actions
                                             where a.Id > 1
                                             where a.ParentId == action.Id
                                             select a;
@@ -158,7 +160,7 @@ namespace Awareness.db
         internal static decimal GetTotalOutAmmount(DalTransferLocation location)
         {
             decimal ammount = 0;
-            IQueryable<DalTransaction> locationTransactions = dataContext.transactions.Where(t => t.FromId == location.Id);
+            IQueryable<DalTransaction> locationTransactions = dataContext.Transactions.Where(t => t.FromId == location.Id);
             foreach (DalTransaction transaction in locationTransactions) {
                 ammount += transaction.Ammount;
             }
@@ -168,7 +170,7 @@ namespace Awareness.db
         internal static decimal GetTotalInAmmount(DalTransferLocation location)
         {
             decimal ammount = 0;
-            IQueryable<DalTransaction> locationTransactions = dataContext.transactions.Where(t => t.ToId == location.Id);
+            IQueryable<DalTransaction> locationTransactions = dataContext.Transactions.Where(t => t.ToId == location.Id);
             foreach (DalTransaction transaction in locationTransactions) {
                 ammount += transaction.Ammount;
             }
@@ -183,7 +185,7 @@ namespace Awareness.db
         internal static float GetTransactedQuantity(DalFood reason)
         {
             float quantity = 0;
-            IQueryable<DalTransaction> reasonTransactions = dataContext.transactions.Where(t => t.ReasonId == reason.Id);
+            IQueryable<DalTransaction> reasonTransactions = dataContext.Transactions.Where(t => t.ReasonId == reason.Id);
             foreach (DalTransaction transaction in reasonTransactions) {
                 quantity += GetCompositeQuantity(transaction);
             }
@@ -193,7 +195,7 @@ namespace Awareness.db
         internal static float GetConsumedQuantity(DalFood reason)
         {
             float quantity = 0;
-            IQueryable<DalMeal> reasonMeals = dataContext.meals.Where(m => m.WhatId == reason.Id);
+            IQueryable<DalMeal> reasonMeals = dataContext.Meals.Where(m => m.WhatId == reason.Id);
             foreach (DalMeal meal in reasonMeals) {
                 quantity += meal.Quantity;
             }
@@ -215,7 +217,7 @@ namespace Awareness.db
         {
             float energy = 0, quantity = 0;
 
-            IQueryable<DalMeal> meals = from m in dataContext.meals
+            IQueryable<DalMeal> meals = from m in dataContext.Meals
                                         where m.WhyId == recipe.Id
                                         select m;
 
@@ -236,9 +238,9 @@ namespace Awareness.db
             float energy = 0, quantity = 0;
 
             try {
-                var lastWhen = dataContext.meals.Where(m => m.WhyId == recipe.Id).Max(m => m.When);
+                var lastWhen = dataContext.Meals.Where(m => m.WhyId == recipe.Id).Max(m => m.When);
 
-                IQueryable<DalMeal> meals = from m in dataContext.meals
+                IQueryable<DalMeal> meals = from m in dataContext.Meals
                                             where m.WhyId == recipe.Id
                                             where m.When == lastWhen
                                             select m;
@@ -259,7 +261,7 @@ namespace Awareness.db
             if (transaction.Reason is DalRecipe) {
                 float quantity = 0;
 
-                IQueryable<DalMeal> meals = from m in dataContext.meals
+                IQueryable<DalMeal> meals = from m in dataContext.Meals
                                             where m.WhyId == transaction.ReasonId
                                             where m.When.Equals(transaction.When)
                                             select m;
@@ -278,7 +280,7 @@ namespace Awareness.db
 
         internal static List<ActionOccurrence> GetActionOccurrences(TimeInterval interval)
         {
-            IQueryable<DalAction> actions = from a in dataContext.actions
+            IQueryable<DalAction> actions = from a in dataContext.Actions
                                             where a.Type != DalAction.TYPE_GROUP
                                             orderby a.Start, a.End, a.Name
                                             select a;
@@ -297,7 +299,7 @@ namespace Awareness.db
 
         internal static List<ActionOccurrence> GetUncheckedActionOccurencesWithReminder(TimeInterval interval)
         {
-            IQueryable<DalAction> actions = dataContext.actions
+            IQueryable<DalAction> actions = dataContext.Actions
                                             .Where(a => a.Type != DalAction.TYPE_GROUP)
                                             .Where(a => !a.IsChecked)
                                             .Where(a => a.HasCommandReminder||a.HasSoundReminder||a.HasWindowReminder);
@@ -308,7 +310,7 @@ namespace Awareness.db
         {
             DalNote note = null;
             try {
-                note = dataContext.notes.Where(n => n.ParentId == DataStorage.NOTE_TODOS_ID).First();
+                note = dataContext.Notes.Where(n => n.ParentId == DataStorage.NOTE_TODOS_ID).First();
             } catch (InvalidOperationException ex) {
                 if (ex.Message == "Sequence contains no elements") {
                     note = new DalNote();
@@ -324,7 +326,7 @@ namespace Awareness.db
 
         internal static bool IsTransferLocationUsed(DalTransferLocation tl)
         {
-            IQueryable<DalTransaction> q = dataContext.transactions
+            IQueryable<DalTransaction> q = dataContext.Transactions
                                            .Where(d => d.FromId == tl.Id||d.ToId == tl.Id);
             if (q.Count() > 0) {
                 return true;

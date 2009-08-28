@@ -30,7 +30,7 @@
 using System;
 using System.Windows.Forms;
 
-using Awareness.ui;
+using Awareness.UI;
 
 namespace Awareness {
     
@@ -39,7 +39,9 @@ namespace Awareness {
         private static void Main(string[] args) {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(Controller.View);
+            FormMain mainForm = new FormMain();
+            Controller.View = mainForm;
+            Application.Run(mainForm);
         }
     }
 }

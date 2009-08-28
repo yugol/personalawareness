@@ -32,9 +32,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-using Awareness.db;
+using Awareness.DB;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     public partial class ControlWeekActionsReport : UserControl {
         bool updateActionsBit = true;

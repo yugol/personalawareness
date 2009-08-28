@@ -32,9 +32,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-using Awareness.db;
+using Awareness.DB;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     public delegate void PatternChangedHandler();
 
@@ -44,7 +44,7 @@ namespace Awareness.ui
         bool processEvents = true;
 
         RecurrencePattern pattern;
-        public RecurrencePattern Pattern
+        internal RecurrencePattern Pattern
         {
             get { return pattern; }
             set

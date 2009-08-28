@@ -32,9 +32,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-using Awareness.db;
+using Awareness.DB;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     partial class ControlRecurrencePatternEdit
     {

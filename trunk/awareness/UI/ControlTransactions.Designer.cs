@@ -27,7 +27,7 @@
  * Time: 19:30
  * 
  */
-namespace Awareness.ui
+namespace Awareness.UI
 {
     partial class ControlTransactions
     {
@@ -61,7 +61,7 @@ namespace Awareness.ui
         	System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlTransactions));
         	this.editLayoutLabel = new System.Windows.Forms.Label();
         	this.layoutImageList = new System.Windows.Forms.ImageList(this.components);
-        	this.transactionsView = new Awareness.ui.ControlTransactionList();
+        	this.transactionsView = new Awareness.UI.ControlTransactionList();
         	this.datePicker = new System.Windows.Forms.DateTimePicker();
         	this.listPanel = new System.Windows.Forms.Panel();
         	this.fromCombo = new System.Windows.Forms.ComboBox();
@@ -83,7 +83,7 @@ namespace Awareness.ui
         	this.toolTips = new System.Windows.Forms.ToolTip(this.components);
         	this.reasonCombo = new System.Windows.Forms.ComboBox();
         	this.ammountBox = new System.Windows.Forms.TextBox();
-        	this.quantityInput = new Awareness.ui.ControlCalculatorInput();
+        	this.quantityInput = new Awareness.UI.ControlCalculatorInput();
         	this.transferLocationSelectionCombo = new System.Windows.Forms.ComboBox();
         	this.reasonSelectionBox = new System.Windows.Forms.TextBox();
         	this.arrowLabel = new System.Windows.Forms.Label();
@@ -91,10 +91,10 @@ namespace Awareness.ui
         	this.deleteButton = new System.Windows.Forms.Button();
         	this.recordButton = new System.Windows.Forms.Button();
         	this.updateButton = new System.Windows.Forms.Button();
-        	this.noteControl = new Awareness.ui.ControlAddNote();
+        	this.noteControl = new Awareness.UI.ControlAddNote();
         	this.selectLayoutLabel = new System.Windows.Forms.Label();
         	this.selectPanel = new System.Windows.Forms.TableLayoutPanel();
-        	this.timeIntervalSelectorControl = new Awareness.ui.ControlTimeIntervalSelector();
+        	this.timeIntervalSelectorControl = new Awareness.UI.ControlTimeIntervalSelector();
         	this.reportsButton = new System.Windows.Forms.Button();
         	this.listPanel.SuspendLayout();
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -439,9 +439,9 @@ namespace Awareness.ui
         	this.editPanel.SetRowSpan(this.noteControl, 3);
         	this.noteControl.Size = new System.Drawing.Size(125, 78);
         	this.noteControl.TabIndex = 11;
-        	this.noteControl.NoteTextChanged += new Awareness.ui.NoteHandler(this.NoteControlNoteTextChanged);
-        	this.noteControl.NoteRemoved += new Awareness.ui.NoteHandler(this.NoteControlNoteRemoved);
-        	this.noteControl.NoteAdded += new Awareness.ui.NoteHandler(this.NoteControlNoteAdded);
+        	this.noteControl.NoteTextChanged += new Awareness.UI.NoteHandler(this.NoteControlNoteTextChanged);
+        	this.noteControl.NoteRemoved += new Awareness.UI.NoteHandler(this.NoteControlNoteRemoved);
+        	this.noteControl.NoteAdded += new Awareness.UI.NoteHandler(this.NoteControlNoteAdded);
         	// 
         	// selectLayoutLabel
         	// 
@@ -527,14 +527,14 @@ namespace Awareness.ui
         private System.Windows.Forms.ToolStripMenuItem incomeWeeklyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem incomeDailyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem incomeToolStripMenuItem;
-        private Awareness.ui.ControlCalculatorInput quantityInput;
-        private Awareness.ui.ControlAddNote noteControl;
+        private Awareness.UI.ControlCalculatorInput quantityInput;
+        private Awareness.UI.ControlAddNote noteControl;
         private System.Windows.Forms.ContextMenuStrip reportsMenu;
         private System.Windows.Forms.ToolStripMenuItem expensesToolStripMenuItem;
         private System.Windows.Forms.Button reportsButton;
         private System.Windows.Forms.TextBox reasonSelectionBox;
         private System.Windows.Forms.ComboBox transferLocationSelectionCombo;
-        private Awareness.ui.ControlTimeIntervalSelector timeIntervalSelectorControl;
+        private Awareness.UI.ControlTimeIntervalSelector timeIntervalSelectorControl;
         private System.Windows.Forms.Label selectLayoutLabel;
         private System.Windows.Forms.TableLayoutPanel selectPanel;
         private System.Windows.Forms.ErrorProvider errorProvider;
@@ -550,7 +550,7 @@ namespace Awareness.ui
         private System.Windows.Forms.Panel listPanel;
         private System.Windows.Forms.ToolTip toolTips;
         private System.Windows.Forms.DateTimePicker datePicker;
-        private Awareness.ui.ControlTransactionList transactionsView;
+        private Awareness.UI.ControlTransactionList transactionsView;
         private System.Windows.Forms.ImageList layoutImageList;
         private System.Windows.Forms.Label editLayoutLabel;
     }

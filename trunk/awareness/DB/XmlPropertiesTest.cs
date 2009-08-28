@@ -32,7 +32,7 @@
 using System;
 using NUnit.Framework;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     [TestFixture]
     public class XmlPropertiesTest

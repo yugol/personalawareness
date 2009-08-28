@@ -31,7 +31,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-using Awareness.db;
+using Awareness.DB;
 
 namespace Awareness
 {
@@ -57,12 +57,12 @@ namespace Awareness
         internal static readonly DateTime ZERO_DATE = new DateTime(1800, 01, 01, 0, 0, 0);
         internal static readonly DateTime MIN_DATE_TIME = new DateTime(1900, 1, 1);
         internal static readonly DateTime MAX_DATE_TIME = new DateTime(3000, 1, 1);
-        internal static readonly string DATE_FORMAT = "MMM d, yyyy";
-        internal static readonly string TIME_FORMAT = "HH:mm";
-        internal static readonly string FULL_TIME_FORMAT = "HH:mm:ss";
-        internal static readonly string DATE_TIME_FORMAT = DATE_FORMAT + "   " + TIME_FORMAT;
-        internal static readonly string DATE_FULL_TIME_FORMAT = DATE_FORMAT + "   " + FULL_TIME_FORMAT;
-        internal static readonly string SATUS_DATE_TIME_FORMAT = "dddd, " + DATE_FORMAT + " . ( " + TIME_FORMAT + " )";
+        internal const string DATE_FORMAT = "MMM d, yyyy";
+        internal const string TIME_FORMAT = "HH:mm";
+        internal const string FULL_TIME_FORMAT = "HH:mm:ss";
+        internal const string DATE_TIME_FORMAT = DATE_FORMAT + "   " + TIME_FORMAT;
+        internal const string DATE_FULL_TIME_FORMAT = DATE_FORMAT + "   " + FULL_TIME_FORMAT;
+        internal const string SATUS_DATE_TIME_FORMAT = "dddd, " + DATE_FORMAT + " . ( " + TIME_FORMAT + " )";
 
         #endregion
         

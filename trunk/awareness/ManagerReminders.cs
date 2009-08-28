@@ -31,8 +31,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-using Awareness.ui;
-using Awareness.db;
+using Awareness.UI;
+using Awareness.DB;
 
 namespace Awareness
 {

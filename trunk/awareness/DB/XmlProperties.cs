@@ -31,14 +31,13 @@ using System;
 using System.Text;
 using System.Xml;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     public class XmlProperties
     {
-        private static readonly string CURRENCY_SYMBOL_TAG = "symbol";
-        private static readonly string PLACE_AFTER_VALUE_TAG = "placeAfterValue";
-        private static readonly string LAST_MEAL_REPORT_REASON_TAG = "lastMealReportReason";
-
+        private const string CURRENCY_SYMBOL_TAG = "symbol";
+        private const string PLACE_AFTER_VALUE_TAG = "placeAfterValue";
+        private const string LAST_MEAL_REPORT_REASON_TAG = "lastMealReportReason";
 
         public string XmlString
         {
@@ -53,17 +52,14 @@ namespace Awareness.db
                     xmlDoc.LoadXml(value);
                 }
 
-                try {
-                    currencySymbol = xmlDoc.GetElementsByTagName(CURRENCY_SYMBOL_TAG)[0].InnerText;
-                } catch (Exception) {
-                }
+                currencySymbol = xmlDoc.GetElementsByTagName(CURRENCY_SYMBOL_TAG)[0].InnerText;
                 try {
                     placeCurrencySymbolAfterValue = bool.Parse(xmlDoc.GetElementsByTagName(PLACE_AFTER_VALUE_TAG)[0].InnerText);
-                } catch (Exception) {
+                } catch (SystemException) {
                 }
                 try {
                     lastMealReportReason = int.Parse(xmlDoc.GetElementsByTagName(LAST_MEAL_REPORT_REASON_TAG)[0].InnerText);
-                } catch (Exception) {
+                } catch (SystemException) {
                 }
             }
         }

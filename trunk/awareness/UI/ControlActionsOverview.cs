@@ -31,9 +31,9 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-using Awareness.db;
+using Awareness.DB;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     public partial class ControlActionsOverview : UserControl
     {

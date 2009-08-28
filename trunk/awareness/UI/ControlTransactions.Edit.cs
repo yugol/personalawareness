@@ -31,11 +31,11 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-using Awareness.db;
+using Awareness.DB;
 
 //MUST: data change sets dirty bit
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     partial class ControlTransactions {
         #region Layout

@@ -29,7 +29,7 @@
 
 using System;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     public class ManagerTeaTimer {
         private static FormTeaTimer teaTimer = null;

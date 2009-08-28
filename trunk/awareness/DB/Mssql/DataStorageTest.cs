@@ -30,7 +30,7 @@
 using System;
 using NUnit.Framework;
 
-namespace Awareness.db.mssql
+namespace Awareness.DB.Mssql
 {
     [TestFixture]
     public class DataStorageTest

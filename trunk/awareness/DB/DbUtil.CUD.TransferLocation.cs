@@ -28,13 +28,13 @@
 
 
 using System;
-using Awareness.db.mssql;
-namespace Awareness.db
+using Awareness.DB.Mssql;
+namespace Awareness.DB
 {
     partial class DBUtil {
         internal static void InsertTransferLocation(DalTransferLocation transferLocation, DalNote note){
             PreludeInsertNotable(transferLocation, note, DataStorage.NOTE_TRANSFER_LOCATIONS_ID);
-            dataContext.transferLocations.InsertOnSubmit(transferLocation);
+            dataContext.TransferLocations.InsertOnSubmit(transferLocation);
             dataContext.SubmitChanges();
             NotifyTransferLocationsChanged(transferLocation);
         }
@@ -46,7 +46,7 @@ namespace Awareness.db
 
         internal static void DeleteTransferLocation(DalTransferLocation transferLocation){
             DalNote note = (transferLocation.HasNote) ? (transferLocation.Note) : (null);
-            dataContext.transferLocations.DeleteOnSubmit(transferLocation);
+            dataContext.TransferLocations.DeleteOnSubmit(transferLocation);
             dataContext.SubmitChanges();
             if (note != null){
                 DeleteNote(note);

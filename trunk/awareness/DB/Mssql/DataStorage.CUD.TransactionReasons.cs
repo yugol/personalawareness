@@ -27,14 +27,14 @@
  */
 using System;
 
-namespace Awareness.db.mssql
+namespace Awareness.DB.Mssql
 {
     partial class DataStorage
     {
         public override void InsertTransactionReason(DalReason reason, DalNote note)
         {
             PreludeInsertNotable(reason, note, DataStorage.NOTE_REASONS_ID);
-            dataContext.transactionReasons.InsertOnSubmit(reason);
+            dataContext.TransactionReasons.InsertOnSubmit(reason);
             dataContext.SubmitChanges();
             NotifyTransactionReasonsChanged(reason);
         }
@@ -57,15 +57,15 @@ namespace Awareness.db.mssql
         {
             try {
                 DalNote note = (reason.HasNote) ? (reason.Note) : (null);
-                dataContext.transactionReasons.DeleteOnSubmit(reason);
+                dataContext.TransactionReasons.DeleteOnSubmit(reason);
                 dataContext.SubmitChanges();
                 if (note != null) {
                     DeleteNote(note);
                 }
                 NotifyTransactionReasonsChanged(reason);
-            } catch (Exception ex) {
+            } catch (Exception) {
                 ReOpen();
-                throw ex;
+                throw;
             }
         }
 

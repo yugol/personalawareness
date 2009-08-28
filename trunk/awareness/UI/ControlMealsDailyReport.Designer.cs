@@ -27,7 +27,7 @@
  * Time: 12:06
  * 
  */
-namespace Awareness.ui
+namespace Awareness.UI
 {
     partial class ControlMealsDailyReport
     {
@@ -67,7 +67,7 @@ namespace Awareness.ui
         	this.energyColumn = new System.Windows.Forms.ColumnHeader();
         	this.topPanel = new System.Windows.Forms.TableLayoutPanel();
         	this.whyCombo = new System.Windows.Forms.ComboBox();
-        	this.datePicker = new Awareness.ui.ControlJumperDatePicker();
+        	this.datePicker = new Awareness.UI.ControlJumperDatePicker();
         	this.bottomPanel.SuspendLayout();
         	this.topPanel.SuspendLayout();
         	this.SuspendLayout();
@@ -182,7 +182,7 @@ namespace Awareness.ui
         	// datePicker
         	// 
         	this.datePicker.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.datePicker.JumpSize = Awareness.ui.EJumpSize.Day;
+        	this.datePicker.JumpSize = Awareness.UI.EJumpSize.Day;
         	this.datePicker.Location = new System.Drawing.Point(0, 3);
         	this.datePicker.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
         	this.datePicker.MinimumSize = new System.Drawing.Size(244, 20);
@@ -206,7 +206,7 @@ namespace Awareness.ui
         	this.topPanel.ResumeLayout(false);
         	this.ResumeLayout(false);
         }
-        private Awareness.ui.ControlJumperDatePicker datePicker;
+        private Awareness.UI.ControlJumperDatePicker datePicker;
         private System.Windows.Forms.ComboBox whyCombo;
         private System.Windows.Forms.ColumnHeader energyColumn;
         private System.Windows.Forms.ColumnHeader quantityColumn;

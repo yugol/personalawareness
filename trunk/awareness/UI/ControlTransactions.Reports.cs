@@ -32,10 +32,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-using Awareness.db;
+using Awareness.DB;
 using ZedGraph;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     partial class ControlTransactions
     {

@@ -27,8 +27,8 @@
  */
 using System;
 using System.IO;
-using Awareness.db;
-using Awareness.ui;
+using Awareness.DB;
+using Awareness.UI;
 
 namespace Awareness
 {
@@ -39,7 +39,7 @@ namespace Awareness
         public static event DataChangedHandler StorageOpened;
         public static event DataChangedHandler StorageClosing;
 
-        static DataStorage storage = null;
+        static DataStorage storage;
         public static DataStorage Storage
         {
             get {
@@ -47,17 +47,15 @@ namespace Awareness
             }
         }
 
-        static FormMain view = null;
+        static FormMain view;
         public static FormMain View
         {
             get {
                 return view;
             }
-        }
-
-        static Controller()
-        {
-            view  = new FormMain();
+            set {
+                view = value;
+            }
         }
 
         public static void OpenStorage(string storageId)
@@ -67,7 +65,7 @@ namespace Awareness
             string ext = storageId.Substring(storageId.LastIndexOf('.') + 1).ToLower();
 
             if (ext == "sdf" || ext == "mfd") {
-                storage = new Awareness.db.mssql.DataStorage(storageId);
+                storage = new Awareness.DB.Mssql.DataStorage(storageId);
             }
 
             if (storage != null) {
@@ -119,8 +117,8 @@ namespace Awareness
             }
             storage = null;
         }
-        
-        public static bool IsDbAvailable()
+
+        public static bool IsDBAvailable()
         {
             return (storage != null);
         }

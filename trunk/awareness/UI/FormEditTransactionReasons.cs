@@ -31,11 +31,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Awareness.db.mssql;
+using Awareness.DB.Mssql;
 
-using Awareness.db;
+using Awareness.DB;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     public partial class FormEditTransactionReasons : Form 
     {

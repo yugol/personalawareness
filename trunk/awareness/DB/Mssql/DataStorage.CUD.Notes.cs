@@ -27,11 +27,11 @@
  */
 using System;
 
-namespace Awareness.db.mssql
+namespace Awareness.DB.Mssql
 {
     partial class DataStorage
     {
-        private static bool IsEmpty (DalNote note)
+        private static bool IsNullOrEmpty (DalNote note)
         {
             if (note == null) {
                 return true;
@@ -54,7 +54,7 @@ namespace Awareness.db.mssql
 
         private void PreludeInsertNotable(Notable notable, DalNote note, int noteParentId)
         {
-            if (!IsEmpty(note)) {
+            if (!IsNullOrEmpty(note)) {
                 PrepareNoteForNotable(note, notable, noteParentId);
                 StoreNote(note);
                 notable.Note = note;
@@ -66,7 +66,7 @@ namespace Awareness.db.mssql
         private void PreludeUpdateNotable(Notable notable, DalNote note, int noteParentId)
         {
             if (!notable.HasNote) {
-                if (!IsEmpty(note)) {
+                if (!IsNullOrEmpty(note)) {
                     PrepareNoteForNotable(note, notable, noteParentId);
                     StoreNote(note);
                     notable.Note = note;
@@ -74,7 +74,7 @@ namespace Awareness.db.mssql
                 dataContext.SubmitChanges();
             } else {
                 DalNote oldNote = notable.Note;
-                if (IsEmpty(note)) {
+                if (IsNullOrEmpty(note)) {
                     notable.Note = GetRootNote();
                     dataContext.SubmitChanges();
                     DeleteNote(oldNote);
@@ -97,7 +97,7 @@ namespace Awareness.db.mssql
             if (note.Parent == null) {
                 note.Parent = GetRootNote();
             }
-            dataContext.notes.InsertOnSubmit(note);
+            dataContext.Notes.InsertOnSubmit(note);
             dataContext.SubmitChanges();
         }
 
@@ -123,7 +123,7 @@ namespace Awareness.db.mssql
             if (note.Id <= RESERVED_NOTES) {
                 throw new ArgumentException("Trying to delete a reserved note");
             }
-            dataContext.notes.DeleteOnSubmit(note);
+            dataContext.Notes.DeleteOnSubmit(note);
             dataContext.SubmitChanges();
         }
 

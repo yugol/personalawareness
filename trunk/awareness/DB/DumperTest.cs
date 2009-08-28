@@ -34,10 +34,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using Awareness.db.mssql;
+using Awareness.DB.Mssql;
 using NUnit.Framework;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     [TestFixture]
     public class DumperTest
@@ -50,7 +50,7 @@ namespace Awareness.db
         [TestFixtureSetUp]
         public void Init()
         {
-            storage = new mssql.DataStorage(TEST_DB_NAME);
+            storage = new Mssql.DataStorage(TEST_DB_NAME);
         }
 
         [TestFixtureTearDown]

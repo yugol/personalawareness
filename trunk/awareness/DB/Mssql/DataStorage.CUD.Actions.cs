@@ -27,7 +27,7 @@
  */
 using System;
 
-namespace Awareness.db.mssql
+namespace Awareness.DB.Mssql
 {
     partial class DataStorage
     {
@@ -37,7 +37,7 @@ namespace Awareness.db.mssql
                 action.Parent = GetRootAction();
             }
             PreludeInsertNotable(action, note, DataStorage.NOTE_ACTIONS_ID);
-            dataContext.actions.InsertOnSubmit(action);
+            dataContext.Actions.InsertOnSubmit(action);
             dataContext.SubmitChanges();
             NotifyActionsChanged();
         }
@@ -65,7 +65,7 @@ namespace Awareness.db.mssql
         void DeleteOneAction(DalAction action)
         {
             DalNote note = (action.HasNote) ? (action.Note) : (null);
-            dataContext.actions.DeleteOnSubmit(action);
+            dataContext.Actions.DeleteOnSubmit(action);
             dataContext.SubmitChanges();
             if (note != null) {
                 DeleteNote(note);

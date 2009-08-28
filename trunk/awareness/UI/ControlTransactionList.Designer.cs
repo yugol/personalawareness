@@ -27,7 +27,7 @@
  * Time: 12:55
  * 
  */
-namespace Awareness.ui
+namespace Awareness.UI
 {
     partial class ControlTransactionList
     {

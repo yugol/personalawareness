@@ -27,13 +27,13 @@
  */
 using System;
 
-namespace Awareness.db.mssql
+namespace Awareness.DB.Mssql
 {
     partial class DataStorage
     {
         public override void InsertMeal(DalMeal meal)
         {
-            dataContext.meals.InsertOnSubmit(meal);
+            dataContext.Meals.InsertOnSubmit(meal);
             meal.What.AvailableQuantitySetNull();
             if (meal.Why.Type == DalReason.TYPE_FOOD) {
                 meal.Why.AvailableQuantitySetNull();
@@ -63,7 +63,7 @@ namespace Awareness.db.mssql
             DalReason why = meal.Why;
 
             meal.What.AvailableQuantitySetNull();
-            dataContext.meals.DeleteOnSubmit(meal);
+            dataContext.Meals.DeleteOnSubmit(meal);
             dataContext.SubmitChanges();
 
             if (why is DalRecipe) {

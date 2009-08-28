@@ -30,9 +30,8 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
-namespace Awareness.ui {
+namespace Awareness.UI {
     [TestFixture]
     public class UtilTest {
         // [Test]

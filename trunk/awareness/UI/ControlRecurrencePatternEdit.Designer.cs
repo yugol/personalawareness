@@ -27,7 +27,7 @@
  * Time: 11:48
  * 
  */
-namespace Awareness.ui
+namespace Awareness.UI
 {
     partial class ControlRecurrencePatternEdit
     {

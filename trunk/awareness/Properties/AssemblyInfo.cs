@@ -33,4 +33,4 @@ using System.Runtime.InteropServices;
 
 // Custom
 [assembly: NeutralResourcesLanguageAttribute("en", UltimateResourceFallbackLocation.MainAssembly)]
-[assembly:CLSCompliant(true)]
+[assembly:CLSCompliant(false)]
