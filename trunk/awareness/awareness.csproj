@@ -14,6 +14,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <ApplicationIcon>..\resources\PersonalAwareness.ico</ApplicationIcon>
+    <RunCodeAnalysis>True</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -155,7 +156,9 @@
       <DependentUpon>DataStorage.cs</DependentUpon>
     </Compile>
     <Compile Include="db\mssql\DataStorageTest.cs" />
+    <Compile Include="db\NameAmmount.cs" />
     <Compile Include="db\Notable.cs" />
+    <Compile Include="db\PeriodAmmount.cs" />
     <Compile Include="db\XmlProperties.cs" />
     <Compile Include="db\XmlPropertiesTest.cs" />
     <Compile Include="Timerable.cs" />

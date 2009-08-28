@@ -455,5 +455,80 @@ namespace Awareness.db.mssql
         {
             return GetBudgetCategories().Where(bc => !bc.IsIncome);
         }
+
+        public override IEnumerable<DalTransaction> GetTransactions(DateTime first, DateTime last, DalTransferLocation transferLocation, string reasonSelectionPattern)
+        {
+            return _GetTransactions(first, last, transferLocation, reasonSelectionPattern);
+        }
+
+        IQueryable<DalTransaction> _GetTransactions(DateTime first, DateTime last, DalTransferLocation transferLocation, string reasonSelectionPattern)
+        {
+            IQueryable<DalTransaction> transactions = null;
+
+            #if DEBUG
+            transactions = from t in dataContext.transactions
+                           where (t.When >= first)&&(t.When <= last)
+                           orderby t.When, t.Reason.Name, t.From.Name, t.To.Name
+                           select t;
+            #else
+            transactions = from t in dataContext.transactions
+                           where (t.When >= first)&&(t.When <= last)
+                           where t.FromId > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS&&t.ToId > AwarenessDataContext.RESERVED_TRANSFER_LOCATIONS
+                           orderby t.When, t.Reason.Name, t.From.Name, t.To.Name
+                           select t;
+            #endif
+
+            if (transferLocation != null) {
+                transactions = transactions.Where(t => (t.FromId == transferLocation.Id)||(t.ToId == transferLocation.Id));
+            }
+            if (reasonSelectionPattern != null) {
+                transactions = transactions.Where(t => t.Reason.Name.Contains(reasonSelectionPattern));
+            }
+
+            return transactions;
+        }
+
+        public override IEnumerable<DalTransaction> GetExpensesHistogramData(DateTime first, DateTime last, DalTransferLocation transferLocation, string reasonSelectionPattern)
+        {
+            IQueryable<DalTransaction> transactions = _GetTransactions(first, last, transferLocation, reasonSelectionPattern);
+            return from t in transactions
+                   where t.To.IsBudget && !((DalBudgetCategory) t.To).IsIncome
+                   orderby t.When
+                   select t;
+        }
+
+        public override IEnumerable<DalTransaction> GetIncomeHistogramData(DateTime first, DateTime last, DalTransferLocation transferLocation, string reasonSelectionPattern)
+        {
+            IQueryable<DalTransaction> transactions = _GetTransactions(first, last, transferLocation, reasonSelectionPattern);
+            return from t in transactions
+                   where t.From.IsBudget && ((DalBudgetCategory) t.From).IsIncome
+                   orderby t.When
+                   select t;
+        }
+
+        public override IEnumerable<NameAmmount> GetExpensesPieChartData(DateTime first, DateTime last, DalTransferLocation transferLocation, string reasonSelectionPattern)
+        {
+            IQueryable<DalTransaction> transactions = _GetTransactions(first, last, transferLocation, reasonSelectionPattern);
+            return from t in transactions
+                   where t.To.IsBudget&&!((DalBudgetCategory) t.To).IsIncome
+                   group t by t.To into slice
+            select new NameAmmount() {
+                Name = slice.Key.Name, Ammount = slice.Sum(t => t.Ammount)
+                                             };
+        }
+
+        public override IEnumerable<NameAmmount> GetIncomePieChartData(DateTime first, DateTime last, DalTransferLocation transferLocation, string reasonSelectionPattern)
+        {
+            IQueryable<DalTransaction> transactions = _GetTransactions(first, last, transferLocation, reasonSelectionPattern);
+            return from t in transactions
+                   where t.From.IsBudget&&((DalBudgetCategory) t.From).IsIncome
+                   group t by t.From into slice
+                   // orderby slice.Key.Name
+            select new NameAmmount() {
+                Name = slice.Key.Name, Ammount = slice.Sum(t => t.Ammount)
+                                             };
+        }
+
+
     }
 }

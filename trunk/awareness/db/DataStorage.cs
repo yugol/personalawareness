@@ -137,6 +137,11 @@ namespace Awareness.db
         public abstract IEnumerable<DalBudgetCategory> GetIncomeBudgetCategories();
         public abstract IEnumerable<DalBudgetCategory> GetExpensesBudgetCategories();
         public abstract IEnumerable<DalReason> GetTransactionReasons();
+        public abstract IEnumerable<DalTransaction> GetTransactions(DateTime first, DateTime last, DalTransferLocation transferLocation, string reasonSelectionPattern);
+        public abstract IEnumerable<DalTransaction> GetExpensesHistogramData(DateTime first, DateTime last, DalTransferLocation transferLocation, string reasonSelectionPattern);
+        public abstract IEnumerable<DalTransaction> GetIncomeHistogramData(DateTime first, DateTime last, DalTransferLocation transferLocation, string reasonSelectionPattern);
+        public abstract IEnumerable<NameAmmount> GetExpensesPieChartData(DateTime first, DateTime last, DalTransferLocation transferLocation, string reasonSelectionPattern);
+        public abstract IEnumerable<NameAmmount> GetIncomePieChartData(DateTime first, DateTime last, DalTransferLocation transferLocation, string reasonSelectionPattern);
 
         public abstract IEnumerable<DalAccountType> GetDumperAccountTypes();
         public abstract IEnumerable<DalTransferLocation> GetDumperTransferLocations();
