@@ -28,15 +28,15 @@
  *
  */
 using System;
-using Awareness.db.mssql;
+using Awareness.DB.Mssql;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     partial class DBUtil {
         internal static void InsertTransaction(DalTransaction transaction, DalNote note){
 			transaction.Reason.AvailableQuantitySetNull();
             PreludeInsertNotable(transaction, note, DataStorage.NOTE_TRANSACTIONS_ID);
-            dataContext.transactions.InsertOnSubmit(transaction);
+            dataContext.Transactions.InsertOnSubmit(transaction);
             dataContext.SubmitChanges();
             NotifyTransactionsChanged(transaction);
         }
@@ -50,7 +50,7 @@ namespace Awareness.db
         internal static void DeleteTransaction(DalTransaction transaction){
 			transaction.Reason.AvailableQuantitySetNull();
             DalNote note = (transaction.HasNote) ? (transaction.Note) : (null);
-            dataContext.transactions.DeleteOnSubmit(transaction);
+            dataContext.Transactions.DeleteOnSubmit(transaction);
             dataContext.SubmitChanges();
             if (note != null){
                 DeleteNote(note);

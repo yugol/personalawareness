@@ -30,9 +30,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-using Awareness.db.mssql;
+using Awareness.DB.Mssql;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     public class Dumper
     {

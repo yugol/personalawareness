@@ -28,9 +28,9 @@
 using System;
 using System.IO;
 
-namespace Awareness.db.mssql
+namespace Awareness.DB.Mssql
 {
-    public partial class DataStorage : Awareness.db.DataStorage
+    public partial class DataStorage : Awareness.DB.DataStorage
     {
         AwarenessDataContext dataContext;
 

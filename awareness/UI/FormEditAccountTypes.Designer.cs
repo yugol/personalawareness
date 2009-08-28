@@ -27,7 +27,7 @@
  * Time: 14:32
  * 
  */
-namespace Awareness.ui
+namespace Awareness.UI
 {
     partial class FormEditAccountTypes
     {
@@ -67,7 +67,7 @@ namespace Awareness.ui
         	this.nameBox = new System.Windows.Forms.TextBox();
         	this.nameLabel = new System.Windows.Forms.Label();
         	this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-        	this.noteControl = new Awareness.ui.ControlAddNote();
+        	this.noteControl = new Awareness.UI.ControlAddNote();
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
         	this.SuspendLayout();
         	// 
@@ -186,7 +186,7 @@ namespace Awareness.ui
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
-        private Awareness.ui.ControlAddNote noteControl;
+        private Awareness.UI.ControlAddNote noteControl;
         private System.Windows.Forms.Label nameLabel;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.TextBox nameBox;

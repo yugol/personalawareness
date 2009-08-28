@@ -32,7 +32,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     public enum EJumpSize { Day, Week, Month }
 

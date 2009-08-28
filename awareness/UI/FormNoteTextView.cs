@@ -31,9 +31,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-using Awareness.db;
+using Awareness.DB;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     public partial class FormNoteTextView : Form {
         public event NoteHandler NoteTextChanged;

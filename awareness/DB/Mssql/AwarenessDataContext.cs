@@ -31,7 +31,7 @@ using System;
 using System.Linq;
 using System.Data.Linq;
 
-namespace Awareness.db.mssql
+namespace Awareness.DB.Mssql
 {
     public class AwarenessDataContext : DataContext
     {
@@ -48,6 +48,63 @@ namespace Awareness.db.mssql
         public Table<DalMeal> meals;
         public Table<DalNote> notes;
         public Table<DalAction> actions;
+
+        public Table<DalProperties> Properties
+        {
+            get {
+                return properties;
+            }
+        }
+
+        public Table<DalAccountType> AccountTypes
+        {
+            get {
+                return accountTypes;
+            }
+        }
+
+        public Table<DalTransferLocation> TransferLocations
+        {
+            get {
+                return transferLocations;
+            }
+        }
+
+        public Table<DalReason> TransactionReasons
+        {
+            get {
+                return transactionReasons;
+            }
+        }
+
+        public Table<DalTransaction> Transactions
+        {
+            get {
+                return transactions;
+            }
+        }
+
+        public Table<DalMeal> Meals
+        {
+            get {
+                return meals;
+            }
+        }
+
+        public Table<DalNote> Notes
+        {
+            get {
+                return notes;
+            }
+        }
+
+        public Table<DalAction> Actions
+        {
+            get {
+                return actions;
+            }
+        }
+
 
         public new void CreateDatabase()
         {

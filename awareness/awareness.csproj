@@ -14,7 +14,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <ApplicationIcon>..\resources\PersonalAwareness.ico</ApplicationIcon>
-    <RunCodeAnalysis>True</RunCodeAnalysis>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -46,7 +46,7 @@
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="nunit.framework">
-      <HintPath>D:\bin\SharpDevelop\3.0\bin\Tools\NUnit\nunit.framework.dll</HintPath>
+      <HintPath>D:\bin\SharpDevelop\DailyBuild\bin\Tools\NUnit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -446,7 +446,6 @@
     <EmbeddedResource Include="ui\FormTodo.resx">
       <DependentUpon>FormTodo.cs</DependentUpon>
     </EmbeddedResource>
-    <Content Include="ProfilingSessions\Session20090725_155723.sdps" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="db" />

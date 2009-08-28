@@ -29,14 +29,14 @@
 
 using System;
 using System.Linq;
-using Awareness.db.mssql;
-namespace Awareness.db
+using Awareness.DB.Mssql;
+namespace Awareness.DB
 {
     partial class DBUtil {
         internal static event DatabaseChangedHandler PropertiesChanged;
 
         internal static DalProperties GetProperties() {
-            return dataContext.properties.First();
+            return dataContext.Properties.First();
         }
 
         internal static void UpdateProperties() {

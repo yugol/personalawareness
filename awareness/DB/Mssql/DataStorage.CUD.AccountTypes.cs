@@ -27,7 +27,7 @@
  */
 using System;
 
-namespace Awareness.db.mssql
+namespace Awareness.DB.Mssql
 {
     partial class DataStorage
     {
@@ -35,7 +35,7 @@ namespace Awareness.db.mssql
         public override void InsertAccountType(DalAccountType accountTypes, DalNote note)
         {
             PreludeInsertNotable(accountTypes, note, DataStorage.NOTE_ACCOUNT_TYPES_ID);
-            dataContext.accountTypes.InsertOnSubmit(accountTypes);
+            dataContext.AccountTypes.InsertOnSubmit(accountTypes);
             dataContext.SubmitChanges();
             NotifyAccountTypesChanged();
         }
@@ -49,7 +49,7 @@ namespace Awareness.db.mssql
         public override void DeleteAccountType(DalAccountType accountType)
         {
             DalNote note = (accountType.HasNote) ? (accountType.Note) : (null);
-            dataContext.accountTypes.DeleteOnSubmit(accountType);
+            dataContext.AccountTypes.DeleteOnSubmit(accountType);
             dataContext.SubmitChanges();
             if (note != null) {
                 DeleteNote(note);

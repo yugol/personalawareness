@@ -30,7 +30,7 @@
 using System;
 using System.Data.Linq.Mapping;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     public class DalBudgetCategory : DalTransferLocation
     {

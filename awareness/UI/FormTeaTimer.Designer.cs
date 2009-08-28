@@ -27,7 +27,7 @@
  */
 
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     partial class FormTeaTimer
     {

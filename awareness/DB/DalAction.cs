@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     [Table(Name = "actions")]
     public class DalAction : Notable
@@ -280,14 +280,14 @@ namespace Awareness.db
                 Name = "pattern",
                 DbType = "int NOT NULL",
                 CanBeNull = false)]
-        public UInt32 Pattern
+        internal UInt32 Pattern
         {
             get {
                 return _pattern;
             }
         }
 
-        public RecurrencePattern RecurrencePattern
+        internal RecurrencePattern RecurrencePattern
         {
             get {
                 return new RecurrencePattern(_pattern);

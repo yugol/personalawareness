@@ -28,13 +28,13 @@
 using System;
 using System.Linq;
 
-namespace Awareness.db.mssql
+namespace Awareness.DB.Mssql
 {
     partial class DataStorage
     {
         public override DalProperties GetProperties()
         {
-            return dataContext.properties.First();
+            return dataContext.Properties.First();
         }
 
         public override void UpdateProperties(XmlProperties xmlProp)

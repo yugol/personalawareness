@@ -28,10 +28,10 @@
 
 
 using System;
-using Awareness.db.mssql;
+using Awareness.DB.Mssql;
 using System.Linq;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     partial class DBUtil {
         
@@ -40,7 +40,7 @@ namespace Awareness.db
                 action.Parent = GetRootAction();
             }
             PreludeInsertNotable(action, note, DataStorage.NOTE_ACTIONS_ID);
-            dataContext.actions.InsertOnSubmit(action);
+            dataContext.Actions.InsertOnSubmit(action);
             dataContext.SubmitChanges();
             NotifyActionsChanged();
         }
@@ -64,7 +64,7 @@ namespace Awareness.db
 
         private static void DeleteOneAction(DalAction action){
             DalNote note = (action.HasNote) ? (action.Note) : (null);
-            dataContext.actions.DeleteOnSubmit(action);
+            dataContext.Actions.DeleteOnSubmit(action);
             dataContext.SubmitChanges();
             if (note != null){
                 DeleteNote(note);

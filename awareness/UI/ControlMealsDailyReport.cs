@@ -32,10 +32,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Awareness.db.mssql;
-using Awareness.db;
+using Awareness.DB.Mssql;
+using Awareness.DB;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     public partial class ControlMealsDailyReport : UserControl
     {

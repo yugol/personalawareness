@@ -28,8 +28,8 @@
 
 
 using System;
-using Awareness.db.mssql;
-namespace Awareness.db
+using Awareness.DB.Mssql;
+namespace Awareness.DB
 {
     partial class DBUtil {
         private static bool IsEmpty (DalNote note) {
@@ -93,7 +93,7 @@ namespace Awareness.db
             if (note.Parent == null){
                 note.Parent = GetRootNote();
             }
-            dataContext.notes.InsertOnSubmit(note);
+            dataContext.Notes.InsertOnSubmit(note);
             dataContext.SubmitChanges();
         }
 
@@ -116,7 +116,7 @@ namespace Awareness.db
             if (note.Id <= DataStorage.RESERVED_NOTES){
                 throw new ArgumentException("Trying to delete a reserved note");
             }
-            dataContext.notes.DeleteOnSubmit(note);
+            dataContext.Notes.DeleteOnSubmit(note);
             dataContext.SubmitChanges();
         }
         

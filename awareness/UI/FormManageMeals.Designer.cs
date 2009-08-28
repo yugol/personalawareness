@@ -27,7 +27,7 @@
  * Time: 16:04
  * 
  */
-namespace Awareness.ui
+namespace Awareness.UI
 {
     partial class FormManageMeals
     {

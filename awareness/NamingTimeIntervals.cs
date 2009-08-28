@@ -30,9 +30,9 @@
 using System;
 using System.Collections.Generic;
 
-using Awareness.db;
+using Awareness.DB;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     public struct NamingTimeIntervals : IEquatable<NamingTimeIntervals>
     {
@@ -77,12 +77,12 @@ namespace Awareness.ui
             return value.GetHashCode();
         }
 
-        public static bool operator == (NamingTimeIntervals lhs, NamingTimeIntervals rhs){
-            return lhs.Equals(rhs);
+        public static bool operator == (NamingTimeIntervals left, NamingTimeIntervals right){
+            return left.Equals(right);
         }
 
-        public static bool operator != (NamingTimeIntervals lhs, NamingTimeIntervals rhs){
-            return !(lhs.Equals(rhs)); // use operator == and negate result
+        public static bool operator != (NamingTimeIntervals left, NamingTimeIntervals right){
+            return !(left.Equals(right)); // use operator == and negate result
         }
 
         #endregion

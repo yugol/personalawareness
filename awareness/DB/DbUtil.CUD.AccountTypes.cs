@@ -28,14 +28,14 @@
 
 
 using System;
-using Awareness.db.mssql;
-namespace Awareness.db
+using Awareness.DB.Mssql;
+namespace Awareness.DB
 {
     partial class DBUtil
     {
         internal static void InsertAccountType(DalAccountType accountTypes, DalNote note){
             PreludeInsertNotable(accountTypes, note, DataStorage.NOTE_ACCOUNT_TYPES_ID);
-            dataContext.accountTypes.InsertOnSubmit(accountTypes);
+            dataContext.AccountTypes.InsertOnSubmit(accountTypes);
             dataContext.SubmitChanges();
             NotifyAccountTypesChanged();
         }
@@ -47,7 +47,7 @@ namespace Awareness.db
 
         internal static void DeleteAccountType(DalAccountType accountType){
             DalNote note = (accountType.HasNote) ? (accountType.Note) : (null);
-            dataContext.accountTypes.DeleteOnSubmit(accountType);
+            dataContext.AccountTypes.DeleteOnSubmit(accountType);
             dataContext.SubmitChanges();
             if (note != null){
                 DeleteNote(note);

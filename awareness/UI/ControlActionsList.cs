@@ -32,9 +32,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-using Awareness.db;
+using Awareness.DB;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     public enum ETitleFormats { HIDDEN, DAY_OF_WEEK, DAY_OF_MONTH }
 
@@ -140,7 +140,7 @@ namespace Awareness.ui
 
         public void UpdateActions()
         {
-            if (timeInterval != null && Controller.IsDbAvailable()) {
+            if (timeInterval != null && Controller.IsDBAvailable()) {
                 Debug.WriteLine("UpdateActions");
                 actionsView.BeginUpdate();
                 actionsView.Items.Clear();

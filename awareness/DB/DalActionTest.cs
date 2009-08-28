@@ -33,7 +33,7 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     [TestFixture]
     public class DalActionTest

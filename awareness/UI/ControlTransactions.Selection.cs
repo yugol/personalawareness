@@ -30,11 +30,11 @@
 using System;
 using System.Windows.Forms;
 
-using Awareness.db;
+using Awareness.DB;
 
 // SHOULD: default selection button
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     partial class ControlTransactions {
         

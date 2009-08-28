@@ -28,9 +28,9 @@
 
 using System;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
-    public struct RecurrencePattern
+    internal struct RecurrencePattern
     {
         public const UInt32 STEP_INTRADAY = 0;
         public const UInt32 STEP_DAILY = 1;
@@ -126,15 +126,15 @@ namespace Awareness.db
 
         public RecurrencePattern(UInt32 step, UInt32 frequency, UInt32 when){
             if (step > ABSOLUTE_MAX_STEP){
-                throw new ArgumentOutOfRangeException("STEP outside of bounds");
+                throw new ArgumentOutOfRangeException("step outside of bounds");
             }
 
             if (frequency > ABSOLUTE_MAX_FREQUENCY){
-                throw new ArgumentOutOfRangeException("FREQUENCY outside of bounds");
+                throw new ArgumentOutOfRangeException("frequency outside of bounds");
             }
 
             if (when > ABSOLUTE_MAX_WHEN){
-                throw new ArgumentOutOfRangeException("WHEN outside of bounds");
+                throw new ArgumentOutOfRangeException("when outside of bounds");
             }
 
             pattern = step;
@@ -155,43 +155,43 @@ namespace Awareness.db
             switch (Step){
             case STEP_INTRADAY:
                 if (Frequency == 0){
-                    throw new ArgumentOutOfRangeException("FREQUENCY outside of bounds");
+                    throw new ArgumentOutOfRangeException("frequency outside of bounds");
                 }
                 if (When > 0){
-                    throw new ArgumentOutOfRangeException("WHEN outside of bounds");
+                    throw new ArgumentOutOfRangeException("when outside of bounds");
                 }
                 break;
             case STEP_DAILY:
                 if (When > 0){
-                    throw new ArgumentOutOfRangeException("WHEN outside of bounds");
+                    throw new ArgumentOutOfRangeException("when outside of bounds");
                 }
                 break;
             case STEP_WEEKLY:
                 if (Frequency == 0){
-                    throw new ArgumentOutOfRangeException("FREQUENCY outside of bounds");
+                    throw new ArgumentOutOfRangeException("frequency outside of bounds");
                 }
                 if (When == 0||When > WHEN_ALL_WEEK){
-                    throw new ArgumentOutOfRangeException("WHEN outside of bounds");
+                    throw new ArgumentOutOfRangeException("when outside of bounds");
                 }
                 break;
             case STEP_MONTHLY:
                 if (Frequency == 0){
-                    throw new ArgumentOutOfRangeException("FREQUENCY outside of bounds");
+                    throw new ArgumentOutOfRangeException("frequency outside of bounds");
                 }
                 if (When == 0||When > 31){
-                    throw new ArgumentOutOfRangeException("WHEN outside of bounds");
+                    throw new ArgumentOutOfRangeException("when outside of bounds");
                 }
                 break;
             case STEP_YEARLY:
                 if (Frequency == 0||Frequency > FREQUENCY_DECEMBER){
-                    throw new ArgumentOutOfRangeException("FREQUENCY outside of bounds");
+                    throw new ArgumentOutOfRangeException("frequency outside of bounds");
                 }
                 if (When == 0||When > 31){
-                    throw new ArgumentOutOfRangeException("WHEN outside of bounds");
+                    throw new ArgumentOutOfRangeException("when outside of bounds");
                 }
                 break;
             default:
-                throw new ArgumentOutOfRangeException("STEP outside of bounds");
+                throw new ArgumentOutOfRangeException("step outside of bounds");
             }
         }
 

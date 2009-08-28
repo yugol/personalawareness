@@ -30,11 +30,11 @@
 using System;
 using System.Collections.Generic;
 
-using Awareness.db;
+using Awareness.DB;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
-    public struct NamingReasonTypes : IEquatable<NamingReasonTypes>
+    internal struct NamingReasonTypes : IEquatable<NamingReasonTypes>
     {
         sbyte type;
         string name;

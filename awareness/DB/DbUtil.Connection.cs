@@ -28,9 +28,9 @@
 
 using System;
 using System.Linq;
-using Awareness.db.mssql;
+using Awareness.DB.Mssql;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     partial class DBUtil {
         

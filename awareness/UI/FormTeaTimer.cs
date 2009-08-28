@@ -31,7 +31,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     public partial class FormTeaTimer : Form {
         public enum EPresentationMode { EDIT, RUN }

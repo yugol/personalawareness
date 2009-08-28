@@ -27,7 +27,7 @@
  */
 using System;
 
-namespace Awareness.db.mssql
+namespace Awareness.DB.Mssql
 {
     partial class DataStorage
     {
@@ -35,7 +35,7 @@ namespace Awareness.db.mssql
         {
             transaction.Reason.AvailableQuantitySetNull();
             PreludeInsertNotable(transaction, note, DataStorage.NOTE_TRANSACTIONS_ID);
-            dataContext.transactions.InsertOnSubmit(transaction);
+            dataContext.Transactions.InsertOnSubmit(transaction);
             dataContext.SubmitChanges();
             NotifyTransactionsChanged(transaction);
         }
@@ -51,7 +51,7 @@ namespace Awareness.db.mssql
         {
             transaction.Reason.AvailableQuantitySetNull();
             DalNote note = (transaction.HasNote) ? (transaction.Note) : (null);
-            dataContext.transactions.DeleteOnSubmit(transaction);
+            dataContext.Transactions.DeleteOnSubmit(transaction);
             dataContext.SubmitChanges();
             if (note != null) {
                 DeleteNote(note);

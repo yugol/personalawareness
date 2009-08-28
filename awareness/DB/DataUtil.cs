@@ -27,16 +27,16 @@
  */
 using System;
 
-namespace Awareness.db
+namespace Awareness.DB
 {
     public static class DataUtil
     {
         public static readonly string YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss";
         public static readonly string YYYYMMDD = "yyyy-MM-dd";
 
-        public static string Bool2String(bool b)
+        public static string Bool2String(bool value)
         {
-            return b ? "1" : "0";
+            return value ? "1" : "0";
         }
 
         public static string String2SqlString(string memo)

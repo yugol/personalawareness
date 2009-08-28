@@ -31,10 +31,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-using Awareness.db;
-using Awareness.db.mssql;
+using Awareness.DB;
+using Awareness.DB.Mssql;
 
-namespace Awareness.ui
+namespace Awareness.UI
 {
     internal class Util
     {
