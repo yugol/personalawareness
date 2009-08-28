@@ -165,18 +165,16 @@ namespace Awareness.ui
         void ReadTransactions()
         {
             if (isDisplayed&&readTransactionsBit) {
-                transactions = Controller.Storage.GetTransactions(timeIntervalSelectorControl.First, timeIntervalSelectorControl.Last);
-                if (selectedTransferLocation != null) {
-                    transactions = transactions.Where(t => (t.FromId == selectedTransferLocation.Id)||(t.ToId == selectedTransferLocation.Id));
-                }
-                if (reasonSelectionPattern != null) {
-                    transactions = transactions.Where(t => t.Reason.Name.Contains(reasonSelectionPattern));
-                }
+                transactions = Controller.Storage.GetTransactions(timeIntervalSelectorControl.First, 
+                                                                  timeIntervalSelectorControl.Last, 
+                                                                  selectedTransferLocation, 
+                                                                  reasonSelectionPattern);
 
                 transactionsView.SetData(transactions);
                 transactionsView.EnsureLastItemIsVisible();
 
-                reportsButton.Enabled = transactions.Count() > 0;
+                // MUST: watch this
+                reportsButton.Enabled = transactions.GetEnumerator().MoveNext();
                 readTransactionsBit = false;
                 //MessageBox.Show("Transactions updated");
             }

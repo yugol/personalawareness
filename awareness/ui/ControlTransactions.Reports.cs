@@ -28,8 +28,8 @@
  *
  */
 using System;
+using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 using Awareness.db;
@@ -37,116 +37,150 @@ using ZedGraph;
 
 namespace Awareness.ui
 {
-    partial class ControlTransactions {
+    partial class ControlTransactions
+    {
         enum EGrouping {DAILY, WEEKLY, MONTHLY, YEARLY}
 
-        class PeriodAmmount {
-            public DateTime date = DateTime.MinValue;
-            public decimal ammount = 0;
-        }
-
-        class NameAmmount {
-            public string Name = null;
-            public decimal Ammount = 0;
-        }
-
-        void ReportsButtonClick(object sender, EventArgs e){
+        void ReportsButtonClick(object sender, EventArgs e)
+        {
             reportsMenu.Show(Cursor.Position);
         }
 
-        void ExpensesPieChartToolStripMenuItemClick(object sender, EventArgs e){
+        void ExpensesPieChartToolStripMenuItemClick(object sender, EventArgs e)
+        {
             FormReport report = new FormReport();
             report.Text = "Expenses by Bugetary Caregories";
-
-            IQueryable<NameAmmount> pieSlices = from t in transactions
-                                                where t.To.IsBudget&&!((DalBudgetCategory) t.To).IsIncome
-                                                group t by t.To into slice
-                                                select new NameAmmount() {
-                Name = slice.Key.Name, Ammount = slice.Sum(t => t.Ammount)
-            };
-
-            PieReport(report, pieSlices);
+            PieReport(report,
+                      Controller.Storage.GetExpensesPieChartData(
+                          timeIntervalSelectorControl.First,
+                          timeIntervalSelectorControl.Last,
+                          selectedTransferLocation,
+                          reasonSelectionPattern));
         }
 
-        void ExpensesDailyToolStripMenuItemClick(object sender, EventArgs e){
+        void ExpensesDailyToolStripMenuItemClick(object sender, EventArgs e)
+        {
             FormReport report = new FormReport();
             report.Text = "Daily Expenses";
-            HistogramReport(GetExpensesHistogram(), report, EGrouping.DAILY);
+            HistogramReport(Controller.Storage.GetExpensesHistogramData(
+                                timeIntervalSelectorControl.First,
+                                timeIntervalSelectorControl.Last,
+                                selectedTransferLocation,
+                                reasonSelectionPattern),
+                            report,
+                            EGrouping.DAILY);
         }
 
-        void ExpensesWeeklyToolStripMenuItemClick(object sender, EventArgs e){
+        void ExpensesWeeklyToolStripMenuItemClick(object sender, EventArgs e)
+        {
             FormReport report = new FormReport();
             report.Text = "Weekly Expenses";
-            HistogramReport(GetExpensesHistogram(), report, EGrouping.WEEKLY);
+            HistogramReport(Controller.Storage.GetExpensesHistogramData(
+                                timeIntervalSelectorControl.First,
+                                timeIntervalSelectorControl.Last,
+                                selectedTransferLocation,
+                                reasonSelectionPattern),
+                            report,
+                            EGrouping.WEEKLY);
         }
 
-        void ExpensesMonthlyToolStripMenuItemClick(object sender, EventArgs e){
+        void ExpensesMonthlyToolStripMenuItemClick(object sender, EventArgs e)
+        {
             FormReport report = new FormReport();
             report.Text = "Monthly Expenses";
-            HistogramReport(GetExpensesHistogram(), report, EGrouping.MONTHLY);
+            HistogramReport(Controller.Storage.GetExpensesHistogramData(
+                                timeIntervalSelectorControl.First,
+                                timeIntervalSelectorControl.Last,
+                                selectedTransferLocation,
+                                reasonSelectionPattern),
+                            report,
+                            EGrouping.MONTHLY);
         }
 
-        void ExpensesYearlyToolStripMenuItemClick(object sender, EventArgs e){
+        void ExpensesYearlyToolStripMenuItemClick(object sender, EventArgs e)
+        {
             FormReport report = new FormReport();
             report.Text = "Yearly Expenses";
-            HistogramReport(GetExpensesHistogram(), report, EGrouping.YEARLY);
+            HistogramReport(Controller.Storage.GetExpensesHistogramData(
+                                timeIntervalSelectorControl.First,
+                                timeIntervalSelectorControl.Last,
+                                selectedTransferLocation,
+                                reasonSelectionPattern),
+                            report,
+                            EGrouping.YEARLY);
         }
 
-        IQueryable<DalTransaction> GetExpensesHistogram() {
-            return from t in transactions
-                   where t.To.IsBudget&&!((DalBudgetCategory) t.To).IsIncome
-                   orderby t.When
-                   select t;
-        }
 
-        void IncomePieChartToolStripMenuItemClick(object sender, EventArgs e){
+        void IncomePieChartToolStripMenuItemClick(object sender, EventArgs e)
+        {
             FormReport report = new FormReport();
             report.Text = "Income by Bugetary Caregories";
-
-            IQueryable<NameAmmount> pieSlices = from t in transactions
-                                                where t.From.IsBudget&&((DalBudgetCategory) t.From).IsIncome
-                                                group t by t.From into slice
-                                                // orderby slice.Key.Name
-                                                select new NameAmmount() {
-                Name = slice.Key.Name, Ammount = slice.Sum(t => t.Ammount)
-            };
-
-            PieReport(report, pieSlices);
+            PieReport(report,
+                      Controller.Storage.GetExpensesPieChartData(
+                          timeIntervalSelectorControl.First,
+                          timeIntervalSelectorControl.Last,
+                          selectedTransferLocation,
+                          reasonSelectionPattern));
         }
 
-        void IncomeYearlyToolStripMenuItemClick(object sender, EventArgs e){
+        void IncomeYearlyToolStripMenuItemClick(object sender, EventArgs e)
+        {
             FormReport report = new FormReport();
             report.Text = "Yearly Income";
-            HistogramReport(GetIncomeHistogram(), report, EGrouping.YEARLY);
+            HistogramReport(Controller.Storage.GetIncomeHistogramData(
+                                timeIntervalSelectorControl.First,
+                                timeIntervalSelectorControl.Last,
+                                selectedTransferLocation,
+                                reasonSelectionPattern),
+                            report,
+                            EGrouping.YEARLY);
         }
 
-        void IncomeMonthlyToolStripMenuItemClick(object sender, EventArgs e){
+        void IncomeMonthlyToolStripMenuItemClick(object sender, EventArgs e)
+        {
             FormReport report = new FormReport();
             report.Text = "Monthly Income";
-            HistogramReport(GetIncomeHistogram(), report, EGrouping.MONTHLY);
+            HistogramReport(Controller.Storage.GetIncomeHistogramData(
+                                timeIntervalSelectorControl.First,
+                                timeIntervalSelectorControl.Last,
+                                selectedTransferLocation,
+                                reasonSelectionPattern),
+                            report,
+                            EGrouping.MONTHLY);
         }
 
-        void IncomeWeeklyToolStripMenuItemClick(object sender, EventArgs e){
+        void IncomeWeeklyToolStripMenuItemClick(object sender, EventArgs e)
+        {
             FormReport report = new FormReport();
             report.Text = "Weekly Income";
-            HistogramReport(GetIncomeHistogram(), report, EGrouping.WEEKLY);
+            HistogramReport(Controller.Storage.GetIncomeHistogramData(
+                                timeIntervalSelectorControl.First,
+                                timeIntervalSelectorControl.Last,
+                                selectedTransferLocation,
+                                reasonSelectionPattern),
+                            report,
+                            EGrouping.WEEKLY);
         }
 
-        void IncomeDailyToolStripMenuItemClick(object sender, EventArgs e){
+        void IncomeDailyToolStripMenuItemClick(object sender, EventArgs e)
+        {
             FormReport report = new FormReport();
             report.Text = "Daily Income";
-            HistogramReport(GetIncomeHistogram(), report, EGrouping.DAILY);
+            HistogramReport(Controller.Storage.GetIncomeHistogramData(
+                                timeIntervalSelectorControl.First,
+                                timeIntervalSelectorControl.Last,
+                                selectedTransferLocation,
+                                reasonSelectionPattern),
+                            report,
+                            EGrouping.DAILY);
         }
 
-        IQueryable<DalTransaction> GetIncomeHistogram() {
-            return from t in transactions
-                   where t.From.IsBudget&&((DalBudgetCategory) t.From).IsIncome
-                   orderby t.When
-                   select t;
-        }
-
-        void PieReport(FormReport report, IQueryable<NameAmmount> pieSlices){
-            int sliceCount = pieSlices.Count();
+        void PieReport(FormReport report, IEnumerable<NameAmmount> pieSlices)
+        {
+            int sliceCount = 0;
+            foreach (var slice in pieSlices) {
+                ++sliceCount;
+            }
             double[] values = new double[sliceCount];
             string[] labels = new string[sliceCount];
             int i = 0;
@@ -177,7 +211,8 @@ namespace Awareness.ui
             report.Show();
         }
 
-        void HistogramReport(IQueryable<DalTransaction> transactions, FormReport report, EGrouping grouping){
+        void HistogramReport(IEnumerable<DalTransaction> transactions, FormReport report, EGrouping grouping)
+        {
             string title = "From " + timeIntervalSelectorControl.First.ToString("yyyy-MM-dd");
             title += " to " + timeIntervalSelectorControl.Last.ToString("yyyy-MM-dd");
 
@@ -194,16 +229,17 @@ namespace Awareness.ui
             report.Show();
         }
 
-        PointPairList GroupTransactions(IQueryable<DalTransaction> transactions, EGrouping grouping) {
+        PointPairList GroupTransactions(IEnumerable<DalTransaction> transactions, EGrouping grouping)
+        {
             PointPairList data = new PointPairList();
             PeriodAmmount pa = null;
 
-            foreach (DalTransaction transaction in transactions){
-                if (pa == null){
+            foreach (DalTransaction transaction in transactions) {
+                if (pa == null) {
                     pa = new PeriodAmmount();
                     pa.date = transaction.When;
                     pa.ammount = transaction.Ammount;
-                } else if (IsInOtherGroup(transaction.When, pa.date, grouping)){
+                } else if (IsInOtherGroup(transaction.When, pa.date, grouping)) {
                     data.Add(pa.date.ToOADate(), (double) pa.ammount);
                     pa = new PeriodAmmount();
                     pa.date = transaction.When;
@@ -213,15 +249,16 @@ namespace Awareness.ui
                     pa.ammount += transaction.Ammount;
                 }
             }
-            if (pa != null){
+            if (pa != null) {
                 data.Add(pa.date.ToOADate(), (double) pa.ammount);
             }
 
             return data;
         }
 
-        bool IsInOtherGroup(DateTime date, DateTime group, EGrouping grouping) {
-            switch (grouping){
+        bool IsInOtherGroup(DateTime date, DateTime group, EGrouping grouping)
+        {
+            switch (grouping) {
             case EGrouping.DAILY:
                 return date != group;
 
