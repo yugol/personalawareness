@@ -57,12 +57,16 @@ namespace Awareness.UI
         public ControlFinances()
         {
             InitializeComponent();
+            Controller.StorageOpened += new DataChangedHandler(StorageOpened);
+        }
 
-            DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateBalances);
-            DBUtil.AccountTypesChanged += new DatabaseChangedHandler(RequestUpdateBalances);
-            DBUtil.AccountsChanged += new DatabaseChangedHandler(RequestUpdateBalances);
-            DBUtil.TransactionsChanged += new DatabaseChangedHandler(RequestUpdateBalances);
-            DBUtil.PropertiesChanged += new DatabaseChangedHandler(RequestUpdateBalances);
+        void StorageOpened()
+        {
+            RequestUpdateBalances();
+            Controller.Storage.AccountTypesChanged += new DataChangedHandler(RequestUpdateBalances);
+            Controller.Storage.AccountsChanged += new DataChangedHandler(RequestUpdateBalances);
+            Controller.Storage.TransactionsChanged += new DataChangedHandler(RequestUpdateBalances);
+            Controller.Storage.PropertiesChanged += new DataChangedHandler(RequestUpdateBalances);
         }
 
         void RequestUpdateBalances()

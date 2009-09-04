@@ -36,43 +36,58 @@ using Awareness.DB;
 
 namespace Awareness.UI
 {
-    public partial class ControlDayActionsReport : UserControl {
+    public partial class ControlDayActionsReport : UserControl
+    {
         bool updateActionsBit = true;
         bool isDisplayed = false;
 
-        public bool IsDisplayed {
-            get { return isDisplayed; }
+        public bool IsDisplayed
+        {
+            get {
+                return isDisplayed;
+            }
             set {
                 isDisplayed = value;
                 UpdateActions();
             }
         }
 
-        public ControlDayActionsReport(){
+        public ControlDayActionsReport()
+        {
             InitializeComponent();
             datePicker.ValueChanged += new EventHandler(DatePickerValueChanged);
-            DBUtil.ActionsChanged += new DatabaseChangedHandler(RequestUpdateActions);
+            Controller.StorageOpened += new DataChangedHandler(StorageOpened);
         }
 
-        void RequestUpdateActions(){
+        void StorageOpened()
+        {
+            RequestUpdateActions();
+            Controller.Storage.ActionsChanged += new DataChangedHandler(RequestUpdateActions);
+        }
+
+        void RequestUpdateActions()
+        {
             updateActionsBit = true;
             UpdateActions();
         }
 
-        public void UpdateActions(){
-            if (isDisplayed && updateActionsBit){
+        public void UpdateActions()
+        {
+            if (isDisplayed && updateActionsBit) {
                 actionsListControl.UpdateActions();
                 updateActionsBit = false;
                 //MessageBox.Show("DayActionsReport updated");
             }
         }
 
-        void DatePickerValueChanged(object sender, EventArgs e){
+        void DatePickerValueChanged(object sender, EventArgs e)
+        {
             Debug.WriteLine("DatePickerValueChanged - day");
             actionsListControl.TimeInterval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, datePicker.Value);
         }
 
-        void ControlDayActionsReportLoad(object sender, EventArgs e){
+        void ControlDayActionsReportLoad(object sender, EventArgs e)
+        {
             datePicker.Value = DateTime.Now;
         }
     }

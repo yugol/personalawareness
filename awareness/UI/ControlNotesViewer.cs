@@ -48,9 +48,14 @@ namespace Awareness.UI
         public ControlNotesViewer()
         {
             InitializeComponent();
-            DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateNotesView);
+            Controller.StorageOpened += new DataChangedHandler(StorageOpened);
         }
 
+        void StorageOpened()
+        {
+            RequestUpdateNotesView();
+        }
+        
         void RequestUpdateNotesView()
         {
             updateNotesViewBit = true;
@@ -258,7 +263,7 @@ namespace Awareness.UI
             foreach (TreeNode child in node.Nodes) {
                 _RecDeleteNode(child);
             }
-            DBUtil.DeleteNote((DalNote) node.Tag);
+            Controller.Storage.DeleteNote((DalNote) node.Tag);
         }
 
         void NotesTreeKeyDown(object sender, KeyEventArgs e)

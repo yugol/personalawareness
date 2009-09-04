@@ -36,26 +36,29 @@ using Awareness.DB;
 
 namespace Awareness
 {
-    public class ManagerReminders {
-		
-		private static ManagerReminders instance = null;		
-		internal static ManagerReminders Instance {
-			get { 				
-				return instance; 
-			}
-		}
-		
-		internal static void CreateInstance() {
-			if (instance == null) {
-					instance = new ManagerReminders();
-				}
-		}
+    public class ManagerReminders
+    {
+
+        private static ManagerReminders instance = null;
+        internal static ManagerReminders Instance
+        {
+            get {
+                return instance;
+            }
+        }
+
+        internal static void CreateInstance()
+        {
+            if (instance == null) {
+                instance = new ManagerReminders();
+            }
+        }
 
         private Timer timer;
         private TimerLogic timerLogic;
         private FormReminders remindersWindow;
 
-        ManagerReminders() 
+        ManagerReminders()
         {
             timer = new Timer();
             timer.Interval = 10000000;
@@ -70,36 +73,50 @@ namespace Awareness
             timerLogic.Tick += new EventHandler(remindersWindow.RefreshDueTimes);
             timerLogic.Completed += new TaskCompletedHandler(TaskCompleted);
 
-            DBUtil.DataContextClosing += new DatabaseChangedHandler(Hide); // close the window when database is closed
-            DBUtil.DataContextChanged += new DatabaseChangedHandler(ReadReminders); // read reminders when db changes
-            DBUtil.ActionsChanged += new DatabaseChangedHandler(ReadReminders); // read reminders when actions change
+            Controller.StorageOpened += new DataChangedHandler(StorageOpened);
+            Controller.StorageClosing += new DataChangedHandler(StorageClosing);
 
             timer.Start();
             timerLogic.Start();
             remindersWindow.Clear();
         }
 
-        internal void Display() {
+        void StorageOpened()
+        {
+            ReadReminders();
+            Controller.Storage.ActionsChanged += new DataChangedHandler(ReadReminders);
+        }
+
+        void StorageClosing()
+        {
+            Hide();
+        }
+
+        internal void Display()
+        {
             remindersWindow.Visible = false;
             remindersWindow.Visible = true;
         }
 
-        void Hide() {
+        void Hide()
+        {
             remindersWindow.Visible = false;
         }
 
-        private void TimerTick(object sender, EventArgs e) {
+        void TimerTick(object sender, EventArgs e)
+        {
             ReadReminders();
         }
 
-        private void ReadReminders() {
+        private void ReadReminders()
+        {
             TimeInterval interval = new TimeInterval(DateTime.Now.AddDays(-1), DateTime.Now.AddDays(1));
 
             timerLogic.Clear();
             remindersWindow.Clear();
 
             List<ActionOccurrence> occurrences = Controller.Storage.GetUncheckedActionOccurencesWithReminder(interval);
-            foreach (ActionOccurrence occurrence in occurrences){
+            foreach (ActionOccurrence occurrence in occurrences) {
                 remindersWindow.Add(occurrence);
                 timerLogic.Add(occurrence);
             }
@@ -107,17 +124,18 @@ namespace Awareness
             remindersWindow.RefreshDueTimes(null, null);
         }
 
-        private void TaskCompleted(object sender, Timerable task) {
+        private void TaskCompleted(object sender, Timerable task)
+        {
             ActionOccurrence occurrence = (ActionOccurrence) task;
-            if (occurrence.Action.HasSoundReminder){
+            if (occurrence.Action.HasSoundReminder) {
                 string command = occurrence.Action.ReminderSound;
                 Launcher.PlayMediaFile(command);
             }
-            if (occurrence.Action.HasCommandReminder){
+            if (occurrence.Action.HasCommandReminder) {
                 string command = occurrence.Action.ReminderCommand;
                 Launcher.ExecuteComand(command);
             }
-            if (occurrence.Action.HasWindowReminder){
+            if (occurrence.Action.HasWindowReminder) {
                 MessageBox.Show(occurrence.Action.Name,
                                 "Reminder",
                                 MessageBoxButtons.OK,

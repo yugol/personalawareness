@@ -71,13 +71,16 @@ namespace Awareness.UI
         public ControlAvailableFoods()
         {
             InitializeComponent();
-
             Util.SetMinMaxDatesAndShortFormatFor(datePicker);
-
-            DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
-            DBUtil.MealsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
-            DBUtil.FoodsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
-            DBUtil.TransactionsChanged += new DatabaseChangedHandler(RequestUpdateAvailableFoods);
+            Controller.StorageOpened += new DataChangedHandler(StorageOpened);
+        }
+        
+        void StorageOpened()
+        {
+            RequestUpdateAvailableFoods();
+            Controller.Storage.MealsChanged += new DataChangedHandler(RequestUpdateAvailableFoods);
+            Controller.Storage.FoodsChanged += new DataChangedHandler(RequestUpdateAvailableFoods);
+            Controller.Storage.TransactionsChanged += new DataChangedHandler(RequestUpdateAvailableFoods);
         }
 
         void RequestUpdateAvailableFoods()

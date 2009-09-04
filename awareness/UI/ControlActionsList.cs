@@ -126,7 +126,12 @@ namespace Awareness.UI
             InitializeComponent();
             actionsView.Items.Clear();
             TimeInterval = null;
-            DBUtil.DataContextChanged += new DatabaseChangedHandler(UpdateActions);
+            Controller.StorageOpened += new DataChangedHandler(StorageOpened);
+        }
+
+        void StorageOpened()
+        {
+            // UpdateActions();
         }
 
         void ActionsViewSizeChanged(object sender, EventArgs e)
@@ -141,7 +146,7 @@ namespace Awareness.UI
         public void UpdateActions()
         {
             if (timeInterval != null && Controller.IsDBAvailable()) {
-                Debug.WriteLine("UpdateActions");
+                Debug.WriteLine("ControlActionsList.UpdateActions");
                 actionsView.BeginUpdate();
                 actionsView.Items.Clear();
                 List<ActionOccurrence> occurrences = Controller.Storage.GetActionOccurrences(timeInterval);

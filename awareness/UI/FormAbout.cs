@@ -41,7 +41,7 @@ namespace Awareness.UI
         public FormAbout()
         {
             InitializeComponent();
-            versionLabel.Text = Configuration.AppVersion;
+            versionLabel.Text = Application.ProductVersion.ToString();
         }
     }
 }

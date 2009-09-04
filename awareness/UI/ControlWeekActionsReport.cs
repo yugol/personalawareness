@@ -36,31 +36,43 @@ using Awareness.DB;
 
 namespace Awareness.UI
 {
-    public partial class ControlWeekActionsReport : UserControl {
+    public partial class ControlWeekActionsReport : UserControl
+    {
         bool updateActionsBit = true;
         bool isDisplayed = false;
 
-        public bool IsDisplayed {
-            get { return isDisplayed; }
+        public bool IsDisplayed
+        {
+            get {
+                return isDisplayed;
+            }
             set {
                 isDisplayed = value;
                 UpdateActions();
             }
         }
 
-        public ControlWeekActionsReport(){
+        public ControlWeekActionsReport()
+        {
             InitializeComponent();
             datePicker.ValueChanged += new EventHandler(DatePickerValueChanged);
-            DBUtil.ActionsChanged += new DatabaseChangedHandler(RequestUpdateActions);
+            Controller.StorageOpened += new DataChangedHandler(StorageOpened);
         }
 
-        void RequestUpdateActions(){
+        void StorageOpened()
+        {
+            Controller.Storage.ActionsChanged += new DataChangedHandler(RequestUpdateActions);
+        }
+
+        void RequestUpdateActions()
+        {
             updateActionsBit = true;
             UpdateActions();
         }
 
-        void UpdateActions(){
-            if (isDisplayed && updateActionsBit){
+        void UpdateActions()
+        {
+            if (isDisplayed && updateActionsBit) {
                 mondayActions.UpdateActions();
                 tuesdayActions.UpdateActions();
                 wednesdayActions.UpdateActions();
@@ -73,7 +85,8 @@ namespace Awareness.UI
             }
         }
 
-        void DatePickerValueChanged(object sender, EventArgs e){
+        void DatePickerValueChanged(object sender, EventArgs e)
+        {
             DateTime day = TimeInterval.GetMonday(datePicker.Value);
             mondayActions.TimeInterval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, day);
             tuesdayActions.TimeInterval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, day.AddDays(1));
@@ -84,7 +97,8 @@ namespace Awareness.UI
             sundayActions.TimeInterval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, day.AddDays(6));
         }
 
-        void ControlWeekActionsReportLoad(object sender, EventArgs e){
+        void ControlWeekActionsReportLoad(object sender, EventArgs e)
+        {
             datePicker.Value = DateTime.Now;
         }
     }
