@@ -93,37 +93,6 @@
     <Compile Include="db\DataUtil.cs" />
     <Compile Include="db\Dumper.cs" />
     <Compile Include="db\DumperTest.cs" />
-    <Compile Include="db\DbUtil.cs" />
-    <Compile Include="db\DbUtil.Connection.cs">
-      <DependentUpon>DbUtil.cs</DependentUpon>
-    </Compile>
-    <Compile Include="db\DbUtil.CUD.AccountTypes.cs">
-      <DependentUpon>DbUtil.cs</DependentUpon>
-    </Compile>
-    <Compile Include="db\DbUtil.CUD.Actions.cs">
-      <DependentUpon>DbUtil.cs</DependentUpon>
-    </Compile>
-    <Compile Include="db\DbUtil.CUD.Meals.cs">
-      <DependentUpon>DbUtil.cs</DependentUpon>
-    </Compile>
-    <Compile Include="db\DbUtil.CUD.Notes.cs">
-      <DependentUpon>DbUtil.cs</DependentUpon>
-    </Compile>
-    <Compile Include="db\DbUtil.CUD.Reason.cs">
-      <DependentUpon>DbUtil.cs</DependentUpon>
-    </Compile>
-    <Compile Include="db\DbUtil.CUD.Transactions.cs">
-      <DependentUpon>DbUtil.cs</DependentUpon>
-    </Compile>
-    <Compile Include="db\DbUtil.CUD.TransferLocation.cs">
-      <DependentUpon>DbUtil.cs</DependentUpon>
-    </Compile>
-    <Compile Include="db\DbUtil.Reading.cs">
-      <DependentUpon>DbUtil.cs</DependentUpon>
-    </Compile>
-    <Compile Include="db\DbUtil.Properties.cs">
-      <DependentUpon>DbUtil.cs</DependentUpon>
-    </Compile>
     <Compile Include="db\DataStorage.cs" />
     <Compile Include="db\mssql\DataStorage.cs" />
     <Compile Include="db\mssql\AwarenessDataContext.cs" />

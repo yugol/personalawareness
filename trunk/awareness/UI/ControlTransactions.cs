@@ -76,14 +76,30 @@ namespace Awareness.UI
             transactionsView.SelectedIndexChanged += new EventHandler(TransactionsViewSelectedIndexChanged);
             timeIntervalSelectorControl.TimeIntervalChanged += new TimeIntervalChangedHandler(RequestReadTransactions);
 
-            DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransferLocations);
-            DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransactionReasons);
-            DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestReadTransactions);
-            DBUtil.TransactionReasonsChanged += new DatabaseChangedHandler(RequestReadTransactionReasons);
-            DBUtil.TransactionReasonsChanged += new DatabaseChangedHandler(RequestReadTransactions);
-            DBUtil.TransferLocationsChanged += new DatabaseChangedHandler(RequestReadTransferLocations);
-            DBUtil.TransferLocationsChanged += new DatabaseChangedHandler(RequestReadTransactions);
-            DBUtil.PropertiesChanged += new DatabaseChangedHandler(RequestReadTransactions);
+            Controller.StorageOpened += new DataChangedHandler(StorageOpened);
+        }
+
+        void StorageOpened()
+        {
+            RequestReadTransferLocations();
+            RequestReadTransactionReasons();
+            RequestReadTransactions();
+
+            Controller.Storage.TransactionReasonsChanged += new DataChangedHandler(TransactionReasonsChanged);
+            Controller.Storage.TransferLocationsChanged += new DataChangedHandler(TransferLocationsChanged);
+            Controller.Storage.PropertiesChanged += new DataChangedHandler(RequestReadTransactions);
+        }
+
+        void TransactionReasonsChanged()
+        {
+            RequestReadTransactionReasons();
+            RequestReadTransactions();
+        }
+
+        void TransferLocationsChanged()
+        {
+            RequestReadTransferLocations();
+            RequestReadTransactions();
         }
 
         void RequestReadTransferLocations()
@@ -165,10 +181,10 @@ namespace Awareness.UI
         void ReadTransactions()
         {
             if (isDisplayed&&readTransactionsBit) {
-                transactions = Controller.Storage.GetTransactions(timeIntervalSelectorControl.First, 
-                                                                  timeIntervalSelectorControl.Last, 
-                                                                  selectedTransferLocation, 
-                                                                  reasonSelectionPattern);
+                transactions = Controller.Storage.GetTransactions(timeIntervalSelectorControl.First,
+                               timeIntervalSelectorControl.Last,
+                               selectedTransferLocation,
+                               reasonSelectionPattern);
 
                 transactionsView.SetData(transactions);
                 transactionsView.EnsureLastItemIsVisible();

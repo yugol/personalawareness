@@ -90,14 +90,14 @@ namespace Awareness.UI
         	this.label2.AutoSize = true;
         	this.label2.Location = new System.Drawing.Point(64, 40);
         	this.label2.Name = "label2";
-        	this.label2.Size = new System.Drawing.Size(156, 13);
+        	this.label2.Size = new System.Drawing.Size(186, 13);
         	this.label2.TabIndex = 2;
-        	this.label2.Text = "Copyright (C) 2008 Iulian Goriac";
+        	this.label2.Text = "Copyright (C) 2008, 2009 Iulian Goriac";
         	// 
         	// button1
         	// 
         	this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-        	this.button1.Location = new System.Drawing.Point(160, 72);
+        	this.button1.Location = new System.Drawing.Point(192, 72);
         	this.button1.Name = "button1";
         	this.button1.Size = new System.Drawing.Size(75, 23);
         	this.button1.TabIndex = 3;
@@ -119,7 +119,7 @@ namespace Awareness.UI
         	this.AcceptButton = this.button1;
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        	this.ClientSize = new System.Drawing.Size(249, 108);
+        	this.ClientSize = new System.Drawing.Size(281, 108);
         	this.Controls.Add(this.versionLabel);
         	this.Controls.Add(this.button1);
         	this.Controls.Add(this.label2);

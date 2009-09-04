@@ -36,6 +36,8 @@ namespace Awareness
 
     public static class Controller
     {
+        //FEATURE: ToDo is on the right side of actions (Day (and Week?))
+        
         public static event DataChangedHandler StorageOpened;
         public static event DataChangedHandler StorageClosing;
 

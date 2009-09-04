@@ -40,7 +40,12 @@ namespace Awareness.UI
         public ControlActionsOverview()
         {
             InitializeComponent();
-            DBUtil.DataContextChanged += new DatabaseChangedHandler(UpdateActionsTree);
+            Controller.StorageOpened += new DataChangedHandler(StorageOpened);
+        }
+
+        void StorageOpened()
+        {
+            UpdateActionsTree();
         }
 
         void UpdateActionsTree()

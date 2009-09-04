@@ -56,17 +56,19 @@ namespace Awareness.UI
         public ControlMealsDailyReport()
         {
             InitializeComponent();
-
             datePicker.JumpSize = EJumpSize.Day;
             datePicker.ValueChanged += new EventHandler(DatePickerValueChanged);
+            Controller.StorageOpened += new DataChangedHandler(StorageOpened);
+        }
 
-            DBUtil.DataContextChanged += new DatabaseChangedHandler(RequestUpdateReport);
-            DBUtil.MealsChanged += new DatabaseChangedHandler(RequestUpdateReport);
-            DBUtil.FoodsChanged += new DatabaseChangedHandler(RequestUpdateReport);
-
-            DBUtil.DataContextChanged += new DatabaseChangedHandler(UpdateWhyCombo);
-            DBUtil.RecipesChanged += new DatabaseChangedHandler(UpdateWhyCombo);
-            DBUtil.ConsumersChanged += new DatabaseChangedHandler(UpdateWhyCombo);
+        void StorageOpened()
+        {
+            RequestUpdateReport();
+            UpdateWhyCombo();
+            Controller.Storage.MealsChanged += new DataChangedHandler(RequestUpdateReport);
+            Controller.Storage.FoodsChanged += new DataChangedHandler(RequestUpdateReport);
+            Controller.Storage.RecipesChanged += new DataChangedHandler(UpdateWhyCombo);
+            Controller.Storage.ConsumersChanged += new DataChangedHandler(UpdateWhyCombo);
         }
 
         void RequestUpdateReport()

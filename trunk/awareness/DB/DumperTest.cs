@@ -34,7 +34,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using Awareness.DB.Mssql;
 using NUnit.Framework;
 
 namespace Awareness.DB

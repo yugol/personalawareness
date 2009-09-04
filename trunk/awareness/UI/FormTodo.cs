@@ -28,37 +28,50 @@
 
 
 using System;
-using System.Drawing;
 using System.Windows.Forms;
-
-using Awareness.DB;
 
 namespace Awareness.UI
 {
-    public partial class FormTodo : Form {
-        public FormTodo(){
+    public partial class FormTodo : Form
+    {
+        public FormTodo()
+        {
             InitializeComponent();
             ReadTodoNote();
-            DBUtil.DataContextChanged += new DatabaseChangedHandler(ReadTodoNote);
-            DBUtil.DataContextClosing += new DatabaseChangedHandler(NullifyTodoNote);
+            Controller.StorageOpened += new DataChangedHandler(StorageOpened);
+            Controller.StorageClosing += new DataChangedHandler(StorageClosing);
         }
 
-        void FormTodoFormClosing(object sender, FormClosingEventArgs e){
+        void StorageOpened()
+        {
+            ReadTodoNote();
+        }
+
+        void StorageClosing()
+        {
+            NullifyTodoNote();
+        }
+
+        void FormTodoFormClosing(object sender, FormClosingEventArgs e)
+        {
             e.Cancel = true;
             Visible = false;
         }
 
-        void ReadTodoNote() {
+        void ReadTodoNote()
+        {
             noteControl.Note = Controller.Storage.GetTodoNote();
         }
 
-        void NullifyTodoNote() {
+        void NullifyTodoNote()
+        {
             Visible = false;
             noteControl.Note = null;
         }
 
-        void FormTodoVisibleChanged(object sender, EventArgs e){
-            if (!Visible){
+        void FormTodoVisibleChanged(object sender, EventArgs e)
+        {
+            if (!Visible) {
                 noteControl.UpdateNote();
             } else {
                 ReadTodoNote();
