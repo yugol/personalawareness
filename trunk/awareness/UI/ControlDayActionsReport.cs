@@ -61,8 +61,12 @@ namespace Awareness.UI
 
         void StorageOpened()
         {
+            Debug.WriteLine("ControlDayActionsReport.StorageOpened |-");
+
             RequestUpdateActions();
             Controller.Storage.ActionsChanged += new DataChangedHandler(RequestUpdateActions);
+
+            Debug.WriteLine("ControlDayActionsReport.StorageOpened -|");
         }
 
         void RequestUpdateActions()
@@ -74,16 +78,22 @@ namespace Awareness.UI
         public void UpdateActions()
         {
             if (isDisplayed && updateActionsBit) {
+                Debug.WriteLine("ControlDayActionsReport.UpdateActions |-");
+                
                 actionsListControl.UpdateActions();
                 updateActionsBit = false;
-                //MessageBox.Show("DayActionsReport updated");
+                
+                Debug.WriteLine("ControlDayActionsReport.UpdateActions -|");
             }
         }
 
         void DatePickerValueChanged(object sender, EventArgs e)
         {
-            Debug.WriteLine("DatePickerValueChanged - day");
+            Debug.WriteLine("ControlDayActionsReport.DatePickerValueChanged |-");
+
             actionsListControl.TimeInterval = TimeInterval.CreateInterval(ETimeIntervals.TODAY, datePicker.Value);
+
+            Debug.WriteLine("ControlDayActionsReport.DatePickerValueChanged -|");
         }
 
         void ControlDayActionsReportLoad(object sender, EventArgs e)

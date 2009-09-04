@@ -29,6 +29,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 using Awareness.DB;
 
@@ -53,9 +54,13 @@ namespace Awareness.UI
 
         void StorageOpened()
         {
+            Debug.WriteLine("ControlNotesViewer.StorageOpened |-");
+
             RequestUpdateNotesView();
+
+            Debug.WriteLine("ControlNotesViewer.StorageOpened -|");
         }
-        
+
         void RequestUpdateNotesView()
         {
             updateNotesViewBit = true;
@@ -64,7 +69,7 @@ namespace Awareness.UI
 
         void UpdateNotesView()
         {
-            if (Visible&&updateNotesViewBit) {
+            if (Visible && updateNotesViewBit) {
                 notesTree.BeginUpdate();
 
                 notesTree.Nodes.Clear();

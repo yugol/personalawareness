@@ -28,6 +28,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 using Awareness.DB;
@@ -62,11 +63,15 @@ namespace Awareness.UI
 
         void StorageOpened()
         {
+            Debug.WriteLine("ControlFinances.StorageOpened |-");
+
             RequestUpdateBalances();
             Controller.Storage.AccountTypesChanged += new DataChangedHandler(RequestUpdateBalances);
             Controller.Storage.AccountsChanged += new DataChangedHandler(RequestUpdateBalances);
             Controller.Storage.TransactionsChanged += new DataChangedHandler(RequestUpdateBalances);
             Controller.Storage.PropertiesChanged += new DataChangedHandler(RequestUpdateBalances);
+
+            Debug.WriteLine("ControlFinances.StorageOpened -|");
         }
 
         void RequestUpdateBalances()

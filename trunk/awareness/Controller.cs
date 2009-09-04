@@ -29,6 +29,7 @@ using System;
 using System.IO;
 using Awareness.DB;
 using Awareness.UI;
+using System.Diagnostics;
 
 namespace Awareness
 {
@@ -36,8 +37,6 @@ namespace Awareness
 
     public static class Controller
     {
-        //FEATURE: ToDo is on the right side of actions (Day (and Week?))
-        
         public static event DataChangedHandler StorageOpened;
         public static event DataChangedHandler StorageClosing;
 
@@ -62,6 +61,8 @@ namespace Awareness
 
         public static void OpenStorage(string storageId)
         {
+            Debug.WriteLine("Controller.OpenStorage |-");
+
             CloseStorage();
 
             string ext = storageId.Substring(storageId.LastIndexOf('.') + 1).ToLower();
@@ -76,6 +77,8 @@ namespace Awareness
                     StorageOpened();
                 }
             }
+
+            Debug.WriteLine("Controller.OpenStorage -|");
         }
 
         public static void DumpSql(string fileName)

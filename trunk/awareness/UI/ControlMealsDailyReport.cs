@@ -28,11 +28,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
+using System.Diagnostics;
 using System.Windows.Forms;
-using Awareness.DB.Mssql;
+
 using Awareness.DB;
 
 namespace Awareness.UI
@@ -63,12 +61,16 @@ namespace Awareness.UI
 
         void StorageOpened()
         {
+            Debug.WriteLine("ControlMealsDailyReport.StorageOpened |-");
+
             RequestUpdateReport();
             UpdateWhyCombo();
             Controller.Storage.MealsChanged += new DataChangedHandler(RequestUpdateReport);
             Controller.Storage.FoodsChanged += new DataChangedHandler(RequestUpdateReport);
             Controller.Storage.RecipesChanged += new DataChangedHandler(UpdateWhyCombo);
             Controller.Storage.ConsumersChanged += new DataChangedHandler(UpdateWhyCombo);
+
+            Debug.WriteLine("ControlMealsDailyReport.StorageOpened -|");
         }
 
         void RequestUpdateReport()

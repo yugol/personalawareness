@@ -29,6 +29,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 using Awareness.DB;
@@ -37,6 +38,20 @@ namespace Awareness.UI
 {
     public partial class ControlActionsOverview : UserControl
     {
+        bool doUpdate = true;
+        bool isDisplayed = false;
+
+        public bool IsDisplayed
+        {
+            get {
+                return isDisplayed;
+            }
+            set {
+                isDisplayed = value;
+                UpdateActionsTree();
+            }
+        }
+
         public ControlActionsOverview()
         {
             InitializeComponent();
@@ -45,28 +60,45 @@ namespace Awareness.UI
 
         void StorageOpened()
         {
+            Debug.WriteLine("ControlActionsOverview.StorageOpened |-");
+
+            RequestUpdateActionsTree();
+            Controller.Storage.ActionsChanged += new DataChangedHandler(RequestUpdateActionsTree);
+
+            Debug.WriteLine("ControlActionsOverview.StorageOpened -|");
+        }
+
+        void RequestUpdateActionsTree()
+        {
+            doUpdate = true;
             UpdateActionsTree();
         }
 
         void UpdateActionsTree()
         {
-            actionsTree.BeginUpdate();
+            if (isDisplayed && doUpdate) {
+                Debug.WriteLine("ControlActionsOverview.UpdateActionsTree |-");
+                
+                actionsTree.BeginUpdate();
 
-            actionsTree.Nodes.Clear();
-            actionEditControl.Node = null;
+                actionsTree.Nodes.Clear();
+                actionEditControl.Node = null;
 
-            IEnumerable<DalAction> actions = Controller.Storage.GetRootActions();
-            foreach (DalAction action in actions) {
-                TreeNode node = Action2Node(action);
-                actionsTree.Nodes.Add(node);
-                _AddChildNodes(node);
-                SetExpanded(node);
+                IEnumerable<DalAction> actions = Controller.Storage.GetRootActions();
+                foreach (DalAction action in actions) {
+                    TreeNode node = Action2Node(action);
+                    actionsTree.Nodes.Add(node);
+                    _AddChildNodes(node);
+                    SetExpanded(node);
+                }
+                if (actionsTree.Nodes.Count > 0) {
+                    actionsTree.SelectedNode = actionsTree.Nodes[0];
+                }
+
+                actionsTree.EndUpdate();
+                
+                Debug.WriteLine("ControlActionsOverview.UpdateActionsTree -|");
             }
-            if (actionsTree.Nodes.Count > 0) {
-                actionsTree.SelectedNode = actionsTree.Nodes[0];
-            }
-
-            actionsTree.EndUpdate();
         }
 
         void _AddChildNodes(TreeNode parentNode)
