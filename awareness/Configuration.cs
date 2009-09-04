@@ -31,6 +31,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
+using System.Diagnostics;
+
 using Awareness.DB;
 
 namespace Awareness
@@ -38,6 +40,7 @@ namespace Awareness
     internal static class Configuration {
         // COULD: add some Guttenberg project books (problem when inserting large texts from SQL in SQL Server, works in Compact)
         // SHOULD: calendar colors
+        // MUST: Update on view structure
 
         static Configuration()
         {
@@ -158,7 +161,11 @@ namespace Awareness
         }
         static void ResetStorageProperties()
         {
+            Debug.WriteLine("Configuration.ResetStorageProperties |-");
+            
             storageProperties = null;
+            
+            Debug.WriteLine("Configuration.ResetStorageProperties -|");
         }
         
         #endregion

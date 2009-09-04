@@ -200,14 +200,6 @@
         xGLZ1gAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="todoToolButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAADxJREFUOE9jYBiW
-        4D/QVzAM8iAym2gPgzTBAIyNLEbQIKobQJLtBJ1HSAFyIKKzCemljvyoC6gTjsSbAgD80iLebYqLFQAA
-        AABJRU5ErkJggg==
-</value>
-  </data>
   <metadata name="statusTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>351, 17</value>
   </metadata>

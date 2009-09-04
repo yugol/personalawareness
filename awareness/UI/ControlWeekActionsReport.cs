@@ -38,7 +38,7 @@ namespace Awareness.UI
 {
     public partial class ControlWeekActionsReport : UserControl
     {
-        bool updateActionsBit = true;
+        bool doUpdate = true;
         bool isDisplayed = false;
 
         public bool IsDisplayed
@@ -61,18 +61,25 @@ namespace Awareness.UI
 
         void StorageOpened()
         {
+            Debug.WriteLine("ControlWeekActionsReport.StorageOpened |-");
+
+            RequestUpdateActions();
             Controller.Storage.ActionsChanged += new DataChangedHandler(RequestUpdateActions);
+
+            Debug.WriteLine("ControlWeekActionsReport.StorageOpened -|");
         }
 
         void RequestUpdateActions()
         {
-            updateActionsBit = true;
+            doUpdate = true;
             UpdateActions();
         }
 
         void UpdateActions()
         {
-            if (isDisplayed && updateActionsBit) {
+            if (isDisplayed && doUpdate) {
+                Debug.WriteLine("ControlWeekActionsReport.UpdateActions |-");
+                
                 mondayActions.UpdateActions();
                 tuesdayActions.UpdateActions();
                 wednesdayActions.UpdateActions();
@@ -80,8 +87,9 @@ namespace Awareness.UI
                 fridayActions.UpdateActions();
                 saturdayActions.UpdateActions();
                 sundayActions.UpdateActions();
-                updateActionsBit = false;
-                //MessageBox.Show("WeekActionsReport updated");
+                doUpdate = false;
+                
+                Debug.WriteLine("ControlWeekActionsReport.UpdateActions -|");
             }
         }
 

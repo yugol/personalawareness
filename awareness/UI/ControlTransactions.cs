@@ -28,6 +28,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 using Awareness.DB;
@@ -81,6 +82,8 @@ namespace Awareness.UI
 
         void StorageOpened()
         {
+            Debug.WriteLine("ControlTransactions.StorageOpened |-");
+            
             RequestReadTransferLocations();
             RequestReadTransactionReasons();
             RequestReadTransactions();
@@ -88,6 +91,8 @@ namespace Awareness.UI
             Controller.Storage.TransactionReasonsChanged += new DataChangedHandler(TransactionReasonsChanged);
             Controller.Storage.TransferLocationsChanged += new DataChangedHandler(TransferLocationsChanged);
             Controller.Storage.PropertiesChanged += new DataChangedHandler(RequestReadTransactions);
+            
+            Debug.WriteLine("ControlTransactions.StorageOpened -|");
         }
 
         void TransactionReasonsChanged()

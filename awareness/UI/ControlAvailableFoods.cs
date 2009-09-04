@@ -29,10 +29,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 using Awareness.DB;
-using Awareness.DB.Mssql;
 
 namespace Awareness.UI
 {
@@ -77,10 +77,14 @@ namespace Awareness.UI
         
         void StorageOpened()
         {
+            Debug.WriteLine("ControlAvailableFoods.StorageOpened |-");
+            
             RequestUpdateAvailableFoods();
             Controller.Storage.MealsChanged += new DataChangedHandler(RequestUpdateAvailableFoods);
             Controller.Storage.FoodsChanged += new DataChangedHandler(RequestUpdateAvailableFoods);
             Controller.Storage.TransactionsChanged += new DataChangedHandler(RequestUpdateAvailableFoods);
+            
+            Debug.WriteLine("ControlAvailableFoods.StorageOpened -|");
         }
 
         void RequestUpdateAvailableFoods()

@@ -27,7 +27,8 @@
  */
 
 using System;
-using System.IO;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 using Awareness.DB;
@@ -54,8 +55,8 @@ namespace Awareness.UI
 
             financesControl.AccountDoubleClick += new AccountDoubleClickHandler(ShowAllTransactionsForAccount);
 
-            Controller.StorageOpened += new DataChangedHandler(OpenStorageUpdate);
-            Controller.StorageClosing += new DataChangedHandler(CloseStorageUpdate);
+            Controller.StorageOpened += new DataChangedHandler(StorageOpened);
+            Controller.StorageClosing += new DataChangedHandler(StorageClosing);
         }
 
         void ExitApplication()
@@ -63,14 +64,25 @@ namespace Awareness.UI
             Close();
         }
 
-        void OpenStorageUpdate()
+        void StorageOpened()
         {
+            Debug.WriteLine("FormMain.StorageOpened |-");
+            
             SetTitle(genericTitle + " - " + Controller.Storage.Nick);
             SetDataOperatonsVisible(true);
             SelectActionsView();
+            toDoNote.Note = Controller.Storage.GetTodoNote();
+            
+            Debug.WriteLine("FormMain.StorageOpened -|");
         }
 
-        void CloseStorageUpdate()
+        void StorageClosing()
+        {
+            toDoNote.UpdateNote();
+            ResetView();
+        }
+
+        void ResetView()
         {
             SetTitle(genericTitle);
             SetDataOperatonsVisible(false);
@@ -86,14 +98,9 @@ namespace Awareness.UI
             notesToolButton.Visible = b;
             mealsToolButton.Visible = b;
             financesToolButton.Visible = b;
-
             remindersToolButton.Visible = b;
-            todoToolButton.Visible = b;
-
             remindersToolStripMenuItem.Visible = b;
-            todoListToolStripMenuItem.Visible = b;
         }
-
 
         internal void SetTitle(string title)
         {
@@ -111,12 +118,8 @@ namespace Awareness.UI
             notesToolButton.Visible = isDbOperational;
             mealsToolButton.Visible = isDbOperational;
             financesToolButton.Visible = isDbOperational;
-
             remindersToolButton.Visible = isDbOperational;
-            todoToolButton.Visible = isDbOperational;
-
             remindersToolStripMenuItem.Visible = isDbOperational;
-            todoListToolStripMenuItem.Visible = isDbOperational;
 
             ResetPanelsView();
         }
@@ -139,22 +142,12 @@ namespace Awareness.UI
 
         #region FormManagement
 
-        // const int WM_QUERYENDSESSION = 0x11;
-        // bool endSessionPending = false;
-        FormWindowState savedWindowState;
-
-        /*
-        protected override void WndProc(ref Message m) {
-         if (m.Msg == WM_QUERYENDSESSION) {
-                endSessionPending = true;
-         }
-            base.WndProc(ref m);
-        }
-         */
+        [DllImport("User32.dll")]
+        public static extern Int32 SetForegroundWindow(int hWnd);
 
         void FormMainLoad(object sender, EventArgs e)
         {
-            CloseStorageUpdate();
+            ResetView();
             UpdateStatusTime();
             statusTimer.Start();
 
@@ -163,61 +156,41 @@ namespace Awareness.UI
             }
         }
 
+        void FormMainFormClosing(object sender, FormClosingEventArgs e)
+        {
+            Controller.CloseStorage();
+        }
+
+        FormWindowState savedWindowState;
+
         void FormMainResize(object sender, EventArgs e)
         {
-            switch (WindowState) {
-            case FormWindowState.Maximized:
-                savedWindowState = FormWindowState.Maximized;
-                break;
-            case FormWindowState.Normal:
-                savedWindowState = FormWindowState.Normal;
-                break;
-            case FormWindowState.Minimized:
-                MinimizeToTray();
-                break;
+            if (WindowState != FormWindowState.Minimized) {
+                savedWindowState = WindowState;
             }
         }
 
-        void TrayIconDoubleClick(object sender, EventArgs e)
+        void TrayIconClick(object sender, EventArgs e)
         {
             RestoreFromTray();
         }
 
-        void TrayIconMouseDown(object sender, MouseEventArgs e)
+        void TrayIconMouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left) {
-                RestoreFromTray();
-            }
+            MinimizeToTray();
         }
 
-        private void MinimizeToTray()
+        void MinimizeToTray()
         {
             WindowState = FormWindowState.Minimized;
             Visible = false;
         }
 
-        private void RestoreFromTray()
+        void RestoreFromTray()
         {
             Visible = true;
             WindowState = savedWindowState;
-        }
-
-        /*
-        void FormMainFormClosing(object sender, FormClosingEventArgs e) {
-         if ((!endSessionPending) &&
-          (MessageBox.Show("Are you sure you want to quit Persoanl Awareness?",
-                             "Personal Awareness",
-                             MessageBoxButtons.YesNo,
-                             MessageBoxIcon.Question,
-                             MessageBoxDefaultButton.Button2) != DialogResult.Yes)) {
-          e.Cancel = true;
-         }
-        }
-         */
-
-        void FormMainFormClosed(object sender, FormClosedEventArgs e)
-        {
-            Controller.CloseStorage();
+            SetForegroundWindow(Handle.ToInt32());
         }
 
         #endregion
@@ -295,10 +268,13 @@ namespace Awareness.UI
         {
             dayActionsReportControl.IsDisplayed = false;
             weekActionsReport.IsDisplayed = false;
+            controlActionsOverview.IsDisplayed = false;
             if (actionPages.SelectedTab.Equals(dayPage)) {
                 dayActionsReportControl.IsDisplayed = true;
             } else if (actionPages.SelectedTab.Equals(weekPage)) {
                 weekActionsReport.IsDisplayed = true;
+            } else if (actionPages.SelectedTab.Equals(overviewPage)) {
+                controlActionsOverview.IsDisplayed = true;
             }
         }
 
@@ -327,6 +303,11 @@ namespace Awareness.UI
         #endregion
 
         #region MainMenu
+
+        void OpenStorgeToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            OpenStorage();
+        }
 
         void DumpToolStripMenuItemClick(object sender, EventArgs e)
         {
@@ -476,11 +457,6 @@ namespace Awareness.UI
             ManagerCalendar.Display();
         }
 
-        void TodoToolButtonClick(object sender, EventArgs e)
-        {
-            ManagerTodo.Display();
-        }
-
         #endregion
 
         #region Tools
@@ -505,22 +481,12 @@ namespace Awareness.UI
             ManagerCalendar.Display();
         }
 
-        void TodoListToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            ManagerTodo.Display();
-        }
-
         void ExitToolStripMenuItem1Click(object sender, EventArgs e)
         {
             ExitApplication();
         }
 
         #endregion
-
-        void OpenStorgeToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            OpenStorage();
-        }
 
         void OpenStorage()
         {
@@ -532,6 +498,5 @@ namespace Awareness.UI
             fd.ShowDialog();
             Controller.OpenStorage(fd.FileName);
         }
-
     }
 }
