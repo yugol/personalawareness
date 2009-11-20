@@ -397,6 +397,7 @@ namespace Awareness.UI
         	// controlActionsOverview
         	// 
         	this.controlActionsOverview.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.controlActionsOverview.IsDisplayed = false;
         	this.controlActionsOverview.Location = new System.Drawing.Point(3, 3);
         	this.controlActionsOverview.Name = "controlActionsOverview";
         	this.controlActionsOverview.Size = new System.Drawing.Size(370, 173);
@@ -697,8 +698,7 @@ namespace Awareness.UI
         	this.trayIcon.ContextMenuStrip = this.toolsMenuStrip;
         	this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
         	this.trayIcon.Visible = true;
-        	this.trayIcon.Click += new System.EventHandler(this.TrayIconClick);
-        	this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TrayIconMouseDoubleClick);
+        	this.trayIcon.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TrayIconMouseDown);
         	// 
         	// toolsMenuStrip
         	// 
