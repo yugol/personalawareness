@@ -67,12 +67,12 @@ namespace Awareness.UI
         void StorageOpened()
         {
             Debug.WriteLine("FormMain.StorageOpened |-");
-            
+
             SetTitle(genericTitle + " - " + Controller.Storage.Nick);
             SetDataOperatonsVisible(true);
             SelectActionsView();
             toDoNote.Note = Controller.Storage.GetTodoNote();
-            
+
             Debug.WriteLine("FormMain.StorageOpened -|");
         }
 
@@ -167,30 +167,18 @@ namespace Awareness.UI
         {
             if (WindowState != FormWindowState.Minimized) {
                 savedWindowState = WindowState;
+            } else {
+                Visible = false;
             }
         }
 
-        void TrayIconClick(object sender, EventArgs e)
+        void TrayIconMouseDown(object sender, MouseEventArgs e)
         {
-            RestoreFromTray();
-        }
-
-        void TrayIconMouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            MinimizeToTray();
-        }
-
-        void MinimizeToTray()
-        {
-            WindowState = FormWindowState.Minimized;
-            Visible = false;
-        }
-
-        void RestoreFromTray()
-        {
-            Visible = true;
-            WindowState = savedWindowState;
-            SetForegroundWindow(Handle.ToInt32());
+            if (e.Button == MouseButtons.Left) {
+                Visible = true;
+                WindowState = savedWindowState;
+                SetForegroundWindow(Handle.ToInt32());
+            }
         }
 
         #endregion
@@ -498,5 +486,6 @@ namespace Awareness.UI
             fd.ShowDialog();
             Controller.OpenStorage(fd.FileName);
         }
+
     }
 }
