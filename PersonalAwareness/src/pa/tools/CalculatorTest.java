@@ -153,4 +153,45 @@ public class CalculatorTest {
 		assertEquals("0", calc.getValue());
 	}
 
+	@Test
+	public void testCase13() {
+		calc.addSymbol('1');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('+');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('1');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('=');
+		assertEquals("2", calc.getValue());
+		calc.addSymbol('=');
+		assertEquals("3", calc.getValue());
+	}
+
+	@Test
+	public void testCase14() {
+		calc.addSymbol('=');
+		assertEquals("0", calc.getValue());
+		calc.addSymbol('+');
+		assertEquals("0", calc.getValue());
+		calc.addSymbol('=');
+		assertEquals("0", calc.getValue());
+		calc.addSymbol('=');
+		assertEquals("0", calc.getValue());
+		calc.addSymbol('=');
+		assertEquals("0", calc.getValue());
+	}
+
+	@Test
+	public void testCase15() {
+		calc.addSymbol('1');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('=');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('=');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('=');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('=');
+		assertEquals("1", calc.getValue());
+	}
 }
