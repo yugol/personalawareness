@@ -78,4 +78,79 @@ public class CalculatorTest {
 		calc.addSymbol('9');
 		assertEquals("123456789012345.89", calc.getValue());
 	}
+
+	@Test
+	public void testCase07() {
+		calc.addSymbol('~');
+		assertEquals("0", calc.getValue());
+		calc.addSymbol('3');
+		assertEquals("3", calc.getValue());
+		calc.addSymbol('~');
+		assertEquals("-3", calc.getValue());
+		calc.addSymbol('~');
+		assertEquals("3", calc.getValue());
+	}
+
+	@Test
+	public void testCase08() {
+		calc.addSymbol('1');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('+');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('1');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('=');
+		assertEquals("2", calc.getValue());
+	}
+
+	@Test
+	public void testCase09() {
+		calc.addSymbol('1');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('-');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('2');
+		assertEquals("2", calc.getValue());
+		calc.addSymbol('=');
+		assertEquals("-1", calc.getValue());
+	}
+
+	@Test
+	public void testCase10() {
+		calc.addSymbol('5');
+		assertEquals("5", calc.getValue());
+		calc.addSymbol('*');
+		assertEquals("5", calc.getValue());
+		calc.addSymbol('2');
+		assertEquals("2", calc.getValue());
+		calc.addSymbol('.');
+		assertEquals("2", calc.getValue());
+		calc.addSymbol('1');
+		assertEquals("2.1", calc.getValue());
+		calc.addSymbol('=');
+		assertEquals("10.5", calc.getValue());
+	}
+
+	@Test
+	public void testCase11() {
+		calc.addSymbol('1');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('/');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('2');
+		assertEquals("2", calc.getValue());
+		calc.addSymbol('=');
+		assertEquals("0.5", calc.getValue());
+	}
+
+	@Test
+	public void testCase12() {
+		calc.addSymbol('1');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('-');
+		assertEquals("1", calc.getValue());
+		calc.addSymbol('c');
+		assertEquals("0", calc.getValue());
+	}
+
 }
