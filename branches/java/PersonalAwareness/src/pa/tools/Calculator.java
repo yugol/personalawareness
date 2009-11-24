@@ -9,6 +9,7 @@ public class Calculator {
 
 	String currentInput;
 	char operation;
+	Double operand;	
 	Double result;
 
 	public Calculator() {
@@ -18,6 +19,7 @@ public class Calculator {
 	private void setInitialState() {
 		clearCurrentInput();
 		operation = '\0';
+		operand = 0D;
 		result = null;
 	}
 
@@ -59,7 +61,10 @@ public class Calculator {
 	}
 
 	private void calculate() {
-		double operand = Double.parseDouble(currentInput);
+		if (currentInput != null) {
+			operand = Double.parseDouble(currentInput);
+		}
+
 		if (result == null) {
 			result = operand;
 		} else {
@@ -76,8 +81,6 @@ public class Calculator {
 			case '/':
 				result /= operand;
 				break;
-			default:
-				throw new UnsupportedOperationException("'" + operation + "'");
 			}
 		}
 		clearCurrentInput();
