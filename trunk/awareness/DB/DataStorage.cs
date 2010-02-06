@@ -182,6 +182,7 @@ namespace Awareness.DB
 
         // Meals
         public abstract void InsertMeal(DalMeal meal);
+        public abstract void UpdateMeal(DalMeal meal);
         public abstract void DeleteMeal(DalMeal meal);
 
         // Transactions

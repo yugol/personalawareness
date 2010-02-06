@@ -98,7 +98,6 @@ namespace Awareness.UI
             notesToolButton.Visible = b;
             mealsToolButton.Visible = b;
             financesToolButton.Visible = b;
-            remindersToolButton.Visible = b;
             remindersToolStripMenuItem.Visible = b;
         }
 
@@ -118,7 +117,6 @@ namespace Awareness.UI
             notesToolButton.Visible = isDbOperational;
             mealsToolButton.Visible = isDbOperational;
             financesToolButton.Visible = isDbOperational;
-            remindersToolButton.Visible = isDbOperational;
             remindersToolStripMenuItem.Visible = isDbOperational;
 
             ResetPanelsView();

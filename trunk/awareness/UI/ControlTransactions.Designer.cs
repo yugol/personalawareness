@@ -188,7 +188,7 @@ namespace Awareness.UI
         	// expensesPieChartToolStripMenuItem
         	// 
         	this.expensesPieChartToolStripMenuItem.Name = "expensesPieChartToolStripMenuItem";
-        	this.expensesPieChartToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+        	this.expensesPieChartToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
         	this.expensesPieChartToolStripMenuItem.Text = "Pie chart";
         	this.expensesPieChartToolStripMenuItem.Click += new System.EventHandler(this.ExpensesPieChartToolStripMenuItemClick);
         	// 
@@ -201,34 +201,34 @@ namespace Awareness.UI
         	        	        	this.expensesWeeklyToolStripMenuItem,
         	        	        	this.expensesDailyToolStripMenuItem});
         	this.expensesToolStripMenuItem.Name = "expensesToolStripMenuItem";
-        	this.expensesToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+        	this.expensesToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
         	this.expensesToolStripMenuItem.Text = "Expenses";
         	// 
         	// expensesYearlyToolStripMenuItem
         	// 
         	this.expensesYearlyToolStripMenuItem.Name = "expensesYearlyToolStripMenuItem";
-        	this.expensesYearlyToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+        	this.expensesYearlyToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
         	this.expensesYearlyToolStripMenuItem.Text = "Yearly";
         	this.expensesYearlyToolStripMenuItem.Click += new System.EventHandler(this.ExpensesYearlyToolStripMenuItemClick);
         	// 
         	// expensesMonthlyToolStripMenuItem
         	// 
         	this.expensesMonthlyToolStripMenuItem.Name = "expensesMonthlyToolStripMenuItem";
-        	this.expensesMonthlyToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+        	this.expensesMonthlyToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
         	this.expensesMonthlyToolStripMenuItem.Text = "Monthly";
         	this.expensesMonthlyToolStripMenuItem.Click += new System.EventHandler(this.ExpensesMonthlyToolStripMenuItemClick);
         	// 
         	// expensesWeeklyToolStripMenuItem
         	// 
         	this.expensesWeeklyToolStripMenuItem.Name = "expensesWeeklyToolStripMenuItem";
-        	this.expensesWeeklyToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+        	this.expensesWeeklyToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
         	this.expensesWeeklyToolStripMenuItem.Text = "Weekly";
         	this.expensesWeeklyToolStripMenuItem.Click += new System.EventHandler(this.ExpensesWeeklyToolStripMenuItemClick);
         	// 
         	// expensesDailyToolStripMenuItem
         	// 
         	this.expensesDailyToolStripMenuItem.Name = "expensesDailyToolStripMenuItem";
-        	this.expensesDailyToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+        	this.expensesDailyToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
         	this.expensesDailyToolStripMenuItem.Text = "Daily";
         	this.expensesDailyToolStripMenuItem.Click += new System.EventHandler(this.ExpensesDailyToolStripMenuItemClick);
         	// 
@@ -238,7 +238,7 @@ namespace Awareness.UI
         	        	        	this.expensesToolStripMenuItem,
         	        	        	this.incomeToolStripMenuItem});
         	this.reportsMenu.Name = "contextMenuStrip1";
-        	this.reportsMenu.Size = new System.Drawing.Size(124, 48);
+        	this.reportsMenu.Size = new System.Drawing.Size(122, 48);
         	this.reportsMenu.Text = "Reports";
         	// 
         	// incomeToolStripMenuItem
@@ -250,41 +250,41 @@ namespace Awareness.UI
         	        	        	this.incomeWeeklyToolStripMenuItem,
         	        	        	this.incomeDailyToolStripMenuItem});
         	this.incomeToolStripMenuItem.Name = "incomeToolStripMenuItem";
-        	this.incomeToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+        	this.incomeToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
         	this.incomeToolStripMenuItem.Text = "Income";
         	// 
         	// incomePieChartToolStripMenuItem
         	// 
         	this.incomePieChartToolStripMenuItem.Name = "incomePieChartToolStripMenuItem";
-        	this.incomePieChartToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+        	this.incomePieChartToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
         	this.incomePieChartToolStripMenuItem.Text = "Pie Chart";
         	this.incomePieChartToolStripMenuItem.Click += new System.EventHandler(this.IncomePieChartToolStripMenuItemClick);
         	// 
         	// incomeYearlyToolStripMenuItem
         	// 
         	this.incomeYearlyToolStripMenuItem.Name = "incomeYearlyToolStripMenuItem";
-        	this.incomeYearlyToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+        	this.incomeYearlyToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
         	this.incomeYearlyToolStripMenuItem.Text = "Yearly";
         	this.incomeYearlyToolStripMenuItem.Click += new System.EventHandler(this.IncomeYearlyToolStripMenuItemClick);
         	// 
         	// incomeMonthlyToolStripMenuItem
         	// 
         	this.incomeMonthlyToolStripMenuItem.Name = "incomeMonthlyToolStripMenuItem";
-        	this.incomeMonthlyToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+        	this.incomeMonthlyToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
         	this.incomeMonthlyToolStripMenuItem.Text = "Monthly";
         	this.incomeMonthlyToolStripMenuItem.Click += new System.EventHandler(this.IncomeMonthlyToolStripMenuItemClick);
         	// 
         	// incomeWeeklyToolStripMenuItem
         	// 
         	this.incomeWeeklyToolStripMenuItem.Name = "incomeWeeklyToolStripMenuItem";
-        	this.incomeWeeklyToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+        	this.incomeWeeklyToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
         	this.incomeWeeklyToolStripMenuItem.Text = "Weekly";
         	this.incomeWeeklyToolStripMenuItem.Click += new System.EventHandler(this.IncomeWeeklyToolStripMenuItemClick);
         	// 
         	// incomeDailyToolStripMenuItem
         	// 
         	this.incomeDailyToolStripMenuItem.Name = "incomeDailyToolStripMenuItem";
-        	this.incomeDailyToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+        	this.incomeDailyToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
         	this.incomeDailyToolStripMenuItem.Text = "Daily";
         	this.incomeDailyToolStripMenuItem.Click += new System.EventHandler(this.IncomeDailyToolStripMenuItemClick);
         	// 

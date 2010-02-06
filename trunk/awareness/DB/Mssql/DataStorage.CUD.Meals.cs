@@ -56,6 +56,12 @@ namespace Awareness.DB.Mssql
 
             NotifyMealsChanged();
         }
+        
+		public override void UpdateMeal(DalMeal meal)
+		{
+			dataContext.SubmitChanges();
+			NotifyMealsChanged();
+		}
 
         public override void DeleteMeal(DalMeal meal)
         {

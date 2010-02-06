@@ -111,7 +111,6 @@ namespace Awareness.UI
         	this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
         	this.calculatorToolButton = new System.Windows.Forms.ToolStripButton();
         	this.teaTimerToolButton = new System.Windows.Forms.ToolStripButton();
-        	this.remindersToolButton = new System.Windows.Forms.ToolStripButton();
         	this.calendarToolButton = new System.Windows.Forms.ToolStripButton();
         	this.statusTimer = new System.Windows.Forms.Timer(this.components);
         	this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
@@ -577,11 +576,10 @@ namespace Awareness.UI
         	        	        	this.toolStripSeparator1,
         	        	        	this.calculatorToolButton,
         	        	        	this.teaTimerToolButton,
-        	        	        	this.calendarToolButton,
-        	        	        	this.remindersToolButton});
+        	        	        	this.calendarToolButton});
         	this.defaultToolStrip.Location = new System.Drawing.Point(3, 0);
         	this.defaultToolStrip.Name = "defaultToolStrip";
-        	this.defaultToolStrip.Size = new System.Drawing.Size(199, 25);
+        	this.defaultToolStrip.Size = new System.Drawing.Size(230, 25);
         	this.defaultToolStrip.TabIndex = 0;
         	// 
         	// openToolButton
@@ -667,17 +665,6 @@ namespace Awareness.UI
         	this.teaTimerToolButton.Text = "Tea timer";
         	this.teaTimerToolButton.ToolTipText = "Tea timer";
         	this.teaTimerToolButton.Click += new System.EventHandler(this.TeaTimerToolButtonClick);
-        	// 
-        	// remindersToolButton
-        	// 
-        	this.remindersToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.remindersToolButton.Image = ((System.Drawing.Image)(resources.GetObject("remindersToolButton.Image")));
-        	this.remindersToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.remindersToolButton.Name = "remindersToolButton";
-        	this.remindersToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.remindersToolButton.Text = "Reminders";
-        	this.remindersToolButton.Visible = false;
-        	this.remindersToolButton.Click += new System.EventHandler(this.RemindersToolButtonClick);
         	// 
         	// calendarToolButton
         	// 
@@ -818,7 +805,6 @@ namespace Awareness.UI
         private System.Windows.Forms.ToolStripButton actionsToolButton;
         private System.Windows.Forms.ToolStripButton notesToolButton;
         private System.Windows.Forms.ToolStripButton calendarToolButton;
-        private System.Windows.Forms.ToolStripButton remindersToolButton;
         private System.Windows.Forms.ToolStripButton teaTimerToolButton;
         private Awareness.UI.ControlTransactions transactionsControl;
         private System.Windows.Forms.TabPage transactionsPage;

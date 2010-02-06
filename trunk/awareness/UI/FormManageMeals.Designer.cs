@@ -66,6 +66,8 @@ namespace Awareness.UI
         	this.topPanel = new System.Windows.Forms.TableLayoutPanel();
         	this.bottomPanel = new System.Windows.Forms.TableLayoutPanel();
         	this.deleteButton = new System.Windows.Forms.Button();
+        	this.datePicker = new System.Windows.Forms.DateTimePicker();
+        	this.updateButton = new System.Windows.Forms.Button();
         	this.listPanel.SuspendLayout();
         	this.bottomPanel.SuspendLayout();
         	this.SuspendLayout();
@@ -94,7 +96,7 @@ namespace Awareness.UI
         	this.mealsView.Location = new System.Drawing.Point(0, 3);
         	this.mealsView.MultiSelect = false;
         	this.mealsView.Name = "mealsView";
-        	this.mealsView.Size = new System.Drawing.Size(632, 418);
+        	this.mealsView.Size = new System.Drawing.Size(632, 417);
         	this.mealsView.TabIndex = 0;
         	this.mealsView.UseCompatibleStateImageBehavior = false;
         	this.mealsView.View = System.Windows.Forms.View.Details;
@@ -135,30 +137,54 @@ namespace Awareness.UI
         	// 
         	// bottomPanel
         	// 
-        	this.bottomPanel.ColumnCount = 1;
-        	this.bottomPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-        	this.bottomPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-        	this.bottomPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-        	this.bottomPanel.Controls.Add(this.deleteButton, 0, 0);
+        	this.bottomPanel.ColumnCount = 4;
+        	this.bottomPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+        	this.bottomPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+        	this.bottomPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        	this.bottomPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+        	this.bottomPanel.Controls.Add(this.deleteButton, 3, 0);
+        	this.bottomPanel.Controls.Add(this.datePicker, 0, 0);
+        	this.bottomPanel.Controls.Add(this.updateButton, 1, 0);
         	this.bottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-        	this.bottomPanel.Location = new System.Drawing.Point(0, 421);
+        	this.bottomPanel.Location = new System.Drawing.Point(0, 420);
         	this.bottomPanel.Name = "bottomPanel";
         	this.bottomPanel.RowCount = 1;
-        	this.bottomPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-        	this.bottomPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-        	this.bottomPanel.Size = new System.Drawing.Size(632, 29);
+        	this.bottomPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        	this.bottomPanel.Size = new System.Drawing.Size(632, 30);
         	this.bottomPanel.TabIndex = 1;
         	// 
         	// deleteButton
         	// 
-        	this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-        	this.deleteButton.Location = new System.Drawing.Point(554, 3);
+        	this.deleteButton.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.deleteButton.Location = new System.Drawing.Point(555, 3);
         	this.deleteButton.Name = "deleteButton";
-        	this.deleteButton.Size = new System.Drawing.Size(75, 23);
+        	this.deleteButton.Size = new System.Drawing.Size(74, 24);
         	this.deleteButton.TabIndex = 4;
         	this.deleteButton.Text = "&Delete";
         	this.deleteButton.UseVisualStyleBackColor = true;
         	this.deleteButton.Click += new System.EventHandler(this.DeleteButtonClick);
+        	// 
+        	// datePicker
+        	// 
+        	this.datePicker.CustomFormat = "yyyy-MM-dd";
+        	this.datePicker.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.datePicker.Location = new System.Drawing.Point(3, 5);
+        	this.datePicker.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+        	this.datePicker.Name = "datePicker";
+        	this.datePicker.Size = new System.Drawing.Size(154, 20);
+        	this.datePicker.TabIndex = 5;
+        	this.datePicker.ValueChanged += new System.EventHandler(this.DatePickerValueChanged);
+        	// 
+        	// updateButton
+        	// 
+        	this.updateButton.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.updateButton.Location = new System.Drawing.Point(163, 3);
+        	this.updateButton.Name = "updateButton";
+        	this.updateButton.Size = new System.Drawing.Size(74, 24);
+        	this.updateButton.TabIndex = 6;
+        	this.updateButton.Text = "&Update";
+        	this.updateButton.UseVisualStyleBackColor = true;
+        	this.updateButton.Click += new System.EventHandler(this.UpdateButtonClick);
         	// 
         	// FormManageMeals
         	// 
@@ -173,6 +199,8 @@ namespace Awareness.UI
         	this.bottomPanel.ResumeLayout(false);
         	this.ResumeLayout(false);
         }
+        private System.Windows.Forms.DateTimePicker datePicker;
+        private System.Windows.Forms.Button updateButton;
         private System.Windows.Forms.ColumnHeader whyColumn;
         private System.Windows.Forms.TableLayoutPanel topPanel;
         private System.Windows.Forms.Button deleteButton;

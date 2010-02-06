@@ -40,9 +40,13 @@ namespace Awareness.UI
 {
     public partial class FormManageMeals : Form
     {
+    	bool processDateEvent = false;
+    	DalMeal selectedMeal = null;
+    	
         public FormManageMeals()
         {
             InitializeComponent();
+            Util.SetMinMaxDatesAndShortFormatFor(datePicker);
             ReadMeals();
         }
         
@@ -63,11 +67,25 @@ namespace Awareness.UI
                 ++index;
             }
             deleteButton.Enabled = false;
+            updateButton.Enabled = false;
+            datePicker.Enabled = false;
         }
                 
         void MealsViewSelectedIndexChanged(object sender, EventArgs e)
         {
-            deleteButton.Enabled = mealsView.SelectedItems.Count > 0;
+        	updateButton.Enabled = false;
+        	if (mealsView.SelectedItems.Count > 0) {
+	        	selectedMeal = (DalMeal) mealsView.SelectedItems[0].Tag;
+	            deleteButton.Enabled = true;
+	            processDateEvent = false;
+	            datePicker.Value = selectedMeal.When;
+	            processDateEvent = true;
+	            datePicker.Enabled = true;
+        	} else {
+        		selectedMeal = null;
+	            deleteButton.Enabled = false;
+	            datePicker.Enabled = false;
+        	}
         }
         
         void DeleteButtonClick(object sender, EventArgs e)
@@ -83,5 +101,18 @@ namespace Awareness.UI
             }
         }
         
+        void DatePickerValueChanged(object sender, EventArgs e)
+        {
+        	if (processDateEvent) {
+        		updateButton.Enabled = true;
+        	}
+        }
+        
+        void UpdateButtonClick(object sender, EventArgs e)
+        {
+        	selectedMeal.When = datePicker.Value;
+        	Controller.Storage.UpdateMeal(selectedMeal);
+        	ReadMeals();
+        }
     }
 }
