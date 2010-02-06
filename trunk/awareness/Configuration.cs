@@ -27,6 +27,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -44,6 +45,7 @@ namespace Awareness
 
         static Configuration()
         {
+        	InitGlobalProperties();
             ReadGlobalProperties();
             Controller.StorageOpened += new DataChangedHandler(ResetStorageProperties);
         }
@@ -105,16 +107,44 @@ namespace Awareness
         
 		#region Global Properties
 		
-		static int mealManagerHistoryLength = 50;
-        public static int MealManagerHistoryLength { get { return mealManagerHistoryLength; } }
+		static string lastStorageId = "lastStorageId";
+		static string mealManagerHistoryLength = "mealManagerHistoryLength";
+		public const int defaultMealManagerHistoryLength = 50;
 		
-        static string lastStorageId = "";
-        internal static string LastStorageId
-        {
-            get { return lastStorageId; }
+		static Dictionary<string, string> globalProperties = new Dictionary<string, string>();
+		
+		static void InitGlobalProperties() 
+		{
+			globalProperties.Add(lastStorageId, "");
+			globalProperties.Add(mealManagerHistoryLength, defaultMealManagerHistoryLength.ToString());
+		}
+		
+        public static int MealManagerHistoryLength 
+        { 
+        	get 
+        	{ 
+        		int len = defaultMealManagerHistoryLength;
+        		try {
+        			len = int.Parse(globalProperties[mealManagerHistoryLength]);
+        		} catch {
+        			globalProperties.Add(mealManagerHistoryLength, defaultMealManagerHistoryLength.ToString());
+        			SaveGlobalProperties();
+        		}
+        		return len;
+        	}
             set 
             {
-            	lastStorageId = value;
+            	globalProperties[mealManagerHistoryLength] = value.ToString();
+            	SaveGlobalProperties();
+            }
+        }
+		
+        internal static string LastStorageId
+        {
+        	get { return globalProperties[lastStorageId]; }
+            set 
+            {
+            	globalProperties[lastStorageId] = value;
             	SaveGlobalProperties();
             }
         }
@@ -134,15 +164,25 @@ namespace Awareness
 		static void ReadGlobalProperties() 
 		{
 			string[] properties = File.ReadAllLines(ConfigFileName);
-			if (properties.Length > 0) {
-				lastStorageId = properties[0];
+			foreach (string line in properties) {
+				try {
+					string[] prop = line.Split('=');
+					prop[0] = prop[0].Trim();
+					prop[1] = prop[1].Trim();
+					globalProperties[prop[0]] = prop[1];
+				} catch {
+				}
 			}
 		}		
 		
 		static void SaveGlobalProperties() 
 		{
-			string[] properties = new string[1];
-			properties[0] = lastStorageId;
+			string[] properties = new string[globalProperties.Count];
+			int index = 0;
+			foreach (string key in globalProperties.Keys) {
+				properties[index] = string.Format("{0}={1}", key, globalProperties[key]);
+				++index;
+			}
 			File.WriteAllLines(ConfigFileName, properties);
 		}
 		

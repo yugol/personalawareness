@@ -46,6 +46,11 @@ namespace Awareness.UI
         {
             symbolBox.Text = Configuration.StorageProperties.CurrencySymbol;
             placementCheck.Checked = Configuration.StorageProperties.PlaceCurrencySymbolAfterValue;
+            try {
+            	mealManagerHistoryLength.Value = Configuration.MealManagerHistoryLength;
+            } catch {
+            	mealManagerHistoryLength.Value = Configuration.defaultMealManagerHistoryLength;
+            }
         }
 
         void Ui2Data()
@@ -54,6 +59,7 @@ namespace Awareness.UI
             xmlProp.CurrencySymbol = symbolBox.Text;
             xmlProp.PlaceCurrencySymbolAfterValue = placementCheck.Checked;
             Controller.Storage.UpdateProperties(xmlProp);
+            Configuration.MealManagerHistoryLength = (int) mealManagerHistoryLength.Value;
         }
         
         void SymbolBoxValidating(object sender, System.ComponentModel.CancelEventArgs e)

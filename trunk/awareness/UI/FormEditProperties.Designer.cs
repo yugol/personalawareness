@@ -59,6 +59,8 @@ namespace Awareness.UI
         {
         	this.components = new System.ComponentModel.Container();
         	this.optionTabs = new System.Windows.Forms.TabControl();
+        	this.globalPage = new System.Windows.Forms.TabPage();
+        	this.label2 = new System.Windows.Forms.Label();
         	this.financialPage = new System.Windows.Forms.TabPage();
         	this.currencyGroup = new System.Windows.Forms.GroupBox();
         	this.placementCheck = new System.Windows.Forms.CheckBox();
@@ -70,16 +72,20 @@ namespace Awareness.UI
         	this.panel1 = new System.Windows.Forms.Panel();
         	this.cancelButton = new System.Windows.Forms.Button();
         	this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+        	this.mealManagerHistoryLength = new System.Windows.Forms.NumericUpDown();
         	this.optionTabs.SuspendLayout();
+        	this.globalPage.SuspendLayout();
         	this.financialPage.SuspendLayout();
         	this.currencyGroup.SuspendLayout();
         	this.mainPanel.SuspendLayout();
         	this.bottomPanel.SuspendLayout();
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+        	((System.ComponentModel.ISupportInitialize)(this.mealManagerHistoryLength)).BeginInit();
         	this.SuspendLayout();
         	// 
         	// optionTabs
         	// 
+        	this.optionTabs.Controls.Add(this.globalPage);
         	this.optionTabs.Controls.Add(this.financialPage);
         	this.optionTabs.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.optionTabs.Location = new System.Drawing.Point(8, 8);
@@ -87,6 +93,26 @@ namespace Awareness.UI
         	this.optionTabs.SelectedIndex = 0;
         	this.optionTabs.Size = new System.Drawing.Size(415, 222);
         	this.optionTabs.TabIndex = 0;
+        	// 
+        	// globalPage
+        	// 
+        	this.globalPage.Controls.Add(this.mealManagerHistoryLength);
+        	this.globalPage.Controls.Add(this.label2);
+        	this.globalPage.Location = new System.Drawing.Point(4, 22);
+        	this.globalPage.Name = "globalPage";
+        	this.globalPage.Size = new System.Drawing.Size(407, 196);
+        	this.globalPage.TabIndex = 1;
+        	this.globalPage.Text = "Global";
+        	this.globalPage.UseVisualStyleBackColor = true;
+        	// 
+        	// label2
+        	// 
+        	this.label2.AutoSize = true;
+        	this.label2.Location = new System.Drawing.Point(8, 8);
+        	this.label2.Name = "label2";
+        	this.label2.Size = new System.Drawing.Size(142, 13);
+        	this.label2.TabIndex = 0;
+        	this.label2.Text = "Meal manager history length:";
         	// 
         	// financialPage
         	// 
@@ -197,6 +223,28 @@ namespace Awareness.UI
         	// 
         	this.errorProvider.ContainerControl = this;
         	// 
+        	// mealManagerHistoryLength
+        	// 
+        	this.mealManagerHistoryLength.Location = new System.Drawing.Point(160, 8);
+        	this.mealManagerHistoryLength.Maximum = new decimal(new int[] {
+        	        	        	1000,
+        	        	        	0,
+        	        	        	0,
+        	        	        	0});
+        	this.mealManagerHistoryLength.Minimum = new decimal(new int[] {
+        	        	        	10,
+        	        	        	0,
+        	        	        	0,
+        	        	        	0});
+        	this.mealManagerHistoryLength.Name = "mealManagerHistoryLength";
+        	this.mealManagerHistoryLength.Size = new System.Drawing.Size(64, 20);
+        	this.mealManagerHistoryLength.TabIndex = 1;
+        	this.mealManagerHistoryLength.Value = new decimal(new int[] {
+        	        	        	10,
+        	        	        	0,
+        	        	        	0,
+        	        	        	0});
+        	// 
         	// FormEditProperties
         	// 
         	this.AcceptButton = this.okButton;
@@ -212,14 +260,20 @@ namespace Awareness.UI
         	this.ShowInTaskbar = false;
         	this.Text = "Preferences";
         	this.optionTabs.ResumeLayout(false);
+        	this.globalPage.ResumeLayout(false);
+        	this.globalPage.PerformLayout();
         	this.financialPage.ResumeLayout(false);
         	this.currencyGroup.ResumeLayout(false);
         	this.currencyGroup.PerformLayout();
         	this.mainPanel.ResumeLayout(false);
         	this.bottomPanel.ResumeLayout(false);
         	((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+        	((System.ComponentModel.ISupportInitialize)(this.mealManagerHistoryLength)).EndInit();
         	this.ResumeLayout(false);
         }
+        private System.Windows.Forms.NumericUpDown mealManagerHistoryLength;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TabPage globalPage;
         private System.Windows.Forms.TabPage financialPage;
         private System.Windows.Forms.TabControl optionTabs;
         private System.Windows.Forms.Button cancelButton;

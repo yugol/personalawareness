@@ -115,16 +115,19 @@ namespace Awareness.DB.Mssql
         public override IEnumerable<DalReason> GetTransactionReasons()
         {
             IQueryable<DalReason> reasons = null;
-            #if DEBUG
+            
             reasons = from r in dataContext.TransactionReasons
                       orderby r.Name
                       select r;
-            #else
-            reasons = from r in dataContext.TransactionReasons
-                      where (r.Type == DalReason.TYPE_DEFAULT)||(r.Type == DalReason.TYPE_FOOD)
-                      orderby r.Name
-                      select r;
-            #endif
+            
+            // #if DEBUG
+            // #else
+            // reasons = from r in dataContext.TransactionReasons
+            //           where (r.Type == DalReason.TYPE_DEFAULT)||(r.Type == DalReason.TYPE_FOOD)
+            //           orderby r.Name
+            //           select r;
+            // #endif
+            
             return reasons;
         }
 
@@ -144,9 +147,9 @@ namespace Awareness.DB.Mssql
             if (reasonType >= 0) {
                 reasons = reasons.Where(r => r.Type == reasonType);
             }
-            #if !DEBUG
-            reasons = reasons.Where(r => (r.Type == DalReason.TYPE_DEFAULT) || (r.Type == DalReason.TYPE_FOOD));
-            #endif
+            // #if !DEBUG
+            // reasons = reasons.Where(r => (r.Type == DalReason.TYPE_DEFAULT) || (r.Type == DalReason.TYPE_FOOD));
+            // #endif
             return reasons;
         }
 
