@@ -67,7 +67,6 @@ namespace Awareness.UI
                 } else {
                     Visible = true;
                     Data2UiPlan();
-                    Data2UiReminder();
                     Data2UiGeneral();
                 }
 
@@ -84,10 +83,6 @@ namespace Awareness.UI
             Util.SetMinMaxDatesAndLongFormatFor(untilPicker);
 
             recurrencePatternEditControl.PatternChanged += new PatternChangedHandler(RecurrencePatternChanged);
-            commandSelector.CommandChanged += new EventHandler(CommandSelectorCommandChanged);
-            commandSelector.TestClick += new EventHandler(CommandSelectorTestClick);
-            soundSelector.CommandChanged += new EventHandler(SoundSelectorCommandChanged);
-            soundSelector.TestClick += new EventHandler(SoundSelectorTestClick);
         }
 
         void Data2UiGeneral()
@@ -147,32 +142,8 @@ namespace Awareness.UI
             }
         }
 
-        void Data2UiReminder()
-        {
-            usageLabel.Visible = !action.IsTimePlanned;
-
-            showReminderCheck.Enabled = action.IsTimePlanned;
-            runCommandCheck.Enabled = action.IsTimePlanned;
-            playSoundCheck.Enabled = action.IsTimePlanned;
-
-            showReminderCheck.Checked = action.HasWindowReminder;
-
-            runCommandCheck.Checked = action.HasCommandReminder;
-            commandSelector.Enabled = action.HasCommandReminder;
-            commandSelector.Command = action.ReminderCommand;
-
-            playSoundCheck.Checked = action.HasSoundReminder;
-            soundSelector.Enabled = action.HasSoundReminder;
-            soundSelector.Command = action.ReminderSound;
-
-            reminderDurationCombo.Enabled = action.HasReminder;
-            reminderDurationCombo.Text = Util.Minutes2TimeSpanString(action.ReminderDuration);
-        }
-
         void SetTodoUi()
         {
-            SetReminderPageVisible(true);
-
             startDatePicker.Enabled = true;
             endDatePicker.Enabled = false;
 
@@ -185,16 +156,13 @@ namespace Awareness.UI
             setEndCheck.Visible = true;
             repeatCheck.Visible = true;
 
-            durationCombo.Enabled = false;
-            durationCombo.Text = "";
+            durationValueLabel.Text = "N/A";
 
             recurrenceGroup.Visible = action.IsRecurrent;
         }
 
         void SetTaskUi()
         {
-            SetReminderPageVisible(true);
-
             startDatePicker.Enabled = true;
             endDatePicker.Enabled = true;
 
@@ -207,7 +175,6 @@ namespace Awareness.UI
             setEndCheck.Visible = true;
             repeatCheck.Visible = true;
 
-            durationCombo.Enabled = true;
             UpdateDuration();
 
             recurrenceGroup.Visible = action.IsRecurrent;
@@ -215,8 +182,6 @@ namespace Awareness.UI
 
         void SetGroupUi()
         {
-            SetReminderPageVisible(false);
-
             startDatePicker.Enabled = false;
             endDatePicker.Enabled = false;
 
@@ -229,28 +194,14 @@ namespace Awareness.UI
             setEndCheck.Visible = false;
             repeatCheck.Visible = false;
 
-            durationCombo.Enabled = false;
             UpdateDuration();
 
             recurrenceGroup.Visible = false;
         }
 
-        void SetReminderPageVisible(bool b)
-        {
-            if (actionPages.TabPages.Contains(reminderPage)) {
-                if (!b) {
-                    actionPages.TabPages.Remove(reminderPage);
-                }
-            } else {
-                if (b) {
-                    actionPages.TabPages.Insert(1, reminderPage);
-                }
-            }
-        }
-
         void UpdateDuration()
         {
-            durationCombo.Text = Util.FormatTimeSpan(action.End.Subtract(action.Start));
+            durationValueLabel.Text = Util.FormatTimeSpan(action.End.Subtract(action.Start));
         }
 
         void Ui2DataStartTime()

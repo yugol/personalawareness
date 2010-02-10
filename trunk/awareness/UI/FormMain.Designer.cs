@@ -62,32 +62,22 @@ namespace Awareness.UI
         	this.mainMenu = new System.Windows.Forms.MenuStrip();
         	this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.openStorgeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.dumpDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
         	this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.accountsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.accoutTypesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.productCategoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.mealsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
         	this.transferreasonsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
         	this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.mealsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.manageMealsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.statusBar = new System.Windows.Forms.StatusStrip();
         	this.timeStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-        	this.actionPages = new System.Windows.Forms.TabControl();
-        	this.dayPage = new System.Windows.Forms.TabPage();
-        	this.actionPagesDaySplitContainer = new System.Windows.Forms.SplitContainer();
-        	this.dayActionsReportControl = new Awareness.UI.ControlDayActionsReport();
-        	this.toDoNote = new Awareness.UI.ControlNoteTextView();
-        	this.weekPage = new System.Windows.Forms.TabPage();
-        	this.weekActionsReport = new Awareness.UI.ControlWeekActionsReport();
-        	this.overviewPage = new System.Windows.Forms.TabPage();
-        	this.controlActionsOverview = new Awareness.UI.ControlActionsOverview();
-        	this.notesViewer = new Awareness.UI.ControlNotesViewer();
         	this.mealPages = new System.Windows.Forms.TabControl();
         	this.dailyPage = new System.Windows.Forms.TabPage();
         	this.mealsDailyReportControl = new Awareness.UI.ControlMealsDailyReport();
@@ -101,35 +91,31 @@ namespace Awareness.UI
         	this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
         	this.centralPark = new System.Windows.Forms.Panel();
         	this.mealPanel = new System.Windows.Forms.Panel();
+        	this.actionPages = new System.Windows.Forms.TabControl();
+        	this.dayPage = new System.Windows.Forms.TabPage();
+        	this.actionPagesDaySplitContainer = new System.Windows.Forms.SplitContainer();
+        	this.dayActionsReportControl = new Awareness.UI.ControlDayActionsReport();
+        	this.toDoNote = new Awareness.UI.ControlNoteTextView();
+        	this.weekPage = new System.Windows.Forms.TabPage();
+        	this.weekActionsReport = new Awareness.UI.ControlWeekActionsReport();
         	this.defaultToolStrip = new System.Windows.Forms.ToolStrip();
         	this.openToolButton = new System.Windows.Forms.ToolStripButton();
         	this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
         	this.actionsToolButton = new System.Windows.Forms.ToolStripButton();
-        	this.notesToolButton = new System.Windows.Forms.ToolStripButton();
         	this.mealsToolButton = new System.Windows.Forms.ToolStripButton();
         	this.financesToolButton = new System.Windows.Forms.ToolStripButton();
         	this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
         	this.calculatorToolButton = new System.Windows.Forms.ToolStripButton();
-        	this.teaTimerToolButton = new System.Windows.Forms.ToolStripButton();
         	this.calendarToolButton = new System.Windows.Forms.ToolStripButton();
         	this.statusTimer = new System.Windows.Forms.Timer(this.components);
         	this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
         	this.toolsMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
         	this.calculatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.teaTimerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        	this.remindersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.calendarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
         	this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenu.SuspendLayout();
         	this.statusBar.SuspendLayout();
-        	this.actionPages.SuspendLayout();
-        	this.dayPage.SuspendLayout();
-        	this.actionPagesDaySplitContainer.Panel1.SuspendLayout();
-        	this.actionPagesDaySplitContainer.Panel2.SuspendLayout();
-        	this.actionPagesDaySplitContainer.SuspendLayout();
-        	this.weekPage.SuspendLayout();
-        	this.overviewPage.SuspendLayout();
         	this.mealPages.SuspendLayout();
         	this.dailyPage.SuspendLayout();
         	this.availableFoodsPage.SuspendLayout();
@@ -141,6 +127,12 @@ namespace Awareness.UI
         	this.toolStripContainer.SuspendLayout();
         	this.centralPark.SuspendLayout();
         	this.mealPanel.SuspendLayout();
+        	this.actionPages.SuspendLayout();
+        	this.dayPage.SuspendLayout();
+        	this.actionPagesDaySplitContainer.Panel1.SuspendLayout();
+        	this.actionPagesDaySplitContainer.Panel2.SuspendLayout();
+        	this.actionPagesDaySplitContainer.SuspendLayout();
+        	this.weekPage.SuspendLayout();
         	this.defaultToolStrip.SuspendLayout();
         	this.toolsMenuStrip.SuspendLayout();
         	this.SuspendLayout();
@@ -150,7 +142,6 @@ namespace Awareness.UI
         	this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.fileToolStripMenuItem,
         	        	        	this.editToolStripMenuItem,
-        	        	        	this.mealsToolStripMenuItem,
         	        	        	this.helpToolStripMenuItem});
         	this.mainMenu.Location = new System.Drawing.Point(0, 0);
         	this.mainMenu.Name = "mainMenu";
@@ -162,6 +153,7 @@ namespace Awareness.UI
         	// 
         	this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.openStorgeToolStripMenuItem,
+        	        	        	this.dumpDatabaseToolStripMenuItem,
         	        	        	this.toolStripMenuItem2,
         	        	        	this.exitToolStripMenuItem});
         	this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -171,19 +163,27 @@ namespace Awareness.UI
         	// openStorgeToolStripMenuItem
         	// 
         	this.openStorgeToolStripMenuItem.Name = "openStorgeToolStripMenuItem";
-        	this.openStorgeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-        	this.openStorgeToolStripMenuItem.Text = "Open Storge ...";
+        	this.openStorgeToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+        	this.openStorgeToolStripMenuItem.Text = "&Open Storge ...";
         	this.openStorgeToolStripMenuItem.Click += new System.EventHandler(this.OpenStorgeToolStripMenuItemClick);
+        	// 
+        	// dumpDatabaseToolStripMenuItem
+        	// 
+        	this.dumpDatabaseToolStripMenuItem.Name = "dumpDatabaseToolStripMenuItem";
+        	this.dumpDatabaseToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+        	this.dumpDatabaseToolStripMenuItem.Text = "&Dump Database ...";
+        	this.dumpDatabaseToolStripMenuItem.Visible = false;
+        	this.dumpDatabaseToolStripMenuItem.Click += new System.EventHandler(this.DumpDatabaseToolStripMenuItemClick);
         	// 
         	// toolStripMenuItem2
         	// 
         	this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-        	this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
+        	this.toolStripMenuItem2.Size = new System.Drawing.Size(167, 6);
         	// 
         	// exitToolStripMenuItem
         	// 
         	this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-        	this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+        	this.exitToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
         	this.exitToolStripMenuItem.Text = "E&xit";
         	this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
         	// 
@@ -193,6 +193,7 @@ namespace Awareness.UI
         	        	        	this.accountsToolStripMenuItem,
         	        	        	this.accoutTypesToolStripMenuItem,
         	        	        	this.productCategoriesToolStripMenuItem,
+        	        	        	this.mealsToolStripMenuItem,
         	        	        	this.toolStripMenuItem4,
         	        	        	this.transferreasonsToolStripMenuItem,
         	        	        	this.toolStripMenuItem7,
@@ -222,6 +223,13 @@ namespace Awareness.UI
         	this.productCategoriesToolStripMenuItem.Text = "&Budget Categories...";
         	this.productCategoriesToolStripMenuItem.Click += new System.EventHandler(this.BudgetCategoriesToolStripMenuItemClick);
         	// 
+        	// mealsToolStripMenuItem
+        	// 
+        	this.mealsToolStripMenuItem.Name = "mealsToolStripMenuItem";
+        	this.mealsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+        	this.mealsToolStripMenuItem.Text = "&Meals...";
+        	this.mealsToolStripMenuItem.Click += new System.EventHandler(this.MealsToolStripMenuItem1Click);
+        	// 
         	// toolStripMenuItem4
         	// 
         	this.toolStripMenuItem4.Name = "toolStripMenuItem4";
@@ -245,21 +253,6 @@ namespace Awareness.UI
         	this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
         	this.preferencesToolStripMenuItem.Text = "Pre&ferences...";
         	this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.PreferencesToolStripMenuItemClick);
-        	// 
-        	// mealsToolStripMenuItem
-        	// 
-        	this.mealsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        	        	        	this.manageMealsToolStripMenuItem});
-        	this.mealsToolStripMenuItem.Name = "mealsToolStripMenuItem";
-        	this.mealsToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
-        	this.mealsToolStripMenuItem.Text = "&Meals";
-        	// 
-        	// manageMealsToolStripMenuItem
-        	// 
-        	this.manageMealsToolStripMenuItem.Name = "manageMealsToolStripMenuItem";
-        	this.manageMealsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-        	this.manageMealsToolStripMenuItem.Text = "&Manage Meals...";
-        	this.manageMealsToolStripMenuItem.Click += new System.EventHandler(this.ManageMealsToolStripMenuItemClick);
         	// 
         	// helpToolStripMenuItem
         	// 
@@ -295,120 +288,6 @@ namespace Awareness.UI
         	this.timeStatusLabel.Spring = true;
         	this.timeStatusLabel.Text = "Current time";
         	this.timeStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-        	// 
-        	// actionPages
-        	// 
-        	this.actionPages.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
-        	this.actionPages.Controls.Add(this.dayPage);
-        	this.actionPages.Controls.Add(this.weekPage);
-        	this.actionPages.Controls.Add(this.overviewPage);
-        	this.actionPages.Location = new System.Drawing.Point(24, 24);
-        	this.actionPages.Name = "actionPages";
-        	this.actionPages.SelectedIndex = 0;
-        	this.actionPages.Size = new System.Drawing.Size(384, 208);
-        	this.actionPages.TabIndex = 0;
-        	this.actionPages.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.ActionPagesSelecting);
-        	// 
-        	// dayPage
-        	// 
-        	this.dayPage.Controls.Add(this.actionPagesDaySplitContainer);
-        	this.dayPage.Location = new System.Drawing.Point(4, 25);
-        	this.dayPage.Name = "dayPage";
-        	this.dayPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.dayPage.Size = new System.Drawing.Size(376, 179);
-        	this.dayPage.TabIndex = 1;
-        	this.dayPage.Text = "Day";
-        	this.dayPage.UseVisualStyleBackColor = true;
-        	// 
-        	// actionPagesDaySplitContainer
-        	// 
-        	this.actionPagesDaySplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.actionPagesDaySplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-        	this.actionPagesDaySplitContainer.Location = new System.Drawing.Point(3, 3);
-        	this.actionPagesDaySplitContainer.Name = "actionPagesDaySplitContainer";
-        	// 
-        	// actionPagesDaySplitContainer.Panel1
-        	// 
-        	this.actionPagesDaySplitContainer.Panel1.Controls.Add(this.dayActionsReportControl);
-        	// 
-        	// actionPagesDaySplitContainer.Panel2
-        	// 
-        	this.actionPagesDaySplitContainer.Panel2.Controls.Add(this.toDoNote);
-        	this.actionPagesDaySplitContainer.Size = new System.Drawing.Size(370, 173);
-        	this.actionPagesDaySplitContainer.SplitterDistance = 85;
-        	this.actionPagesDaySplitContainer.TabIndex = 1;
-        	// 
-        	// dayActionsReportControl
-        	// 
-        	this.dayActionsReportControl.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.dayActionsReportControl.IsDisplayed = false;
-        	this.dayActionsReportControl.Location = new System.Drawing.Point(0, 0);
-        	this.dayActionsReportControl.Name = "dayActionsReportControl";
-        	this.dayActionsReportControl.Size = new System.Drawing.Size(85, 173);
-        	this.dayActionsReportControl.TabIndex = 0;
-        	// 
-        	// toDoNote
-        	// 
-        	this.toDoNote.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.toDoNote.IconVisible = false;
-        	this.toDoNote.Location = new System.Drawing.Point(0, 0);
-        	this.toDoNote.Name = "toDoNote";
-        	this.toDoNote.Node = null;
-        	this.toDoNote.Note = null;
-        	this.toDoNote.ScrollBars = true;
-        	this.toDoNote.Size = new System.Drawing.Size(281, 173);
-        	this.toDoNote.TabIndex = 0;
-        	this.toDoNote.TextReadOnly = false;
-        	this.toDoNote.TitleReadOnly = false;
-        	this.toDoNote.TopVisible = false;
-        	// 
-        	// weekPage
-        	// 
-        	this.weekPage.Controls.Add(this.weekActionsReport);
-        	this.weekPage.Location = new System.Drawing.Point(4, 25);
-        	this.weekPage.Name = "weekPage";
-        	this.weekPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.weekPage.Size = new System.Drawing.Size(376, 179);
-        	this.weekPage.TabIndex = 2;
-        	this.weekPage.Text = "Week";
-        	this.weekPage.UseVisualStyleBackColor = true;
-        	// 
-        	// weekActionsReport
-        	// 
-        	this.weekActionsReport.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.weekActionsReport.IsDisplayed = false;
-        	this.weekActionsReport.Location = new System.Drawing.Point(3, 3);
-        	this.weekActionsReport.Name = "weekActionsReport";
-        	this.weekActionsReport.Size = new System.Drawing.Size(370, 173);
-        	this.weekActionsReport.TabIndex = 0;
-        	// 
-        	// overviewPage
-        	// 
-        	this.overviewPage.Controls.Add(this.controlActionsOverview);
-        	this.overviewPage.Location = new System.Drawing.Point(4, 25);
-        	this.overviewPage.Name = "overviewPage";
-        	this.overviewPage.Padding = new System.Windows.Forms.Padding(3);
-        	this.overviewPage.Size = new System.Drawing.Size(376, 179);
-        	this.overviewPage.TabIndex = 0;
-        	this.overviewPage.Text = "Overview";
-        	this.overviewPage.UseVisualStyleBackColor = true;
-        	// 
-        	// controlActionsOverview
-        	// 
-        	this.controlActionsOverview.Dock = System.Windows.Forms.DockStyle.Fill;
-        	this.controlActionsOverview.IsDisplayed = false;
-        	this.controlActionsOverview.Location = new System.Drawing.Point(3, 3);
-        	this.controlActionsOverview.Name = "controlActionsOverview";
-        	this.controlActionsOverview.Size = new System.Drawing.Size(370, 173);
-        	this.controlActionsOverview.TabIndex = 0;
-        	// 
-        	// notesViewer
-        	// 
-        	this.notesViewer.Location = new System.Drawing.Point(440, 264);
-        	this.notesViewer.Name = "notesViewer";
-        	this.notesViewer.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-        	this.notesViewer.Size = new System.Drawing.Size(272, 208);
-        	this.notesViewer.TabIndex = 0;
         	// 
         	// mealPages
         	// 
@@ -544,7 +423,6 @@ namespace Awareness.UI
         	// 
         	this.centralPark.Controls.Add(this.mealPanel);
         	this.centralPark.Controls.Add(this.financialPages);
-        	this.centralPark.Controls.Add(this.notesViewer);
         	this.centralPark.Controls.Add(this.actionPages);
         	this.centralPark.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.centralPark.Location = new System.Drawing.Point(0, 0);
@@ -562,6 +440,91 @@ namespace Awareness.UI
         	this.mealPanel.Size = new System.Drawing.Size(296, 208);
         	this.mealPanel.TabIndex = 2;
         	// 
+        	// actionPages
+        	// 
+        	this.actionPages.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
+        	this.actionPages.Controls.Add(this.dayPage);
+        	this.actionPages.Controls.Add(this.weekPage);
+        	this.actionPages.Location = new System.Drawing.Point(24, 24);
+        	this.actionPages.Name = "actionPages";
+        	this.actionPages.SelectedIndex = 0;
+        	this.actionPages.Size = new System.Drawing.Size(384, 208);
+        	this.actionPages.TabIndex = 0;
+        	this.actionPages.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.ActionPagesSelecting);
+        	// 
+        	// dayPage
+        	// 
+        	this.dayPage.Controls.Add(this.actionPagesDaySplitContainer);
+        	this.dayPage.Location = new System.Drawing.Point(4, 25);
+        	this.dayPage.Name = "dayPage";
+        	this.dayPage.Padding = new System.Windows.Forms.Padding(3);
+        	this.dayPage.Size = new System.Drawing.Size(376, 179);
+        	this.dayPage.TabIndex = 1;
+        	this.dayPage.Text = "Day";
+        	this.dayPage.UseVisualStyleBackColor = true;
+        	// 
+        	// actionPagesDaySplitContainer
+        	// 
+        	this.actionPagesDaySplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.actionPagesDaySplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+        	this.actionPagesDaySplitContainer.Location = new System.Drawing.Point(3, 3);
+        	this.actionPagesDaySplitContainer.Name = "actionPagesDaySplitContainer";
+        	// 
+        	// actionPagesDaySplitContainer.Panel1
+        	// 
+        	this.actionPagesDaySplitContainer.Panel1.Controls.Add(this.dayActionsReportControl);
+        	// 
+        	// actionPagesDaySplitContainer.Panel2
+        	// 
+        	this.actionPagesDaySplitContainer.Panel2.Controls.Add(this.toDoNote);
+        	this.actionPagesDaySplitContainer.Size = new System.Drawing.Size(370, 173);
+        	this.actionPagesDaySplitContainer.SplitterDistance = 85;
+        	this.actionPagesDaySplitContainer.TabIndex = 1;
+        	// 
+        	// dayActionsReportControl
+        	// 
+        	this.dayActionsReportControl.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.dayActionsReportControl.IsDisplayed = false;
+        	this.dayActionsReportControl.Location = new System.Drawing.Point(0, 0);
+        	this.dayActionsReportControl.Name = "dayActionsReportControl";
+        	this.dayActionsReportControl.Size = new System.Drawing.Size(85, 173);
+        	this.dayActionsReportControl.TabIndex = 0;
+        	// 
+        	// toDoNote
+        	// 
+        	this.toDoNote.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.toDoNote.IconVisible = false;
+        	this.toDoNote.Location = new System.Drawing.Point(0, 0);
+        	this.toDoNote.Name = "toDoNote";
+        	this.toDoNote.Node = null;
+        	this.toDoNote.Note = null;
+        	this.toDoNote.ScrollBars = true;
+        	this.toDoNote.Size = new System.Drawing.Size(281, 173);
+        	this.toDoNote.TabIndex = 0;
+        	this.toDoNote.TextReadOnly = false;
+        	this.toDoNote.TitleReadOnly = false;
+        	this.toDoNote.TopVisible = false;
+        	// 
+        	// weekPage
+        	// 
+        	this.weekPage.Controls.Add(this.weekActionsReport);
+        	this.weekPage.Location = new System.Drawing.Point(4, 25);
+        	this.weekPage.Name = "weekPage";
+        	this.weekPage.Padding = new System.Windows.Forms.Padding(3);
+        	this.weekPage.Size = new System.Drawing.Size(376, 179);
+        	this.weekPage.TabIndex = 2;
+        	this.weekPage.Text = "Week";
+        	this.weekPage.UseVisualStyleBackColor = true;
+        	// 
+        	// weekActionsReport
+        	// 
+        	this.weekActionsReport.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.weekActionsReport.IsDisplayed = false;
+        	this.weekActionsReport.Location = new System.Drawing.Point(3, 3);
+        	this.weekActionsReport.Name = "weekActionsReport";
+        	this.weekActionsReport.Size = new System.Drawing.Size(370, 173);
+        	this.weekActionsReport.TabIndex = 0;
+        	// 
         	// defaultToolStrip
         	// 
         	this.defaultToolStrip.Dock = System.Windows.Forms.DockStyle.None;
@@ -570,16 +533,14 @@ namespace Awareness.UI
         	        	        	this.openToolButton,
         	        	        	this.toolStripSeparator2,
         	        	        	this.actionsToolButton,
-        	        	        	this.notesToolButton,
         	        	        	this.mealsToolButton,
         	        	        	this.financesToolButton,
         	        	        	this.toolStripSeparator1,
         	        	        	this.calculatorToolButton,
-        	        	        	this.teaTimerToolButton,
         	        	        	this.calendarToolButton});
         	this.defaultToolStrip.Location = new System.Drawing.Point(3, 0);
         	this.defaultToolStrip.Name = "defaultToolStrip";
-        	this.defaultToolStrip.Size = new System.Drawing.Size(230, 25);
+        	this.defaultToolStrip.Size = new System.Drawing.Size(153, 25);
         	this.defaultToolStrip.TabIndex = 0;
         	// 
         	// openToolButton
@@ -607,18 +568,8 @@ namespace Awareness.UI
         	this.actionsToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         	this.actionsToolButton.Name = "actionsToolButton";
         	this.actionsToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.actionsToolButton.Text = "Actions";
+        	this.actionsToolButton.Text = "Diary";
         	this.actionsToolButton.Click += new System.EventHandler(this.ActionsToolButtonClick);
-        	// 
-        	// notesToolButton
-        	// 
-        	this.notesToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.notesToolButton.Image = ((System.Drawing.Image)(resources.GetObject("notesToolButton.Image")));
-        	this.notesToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.notesToolButton.Name = "notesToolButton";
-        	this.notesToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.notesToolButton.Text = "Notes";
-        	this.notesToolButton.Click += new System.EventHandler(this.NotesToolButtonClick);
         	// 
         	// mealsToolButton
         	// 
@@ -655,17 +606,6 @@ namespace Awareness.UI
         	this.calculatorToolButton.Text = "Calculator";
         	this.calculatorToolButton.Click += new System.EventHandler(this.CalculatorToolButtonClick);
         	// 
-        	// teaTimerToolButton
-        	// 
-        	this.teaTimerToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        	this.teaTimerToolButton.Image = ((System.Drawing.Image)(resources.GetObject("teaTimerToolButton.Image")));
-        	this.teaTimerToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        	this.teaTimerToolButton.Name = "teaTimerToolButton";
-        	this.teaTimerToolButton.Size = new System.Drawing.Size(23, 22);
-        	this.teaTimerToolButton.Text = "Tea timer";
-        	this.teaTimerToolButton.ToolTipText = "Tea timer";
-        	this.teaTimerToolButton.Click += new System.EventHandler(this.TeaTimerToolButtonClick);
-        	// 
         	// calendarToolButton
         	// 
         	this.calendarToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -692,51 +632,35 @@ namespace Awareness.UI
         	// 
         	this.toolsMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.calculatorToolStripMenuItem,
-        	        	        	this.teaTimerToolStripMenuItem,
-        	        	        	this.remindersToolStripMenuItem,
         	        	        	this.calendarToolStripMenuItem,
         	        	        	this.toolStripMenuItem1,
         	        	        	this.exitToolStripMenuItem1});
         	this.toolsMenuStrip.Name = "toolsMenuStrip";
-        	this.toolsMenuStrip.Size = new System.Drawing.Size(131, 120);
+        	this.toolsMenuStrip.Size = new System.Drawing.Size(129, 76);
         	// 
         	// calculatorToolStripMenuItem
         	// 
         	this.calculatorToolStripMenuItem.Name = "calculatorToolStripMenuItem";
-        	this.calculatorToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+        	this.calculatorToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
         	this.calculatorToolStripMenuItem.Text = "C&alculator";
         	this.calculatorToolStripMenuItem.Click += new System.EventHandler(this.CalculatorToolStripMenuItemClick);
-        	// 
-        	// teaTimerToolStripMenuItem
-        	// 
-        	this.teaTimerToolStripMenuItem.Name = "teaTimerToolStripMenuItem";
-        	this.teaTimerToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-        	this.teaTimerToolStripMenuItem.Text = "&Tea timer";
-        	this.teaTimerToolStripMenuItem.Click += new System.EventHandler(this.TeaTimerToolStripMenuItemClick);
-        	// 
-        	// remindersToolStripMenuItem
-        	// 
-        	this.remindersToolStripMenuItem.Name = "remindersToolStripMenuItem";
-        	this.remindersToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-        	this.remindersToolStripMenuItem.Text = "&Reminders";
-        	this.remindersToolStripMenuItem.Click += new System.EventHandler(this.RemindersToolStripMenuItemClick);
         	// 
         	// calendarToolStripMenuItem
         	// 
         	this.calendarToolStripMenuItem.Name = "calendarToolStripMenuItem";
-        	this.calendarToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+        	this.calendarToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
         	this.calendarToolStripMenuItem.Text = "&Calendar";
         	this.calendarToolStripMenuItem.Click += new System.EventHandler(this.CalendarToolStripMenuItemClick);
         	// 
         	// toolStripMenuItem1
         	// 
         	this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-        	this.toolStripMenuItem1.Size = new System.Drawing.Size(127, 6);
+        	this.toolStripMenuItem1.Size = new System.Drawing.Size(125, 6);
         	// 
         	// exitToolStripMenuItem1
         	// 
         	this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
-        	this.exitToolStripMenuItem1.Size = new System.Drawing.Size(130, 22);
+        	this.exitToolStripMenuItem1.Size = new System.Drawing.Size(128, 22);
         	this.exitToolStripMenuItem1.Text = "E&xit";
         	this.exitToolStripMenuItem1.Click += new System.EventHandler(this.ExitToolStripMenuItem1Click);
         	// 
@@ -760,13 +684,6 @@ namespace Awareness.UI
         	this.mainMenu.PerformLayout();
         	this.statusBar.ResumeLayout(false);
         	this.statusBar.PerformLayout();
-        	this.actionPages.ResumeLayout(false);
-        	this.dayPage.ResumeLayout(false);
-        	this.actionPagesDaySplitContainer.Panel1.ResumeLayout(false);
-        	this.actionPagesDaySplitContainer.Panel2.ResumeLayout(false);
-        	this.actionPagesDaySplitContainer.ResumeLayout(false);
-        	this.weekPage.ResumeLayout(false);
-        	this.overviewPage.ResumeLayout(false);
         	this.mealPages.ResumeLayout(false);
         	this.dailyPage.ResumeLayout(false);
         	this.availableFoodsPage.ResumeLayout(false);
@@ -780,20 +697,25 @@ namespace Awareness.UI
         	this.toolStripContainer.PerformLayout();
         	this.centralPark.ResumeLayout(false);
         	this.mealPanel.ResumeLayout(false);
+        	this.actionPages.ResumeLayout(false);
+        	this.dayPage.ResumeLayout(false);
+        	this.actionPagesDaySplitContainer.Panel1.ResumeLayout(false);
+        	this.actionPagesDaySplitContainer.Panel2.ResumeLayout(false);
+        	this.actionPagesDaySplitContainer.ResumeLayout(false);
+        	this.weekPage.ResumeLayout(false);
         	this.defaultToolStrip.ResumeLayout(false);
         	this.defaultToolStrip.PerformLayout();
         	this.toolsMenuStrip.ResumeLayout(false);
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripMenuItem dumpDatabaseToolStripMenuItem;
         private Awareness.UI.ControlNoteTextView toDoNote;
         private System.Windows.Forms.SplitContainer actionPagesDaySplitContainer;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem openStorgeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem calendarToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem remindersToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem teaTimerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem calculatorToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip toolsMenuStrip;
         private System.Windows.Forms.NotifyIcon trayIcon;
@@ -803,9 +725,7 @@ namespace Awareness.UI
         private System.Windows.Forms.ToolStripButton financesToolButton;
         private System.Windows.Forms.ToolStripButton mealsToolButton;
         private System.Windows.Forms.ToolStripButton actionsToolButton;
-        private System.Windows.Forms.ToolStripButton notesToolButton;
         private System.Windows.Forms.ToolStripButton calendarToolButton;
-        private System.Windows.Forms.ToolStripButton teaTimerToolButton;
         private Awareness.UI.ControlTransactions transactionsControl;
         private System.Windows.Forms.TabPage transactionsPage;
         private System.Windows.Forms.TabPage accountsPage;
@@ -819,20 +739,16 @@ namespace Awareness.UI
         private Awareness.UI.ControlDayActionsReport dayActionsReportControl;
         private System.Windows.Forms.Timer statusTimer;
         private System.Windows.Forms.ToolStripStatusLabel timeStatusLabel;
-        private Awareness.UI.ControlActionsOverview controlActionsOverview;
         private System.Windows.Forms.ToolStrip defaultToolStrip;
         private System.Windows.Forms.ToolStripContainer toolStripContainer;
         private System.Windows.Forms.TabPage dayPage;
-        private System.Windows.Forms.TabPage overviewPage;
         private System.Windows.Forms.TabControl actionPages;
         private System.Windows.Forms.TabControl mealPages;
-        private Awareness.UI.ControlNotesViewer notesViewer;
         private Awareness.UI.ControlMealsDailyReport mealsDailyReportControl;
         private Awareness.UI.ControlFinances financesControl;
         private Awareness.UI.ControlAvailableFoods availableFoodsControl;
         private System.Windows.Forms.TabPage dailyPage;
         private System.Windows.Forms.TabPage availableFoodsPage;
-        private System.Windows.Forms.ToolStripMenuItem manageMealsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem transferreasonsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;

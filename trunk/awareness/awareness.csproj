@@ -91,9 +91,8 @@
     <Compile Include="db\DalTransaction.cs" />
     <Compile Include="db\DalTransferLocation.cs" />
     <Compile Include="db\DataUtil.cs" />
-    <Compile Include="db\Dumper.cs" />
-    <Compile Include="db\DumperTest.cs" />
     <Compile Include="db\DataStorage.cs" />
+    <Compile Include="DB\Dumper.cs" />
     <Compile Include="db\mssql\DataStorage.cs" />
     <Compile Include="db\mssql\AwarenessDataContext.cs" />
     <Compile Include="db\mssql\AwarenessDataContextTest.cs" />
@@ -125,17 +124,16 @@
       <DependentUpon>DataStorage.cs</DependentUpon>
     </Compile>
     <Compile Include="db\mssql\DataStorageTest.cs" />
+    <Compile Include="DB\Mssql\Dumper.cs" />
+    <Compile Include="DB\Mssql\DumperTest.cs" />
     <Compile Include="db\NameAmmount.cs" />
     <Compile Include="db\Notable.cs" />
     <Compile Include="db\PeriodAmmount.cs" />
     <Compile Include="db\XmlProperties.cs" />
     <Compile Include="db\XmlPropertiesTest.cs" />
     <Compile Include="Timerable.cs" />
-    <Compile Include="Launcher.cs" />
     <Compile Include="ManagerCalculator.cs" />
     <Compile Include="ManagerCalendar.cs" />
-    <Compile Include="ManagerReminders.cs" />
-    <Compile Include="ManagerTeaTimer.cs" />
     <Compile Include="NamingReasonTypes.cs" />
     <Compile Include="NamingTimeIntervals.cs" />
     <Compile Include="Program.cs" />
@@ -144,7 +142,6 @@
     <Compile Include="RecurrencePatternTest.cs" />
     <Compile Include="TimeInterval.cs" />
     <Compile Include="TimeIntervalTest.cs" />
-    <Compile Include="TimerLogic.cs" />
     <Compile Include="ui\ControlActionEdit.cs" />
     <Compile Include="ui\ControlActionEdit.Designer.cs">
       <DependentUpon>ControlActionEdit.cs</DependentUpon>
@@ -179,10 +176,6 @@
     <Compile Include="ui\ControlCalendar.Designer.cs">
       <DependentUpon>ControlCalendar.cs</DependentUpon>
     </Compile>
-    <Compile Include="ui\ControlCommandSelector.cs" />
-    <Compile Include="ui\ControlCommandSelector.Designer.cs">
-      <DependentUpon>ControlCommandSelector.cs</DependentUpon>
-    </Compile>
     <Compile Include="ui\ControlDayActionsReport.cs" />
     <Compile Include="ui\ControlDayActionsReport.Designer.cs">
       <DependentUpon>ControlDayActionsReport.cs</DependentUpon>
@@ -198,13 +191,6 @@
     <Compile Include="ui\ControlMealsDailyReport.cs" />
     <Compile Include="ui\ControlMealsDailyReport.Designer.cs">
       <DependentUpon>ControlMealsDailyReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ui\ControlNotesViewer.cs" />
-    <Compile Include="ui\ControlNotesViewer.Designer.cs">
-      <DependentUpon>ControlNotesViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ui\ControlNotesViewer.DragDrop.cs">
-      <DependentUpon>ControlNotesViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="ui\ControlNoteTextView.cs" />
     <Compile Include="ui\ControlNoteTextView.Designer.cs">
@@ -290,17 +276,9 @@
     <Compile Include="ui\FormNoteTextView.Designer.cs">
       <DependentUpon>FormNoteTextView.cs</DependentUpon>
     </Compile>
-    <Compile Include="ui\FormReminders.cs" />
-    <Compile Include="ui\FormReminders.Designer.cs">
-      <DependentUpon>FormReminders.cs</DependentUpon>
-    </Compile>
     <Compile Include="ui\FormReport.cs" />
     <Compile Include="ui\FormReport.Designer.cs">
       <DependentUpon>FormReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ui\FormTeaTimer.cs" />
-    <Compile Include="ui\FormTeaTimer.Designer.cs">
-      <DependentUpon>FormTeaTimer.cs</DependentUpon>
     </Compile>
     <Compile Include="ui\NoteHandler.cs" />
     <Compile Include="ui\Util.cs" />
@@ -326,9 +304,6 @@
     <EmbeddedResource Include="ui\ControlCalendar.resx">
       <DependentUpon>ControlCalendar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ui\ControlCommandSelector.resx">
-      <DependentUpon>ControlCommandSelector.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ui\ControlDayActionsReport.resx">
       <DependentUpon>ControlDayActionsReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -340,9 +315,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ui\ControlMealsDailyReport.resx">
       <DependentUpon>ControlMealsDailyReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ui\ControlNotesViewer.resx">
-      <DependentUpon>ControlNotesViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ui\ControlNoteTextView.resx">
       <DependentUpon>ControlNoteTextView.cs</DependentUpon>
@@ -398,14 +370,8 @@
     <EmbeddedResource Include="ui\FormNoteTextView.resx">
       <DependentUpon>FormNoteTextView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ui\FormReminders.resx">
-      <DependentUpon>FormReminders.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ui\FormReport.resx">
       <DependentUpon>FormReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ui\FormTeaTimer.resx">
-      <DependentUpon>FormTeaTimer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

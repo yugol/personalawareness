@@ -89,7 +89,8 @@ namespace Awareness
 
         #region Storage
 
-        internal const string DataFilter = "SQL Server Compact (*.sdf)|*.sdf|SQL Server (*.mdf)|*.mdf|All files (*.*)|*.*";
+        internal const string DataFileFilter = "SQL Server Compact (*.sdf)|*.sdf|SQL Server (*.mdf)|*.mdf|SQLitw (*.db)|*.db";
+        internal const string DumpFileFilter = "SQL Server comptible (*.ssql)|*.ssql";
 
         static readonly string dataFolder = Path.Combine(Application.StartupPath, "data");
         internal static string DataFolder 

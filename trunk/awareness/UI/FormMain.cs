@@ -49,7 +49,6 @@ namespace Awareness.UI
             transactionsControl.EditPanelExpanded = true;
 
             actionPages.Dock = DockStyle.Fill;
-            notesViewer.Dock = DockStyle.Fill;
             mealPanel.Dock = DockStyle.Fill;
             financialPages.Dock = DockStyle.Fill;
 
@@ -61,7 +60,8 @@ namespace Awareness.UI
 
         void ExitApplication()
         {
-            Close();
+        	Controller.CloseStorage();        	
+        	Application.Exit();
         }
 
         void StorageOpened()
@@ -95,10 +95,8 @@ namespace Awareness.UI
             mealsToolStripMenuItem.Visible = b;
 
             actionsToolButton.Visible = b;
-            notesToolButton.Visible = b;
             mealsToolButton.Visible = b;
             financesToolButton.Visible = b;
-            remindersToolStripMenuItem.Visible = b;
         }
 
         internal void SetTitle(string title)
@@ -114,10 +112,8 @@ namespace Awareness.UI
             mealsToolStripMenuItem.Visible = isDbOperational;
 
             actionsToolButton.Visible = isDbOperational;
-            notesToolButton.Visible = isDbOperational;
             mealsToolButton.Visible = isDbOperational;
             financesToolButton.Visible = isDbOperational;
-            remindersToolStripMenuItem.Visible = isDbOperational;
 
             ResetPanelsView();
         }
@@ -156,9 +152,9 @@ namespace Awareness.UI
 
         void FormMainFormClosing(object sender, FormClosingEventArgs e)
         {
-            Controller.CloseStorage();
+            ExitApplication();
         }
-
+        
         FormWindowState savedWindowState;
 
         void FormMainResize(object sender, EventArgs e)
@@ -186,12 +182,10 @@ namespace Awareness.UI
         void ResetPanelsView()
         {
             actionPages.Visible = false;
-            notesViewer.Visible = false;
             mealPanel.Visible = false;
             financialPages.Visible = false;
 
             actionsToolButton.Checked = false;
-            notesToolButton.Checked = false;
             mealsToolButton.Checked = false;
             financesToolButton.Checked = false;
         }
@@ -203,15 +197,6 @@ namespace Awareness.UI
                 UpdateActionsPages();
                 actionPages.Visible = true;
                 actionsToolButton.Checked = true;
-            }
-        }
-
-        public void SelectNotesView()
-        {
-            if (!notesToolButton.Checked) {
-                ResetPanelsView();
-                notesViewer.Visible = true;
-                notesToolButton.Checked = true;
             }
         }
 
@@ -254,14 +239,11 @@ namespace Awareness.UI
         {
             dayActionsReportControl.IsDisplayed = false;
             weekActionsReport.IsDisplayed = false;
-            controlActionsOverview.IsDisplayed = false;
             if (actionPages.SelectedTab.Equals(dayPage)) {
                 dayActionsReportControl.IsDisplayed = true;
             } else if (actionPages.SelectedTab.Equals(weekPage)) {
                 weekActionsReport.IsDisplayed = true;
-            } else if (actionPages.SelectedTab.Equals(overviewPage)) {
-                controlActionsOverview.IsDisplayed = true;
-            }
+            } 
         }
 
         void UpdateMealPages()
@@ -371,6 +353,11 @@ namespace Awareness.UI
             }
         }
 
+        void MealsToolStripMenuItem1Click(object sender, EventArgs e)
+        {
+        	new FormManageMeals().ShowDialog();
+        }
+
         void TransferreasonsToolStripMenuItemClick(object sender, EventArgs e)
         {
             new FormEditTransactionReasons().ShowDialog();
@@ -380,11 +367,6 @@ namespace Awareness.UI
         {
             FormEditProperties dialog = new FormEditProperties();
             dialog.ShowDialog();
-        }
-
-        void ManageMealsToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            new FormManageMeals().ShowDialog();
         }
 
         void AboutToolStripMenuItemClick(object sender, EventArgs e)
@@ -406,11 +388,6 @@ namespace Awareness.UI
             SelectActionsView();
         }
 
-        void NotesToolButtonClick(object sender, EventArgs e)
-        {
-            SelectNotesView();
-        }
-
         void MealsToolButtonClick(object sender, EventArgs e)
         {
             SelectMealsView();
@@ -428,16 +405,6 @@ namespace Awareness.UI
             ManagerCalculator.Display();
         }
 
-        void TeaTimerToolButtonClick(object sender, EventArgs e)
-        {
-            ManagerTeaTimer.Display();
-        }
-
-        void RemindersToolButtonClick(object sender, EventArgs e)
-        {
-            ManagerReminders.Instance.Display();
-        }
-
         void CalendarToolButtonClick(object sender, EventArgs e)
         {
             ManagerCalendar.Display();
@@ -450,16 +417,6 @@ namespace Awareness.UI
         void CalculatorToolStripMenuItemClick(object sender, EventArgs e)
         {
             ManagerCalculator.Display();
-        }
-
-        void TeaTimerToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            ManagerTeaTimer.Display();
-        }
-
-        void RemindersToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            ManagerReminders.Instance.Display();
         }
 
         void CalendarToolStripMenuItemClick(object sender, EventArgs e)
@@ -479,11 +436,27 @@ namespace Awareness.UI
             OpenFileDialog fd = new OpenFileDialog();
             fd.Title = "Choose storage";
             fd.CheckFileExists = false;
-            fd.Filter = Configuration.DataFilter;
+            fd.Filter = Configuration.DataFileFilter;
             fd.InitialDirectory = Configuration.DataFolder;
-            fd.ShowDialog();
-            Controller.OpenStorage(fd.FileName);
+            if (fd.ShowDialog() == DialogResult.OK) {
+            	string fileName = fd.FileName;
+            	Controller.OpenStorage(fileName);
+            	dumpDatabaseToolStripMenuItem.Visible = true;
+            }
         }
-
+        
+        void DumpDatabaseToolStripMenuItemClick(object sender, EventArgs e)
+        {
+        	SaveFileDialog fd = new SaveFileDialog();
+            fd.Title = "Choose dump location";
+            fd.OverwritePrompt = true;
+            fd.Filter = Configuration.DumpFileFilter;
+            fd.InitialDirectory = Configuration.DataFolder;
+            if (fd.ShowDialog() == DialogResult.OK) {
+            	string fileName = fd.FileName;
+            	Controller.DumpSql(fileName);
+            	MessageBox.Show("Dump complete", "SQL Dump");
+            }
+        }
     }
 }

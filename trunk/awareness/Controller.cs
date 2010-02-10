@@ -33,100 +33,111 @@ using System.Diagnostics;
 
 namespace Awareness
 {
-    public delegate void DataChangedHandler();
+	public delegate void DataChangedHandler();
 
-    public static class Controller
-    {
-        public static event DataChangedHandler StorageOpened;
-        public static event DataChangedHandler StorageClosing;
+	public static class Controller
+	{
+		public static event DataChangedHandler StorageOpened;
+		public static event DataChangedHandler StorageClosing;
+		
+		static string GetFileExtension(string fileName)
+		{
+			return fileName.Substring(fileName.LastIndexOf('.') + 1).ToLower();
+		}
 
-        static DataStorage storage;
-        public static DataStorage Storage
-        {
-            get {
-                return storage;
-            }
-        }
+		static DataStorage storage;
+		public static DataStorage Storage
+		{
+			get {
+				return storage;
+			}
+		}
 
-        static FormMain view;
-        public static FormMain View
-        {
-            get {
-                return view;
-            }
-            set {
-                view = value;
-            }
-        }
+		static FormMain view;
+		public static FormMain View
+		{
+			get {
+				return view;
+			}
+			set {
+				view = value;
+			}
+		}
 
-        public static void OpenStorage(string storageId)
-        {
-            Debug.WriteLine("Controller.OpenStorage |-");
+		public static void OpenStorage(string storageId)
+		{
+			Debug.WriteLine("Controller.OpenStorage |-");
 
-            CloseStorage();
+			CloseStorage();
 
-            string ext = storageId.Substring(storageId.LastIndexOf('.') + 1).ToLower();
+			string ext = GetFileExtension(storageId);
 
-            if (ext == "sdf" || ext == "mfd") {
-                storage = new Awareness.DB.Mssql.DataStorage(storageId);
-            }
+			if (ext == "sdf" || ext == "mfd") {
+				storage = new Awareness.DB.Mssql.DataStorage(storageId);
+			}
 
-            if (storage != null) {
-                Configuration.LastStorageId = storageId;
-                if (StorageOpened != null) {
-                    StorageOpened();
-                }
-            }
+			if (storage != null) {
+				Configuration.LastStorageId = storageId;
+				if (StorageOpened != null) {
+					StorageOpened();
+				}
+			}
 
-            Debug.WriteLine("Controller.OpenStorage -|");
-        }
+			Debug.WriteLine("Controller.OpenStorage -|");
+		}
 
-        public static void DumpSql(string fileName)
-        {
-            StreamWriter writer = new StreamWriter(fileName, false);
-            try {
-                new Dumper(storage).DumpAll(writer);
-            } finally {
-                if (writer != null) {
-                    writer.Dispose();
-                }
-            }
-        }
+		public static void DumpSql(string fileName)
+		{
+			StreamWriter writer = new StreamWriter(fileName, false);
+			string ext = GetFileExtension(fileName);
+			Dumper dumper = null;
+			
+			try {
+				if (ext == "ssql") {
+					dumper = new Awareness.DB.Mssql.Dumper(storage);
+				}
+				dumper.DumpAll(writer);
+			} finally {
+				if (writer != null) {
+					writer.Dispose();
+				}
+			}
+		}
 
-        public static void RestoreFromSqlDump(string fileName)
-        {
-            StreamReader reader = null;
-            try {
-                reader = new StreamReader(fileName);
-                if (StorageClosing != null) {
-                    StorageClosing();
-                }
-                storage.RestoreDb(reader);
-            } finally {
-                if (reader != null) {
-                    reader.Dispose();
-                }
-                if (StorageOpened != null) {
-                    StorageOpened();
-                }
-            }
-        }
+		public static void RestoreFromSqlDump(string fileName)
+		{
+			StreamReader reader = null;
+			try {
+				reader = new StreamReader(fileName);
+				if (StorageClosing != null) {
+					StorageClosing();
+				}
+				storage.RestoreDb(reader);
+			} finally {
+				if (reader != null) {
+					reader.Dispose();
+				}
+				if (StorageOpened != null) {
+					StorageOpened();
+				}
+			}
+		}
 
-        public static void CloseStorage()
-        {
-            if (storage != null) {
-                if (StorageClosing != null) {
-                    StorageClosing();
-                }
-                storage.Close();
-            }
-            storage = null;
-        }
+		public static void CloseStorage()
+		{
+			if (storage != null) {
+				if (StorageClosing != null) {
+					StorageClosing();
+				}
+				storage.Close();
+			}
+			storage = null;
+		}
 
-        public static bool IsDBAvailable()
-        {
-            return (storage != null);
-        }
+		public static bool IsDBAvailable()
+		{
+			return (storage != null);
+		}
 
-    }
+	}
 }

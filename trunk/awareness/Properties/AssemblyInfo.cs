@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
-[assembly: AssemblyVersion("0.3.1.*")]
+[assembly: AssemblyVersion("0.4.0.*")]
 
 // Custom
 [assembly: NeutralResourcesLanguageAttribute("en", UltimateResourceFallbackLocation.MainAssembly)]
