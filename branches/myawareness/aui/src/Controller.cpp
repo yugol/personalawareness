@@ -261,6 +261,7 @@ void Controller::acceptTransaction(Transaction* transaction)
 {
 	databaseConnection_->addUpdate(transaction);
 	updateTransactions();
+	updateAccounts();
 }
 
 void Controller::dumpDatabase(wxString& path)
