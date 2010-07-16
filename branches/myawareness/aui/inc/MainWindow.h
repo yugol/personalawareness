@@ -12,6 +12,7 @@
 #include <wx/listctrl.h>
 #include <wx/stattext.h>
 #include <wx/datectrl.h>
+#include <wx/dateevt.h>
 #include <wx/htmllbox.h>
 #include <Account.h>
 #include <Transaction.h>
@@ -128,8 +129,13 @@ private:
 	void onClose(wxCloseEvent& event);
 
 	void onTransactionSelected(wxCommandEvent& event);
+	void onTransactionDateChanged(wxDateEvent& event);
 	void onTransactionItemKeyDown(wxKeyEvent& event);
-	void onTransactionText(wxCommandEvent& event);
+	void onTransactionItemText(wxCommandEvent& event);
+	void onTransactionValueText(wxCommandEvent& event);
+	void onTransactionSourceChoice(wxCommandEvent& event);
+	void onTransactionDestinationChoice(wxCommandEvent& event);
+	void onTransactionCommentText(wxCommandEvent& event);
 	void onNewTransaction(wxCommandEvent& event);
 	void onDeleteTransaction(wxCommandEvent& event);
 	void onAcceptTransaction(wxCommandEvent& event);
@@ -140,6 +146,7 @@ private:
 	void fitAccPage();
 	void setInsertTransactionEnv();
 	void setUpdateTransactionEnv(bool dirty = false);
+	void setTransactionDirty(bool dirty = true);
 	void checkItem();
 
 DECLARE_EVENT_TABLE()

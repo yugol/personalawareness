@@ -66,6 +66,11 @@ void MainWindow::onTransactionSelected(wxCommandEvent& event)
 	controller_->editTransaction(transactionId_);
 }
 
+void MainWindow::onTransactionDateChanged(wxDateEvent& event)
+{
+	setTransactionDirty();
+}
+
 void MainWindow::onTransactionItemKeyDown(wxKeyEvent& event)
 {
 	int keyCode = event.GetKeyCode();
@@ -102,9 +107,29 @@ void MainWindow::onTransactionItemKeyDown(wxKeyEvent& event)
 	}
 }
 
-void MainWindow::onTransactionText(wxCommandEvent& event)
+void MainWindow::onTransactionItemText(wxCommandEvent& event)
 {
-	checkItem();
+	setTransactionDirty();
+}
+
+void MainWindow::onTransactionValueText(wxCommandEvent& event)
+{
+	setTransactionDirty();
+}
+
+void MainWindow::onTransactionSourceChoice(wxCommandEvent& event)
+{
+	setTransactionDirty();
+}
+
+void MainWindow::onTransactionDestinationChoice(wxCommandEvent& event)
+{
+	setTransactionDirty();
+}
+
+void MainWindow::onTransactionCommentText(wxCommandEvent& event)
+{
+	setTransactionDirty();
 }
 
 void MainWindow::onNewTransaction(wxCommandEvent& event)

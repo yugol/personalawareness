@@ -72,7 +72,13 @@ EVT_MENU(ID_MENU_ABOUT, MainWindow::onAbout)
 
 EVT_LISTBOX(MainWindow::ID_TRS_LIST, MainWindow::onTransactionSelected)
 
-EVT_TEXT(MainWindow::ID_TR_ITEM, MainWindow::onTransactionText)
+EVT_DATE_CHANGED(MainWindow::ID_TR_DATE, MainWindow::onTransactionDateChanged)
+EVT_TEXT(MainWindow::ID_TR_ITEM, MainWindow::onTransactionItemText)
+EVT_TEXT(MainWindow::ID_TR_VALUE, MainWindow::onTransactionValueText)
+EVT_CHOICE(MainWindow::ID_TR_SOURCE, MainWindow::onTransactionSourceChoice)
+EVT_CHOICE(MainWindow::ID_TR_DESTINATION, MainWindow::onTransactionDestinationChoice)
+EVT_TEXT(MainWindow::ID_TR_COMMENT, MainWindow::onTransactionCommentText)
+
 EVT_BUTTON(MainWindow::ID_TR_NEW, MainWindow::onNewTransaction)
 EVT_BUTTON(MainWindow::ID_TR_DELETE, MainWindow::onDeleteTransaction)
 EVT_BUTTON(MainWindow::ID_TR_ACCEPT, MainWindow::onAcceptTransaction)
@@ -311,6 +317,22 @@ MainWindow::~MainWindow()
 {
 }
 
+void MainWindow::setDatabaseEnvironment(bool opened)
+{
+	fileMenu->Enable(ID_MENU_EXPORT, opened);
+	fileMenu->Enable(ID_MENU_IMPORT, opened);
+	mbar->EnableTop(1, opened);
+	editMenu->Enable(ID_MENU_UNDO, false);
+	editMenu->Enable(ID_MENU_REDO, false);
+
+	toolBar_->EnableTool(ID_MENU_UNDO, false);
+	toolBar_->EnableTool(ID_MENU_REDO, false);
+
+	financialPages->Show(opened);
+
+	setInsertTransactionEnv();
+}
+
 void MainWindow::fitAccPage()
 {
 	accSizer_->Fit(accPage_);
@@ -331,27 +353,19 @@ void MainWindow::setInsertTransactionEnv()
 
 void MainWindow::setUpdateTransactionEnv(bool dirty)
 {
-	transactionDirty_ = dirty;
+	setTransactionDirty(dirty);
 	trDeleteButton_->Show();
 	trNewButton_->Show();
-	trAcceptButton_->Enable(transactionDirty_);
 	trAcceptButton_->SetLabel(_("Update"));
 }
 
-void MainWindow::setDatabaseEnvironment(bool opened)
+void MainWindow::setTransactionDirty(bool dirty)
 {
-	fileMenu->Enable(ID_MENU_EXPORT, opened);
-	fileMenu->Enable(ID_MENU_IMPORT, opened);
-	mbar->EnableTop(1, opened);
-	editMenu->Enable(ID_MENU_UNDO, false);
-	editMenu->Enable(ID_MENU_REDO, false);
-
-	toolBar_->EnableTool(ID_MENU_UNDO, false);
-	toolBar_->EnableTool(ID_MENU_REDO, false);
-
-	financialPages->Show(opened);
-
-	setInsertTransactionEnv();
+	transactionDirty_ = dirty;
+	trAcceptButton_->Enable(transactionDirty_);
+	if (transactionDirty_) {
+		checkItem();
+	}
 }
 
 void MainWindow::checkItem()
@@ -430,7 +444,7 @@ void MainWindow::onImport(wxCommandEvent& event)
 {
 	wxMessageDialog msgDlg(this,
 			_T("This operation will completely erase\nthe current database.\nAre you sure you want to continue?"),
-			_T("Database export"), wxYES|wxNO_DEFAULT);
+			_T("Database export"), wxYES | wxNO_DEFAULT);
 
 	if (wxID_YES == msgDlg.ShowModal()) {
 		wxString path;
