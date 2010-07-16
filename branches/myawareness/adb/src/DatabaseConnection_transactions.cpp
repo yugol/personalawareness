@@ -69,7 +69,7 @@ void DatabaseConnection::delTransaction(int id)
 void DatabaseConnection::selectTransactions(std::vector<int>* sel, SelectionParameters* params)
 {
 	char stmt[STATEMENT_LEN];
-	::sprintf(stmt, "SELECT id FROM transactions;\n");
+	::sprintf(stmt, "SELECT id FROM transactions ORDER BY [date] ASC;\n");
 	// printf(stmt);
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, readTransactionIntoVector, sel, NULL)) {
 		throw new string("error selecting transactions");
