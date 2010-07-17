@@ -45,7 +45,8 @@
 								</option>
 								<option id="gnu.cpp.link.option.libs.1456407562" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="adb"/>
-									<listOptionValue builtIn="false" value="sqlite3"/>
+									<listOptionValue builtIn="false" value="pthread"/>
+									<listOptionValue builtIn="false" value="dl"/>
 									<listOptionValue builtIn="false" value="cppunitlite"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1032754418" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
@@ -503,7 +504,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.1706685884" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release">
 								<option id="gnu.cpp.compiler.exe.release.option.optimization.level.164727518" name="Optimization Level" superClass="gnu.cpp.compiler.exe.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.exe.release.option.debugging.level.1297787525" name="Debug Level" superClass="gnu.cpp.compiler.exe.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.include.paths.1830976157" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+								<option id="gnu.cpp.compiler.option.include.paths.1830976157" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/adb/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cppunitlite}&quot;"/>
 								</option>
@@ -518,7 +519,8 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.1445672787" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release">
 								<option id="gnu.cpp.link.option.libs.1534337890" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="adb"/>
-									<listOptionValue builtIn="false" value="sqlite3"/>
+									<listOptionValue builtIn="false" value="pthread"/>
+									<listOptionValue builtIn="false" value="dl"/>
 									<listOptionValue builtIn="false" value="cppunitlite"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1487384950" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
