@@ -21,6 +21,10 @@ public:
 		OK = 0, STATEMENT_ERROR, EMPTY_DATABASE, WRONG_DATABASE
 	};
 
+	static DatabaseConnection* instance();
+	static void openDatabase(const std::string& path);
+	static void closeDatabase();
+
 	DatabaseConnection(const char* file);
 	~DatabaseConnection();
 
@@ -55,19 +59,21 @@ public:
 protected:
 
 private:
+	static DatabaseConnection* instance_;
+
 	const std::string databaseFile_;
 	sqlite3 *database_;
 	mutable std::vector<Account> accounts_;
 	mutable std::map<int, Item> items_;
 
-	DatabaseConnection(DatabaseConnection &);
-	void operator=(DatabaseConnection &);
+	DatabaseConnection(const DatabaseConnection &);
+	void operator=(const DatabaseConnection &);
 
-	void openDatabase();
+	void openConnection();
 	void checkConnection();
 	int checkDatabase();
 	int createNewDatabase();
-	void closeDatabase();
+	void closeConnection();
 	void cashAccounts() const;
 	void cashItems()const;
 };

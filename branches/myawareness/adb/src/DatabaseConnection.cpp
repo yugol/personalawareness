@@ -5,21 +5,41 @@ using namespace std;
 
 namespace adb {
 
+DatabaseConnection* DatabaseConnection::instance_ = 0;
+
+DatabaseConnection* DatabaseConnection::instance()
+{
+	if (0 == instance_) {
+
+	}
+	return instance_;
+}
+
+void DatabaseConnection::openDatabase(const std::string& path)
+{
+
+}
+
+void DatabaseConnection::closeDatabase()
+{
+
+}
+
 DatabaseConnection::DatabaseConnection(const char* file) :
 	databaseFile_(file), database_(0)
 {
-	openDatabase();
+	openConnection();
 }
 
 DatabaseConnection::~DatabaseConnection()
 {
-	closeDatabase();
+	closeConnection();
 }
 
-void DatabaseConnection::openDatabase()
+void DatabaseConnection::openConnection()
 {
 	if (::sqlite3_open_v2(databaseFile_.c_str(), &database_, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL)) {
-		closeDatabase();
+		closeConnection();
 		throw new string("can't read database");
 	}
 
@@ -34,7 +54,7 @@ void DatabaseConnection::openDatabase()
 		break;
 
 	default:
-		closeDatabase();
+		closeConnection();
 		throw new string("error reading database");
 	}
 }
@@ -78,7 +98,7 @@ int DatabaseConnection::checkDatabase()
 	return OK;
 }
 
-void DatabaseConnection::closeDatabase()
+void DatabaseConnection::closeConnection()
 {
 	::sqlite3_close(database_);
 	database_ = 0;
@@ -87,7 +107,7 @@ void DatabaseConnection::closeDatabase()
 void DatabaseConnection::deleteDatabase()
 {
 	checkConnection();
-	closeDatabase();
+	closeConnection();
 	if (0 != ::remove(databaseFile_.c_str())) {
 		throw new string("error deleting database");
 	}

@@ -170,7 +170,7 @@ void DatabaseConnection::dumpSql(ostream& out)
 void DatabaseConnection::loadSql(std::istream& in, LoadSqlCallback* callback)
 {
 	deleteDatabase();
-	openDatabase();
+	openConnection();
 
 	char statement[STATEMENT_LEN];
 
