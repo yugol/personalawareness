@@ -5,9 +5,9 @@
 #include <TestHarness.h>
 #include <DatabaseConnection.h>
 #include <Configuration.h>
-#include <Exception.h>
 
 extern char testDatabase[];
+extern char disposableDatabase[];
 
 using namespace std;
 using namespace adb;

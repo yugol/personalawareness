@@ -4,42 +4,47 @@
 using namespace adb;
 
 char testDatabase[] = "test.db";
+char disposableDatabase[] = "disposable.db";
 
 void generateTestDatabase()
 {
-	::remove(testDatabase);
-
-	DatabaseConnection db(testDatabase);
+	DatabaseConnection::openDatabase(testDatabase);
+	DatabaseConnection::deleteDatabase();
 
 	Account acc(Account::ACCOUNT, "account");
 	Account deb(Account::DEBT, "debt");
 	Account cre(Account::CREDIT, "credit");
 
-	db.addUpdate(&acc);
-	db.addUpdate(&deb);
-	db.addUpdate(&cre);
+	DatabaseConnection::instance()->addUpdate(&acc);
+	DatabaseConnection::instance()->addUpdate(&deb);
+	DatabaseConnection::instance()->addUpdate(&cre);
 
 	Item i1("in");
 	Item i2("out");
 
-	db.addUpdate(&i1);
-	db.addUpdate(&i2);
+	DatabaseConnection::instance()->addUpdate(&i1);
+	DatabaseConnection::instance()->addUpdate(&i2);
 
 	Transaction tr1("00000001", 100, 3, 1, 1, 0);
 	Transaction tr2("00000002", 10, 1, 2, 2, "no more");
 
-	db.addUpdate(&tr1);
-	db.addUpdate(&tr2);
+	DatabaseConnection::instance()->addUpdate(&tr1);
+	DatabaseConnection::instance()->addUpdate(&tr2);
 }
 
 int main()
 {
+	string defaultPath = Configuration::instance()->getLastDatabasePath();
+
 	::generateTestDatabase();
 
 	TestResult tr;
 	TestRegistry::runAllTests(tr);
 
-	::remove(testDatabase);
+	DatabaseConnection::openDatabase(testDatabase);
+	DatabaseConnection::deleteDatabase();
+
+	Configuration::instance()->setLastDatabasePath(defaultPath.c_str());
 
 	return 0;
 }
