@@ -43,7 +43,7 @@ void DatabaseConnection::addUpdate(Transaction *tr)
 				descBuf);
 		// printf(stmt);
 		if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-			throw new string("error inserting transaction");
+			throw Exception("error inserting transaction");
 		}
 		tr->setId(::sqlite3_last_insert_rowid(database_));
 	} else if (0 < id) {
@@ -51,7 +51,7 @@ void DatabaseConnection::addUpdate(Transaction *tr)
 				descBuf, id);
 		// printf(stmt);
 		if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-			throw new string("error updating transaction");
+			throw Exception("error updating transaction");
 		}
 	}
 }
@@ -62,27 +62,27 @@ void DatabaseConnection::delTransaction(int id)
 	::sprintf(stmt, "DELETE FROM transactions WHERE id=%d;\n", id);
 	// printf(stmt);
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw new string("error deleting transaction");
+		throw Exception("error deleting transaction");
 	}
 }
 
-void DatabaseConnection::selectTransactions(std::vector<int>* sel, SelectionParameters* params)
+void DatabaseConnection::selectTransactions(std::vector<int>* sel, SelectionParameters* params) const
 {
 	char stmt[STATEMENT_LEN];
 	::sprintf(stmt, "SELECT id FROM transactions ORDER BY [date] ASC;\n");
 	// printf(stmt);
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, readTransactionIntoVector, sel, NULL)) {
-		throw new string("error selecting transactions");
+		throw Exception("error selecting transactions");
 	}
 }
 
-void DatabaseConnection::getTransaction(Transaction* t)
+void DatabaseConnection::getTransaction(Transaction* t) const
 {
 	char stmt[STATEMENT_LEN];
 	::sprintf(stmt, "SELECT [date], val, [from], [to], item, [desc] FROM transactions WHERE id = %d;\n", t->getId());
 	// printf(stmt);
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, readTransaction, t, NULL)) {
-		throw new string("error selecting transaction");
+		throw Exception("error selecting transaction");
 	}
 }
 

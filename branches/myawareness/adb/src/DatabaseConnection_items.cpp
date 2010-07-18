@@ -25,7 +25,7 @@ void DatabaseConnection::cashItems() const
 	char stmt[] = "SELECT id, name FROM items ORDER BY id ASC;\n";
 	// printf(stmt);
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, readItem, &items_, NULL)) {
-		throw new string("error selecting items");
+		throw Exception("error selecting items");
 	}
 }
 
@@ -44,14 +44,14 @@ void DatabaseConnection::addUpdate(Item *item)
 		::sprintf(stmt, "INSERT INTO items (name) VALUES (%s);\n", nameBuf);
 		// printf(stmt);
 		if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-			throw new string("error inserting item");
+			throw Exception("error inserting item");
 		}
 		item->setId(::sqlite3_last_insert_rowid(database_));
 	} else if (0 < id) {
 		::sprintf(stmt, "UPDATE items SET name=%s WHERE id=%d;\n", nameBuf, id);
 		// printf(stmt);
 		if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-			throw new string("error updating item");
+			throw Exception("error updating item");
 		}
 	}
 }
@@ -63,7 +63,7 @@ void DatabaseConnection::delItem(int id)
 	::sprintf(stmt, "DELETE FROM items WHERE id=%d;\n", id);
 	// printf(stmt);
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw new string("error deleting item");
+		throw Exception("error deleting item");
 	}
 }
 
@@ -96,7 +96,7 @@ void DatabaseConnection::getItems(std::vector<int>* sel) const
 	}
 }
 
-int DatabaseConnection::getItemCount()
+int DatabaseConnection::getItemCount() const
 {
 	cashItems();
 	return items_.size();

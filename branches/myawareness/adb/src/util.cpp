@@ -28,5 +28,15 @@ const char* formatStringForDatabase(char *buf, const string &str)
 	return buf;
 }
 
+void trimSpaces(string& str)
+{
+	size_t startpos = str.find_first_not_of(" \t\n\r");
+	size_t endpos = str.find_last_not_of(" \t\n\r");
+	if ((string::npos == startpos) || (string::npos == endpos)) {
+		str = "";
+	} else {
+		str = str.substr(startpos, endpos - startpos + 1);
+	}
+}
 
 } // namespace adb

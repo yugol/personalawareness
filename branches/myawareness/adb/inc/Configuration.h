@@ -16,6 +16,7 @@ public:
 	virtual ~Configuration();
 
 	const std::string& getConfigurationFilePath() const;
+	bool existsConfigurationFile() const;
 	const std::string& getLastDatabasePath() const;
 	void setLastDatabasePath(const char* path);
 

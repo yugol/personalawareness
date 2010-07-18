@@ -42,14 +42,14 @@ void DatabaseConnection::addUpdate(Account *acc)
 		::sprintf(stmt, "INSERT INTO accounts (type, ival, name, [group], [desc]) VALUES (%d, %f, %s, %s, %s);\n", acc->getType(), acc->getInitialValue(), nameBuf, groupBuf, descBuf);
 		// printf(stmt);
 		if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-			throw new string("error inserting account");
+			throw Exception("error inserting account");
 		}
 		acc->setId(::sqlite3_last_insert_rowid(database_));
 	} else if (0 < id) {
 		::sprintf(stmt, "UPDATE accounts SET type=%d, ival=%f, name=%s, [group]=%s, [desc]=%s WHERE id=%d;\n", acc->getType(), acc->getInitialValue(), nameBuf, groupBuf, descBuf, id);
 		// printf(stmt);
 		if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-			throw new string("error updating account");
+			throw Exception("error updating account");
 		}
 	}
 }
@@ -61,7 +61,7 @@ void DatabaseConnection::delAccount(int id)
 	::sprintf(stmt, "DELETE FROM accounts WHERE id=%d;\n", id);
 	// printf(stmt);
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw new string("error deleting account");
+		throw Exception("error deleting account");
 	}
 }
 
@@ -73,11 +73,11 @@ void DatabaseConnection::cashAccounts() const
 	char stmt[] = "SELECT id, type, name, [group], ival, [desc] FROM accounts ORDER BY type DESC, [group] ASC, name ASC;\n";
 	// printf(stmt);
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, readAccount, &accounts_, NULL)) {
-		throw new string("error selecting account");
+		throw Exception("error selecting account");
 	}
 }
 
-Account* DatabaseConnection::getAccount(int id)
+Account* DatabaseConnection::getAccount(int id) const
 {
 	cashAccounts();
 	vector<Account>::iterator it;
@@ -89,7 +89,7 @@ Account* DatabaseConnection::getAccount(int id)
 	return 0;
 }
 
-double DatabaseConnection::getBalance(Account *acc)
+double DatabaseConnection::getBalance(Account *acc) const
 {
 	if (acc->getType() != Account::ACCOUNT) {
 		return 0;
@@ -104,21 +104,21 @@ double DatabaseConnection::getBalance(Account *acc)
 	::sprintf(stmt, "SELECT sum(val) as credit FROM transactions WHERE [to] = %d;\n", id);
 	// printf(stmt);
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, readDouble, &credit, NULL)) {
-		throw new string("error getting credit");
+		throw Exception("error getting credit");
 	}
 	// printf("Credit %f\n", CREDIT);
 
 	::sprintf(stmt, "SELECT sum(val) as credit FROM transactions WHERE [from] = %d;\n", id);
 	// printf(stmt);
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, readDouble, &debit, NULL)) {
-		throw new string("error getting debit");
+		throw Exception("error getting debit");
 	}
 	// printf("Debit %f\n", debit);
 
 	return (acc->getInitialValue() + credit - debit);
 }
 
-void DatabaseConnection::getAccounts(std::vector<int>* sel)
+void DatabaseConnection::getAccounts(std::vector<int>* sel) const
 {
 	cashAccounts();
 	vector<Account>::iterator it;
@@ -129,7 +129,7 @@ void DatabaseConnection::getAccounts(std::vector<int>* sel)
 	}
 }
 
-void DatabaseConnection::getBudgetCategories(std::vector<int>* sel)
+void DatabaseConnection::getBudgetCategories(std::vector<int>* sel) const
 {
 	cashAccounts();
 	vector<Account>::iterator it;
@@ -140,7 +140,7 @@ void DatabaseConnection::getBudgetCategories(std::vector<int>* sel)
 	}
 }
 
-void DatabaseConnection::getCreditingBudgets(std::vector<int>* sel)
+void DatabaseConnection::getCreditingBudgets(std::vector<int>* sel) const
 {
 	cashAccounts();
 	vector<Account>::iterator it;
@@ -151,7 +151,7 @@ void DatabaseConnection::getCreditingBudgets(std::vector<int>* sel)
 	}
 }
 
-void DatabaseConnection::getDebitingBudgets(std::vector<int>* sel)
+void DatabaseConnection::getDebitingBudgets(std::vector<int>* sel) const
 {
 	cashAccounts();
 	vector<Account>::iterator it;
@@ -162,7 +162,7 @@ void DatabaseConnection::getDebitingBudgets(std::vector<int>* sel)
 	}
 }
 
-int DatabaseConnection::getAccountCount()
+int DatabaseConnection::getAccountCount() const
 {
 	cashAccounts();
 	return accounts_.size();

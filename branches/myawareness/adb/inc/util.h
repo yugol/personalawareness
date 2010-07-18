@@ -12,6 +12,7 @@ const int STATEMENT_LEN = 2000;
 
 void charPtrToString(std::string &str, const char *cptr);
 const char* formatStringForDatabase(char *buf, const std::string &str);
+void trimSpaces(std::string& str);
 
 } // namespace adb
 

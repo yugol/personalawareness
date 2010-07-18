@@ -26,7 +26,7 @@ int DatabaseConnection::createNewDatabase()
 	// printf(stmt);
 
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw new string("error creating accounts table");
+		throw Exception("error creating accounts table");
 	}
 
 	::sprintf(stmt, "CREATE UNIQUE INDEX 'accounts_index' on accounts (id ASC);\n");
@@ -34,7 +34,7 @@ int DatabaseConnection::createNewDatabase()
 	// printf(stmt);
 
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw new string("error creating accounts index");
+		throw Exception("error creating accounts index");
 	}
 
 	// ITEMS TABLE
@@ -49,7 +49,7 @@ int DatabaseConnection::createNewDatabase()
 	// printf(stmt);
 
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw new string("error creating items table");
+		throw Exception("error creating items table");
 	}
 
 	::sprintf(stmt, "CREATE UNIQUE INDEX 'items_index' on items (id ASC);\n");
@@ -57,7 +57,7 @@ int DatabaseConnection::createNewDatabase()
 	// printf(stmt);
 
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw new string("error creating items index");
+		throw Exception("error creating items index");
 	}
 
 	// TRANSACTIONS TABLE
@@ -77,7 +77,7 @@ int DatabaseConnection::createNewDatabase()
 	// printf(stmt);
 
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw new string("error creating transactions table");
+		throw Exception("error creating transactions table");
 	}
 
 	::sprintf(stmt, "CREATE UNIQUE INDEX 'transactions_index' on transactions (id ASC);\n");
@@ -85,7 +85,7 @@ int DatabaseConnection::createNewDatabase()
 	// printf(stmt);
 
 	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw new string("error creating transactions index");
+		throw Exception("error creating transactions index");
 	}
 
 	return OK;
@@ -100,7 +100,7 @@ static void writeStringOrNull(ostream& out, const string& str)
 	}
 }
 
-void DatabaseConnection::dumpSql(ostream& out)
+void DatabaseConnection::dumpSql(ostream& out) const
 {
 	cashAccounts();
 	cashItems();
@@ -169,9 +169,6 @@ void DatabaseConnection::dumpSql(ostream& out)
 
 void DatabaseConnection::loadSql(std::istream& in, LoadSqlCallback* callback)
 {
-	deleteDatabase();
-	openConnection();
-
 	char statement[STATEMENT_LEN];
 
 	int lineNo = 0;
@@ -179,7 +176,7 @@ void DatabaseConnection::loadSql(std::istream& in, LoadSqlCallback* callback)
 		++lineNo;
 		if (SQLITE_OK != ::sqlite3_exec(database_, statement, NULL, NULL, NULL)) {
 			::sprintf(statement, "error loading from SQL script: line %d", lineNo);
-			throw new string(statement);
+			throw Exception(statement);
 		}
 		if (0 != callback) {
 			callback->execute(lineNo);

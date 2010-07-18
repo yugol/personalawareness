@@ -40,6 +40,12 @@ Configuration::~Configuration()
 {
 }
 
+bool Configuration::existsConfigurationFile() const
+{
+	ifstream fin(configurationFilePath_.c_str());
+	return fin.is_open();
+}
+
 void Configuration::setLastDatabasePath(const char* path)
 {
 	lastDatabasePath_ = path;

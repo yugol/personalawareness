@@ -7,6 +7,8 @@
 #include <istream>
 #include <ostream>
 #include <sqlite3.h>
+#include <Exception.h>
+#include <Configuration.h>
 #include <Account.h>
 #include <Item.h>
 #include <Transaction.h>
@@ -22,60 +24,60 @@ public:
 	};
 
 	static DatabaseConnection* instance();
-	static void openDatabase(const std::string& path);
+	static void openDatabase(const char* databasePath);
 	static void closeDatabase();
+	static void deleteDatabase();
+	static void exportDatabase(std::ostream& out);
+	static void importDatabase(std::istream& in, LoadSqlCallback* callback);
 
-	DatabaseConnection(const char* file);
 	~DatabaseConnection();
 
 	const std::string& getDatabaseFile() const;
-	void deleteDatabase();
 
 	void addUpdate(Account *acc);
 	void delAccount(int id);
-	Account* getAccount(int id);
-	void getAccounts(std::vector<int>* sel);
-	void getBudgetCategories(std::vector<int>* sel);
-	void getCreditingBudgets(std::vector<int>* sel);
-	void getDebitingBudgets(std::vector<int>* sel);
-	double getBalance(Account *acc);
-	int getAccountCount();
+	Account* getAccount(int id) const;
+	void getAccounts(std::vector<int>* sel) const;
+	void getBudgetCategories(std::vector<int>* sel) const;
+	void getCreditingBudgets(std::vector<int>* sel) const;
+	void getDebitingBudgets(std::vector<int>* sel) const;
+	double getBalance(Account *acc) const;
+	int getAccountCount() const;
 
 	void addUpdate(Item *item);
 	void delItem(int id);
 	const Item* getItem(int id) const;
 	const Item* getItem(const char* name) const;
 	void getItems(std::vector<int>* sel) const;
-	int getItemCount();
+	int getItemCount() const;
 
 	void addUpdate(Transaction* tr);
 	void delTransaction(int id);
-	void getTransaction(Transaction* t);
-	void selectTransactions(std::vector<int>* sel, SelectionParameters* params);
-
-	void dumpSql(std::ostream& out);
-	void loadSql(std::istream& in, LoadSqlCallback* callback);
-
-protected:
+	void getTransaction(Transaction* t) const;
+	void selectTransactions(std::vector<int>* sel, SelectionParameters* params) const;
 
 private:
 	static DatabaseConnection* instance_;
 
-	const std::string databaseFile_;
+	std::string databaseFile_;
 	sqlite3 *database_;
 	mutable std::vector<Account> accounts_;
 	mutable std::map<int, Item> items_;
 
+	DatabaseConnection(const char* databasePath);
 	DatabaseConnection(const DatabaseConnection &);
 	void operator=(const DatabaseConnection &);
 
 	void openConnection();
-	void checkConnection();
-	int checkDatabase();
-	int createNewDatabase();
+	int checkConnection();
 	void closeConnection();
+	int createNewDatabase();
+
 	void cashAccounts() const;
-	void cashItems()const;
+	void cashItems() const;
+
+	void dumpSql(std::ostream& out) const;
+	void loadSql(std::istream& in, LoadSqlCallback* callback);
 };
 
 inline const std::string& DatabaseConnection::getDatabaseFile() const
