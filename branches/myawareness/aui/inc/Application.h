@@ -10,7 +10,7 @@ public:
     virtual bool OnInit();
 
 private:
-    Controller aCtrl_;
+    Controller controller_;
 };
 
 #endif // APPLICATION_H

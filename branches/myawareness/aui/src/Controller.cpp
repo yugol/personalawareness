@@ -17,15 +17,12 @@
 using namespace std;
 using namespace adb;
 
-Controller::Controller() :
-	databaseConnection_(0)
+Controller::Controller()
 {
-	//ctor
 }
 
 Controller::~Controller()
 {
-	closeDatabase();
 }
 
 void Controller::setMainWindow(MainWindow* wnd)
@@ -36,6 +33,9 @@ void Controller::setMainWindow(MainWindow* wnd)
 
 void Controller::start()
 {
+	if (Configuration::instance()->existsConfigurationFile()) {
+		openDatabase(0);
+	}
 }
 
 void Controller::formatCurrency(char* buf, double val)
@@ -72,62 +72,37 @@ void Controller::formatString(char* buf, const wxString& str)
 
 void Controller::exitApplication()
 {
-	closeDatabase();
+	DatabaseConnection::closeDatabase();
 	mainWindow_->Destroy();
 }
 
-void Controller::newDatabase(wxString& path)
+void Controller::openDatabase(const wxString* path)
 {
 	try {
-		if (path.AfterLast('.') != _T("db")) {
-			path.Append(_T(".db"));
-		}
-		{
-			DatabaseConnection temp(path.fn_str());
-		}
-		openDatabase(path);
-	} catch (string* err) {
-		wxString msg(err->c_str(), wxConvLibc);
-		wxMessageDialog dlg(mainWindow_, msg, _T("Error creating database"), wxOK);
-		dlg.ShowModal();
-		dlg.Destroy();
-	}
-}
 
-void Controller::openDatabase(wxString& path)
-{
-	DatabaseConnection* tmpDb = 0;
-
-	try {
-		tmpDb = new DatabaseConnection(path.fn_str());
-		closeDatabase();
-		databaseConnection_ = tmpDb;
+		if (0 != path) {
+			DatabaseConnection::openDatabase(path->fn_str());
+		}
 
 		updateAccounts();
 		updateItems();
 		updateTransactions();
 
 		// update status message
-		wxString dbFile = path.AfterLast('\\');
-		dbFile = dbFile.AfterLast('/');
-		wxString msg(_T("Using: "));
-		msg.Append(dbFile);
-		mainWindow_->setStatusMessage(msg);
+
+		wxString statusMessage(DatabaseConnection::instance()->getDatabaseFile().c_str(), wxConvLibc);
+		statusMessage = statusMessage.AfterLast('\\');
+		statusMessage = statusMessage.AfterLast('/');
+		statusMessage.Prepend(_T("Using: "));
+		mainWindow_->setStatusMessage(statusMessage);
 
 		mainWindow_->setDatabaseEnvironment(true);
-	} catch (string* err) {
-		wxString msg(err->c_str(), wxConvLibc);
+
+	} catch (const exception& ex) {
+		wxString msg(ex.what(), wxConvLibc);
 		wxMessageDialog dlg(mainWindow_, msg, _T("Error opening database"), wxOK);
 		dlg.ShowModal();
 		dlg.Destroy();
-	}
-}
-
-void Controller::closeDatabase()
-{
-	if (0 != databaseConnection_) {
-		delete databaseConnection_;
-		databaseConnection_ = 0;
 	}
 }
 
@@ -138,11 +113,11 @@ void Controller::updateAccounts()
 	vector<int> sel;
 	vector<int>::iterator it;
 
-	databaseConnection_->getAccounts(&sel);
+	DatabaseConnection::instance()->getAccounts(&sel);
 	double netWorth = 0;
 	for (it = sel.begin(); it != sel.end(); ++it) {
-		Account* acc = databaseConnection_->getAccount(*it);
-		double balance = databaseConnection_->getBalance(acc);
+		Account* acc = DatabaseConnection::instance()->getAccount(*it);
+		double balance = DatabaseConnection::instance()->getBalance(acc);
 		statement.push_back(make_pair(acc, balance));
 		netWorth += balance;
 	}
@@ -150,18 +125,18 @@ void Controller::updateAccounts()
 	mainWindow_->setNetWorth(netWorth);
 
 	sel.clear();
-	databaseConnection_->getCreditingBudgets(&sel);
+	DatabaseConnection::instance()->getCreditingBudgets(&sel);
 	for (it = sel.begin(); it != sel.end(); ++it) {
-		Account* acc = databaseConnection_->getAccount(*it);
+		Account* acc = DatabaseConnection::instance()->getAccount(*it);
 		budgets.push_back(acc);
 	}
 	mainWindow_->populateCreditingBudgets(budgets);
 
 	sel.clear();
 	budgets.clear();
-	databaseConnection_->getDebitingBudgets(&sel);
+	DatabaseConnection::instance()->getDebitingBudgets(&sel);
 	for (it = sel.begin(); it != sel.end(); ++it) {
-		Account* acc = databaseConnection_->getAccount(*it);
+		Account* acc = DatabaseConnection::instance()->getAccount(*it);
 		budgets.push_back(acc);
 	}
 	mainWindow_->populateDebitingBudgets(budgets);
@@ -177,9 +152,9 @@ void Controller::updateItems()
 	vector<const Item*> items;
 	vector<int> sel;
 	vector<int>::iterator it;
-	databaseConnection_->getItems(&sel);
+	DatabaseConnection::instance()->getItems(&sel);
 	for (it = sel.begin(); it != sel.end(); ++it) {
-		const Item* item = databaseConnection_->getItem(*it);
+		const Item* item = DatabaseConnection::instance()->getItem(*it);
 		items.push_back(item);
 	}
 	sort(items.begin(), items.end(), ::itemPtrComparer);
@@ -194,16 +169,16 @@ void Controller::updateTransactions()
 	char itemBuf[ITEM_BUF_LEN];
 
 	vector<int> sel;
-	databaseConnection_->selectTransactions(&sel, 0);
+	DatabaseConnection::instance()->selectTransactions(&sel, 0);
 
 	vector<int>::iterator it;
 	for (it = sel.begin(); it != sel.end(); ++it) {
 		int id = *it;
 		Transaction t(id);
-		databaseConnection_->getTransaction(&t);
-		const Item* why = databaseConnection_->getItem(t.getItemId());
-		Account* from = databaseConnection_->getAccount(t.getFromId());
-		Account* to = databaseConnection_->getAccount(t.getToId());
+		DatabaseConnection::instance()->getTransaction(&t);
+		const Item* why = DatabaseConnection::instance()->getItem(t.getItemId());
+		Account* from = DatabaseConnection::instance()->getAccount(t.getFromId());
+		Account* to = DatabaseConnection::instance()->getAccount(t.getToId());
 
 		formatCurrency(currencyBuf, t.getValue());
 		formatDate(dateBuf, t.getDate());
@@ -230,7 +205,7 @@ void Controller::updateTransactions()
 void Controller::editTransaction(int id)
 {
 	Transaction t(id);
-	databaseConnection_->getTransaction(&t);
+	DatabaseConnection::instance()->getTransaction(&t);
 	mainWindow_->transactionToView(&t);
 }
 
@@ -243,10 +218,10 @@ int Controller::getItemId(const wxString& name)
 	char itemBuf[ITEM_BUF_LEN];
 	formatString(itemBuf, name);
 
-	const Item* item = databaseConnection_->getItem(itemBuf);
+	const Item* item = DatabaseConnection::instance()->getItem(itemBuf);
 	if (0 == item) {
 		Item newItem(itemBuf);
-		databaseConnection_->addUpdate(&newItem);
+		DatabaseConnection::instance()->addUpdate(&newItem);
 		updateItems();
 		item = &newItem;
 	}
@@ -259,7 +234,7 @@ int Controller::getItemId(const wxString& name)
 
 void Controller::acceptTransaction(Transaction* transaction)
 {
-	databaseConnection_->addUpdate(transaction);
+	DatabaseConnection::instance()->addUpdate(transaction);
 	updateTransactions();
 	updateAccounts();
 }
@@ -268,7 +243,7 @@ void Controller::dumpDatabase(wxString& path)
 {
 	ofstream fout(path.fn_str(), ios_base::trunc);
 
-	databaseConnection_->dumpSql(fout);
+	DatabaseConnection::exportDatabase(fout);
 
 	wxMessageDialog dlg(mainWindow_, _T("Operation completed successfully."), _T("Database export"), wxOK);
 	dlg.ShowModal();
@@ -279,7 +254,7 @@ void Controller::loadDatabase(wxString& path)
 {
 	ifstream fin(path.fn_str());
 
-	databaseConnection_->loadSql(fin, 0);
+	DatabaseConnection::importDatabase(fin, 0);
 
 	wxMessageDialog dlg(mainWindow_, _T("Operation completed successfully."), _T("Database import"), wxOK);
 	dlg.ShowModal();

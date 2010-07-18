@@ -63,7 +63,6 @@ BEGIN_EVENT_TABLE(MainWindow, wxFrame)
 
 EVT_CLOSE(MainWindow::onClose)
 
-EVT_MENU(ID_MENU_NEW, MainWindow::onNew)
 EVT_MENU(ID_MENU_OPEN, MainWindow::onOpen)
 EVT_MENU(ID_MENU_EXPORT, MainWindow::onExport)
 EVT_MENU(ID_MENU_IMPORT, MainWindow::onImport)
@@ -99,7 +98,6 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 	mbar = new wxMenuBar();
 
 	fileMenu = new wxMenu(_T(""));
-	fileMenu->Append(ID_MENU_NEW, _("&New..."), _("Create new database"));
 	fileMenu->Append(ID_MENU_OPEN, _("&Open..."), _("Open database"));
 	fileMenu->AppendSeparator();
 	fileMenu->Append(ID_MENU_EXPORT, _("&Export..."), _("Export database to SQL script"));
@@ -132,7 +130,6 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 	// create a tool bar
 
 	toolBar_ = this->CreateToolBar(wxTB_HORIZONTAL | wxTB_NOICONS | wxTB_TEXT, wxID_ANY);
-	toolBar_->AddTool(ID_MENU_NEW, wxT("New"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString);
 	toolBar_->AddTool(ID_MENU_OPEN, wxT("Open"), wxNullBitmap, wxNullBitmap, wxITEM_NORMAL, wxEmptyString,
 			wxEmptyString);
 	toolBar_->AddSeparator();
@@ -378,34 +375,18 @@ void MainWindow::checkItem()
 	}
 }
 
-void MainWindow::onNew(wxCommandEvent &event)
-{
-	wxString path;
-
-	wxFileDialog* dlg = new wxFileDialog(0, _("New database"), _T(""), _T(""), _T("*.db"));
-	if (wxID_OK == dlg->ShowModal()) {
-		path = dlg->GetPath();
-	}
-	delete dlg;
-
-	if (path.size() > 0) {
-		controller_->newDatabase(path);
-	}
-}
-
 void MainWindow::onOpen(wxCommandEvent &event)
 {
 	wxString path;
 
-	wxFileDialog* dlg = new wxFileDialog(0, _("Open database"), _T(""), _T(""), _T("*.db"), wxFD_OPEN
-			| wxFD_FILE_MUST_EXIST);
+	wxFileDialog* dlg = new wxFileDialog(0, _("Open database"), _T(""), _T(""), _T("*.db"));
 	if (wxID_OK == dlg->ShowModal()) {
 		path = dlg->GetPath();
 	}
 	delete dlg;
 
 	if (path.size() > 0) {
-		controller_->openDatabase(path);
+		controller_->openDatabase(&path);
 	}
 }
 

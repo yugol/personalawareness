@@ -41,8 +41,7 @@ public:
 
 private:
 	enum {
-		ID_MENU_NEW = 1000,
-		ID_MENU_OPEN,
+		ID_MENU_OPEN = 1000,
 		ID_MENU_EXPORT,
 		ID_MENU_IMPORT,
 		ID_MENU_EXIT,
@@ -120,7 +119,6 @@ private:
 
 	// events
 
-	void onNew(wxCommandEvent& event);
 	void onOpen(wxCommandEvent& event);
 	void onExport(wxCommandEvent& event);
 	void onImport(wxCommandEvent& event);

@@ -23,10 +23,10 @@ public:
 
 	void start();
 
-	void newDatabase(wxString& path);
-	void openDatabase(wxString& path);
+	void openDatabase(const wxString* path);
 	void dumpDatabase(wxString& path);
 	void loadDatabase(wxString& path);
+
 	int getItemId(const wxString& name);
 	void acceptTransaction(adb::Transaction* transaction);
 
@@ -42,9 +42,6 @@ protected:
 
 private:
 	MainWindow* mainWindow_;
-	adb::DatabaseConnection* databaseConnection_;
-
-	void closeDatabase();
 };
 
 #endif // CONTROLLER_H
