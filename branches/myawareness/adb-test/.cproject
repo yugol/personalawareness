@@ -60,6 +60,12 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.1444126603.524829574" name="database_list.cpp" rcbsApplicability="disable" resourcePath="database_list.cpp" toolsToInvoke="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1472201834.1129202254">
+						<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1472201834.1129202254" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1472201834"/>
+					</fileInfo>
+					<sourceEntries>
+						<entry excluding="database_list.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="scannerConfiguration">

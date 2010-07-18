@@ -4,6 +4,8 @@
 #include <iostream>
 #include <TestHarness.h>
 #include <DatabaseConnection.h>
+#include <Configuration.h>
+#include <Exception.h>
 
 extern char testDatabase[];
 

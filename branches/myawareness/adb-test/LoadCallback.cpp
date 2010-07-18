@@ -5,5 +5,5 @@ using namespace std;
 
 void LoadCallback::execute(int current)
 {
-	cout << current << endl;
+	// cout << current << endl;
 }
