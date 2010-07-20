@@ -1,12 +1,12 @@
 #ifndef LOADCALLBACK_H_
 #define LOADCALLBACK_H_
 
-#include <LoadSqlCallback.h>
+#include <cmd/LoadSqlCommand.h>
 
-class LoadCallback: public adb::LoadSqlCallback {
+class LoadCallback: public adb::LoadSqlCommand {
 
 public:
-	void execute(int current);
+	void execute();
 
 };
 

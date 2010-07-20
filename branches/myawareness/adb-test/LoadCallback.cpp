@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void LoadCallback::execute(int current)
+void LoadCallback::execute()
 {
-	// cout << current << endl;
+	cout << getLineNo() << endl;
 }
