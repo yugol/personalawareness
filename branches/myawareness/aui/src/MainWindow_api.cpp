@@ -24,7 +24,7 @@ void MainWindow::setNetWorth(double val)
 	sprintf(itemBuf, "Net worth: %s", currencyBuf);
 	wxString item(itemBuf, wxConvLibc);
 	netWorthLabel_->SetLabel(item);
-	fitAccPage();
+	fitAccountsPage();
 }
 
 void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)

@@ -37,6 +37,8 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 	return wxbuild;
 }
 
+const int MainWindow::EMPTY_BORDER = 5;
+
 const long MainWindow::ID_SEL_VIEW = wxNewId();
 const long MainWindow::ID_SEL_INTERVAL = wxNewId();
 const long MainWindow::ID_SEL_FROM = wxNewId();
@@ -81,6 +83,9 @@ EVT_TEXT(MainWindow::ID_TR_COMMENT, MainWindow::onTransactionCommentText)
 EVT_BUTTON(MainWindow::ID_TR_NEW, MainWindow::onNewTransaction)
 EVT_BUTTON(MainWindow::ID_TR_DELETE, MainWindow::onDeleteTransaction)
 EVT_BUTTON(MainWindow::ID_TR_ACCEPT, MainWindow::onAcceptTransaction)
+
+EVT_BUTTON(MainWindow::ID_SEL_VIEW, MainWindow::onSelectionViewButton)
+EVT_BUTTON(MainWindow::ID_TR_VIEW, MainWindow::onTransactionViewButton)
 
 END_EVENT_TABLE()
 
@@ -143,9 +148,9 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 
 	financialPages = new wxNotebook(this, wxNewId());
 	accPage_ = new wxPanel(financialPages, wxNewId());
-	wxPanel* trPage = new wxPanel(financialPages, wxNewId());
+	trPage_ = new wxPanel(financialPages, wxNewId());
 	financialPages->AddPage(accPage_, _("Accounts"));
-	financialPages->AddPage(trPage, _("Transactions"));
+	financialPages->AddPage(trPage_, _("Transactions"));
 
 	// accounts_ page
 
@@ -159,21 +164,21 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 
 	wxBoxSizer* labelSizer = new wxBoxSizer(wxHORIZONTAL);
 	labelSizer->Add(0, 0, 1);
-	labelSizer->Add(netWorthLabel_, 0, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
+	labelSizer->Add(netWorthLabel_, 0, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 
 	accSizer_ = new wxBoxSizer(wxVERTICAL);
 	accSizer_->Add(accList_, 1, wxTOP | wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL
-			| wxALIGN_CENTER_VERTICAL, 5);
-	accSizer_->Add(labelSizer, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
+			| wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	accSizer_->Add(labelSizer, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 	accPage_->SetSizer(accSizer_);
-	fitAccPage();
+	fitAccountsPage();
 
 	// transactions page
 
 	// - selection
-	selViewButton_ = new wxButton(trPage, ID_SEL_VIEW, _("+"), wxDefaultPosition, viewButtonSize);
+	selViewButton_ = new wxButton(trPage_, ID_SEL_VIEW, _("+"), wxDefaultPosition, viewButtonSize);
 
-	selPanel_ = new wxPanel(trPage, wxNewId());
+	selPanel_ = new wxPanel(trPage_, wxNewId());
 
 	selIntervalChoice_ = new wxChoice(selPanel_, ID_SEL_INTERVAL);
 	selIntervalChoice_->SetToolTip(_("Select time interval"));
@@ -197,12 +202,12 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 	selReportsButton_ = new wxButton(selPanel_, ID_SEL_REPORTS, _("Reports"));
 
 	// - transactions list
-	transactionsList_ = new wxSimpleHtmlListBox(trPage, ID_TRS_LIST);
+	transactionsList_ = new wxSimpleHtmlListBox(trPage_, ID_TRS_LIST);
 
 	// - transaction
-	trViewButton_ = new wxButton(trPage, ID_TR_VIEW, _("-"), wxDefaultPosition, viewButtonSize);
+	trViewButton_ = new wxButton(trPage_, ID_TR_VIEW, _("-"), wxDefaultPosition, viewButtonSize);
 
-	trPanel_ = new wxPanel(trPage, wxNewId());
+	trPanel_ = new wxPanel(trPage_, wxNewId());
 
 	trDatePicker_ = new wxDatePickerCtrl(trPanel_, ID_TR_DATE, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize,
 			wxDP_DEFAULT | wxDP_SHOWCENTURY);
@@ -232,74 +237,74 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 	trAcceptButton_ = new wxButton(trPanel_, ID_TR_ACCEPT, _("Accept"));
 
 	wxBoxSizer* selSizerUp = new wxBoxSizer(wxHORIZONTAL);
-	selSizerUp->Add(selIntervalChoice_, 1, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
-	selSizerUp->Add(selFromDatePicker_, 1, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
-	selSizerUp->Add(selTowards, 0, wxTOP | wxBOTTOM | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
-	selSizerUp->Add(selToDatePicker_, 1, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
+	selSizerUp->Add(selIntervalChoice_, 1, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	selSizerUp->Add(selFromDatePicker_, 1, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	selSizerUp->Add(selTowards, 0, wxTOP | wxBOTTOM | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	selSizerUp->Add(selToDatePicker_, 1, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 
 	wxBoxSizer* selSizerDown = new wxBoxSizer(wxHORIZONTAL);
 	selSizerDown->Add(selAccountChoice_, 1, wxBOTTOM | wxLEFT | wxRIGHT | wxALIGN_CENTER_HORIZONTAL
-			| wxALIGN_CENTER_VERTICAL, 5);
+			| wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 	selSizerDown->Add(selPatternText_, 1, wxBOTTOM | wxLEFT | wxRIGHT | wxALIGN_CENTER_HORIZONTAL
-			| wxALIGN_CENTER_VERTICAL, 5);
+			| wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 
 	wxBoxSizer* selSizer2 = new wxBoxSizer(wxVERTICAL);
-	selSizer2->Add(selSizerUp, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
-	selSizer2->Add(selSizerDown, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
+	selSizer2->Add(selSizerUp, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	selSizer2->Add(selSizerDown, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 
 	wxBoxSizer* selSizer = new wxBoxSizer(wxHORIZONTAL);
-	selSizer->Add(selSizer2, 1, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
-	selSizer->Add(selReportsButton_, 0, wxALL | wxALIGN_TOP | wxALIGN_CENTER_HORIZONTAL, 5);
+	selSizer->Add(selSizer2, 1, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	selSizer->Add(selReportsButton_, 0, wxALL | wxALIGN_TOP | wxALIGN_CENTER_HORIZONTAL, EMPTY_BORDER);
 	selPanel_->SetSizer(selSizer);
 	selSizer->Fit(selPanel_);
 	selSizer->SetSizeHints(selPanel_);
 
 	wxBoxSizer* trSizerUp = new wxBoxSizer(wxHORIZONTAL);
-	trSizerUp->Add(trDatePicker_, 1, wxALL | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
-	trSizerUp->Add(trItemCombo_, 2, wxALL | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
-	trSizerUp->Add(trValueText_, 1, wxALL | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
+	trSizerUp->Add(trDatePicker_, 1, wxALL | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	trSizerUp->Add(trItemCombo_, 2, wxALL | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	trSizerUp->Add(trValueText_, 1, wxALL | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 
 	wxBoxSizer* trSizerMiddle = new wxBoxSizer(wxHORIZONTAL);
 	trSizerMiddle->Add(trSourceChoice_, 2, wxBOTTOM | wxLEFT | wxRIGHT | wxALIGN_CENTER_HORIZONTAL
-			| wxALIGN_CENTER_VERTICAL, 5);
-	trSizerMiddle->Add(trTowards, 0, wxBOTTOM | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
+			| wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	trSizerMiddle->Add(trTowards, 0, wxBOTTOM | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 	trSizerMiddle->Add(trDestinationChoice_, 2, wxBOTTOM | wxLEFT | wxRIGHT | wxALIGN_CENTER_HORIZONTAL
-			| wxALIGN_CENTER_VERTICAL, 5);
+			| wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 	trSizerMiddle->Add(trCommentText_, 3, wxBOTTOM | wxLEFT | wxRIGHT | wxALIGN_CENTER_HORIZONTAL
-			| wxALIGN_CENTER_VERTICAL, 5);
+			| wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 
 	wxBoxSizer* trSizerBottom = new wxBoxSizer(wxHORIZONTAL);
 	trSizerBottom->Add(trDeleteButton_, 0, wxBOTTOM | wxLEFT | wxRIGHT | wxALIGN_CENTER_HORIZONTAL
-			| wxALIGN_CENTER_VERTICAL, 5);
-	trSizerBottom->Add(-1, -1, 1, wxBOTTOM | wxLEFT | wxRIGHT | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
+			| wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	trSizerBottom->Add(-1, -1, 1, wxBOTTOM | wxLEFT | wxRIGHT | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 	trSizerBottom->Add(trNewButton_, 0, wxBOTTOM | wxLEFT | wxRIGHT | wxALIGN_CENTER_HORIZONTAL
-			| wxALIGN_CENTER_VERTICAL, 5);
+			| wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 	trSizerBottom->Add(trAcceptButton_, 0, wxBOTTOM | wxLEFT | wxRIGHT | wxALIGN_CENTER_HORIZONTAL
-			| wxALIGN_CENTER_VERTICAL, 5);
+			| wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 
 	wxBoxSizer* trSizer = new wxBoxSizer(wxVERTICAL);
-	trSizer->Add(trSizerUp, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
-	trSizer->Add(trSizerMiddle, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
-	trSizer->Add(trSizerBottom, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
+	trSizer->Add(trSizerUp, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	trSizer->Add(trSizerMiddle, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	trSizer->Add(trSizerBottom, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 	trPanel_->SetSizer(trSizer);
 	trSizer->SetSizeHints(trPanel_);
 
 	wxBoxSizer* trsTopSizer = new wxBoxSizer(wxHORIZONTAL);
-	trsTopSizer->Add(selViewButton_, 0, wxTOP | wxLEFT | wxALIGN_LEFT | wxALIGN_TOP, 5);
-	trsTopSizer->Add(selPanel_, 1, wxLEFT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
+	trsTopSizer->Add(selViewButton_, 0, wxTOP | wxLEFT | wxBOTTOM | wxALIGN_LEFT | wxALIGN_TOP, EMPTY_BORDER);
+	trsTopSizer->Add(selPanel_, 1, wxLEFT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 
 	wxBoxSizer* trsBottomSizer = new wxBoxSizer(wxHORIZONTAL);
-	trsBottomSizer->Add(trViewButton_, 0, wxTOP | wxLEFT | wxALIGN_LEFT | wxALIGN_TOP, 5);
-	trsBottomSizer->Add(trPanel_, 1, wxLEFT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
+	trsBottomSizer->Add(trViewButton_, 0, wxTOP | wxLEFT | wxBOTTOM | wxALIGN_LEFT | wxALIGN_TOP, EMPTY_BORDER);
+	trsBottomSizer->Add(trPanel_, 1, wxLEFT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 
-	wxBoxSizer* trsSizer = new wxBoxSizer(wxVERTICAL);
-	trsSizer->Add(trsTopSizer, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
-	trsSizer->Add(transactionsList_, 1, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL
-			| wxALIGN_CENTER_VERTICAL, 5);
-	trsSizer->Add(trsBottomSizer, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 5);
-	trPage->SetSizer(trsSizer);
-	trsSizer->Fit(trPage);
-	trsSizer->SetSizeHints(trPage);
+	trsSizer_ = new wxBoxSizer(wxVERTICAL);
+	trsSizer_->Add(trsTopSizer, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	trsSizer_->Add(transactionsList_, 1, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL
+			| wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	trsSizer_->Add(trsBottomSizer, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+	trPage_->SetSizer(trsSizer_);
+	trsSizer_->Fit(trPage_);
+	trsSizer_->SetSizeHints(trPage_);
 
 #if wxUSE_STATUSBAR
 	// create a status bar with some information about the used wxWidgets version
@@ -307,6 +312,9 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 	SetStatusText(_("Ready"), 0);
 	SetStatusText(wxbuildinfo(short_f), 1);
 #endif // wxUSE_STATUSBAR
+	showSelectionPanel(false);
+	showTransactionPanel(true);
+
 	trItemCombo_->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(MainWindow::onTransactionItemKeyDown), NULL, this);
 }
 
@@ -330,10 +338,38 @@ void MainWindow::setDatabaseEnvironment(bool opened)
 	setInsertTransactionEnv();
 }
 
-void MainWindow::fitAccPage()
+void MainWindow::fitAccountsPage()
 {
 	accSizer_->Fit(accPage_);
 	accSizer_->SetSizeHints(accPage_);
+}
+
+void MainWindow::fitTransactionsPage()
+{
+	trsSizer_->Fit(trPage_);
+	trsSizer_->SetSizeHints(trPage_);
+}
+
+void MainWindow::showSelectionPanel(bool visible)
+{
+	if (visible) {
+		selViewButton_->SetLabel(_("-"));
+	} else {
+		selViewButton_->SetLabel(_("+"));
+	}
+	selPanel_->Show(visible);
+	fitTransactionsPage();
+}
+
+void MainWindow::showTransactionPanel(bool visible)
+{
+	if (visible) {
+		trViewButton_->SetLabel(_("-"));
+	} else {
+		trViewButton_->SetLabel(_("+"));
+	}
+	trPanel_->Show(visible);
+	fitTransactionsPage();
 }
 
 void MainWindow::setInsertTransactionEnv()
@@ -443,5 +479,15 @@ void MainWindow::onImport(wxCommandEvent& event)
 	}
 
 	msgDlg.Destroy();
+}
+
+void MainWindow::onSelectionViewButton(wxCommandEvent& event)
+{
+	showSelectionPanel(!selPanel_->IsShown());
+}
+
+void MainWindow::onTransactionViewButton(wxCommandEvent& event)
+{
+	showTransactionPanel(!trPanel_->IsShown());
 }
 

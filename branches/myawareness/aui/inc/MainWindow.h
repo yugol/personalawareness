@@ -77,6 +77,7 @@ private:
 	Controller* controller_;
 
 	// formatting elements
+	static const int EMPTY_BORDER;
 	wxFont normalFont_;
 	wxFont boldFont_;
 	static const wxColour errCol_;
@@ -89,6 +90,8 @@ private:
 
 	wxPanel* accPage_;
 	wxBoxSizer* accSizer_;
+	wxPanel* trPage_;
+	wxBoxSizer* trsSizer_;
 
 	wxListCtrl *accList_;
 	wxStaticText* netWorthLabel_;
@@ -126,6 +129,9 @@ private:
 	void onAbout(wxCommandEvent& event);
 	void onClose(wxCloseEvent& event);
 
+	void onSelectionViewButton(wxCommandEvent& event);
+	void onTransactionViewButton(wxCommandEvent& event);
+
 	void onTransactionSelected(wxCommandEvent& event);
 	void onTransactionDateChanged(wxDateEvent& event);
 	void onTransactionItemKeyDown(wxKeyEvent& event);
@@ -141,7 +147,10 @@ private:
 	// utility
 
 	bool transactionDirty_;
-	void fitAccPage();
+	void fitAccountsPage();
+	void fitTransactionsPage();
+	void showSelectionPanel(bool visible);
+	void showTransactionPanel(bool visible);
 	void setInsertTransactionEnv();
 	void setUpdateTransactionEnv(bool dirty = false);
 	void setTransactionDirty(bool dirty = true);
