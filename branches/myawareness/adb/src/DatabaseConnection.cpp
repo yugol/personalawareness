@@ -61,7 +61,7 @@ void DatabaseConnection::exportDatabase(std::ostream& out)
 	instance_->dumpSql(out);
 }
 
-void DatabaseConnection::importDatabase(std::istream& in, LoadSqlCallback* callback)
+void DatabaseConnection::importDatabase(std::istream& in, LoadSqlCommand* callback)
 {
 	if (0 == instance_) {
 		throw Exception("no opened database");

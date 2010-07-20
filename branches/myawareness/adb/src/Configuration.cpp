@@ -11,6 +11,23 @@ namespace adb {
 const char Configuration::PROJECT_NAME[] = "myawareness";
 const char Configuration::PROJECT_VERSION[] = "0.1";
 
+const char Configuration::ACCOUNTS_TABLE_NAME[] = "accounts";
+const char Configuration::ITEMS_TABLE_NAME[] = "items";
+const char Configuration::TRANSACTIONS_TABLE_NAME[] = "transactions";
+const char Configuration::INDEX_SUFFIX[] = "_index";
+const char Configuration::ID_COLUMN_NAME[] = "id";
+const char Configuration::TYPE_COLUMN_NAME[] = "type";
+const char Configuration::NAME_COLUMN_NAME[] = "name";
+const char Configuration::GROUP_COLUMN_NAME[] = "group";
+const char Configuration::IVAL_COLUMN_NAME[] = "ival";
+const char Configuration::DESC_COLUMN_NAME[] = "desc";
+const char Configuration::LASTR_COLUMN_NAME[] = "lastr";
+const char Configuration::DATE_COLUMN_NAME[] = "date";
+const char Configuration::VAL_COLUMN_NAME[] = "val";
+const char Configuration::FROM_COLUMN_NAME[] = "from";
+const char Configuration::TO_COLUMN_NAME[] = "to";
+const char Configuration::ITEM_COLUMN_NAME[] = "item";
+
 static const char HOME_ENVIRONMENT_VARIABLE_NAME[] = "HOME";
 
 Configuration* Configuration::instance_ = 0;

@@ -9,7 +9,26 @@ class Configuration {
 public:
 	static const char PROJECT_NAME[];
 	static const char PROJECT_VERSION[];
+
+	static const char ACCOUNTS_TABLE_NAME[];
+	static const char ITEMS_TABLE_NAME[];
+	static const char TRANSACTIONS_TABLE_NAME[];
+	static const char INDEX_SUFFIX[];
+	static const char ID_COLUMN_NAME[];
+	static const char TYPE_COLUMN_NAME[];
+	static const char NAME_COLUMN_NAME[];
+	static const char GROUP_COLUMN_NAME[];
+	static const char IVAL_COLUMN_NAME[];
+	static const char DESC_COLUMN_NAME[];
+	static const char LASTR_COLUMN_NAME[];
+	static const char DATE_COLUMN_NAME[];
+	static const char VAL_COLUMN_NAME[];
+	static const char FROM_COLUMN_NAME[];
+	static const char TO_COLUMN_NAME[];
+	static const char ITEM_COLUMN_NAME[];
+
 	static const int LINE_BUFFER_LENGTH = 5000;
+
 
 	static Configuration* instance();
 

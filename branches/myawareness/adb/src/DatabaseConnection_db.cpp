@@ -1,6 +1,8 @@
 #include <cstdio>
 #include <DatabaseConnection.h>
-#include "util.h"
+#include <cmd/LoadSqlCommand.h>
+#include <cmd/CreateDatabaseCommand.h>
+#include <util.h>
 
 using namespace std;
 
@@ -8,86 +10,8 @@ namespace adb {
 
 int DatabaseConnection::createNewDatabase()
 {
-	char stmt[10000];
-
-	// ACCOUNTS TABLE
-
-	::sprintf(
-			stmt,
-			"CREATE TABLE 'accounts' (\n\
-                    'id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n\
-                    'type' INTEGER NOT NULL,\n\
-                    'name' TEXT NOT NULL,\n\
-                    'group' TEXT,\n\
-                    'ival' REAL NOT NULL DEFAULT (0),\n\
-                    'desc' TEXT\n\
-                    );\n");
-
-	// printf(stmt);
-
-	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw Exception("error creating accounts table");
-	}
-
-	::sprintf(stmt, "CREATE UNIQUE INDEX 'accounts_index' on accounts (id ASC);\n");
-
-	// printf(stmt);
-
-	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw Exception("error creating accounts index");
-	}
-
-	// ITEMS TABLE
-
-	::sprintf(
-			stmt,
-			"CREATE TABLE 'items' (\n\
-                    'id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n\
-                    'name' TEXT NOT NULL\n\
-                    );\n");
-
-	// printf(stmt);
-
-	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw Exception("error creating items table");
-	}
-
-	::sprintf(stmt, "CREATE UNIQUE INDEX 'items_index' on items (id ASC);\n");
-
-	// printf(stmt);
-
-	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw Exception("error creating items index");
-	}
-
-	// TRANSACTIONS TABLE
-
-	::sprintf(
-			stmt,
-			"CREATE TABLE 'transactions' (\n\
-                    'id' INTEGER PRIMARY KEY NOT NULL,\n\
-                    'date' TEXT NOT NULL,\n\
-                    'val' REAL NOT NULL,\n\
-                    'from' INTEGER NOT NULL,\n\
-                    'to' INTEGER NOT NULL,\n\
-                    'item' INTEGER NOT NULL,\n\
-                    'desc' TEXT\n\
-                    );\n");
-
-	// printf(stmt);
-
-	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw Exception("error creating transactions table");
-	}
-
-	::sprintf(stmt, "CREATE UNIQUE INDEX 'transactions_index' on transactions (id ASC);\n");
-
-	// printf(stmt);
-
-	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw Exception("error creating transactions index");
-	}
-
+	CreateDatabaseCommand cmd(database_);
+	cmd.execute();
 	return OK;
 }
 
@@ -167,7 +91,7 @@ void DatabaseConnection::dumpSql(ostream& out) const
 	}
 }
 
-void DatabaseConnection::loadSql(std::istream& in, LoadSqlCallback* callback)
+void DatabaseConnection::loadSql(std::istream& in, LoadSqlCommand* callback)
 {
 	char statement[STATEMENT_LEN];
 
@@ -179,7 +103,8 @@ void DatabaseConnection::loadSql(std::istream& in, LoadSqlCallback* callback)
 			throw Exception(statement);
 		}
 		if (0 != callback) {
-			callback->execute(lineNo);
+			callback->setLineNo(lineNo);
+			callback->execute();
 		}
 	}
 }

@@ -13,9 +13,11 @@
 #include <Item.h>
 #include <Transaction.h>
 #include <SelectionParameters.h>
-#include <LoadSqlCallback.h>
+#include <UndoManager.h>
 
 namespace adb {
+
+class LoadSqlCommand;
 
 class DatabaseConnection {
 public:
@@ -28,7 +30,7 @@ public:
 	static void closeDatabase();
 	static void deleteDatabase();
 	static void exportDatabase(std::ostream& out);
-	static void importDatabase(std::istream& in, LoadSqlCallback* callback);
+	static void importDatabase(std::istream& in, LoadSqlCommand* callback);
 
 	~DatabaseConnection();
 
@@ -60,7 +62,8 @@ private:
 	static DatabaseConnection* instance_;
 
 	std::string databaseFile_;
-	sqlite3 *database_;
+	sqlite3* database_;
+	UndoManager commandManager_;
 	mutable std::vector<Account> accounts_;
 	mutable std::map<int, Item> items_;
 
@@ -77,7 +80,7 @@ private:
 	void cashItems() const;
 
 	void dumpSql(std::ostream& out) const;
-	void loadSql(std::istream& in, LoadSqlCallback* callback);
+	void loadSql(std::istream& in, LoadSqlCommand* callback);
 };
 
 inline const std::string& DatabaseConnection::getDatabaseFile() const
