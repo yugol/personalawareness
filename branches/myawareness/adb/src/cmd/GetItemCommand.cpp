@@ -21,7 +21,7 @@ static int readItem(void *param, int colCount, char **values, char **names)
 
     item->setId(::atoi(values[0]));
     item->setName(values[1]);
-    item->setLastTransactionId(::atoi(values[2]));
+    item->setLastTransactionId(values[2] ? ::atoi(values[2]) : 0);
 
     return 0;
 }
