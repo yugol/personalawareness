@@ -1,49 +1,35 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include <string>
+#include "Record.h"
 
 namespace adb {
 
-class DatabaseConnection;
-
-class Item {
-	friend class DatabaseConnection;
-	friend int readItem(void *param, int colCount, char **values, char **names);
-
+class Item: public Record {
 public:
-	Item();
-	Item(const char *name);
-	virtual ~Item();
+	Item(int id = Configuration::DEFAULT_ID);
 
-	int getId() const;
 	const std::string& getName() const;
-	void setName(const char *name);
+	int getLastTransactionId() const;
 
-protected:
+	void setName(const char*);
+	void setLastTransactionId(int);
+
+	void validate() const;
 
 private:
-	int id_;
 	std::string name_;
-
-	Item(int id, const char *name);
-
-	void setId(int id);
+	int lastTransactionId_;
 };
-
-inline int Item::getId() const
-{
-	return id_;
-}
 
 inline const std::string& Item::getName() const
 {
 	return name_;
 }
 
-inline void Item::setId(int id)
+inline int Item::getLastTransactionId() const
 {
-	id_ = id;
+	return lastTransactionId_;
 }
 
 } // namespace adb

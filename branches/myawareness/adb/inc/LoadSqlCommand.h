@@ -1,14 +1,13 @@
 #ifndef LOADSQLCOMMAND_H_
 #define LOADSQLCOMMAND_H_
 
-#include <cmd/Command.h>
+#include "Command.h"
 
 namespace adb {
 
 class LoadSqlCommand: public Command {
 public:
 	LoadSqlCommand();
-	virtual ~LoadSqlCommand();
 
 	int getLineNo() const;
 	void setLineNo(int lineNo);
@@ -16,6 +15,11 @@ public:
 private:
 	int lineNo_;
 };
+
+inline LoadSqlCommand::LoadSqlCommand() :
+	lineNo_(0)
+{
+}
 
 inline int LoadSqlCommand::getLineNo() const
 {

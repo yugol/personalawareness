@@ -18,7 +18,6 @@ Date::Date(const char *date)
 
 Date::~Date()
 {
-	//dtor
 }
 
 void Date::setNow()
@@ -51,6 +50,20 @@ void Date::setValue(const char* date)
 void Date::sprintf(char* rep) const
 {
 	::sprintf(rep, "%04d%02d%02d", year_, month_, day_);
+}
+
+std::ostream& operator<<(std::ostream& out, const Date& date)
+{
+	out.fill('0');
+	out.width(4);
+	out << date.getYear();
+	out.fill('0');
+	out.width(2);
+	out << date.getMonth();
+	out.fill('0');
+	out.width(2);
+	out << date.getDay();
+	return out;
 }
 
 } // namespace adb

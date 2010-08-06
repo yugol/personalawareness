@@ -1,67 +1,56 @@
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <climits>
+#include <cmd/SelectAccountsCommand.h>
+#include <cmd/GetAccountCommand.h>
+#include <cmd/InsertAccountCommand.h>
+#include <cmd/UpdateAccountCommand.h>
+#include <cmd/DeleteAccountCommand.h>
+#include <cmd/GetAccountBalanceCommand.h>
 #include <DatabaseConnection.h>
-#include "util.h"
 
 using namespace std;
 
 namespace adb {
 
-int readAccount(void *param, int colCount, char **values, char **names)
-{
-	vector<Account> &accounts = *reinterpret_cast<vector<Account>*> (param);
-	accounts.push_back(Account(atoi(values[0]), atoi(values[1]), values[2], values[3], atof(values[4]), values[5]));
-	return 0;
-}
-
-static int readDouble(void *param, int colCount, char **values, char **names)
-{
-	double* val = reinterpret_cast<double*> (param);
-	*val = ::atof(values[0]);
-	return 0;
-}
-
-void DatabaseConnection::addUpdate(Account *acc)
+void DatabaseConnection::insertUpdate(Account *account)
 {
 	accounts_.clear();
-
-	char stmt[STATEMENT_LEN];
-	char nameBuf[NAME_LEN];
-	char groupBuf[NAME_LEN];
-	char descBuf[DESCRIPTION_LEN];
-
-	adb::formatStringForDatabase(nameBuf, acc->getName());
-	adb::formatStringForDatabase(groupBuf, acc->getGroup());
-	adb::formatStringForDatabase(descBuf, acc->getDescription());
-
-	int id = acc->getId();
-
-	if (0 == id) {
-		::sprintf(stmt, "INSERT INTO accounts (type, ival, name, [group], [desc]) VALUES (%d, %f, %s, %s, %s);\n", acc->getType(), acc->getInitialValue(), nameBuf, groupBuf, descBuf);
-		// printf(stmt);
-		if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-			throw Exception("error inserting account");
+	ReversibleDatabaseCommand* cmd = 0;
+	try {
+		if (0 == account->getId()) {
+			cmd = new InsertAccountCommand(database_, *account);
+			cmd->execute();
+			account->setId(static_cast<InsertAccountCommand*> (cmd)->getAccount().getId());
+		} else {
+			cmd = new UpdateAccountCommand(database_, *account);
+			cmd->execute();
 		}
-		acc->setId(::sqlite3_last_insert_rowid(database_));
-	} else if (0 < id) {
-		::sprintf(stmt, "UPDATE accounts SET type=%d, ival=%f, name=%s, [group]=%s, [desc]=%s WHERE id=%d;\n", acc->getType(), acc->getInitialValue(), nameBuf, groupBuf, descBuf, id);
-		// printf(stmt);
-		if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-			throw Exception("error updating account");
-		}
+		undoManager_.add(cmd);
+	} catch (const Exception& ex) {
+		delete cmd;
+		RETHROW(ex);
 	}
 }
 
-void DatabaseConnection::delAccount(int id)
+void DatabaseConnection::selectAccounts(std::vector<int>* selection, SelectionParameters* parameters) const
+{
+	SelectAccountsCommand(database_, selection, parameters).execute();
+}
+
+void DatabaseConnection::getAccount(Account* account) const
+{
+	GetAccountCommand(database_, account).execute();
+}
+
+void DatabaseConnection::deleteAccount(int id)
 {
 	accounts_.clear();
-	char stmt[STATEMENT_LEN];
-	::sprintf(stmt, "DELETE FROM accounts WHERE id=%d;\n", id);
-	// printf(stmt);
-	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw Exception("error deleting account");
+	ReversibleDatabaseCommand* cmd = 0;
+	try {
+		cmd = new DeleteAccountCommand(database_, id);
+		cmd->execute();
+		undoManager_.add(cmd);
+	} catch (const Exception& ex) {
+		delete cmd;
+		RETHROW(ex);
 	}
 }
 
@@ -70,10 +59,18 @@ void DatabaseConnection::cashAccounts() const
 	if (accounts_.size() > 0) {
 		return;
 	}
-	char stmt[] = "SELECT id, type, name, [group], ival, [desc] FROM accounts ORDER BY type DESC, [group] ASC, name ASC;\n";
-	// printf(stmt);
-	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, readAccount, &accounts_, NULL)) {
-		throw Exception("error selecting account");
+
+	vector<int> selection;
+	SelectAccountsCommand selectCmd(database_, &selection, 0);
+	selectCmd.execute();
+
+	accounts_.clear();
+	vector<int>::iterator it;
+	for (it = selection.begin(); it != selection.end(); ++it) {
+		int id = (*it);
+		accounts_.push_back(Account(id));
+		GetAccountCommand getCmd(database_, &accounts_[accounts_.size() - 1]);
+		getCmd.execute();
 	}
 }
 
@@ -89,33 +86,11 @@ Account* DatabaseConnection::getAccount(int id) const
 	return 0;
 }
 
-double DatabaseConnection::getBalance(Account *acc) const
+double DatabaseConnection::getBalance(Account* account) const
 {
-	if (acc->getType() != Account::ACCOUNT) {
-		return 0;
-	}
-
-	char stmt[STATEMENT_LEN];
-	double credit = 0;
-	double debit = 0;
-	int id = acc->getId();
-	// printf("Ival %f\n", acc->getInitialValue());
-
-	::sprintf(stmt, "SELECT sum(val) as credit FROM transactions WHERE [to] = %d;\n", id);
-	// printf(stmt);
-	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, readDouble, &credit, NULL)) {
-		throw Exception("error getting credit");
-	}
-	// printf("Credit %f\n", CREDIT);
-
-	::sprintf(stmt, "SELECT sum(val) as credit FROM transactions WHERE [from] = %d;\n", id);
-	// printf(stmt);
-	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, readDouble, &debit, NULL)) {
-		throw Exception("error getting debit");
-	}
-	// printf("Debit %f\n", debit);
-
-	return (acc->getInitialValue() + credit - debit);
+	GetAccountBalanceCommand cmd(database_, account);
+	cmd.execute();
+	return cmd.getBalance();
 }
 
 void DatabaseConnection::getAccounts(std::vector<int>* sel) const
@@ -169,4 +144,3 @@ int DatabaseConnection::getAccountCount() const
 }
 
 } // namespace adb
-

@@ -2,10 +2,12 @@
 #define DATE_H
 
 #include <ctime>
+#include <ostream>
 
 namespace adb {
 
 class Date {
+
 public:
 	Date();
 	Date(const char *date);
@@ -27,6 +29,8 @@ private:
 	char day_;
 
 };
+
+std::ostream& operator<<(std::ostream& out, const Date& date);
 
 inline int Date::getYear() const
 {

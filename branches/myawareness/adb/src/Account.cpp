@@ -1,57 +1,42 @@
 #include <iostream>
+#include <Exception.h>
 #include <Account.h>
-#include "util.h"
 
 using namespace std;
 
 namespace adb {
 
-Account::Account() :
-	id_(-1)
+Account::Account(int id) :
+	Record(id), type_(ALL), initialValue_(0)
 {
 }
 
-Account::Account(int type, const char *name, const char *group, double ival, const char *desc) :
-	id_(0), type_(type), initialValue_(ival)
+void Account::setType(Type type)
 {
-	setName(name);
-	setGroup(group);
-	setDescription(desc);
+	type_ = type;
 }
 
-Account::Account(int id, int type, const char *name, const char *group, double ival, const char *desc) :
-	id_(id), type_(type), initialValue_(ival)
+void Account::setInitialValue(double initialValue)
 {
-	setName(name);
-	setGroup(group);
-	setDescription(desc);
-}
-
-Account::~Account()
-{
-}
-
-void Account::setId(int id)
-{
-	id_ = id;
+	initialValue_ = initialValue;
 }
 
 void Account::setName(const char *name)
 {
-	adb::charPtrToString(name_, name);
+	assign(name_, name);
 }
 
 void Account::setGroup(const char *group)
 {
-	adb::charPtrToString(group_, group);
+	assign(group_, group);
 }
 
-void Account::setDescription(const char *desc)
+void Account::setDescription(const char *description)
 {
-	adb::charPtrToString(description_, desc);
+	assign(description_, description);
 }
 
-void Account::print()
+void Account::print() const
 {
 	cout << id_ << " " << type_ << " " << name_ << " " << group_ << " " << initialValue_ << " " << description_ << endl;
 }
@@ -66,6 +51,16 @@ const string Account::getFullName() const
 	fullName.append(group_);
 	fullName.append(")");
 	return fullName;
+}
+
+void Account::validate() const
+{
+	if (ALL == type_) {
+	    THROW(Exception::WRONG_VALUE_MESSAGE);
+	}
+	if (0 == name_.size()) {
+	    THROW(Exception::WRONG_NAME_MESSAGE);
+	}
 }
 
 } // namespace adb

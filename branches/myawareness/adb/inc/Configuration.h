@@ -15,6 +15,7 @@ public:
 	static const char TRANSACTIONS_TABLE_NAME[];
 	static const char INDEX_SUFFIX[];
 	static const char ID_COLUMN_NAME[];
+	static const char DEL_COLUMN_NAME[];
 	static const char TYPE_COLUMN_NAME[];
 	static const char NAME_COLUMN_NAME[];
 	static const char GROUP_COLUMN_NAME[];
@@ -28,6 +29,7 @@ public:
 	static const char ITEM_COLUMN_NAME[];
 
 	static const int LINE_BUFFER_LENGTH = 5000;
+	static const int DEFAULT_ID = 0;
 
 
 	static Configuration* instance();

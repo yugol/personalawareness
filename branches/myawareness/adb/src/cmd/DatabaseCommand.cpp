@@ -1,5 +1,8 @@
+#include <cstdlib>
 #include <Exception.h>
 #include <cmd/DatabaseCommand.h>
+
+using namespace std;
 
 namespace adb {
 
@@ -8,21 +11,51 @@ DatabaseCommand::DatabaseCommand(sqlite3* database) :
 {
 }
 
+int DatabaseCommand::readDouble(void* param, int colCount, char** values, char** names)
+{
+	double* val = reinterpret_cast<double*> (param);
+	*val = ::atof(values[0]);
+	return 0;
+}
+
+const std::string DatabaseCommand::toParameter(const std::string& str)
+{
+	string param;
+	if (str.size() > 0) {
+		param = "'";
+		param.append(str);
+		param.append("'");
+	} else {
+		param = "NULL";
+	}
+	return param;
+}
+
 const char* DatabaseCommand::getSqlCommand()
 {
 	if (sql_.size() <= 0) {
 		buildSqlCommand();
 	}
 	if (sql_.size() <= 0) {
-		throw Exception("empty SQL command");
+	    THROW(Exception::SQL_ERROR_MESSAGE);
 	}
 	return sql_.c_str();
 }
 
+sqlite3_callback DatabaseCommand::getCallbackFunction()
+{
+	return NULL;
+}
+
+void* DatabaseCommand::getCallbackParameter()
+{
+	return NULL;
+}
+
 void DatabaseCommand::execute()
 {
-	if (SQLITE_OK != ::sqlite3_exec(database_, getSqlCommand(), NULL, NULL, NULL)) {
-		throw Exception("error executing SQL command");
+	if (SQLITE_OK != ::sqlite3_exec(database_, getSqlCommand(), getCallbackFunction(), getCallbackParameter(), NULL)) {
+	    THROW(Exception::SQL_ERROR_MESSAGE);
 	}
 }
 

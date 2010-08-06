@@ -1,36 +1,28 @@
+#include <Exception.h>
 #include <Item.h>
-#include "util.h"
 
-namespace adb
-{
+namespace adb {
 
-Item::Item()
-    :
-    id_(-1)
+Item::Item(int id) :
+	Record(id), lastTransactionId_(Configuration::DEFAULT_ID)
 {
 }
 
-Item::Item(const char *name)
-    :
-    id_(0)
+void Item::setName(const char* name)
 {
-    setName(name);
+	assign(name_, name);
 }
 
-Item::Item(int id, const char *name)
-    :
-    id_(id)
+void Item::setLastTransactionId(int lastTransactionId)
 {
-    setName(name);
+	lastTransactionId_ = lastTransactionId;
 }
 
-Item::~Item()
+void Item::validate() const
 {
-}
-
-void Item::setName(const char *name)
-{
-    charPtrToString(this->name_, name);
+	if (0 == name_.size()) {
+	    THROW(Exception::WRONG_NAME_MESSAGE);
+	}
 }
 
 } // namespace adb

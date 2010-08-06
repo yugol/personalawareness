@@ -1,17 +1,32 @@
 #ifndef SELECTIONPARAMETERS_H
 #define SELECTIONPARAMETERS_H
 
-namespace adb
-{
+namespace adb {
 
-class SelectionParameters
-{
+class SelectionParameters {
 public:
     SelectionParameters();
-    virtual ~SelectionParameters();
-protected:
+
+    int getItemId() const;
+    bool isLastTransactionOnly() const;
+
+    void setItemId(int);
+    void setLastTransactionOnly(bool);
+
 private:
+    int itemId_;
+    bool lastTrnsactionOnly_;
 };
+
+inline int SelectionParameters::getItemId() const
+{
+    return itemId_;
+}
+
+inline bool SelectionParameters::isLastTransactionOnly() const
+{
+    return lastTrnsactionOnly_;
+}
 
 } // namespace adb
 

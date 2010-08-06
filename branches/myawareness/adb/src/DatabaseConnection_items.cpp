@@ -1,19 +1,57 @@
-#include <cstdio>
-#include <cstdlib>
 #include <cstring>
+#include <cmd/SelectItemsCommand.h>
+#include <cmd/GetItemCommand.h>
+#include <cmd/InsertItemCommand.h>
+#include <cmd/UpdateItemCommand.h>
+#include <cmd/DeleteItemCommand.h>
 #include <DatabaseConnection.h>
-#include "util.h"
 
 using namespace std;
 
 namespace adb {
 
-int readItem(void *param, int colCount, char **values, char **names)
+void DatabaseConnection::insertUpdate(Item *item)
 {
-	map<int, Item> &items = *reinterpret_cast<map<int, Item>*> (param);
-	int id = ::atoi(values[0]);
-	items[id] = Item(id, values[1]);
-	return 0;
+	items_.clear();
+	ReversibleDatabaseCommand* cmd = 0;
+	try {
+		if (0 == item->getId()) {
+			cmd = new InsertItemCommand(database_, *item);
+			cmd->execute();
+			item->setId(static_cast<InsertItemCommand*> (cmd)->getItem().getId());
+		} else {
+			cmd = new UpdateItemCommand(database_, *item);
+			cmd->execute();
+		}
+		undoManager_.add(cmd);
+	} catch (const Exception& ex) {
+		delete cmd;
+		RETHROW(ex);
+	}
+}
+
+void DatabaseConnection::selectItems(std::vector<int>* selection, SelectionParameters* parameters) const
+{
+	SelectItemsCommand(database_, selection, parameters).execute();
+}
+
+void DatabaseConnection::getItem(Item* item) const
+{
+	GetItemCommand(database_, item).execute();
+}
+
+void DatabaseConnection::deleteItem(int id)
+{
+	items_.clear();
+	ReversibleDatabaseCommand* cmd = 0;
+	try {
+		cmd = new DeleteItemCommand(database_, id);
+		cmd->execute();
+		undoManager_.add(cmd);
+	} catch (const Exception& ex) {
+		delete cmd;
+		RETHROW(ex);
+	}
 }
 
 void DatabaseConnection::cashItems() const
@@ -22,49 +60,24 @@ void DatabaseConnection::cashItems() const
 		return;
 	}
 
-	char stmt[] = "SELECT id, name FROM items ORDER BY id ASC;\n";
-	// printf(stmt);
-	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, readItem, &items_, NULL)) {
-		throw Exception("error selecting items");
+	vector<int> selection;
+	SelectItemsCommand selectCmd(database_, &selection, 0);
+	selectCmd.execute();
+
+	items_.clear();
+	vector<int>::iterator it;
+	for (it = selection.begin(); it != selection.end(); ++it) {
+		int id = (*it);
+		items_[id] = Item(id);
+		GetItemCommand getCmd(database_, &items_[id]);
+		getCmd.execute();
 	}
 }
 
-void DatabaseConnection::addUpdate(Item *item)
+int DatabaseConnection::getItemCount() const
 {
-	items_.clear();
-
-	char stmt[STATEMENT_LEN];
-	char nameBuf[NAME_LEN];
-
-	formatStringForDatabase(nameBuf, item->getName());
-
-	int id = item->getId();
-
-	if (0 == id) {
-		::sprintf(stmt, "INSERT INTO items (name) VALUES (%s);\n", nameBuf);
-		// printf(stmt);
-		if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-			throw Exception("error inserting item");
-		}
-		item->setId(::sqlite3_last_insert_rowid(database_));
-	} else if (0 < id) {
-		::sprintf(stmt, "UPDATE items SET name=%s WHERE id=%d;\n", nameBuf, id);
-		// printf(stmt);
-		if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-			throw Exception("error updating item");
-		}
-	}
-}
-
-void DatabaseConnection::delItem(int id)
-{
-	items_.clear();
-	char stmt[STATEMENT_LEN];
-	::sprintf(stmt, "DELETE FROM items WHERE id=%d;\n", id);
-	// printf(stmt);
-	if (SQLITE_OK != ::sqlite3_exec(database_, stmt, NULL, NULL, NULL)) {
-		throw Exception("error deleting item");
-	}
+	cashItems();
+	return items_.size();
 }
 
 const Item* DatabaseConnection::getItem(int id) const
@@ -86,21 +99,5 @@ const Item* DatabaseConnection::getItem(const char* name) const
 	}
 	return 0;
 }
-
-void DatabaseConnection::getItems(std::vector<int>* sel) const
-{
-	cashItems();
-	map<int, Item>::const_iterator it;
-	for (it = items_.begin(); it != items_.end(); ++it) {
-		sel->push_back(it->first);
-	}
-}
-
-int DatabaseConnection::getItemCount() const
-{
-	cashItems();
-	return items_.size();
-}
-
 
 } // namespace adb

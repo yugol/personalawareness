@@ -1,0 +1,35 @@
+#ifndef GETACCOUNTDEBITCOMMAND_H_
+#define GETACCOUNTDEBITCOMMAND_H_
+
+#include "DatabaseCommand.h"
+
+namespace adb {
+
+class Account;
+
+class GetAccountDebitCommand: public adb::DatabaseCommand {
+public:
+	GetAccountDebitCommand(sqlite3* database, Account* account);
+
+	virtual sqlite3_callback getCallbackFunction();
+	virtual void* getCallbackParameter();
+	virtual void execute();
+
+	double getDebit() const;
+
+protected:
+	virtual void buildSqlCommand();
+
+private:
+	Account* account_;
+	double debit_;
+};
+
+inline double GetAccountDebitCommand::getDebit() const
+{
+	return debit_;
+}
+
+}
+
+#endif /* GETACCOUNTDEBITCOMMAND_H_ */

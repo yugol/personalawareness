@@ -1,83 +1,67 @@
-#ifndef ACCOUNT_H
-#define ACCOUNT_H
+#ifndef ACCOUNT_H_
+#define ACCOUNT_H_
 
-#include <string>
+#include "Record.h"
 
 namespace adb {
 
-class DbConnection;
-
-class Account {
-	friend class DatabaseConnection;
-	friend int readAccount(void *param, int colCount, char **values, char **names);
-
+class Account: public Record {
 public:
-	enum AccType {
-		DEBT = 0, ACCOUNT = 1, CREDIT = 2
-	};
+    enum Type {
+        DEBT = 0, ACCOUNT = 1, CREDIT = 2, ALL
+    };
 
-	Account();
-	Account(int type, const char *name, const char *group = 0, double ival = 0, const char *desc = 0);
-	virtual ~Account();
+    Account(int id = Configuration::DEFAULT_ID);
 
-	int getId() const;
-	int getType() const;
-	const std::string& getName() const;
-	const std::string getFullName() const;
-	const std::string& getGroup() const;
-	double getInitialValue() const;
-	const std::string& getDescription() const;
-	void setName(const char*);
-	void setGroup(const char*);
-	void setInitialValue(double);
-	void setDescription(const char*);
-	void print();
+    int getType() const;
+    const std::string& getName() const;
+    const std::string getFullName() const;
+    const std::string& getGroup() const;
+    double getInitialValue() const;
+    const std::string& getDescription() const;
 
-protected:
+    void setType(Type);
+    void setName(const char*);
+    void setGroup(const char*);
+    void setInitialValue(double);
+    void setDescription(const char*);
+
+    virtual void validate() const;
+    void print() const;
 
 private:
-	int id_;
-	int type_;
-	std::string name_;
-	std::string group_;
-	double initialValue_;
-	std::string description_;
-
-	Account(int id, int type, const char *name, const char *group, double ival, const char *desc);
-
-	void setId(int id);
+    int type_;
+    std::string name_;
+    std::string group_;
+    double initialValue_;
+    std::string description_;
 };
-
-inline int Account::getId() const
-{
-	return id_;
-}
 
 inline int Account::getType() const
 {
-	return type_;
+    return type_;
 }
 
 inline const std::string& Account::getName() const
 {
-	return name_;
+    return name_;
 }
 
 inline const std::string& Account::getGroup() const
 {
-	return group_;
+    return group_;
 }
 
 inline double Account::getInitialValue() const
 {
-	return initialValue_;
+    return initialValue_;
 }
 
 inline const std::string& Account::getDescription() const
 {
-	return description_;
+    return description_;
 }
 
 } // namespace adb
 
-#endif // ACCOUNT_H
+#endif // ACCOUNT_H_

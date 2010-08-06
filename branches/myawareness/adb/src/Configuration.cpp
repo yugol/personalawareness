@@ -16,6 +16,7 @@ const char Configuration::ITEMS_TABLE_NAME[] = "items";
 const char Configuration::TRANSACTIONS_TABLE_NAME[] = "transactions";
 const char Configuration::INDEX_SUFFIX[] = "_index";
 const char Configuration::ID_COLUMN_NAME[] = "id";
+const char Configuration::DEL_COLUMN_NAME[] = "del";
 const char Configuration::TYPE_COLUMN_NAME[] = "type";
 const char Configuration::NAME_COLUMN_NAME[] = "name";
 const char Configuration::GROUP_COLUMN_NAME[] = "group";
@@ -44,7 +45,7 @@ Configuration::Configuration()
 {
 	const char* homeFolder = ::getenv(HOME_ENVIRONMENT_VARIABLE_NAME);
 	if (NULL == homeFolder) {
-		throw Exception("HOME environment variable not found");
+	    THROW("HOME environment variable not found");
 	} else {
 		ostringstream sout;
 		sout << homeFolder << "/." << PROJECT_NAME;

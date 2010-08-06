@@ -1,25 +1,32 @@
 #ifndef DATABASECOMMAND_H_
 #define DATABASECOMMAND_H_
 
+#include <string>
+#include <ostream>
 #include <sqlite3.h>
-#include <cmd/Command.h>
+#include <Command.h>
 
 namespace adb {
 
 class DatabaseCommand: public Command {
 public:
+	// TODO: use toParameter for all strings
+	static const std::string toParameter(const std::string& str);
+
 	DatabaseCommand(sqlite3* database);
 
 	virtual void execute();
-	const char* getSqlCommand();
 
 protected:
+	static int readDouble(void* param, int colCount, char** values, char** names);
+
 	std::string sql_;
-
-	virtual void buildSqlCommand() = 0;
-
-private:
 	sqlite3* database_;
+
+	const char* getSqlCommand();
+	virtual void buildSqlCommand() = 0;
+	virtual sqlite3_callback getCallbackFunction();
+	virtual void* getCallbackParameter();
 };
 
 }

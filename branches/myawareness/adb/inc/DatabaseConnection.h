@@ -7,13 +7,13 @@
 #include <istream>
 #include <ostream>
 #include <sqlite3.h>
-#include <Exception.h>
-#include <Configuration.h>
-#include <Account.h>
-#include <Item.h>
-#include <Transaction.h>
-#include <SelectionParameters.h>
-#include <UndoManager.h>
+#include "Exception.h"
+#include "Configuration.h"
+#include "Account.h"
+#include "Item.h"
+#include "Transaction.h"
+#include "SelectionParameters.h"
+#include "UndoManager.h"
 
 namespace adb {
 
@@ -36,45 +36,54 @@ public:
 
 	const std::string& getDatabaseFile() const;
 
-	void addUpdate(Account *acc);
-	void delAccount(int id);
+	void insertUpdate(Account* account);
+	void selectAccounts(std::vector<int>* selection, SelectionParameters* parameters) const;
+	void getAccount(Account* account) const;
+	void deleteAccount(int id);
+	int getAccountCount() const;
 	Account* getAccount(int id) const;
+	double getBalance(Account* account) const;
 	void getAccounts(std::vector<int>* sel) const;
 	void getBudgetCategories(std::vector<int>* sel) const;
 	void getCreditingBudgets(std::vector<int>* sel) const;
 	void getDebitingBudgets(std::vector<int>* sel) const;
-	double getBalance(Account *acc) const;
-	int getAccountCount() const;
 
-	void addUpdate(Item *item);
-	void delItem(int id);
+	void insertUpdate(Item* item);
+	void selectItems(std::vector<int>* selection, SelectionParameters* parameters) const;
+	void getItem(Item* item) const;
+	void deleteItem(int id);
+	int getItemCount() const;
 	const Item* getItem(int id) const;
 	const Item* getItem(const char* name) const;
-	void getItems(std::vector<int>* sel) const;
-	int getItemCount() const;
 
-	void addUpdate(Transaction* tr);
-	void delTransaction(int id);
-	void getTransaction(Transaction* t) const;
-	void selectTransactions(std::vector<int>* sel, SelectionParameters* params) const;
+	void insertUpdate(Transaction* transaction);
+	void selectTransactions(std::vector<int>* selection, SelectionParameters* parameters) const;
+	void getTransaction(Transaction* transaction) const;
+	void deleteTransaction(int id);
+
+	bool canUndo();
+	bool canRedo();
+	void undo();
+	void redo();
 
 private:
 	static DatabaseConnection* instance_;
 
 	std::string databaseFile_;
 	sqlite3* database_;
-	UndoManager commandManager_;
+	UndoManager undoManager_;
 	mutable std::vector<Account> accounts_;
 	mutable std::map<int, Item> items_;
 
 	DatabaseConnection(const char* databasePath);
-	DatabaseConnection(const DatabaseConnection &);
-	void operator=(const DatabaseConnection &);
+	DatabaseConnection(const DatabaseConnection&);
+	void operator=(const DatabaseConnection&);
 
 	void openConnection();
 	int checkConnection();
 	void closeConnection();
 	int createNewDatabase();
+	void purgeDatabase();
 
 	void cashAccounts() const;
 	void cashItems() const;

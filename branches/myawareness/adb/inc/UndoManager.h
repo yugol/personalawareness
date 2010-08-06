@@ -2,25 +2,33 @@
 #define UNDOMANAGER_H_
 
 #include <deque>
+#include <cmd/ReversibleDatabaseCommand.h>
 
 namespace adb {
 
-class ReversibleCommand;
+class ReversibleDatabaseCommand;
 
 class UndoManager {
 public:
 	UndoManager(size_t maxSize = 1000);
 	virtual ~UndoManager();
 
-	void add(ReversibleCommand* command);
-	ReversibleCommand* undo();
-	ReversibleCommand* redo();
+	bool canUndo();
+	bool canRedo();
+	void add(ReversibleDatabaseCommand* command);
+	ReversibleDatabaseCommand* undo();
+	ReversibleDatabaseCommand* redo();
 	void reset();
 
 private:
-	std::deque<ReversibleCommand*> history_;
+	enum LastAction {
+		NONE, UNDO, REDO
+	};
+
+	std::deque<ReversibleDatabaseCommand*> history_;
 	size_t maxSize_;
-	int currentPosition_;
+	size_t currentPosition_;
+	int lastAction_;
 };
 
 }

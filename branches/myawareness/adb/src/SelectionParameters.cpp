@@ -1,16 +1,21 @@
+#include <Configuration.h>
 #include <SelectionParameters.h>
 
-namespace adb
-{
+namespace adb {
 
-SelectionParameters::SelectionParameters()
+SelectionParameters::SelectionParameters() :
+    itemId_(Configuration::DEFAULT_ID), lastTrnsactionOnly_(false)
 {
-    //ctor
 }
 
-SelectionParameters::~SelectionParameters()
+void SelectionParameters::setItemId(int val)
 {
-    //dtor
+    itemId_ = val;
+}
+
+void SelectionParameters::setLastTransactionOnly(bool val)
+{
+    lastTrnsactionOnly_ = val;
 }
 
 } // namespace adb
