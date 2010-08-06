@@ -377,7 +377,7 @@ void MainWindow::setInsertTransactionEnv()
 	transactionId_ = 0;
 	transactionsList_->SetSelection(wxNOT_FOUND);
 	transactionsList_->ScrollToLine(transactionsList_->GetLineCount());
-	transactionToView(0);
+	transactionToView(0, false);
 	trDeleteButton_->Hide();
 	trNewButton_->Hide();
 	trAcceptButton_->Disable();

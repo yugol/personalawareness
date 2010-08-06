@@ -27,6 +27,7 @@ public:
 	void dumpDatabase(wxString& path);
 	void loadDatabase(wxString& path);
 
+	const adb::Item* getItemByName(const wxString& name);
 	int getItemId(const wxString& name);
 	void acceptTransaction(adb::Transaction* transaction);
 
@@ -34,7 +35,7 @@ public:
 	void updateItems();
 	void updateTransactions();
 
-	void editTransaction(int id);
+	void transactionToView(int id, bool complete);
 
 	void exitApplication();
 

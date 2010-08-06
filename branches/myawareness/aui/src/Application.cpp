@@ -13,7 +13,7 @@ IMPLEMENT_APP(Application)
 
 bool Application::OnInit()
 {
-	MainWindow* aFrame = new MainWindow(0L, _("My Awareness"));
+	MainWindow* aFrame = new MainWindow(0L, _("Personal Awareness"));
 	controller_.setMainWindow(aFrame);
 	aFrame->SetSize(800, 600);
 	aFrame->Show();
