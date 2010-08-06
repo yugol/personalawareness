@@ -1,40 +1,31 @@
-
+#include <stdio.h>
 #include "TestResult.h"
 #include "Failure.h"
 
-#include <stdio.h>
-
-
-TestResult::TestResult ()
-	: failureCount (0)
+TestResult::TestResult() :
+    failureCount_(0)
 {
 }
 
-
-void TestResult::testsStarted () 
+void TestResult::testsStarted()
 {
+    fprintf(stdout, "Testing...\n");
+    ::time(&startTime_);
 }
 
-
-void TestResult::addFailure (const Failure& failure) 
+void TestResult::addFailure(const Failure& failure)
 {
-	fprintf (stdout, "%s%s%s%s%ld%s%s\n",
-		"Failure: \"",
-		failure.message.asCharString (),
-		"\" " ,
-		"line ",
-		failure.lineNumber,
-		" in ",
-		failure.fileName.asCharString ());
-		
-	failureCount++;
+    fprintf(stderr, "%s:%ld: \"%s\"\n", failure.fileName.asCharString(), failure.lineNumber,
+            failure.message.asCharString());
+
+    failureCount_++;
+    failed_ = true;
 }
 
-
-void TestResult::testsEnded () 
+void TestResult::testsEnded(int testCount, int runCount)
 {
-	if (failureCount > 0)
-		fprintf (stdout, "There were %d failures\n", failureCount);
-	else
-		fprintf (stdout, "There were no test failures\n");
+    ::time(&endTime_);
+    double duration = ::difftime(endTime_, startTime_);
+    fprintf(stdout, "Test duration: %0.2f second(s).\n", duration);
+    fprintf(stdout, "Test result: %d test(s), %d run(s), %d failure(s).\n", testCount, runCount, failureCount_);
 }

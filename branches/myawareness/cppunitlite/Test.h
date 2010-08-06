@@ -10,55 +10,62 @@
 #ifndef TEST_H
 #define TEST_H
 
-
 #include <cmath>
 #include "SimpleString.h"
 
 class TestResult;
 
-
-
-class Test
-{
+class Test {
 public:
-	Test (const SimpleString& testName);
+    enum Type {
+        SILENT, VEBOSE, SKIPPED
+    };
 
-	virtual void	run (TestResult& result) = 0;
+    Test(const SimpleString& testName, Type type = VEBOSE);
 
+    const char* getName() const;
+    Type getType() const;
+    Test* getNext() const;
 
-	void			setNext(Test *test);
-	Test			*getNext () const;
+    void setNext(Test* test);
+
+    virtual void run(TestResult& result) = 0;
 
 protected:
+    bool check(long expected, long actual, TestResult& result, const SimpleString& fileName, long lineNumber);
+    bool check(const SimpleString& expected, const SimpleString& actual, TestResult& result,
+            const SimpleString& fileName, long lineNumber);
 
-	bool check (long expected, long actual, TestResult& result, const SimpleString& fileName, long lineNumber);
-	bool check (const SimpleString& expected, const SimpleString& actual, TestResult& result, const SimpleString& fileName, long lineNumber);
-
-	SimpleString	name_;
-	Test			*next_;
-
+    SimpleString name_;
+    Type type_;
+    Test* next_;
 };
 
-
-#define TEST(testName, testGroup)\
-  class testGroup##testName##Test : public Test \
-	{ public: testGroup##testName##Test () : Test (#testName "Test") {} \
-            void run (TestResult& result_); } \
+#define TEST(testName,testGroup)\
+class testGroup##testName##Test : public Test { \
+public: \
+    testGroup##testName##Test () : Test (#testGroup "-" #testName "-" "Test") {} \
+    void run(TestResult& result_); } \
     testGroup##testName##Instance; \
-	void testGroup##testName##Test::run (TestResult& result_) 
+    void testGroup##testName##Test::run(TestResult& result_)
 
-#define _TEST(testName, testGroup)\
-	static void testGroup##_##testName##_##Test()
+#define SKIPTEST(testName,testGroup)\
+class testGroup##testName##Test : public Test { \
+public: \
+    testGroup##testName##Test () : Test (#testGroup "-" #testName "-" "Test", SKIPPED) {} \
+    void run(TestResult& result_); } \
+    testGroup##testName##Instance; \
+    void testGroup##testName##Test::run(TestResult& result_)
 
-#define CHECK(condition)\
-{ if (!(condition)) \
-{ result_.addFailure (Failure (name_, __FILE__,__LINE__, #condition)); return; } }
-
-
+#define CHECK(condition){ \
+if (!(condition)) { \
+	result_.addFailure (Failure (name_, __FILE__,__LINE__, #condition)); \
+	return; \
+}\
+}
 
 #define CHECK_EQUAL(expected,actual)\
 { if ((expected) == (actual)) return; result_.addFailure(Failure(name_, __FILE__, __LINE__, StringFrom(expected), StringFrom(actual))); }
-
 
 #define LONGS_EQUAL(expected,actual)\
 { long actualTemp = actual; \
@@ -67,8 +74,6 @@ protected:
 { result_.addFailure (Failure (name_, __FILE__, __LINE__, StringFrom(expectedTemp), \
 StringFrom(actualTemp))); return; } }
 
-
-
 #define DOUBLES_EQUAL(expected,actual,threshold)\
 { double actualTemp = actual; \
   double expectedTemp = expected; \
@@ -76,11 +81,7 @@ StringFrom(actualTemp))); return; } }
 { result_.addFailure (Failure (name_, __FILE__, __LINE__, \
 StringFrom((double)expectedTemp), StringFrom((double)actualTemp))); return; } }
 
-
-
 #define FAIL(text) \
 { result_.addFailure (Failure (name_, __FILE__, __LINE__,(text))); return; }
-
-
 
 #endif

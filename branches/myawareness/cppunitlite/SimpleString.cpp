@@ -55,6 +55,8 @@ SimpleString::~SimpleString ()
 
 bool operator== (const SimpleString& left, const SimpleString& right)
 {
+	printf("%s\n", left.asCharString ());
+	printf("%s\n", right.asCharString ());
 	return !strcmp (left.asCharString (), right.asCharString ());
 }
 
