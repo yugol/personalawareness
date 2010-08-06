@@ -183,6 +183,7 @@ void Controller::updateTransactions()
         formatCurrency(currencyBuf, t.getValue());
         formatDate(dateBuf, t.getDate());
 
+        // TODO: use C++ I/O
         sprintf(itemBuf, "<table id='@%d@' width='90%%' border='0' cellpadding='0' cellspacing='0'>"
             "<tr>"
             "<td align='left' width='12%%'>&nbsp;%s&nbsp;</td>"

@@ -122,7 +122,7 @@ void MainWindow::populateCreditingBudgets(const vector<Account*>& budgets)
 	for (it = budgets.begin(); it != budgets.end(); ++it) {
 		Account* acc = *it;
 		wxString fullName(acc->getFullName().c_str(), wxConvLibc);
-		fullName.Prepend(_T("+ "));
+		fullName.Prepend(_T("[+] "));
 		int id = acc->getId();
 		selAccountChoice_->Append(fullName, reinterpret_cast<void*> (id));
 		trSourceChoice_->Append(fullName, reinterpret_cast<void*> (id));
@@ -135,7 +135,7 @@ void MainWindow::populateDebitingBudgets(const vector<Account*>& budgets)
 	for (it = budgets.begin(); it != budgets.end(); ++it) {
 		Account* acc = *it;
 		wxString fullName(acc->getFullName().c_str(), wxConvLibc);
-		fullName.Prepend(_T("- "));
+		fullName.Prepend(_T("[-] "));
 		int id = acc->getId();
 		selAccountChoice_->Append(fullName, reinterpret_cast<void*> (id));
 		trDestinationChoice_->Append(fullName, reinterpret_cast<void*> (id));
