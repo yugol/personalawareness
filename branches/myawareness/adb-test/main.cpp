@@ -64,8 +64,8 @@ int main()
         TestRegistry::runAllTests(tr);
 
         DatabaseConnection::openDatabase(testDatabase);
-        DatabaseConnection::closeDatabase();
-        // DatabaseConnection::deleteDatabase();
+        // DatabaseConnection::closeDatabase();
+        DatabaseConnection::deleteDatabase();
 
         Configuration::instance()->setLastDatabasePath(defaultPath.c_str());
 
