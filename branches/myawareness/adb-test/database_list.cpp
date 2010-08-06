@@ -1,40 +1,40 @@
 #include "test.h"
 
-TEST( transactions, list )
+SKIPTEST( transactions, list )
 {
-	DatabaseConnection::openDatabase(testDatabase);
+    DatabaseConnection::openDatabase(testDatabase);
 
-	vector<int> sel;
-	DatabaseConnection::instance()->selectTransactions(&sel, 0);
+    vector<int> sel;
+    DatabaseConnection::instance()->selectTransactions(&sel, 0);
 
-	vector<int>::iterator it;
-	for (it = sel.begin(); it != sel.end(); ++it) {
-		int id_ = *it;
-		Transaction t(id_);
-		DatabaseConnection::instance()->getTransaction(&t);
-		const Item* item_ = DatabaseConnection::instance()->getItem(t.getItemId());
-		Account* from_ = DatabaseConnection::instance()->getAccount(t.getFromId());
-		Account* to_ = DatabaseConnection::instance()->getAccount(t.getToId());
-		cout << id_ << " " << item_->getName() << " : " << from_->getName() << " -> " << to_->getName() << endl;
-	}
+    vector<int>::iterator it;
+    for (it = sel.begin(); it != sel.end(); ++it) {
+        int id_ = *it;
+        Transaction t(id_);
+        DatabaseConnection::instance()->getTransaction(&t);
+        const Item* item_ = DatabaseConnection::instance()->getItem(t.getItemId());
+        Account* from_ = DatabaseConnection::instance()->getAccount(t.getFromId());
+        Account* to_ = DatabaseConnection::instance()->getAccount(t.getToId());
+        cout << id_ << " " << item_->getName() << " : " << from_->getName() << " -> " << to_->getName() << endl;
+    }
 }
 
-TEST( items , list )
+SKIPTEST( items , list )
 {
-	DatabaseConnection::openDatabase(testDatabase);
+    DatabaseConnection::openDatabase(testDatabase);
 
-	for (int id_ = 1; id_ <= DatabaseConnection::instance()->getItemCount(); ++id_) {
-		const Item* item_ = DatabaseConnection::instance()->getItem(id_);
-		cout << id_ << " " << item_->getName() << endl;
-	}
+    for (int id_ = 1; id_ <= DatabaseConnection::instance()->getItemCount(); ++id_) {
+        const Item* item_ = DatabaseConnection::instance()->getItem(id_);
+        cout << id_ << " " << item_->getName() << endl;
+    }
 }
 
-TEST( accounts, list )
+SKIPTEST( accounts, list )
 {
-	DatabaseConnection::openDatabase(testDatabase);
+    DatabaseConnection::openDatabase(testDatabase);
 
-	for (int id_ = 1; id_ <= DatabaseConnection::instance()->getAccountCount(); ++id_) {
-		Account* acc = DatabaseConnection::instance()->getAccount(id_);
-		cout << id_ << " " << acc->getName() << endl;
-	}
+    for (int id_ = 1; id_ <= DatabaseConnection::instance()->getAccountCount(); ++id_) {
+        Account* acc = DatabaseConnection::instance()->getAccount(id_);
+        cout << id_ << " " << acc->getName() << endl;
+    }
 }

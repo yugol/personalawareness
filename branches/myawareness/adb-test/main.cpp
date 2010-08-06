@@ -8,43 +8,78 @@ char disposableDatabase[] = "disposable.db";
 
 void generateTestDatabase()
 {
-	DatabaseConnection::openDatabase(testDatabase);
-	DatabaseConnection::deleteDatabase();
+    DatabaseConnection::openDatabase(testDatabase);
+    DatabaseConnection::deleteDatabase();
 
-	Account acc(Account::ACCOUNT, "account");
-	Account deb(Account::DEBT, "debt");
-	Account cre(Account::CREDIT, "credit");
+    Account acc;
+    acc.setType(Account::ACCOUNT);
+    acc.setName("account");
+    Account deb;
+    deb.setType(Account::DEBT);
+    deb.setName("debt");
+    Account cre;
+    cre.setType(Account::CREDIT);
+    cre.setName("credit");
 
-	DatabaseConnection::instance()->addUpdate(&acc);
-	DatabaseConnection::instance()->addUpdate(&deb);
-	DatabaseConnection::instance()->addUpdate(&cre);
+    DatabaseConnection::instance()->insertUpdate(&acc);
+    DatabaseConnection::instance()->insertUpdate(&deb);
+    DatabaseConnection::instance()->insertUpdate(&cre);
 
-	Item i1("in");
-	Item i2("out");
+    Item i1;
+    i1.setName("in");
+    Item i2;
+    i2.setName("out");
 
-	DatabaseConnection::instance()->addUpdate(&i1);
-	DatabaseConnection::instance()->addUpdate(&i2);
+    DatabaseConnection::instance()->insertUpdate(&i1);
+    DatabaseConnection::instance()->insertUpdate(&i2);
 
-	Transaction tr1("00000001", 100, 3, 1, 1, 0);
-	Transaction tr2("00000002", 10, 1, 2, 2, "no more");
+    Transaction tr1;
+    tr1.setDate("00000001");
+    tr1.setValue(100);
+    tr1.setFromId(3);
+    tr1.setToId(1);
+    tr1.setItemId(1);
+    Transaction tr2;
+    tr2.setDate("00000002");
+    tr2.setValue(10);
+    tr2.setFromId(1);
+    tr2.setToId(2);
+    tr2.setItemId(2);
+    tr2.setDescription("no more");
 
-	DatabaseConnection::instance()->addUpdate(&tr1);
-	DatabaseConnection::instance()->addUpdate(&tr2);
+    DatabaseConnection::instance()->insertUpdate(&tr1);
+    DatabaseConnection::instance()->insertUpdate(&tr2);
 }
 
 int main()
 {
-	string defaultPath = Configuration::instance()->getLastDatabasePath();
+    TestResult tr;
 
-	::generateTestDatabase();
+    try {
 
-	TestResult tr;
-	TestRegistry::runAllTests(tr);
+        string defaultPath = Configuration::instance()->getLastDatabasePath();
 
-	DatabaseConnection::openDatabase(testDatabase);
-	DatabaseConnection::deleteDatabase();
+        ::generateTestDatabase();
 
-	Configuration::instance()->setLastDatabasePath(defaultPath.c_str());
+        TestRegistry::runAllTests(tr);
 
-	return 0;
+        DatabaseConnection::openDatabase(testDatabase);
+        DatabaseConnection::closeDatabase();
+        // DatabaseConnection::deleteDatabase();
+
+        Configuration::instance()->setLastDatabasePath(defaultPath.c_str());
+
+    } catch (const exception& ex) {
+
+        cerr << ex.what() << endl;
+        return -1;
+
+    } catch (...) {
+
+        cerr << "some exception was thrown" << endl;
+        return -1;
+
+    }
+
+    return tr.getFailureCount();
 }

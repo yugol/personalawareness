@@ -1,10 +1,8 @@
 #include <fstream>
 #include "test.h"
 
-TEST ( file, configuration )
+TEST ( File, Configuration )
 {
-	cout << "Configuration-cfgpath" << endl;
-
 	try {
 
 		const string& path = Configuration::instance()->getConfigurationFilePath();
