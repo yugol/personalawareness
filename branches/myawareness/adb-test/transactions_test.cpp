@@ -7,6 +7,7 @@ TEST( Transactions, UndoRedo )
 	DatabaseConnection::openDatabase(testDatabase);
 
 	Transaction t;
+	t.setDate("00030303");
     t.setValue(1);
     t.setFromId(3);
     t.setToId(2);

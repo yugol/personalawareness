@@ -34,13 +34,13 @@ void generateTestDatabase()
     DatabaseConnection::instance()->insertUpdate(&i2);
 
     Transaction tr1;
-    tr1.setDate("00000001");
+    tr1.setDate("00010101");
     tr1.setValue(100);
     tr1.setFromId(3);
     tr1.setToId(1);
     tr1.setItemId(1);
     Transaction tr2;
-    tr2.setDate("00000002");
+    tr2.setDate("00020202");
     tr2.setValue(10);
     tr2.setFromId(1);
     tr2.setToId(2);
