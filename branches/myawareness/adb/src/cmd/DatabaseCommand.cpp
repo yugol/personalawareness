@@ -54,8 +54,12 @@ void* DatabaseCommand::getCallbackParameter()
 
 void DatabaseCommand::execute()
 {
-	if (SQLITE_OK != ::sqlite3_exec(database_, getSqlCommand(), getCallbackFunction(), getCallbackParameter(), NULL)) {
-	    THROW(Exception::SQL_ERROR_MESSAGE);
+    int err = ::sqlite3_exec(database_, getSqlCommand(), getCallbackFunction(), getCallbackParameter(), NULL);
+	if (SQLITE_OK != err) {
+	    string errMessage(Exception::SQL_ERROR_MESSAGE);
+	    errMessage.append(": ");
+	    errMessage.append(::sqlite3_errmsg(database_));
+	    THROW(errMessage.c_str());
 	}
 }
 

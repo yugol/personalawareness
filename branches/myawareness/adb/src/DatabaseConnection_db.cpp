@@ -28,7 +28,7 @@ void DatabaseConnection::dumpSql(ostream& out) const
     cashItems();
 
     // dump accounts
-    // TODO: use select
+    // TODO: use select to check for usage
     map<int, int> accountIds;
     int accountNo = 0;
 
@@ -45,7 +45,7 @@ void DatabaseConnection::dumpSql(ostream& out) const
     }
 
     // dump items
-    // TODO: use select
+    // TODO: use select to check for usage
     map<int, int> itemIds;
     int itemNo = 0;
 
@@ -80,6 +80,8 @@ void DatabaseConnection::dumpSql(ostream& out) const
 void DatabaseConnection::loadSql(std::istream& in, LoadSqlCommand* callback)
 {
     char statement[STATEMENT_LEN];
+
+    // TODO: use one database transaction BEGIN / COMMIT
 
     int lineNo = 0;
     while (in.getline(statement, STATEMENT_LEN)) {

@@ -10,7 +10,7 @@ class Transaction: public Record {
 public:
 	Transaction(int id = Configuration::DEFAULT_ID);
 
-	const Date* getDate() const;
+	const Date& getDate() const;
 	double getValue() const;
 	int getFromId() const;
 	int getToId() const;
@@ -37,9 +37,9 @@ private:
 
 };
 
-inline const Date* Transaction::getDate() const
+inline const Date& Transaction::getDate() const
 {
-	return &date_;
+	return date_;
 }
 
 inline double Transaction::getValue() const

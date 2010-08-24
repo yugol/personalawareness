@@ -6,6 +6,8 @@
 
 using namespace std;
 
+// TODO: move sqlite3 to a different folder
+
 namespace adb {
 
 const char Configuration::PROJECT_NAME[] = "myawareness";

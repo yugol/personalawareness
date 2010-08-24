@@ -57,6 +57,8 @@ void Transaction::validate() const
     if (0 == itemId_) {
         THROW(Exception::WRONG_VALUE_MESSAGE);
     }
+
+    // TODO: check if source != destination
 }
 
 } // namespace adb

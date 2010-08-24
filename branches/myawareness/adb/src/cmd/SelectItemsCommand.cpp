@@ -16,6 +16,8 @@ void SelectItemsCommand::buildSqlCommand()
 {
 	ostringstream sout;
 
+	// TODO: order by name case independent
+
 	sout << "SELECT [" << Configuration::ID_COLUMN_NAME << "] ";
 	sout << "FROM [" << Configuration::ITEMS_TABLE_NAME << "] ";
 	sout << "WHERE [" << Configuration::DEL_COLUMN_NAME << "] IS NULL;" << endl;
