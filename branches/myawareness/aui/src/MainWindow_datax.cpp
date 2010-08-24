@@ -1,20 +1,8 @@
-#ifdef WX_PRECOMP
-#include "wx_pch.h"
-#endif
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif //__BORLANDC__
 #include <MainWindow.h>
 #include <Controller.h>
 
 using namespace std;
 using namespace adb;
-
-void MainWindow::setStatusMessage(const wxString& message)
-{
-    SetStatusText(message, 0);
-}
 
 void MainWindow::setNetWorth(double val)
 {
@@ -161,37 +149,43 @@ void MainWindow::populateTransactions(const wxArrayString& items)
     transactionsList_->Append(items);
 }
 
-int MainWindow::getItemIndexById(int id)
+void MainWindow::transactionToView(const Transaction* t, bool complete)
 {
-    for (unsigned int i = 0; i < trItemCombo_->GetCount(); ++i) {
-        int tmpId = reinterpret_cast<int> (trItemCombo_->GetClientData(i));
-        if (tmpId == id) {
-            return i;
+    if (0 != t) {
+        if (complete) {
+            wxDateTime trDate;
+            Controller::convertDate2wxDate(&trDate, &(t->getDate()));
+            trDatePicker_->SetValue(trDate);
         }
-    }
-    return -1;
-}
 
-int MainWindow::getSourceIndexById(int id)
-{
-    for (unsigned int i = 0; i < trSourceChoice_->GetCount(); ++i) {
-        int tmpId = reinterpret_cast<int> (trSourceChoice_->GetClientData(i));
-        if (tmpId == id) {
-            return i;
-        }
-    }
-    return -1;
-}
+        int idx = getItemIndexById(t->getItemId());
+        trItemCombo_->SetSelection(idx);
 
-int MainWindow::getDestinationIndexById(int id)
-{
-    for (unsigned int i = 0; i < trDestinationChoice_->GetCount(); ++i) {
-        int tmpId = reinterpret_cast<int> (trDestinationChoice_->GetClientData(i));
-        if (tmpId == id) {
-            return i;
+        wxString val;
+        val.Printf(_T("%0.2f"), t->getValue());
+        trValueText_->SetValue(val);
+
+        idx = getSourceIndexById(t->getFromId());
+        trSourceChoice_->SetSelection(idx);
+
+        idx = getDestinationIndexById(t->getToId());
+        trDestinationChoice_->SetSelection(idx);
+
+        wxString comment(t->getDescription().c_str(), wxConvLibc);
+        trCommentText_->SetValue(comment);
+
+        if (complete) {
+            setUpdateTransactionEnv();
         }
+    } else {
+        if (complete) {
+            trItemCombo_->SetValue(_T(""));
+        }
+        trValueText_->SetValue(_T(""));
+        trSourceChoice_->SetSelection(0);
+        trDestinationChoice_->SetSelection(0);
+        trCommentText_->SetValue(_T(""));
     }
-    return -1;
 }
 
 void MainWindow::getTransactionSelectionParameters(adb::SelectionParameters* parameters)

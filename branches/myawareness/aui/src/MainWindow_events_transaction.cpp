@@ -1,61 +1,8 @@
-#ifdef WX_PRECOMP
-#include "wx_pch.h"
-#endif
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif //__BORLANDC__
 #include <Transaction.h>
 #include <MainWindow.h>
 #include <Controller.h>
 
 using namespace adb;
-
-static void Date2wxDate(wxDateTime* wxd, const Date* d)
-{
-    wxd->SetDay(d->getDay());
-    wxd->SetMonth(static_cast<wxDateTime::Month> (d->getMonth() - 1));
-    wxd->SetYear(d->getYear());
-}
-
-void MainWindow::transactionToView(const Transaction* t, bool complete)
-{
-    if (0 != t) {
-        if (complete) {
-            wxDateTime trDate;
-            Date2wxDate(&trDate, &(t->getDate()));
-            trDatePicker_->SetValue(trDate);
-        }
-
-        int idx = getItemIndexById(t->getItemId());
-        trItemCombo_->SetSelection(idx);
-
-        wxString val;
-        val.Printf(_T("%0.2f"), t->getValue());
-        trValueText_->SetValue(val);
-
-        idx = getSourceIndexById(t->getFromId());
-        trSourceChoice_->SetSelection(idx);
-
-        idx = getDestinationIndexById(t->getToId());
-        trDestinationChoice_->SetSelection(idx);
-
-        wxString comment(t->getDescription().c_str(), wxConvLibc);
-        trCommentText_->SetValue(comment);
-
-        if (complete) {
-            setUpdateTransactionEnv();
-        }
-    } else {
-        if (complete) {
-            trItemCombo_->SetValue(_T(""));
-        }
-        trValueText_->SetValue(_T(""));
-        trSourceChoice_->SetSelection(0);
-        trDestinationChoice_->SetSelection(0);
-        trCommentText_->SetValue(_T(""));
-    }
-}
 
 void MainWindow::onTransactionSelected(wxCommandEvent& event)
 {

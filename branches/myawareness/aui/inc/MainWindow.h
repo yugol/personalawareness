@@ -1,12 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#ifndef WX_PRECOMP
-#include <wx/wx.h>
-#endif
-
 #include <utility>
 #include <vector>
+#include <wx/wx.h>
 #include <wx/sizer.h>
 #include <wx/toolbar.h>
 #include <wx/listctrl.h>
@@ -24,7 +21,6 @@ class Controller;
 class MainWindow: public wxFrame {
 public:
     MainWindow(wxFrame *frame, const wxString& title);
-    ~MainWindow();
 
     void setController(Controller* controller);
     void setDatabaseEnvironment(bool opened);
@@ -43,15 +39,39 @@ public:
 
 private:
     enum {
-        ID_MENU_OPEN = 1000,
-        ID_MENU_EXPORT,
-        ID_MENU_IMPORT,
-        ID_MENU_EXIT,
-        ID_MENU_UNDO,
-        ID_MENU_REDO,
-        ID_MENU_ACCOUNTS,
-        ID_MENU_PREFERENCES,
-        ID_MENU_ABOUT
+        SELECTION_INTERVAL_ALL = 0,
+        SELECTION_INTERVAL_TODAY,
+        SELECTION_INTERVAL_THISMONTH,
+        SELECTION_INTERVAL_THISQUARTER,
+        SELECTION_INTERVAL_THISYEAR,
+        SELECTION_INTERVAL_LASTYEAR,
+        SELECTION_INTERVAL_CUSTOM
+    };
+
+    static const int EMPTY_BORDER;
+    wxFont normalFont_;
+    wxFont boldFont_;
+    static const wxColour errCol_;
+
+    Controller* controller_;
+
+    int transactionId_;
+    bool transactionDirty_;
+
+    void fitAccountsPage();
+    void fitTransactionsPage();
+    void showSelectionPanel(bool visible);
+    void showTransactionPanel(bool visible);
+    void setInsertTransactionEnv();
+    void setUpdateTransactionEnv(bool dirty = false);
+    void setTransactionDirty(bool dirty = true);
+    void checkItem();
+    void populateSelectionIntervals();
+
+    // controls
+
+    enum {
+        ID_MENU_OPEN = 1000, ID_MENU_EXPORT, ID_MENU_IMPORT, ID_MENU_EXIT, ID_MENU_UNDO, ID_MENU_REDO, ID_MENU_ACCOUNTS, ID_MENU_PREFERENCES, ID_MENU_ABOUT
     };
 
     static const long ID_SEL_VIEW;
@@ -75,21 +95,6 @@ private:
     static const long ID_TR_NEW;
     static const long ID_TR_ACCEPT;
 
-    // controller
-    Controller* controller_;
-
-    // formatting elements
-    static const int EMPTY_BORDER;
-    wxFont normalFont_;
-    wxFont boldFont_;
-    static const wxColour errCol_;
-
-    // tool bar
-
-    wxToolBar* toolBar_;
-
-    // controls
-
     wxPanel* accPage_;
     wxBoxSizer* accSizer_;
     wxPanel* trPage_;
@@ -109,7 +114,6 @@ private:
 
     wxSimpleHtmlListBox* transactionsList_;
 
-    int transactionId_;
     wxButton* trViewButton_;
     wxPanel* trPanel_;
     wxDatePickerCtrl* trDatePicker_;
@@ -131,9 +135,9 @@ private:
     void onAbout(wxCommandEvent& event);
     void onClose(wxCloseEvent& event);
 
-
     void onSelectionViewButton(wxCommandEvent& event);
 
+    void onSelectionIntervalChoice(wxCommandEvent& event);
     void onSelectionAccountChoice(wxCommandEvent& event);
 
     void onTransactionViewButton(wxCommandEvent& event);
@@ -149,18 +153,6 @@ private:
     void onNewTransaction(wxCommandEvent& event);
     void onDeleteTransaction(wxCommandEvent& event);
     void onAcceptTransaction(wxCommandEvent& event);
-
-    // utility
-
-    bool transactionDirty_;
-    void fitAccountsPage();
-    void fitTransactionsPage();
-    void showSelectionPanel(bool visible);
-    void showTransactionPanel(bool visible);
-    void setInsertTransactionEnv();
-    void setUpdateTransactionEnv(bool dirty = false);
-    void setTransactionDirty(bool dirty = true);
-    void checkItem();
 
 DECLARE_EVENT_TABLE()
 };

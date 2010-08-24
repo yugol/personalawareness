@@ -1,10 +1,3 @@
-#ifdef WX_PRECOMP
-#include "wx_pch.h"
-#endif
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif //__BORLANDC__
 #include <cstdio>
 #include <cstring>
 #include <utility>
@@ -24,16 +17,6 @@ Controller::~Controller()
 {
 }
 
-void Controller::reportException(const std::exception& ex, const wxString& hint)
-{
-    wxString title(_T("Error "));
-    title.Append(hint);
-    wxString message(ex.what(), wxConvLibc);
-    wxMessageDialog dlg(mainWindow_, message, title, wxOK);
-    dlg.ShowModal();
-    dlg.Destroy();
-}
-
 void Controller::setMainWindow(MainWindow* wnd)
 {
     mainWindow_ = wnd;
@@ -47,36 +30,14 @@ void Controller::start()
     }
 }
 
-void Controller::formatCurrency(char* buf, double val)
+void Controller::reportException(const std::exception& ex, const wxString& hint)
 {
-    if (-0.01 < val && val < 0) {
-        val = 0;
-    }
-    sprintf(buf, "%.2f %s", val, "RON");
-}
-
-void Controller::formatDate(char* buf, const Date& date)
-{
-    sprintf(buf, "%04d-%02d-%02d", date.getYear(), date.getMonth(), date.getDay());
-}
-
-void Controller::formatString(char* buf, const wxString& str)
-{
-    size_t bufPos = 0;
-    for (size_t strPos = 0; strPos < str.size(); ++strPos) {
-        wxChar wch = str.GetChar(strPos);
-        if (wch < 0x80) {
-            buf[bufPos++] = static_cast<char> (wch);
-        } else if (wch < 0x800) {
-            buf[bufPos++] = static_cast<char> ((wch >> 6) | 192);
-            buf[bufPos++] = static_cast<char> ((wch & 63) | 128);
-        } else {
-            buf[bufPos++] = static_cast<char> ((wch >> 12) | 224);
-            buf[bufPos++] = static_cast<char> (((wch & 4095) >> 6) | 128);
-            buf[bufPos++] = static_cast<char> ((wch & 63) | 128);
-        }
-    }
-    buf[bufPos] = '\0';
+    wxString title(_T("Error "));
+    title.Append(hint);
+    wxString message(ex.what(), wxConvLibc);
+    wxMessageDialog dlg(mainWindow_, message, title, wxOK);
+    dlg.ShowModal();
+    dlg.Destroy();
 }
 
 void Controller::exitApplication()
@@ -84,7 +45,6 @@ void Controller::exitApplication()
     DatabaseConnection::closeDatabase();
     mainWindow_->Destroy();
 }
-
 
 void Controller::updateAccounts()
 {

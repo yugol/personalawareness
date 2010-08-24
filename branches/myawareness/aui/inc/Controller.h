@@ -5,6 +5,7 @@
 
 class MainWindow;
 class wxString;
+class wxDateTime;
 
 class Controller {
 public:
@@ -17,9 +18,10 @@ public:
 
 	void setMainWindow(MainWindow* wnd);
 
-	void formatCurrency(char* buf, double val);
-	void formatDate(char* buf, const adb::Date& date);
-	void formatString(char* buf, const wxString& str);
+	static void formatCurrency(char* buf, double val);
+	static void formatDate(char* buf, const adb::Date& date);
+	static void formatString(char* buf, const wxString& str);
+	static void convertDate2wxDate(wxDateTime* wxdate, const adb::Date* date);
 
 	void start();
 
