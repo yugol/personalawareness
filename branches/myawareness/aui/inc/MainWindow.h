@@ -17,6 +17,7 @@
 #include <Account.h>
 #include <Transaction.h>
 #include <Item.h>
+#include <SelectionParameters.h>
 
 class Controller;
 
@@ -37,6 +38,7 @@ public:
     int getItemIndexById(int id);
     int getSourceIndexById(int id);
     int getDestinationIndexById(int id);
+    void getTransactionSelectionParameters(adb::SelectionParameters* parameters);
     void transactionToView(const adb::Transaction* t, bool complete);
 
 private:
@@ -99,8 +101,8 @@ private:
     wxButton* selViewButton_;
     wxPanel* selPanel_;
     wxChoice* selIntervalChoice_;
-    wxDatePickerCtrl* selFromDatePicker_;
-    wxDatePickerCtrl* selToDatePicker_;
+    wxDatePickerCtrl* selFirstDatePicker_;
+    wxDatePickerCtrl* selLastDatePicker_;
     wxChoice* selAccountChoice_;
     wxTextCtrl* selPatternText_;
     wxButton* selReportsButton_;
@@ -129,7 +131,11 @@ private:
     void onAbout(wxCommandEvent& event);
     void onClose(wxCloseEvent& event);
 
+
     void onSelectionViewButton(wxCommandEvent& event);
+
+    void onSelectionAccountChoice(wxCommandEvent& event);
+
     void onTransactionViewButton(wxCommandEvent& event);
 
     void onTransactionSelected(wxCommandEvent& event);
@@ -158,10 +164,5 @@ private:
 
 DECLARE_EVENT_TABLE()
 };
-
-inline void MainWindow::setController(Controller* controller)
-{
-    controller_ = controller;
-}
 
 #endif // MAINWINDOW_H

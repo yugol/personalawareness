@@ -9,7 +9,6 @@
 #include <cstring>
 #include <utility>
 #include <algorithm>
-#include <fstream>
 #include <wx/msgdlg.h>
 #include <Controller.h>
 #include <MainWindow.h>
@@ -23,6 +22,16 @@ Controller::Controller()
 
 Controller::~Controller()
 {
+}
+
+void Controller::reportException(const std::exception& ex, const wxString& hint)
+{
+    wxString title(_T("Error "));
+    title.Append(hint);
+    wxString message(ex.what(), wxConvLibc);
+    wxMessageDialog dlg(mainWindow_, message, title, wxOK);
+    dlg.ShowModal();
+    dlg.Destroy();
 }
 
 void Controller::setMainWindow(MainWindow* wnd)
@@ -46,9 +55,9 @@ void Controller::formatCurrency(char* buf, double val)
     sprintf(buf, "%.2f %s", val, "RON");
 }
 
-void Controller::formatDate(char* buf, const Date* date)
+void Controller::formatDate(char* buf, const Date& date)
 {
-    sprintf(buf, "%04d-%02d-%02d", date->getYear(), date->getMonth(), date->getDay());
+    sprintf(buf, "%04d-%02d-%02d", date.getYear(), date.getMonth(), date.getDay());
 }
 
 void Controller::formatString(char* buf, const wxString& str)
@@ -76,35 +85,6 @@ void Controller::exitApplication()
     mainWindow_->Destroy();
 }
 
-void Controller::openDatabase(const wxString* path)
-{
-    try {
-
-        if (0 != path) {
-            DatabaseConnection::openDatabase(path->fn_str());
-        }
-
-        updateAccounts();
-        updateItems();
-        updateTransactions();
-
-        // update status message
-
-        wxString statusMessage(DatabaseConnection::instance()->getDatabaseFile().c_str(), wxConvLibc);
-        statusMessage = statusMessage.AfterLast('\\');
-        statusMessage = statusMessage.AfterLast('/');
-        statusMessage.Prepend(_T("Using: "));
-        mainWindow_->setStatusMessage(statusMessage);
-
-        mainWindow_->setDatabaseEnvironment(true);
-
-    } catch (const exception& ex) {
-        wxString msg(ex.what(), wxConvLibc);
-        wxMessageDialog dlg(mainWindow_, msg, _T("Error opening database"), wxOK);
-        dlg.ShowModal();
-        dlg.Destroy();
-    }
-}
 
 void Controller::updateAccounts()
 {
@@ -164,12 +144,14 @@ void Controller::updateItems()
 void Controller::updateTransactions()
 {
     wxArrayString items;
-    char currencyBuf[CURRENCY_BUF_LEN];
-    char dateBuf[DATE_BUF_LEN];
-    char itemBuf[ITEM_BUF_LEN];
+    char currencyBuf[CURRENCY_BUFFER_LENGTH];
+    char dateBuf[DATE_BUFFER_LENGTH];
+    char itemBuf[NAME_BUFFER_LENGTH];
 
     vector<int> sel;
-    DatabaseConnection::instance()->selectTransactions(&sel, 0);
+    SelectionParameters parameters;
+    mainWindow_->getTransactionSelectionParameters(&parameters);
+    DatabaseConnection::instance()->selectTransactions(&sel, &parameters);
 
     vector<int>::iterator it;
     for (it = sel.begin(); it != sel.end(); ++it) {
@@ -216,7 +198,7 @@ const Item* Controller::getItemByName(const wxString& name)
         return 0;
     }
 
-    char itemBuf[ITEM_BUF_LEN];
+    char itemBuf[NAME_BUFFER_LENGTH];
     formatString(itemBuf, name);
 
     return DatabaseConnection::instance()->getItem(itemBuf);
@@ -227,7 +209,7 @@ int Controller::getItemId(const wxString& name)
     const Item* item = getItemByName(name);
     if (0 == item) {
         Item newItem;
-        char itemBuf[ITEM_BUF_LEN];
+        char itemBuf[NAME_BUFFER_LENGTH];
         formatString(itemBuf, name);
         newItem.setName(itemBuf);
 
@@ -244,29 +226,13 @@ int Controller::getItemId(const wxString& name)
 
 void Controller::acceptTransaction(Transaction* transaction)
 {
-    DatabaseConnection::instance()->insertUpdate(transaction);
-    updateTransactions();
-    updateAccounts();
-}
+    try {
 
-void Controller::dumpDatabase(wxString& path)
-{
-    ofstream fout(path.fn_str(), ios_base::trunc);
+        DatabaseConnection::instance()->insertUpdate(transaction);
+        updateTransactions();
+        updateAccounts();
 
-    DatabaseConnection::exportDatabase(fout);
-
-    wxMessageDialog dlg(mainWindow_, _T("Operation completed successfully."), _T("Database export"), wxOK);
-    dlg.ShowModal();
-    dlg.Destroy();
-}
-
-void Controller::loadDatabase(wxString& path)
-{
-    ifstream fin(path.fn_str());
-
-    DatabaseConnection::importDatabase(fin, 0);
-
-    wxMessageDialog dlg(mainWindow_, _T("Operation completed successfully."), _T("Database import"), wxOK);
-    dlg.ShowModal();
-    dlg.Destroy();
+    } catch (const exception& ex) {
+        reportException(ex, _T("accepting transaction"));
+    }
 }

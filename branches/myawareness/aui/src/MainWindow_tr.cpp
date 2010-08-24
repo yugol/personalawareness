@@ -23,7 +23,7 @@ void MainWindow::transactionToView(const Transaction* t, bool complete)
     if (0 != t) {
         if (complete) {
             wxDateTime trDate;
-            Date2wxDate(&trDate, t->getDate());
+            Date2wxDate(&trDate, &(t->getDate()));
             trDatePicker_->SetValue(trDate);
         }
 
@@ -43,7 +43,9 @@ void MainWindow::transactionToView(const Transaction* t, bool complete)
         wxString comment(t->getDescription().c_str(), wxConvLibc);
         trCommentText_->SetValue(comment);
 
-        setUpdateTransactionEnv();
+        if (complete) {
+            setUpdateTransactionEnv();
+        }
     } else {
         if (complete) {
             trItemCombo_->SetValue(_T(""));
@@ -204,7 +206,7 @@ void MainWindow::onAcceptTransaction(wxCommandEvent& event)
         t.setValue(val);
         t.setFromId(fromId);
         t.setToId(toId);
-        t.setDescription(trCommentText_->GetValue().fn_str());
+        t.setDescription(trCommentText_->GetValue().fn_str()); // TODO: use proper conversion
 
         controller_->acceptTransaction(&t);
 

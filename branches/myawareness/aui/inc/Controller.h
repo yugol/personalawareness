@@ -8,9 +8,9 @@ class wxString;
 
 class Controller {
 public:
-	static const int CURRENCY_BUF_LEN = 50;
-	static const int DATE_BUF_LEN = 20;
-	static const int ITEM_BUF_LEN = 1000;
+	static const int CURRENCY_BUFFER_LENGTH = 50;
+	static const int DATE_BUFFER_LENGTH = 20;
+	static const int NAME_BUFFER_LENGTH = 1000;
 
 	Controller();
 	~Controller();
@@ -18,7 +18,7 @@ public:
 	void setMainWindow(MainWindow* wnd);
 
 	void formatCurrency(char* buf, double val);
-	void formatDate(char* buf, const adb::Date* date);
+	void formatDate(char* buf, const adb::Date& date);
 	void formatString(char* buf, const wxString& str);
 
 	void start();
@@ -37,6 +37,7 @@ public:
 
 	void transactionToView(int id, bool complete);
 
+	void reportException(const std::exception& ex, const wxString& hint = _T(""));
 	void exitApplication();
 
 protected:
