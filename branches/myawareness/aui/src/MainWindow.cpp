@@ -13,8 +13,8 @@ const wxColour MainWindow::errCol_(255, 0, 255);
 
 const long MainWindow::ID_SEL_VIEW = wxNewId();
 const long MainWindow::ID_SEL_INTERVAL = wxNewId();
-const long MainWindow::ID_SEL_FROM = wxNewId();
-const long MainWindow::ID_SEL_TO = wxNewId();
+const long MainWindow::ID_SEL_FIRST = wxNewId();
+const long MainWindow::ID_SEL_LAST = wxNewId();
 const long MainWindow::ID_SEL_ACCOUNT = wxNewId();
 const long MainWindow::ID_SEL_PATTERN = wxNewId();
 const long MainWindow::ID_SEL_REPORTS = wxNewId();
@@ -43,6 +43,8 @@ EVT_MENU(ID_MENU_EXIT, MainWindow::onQuit)
 EVT_MENU(ID_MENU_ABOUT, MainWindow::onAbout)
 
 EVT_CHOICE(MainWindow::ID_SEL_INTERVAL, MainWindow::onSelectionIntervalChoice)
+EVT_DATE_CHANGED(MainWindow::ID_SEL_FIRST, MainWindow::onSelectionFirstDateChanged)
+EVT_DATE_CHANGED(MainWindow::ID_SEL_LAST, MainWindow::onSelectionLastDateChanged)
 EVT_CHOICE(MainWindow::ID_SEL_ACCOUNT, MainWindow::onSelectionAccountChoice)
 
 EVT_LISTBOX(MainWindow::ID_TRS_LIST, MainWindow::onTransactionSelected)
@@ -141,12 +143,12 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     selIntervalChoice_->SetToolTip(_("Select time interval"));
     populateSelectionIntervals();
 
-    selFirstDatePicker_ = new wxDatePickerCtrl(selPanel_, ID_SEL_FROM, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
+    selFirstDatePicker_ = new wxDatePickerCtrl(selPanel_, ID_SEL_FIRST, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
     selFirstDatePicker_->SetToolTip(_("\'From\' date"));
 
     wxStaticText* selTowards = new wxStaticText(selPanel_, wxNewId(), _(">>"));
 
-    selLastDatePicker_ = new wxDatePickerCtrl(selPanel_, ID_SEL_TO, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
+    selLastDatePicker_ = new wxDatePickerCtrl(selPanel_, ID_SEL_LAST, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
     selLastDatePicker_->SetToolTip(_("\'To\' date"));
 
     selAccountChoice_ = new wxChoice(selPanel_, ID_SEL_ACCOUNT);

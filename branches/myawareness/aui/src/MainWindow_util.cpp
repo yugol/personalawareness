@@ -44,3 +44,28 @@ int MainWindow::getDestinationIndexById(int id)
     return -1;
 }
 
+void MainWindow::selectStartInterval()
+{
+    for (unsigned int i = 0; i < selIntervalChoice_->GetCount(); ++i) {
+        int data = reinterpret_cast<int> (selIntervalChoice_->GetClientData(i));
+        if (SELECTION_INTERVAL_THISQUARTER == data) {
+            selIntervalChoice_->Select(i);
+            wxCommandEvent event;
+            event.SetInt(i);
+            event.SetClientData(selIntervalChoice_->GetClientData(i));
+            onSelectionIntervalChoice(event);
+            break;
+        }
+    }
+}
+
+void MainWindow::selectCustomInterval()
+{
+    for (unsigned int i = 0; i < selIntervalChoice_->GetCount(); ++i) {
+        int data = reinterpret_cast<int> (selIntervalChoice_->GetClientData(i));
+        if (SELECTION_INTERVAL_CUSTOM == data) {
+            selIntervalChoice_->Select(i);
+            break;
+        }
+    }
+}

@@ -57,3 +57,25 @@ void MainWindow::onSelectionIntervalChoice(wxCommandEvent& event)
     controller_->updateTransactions();
 }
 
+void MainWindow::onSelectionFirstDateChanged(wxDateEvent& event)
+{
+    selectCustomInterval();
+    if (event.GetDate() > selLastDatePicker_->GetValue()) {
+        selFirstDatePicker_->SetValue(selLastDatePicker_->GetValue());
+    }
+    controller_->updateTransactions();
+}
+
+void MainWindow::onSelectionLastDateChanged(wxDateEvent& event)
+{
+    selectCustomInterval();
+    if (event.GetDate() < selFirstDatePicker_->GetValue()) {
+        selLastDatePicker_->SetValue(selFirstDatePicker_->GetValue());
+    }
+    controller_->updateTransactions();
+}
+
+void MainWindow::onSelectionAccountChoice(wxCommandEvent& event)
+{
+    controller_->updateTransactions();
+}

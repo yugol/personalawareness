@@ -16,7 +16,7 @@ void Controller::openDatabase(const wxString* path)
 
         updateAccounts();
         updateItems();
-        updateTransactions();
+        mainWindow_->selectStartInterval(); // updates transactions
 
         // update status message
 

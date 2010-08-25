@@ -36,6 +36,7 @@ public:
     int getDestinationIndexById(int id);
     void getTransactionSelectionParameters(adb::SelectionParameters* parameters);
     void transactionToView(const adb::Transaction* t, bool complete);
+    void selectStartInterval();
 
 private:
     enum {
@@ -67,6 +68,7 @@ private:
     void setTransactionDirty(bool dirty = true);
     void checkItem();
     void populateSelectionIntervals();
+    void selectCustomInterval();
 
     // controls
 
@@ -76,8 +78,8 @@ private:
 
     static const long ID_SEL_VIEW;
     static const long ID_SEL_INTERVAL;
-    static const long ID_SEL_FROM;
-    static const long ID_SEL_TO;
+    static const long ID_SEL_FIRST;
+    static const long ID_SEL_LAST;
     static const long ID_SEL_ACCOUNT;
     static const long ID_SEL_PATTERN;
     static const long ID_SEL_REPORTS;
@@ -138,6 +140,8 @@ private:
     void onSelectionViewButton(wxCommandEvent& event);
 
     void onSelectionIntervalChoice(wxCommandEvent& event);
+    void onSelectionFirstDateChanged(wxDateEvent& event);
+    void onSelectionLastDateChanged(wxDateEvent& event);
     void onSelectionAccountChoice(wxCommandEvent& event);
 
     void onTransactionViewButton(wxCommandEvent& event);

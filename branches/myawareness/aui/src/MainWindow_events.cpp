@@ -109,8 +109,3 @@ void MainWindow::onTransactionViewButton(wxCommandEvent& event)
     showTransactionPanel(!trPanel_->IsShown());
 }
 
-void MainWindow::onSelectionAccountChoice(wxCommandEvent& event)
-{
-    controller_->updateTransactions();
-}
-
