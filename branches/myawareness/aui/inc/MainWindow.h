@@ -5,7 +5,6 @@
 #include <vector>
 #include <wx/wx.h>
 #include <wx/sizer.h>
-#include <wx/toolbar.h>
 #include <wx/listctrl.h>
 #include <wx/stattext.h>
 #include <wx/datectrl.h>
@@ -73,7 +72,19 @@ private:
     // controls
 
     enum {
-        ID_MENU_OPEN = 1000, ID_MENU_EXPORT, ID_MENU_IMPORT, ID_MENU_EXIT, ID_MENU_UNDO, ID_MENU_REDO, ID_MENU_ACCOUNTS, ID_MENU_PREFERENCES, ID_MENU_ABOUT
+        ID_MENU_OPEN = 1000,
+        ID_MENU_EXPORT,
+        ID_MENU_IMPORT,
+        ID_MENU_EXIT,
+        ID_MENU_UNDO,
+        ID_MENU_REDO,
+        ID_MENU_ACCOUNTS,
+        ID_MENU_PREFERENCES,
+        ID_MENU_ABOUT,
+        ID_REPORT_EXPENSES_PIE,
+        ID_REPORT_EXPENSES_MONTHLY,
+        ID_REPORT_INCOME_PIE,
+        ID_REPORT_INCOME_MONTHLY
     };
 
     static const long ID_SEL_VIEW;
@@ -112,7 +123,8 @@ private:
     wxDatePickerCtrl* selLastDatePicker_;
     wxChoice* selAccountChoice_;
     wxTextCtrl* selPatternText_;
-    wxButton* selReportsButton_;
+
+    wxButton* reportsButton_;
 
     wxSimpleHtmlListBox* transactionsList_;
 
@@ -137,12 +149,15 @@ private:
     void onAbout(wxCommandEvent& event);
     void onClose(wxCloseEvent& event);
 
+    void onExpensesPie(wxCommandEvent& event);
+
     void onSelectionViewButton(wxCommandEvent& event);
 
     void onSelectionIntervalChoice(wxCommandEvent& event);
     void onSelectionFirstDateChanged(wxDateEvent& event);
     void onSelectionLastDateChanged(wxDateEvent& event);
     void onSelectionAccountChoice(wxCommandEvent& event);
+    void onReports(wxCommandEvent& event);
 
     void onTransactionViewButton(wxCommandEvent& event);
 

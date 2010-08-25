@@ -46,6 +46,7 @@ EVT_CHOICE(MainWindow::ID_SEL_INTERVAL, MainWindow::onSelectionIntervalChoice)
 EVT_DATE_CHANGED(MainWindow::ID_SEL_FIRST, MainWindow::onSelectionFirstDateChanged)
 EVT_DATE_CHANGED(MainWindow::ID_SEL_LAST, MainWindow::onSelectionLastDateChanged)
 EVT_CHOICE(MainWindow::ID_SEL_ACCOUNT, MainWindow::onSelectionAccountChoice)
+EVT_BUTTON(MainWindow::ID_SEL_REPORTS, MainWindow::onReports)
 
 EVT_LISTBOX(MainWindow::ID_TRS_LIST, MainWindow::onTransactionSelected)
 
@@ -85,8 +86,8 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     mbar->Append(fileMenu, _("&File"));
 
     editMenu = new wxMenu(_T(""));
-    editMenu->Append(ID_MENU_UNDO, _("&Undo\tCtrl-Z"), _("Undo the last action"));
-    editMenu->Append(ID_MENU_REDO, _("&Redo\tCtrl-Y"), _("Redo the last action"));
+    editMenu->Append(ID_MENU_UNDO, _("&Undo"), _("Undo the last action"));
+    editMenu->Append(ID_MENU_REDO, _("&Redo"), _("Redo the last action"));
     editMenu->AppendSeparator();
     editMenu->Append(ID_MENU_ACCOUNTS, _("Accounts/Bugets..."), _("Edit accounts and budget categories"));
     editMenu->Append(ID_MENU_PREFERENCES, _("Preferences..."), _("Edit preferences"));
@@ -157,7 +158,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     selPatternText_ = new wxTextCtrl(selPanel_, ID_SEL_PATTERN);
     selPatternText_->SetToolTip(_("Select description"));
 
-    selReportsButton_ = new wxButton(selPanel_, ID_SEL_REPORTS, _("Reports"));
+    reportsButton_ = new wxButton(selPanel_, ID_SEL_REPORTS, _("Reports"), wxDefaultPosition, wxDefaultSize, 0);
 
     // - transactions list
     transactionsList_ = new wxSimpleHtmlListBox(trPage_, ID_TRS_LIST);
@@ -209,7 +210,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 
     wxBoxSizer* selSizer = new wxBoxSizer(wxHORIZONTAL);
     selSizer->Add(selSizer2, 1, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
-    selSizer->Add(selReportsButton_, 0, wxALL | wxALIGN_TOP | wxALIGN_CENTER_HORIZONTAL, EMPTY_BORDER);
+    selSizer->Add(reportsButton_, 0, wxALL | wxALIGN_TOP | wxALIGN_CENTER_HORIZONTAL, EMPTY_BORDER);
     selPanel_->SetSizer(selSizer);
     selSizer->Fit(selPanel_);
     selSizer->SetSizeHints(selPanel_);
@@ -362,3 +363,4 @@ void MainWindow::populateSelectionIntervals()
     selIntervalChoice_->Append(_("Last year"), reinterpret_cast<void*> (SELECTION_INTERVAL_LASTYEAR));
     selIntervalChoice_->Append(_("Custom"), reinterpret_cast<void*> (SELECTION_INTERVAL_CUSTOM));
 }
+

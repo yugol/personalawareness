@@ -5,6 +5,7 @@
 #include <wx/msgdlg.h>
 #include <Controller.h>
 #include <MainWindow.h>
+#include <ReportWindow.h>
 
 using namespace std;
 using namespace adb;
@@ -42,6 +43,7 @@ void Controller::reportException(const std::exception& ex, const wxString& hint)
 
 void Controller::exitApplication()
 {
+    ReportWindow::destroyInstances();
     DatabaseConnection::closeDatabase();
     mainWindow_->Destroy();
 }
