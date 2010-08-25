@@ -21,6 +21,11 @@ Date::~Date()
 {
 }
 
+bool Date::isNull() const
+{
+    return (0 == year_ && 0 == month_ && 0 == day_);
+}
+
 void Date::setNow()
 {
     time_t now;

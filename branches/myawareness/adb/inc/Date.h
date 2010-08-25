@@ -13,6 +13,7 @@ public:
 	Date(const char *date);
 	virtual ~Date();
 
+	bool isNull() const;
 	void setNow();
 	void setValue(time_t when);
 	void setValue(const char* date);

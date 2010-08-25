@@ -6,8 +6,7 @@ using namespace std;
 
 namespace adb {
 
-SelectTransactionsCommand::SelectTransactionsCommand(sqlite3* database, std::vector<int>* selection,
-        const SelectionParameters* parameters) :
+SelectTransactionsCommand::SelectTransactionsCommand(sqlite3* database, std::vector<int>* selection, const SelectionParameters* parameters) :
     SelectCommand(database, selection, parameters)
 {
 }
@@ -26,6 +25,14 @@ void SelectTransactionsCommand::buildSqlCommand()
         if (parameters_ && parameters_->getAccountId() != Configuration::DEFAULT_ID) {
             sout << "AND ([" << Configuration::FROM_COLUMN_NAME << "] = " << parameters_->getAccountId() << " ";
             sout << "OR [" << Configuration::TO_COLUMN_NAME << "] = " << parameters_->getAccountId() << ") ";
+        }
+
+        if (parameters_ && !(parameters_->getFirstDate()).isNull()) {
+            sout << "AND [" << Configuration::DATE_COLUMN_NAME << "] >= '" << parameters_->getFirstDate() << "' ";
+        }
+
+        if (parameters_ && !(parameters_->getLastDate()).isNull()) {
+            sout << "AND [" << Configuration::DATE_COLUMN_NAME << "] <= '" << parameters_->getLastDate() << "' ";
         }
     }
 
