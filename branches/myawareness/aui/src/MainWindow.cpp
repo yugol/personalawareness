@@ -1,6 +1,19 @@
+#include <wx/dateevt.h>
+#include <wx/textctrl.h>
+#include <wx/menu.h>
+#include <wx/settings.h>
+#include <wx/panel.h>
+#include <wx/listctrl.h>
+#include <wx/stattext.h>
+#include <wx/button.h>
+#include <wx/choice.h>
+#include <wx/datectrl.h>
+#include <wx/htmllbox.h>
+#include <wx/combobox.h>
+#include <wx/sizer.h>
 #include <wx/notebook.h>
-#include <MainWindow.h>
 #include <Controller.h>
+#include <MainWindow.h>
 
 static wxMenuBar* mbar = 0;
 static wxMenu* fileMenu = 0;

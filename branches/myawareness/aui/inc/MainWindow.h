@@ -1,21 +1,27 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <utility>
 #include <vector>
-#include <wx/wx.h>
-#include <wx/sizer.h>
-#include <wx/listctrl.h>
-#include <wx/stattext.h>
-#include <wx/datectrl.h>
-#include <wx/dateevt.h>
-#include <wx/htmllbox.h>
-#include <Account.h>
-#include <Transaction.h>
-#include <Item.h>
-#include <SelectionParameters.h>
+#include <wx/frame.h>
 
 class Controller;
+class wxPanel;
+class wxBoxSizer;
+class wxListCtrl;
+class wxStaticText;
+class wxButton;
+class wxChoice;
+class wxDatePickerCtrl;
+class wxTextCtrl;
+class wxSimpleHtmlListBox;
+class wxComboBox;
+class wxDateEvent;
+namespace adb {
+    class Item;
+    class Account;
+    class Transaction;
+    class SelectionParameters;
+}
 
 class MainWindow: public wxFrame {
 public:

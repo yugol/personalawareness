@@ -1,5 +1,8 @@
-#include <MainWindow.h>
+#include <wx/combobox.h>
+#include <wx/button.h>
+#include <wx/choice.h>
 #include <Controller.h>
+#include <MainWindow.h>
 
 void MainWindow::checkItem()
 {

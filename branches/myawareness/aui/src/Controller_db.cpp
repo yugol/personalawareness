@@ -2,6 +2,7 @@
 #include <wx/msgdlg.h>
 #include <Controller.h>
 #include <MainWindow.h>
+#include <DatabaseConnection.h>
 
 using namespace std;
 using namespace adb;

@@ -1,51 +1,47 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include <DatabaseConnection.h>
-
 class MainWindow;
 class wxString;
 class wxDateTime;
+namespace adb {
+    class Item;
+    class Transaction;
+    class ReportData;
+}
 
 class Controller {
 public:
-	static const int CURRENCY_BUFFER_LENGTH = 50;
-	static const int DATE_BUFFER_LENGTH = 20;
-	static const int NAME_BUFFER_LENGTH = 1000;
+    Controller();
+    ~Controller();
 
-	Controller();
-	~Controller();
+    void setMainWindow(MainWindow* wnd);
 
-	void setMainWindow(MainWindow* wnd);
+    void start();
 
-	static void formatCurrency(char* buf, double val);
-	static void formatDate(char* buf, const adb::Date& date);
-	static void formatString(char* buf, const wxString& str);
-	static void convertDate2wxDate(wxDateTime* wxdate, const adb::Date* date);
+    void openDatabase(const wxString* path);
+    void dumpDatabase(wxString& path);
+    void loadDatabase(wxString& path);
 
-	void start();
+    const adb::Item* getItemByName(const wxString& name);
+    int getItemId(const wxString& name);
+    void acceptTransaction(adb::Transaction* transaction);
 
-	void openDatabase(const wxString* path);
-	void dumpDatabase(wxString& path);
-	void loadDatabase(wxString& path);
+    void updateAccounts();
+    void updateItems();
+    void updateTransactions();
 
-	const adb::Item* getItemByName(const wxString& name);
-	int getItemId(const wxString& name);
-	void acceptTransaction(adb::Transaction* transaction);
+    void transactionToView(int id, bool complete);
 
-	void updateAccounts();
-	void updateItems();
-	void updateTransactions();
+    void showReport(adb::ReportData* data);
 
-	void transactionToView(int id, bool complete);
-
-	void reportException(const std::exception& ex, const wxString& hint = _T(""));
-	void exitApplication();
+    void reportException(const std::exception& ex, const wxString& hint);
+    void exitApplication();
 
 protected:
 
 private:
-	MainWindow* mainWindow_;
+    MainWindow* mainWindow_;
 };
 
 #endif // CONTROLLER_H

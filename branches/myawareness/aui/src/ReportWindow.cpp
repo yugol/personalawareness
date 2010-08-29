@@ -1,9 +1,12 @@
 #include <algorithm>
-#include <ReportWindow.h>
+#include <sstream>
 #include <wx/sizer.h>
 #include <wx/html/htmlwin.h>
+#include <ReportData.h>
+#include <ReportWindow.h>
 
 using namespace std;
+using namespace adb;
 
 std::vector<ReportWindow*> ReportWindow::instances_;
 //
@@ -12,6 +15,14 @@ BEGIN_EVENT_TABLE(ReportWindow, wxDialog)
 EVT_CLOSE(ReportWindow::onClose)
 
 END_EVENT_TABLE()
+
+void ReportWindow::destroyInstances()
+{
+    vector<ReportWindow*>::iterator it;
+    for (it = instances_.begin(); it != instances_.end(); ++it) {
+        (*it)->Destroy();
+    }
+}
 
 ReportWindow::ReportWindow(const wxString& title, const wxSize& size, const wxPoint& pos) :
     wxDialog(0, wxID_ANY, title, pos, size, wxCAPTION | wxTHICK_FRAME | wxRESIZE_BORDER | wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxCLOSE_BOX)
@@ -31,7 +42,6 @@ ReportWindow::ReportWindow(const wxString& title, const wxSize& size, const wxPo
 
 ReportWindow::~ReportWindow()
 {
-    // TODO Auto-generated destructor stub
 }
 
 void ReportWindow::onClose(wxCloseEvent& event)
@@ -40,11 +50,10 @@ void ReportWindow::onClose(wxCloseEvent& event)
     Destroy();
 }
 
-void ReportWindow::destroyInstances()
+void ReportWindow::render(const ReportData& data)
 {
-    vector<ReportWindow*>::iterator it;
-    for (it = instances_.begin(); it != instances_.end(); ++it) {
-        (*it)->Destroy();
-    }
+    ostringstream sout;
+
+
 }
 

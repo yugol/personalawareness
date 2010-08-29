@@ -5,6 +5,9 @@
 #include <wx/dialog.h>
 
 class wxHtmlWindow;
+namespace adb {
+    class ReportData;
+}
 
 class ReportWindow: public wxDialog {
 public:
@@ -12,6 +15,8 @@ public:
 
     ReportWindow(const wxString& title = wxEmptyString, const wxSize& size = wxDefaultSize, const wxPoint& pos = wxDefaultPosition);
     virtual ~ReportWindow();
+
+    void render(const adb::ReportData& data);
 
 private:
     static std::vector<ReportWindow*> instances_;

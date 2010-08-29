@@ -1,6 +1,12 @@
+#include <wx/htmllbox.h>
+#include <wx/msgdlg.h>
+#include <wx/combobox.h>
+#include <wx/datectrl.h>
+#include <wx/choice.h>
+#include <Item.h>
 #include <Transaction.h>
-#include <MainWindow.h>
 #include <Controller.h>
+#include <MainWindow.h>
 
 using namespace adb;
 

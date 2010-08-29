@@ -1,11 +1,12 @@
-#include <cstdio>
-#include <cstring>
-#include <utility>
 #include <algorithm>
 #include <wx/msgdlg.h>
+#include <Transaction.h>
+#include <UiUtil.h>
 #include <Controller.h>
 #include <MainWindow.h>
+#include <DatabaseConnection.h>
 #include <ReportWindow.h>
+#include <ReportData.h>
 
 using namespace std;
 using namespace adb;
@@ -106,9 +107,9 @@ void Controller::updateItems()
 void Controller::updateTransactions()
 {
     wxArrayString items;
-    char currencyBuf[CURRENCY_BUFFER_LENGTH];
-    char dateBuf[DATE_BUFFER_LENGTH];
-    char itemBuf[NAME_BUFFER_LENGTH];
+    char currencyBuf[UiUtil::CURRENCY_BUFFER_LENGTH];
+    char dateBuf[UiUtil::DATE_BUFFER_LENGTH];
+    char itemBuf[UiUtil::NAME_BUFFER_LENGTH];
 
     vector<int> sel;
     SelectionParameters parameters;
@@ -124,8 +125,8 @@ void Controller::updateTransactions()
         Account* from = DatabaseConnection::instance()->getAccount(t.getFromId());
         Account* to = DatabaseConnection::instance()->getAccount(t.getToId());
 
-        formatCurrency(currencyBuf, t.getValue());
-        formatDate(dateBuf, t.getDate());
+        UiUtil::formatCurrency(currencyBuf, t.getValue());
+        UiUtil::formatDate(dateBuf, t.getDate());
 
         // TODO: use C++ I/O
         sprintf(itemBuf, "<table id='@%d@' width='90%%' border='0' cellpadding='0' cellspacing='0'>"
@@ -137,8 +138,7 @@ void Controller::updateTransactions()
             "<tr><td />"
             "<td align='right'><small><i>%s --> %s</i></small>&nbsp;</td>"
             "<td /></tr>"
-            "</table>", id, dateBuf, why->getName().c_str(), currencyBuf, from->getFullName().c_str(),
-                to->getFullName().c_str());
+            "</table>", id, dateBuf, why->getName().c_str(), currencyBuf, from->getFullName().c_str(), to->getFullName().c_str());
 
         wxString item(itemBuf, wxConvLibc);
         items.Add(item);
@@ -160,8 +160,8 @@ const Item* Controller::getItemByName(const wxString& name)
         return 0;
     }
 
-    char itemBuf[NAME_BUFFER_LENGTH];
-    formatString(itemBuf, name);
+    char itemBuf[UiUtil::NAME_BUFFER_LENGTH];
+    UiUtil::formatString(itemBuf, name);
 
     return DatabaseConnection::instance()->getItem(itemBuf);
 }
@@ -171,8 +171,8 @@ int Controller::getItemId(const wxString& name)
     const Item* item = getItemByName(name);
     if (0 == item) {
         Item newItem;
-        char itemBuf[NAME_BUFFER_LENGTH];
-        formatString(itemBuf, name);
+        char itemBuf[UiUtil::NAME_BUFFER_LENGTH];
+        UiUtil::formatString(itemBuf, name);
         newItem.setName(itemBuf);
 
         DatabaseConnection::instance()->insertUpdate(&newItem);
@@ -197,4 +197,13 @@ void Controller::acceptTransaction(Transaction* transaction)
     } catch (const exception& ex) {
         reportException(ex, _T("accepting transaction"));
     }
+}
+
+void Controller::showReport(ReportData* data)
+{
+    data->acquire();
+    ReportWindow* report = new ReportWindow(_("Some report"));
+    report->SetSize(320, 240);
+    report->render(*data);
+    report->Show();
 }

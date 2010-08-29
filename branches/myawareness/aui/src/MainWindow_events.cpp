@@ -1,5 +1,8 @@
-#include <MainWindow.h>
+#include <wx/filedlg.h>
+#include <wx/msgdlg.h>
+#include <wx/panel.h>
 #include <Controller.h>
+#include <MainWindow.h>
 
 //helper functions TODO: remove them
 enum wxbuildinfoformat {

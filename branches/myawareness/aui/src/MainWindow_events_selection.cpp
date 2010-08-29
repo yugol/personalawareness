@@ -1,6 +1,11 @@
-#include <MainWindow.h>
-#include <ReportWindow.h>
+#include <wx/dateevt.h>
+#include <wx/datectrl.h>
+#include <wx/menu.h>
+#include <ReportData.h>
 #include <Controller.h>
+#include <MainWindow.h>
+
+using namespace adb;
 
 void MainWindow::onSelectionIntervalChoice(wxCommandEvent& event)
 {
@@ -98,8 +103,9 @@ void MainWindow::onReports(wxCommandEvent& event)
 
 void MainWindow::onExpensesPie(wxCommandEvent& event)
 {
-    ReportWindow* report = new ReportWindow(_("Some report"));
-    report->SetSize(320, 240);
-    report->Show();
+    SelectionParameters parameters;
+    getTransactionSelectionParameters(&parameters);
+    ReportData data(ReportData::PIE, ReportData::EXPENSES, parameters);
+    controller_->showReport(&data);
 }
 
