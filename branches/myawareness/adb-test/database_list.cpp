@@ -1,3 +1,6 @@
+#include <iostream>
+#include <Transaction.h>
+#include <DatabaseConnection.h>
 #include "test.h"
 
 SKIPTEST( transactions, list )

@@ -1,7 +1,10 @@
 #include <fstream>
-#include "test.h"
-
+#include <iostream>
+#include <Exception.h>
+#include <Transaction.h>
 #include <LoadSqlCommand.h>
+#include <DatabaseConnection.h>
+#include "test.h"
 
 class LoadCallback: public adb::LoadSqlCommand {
 

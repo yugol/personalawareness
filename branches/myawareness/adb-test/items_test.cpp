@@ -1,3 +1,4 @@
+#include <DatabaseConnection.h>
 #include "test.h"
 
 TEST( Items, UndoRedo )

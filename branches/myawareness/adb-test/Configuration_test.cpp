@@ -1,4 +1,6 @@
 #include <fstream>
+#include <iostream>
+#include <Configuration.h>
 #include "test.h"
 
 TEST ( File, Configuration )

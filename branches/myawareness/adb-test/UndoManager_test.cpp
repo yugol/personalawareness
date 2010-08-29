@@ -1,5 +1,6 @@
-#include "test.h"
+#include <cmd/ReversibleDatabaseCommand.h>
 #include <UndoManager.h>
+#include "test.h"
 
 class DummyReversibleCommand: public ReversibleDatabaseCommand {
 public:
