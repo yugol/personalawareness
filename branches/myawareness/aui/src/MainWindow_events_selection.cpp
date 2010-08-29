@@ -60,7 +60,7 @@ void MainWindow::onSelectionIntervalChoice(wxCommandEvent& event)
     selFirstDatePicker_->SetValue(firstDate);
     selLastDatePicker_->SetValue(lastDate);
 
-    controller_->updateTransactions();
+    Controller::instance()->updateTransactions();
 }
 
 void MainWindow::onSelectionFirstDateChanged(wxDateEvent& event)
@@ -69,7 +69,7 @@ void MainWindow::onSelectionFirstDateChanged(wxDateEvent& event)
     if (event.GetDate() > selLastDatePicker_->GetValue()) {
         selFirstDatePicker_->SetValue(selLastDatePicker_->GetValue());
     }
-    controller_->updateTransactions();
+    Controller::instance()->updateTransactions();
 }
 
 void MainWindow::onSelectionLastDateChanged(wxDateEvent& event)
@@ -78,12 +78,12 @@ void MainWindow::onSelectionLastDateChanged(wxDateEvent& event)
     if (event.GetDate() < selFirstDatePicker_->GetValue()) {
         selLastDatePicker_->SetValue(selFirstDatePicker_->GetValue());
     }
-    controller_->updateTransactions();
+    Controller::instance()->updateTransactions();
 }
 
 void MainWindow::onSelectionAccountChoice(wxCommandEvent& event)
 {
-    controller_->updateTransactions();
+    Controller::instance()->updateTransactions();
 }
 
 void MainWindow::onReports(wxCommandEvent& event)
@@ -103,9 +103,6 @@ void MainWindow::onReports(wxCommandEvent& event)
 
 void MainWindow::onExpensesPie(wxCommandEvent& event)
 {
-    SelectionParameters parameters;
-    getTransactionSelectionParameters(&parameters);
-    ReportData data(ReportData::PIE, ReportData::EXPENSES, parameters);
-    controller_->showReport(&data);
+    Controller::instance()->showReport(ReportData::PIE, ReportData::EXPENSES);
 }
 

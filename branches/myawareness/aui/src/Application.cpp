@@ -1,5 +1,6 @@
-#include <Application.h>
 #include <MainWindow.h>
+#include <Controller.h>
+#include <Application.h>
 
 IMPLEMENT_APP(Application)
 ;
@@ -7,10 +8,10 @@ IMPLEMENT_APP(Application)
 bool Application::OnInit()
 {
     MainWindow* aFrame = new MainWindow(0L, _("Personal Awareness"));
-    controller_.setMainWindow(aFrame);
+    Controller::instance_ = new Controller(aFrame);
     aFrame->SetSize(800, 600);
     aFrame->Show();
     aFrame->setDatabaseEnvironment(false);
-    controller_.start();
+    Controller::instance()->start();
     return true;
 }

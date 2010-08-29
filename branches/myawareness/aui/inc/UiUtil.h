@@ -1,8 +1,6 @@
 #ifndef UIUTIL_H_
 #define UIUTIL_H_
 
-#include <string>
-
 class wxString;
 class wxDateTime;
 namespace adb {
@@ -19,7 +17,7 @@ public:
     static void formatDate(char* buf, const adb::Date& date);
     static void formatString(char* buf, const wxString& str);
     static void convertDate2wxDate(wxDateTime* wxdate, const adb::Date* date);
-    static void string2wxString(const std::string& from, wxString& to);
+    static void string2wxString(const char* from, wxString& to);
 };
 
 #endif /* UIUTIL_H_ */

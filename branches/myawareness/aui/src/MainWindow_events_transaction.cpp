@@ -22,7 +22,7 @@ void MainWindow::onTransactionSelected(wxCommandEvent& event)
         wxMessageBox(_T("Could not read id\n(this should not happen)"));
     }
     transactionId_ = static_cast<int> (id);
-    controller_->transactionToView(transactionId_, true);
+    Controller::instance()->transactionToView(transactionId_, true);
 }
 
 void MainWindow::onTransactionDateChanged(wxDateEvent& event)
@@ -71,9 +71,9 @@ void MainWindow::onTransactionItemKeyDown(wxKeyEvent& event)
 void MainWindow::onTransactionItemText(wxCommandEvent& event)
 {
     setTransactionDirty();
-    const Item* item = controller_->getItemByName(trItemCombo_->GetValue());
+    const Item* item = Controller::instance()->getItemByName(trItemCombo_->GetValue());
     if (0 != item) {
-        controller_->transactionToView(item->getLastTransactionId(), false);
+        Controller::instance()->transactionToView(item->getLastTransactionId(), false);
     } else {
         transactionToView(0, false);
     }
@@ -141,7 +141,7 @@ void MainWindow::onAcceptTransaction(wxCommandEvent& event)
 
     int itemId = 0;
     if (isValid) {
-        itemId = controller_->getItemId(trItemCombo_->GetValue());
+        itemId = Controller::instance()->getItemId(trItemCombo_->GetValue());
         if (0 == itemId) {
             isValid = false;
             trItemCombo_->SetBackgroundColour(errCol_);
@@ -161,7 +161,7 @@ void MainWindow::onAcceptTransaction(wxCommandEvent& event)
         t.setToId(toId);
         t.setDescription(trCommentText_->GetValue().fn_str()); // TODO: use proper conversion
 
-        controller_->acceptTransaction(&t);
+        Controller::instance()->acceptTransaction(&t);
 
         setInsertTransactionEnv();
     }

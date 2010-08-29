@@ -46,8 +46,11 @@ void UiUtil::convertDate2wxDate(wxDateTime* wxdate, const Date* date)
     wxdate->SetYear(date->getYear());
 }
 
-void UiUtil::string2wxString(const string& from, wxString& to)
+void UiUtil::string2wxString(const char* from, wxString& to)
 {
-
+    to.Clear();
+    for (size_t i = 0; i < ::strlen(from); ++i) {
+        to.Append(static_cast<wxChar> (from[i]));
+    }
 }
 

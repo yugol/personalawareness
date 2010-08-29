@@ -43,13 +43,13 @@ void MainWindow::onOpen(wxCommandEvent &event)
     delete dlg;
 
     if (path.size() > 0) {
-        controller_->openDatabase(&path);
+        Controller::instance()->openDatabase(&path);
     }
 }
 
 void MainWindow::onClose(wxCloseEvent &event)
 {
-    controller_->exitApplication();
+    Controller::instance()->exitApplication();
 }
 
 void MainWindow::onExport(wxCommandEvent& event)
@@ -63,28 +63,25 @@ void MainWindow::onExport(wxCommandEvent& event)
     delete dlg;
 
     if (path.size() > 0) {
-        controller_->dumpDatabase(path);
+        Controller::instance()->dumpDatabase(path);
     }
 }
 
 void MainWindow::onImport(wxCommandEvent& event)
 {
-    wxMessageDialog msgDlg(this,
-            _T("This operation will completely erase\nthe current database.\nAre you sure you want to continue?"),
-            _T("Database export"), wxYES | wxNO_DEFAULT);
+    wxMessageDialog msgDlg(this, _T("This operation will completely erase\nthe current database.\nAre you sure you want to continue?"), _T("Database export"), wxYES | wxNO_DEFAULT);
 
     if (wxID_YES == msgDlg.ShowModal()) {
         wxString path;
 
-        wxFileDialog* dlg = new wxFileDialog(0, _("Import database"), _T(""), _T(""), _T("*.sql"), wxFD_OPEN
-                | wxFD_FILE_MUST_EXIST);
+        wxFileDialog* dlg = new wxFileDialog(0, _("Import database"), _T(""), _T(""), _T("*.sql"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
         if (wxID_OK == dlg->ShowModal()) {
             path = dlg->GetPath();
         }
         delete dlg;
 
         if (path.size() > 0) {
-            controller_->loadDatabase(path);
+            Controller::instance()->loadDatabase(path);
         }
     }
 
@@ -93,7 +90,7 @@ void MainWindow::onImport(wxCommandEvent& event)
 
 void MainWindow::onQuit(wxCommandEvent &event)
 {
-    controller_->exitApplication();
+    Controller::instance()->exitApplication();
 }
 
 void MainWindow::onAbout(wxCommandEvent &event)

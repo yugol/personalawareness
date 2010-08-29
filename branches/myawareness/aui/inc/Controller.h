@@ -7,15 +7,13 @@ class wxDateTime;
 namespace adb {
     class Item;
     class Transaction;
-    class ReportData;
 }
 
 class Controller {
 public:
-    Controller();
-    ~Controller();
+    static Controller* instance();
 
-    void setMainWindow(MainWindow* wnd);
+    ~Controller();
 
     void start();
 
@@ -33,7 +31,7 @@ public:
 
     void transactionToView(int id, bool complete);
 
-    void showReport(adb::ReportData* data);
+    void showReport(int chartType, int cashFlowDirection);
 
     void reportException(const std::exception& ex, const wxString& hint);
     void exitApplication();
@@ -41,7 +39,15 @@ public:
 protected:
 
 private:
+    static Controller* instance_;
+
     MainWindow* mainWindow_;
+
+    Controller(MainWindow* wnd);
+    Controller(Controller&);
+    void operator=(Controller&);
+
+    friend class Application;
 };
 
 #endif // CONTROLLER_H

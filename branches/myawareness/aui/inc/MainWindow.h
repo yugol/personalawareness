@@ -4,7 +4,6 @@
 #include <vector>
 #include <wx/frame.h>
 
-class Controller;
 class wxPanel;
 class wxBoxSizer;
 class wxListCtrl;
@@ -27,7 +26,6 @@ class MainWindow: public wxFrame {
 public:
     MainWindow(wxFrame *frame, const wxString& title);
 
-    void setController(Controller* controller);
     void setDatabaseEnvironment(bool opened);
     void setStatusMessage(const wxString& message);
     void setNetWorth(double val);
@@ -58,8 +56,6 @@ private:
     wxFont normalFont_;
     wxFont boldFont_;
     static const wxColour errCol_;
-
-    Controller* controller_;
 
     int transactionId_;
     bool transactionDirty_;

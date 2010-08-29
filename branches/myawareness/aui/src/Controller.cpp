@@ -11,18 +11,20 @@
 using namespace std;
 using namespace adb;
 
-Controller::Controller()
+Controller* Controller::instance_ = 0;
+
+Controller* Controller::instance()
+{
+    return instance_;
+}
+
+Controller::Controller(MainWindow* wnd) :
+    mainWindow_(wnd)
 {
 }
 
 Controller::~Controller()
 {
-}
-
-void Controller::setMainWindow(MainWindow* wnd)
-{
-    mainWindow_ = wnd;
-    mainWindow_->setController(this);
 }
 
 void Controller::start()
@@ -44,7 +46,6 @@ void Controller::reportException(const std::exception& ex, const wxString& hint)
 
 void Controller::exitApplication()
 {
-    ReportWindow::destroyInstances();
     DatabaseConnection::closeDatabase();
     mainWindow_->Destroy();
 }
@@ -199,11 +200,15 @@ void Controller::acceptTransaction(Transaction* transaction)
     }
 }
 
-void Controller::showReport(ReportData* data)
+void Controller::showReport(int chartType, int cashFlowDirection)
 {
-    data->acquire();
-    ReportWindow* report = new ReportWindow(_("Some report"));
-    report->SetSize(320, 240);
-    report->render(*data);
+    SelectionParameters parameters;
+    mainWindow_->getTransactionSelectionParameters(&parameters);
+    ReportData data(chartType, cashFlowDirection, parameters);
+    data.acquire();
+
+    ReportWindow* report = new ReportWindow(mainWindow_);
+    report->SetSize(640, 480);
+    report->render(data);
     report->Show();
 }

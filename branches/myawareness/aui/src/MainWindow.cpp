@@ -280,11 +280,6 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     trItemCombo_->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(MainWindow::onTransactionItemKeyDown), NULL, this);
 }
 
-void MainWindow::setController(Controller* controller)
-{
-    controller_ = controller;
-}
-
 void MainWindow::setTransactionDirty(bool dirty)
 {
     transactionDirty_ = dirty;
