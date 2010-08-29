@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <iostream>
 #include <Exception.h>
 #include <DbUtil.h>
 #include <Transaction.h>

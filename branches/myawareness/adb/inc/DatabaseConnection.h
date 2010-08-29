@@ -4,15 +4,9 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <istream>
-#include <ostream>
 #include <sqlite3.h>
-//#include "Exception.h"
-//#include "Configuration.h"
 #include "Account.h"
 #include "Item.h"
-//#include "Transaction.h"
-//#include "SelectionParameters.h"
 #include "UndoManager.h"
 
 namespace adb {
