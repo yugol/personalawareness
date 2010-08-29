@@ -5,28 +5,28 @@
 
 namespace adb {
 
-class Item;
+    class Item;
 
-class GetLastTransactionCommand: public adb::DatabaseCommand {
-public:
-    GetLastTransactionCommand(sqlite3* database, Item* item);
+    class GetLastTransactionCommand: public DatabaseCommand {
+    public:
+        GetLastTransactionCommand(sqlite3* database, Item* item);
 
-    int getId() const;
+        int getId() const;
 
-    virtual void execute();
+        virtual void execute();
 
-protected:
-    virtual void buildSqlCommand();
+    protected:
+        virtual void buildSqlCommand();
 
-private:
-    Item* item_;
-    int id_;
-};
+    private:
+        Item* item_;
+        int id_;
+    };
 
-inline int GetLastTransactionCommand::getId() const
-{
-    return id_;
-}
+    inline int GetLastTransactionCommand::getId() const
+    {
+        return id_;
+    }
 
 } // namespace adb
 

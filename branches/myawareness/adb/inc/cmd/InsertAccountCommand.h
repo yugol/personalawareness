@@ -6,27 +6,27 @@
 
 namespace adb {
 
-class InsertAccountCommand: public adb::ReversibleDatabaseCommand {
-public:
-	InsertAccountCommand(sqlite3* database, const Account& item);
+    class InsertAccountCommand: public ReversibleDatabaseCommand {
+    public:
+        InsertAccountCommand(sqlite3* database, const Account& item);
 
-	const Account& getAccount() const;
+        const Account& getAccount() const;
 
-	virtual void execute();
-	virtual void unexecute();
+        virtual void execute();
+        virtual void unexecute();
 
-protected:
-	virtual void buildSqlCommand();
-	virtual void buildReverseSqlCommand();
+    protected:
+        virtual void buildSqlCommand();
+        virtual void buildReverseSqlCommand();
 
-private:
-	Account account_;
-};
+    private:
+        Account account_;
+    };
 
-inline const Account& InsertAccountCommand::getAccount() const
-{
-	return account_;
-}
+    inline const Account& InsertAccountCommand::getAccount() const
+    {
+        return account_;
+    }
 
 } // namespace adb
 

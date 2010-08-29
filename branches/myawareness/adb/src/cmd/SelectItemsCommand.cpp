@@ -6,23 +6,22 @@ using namespace std;
 
 namespace adb {
 
-SelectItemsCommand::SelectItemsCommand(sqlite3* database, std::vector<int>* selection,
-		const SelectionParameters* parameters) :
-	SelectCommand(database, selection, parameters)
-{
-}
+    SelectItemsCommand::SelectItemsCommand(sqlite3* database, std::vector<int>* selection, const SelectionParameters* parameters) :
+        SelectCommand(database, selection, parameters)
+    {
+    }
 
-void SelectItemsCommand::buildSqlCommand()
-{
-	ostringstream sout;
+    void SelectItemsCommand::buildSqlCommand()
+    {
+        ostringstream sout;
 
-	// TODO: order by name case independent
+        // TODO: order by name case independent
 
-	sout << "SELECT [" << Configuration::ID_COLUMN_NAME << "] ";
-	sout << "FROM [" << Configuration::ITEMS_TABLE_NAME << "] ";
-	sout << "WHERE [" << Configuration::DEL_COLUMN_NAME << "] IS NULL;" << endl;
+        sout << "SELECT [" << Configuration::ID_COLUMN_NAME << "] ";
+        sout << "FROM [" << Configuration::ITEMS_TABLE_NAME << "] ";
+        sout << "WHERE [" << Configuration::DEL_COLUMN_NAME << "] IS NULL;" << endl;
 
-	sql_ = sout.rdbuf()->str();
-}
+        sql_ = sout.rdbuf()->str();
+    }
 
 } // namespace adb

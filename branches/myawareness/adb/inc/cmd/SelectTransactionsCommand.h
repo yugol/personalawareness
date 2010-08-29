@@ -5,13 +5,13 @@
 
 namespace adb {
 
-class SelectTransactionsCommand: public adb::SelectCommand {
-public:
-	SelectTransactionsCommand(sqlite3* database, std::vector<int>* selection, const SelectionParameters* parameters);
+    class SelectTransactionsCommand: public SelectCommand {
+    public:
+        SelectTransactionsCommand(sqlite3* database, std::vector<int>* selection, const SelectionParameters* parameters);
 
-protected:
-	virtual void buildSqlCommand();
-};
+    protected:
+        virtual void buildSqlCommand();
+    };
 
 } // namespace adb
 

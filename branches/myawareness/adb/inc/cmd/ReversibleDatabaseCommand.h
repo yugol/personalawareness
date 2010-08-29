@@ -5,19 +5,19 @@
 
 namespace adb {
 
-class ReversibleDatabaseCommand: public adb::DatabaseCommand {
-public:
-	ReversibleDatabaseCommand(sqlite3* database);
+    class ReversibleDatabaseCommand: public DatabaseCommand {
+    public:
+        ReversibleDatabaseCommand(sqlite3* database);
 
-	virtual void unexecute();
+        virtual void unexecute();
 
-protected:
-	std::string reverseSql_;
+    protected:
+        std::string reverseSql_;
 
-	const char* getReverseSqlCommand();
-	virtual void buildReverseSqlCommand() = 0;
-};
+        const char* getReverseSqlCommand();
+        virtual void buildReverseSqlCommand() = 0;
+    };
 
-}
+} // namespace adb
 
 #endif /* REVERSIBLEDATABASECOMMAND_H_ */

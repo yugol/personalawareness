@@ -2,31 +2,30 @@
 #define RECORD_H_
 
 #include <string>
-#include "Configuration.h"
 
 namespace adb {
 
-class Record {
-public:
-	static void assign(std::string& str, const char* cstr);
+    class Record {
+    public:
+        static void assign(std::string& str, const char* cstr);
 
-	Record(int id);
-	virtual ~Record();
+        Record(int id);
+        virtual ~Record();
 
-	int getId() const;
+        int getId() const;
 
-	void setId(int id);
+        void setId(int id);
 
-	virtual void validate() const = 0;
+        virtual void validate() const = 0;
 
-protected:
-	int id_;
-};
+    protected:
+        int id_;
+    };
 
-inline int Record::getId() const
-{
-	return id_;
-}
+    inline int Record::getId() const
+    {
+        return id_;
+    }
 
 } // namespace adb
 

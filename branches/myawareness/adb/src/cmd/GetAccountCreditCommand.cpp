@@ -7,37 +7,37 @@ using namespace std;
 
 namespace adb {
 
-GetAccountCreditCommand::GetAccountCreditCommand(sqlite3* database, Account* account) :
-	DatabaseCommand(database), account_(account), credit_(0)
-{
-}
+    GetAccountCreditCommand::GetAccountCreditCommand(sqlite3* database, Account* account) :
+        DatabaseCommand(database), account_(account), credit_(0)
+    {
+    }
 
-void GetAccountCreditCommand::buildSqlCommand()
-{
-	ostringstream sout;
+    void GetAccountCreditCommand::buildSqlCommand()
+    {
+        ostringstream sout;
 
-	sout << "SELECT SUM([" << Configuration::VAL_COLUMN_NAME << "]) ";
-	sout << "FROM [" << Configuration::TRANSACTIONS_TABLE_NAME << "] ";
-	sout << "WHERE [" << Configuration::TO_COLUMN_NAME << "] = " << account_->getId() << ";" << endl;
+        sout << "SELECT SUM([" << Configuration::VAL_COLUMN_NAME << "]) ";
+        sout << "FROM [" << Configuration::TRANSACTIONS_TABLE_NAME << "] ";
+        sout << "WHERE [" << Configuration::TO_COLUMN_NAME << "] = " << account_->getId() << ";" << endl;
 
-	sql_ = sout.rdbuf()->str();
-}
+        sql_ = sout.rdbuf()->str();
+    }
 
-sqlite3_callback GetAccountCreditCommand::getCallbackFunction()
-{
-	return DatabaseCommand::readDouble;
-}
+    sqlite3_callback GetAccountCreditCommand::getCallbackFunction()
+    {
+        return DatabaseCommand::readDouble;
+    }
 
-void* GetAccountCreditCommand::getCallbackParameter()
-{
-	return &credit_;
-}
+    void* GetAccountCreditCommand::getCallbackParameter()
+    {
+        return &credit_;
+    }
 
-void GetAccountCreditCommand::execute()
-{
-	if (account_->getType() == Account::ACCOUNT) {
-		DatabaseCommand::execute();
-	}
-}
+    void GetAccountCreditCommand::execute()
+    {
+        if (account_->getType() == Account::ACCOUNT) {
+            DatabaseCommand::execute();
+        }
+    }
 
-}
+} // namespac eadb

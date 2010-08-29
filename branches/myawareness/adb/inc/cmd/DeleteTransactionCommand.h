@@ -6,18 +6,18 @@
 
 namespace adb {
 
-class DeleteTransactionCommand: public adb::ReversibleDatabaseCommand {
-public:
-    DeleteTransactionCommand(sqlite3* database, int id);
+    class DeleteTransactionCommand: public ReversibleDatabaseCommand {
+    public:
+        DeleteTransactionCommand(sqlite3* database, int id);
 
-protected:
-    virtual void buildSqlCommand();
-    virtual void buildReverseSqlCommand();
+    protected:
+        virtual void buildSqlCommand();
+        virtual void buildReverseSqlCommand();
 
-private:
-    Transaction transaction_;
-};
+    private:
+        Transaction transaction_;
+    };
 
-}
+} // namespace adb
 
 #endif /* DELETETRANSACTIONCOMMAND_H_ */

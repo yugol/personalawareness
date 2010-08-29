@@ -6,27 +6,27 @@
 
 namespace adb {
 
-class InsertItemCommand: public adb::ReversibleDatabaseCommand {
-public:
-	InsertItemCommand(sqlite3* database, const Item& item);
+    class InsertItemCommand: public ReversibleDatabaseCommand {
+    public:
+        InsertItemCommand(sqlite3* database, const Item& item);
 
-	const Item& getItem() const;
+        const Item& getItem() const;
 
-	virtual void execute();
-	virtual void unexecute();
+        virtual void execute();
+        virtual void unexecute();
 
-protected:
-	virtual void buildSqlCommand();
-	virtual void buildReverseSqlCommand();
+    protected:
+        virtual void buildSqlCommand();
+        virtual void buildReverseSqlCommand();
 
-private:
-	Item item_;
-};
+    private:
+        Item item_;
+    };
 
-inline const Item& InsertItemCommand::getItem() const
-{
-	return item_;
-}
+    inline const Item& InsertItemCommand::getItem() const
+    {
+        return item_;
+    }
 
 } // namespace adb
 

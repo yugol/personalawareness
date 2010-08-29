@@ -5,31 +5,31 @@
 
 namespace adb {
 
-class Account;
+    class Account;
 
-class GetAccountCreditCommand: public adb::DatabaseCommand {
-public:
-	GetAccountCreditCommand(sqlite3* database, Account* account);
+    class GetAccountCreditCommand: public DatabaseCommand {
+    public:
+        GetAccountCreditCommand(sqlite3* database, Account* account);
 
-	virtual sqlite3_callback getCallbackFunction();
-	virtual void* getCallbackParameter();
-	virtual void execute();
+        virtual sqlite3_callback getCallbackFunction();
+        virtual void* getCallbackParameter();
+        virtual void execute();
 
-	double getCredit() const;
+        double getCredit() const;
 
-protected:
-	virtual void buildSqlCommand();
+    protected:
+        virtual void buildSqlCommand();
 
-private:
-	Account* account_;
-	double credit_;
-};
+    private:
+        Account* account_;
+        double credit_;
+    };
 
-inline double GetAccountCreditCommand::getCredit() const
-{
-	return credit_;
-}
+    inline double GetAccountCreditCommand::getCredit() const
+    {
+        return credit_;
+    }
 
-}
+} // namespace adb
 
 #endif /* GETACCOUNTCREDITCOMMAND_H_ */

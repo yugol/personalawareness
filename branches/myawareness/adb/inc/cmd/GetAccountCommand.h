@@ -5,23 +5,23 @@
 
 namespace adb {
 
-class Account;
+    class Account;
 
-class GetAccountCommand: public adb::DatabaseCommand {
-public:
-	GetAccountCommand(sqlite3* database, Account* account);
+    class GetAccountCommand: public DatabaseCommand {
+    public:
+        GetAccountCommand(sqlite3* database, Account* account);
 
-	virtual void execute();
+        virtual void execute();
 
-protected:
-	virtual void buildSqlCommand();
-	virtual sqlite3_callback getCallbackFunction();
-	virtual void* getCallbackParameter();
+    protected:
+        virtual void buildSqlCommand();
+        virtual sqlite3_callback getCallbackFunction();
+        virtual void* getCallbackParameter();
 
-private:
-	Account* account_;
-};
+    private:
+        Account* account_;
+    };
 
-}
+} // namespace adb
 
 #endif /* GETACCOUNTCOMMAND_H_ */

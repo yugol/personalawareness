@@ -5,29 +5,29 @@
 
 namespace adb {
 
-class Account;
+    class Account;
 
-class GetAccountBalanceCommand: public adb::DatabaseCommand {
-public:
-	GetAccountBalanceCommand(sqlite3* database, Account* account);
+    class GetAccountBalanceCommand: public DatabaseCommand {
+    public:
+        GetAccountBalanceCommand(sqlite3* database, Account* account);
 
-	virtual void execute();
+        virtual void execute();
 
-	double getBalance() const;
+        double getBalance() const;
 
-protected:
-	virtual void buildSqlCommand();
+    protected:
+        virtual void buildSqlCommand();
 
-private:
-	Account* account_;
-	double balance_;
-};
+    private:
+        Account* account_;
+        double balance_;
+    };
 
-inline double GetAccountBalanceCommand::getBalance() const
-{
-	return balance_;
-}
+    inline double GetAccountBalanceCommand::getBalance() const
+    {
+        return balance_;
+    }
 
-}
+} // namespace adb
 
 #endif /* GETACCOUNTBALANCECOMMAND_H_ */

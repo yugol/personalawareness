@@ -5,13 +5,13 @@
 
 namespace adb {
 
-class PurgeDatabaseCommand: public adb::DatabaseCommand {
-public:
-    PurgeDatabaseCommand(sqlite3* database);
+    class PurgeDatabaseCommand: public DatabaseCommand {
+    public:
+        PurgeDatabaseCommand(sqlite3* database);
 
-protected:
-    virtual void buildSqlCommand();
-};
+    protected:
+        virtual void buildSqlCommand();
+    };
 
 } // namespace adb
 

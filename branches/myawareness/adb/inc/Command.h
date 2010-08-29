@@ -3,10 +3,10 @@
 
 namespace adb {
 
-class Command {
-public:
-	virtual void execute() = 0;
-};
+    class Command {
+    public:
+        virtual void execute() = 0;
+    };
 
 } // namespace adb
 

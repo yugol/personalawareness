@@ -5,23 +5,23 @@
 
 namespace adb {
 
-class Item;
+    class Item;
 
-class GetItemCommand: public adb::DatabaseCommand {
-public:
-	GetItemCommand(sqlite3* database, Item* item);
+    class GetItemCommand: public DatabaseCommand {
+    public:
+        GetItemCommand(sqlite3* database, Item* item);
 
-	virtual void execute();
+        virtual void execute();
 
-protected:
-	virtual void buildSqlCommand();
-	virtual sqlite3_callback getCallbackFunction();
-	virtual void* getCallbackParameter();
+    protected:
+        virtual void buildSqlCommand();
+        virtual sqlite3_callback getCallbackFunction();
+        virtual void* getCallbackParameter();
 
-private:
-	Item* item_;
-};
+    private:
+        Item* item_;
+    };
 
-}
+} // namespace adb
 
 #endif /* GETITEMCOMMAND_H_ */

@@ -6,18 +6,18 @@
 
 namespace adb {
 
-class DeleteItemCommand: public adb::ReversibleDatabaseCommand {
-public:
-    DeleteItemCommand(sqlite3* database, int id);
+    class DeleteItemCommand: public ReversibleDatabaseCommand {
+    public:
+        DeleteItemCommand(sqlite3* database, int id);
 
-protected:
-    virtual void buildSqlCommand();
-    virtual void buildReverseSqlCommand();
+    protected:
+        virtual void buildSqlCommand();
+        virtual void buildReverseSqlCommand();
 
-private:
-    Item item_;
-};
+    private:
+        Item item_;
+    };
 
-}
+} // namespace adb
 
 #endif /* DELETEITEMCOMMAND_H_ */
