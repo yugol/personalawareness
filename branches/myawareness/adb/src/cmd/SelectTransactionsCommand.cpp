@@ -1,5 +1,6 @@
 #include <sstream>
 #include <Configuration.h>
+#include <Account.h>
 #include <SelectionParameters.h>
 #include <cmd/SelectTransactionsCommand.h>
 
@@ -16,24 +17,48 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << "SELECT [" << Configuration::ID_COLUMN_NAME << "] ";
-        sout << "FROM [" << Configuration::TRANSACTIONS_TABLE_NAME << "] ";
-        sout << "WHERE [" << Configuration::DEL_COLUMN_NAME << "] IS NULL ";
+        sout << "SELECT [" << Configuration::TRANSACTIONS_TABLE_NAME << "].[" << Configuration::ID_COLUMN_NAME << "] ";
 
-        if (parameters_ && parameters_->getItemId() != Configuration::DEFAULT_ID) {
-            sout << "AND [" << Configuration::ITEM_COLUMN_NAME << "] = " << parameters_->getItemId() << " ";
+        if (parameters_) {
+            if (parameters_->getAccountType() == Account::ALL) {
+                sout << "FROM [" << Configuration::TRANSACTIONS_TABLE_NAME << "] ";
+            } else {
+                sout << "FROM [" << Configuration::TRANSACTIONS_TABLE_NAME << "] ";
+                sout << "JOIN [" << Configuration::ACCOUNTS_TABLE_NAME << "] AS [" << Configuration::ACCOUNTS_TABLE_NAME << "01] ";
+                sout << "ON [" << Configuration::FROM_COLUMN_NAME << "] = [" << Configuration::ACCOUNTS_TABLE_NAME << "01].[" << Configuration::ID_COLUMN_NAME << "] ";
+                sout << "JOIN [" << Configuration::ACCOUNTS_TABLE_NAME << "] AS [" << Configuration::ACCOUNTS_TABLE_NAME << "02] ";
+                sout << "ON [" << Configuration::TO_COLUMN_NAME << "] = [" << Configuration::ACCOUNTS_TABLE_NAME << "02].[" << Configuration::ID_COLUMN_NAME << "] ";
+            }
         } else {
-            if (parameters_ && parameters_->getAccountId() != Configuration::DEFAULT_ID) {
-                sout << "AND ([" << Configuration::FROM_COLUMN_NAME << "] = " << parameters_->getAccountId() << " ";
-                sout << "OR [" << Configuration::TO_COLUMN_NAME << "] = " << parameters_->getAccountId() << ") ";
-            }
+            sout << "FROM [" << Configuration::TRANSACTIONS_TABLE_NAME << "] ";
+        }
 
-            if (parameters_ && !(parameters_->getFirstDate()).isNull()) {
-                sout << "AND [" << Configuration::DATE_COLUMN_NAME << "] >= '" << parameters_->getFirstDate() << "' ";
-            }
+        sout << "WHERE [" << Configuration::TRANSACTIONS_TABLE_NAME << "].[" << Configuration::DEL_COLUMN_NAME << "] IS NULL ";
 
-            if (parameters_ && !(parameters_->getLastDate()).isNull()) {
-                sout << "AND [" << Configuration::DATE_COLUMN_NAME << "] <= '" << parameters_->getLastDate() << "' ";
+        if (parameters_) {
+            if (parameters_->getItemId() != Configuration::DEFAULT_ID) {
+                sout << "AND [" << Configuration::ITEM_COLUMN_NAME << "] = " << parameters_->getItemId() << " ";
+            } else {
+                if (parameters_->getAccountId() != Configuration::DEFAULT_ID) {
+                    sout << "AND ([" << Configuration::FROM_COLUMN_NAME << "] = " << parameters_->getAccountId() << " ";
+                    sout << "OR [" << Configuration::TO_COLUMN_NAME << "] = " << parameters_->getAccountId() << ") ";
+                }
+
+                if (!(parameters_->getFirstDate()).isNull()) {
+                    sout << "AND [" << Configuration::DATE_COLUMN_NAME << "] >= '" << parameters_->getFirstDate() << "' ";
+                }
+
+                if (!(parameters_->getLastDate()).isNull()) {
+                    sout << "AND [" << Configuration::DATE_COLUMN_NAME << "] <= '" << parameters_->getLastDate() << "' ";
+                }
+
+                if (parameters_->getAccountType() == Account::CREDIT) {
+                    sout << "AND [" << Configuration::ACCOUNTS_TABLE_NAME << "01].[" << Configuration::TYPE_COLUMN_NAME << "] = " << Account::CREDIT << " ";
+                }
+
+                if (parameters_->getAccountType() == Account::DEBT) {
+                    sout << "AND [" << Configuration::ACCOUNTS_TABLE_NAME << "02].[" << Configuration::TYPE_COLUMN_NAME << "] = " << Account::DEBT << " ";
+                }
             }
         }
 

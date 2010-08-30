@@ -11,6 +11,7 @@ namespace adb {
 
         int getItemId() const;
         bool isLastTransactionOnly() const;
+        int getAccountType() const;
         const Date& getFirstDate() const;
         const Date& getLastDate() const;
         int getAccountId() const;
@@ -18,6 +19,7 @@ namespace adb {
 
         void setItemId(int);
         void setLastTransactionOnly(bool);
+        void setAccountType(int type);
         void setFirstDate(time_t when);
         void setLastDate(time_t when);
         void setAccountId(int id);
@@ -26,6 +28,8 @@ namespace adb {
     private:
         int itemId_;
         bool lastTransactionOnly_;
+
+        int accountType_;
 
         Date firstDate_;
         Date lastDate_;
@@ -41,6 +45,11 @@ namespace adb {
     inline bool SelectionParameters::isLastTransactionOnly() const
     {
         return lastTransactionOnly_;
+    }
+
+    inline int SelectionParameters::getAccountType() const
+    {
+        return accountType_;
     }
 
     inline const Date& SelectionParameters::getFirstDate() const

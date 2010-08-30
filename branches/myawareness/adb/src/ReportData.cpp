@@ -1,4 +1,9 @@
+#include <algorithm>
+#include <Transaction.h>
+#include <DatabaseConnection.h>
 #include <ReportData.h>
+
+using namespace std;
 
 namespace adb {
 
@@ -13,7 +18,55 @@ namespace adb {
 
     void ReportData::acquire()
     {
+        data_.resize(0);
+
+        switch (direction_) {
+            case INCOME:
+                parameters_.setAccountType(Account::CREDIT);
+                break;
+            case EXPENSES:
+                parameters_.setAccountType(Account::DEBT);
+                break;
+            default:
+                parameters_.setAccountType(Account::ACCOUNT);
+        }
+
+        vector<int> sel;
+        DatabaseConnection::instance()->selectTransactions(&sel, &parameters_);
+
+        switch (chart_) {
+            case PIE:
+                fetchPieData(sel);
+                break;
+            case MONTHLY:
+                fetchMonthlyData(sel);
+                break;
+        }
+    }
+
+    void ReportData::fetchPieData(const vector<int>& sel)
+    {
+        vector<int> accIds;
+        DatabaseConnection::instance()->selectAccounts(&accIds, 0);
+        int maxId = *max_element(accIds.begin(), accIds.end());
+
+        data_.resize(maxId + 1, 0);
+
+        vector<int>::const_iterator it;
+        for (it = sel.begin(); it != sel.end(); ++it) {
+            Transaction t(*it);
+            DatabaseConnection::instance()->getTransaction(&t);
+            int accountId = t.getFromId();
+            if (direction_ == EXPENSES) {
+                accountId = t.getToId();
+            }
+            data_[accountId] += t.getValue();
+        }
+    }
+
+    void ReportData::fetchMonthlyData(const vector<int>& sel)
+    {
 
     }
 
-} // namespac eadb
+} // namespac adb

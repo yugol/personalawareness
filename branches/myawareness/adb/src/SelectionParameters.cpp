@@ -1,10 +1,11 @@
 #include <Configuration.h>
+#include <Account.h>
 #include <SelectionParameters.h>
 
 namespace adb {
 
     SelectionParameters::SelectionParameters() :
-        itemId_(Configuration::DEFAULT_ID), lastTransactionOnly_(false), accountId_(Configuration::DEFAULT_ID)
+        itemId_(Configuration::DEFAULT_ID), lastTransactionOnly_(false), accountType_(Account::ALL), accountId_(Configuration::DEFAULT_ID)
     {
     }
 
@@ -16,6 +17,11 @@ namespace adb {
     void SelectionParameters::setLastTransactionOnly(bool val)
     {
         lastTransactionOnly_ = val;
+    }
+
+    void SelectionParameters::setAccountType(int type)
+    {
+        accountType_ = type;
     }
 
     void SelectionParameters::setFirstDate(time_t when)

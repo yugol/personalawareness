@@ -1,4 +1,5 @@
 #include <cstdlib>
+// #include <fstream>
 #include <Exception.h>
 #include <cmd/DatabaseCommand.h>
 
@@ -54,6 +55,9 @@ namespace adb {
 
     void DatabaseCommand::execute()
     {
+        // ofstream fout("sql.log", ios::app);
+        // fout << getSqlCommand();
+
         int err = ::sqlite3_exec(database_, getSqlCommand(), getCallbackFunction(), getCallbackParameter(), NULL);
         if (SQLITE_OK != err) {
             string errMessage(Exception::SQL_ERROR_MESSAGE);
