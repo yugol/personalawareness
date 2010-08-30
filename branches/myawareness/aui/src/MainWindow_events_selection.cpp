@@ -97,6 +97,7 @@ void MainWindow::onReports(wxCommandEvent& event)
     reportsMenu.Append(ID_REPORT_INCOME_MONTHLY, _("Income Monthly"));
 
     reportsMenu.Connect(ID_REPORT_EXPENSES_PIE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainWindow::onExpensesPie));
+    reportsMenu.Connect(ID_REPORT_INCOME_PIE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainWindow::onIncomePie));
 
     PopupMenu(&reportsMenu);
 }
@@ -104,5 +105,10 @@ void MainWindow::onReports(wxCommandEvent& event)
 void MainWindow::onExpensesPie(wxCommandEvent& event)
 {
     Controller::instance()->showReport(ReportData::PIE, ReportData::EXPENSES);
+}
+
+void MainWindow::onIncomePie(wxCommandEvent& event)
+{
+    Controller::instance()->showReport(ReportData::PIE, ReportData::INCOME);
 }
 

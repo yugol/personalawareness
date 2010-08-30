@@ -117,7 +117,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     normalFont_ = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
     boldFont_ = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
     boldFont_.SetWeight(wxBOLD);
-    wxSize viewButtonSize(12, 12);
+    wxSize viewButtonSize(16, 16);
 
     // main tabs
 

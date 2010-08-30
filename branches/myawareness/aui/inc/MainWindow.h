@@ -152,6 +152,7 @@ private:
     void onClose(wxCloseEvent& event);
 
     void onExpensesPie(wxCommandEvent& event);
+    void onIncomePie(wxCommandEvent& event);
 
     void onSelectionViewButton(wxCommandEvent& event);
 

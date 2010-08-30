@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <iomanip>
 #include <wx/string.h>
 #include <wx/datetime.h>
 #include <Date.h>
@@ -6,6 +7,42 @@
 
 using namespace adb;
 using namespace std;
+
+const char *UiUtil::MONTH_NAMES[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
+ostream& UiUtil::streamCurrency(ostream& out, double val)
+{
+    if (-0.01 < val && val < 0) {
+        val = 0;
+    }
+
+    out.precision(2);
+    out << fixed << val << " " << "RON";
+
+    return out;
+}
+
+ostream& UiUtil::streamPercent(ostream& out, double val)
+{
+    out.precision(1);
+    out << fixed << val << "%";
+    return out;
+}
+
+std::ostream& UiUtil::streamDate(std::ostream& out, const adb::Date& date)
+{
+    out << date.getYear();
+    out << '-';
+    out.fill('0');
+    out.width(2);
+    out << date.getMonth();
+    out << '-';
+    out.fill('0');
+    out.width(2);
+    out << date.getDay();
+
+    return out;
+}
 
 void UiUtil::formatCurrency(char* buf, double val)
 {
@@ -46,11 +83,47 @@ void UiUtil::convertDate2wxDate(wxDateTime* wxdate, const Date* date)
     wxdate->SetYear(date->getYear());
 }
 
-void UiUtil::string2wxString(const char* from, wxString& to)
+void UiUtil::cstring2wxString(const std::string& from, wxString& to)
 {
+    unsigned int byte;
+
     to.Clear();
-    for (size_t i = 0; i < ::strlen(from); ++i) {
-        to.Append(static_cast<wxChar> (from[i]));
+    for (size_t i = 0; i < from.size(); ++i) {
+        byte = static_cast<unsigned char> (from[i]);
+
+        if (byte < 128) {
+            to.Append(static_cast<wxChar> (byte));
+        } else {
+            unsigned int unic = 0;
+
+            if (byte >= 240) {
+                unic = byte & 7;
+                unic <<= 6;
+                byte = static_cast<unsigned char> (from[++i]) & 63;
+                unic += byte;
+                unic <<= 6;
+                byte = static_cast<unsigned char> (from[++i]) & 63;
+                unic += byte;
+                unic <<= 6;
+                byte = static_cast<unsigned char> (from[++i]) & 63;
+                unic += byte;
+            } else if (byte >= 224) {
+                unic = byte & 15;
+                unic <<= 6;
+                byte = static_cast<unsigned char> (from[++i]) & 63;
+                unic += byte;
+                unic <<= 6;
+                byte = static_cast<unsigned char> (from[++i]) & 63;
+                unic += byte;
+            } else if (byte >= 192) {
+                unic = byte & 31;
+                unic <<= 6;
+                byte = static_cast<unsigned char> (from[++i]) & 63;
+                unic += byte;
+            }
+
+            to.Append(static_cast<wxChar> (unic));
+        }
     }
 }
 

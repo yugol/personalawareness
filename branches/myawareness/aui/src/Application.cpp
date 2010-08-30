@@ -3,7 +3,6 @@
 #include <Application.h>
 
 IMPLEMENT_APP(Application)
-;
 
 bool Application::OnInit()
 {
