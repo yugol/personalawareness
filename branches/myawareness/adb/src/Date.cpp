@@ -6,6 +6,10 @@
 using namespace std;
 
 namespace adb {
+    int Date::monthDifference(const Date& young, const Date& old)
+    {
+        return (old.month_ - young.month_ + 12 * (old.year_ - young.year_));
+    }
 
     Date::Date() :
         year_(0), month_(0), day_(0)

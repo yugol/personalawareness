@@ -70,7 +70,24 @@ namespace adb {
 
     void ReportData::fetchMonthlyData(const vector<int>& sel)
     {
+        if (sel.size() <= 0) {
+            return;
+        }
 
+        Transaction first(sel[0]);
+        DatabaseConnection::instance()->getTransaction(&first);
+
+        Transaction last(sel[sel.size() - 1]);
+        DatabaseConnection::instance()->getTransaction(&last);
+
+        data_.resize(Date::monthDifference(first.getDate(), last.getDate()) + 1, 0);
+
+        vector<int>::const_iterator it;
+        for (it = sel.begin(); it != sel.end(); ++it) {
+            Transaction t(*it);
+            DatabaseConnection::instance()->getTransaction(&t);
+            data_[Date::monthDifference(first.getDate(), t.getDate())] += t.getValue();
+        }
     }
 
 } // namespac adb

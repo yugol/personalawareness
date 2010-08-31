@@ -9,6 +9,8 @@ namespace adb {
     class Date {
 
     public:
+        static int monthDifference(const Date& young, const Date& old);
+
         Date();
         Date(const char *date);
         virtual ~Date();
