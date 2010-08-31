@@ -1,8 +1,10 @@
 #include <Record.h>
 
+using namespace std;
+
 namespace adb {
 
-    void Record::assign(std::string& str, const char* cstr)
+    void Record::assign(string& str, const char* cstr)
     {
         if (0 == cstr) {
             str = "";

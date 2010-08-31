@@ -15,7 +15,7 @@ namespace adb {
         GetItemCommand(database_, &previousItem_).execute();
     }
 
-    void UpdateItemCommand::buildUpdateItemSqlCommand(std::string& sql, const Item& item)
+    void UpdateItemCommand::buildUpdateItemSqlCommand(string& sql, const Item& item)
     {
         ostringstream sout;
 

@@ -6,7 +6,7 @@ using namespace std;
 
 namespace adb {
 
-    SelectCommand::SelectCommand(sqlite3* database, std::vector<int>* selection, const SelectionParameters* parameters) :
+    SelectCommand::SelectCommand(sqlite3* database, vector<int>* selection, const SelectionParameters* parameters) :
         DatabaseCommand(database), selection_(selection), parameters_(parameters)
     {
     }

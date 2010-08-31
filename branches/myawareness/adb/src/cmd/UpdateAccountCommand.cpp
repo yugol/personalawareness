@@ -15,7 +15,7 @@ namespace adb {
         GetAccountCommand(database_, &previousAccount_).execute();
     }
 
-    void UpdateAccountCommand::buildUpdateAccountSqlCommand(std::string& sql, const Account& account)
+    void UpdateAccountCommand::buildUpdateAccountSqlCommand(string& sql, const Account& account)
     {
         ostringstream sout;
 

@@ -10,7 +10,6 @@ namespace adb {
 
     class DatabaseCommand: public Command {
     public:
-        // TODO: use toParameter for all strings
         static const std::string toParameter(const std::string& str);
 
         DatabaseCommand(sqlite3* database);

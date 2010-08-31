@@ -20,7 +20,6 @@ namespace adb {
         int getYear() const;
         int getMonth() const;
         int getDay() const;
-        void sprintf(char* rep) const;
 
     protected:
 

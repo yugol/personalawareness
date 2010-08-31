@@ -59,7 +59,7 @@ namespace adb {
         }
     }
 
-    void DatabaseConnection::exportDatabase(std::ostream& out)
+    void DatabaseConnection::exportDatabase(ostream& out)
     {
         if (0 == instance_) {
             THROW(Exception::NO_DATABASE_MESSAGE);
@@ -67,7 +67,7 @@ namespace adb {
         instance_->dumpSql(out);
     }
 
-    void DatabaseConnection::importDatabase(std::istream& in, LoadSqlCommand* callback)
+    void DatabaseConnection::importDatabase(istream& in, LoadSqlCommand* callback)
     {
         if (0 == instance_) {
             THROW(Exception::NO_DATABASE_MESSAGE);
@@ -131,7 +131,6 @@ namespace adb {
         while (true) {
             rc = ::sqlite3_step(stmt);
             if (SQLITE_ROW == rc) {
-                // printf("%s\n", sqlite3_column_text(stmt, 1));
                 ++tableCount;
             } else if (SQLITE_DONE == rc) {
                 break;

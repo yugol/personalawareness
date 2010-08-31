@@ -15,7 +15,7 @@ namespace adb {
         GetTransactionCommand(database_, &previousTransaction_).execute();
     }
 
-    void UpdateTransactionCommand::buildUpdateTransactionCommand(std::string& sql, const Transaction& transaction)
+    void UpdateTransactionCommand::buildUpdateTransactionCommand(string& sql, const Transaction& transaction)
     {
         ostringstream sout;
 

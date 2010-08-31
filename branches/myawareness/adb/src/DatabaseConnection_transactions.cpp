@@ -10,7 +10,7 @@ using namespace std;
 
 namespace adb {
 
-    void DatabaseConnection::selectTransactions(std::vector<int>* selection, SelectionParameters* parameters) const
+    void DatabaseConnection::selectTransactions(vector<int>* selection, SelectionParameters* parameters) const
     {
         SelectTransactionsCommand(database_, selection, parameters).execute();
     }

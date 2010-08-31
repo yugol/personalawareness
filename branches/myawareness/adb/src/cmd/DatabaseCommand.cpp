@@ -19,7 +19,7 @@ namespace adb {
         return 0;
     }
 
-    const std::string DatabaseCommand::toParameter(const std::string& str)
+    const string DatabaseCommand::toParameter(const string& str)
     {
         string param;
         if (str.size() > 0) {

@@ -31,7 +31,7 @@ namespace adb {
         }
     }
 
-    void DatabaseConnection::selectItems(std::vector<int>* selection, SelectionParameters* parameters) const
+    void DatabaseConnection::selectItems(vector<int>* selection, SelectionParameters* parameters) const
     {
         SelectItemsCommand(database_, selection, parameters).execute();
     }

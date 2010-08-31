@@ -31,7 +31,7 @@ namespace adb {
         }
     }
 
-    void DatabaseConnection::selectAccounts(std::vector<int>* selection, SelectionParameters* parameters) const
+    void DatabaseConnection::selectAccounts(vector<int>* selection, SelectionParameters* parameters) const
     {
         SelectAccountsCommand(database_, selection, parameters).execute();
     }
@@ -94,7 +94,7 @@ namespace adb {
         return cmd.getBalance();
     }
 
-    void DatabaseConnection::getAccounts(std::vector<int>* sel) const
+    void DatabaseConnection::getAccounts(vector<int>* sel) const
     {
         cashAccounts();
         vector<Account>::iterator it;
@@ -105,7 +105,7 @@ namespace adb {
         }
     }
 
-    void DatabaseConnection::getBudgetCategories(std::vector<int>* sel) const
+    void DatabaseConnection::getBudgetCategories(vector<int>* sel) const
     {
         cashAccounts();
         vector<Account>::iterator it;
@@ -116,7 +116,7 @@ namespace adb {
         }
     }
 
-    void DatabaseConnection::getCreditingBudgets(std::vector<int>* sel) const
+    void DatabaseConnection::getCreditingBudgets(vector<int>* sel) const
     {
         cashAccounts();
         vector<Account>::iterator it;
@@ -127,7 +127,7 @@ namespace adb {
         }
     }
 
-    void DatabaseConnection::getDebitingBudgets(std::vector<int>* sel) const
+    void DatabaseConnection::getDebitingBudgets(vector<int>* sel) const
     {
         cashAccounts();
         vector<Account>::iterator it;

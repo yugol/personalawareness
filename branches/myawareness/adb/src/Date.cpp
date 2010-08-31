@@ -1,9 +1,9 @@
-#include <ctime>
-#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <Exception.h>
 #include <Date.h>
+
+using namespace std;
 
 namespace adb {
 
@@ -35,7 +35,7 @@ namespace adb {
 
     void Date::setValue(time_t when)
     {
-        tm *timeinfo = localtime(&when);
+        tm *timeinfo = ::localtime(&when);
         year_ = timeinfo->tm_year + 1900;
         month_ = timeinfo->tm_mon + 1;
         day_ = timeinfo->tm_mday;
@@ -62,12 +62,7 @@ namespace adb {
         }
     }
 
-    void Date::sprintf(char* rep) const
-    {
-        ::sprintf(rep, "%04d%02d%02d", year_, month_, day_);
-    }
-
-    std::ostream& operator<<(std::ostream& out, const Date& date)
+    ostream& operator<<(ostream& out, const Date& date)
     {
         out.fill('0');
         out.width(4);

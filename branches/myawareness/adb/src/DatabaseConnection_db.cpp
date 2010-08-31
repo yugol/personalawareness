@@ -1,5 +1,5 @@
-#include <cstdio>
 #include <iostream>
+#include <sstream>
 #include <Exception.h>
 #include <DbUtil.h>
 #include <Transaction.h>
@@ -80,7 +80,7 @@ namespace adb {
         }
     }
 
-    void DatabaseConnection::loadSql(std::istream& in, LoadSqlCommand* callback)
+    void DatabaseConnection::loadSql(istream& in, LoadSqlCommand* callback)
     {
         char statement[DbUtil::STATEMENT_LEN];
 
@@ -90,8 +90,9 @@ namespace adb {
         while (in.getline(statement, DbUtil::STATEMENT_LEN)) {
             ++lineNo;
             if (SQLITE_OK != ::sqlite3_exec(database_, statement, NULL, NULL, NULL)) {
-                ::sprintf(statement, "error loading from SQL script: line %d", lineNo);
-                THROW(statement);
+                ostringstream errMsg;
+                errMsg << "error loading from SQL script: line " << lineNo;
+                THROW(errMsg.rdbuf()->str().c_str());
             }
             if (0 != callback) {
                 callback->setLineNo(lineNo);

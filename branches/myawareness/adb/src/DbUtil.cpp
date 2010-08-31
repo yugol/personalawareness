@@ -15,16 +15,6 @@ namespace adb {
         }
     }
 
-    const char* DbUtil::formatStringForDatabase(char *buf, const string &str)
-    {
-        if (0 == str.size()) {
-            ::strcpy(buf, "NULL");
-        } else {
-            ::sprintf(buf, "'%s'", str.c_str());
-        }
-        return buf;
-    }
-
     void DbUtil::trimSpaces(string& str)
     {
         size_t startpos = str.find_first_not_of(" \t\n\r");
