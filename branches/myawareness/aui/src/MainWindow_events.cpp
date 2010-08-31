@@ -102,6 +102,9 @@ void MainWindow::onAbout(wxCommandEvent &event)
 void MainWindow::onSelectionViewButton(wxCommandEvent& event)
 {
     showSelectionPanel(!selPanel_->IsShown());
+    if (selPanel_->IsShown()) {
+        showTransactionPanel(false);
+    }
 }
 
 void MainWindow::onTransactionViewButton(wxCommandEvent& event)
