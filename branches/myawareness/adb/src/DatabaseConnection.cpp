@@ -149,7 +149,7 @@ namespace adb {
 
     void DatabaseConnection::closeConnection()
     {
-        // TODO: compact identical transactions in each day
+        // TBD-: compact identical transactions in each day
         purgeDatabase();
         ::sqlite3_close(database_);
         database_ = 0;

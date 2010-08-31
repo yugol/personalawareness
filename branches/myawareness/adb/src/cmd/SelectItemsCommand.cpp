@@ -15,7 +15,7 @@ namespace adb {
     {
         ostringstream sout;
 
-        // TODO: order by name case independent
+        // TBD: order by name case independent
 
         sout << "SELECT [" << Configuration::ID_COLUMN_NAME << "] ";
         sout << "FROM [" << Configuration::ITEMS_TABLE_NAME << "] ";

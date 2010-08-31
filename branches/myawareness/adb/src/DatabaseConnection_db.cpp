@@ -31,7 +31,7 @@ namespace adb {
         cashItems();
 
         // dump accounts
-        // TODO: use select to check for usage
+        // TBD: use select to check for usage
         map<int, int> accountIds;
         int accountNo = 0;
 
@@ -48,7 +48,7 @@ namespace adb {
         }
 
         // dump items
-        // TODO: use select to check for usage
+        // TBD: use select to check for usage
         map<int, int> itemIds;
         int itemNo = 0;
 
@@ -84,7 +84,7 @@ namespace adb {
     {
         char statement[DbUtil::STATEMENT_LEN];
 
-        // TODO: use one database transaction BEGIN / COMMIT
+        // TBD+: use one database transaction BEGIN / COMMIT
 
         int lineNo = 0;
         while (in.getline(statement, DbUtil::STATEMENT_LEN)) {

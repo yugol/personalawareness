@@ -10,7 +10,7 @@ namespace adb {
     DeleteItemCommand::DeleteItemCommand(sqlite3* database, int id) :
         ReversibleDatabaseCommand(database), item_(id)
     {
-        // TODO: item in use
+        // TBD: item in use
         GetItemCommand(database_, &item_).execute();
     }
 

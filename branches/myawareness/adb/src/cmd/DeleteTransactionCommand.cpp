@@ -35,6 +35,6 @@ namespace adb {
         reverseSql_ = sout.rdbuf()->str();
     }
 
-//TODO: also update the item
+//TBD: also update the item
 
 } // namespac eadb

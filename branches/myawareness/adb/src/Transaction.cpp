@@ -58,7 +58,7 @@ namespace adb {
             THROW(Exception::WRONG_VALUE_MESSAGE);
         }
 
-        // TODO: check if source != destination
+        // TBD: check if source != destination
     }
 
 } // namespace adb

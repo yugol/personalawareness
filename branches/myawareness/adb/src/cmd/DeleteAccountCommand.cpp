@@ -10,7 +10,7 @@ namespace adb {
     DeleteAccountCommand::DeleteAccountCommand(sqlite3* database, int id) :
         ReversibleDatabaseCommand(database), account_(id)
     {
-        // TODO: account in use
+        // TBD: account in use
         GetAccountCommand(database_, &account_).execute();
     }
 
