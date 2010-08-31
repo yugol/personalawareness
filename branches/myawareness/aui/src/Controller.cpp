@@ -14,6 +14,15 @@ using namespace adb;
 
 Controller* Controller::instance_ = 0;
 
+void Controller::reportException(const exception& ex, const wxString& hint)
+{
+    wxString title(_T("Error "));
+    title.Append(hint);
+    wxString errorMessage;
+    UiUtil::appendStdString(errorMessage, ex.what());
+    wxMessageBox(errorMessage, title, wxOK);
+}
+
 Controller* Controller::instance()
 {
     return instance_;
@@ -35,20 +44,11 @@ void Controller::start()
     }
 }
 
-void Controller::reportException(const exception& ex, const wxString& hint)
-{
-    wxString title(_T("Error "));
-    title.Append(hint);
-    wxString errorMessage;
-    UiUtil::appendStdString(errorMessage, ex.what());
-    wxMessageDialog dlg(mainWindow_, errorMessage, title, wxOK);
-    dlg.ShowModal();
-    dlg.Destroy();
-}
-
 void Controller::exitApplication()
 {
-    DatabaseConnection::closeDatabase();
+    if (DatabaseConnection::isOpened()) {
+        DatabaseConnection::closeDatabase();
+    }
     mainWindow_->Destroy();
 }
 

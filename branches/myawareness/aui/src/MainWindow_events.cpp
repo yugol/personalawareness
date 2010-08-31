@@ -69,7 +69,7 @@ void MainWindow::onExport(wxCommandEvent& event)
 
 void MainWindow::onImport(wxCommandEvent& event)
 {
-    wxMessageDialog msgDlg(this, _T("This operation will completely erase\nthe current database.\nAre you sure you want to continue?"), _T("Database export"), wxYES | wxNO_DEFAULT);
+    wxMessageDialog msgDlg(this, _T("This operation will completely erase the current database.\nAre you sure you want to continue?"), _T("Import database"), wxYES | wxNO_DEFAULT);
 
     if (wxID_YES == msgDlg.ShowModal()) {
         wxString path;

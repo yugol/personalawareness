@@ -12,6 +12,7 @@ namespace adb {
 class Controller {
 public:
     static Controller* instance();
+    static void reportException(const std::exception& ex, const wxString& hint);
 
     ~Controller();
 
@@ -33,7 +34,6 @@ public:
 
     void showReport(int chartType, int cashFlowDirection);
 
-    void reportException(const std::exception& ex, const wxString& hint);
     void exitApplication();
 
 protected:

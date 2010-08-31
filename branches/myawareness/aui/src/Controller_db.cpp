@@ -13,7 +13,9 @@ void Controller::openDatabase(const wxString* path)
     try {
 
         if (0 != path) {
-            DatabaseConnection::openDatabase(path->fn_str());
+            string stdpath;
+            UiUtil::appendWxString(stdpath, *path);
+            DatabaseConnection::openDatabase(stdpath.c_str());
         }
 
         updateAccounts();
@@ -21,7 +23,6 @@ void Controller::openDatabase(const wxString* path)
         mainWindow_->selectStartInterval(); // updates transactions
 
         // update status message
-
         wxString statusMessage;
         UiUtil::appendStdString(statusMessage, DatabaseConnection::instance()->getDatabaseFile());
         statusMessage = statusMessage.AfterLast('\\');
@@ -38,22 +39,36 @@ void Controller::openDatabase(const wxString* path)
 
 void Controller::dumpDatabase(wxString& path)
 {
-    ofstream fout(path.fn_str(), ios_base::trunc);
+    string stdpath;
+    UiUtil::appendWxString(stdpath, path);
+    ofstream fout(stdpath.c_str(), ios_base::trunc);
 
-    DatabaseConnection::exportDatabase(fout);
+    try {
 
-    wxMessageDialog dlg(mainWindow_, _T("Operation completed successfully."), _T("Database export"), wxOK);
-    dlg.ShowModal();
-    dlg.Destroy();
+        DatabaseConnection::exportDatabase(fout);
+        wxMessageBox(_T("Operation completed successfully."), _T("Export database"), wxOK);
+
+    } catch (const exception& ex) {
+        reportException(ex, _T("exporting database"));
+    }
 }
 
 void Controller::loadDatabase(wxString& path)
 {
-    ifstream fin(path.fn_str());
+    string stdpath;
+    UiUtil::appendWxString(stdpath, path);
+    ifstream fin(stdpath.c_str());
 
-    DatabaseConnection::importDatabase(fin, 0);
+    try {
 
-    wxMessageDialog dlg(mainWindow_, _T("Operation completed successfully."), _T("Database import"), wxOK);
-    dlg.ShowModal();
-    dlg.Destroy();
+        DatabaseConnection::importDatabase(fin);
+        openDatabase(0);
+        wxMessageBox(_T("Operation completed successfully."), _T("Import database"), wxOK);
+
+    } catch (const exception& ex) {
+
+        openDatabase(0);
+        reportException(ex, _T("importing database"));
+
+    }
 }
