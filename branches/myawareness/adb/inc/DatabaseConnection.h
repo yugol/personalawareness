@@ -13,7 +13,6 @@ namespace adb {
 
     class Transaction;
     class SelectionParameters;
-    class LoadSqlCommand;
 
     class DatabaseConnection {
     public:
@@ -26,7 +25,8 @@ namespace adb {
         static void closeDatabase();
         static void deleteDatabase();
         static void exportDatabase(std::ostream& out);
-        static void importDatabase(std::istream& in, LoadSqlCommand* callback);
+        static void importDatabase(std::istream& in);
+        static bool isOpened();
 
         ~DatabaseConnection();
 
@@ -85,7 +85,7 @@ namespace adb {
         void cashItems() const;
 
         void dumpSql(std::ostream& out) const;
-        void loadSql(std::istream& in, LoadSqlCommand* callback);
+        void loadSql(std::istream& in);
     };
 
     inline const std::string& DatabaseConnection::getDatabaseFile() const

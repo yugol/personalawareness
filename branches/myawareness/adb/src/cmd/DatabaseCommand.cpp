@@ -15,7 +15,11 @@ namespace adb {
     int DatabaseCommand::readDouble(void* param, int colCount, char** values, char** names)
     {
         double* val = reinterpret_cast<double*> (param);
-        *val = ::atof(values[0]);
+        if (0 == values[0]) {
+            *val = 0;
+        } else {
+            *val = ::atof(values[0]);
+        }
         return 0;
     }
 

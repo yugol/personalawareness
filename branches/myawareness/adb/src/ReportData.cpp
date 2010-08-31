@@ -18,7 +18,7 @@ namespace adb {
 
     void ReportData::acquire()
     {
-        data_.resize(0);
+        data_.clear();
 
         switch (direction_) {
             case INCOME:
@@ -46,6 +46,10 @@ namespace adb {
 
     void ReportData::fetchPieData(const vector<int>& sel)
     {
+        if (sel.size() <= 0) {
+            return;
+        }
+
         vector<int> accIds;
         DatabaseConnection::instance()->selectAccounts(&accIds, 0);
         int maxId = *max_element(accIds.begin(), accIds.end());

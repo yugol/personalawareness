@@ -11,9 +11,14 @@ namespace adb {
 
     DatabaseConnection* DatabaseConnection::instance_ = 0;
 
+    bool DatabaseConnection::isOpened()
+    {
+        return 0 != instance_;
+    }
+
     DatabaseConnection* DatabaseConnection::instance()
     {
-        if (0 == instance_) {
+        if (!isOpened()) {
             openDatabase(Configuration::instance()->getLastDatabasePath().c_str());
         }
         return instance_;
@@ -24,7 +29,7 @@ namespace adb {
         DatabaseConnection* tmpInstance = 0;
         try {
             tmpInstance = new DatabaseConnection(databasePath);
-            if (0 != instance_) {
+            if (isOpened()) {
                 if (instance_->getDatabaseFile() == databasePath) {
                     return;
                 }
@@ -40,7 +45,7 @@ namespace adb {
 
     void DatabaseConnection::closeDatabase()
     {
-        if (0 == instance_) {
+        if (!isOpened()) {
             THROW(Exception::NO_DATABASE_MESSAGE);
         }
         delete instance_;
@@ -49,7 +54,7 @@ namespace adb {
 
     void DatabaseConnection::deleteDatabase()
     {
-        if (0 == instance_) {
+        if (!isOpened()) {
             THROW(Exception::NO_DATABASE_MESSAGE);
         }
         string databasePath = instance_->getDatabaseFile();
@@ -61,21 +66,21 @@ namespace adb {
 
     void DatabaseConnection::exportDatabase(ostream& out)
     {
-        if (0 == instance_) {
+        if (!isOpened()) {
             THROW(Exception::NO_DATABASE_MESSAGE);
         }
         instance_->dumpSql(out);
     }
 
-    void DatabaseConnection::importDatabase(istream& in, LoadSqlCommand* callback)
+    void DatabaseConnection::importDatabase(istream& in)
     {
-        if (0 == instance_) {
+        if (!isOpened()) {
             THROW(Exception::NO_DATABASE_MESSAGE);
         }
         string databasePath = instance_->getDatabaseFile();
         deleteDatabase();
         openDatabase(databasePath.c_str());
-        instance_->loadSql(in, callback);
+        instance_->loadSql(in);
     }
 
     DatabaseConnection::DatabaseConnection(const char* file) :

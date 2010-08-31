@@ -7,9 +7,6 @@ namespace adb {
 
     class DbUtil {
     public:
-        static const int DATE_LEN = 20;
-        static const int NAME_LEN = 100;
-        static const int DESCRIPTION_LEN = 1000;
         static const int STATEMENT_LEN = 2000;
 
         static void charPtrToString(std::string &str, const char *cptr);

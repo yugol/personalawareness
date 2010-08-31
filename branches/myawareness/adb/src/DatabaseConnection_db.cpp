@@ -3,7 +3,6 @@
 #include <Exception.h>
 #include <DbUtil.h>
 #include <Transaction.h>
-#include <LoadSqlCommand.h>
 #include <cmd/CreateDatabaseCommand.h>
 #include <cmd/PurgeDatabaseCommand.h>
 #include <DatabaseConnection.h>
@@ -80,24 +79,42 @@ namespace adb {
         }
     }
 
-    void DatabaseConnection::loadSql(istream& in, LoadSqlCommand* callback)
+    void DatabaseConnection::loadSql(istream& in)
     {
         char statement[DbUtil::STATEMENT_LEN];
 
-        // TBD+: use one database transaction BEGIN / COMMIT
+        if (SQLITE_OK != ::sqlite3_exec(database_, "BEGIN;", NULL, NULL, NULL)) {
+            string errMessage(Exception::SQL_ERROR_MESSAGE);
+            errMessage.append(": ");
+            errMessage.append(::sqlite3_errmsg(database_));
+            THROW(errMessage.c_str());
+        }
 
         int lineNo = 0;
         while (in.getline(statement, DbUtil::STATEMENT_LEN)) {
             ++lineNo;
             if (SQLITE_OK != ::sqlite3_exec(database_, statement, NULL, NULL, NULL)) {
-                ostringstream errMsg;
-                errMsg << "error loading from SQL script: line " << lineNo;
-                THROW(errMsg.rdbuf()->str().c_str());
+
+                ostringstream msgOut;
+                msgOut << Exception::SQL_ERROR_MESSAGE << ": ";
+                msgOut << ::sqlite3_errmsg(database_) << " at line no. " << lineNo;
+
+                if (SQLITE_OK != ::sqlite3_exec(database_, "ROLLBACK;", NULL, NULL, NULL)) {
+                    string errMessage(Exception::SQL_ERROR_MESSAGE);
+                    errMessage.append(": ");
+                    errMessage.append(::sqlite3_errmsg(database_));
+                    THROW(errMessage.c_str());
+                }
+
+                THROW(msgOut.rdbuf()->str().c_str());
             }
-            if (0 != callback) {
-                callback->setLineNo(lineNo);
-                callback->execute();
-            }
+        }
+
+        if (SQLITE_OK != ::sqlite3_exec(database_, "COMMIT;", NULL, NULL, NULL)) {
+            string errMessage(Exception::SQL_ERROR_MESSAGE);
+            errMessage.append(": ");
+            errMessage.append(::sqlite3_errmsg(database_));
+            THROW(errMessage.c_str());
         }
     }
 
