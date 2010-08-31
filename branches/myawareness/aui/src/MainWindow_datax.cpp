@@ -30,7 +30,7 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
 {
     char currencyBuf[UiUtil::CURRENCY_BUFFER_LENGTH];
     bool firstGroup = true;
-    double groupBalance;
+    double groupBalance = 0;
     wxString prevGroup;
 
     wxListItem item;
