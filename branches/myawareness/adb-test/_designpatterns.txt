@@ -8,7 +8,7 @@ Abstract Factory
 Builder
 Factory Method
 Prototype
-Singleton : Configuration ; DatabaseConnection
+Singleton : Configuration
 
 Structural Patterns
 -------------------
@@ -25,7 +25,7 @@ Behavioral Patterns
 -------------------
 
 Chain of Responsibility
-Command : Command ; Reversible Command
+Command : Command
 Interpreter
 Iterator
 Mediator

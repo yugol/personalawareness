@@ -2,19 +2,8 @@
 #include <iostream>
 #include <Exception.h>
 #include <Transaction.h>
-#include <LoadSqlCommand.h>
 #include <DatabaseConnection.h>
 #include "test.h"
-
-class LoadCallback: public adb::LoadSqlCommand {
-
-public:
-    void execute()
-    {
-        cout << getLineNo() << ".";
-    }
-
-};
 
 TEST( GetBalance, DatabaseConnection )
 {
@@ -98,8 +87,7 @@ TEST( Sql, DatabaseConnection )
 
         ifstream fin(dumpFile);
         DatabaseConnection::openDatabase(disposableDatabase);
-        LoadCallback callback;
-        DatabaseConnection::importDatabase(fin, &callback);
+        DatabaseConnection::importDatabase(fin);
         fin.close();
         DatabaseConnection::deleteDatabase();
 
