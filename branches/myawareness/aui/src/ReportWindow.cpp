@@ -141,7 +141,7 @@ void ReportWindow::render(const ReportData& data)
     title << ")";
 
     wxString wxtitle;
-    UiUtil::cstring2wxString(title.rdbuf()->str(), wxtitle);
+    UiUtil::appendStdString(wxtitle, title.rdbuf()->str());
     SetTitle(wxtitle);
 }
 
@@ -207,6 +207,6 @@ void ReportWindow::renderPieReport()
     html << "</table></div><div align='center'><a href='close'>Close</a></div></html>";
 
     wxString wxhtml;
-    UiUtil::cstring2wxString(html.rdbuf()->str(), wxhtml);
+    UiUtil::appendStdString(wxhtml, html.rdbuf()->str());
     htmlWindow_->SetPage(wxhtml);
 }

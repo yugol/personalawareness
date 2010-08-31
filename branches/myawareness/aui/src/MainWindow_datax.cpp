@@ -17,18 +17,14 @@ using namespace adb;
 
 void MainWindow::setNetWorth(double val)
 {
-    char currencyBuf[UiUtil::CURRENCY_BUFFER_LENGTH];
-    UiUtil::formatCurrency(currencyBuf, val);
-    char itemBuf[UiUtil::NAME_BUFFER_LENGTH];
-    sprintf(itemBuf, "Net worth: %s", currencyBuf);
-    wxString item(itemBuf, wxConvLibc);
-    netWorthLabel_->SetLabel(item);
+    wxString wxworth(_("Net worth: "));
+    UiUtil::appendCurrency(wxworth, val);
+    netWorthLabel_->SetLabel(wxworth);
     fitAccountsPage();
 }
 
 void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
 {
-    char currencyBuf[UiUtil::CURRENCY_BUFFER_LENGTH];
     bool firstGroup = true;
     double groupBalance = 0;
     wxString prevGroup;
@@ -67,8 +63,8 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
             if (!firstGroup) {
                 groupItem.SetColumn(1);
                 groupItem.SetAlign(wxLIST_FORMAT_RIGHT);
-                UiUtil::formatCurrency(currencyBuf, groupBalance);
-                wxString balance(currencyBuf, wxConvLibc);
+                wxString balance;
+                UiUtil::appendCurrency(balance, groupBalance);
                 groupItem.SetText(balance);
                 accList_->SetItem(groupItem);
             }
@@ -97,8 +93,8 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
 
         double balanceVal = it->second;
         groupBalance += balanceVal;
-        UiUtil::formatCurrency(currencyBuf, balanceVal);
-        wxString balance(currencyBuf, wxConvLibc);
+        wxString balance;
+        UiUtil::appendCurrency(balance, balanceVal);
         item.SetColumn(1);
         item.SetAlign(wxLIST_FORMAT_RIGHT);
         item.SetText(balance);
@@ -108,8 +104,8 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
     if (!firstGroup) {
         groupItem.SetColumn(1);
         groupItem.SetAlign(wxLIST_FORMAT_RIGHT);
-        UiUtil::formatCurrency(currencyBuf, groupBalance);
-        wxString balance(currencyBuf, wxConvLibc);
+        wxString balance;
+        UiUtil::appendCurrency(balance, groupBalance);
         groupItem.SetText(balance);
         accList_->SetItem(groupItem);
     }
@@ -165,7 +161,7 @@ void MainWindow::transactionToView(const Transaction* t, bool complete)
     if (0 != t) {
         if (complete) {
             wxDateTime trDate;
-            UiUtil::convertDate2wxDate(&trDate, &(t->getDate()));
+            UiUtil::adbDate2wxDate(&trDate, &(t->getDate()));
             trDatePicker_->SetValue(trDate);
         }
 
@@ -205,7 +201,8 @@ void MainWindow::getTransactionSelectionParameters(adb::SelectionParameters* par
     parameters->setLastDate(selLastDatePicker_->GetValue().GetTicks());
     int accountId = reinterpret_cast<int> (selAccountChoice_->GetClientData(selAccountChoice_->GetSelection()));
     parameters->setAccountId(accountId);
-    char patternBuf[UiUtil::NAME_BUFFER_LENGTH];
-    UiUtil::formatString(patternBuf, selPatternText_->GetValue());
+    string pattern;
+    UiUtil::appendWxString(pattern, selPatternText_->GetValue());
+    parameters->setNamePattern(pattern.c_str());
 }
 

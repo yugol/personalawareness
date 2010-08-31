@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <sstream>
 #include <wx/msgdlg.h>
 #include <Transaction.h>
 #include <UiUtil.h>
@@ -34,7 +35,7 @@ void Controller::start()
     }
 }
 
-void Controller::reportException(const std::exception& ex, const wxString& hint)
+void Controller::reportException(const exception& ex, const wxString& hint)
 {
     wxString title(_T("Error "));
     title.Append(hint);
@@ -108,9 +109,6 @@ void Controller::updateItems()
 void Controller::updateTransactions()
 {
     wxArrayString items;
-    char currencyBuf[UiUtil::CURRENCY_BUFFER_LENGTH];
-    char dateBuf[UiUtil::DATE_BUFFER_LENGTH];
-    char itemBuf[UiUtil::NAME_BUFFER_LENGTH];
 
     vector<int> sel;
     SelectionParameters parameters;
@@ -126,23 +124,26 @@ void Controller::updateTransactions()
         Account* from = DatabaseConnection::instance()->getAccount(t.getFromId());
         Account* to = DatabaseConnection::instance()->getAccount(t.getToId());
 
-        UiUtil::formatCurrency(currencyBuf, t.getValue());
-        UiUtil::formatDate(dateBuf, t.getDate());
+        ostringstream item;
 
-        // TODO: use C++ I/O
-        sprintf(itemBuf, "<table id='@%d@' width='90%%' border='0' cellpadding='0' cellspacing='0'>"
-            "<tr>"
-            "<td align='left' width='12%%'>&nbsp;%s&nbsp;</td>"
-            "<td align='left'><b>%s</b></td>"
-            "<td align='right' width='20%%'>&nbsp;%s&nbsp;</td>"
-            "</tr>"
-            "<tr><td />"
-            "<td align='right'><small><i>%s --> %s</i></small>&nbsp;</td>"
-            "<td /></tr>"
-            "</table>", id, dateBuf, why->getName().c_str(), currencyBuf, from->getFullName().c_str(), to->getFullName().c_str());
+        item << "<table id='@" << id << "@' width='90%' border='0' cellpadding='0' cellspacing='0'>";
+        item << "<tr>";
+        item << "<td align='left' width='12%'>&nbsp;";
+        UiUtil::streamDate(item, t.getDate());
+        item << "&nbsp;</td>";
+        item << "<td align='left'><b>" << why->getName() << "</b></td>";
+        item << "<td align='right' width='20%'>&nbsp;";
+        UiUtil::streamCurrency(item, t.getValue());
+        item << "&nbsp;</td>";
+        item << "</tr>";
+        item << "<tr><td />";
+        item << "<td align='right'><small><i>" << from->getFullName() << " --> " << to->getFullName() << "</i></small>&nbsp;</td>";
+        item << "<td /></tr>";
+        item << "</table>";
 
-        wxString item(itemBuf, wxConvLibc);
-        items.Add(item);
+        wxString wxitem;
+        UiUtil::appendStdString(wxitem, item.rdbuf()->str());
+        items.Add(wxitem);
     }
 
     mainWindow_->populateTransactions(items);
@@ -160,11 +161,9 @@ const Item* Controller::getItemByName(const wxString& name)
     if (name.size() <= 0) {
         return 0;
     }
-
-    char itemBuf[UiUtil::NAME_BUFFER_LENGTH];
-    UiUtil::formatString(itemBuf, name);
-
-    return DatabaseConnection::instance()->getItem(itemBuf);
+    string stdname;
+    UiUtil::appendWxString(stdname, name);
+    return DatabaseConnection::instance()->getItem(stdname.c_str());
 }
 
 int Controller::getItemId(const wxString& name)
@@ -172,9 +171,9 @@ int Controller::getItemId(const wxString& name)
     const Item* item = getItemByName(name);
     if (0 == item) {
         Item newItem;
-        char itemBuf[UiUtil::NAME_BUFFER_LENGTH];
-        UiUtil::formatString(itemBuf, name);
-        newItem.setName(itemBuf);
+        string stdname;
+        UiUtil::appendWxString(stdname, name);
+        newItem.setName(stdname.c_str());
 
         DatabaseConnection::instance()->insertUpdate(&newItem);
         updateItems();

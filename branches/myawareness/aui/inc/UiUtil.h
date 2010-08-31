@@ -11,20 +11,17 @@ namespace adb {
 
 class UiUtil {
 public:
-    static const int CURRENCY_BUFFER_LENGTH = 50;
-    static const int DATE_BUFFER_LENGTH = 20;
-    static const int NAME_BUFFER_LENGTH = 1000;
     static const char *MONTH_NAMES[];
+
+    static void adbDate2wxDate(wxDateTime* to, const adb::Date* from);
 
     static std::ostream& streamCurrency(std::ostream& out, double val);
     static std::ostream& streamPercent(std::ostream& out, double val);
     static std::ostream& streamDate(std::ostream& out, const adb::Date& date);
 
-    static void formatCurrency(char* buf, double val);
-    static void formatDate(char* buf, const adb::Date& date);
-    static void formatString(char* buf, const wxString& str);
-    static void convertDate2wxDate(wxDateTime* wxdate, const adb::Date* date);
-    static void cstring2wxString(const std::string& from, wxString& to);
+    static void appendStdString(wxString& to, const std::string& what);
+    static void appendWxString(std::string& to, const wxString& what);
+    static void appendCurrency(wxString& to, double val);
 };
 
 #endif /* UIUTIL_H_ */
