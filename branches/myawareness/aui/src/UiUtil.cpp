@@ -76,13 +76,19 @@ void UiUtil::appendStdString(wxString& to, const string& what)
     }
 }
 
-ostream& UiUtil::streamCurrency(ostream& out, double val)
+ostream& UiUtil::streamCurrency(ostream& out, double val, bool html)
 {
     if (-0.01 < val && val < 0) {
         val = 0;
     }
     out.precision(2);
-    out << fixed << val << " " << "RON";
+    out << fixed << val;
+    if (html) {
+        out << "&nbsp;";
+    } else {
+        out << " ";
+    }
+    out << "RON";
     return out;
 }
 

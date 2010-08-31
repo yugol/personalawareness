@@ -54,7 +54,7 @@ void Controller::exitApplication()
 
 void Controller::updateAccounts()
 {
-    vector < pair<Account*, double> > statement;
+    vector<pair<Account*, double> > statement;
     vector<Account*> budgets;
     vector<int> sel;
     vector<int>::iterator it;
@@ -128,18 +128,21 @@ void Controller::updateTransactions()
         ostringstream item;
 
         item << "<table id='@" << id << "@' width='90%' border='0' cellpadding='0' cellspacing='0'>";
+
         item << "<tr>";
         item << "<td align='left' width='12%'><tt>&nbsp;";
         UiUtil::streamDate(item, t.getDate());
         item << "&nbsp;&nbsp;&nbsp;</tt></td>";
         item << "<td align='left'><b>" << why->getName() << "</b></td>";
         item << "<td align='right' width='20%'>&nbsp;";
-        UiUtil::streamCurrency(item, t.getValue());
+        UiUtil::streamCurrency(item, t.getValue(), true);
         item << "&nbsp;</td>";
         item << "</tr>";
-        item << "<tr><td />";
-        item << "<td align='right'><small><i>" << from->getFullName() << " --> " << to->getFullName() << "</i></small>&nbsp;</td>";
-        item << "<td /></tr>";
+
+        item << "<tr>";
+        item << "<td colspan='2'align='right'><small><i>" << from->getFullName() << " --> " << to->getFullName() << "</i></small>&nbsp;</td>";
+        item << "</tr>";
+
         item << "</table>";
 
         wxString wxitem;
@@ -208,7 +211,14 @@ void Controller::showReport(int chartType, int cashFlowDirection)
     data.acquire();
 
     ReportWindow* report = new ReportWindow(mainWindow_);
-    report->SetSize(640, 480);
+    switch (chartType) {
+        case ReportData::MONTHLY:
+            report->SetSize(580, 600);
+            break;
+        default:
+            report->SetSize(640, 480);
+            break;
+    }
     report->render(data);
     report->Show();
 }

@@ -53,10 +53,13 @@ private:
     wxHtmlWindow* htmlWindow_;
     int lastOrdering_;
     std::vector<Entry> data_;
-    double totalValue_;
+    double referenceValue_;
 
     void buildPieReport(const adb::ReportData& data);
     void renderPieReport();
+
+    void buildHistogramReport(const adb::ReportData& data);
+    void renderHistogramReport();
 
     void onSize(wxSizeEvent& event);
     void onCellClick(wxHtmlCellEvent& event);

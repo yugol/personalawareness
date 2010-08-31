@@ -15,7 +15,7 @@ public:
 
     static void adbDate2wxDate(wxDateTime* to, const adb::Date* from);
 
-    static std::ostream& streamCurrency(std::ostream& out, double val);
+    static std::ostream& streamCurrency(std::ostream& out, double val, bool html = false);
     static std::ostream& streamPercent(std::ostream& out, double val);
     static std::ostream& streamDate(std::ostream& out, const adb::Date& date);
 

@@ -2,7 +2,6 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD+: hystogram reports
 // TBD+: delete transaction buton
 // TBD+: ensure database extension is .db when saving
 // TBD+: ensure export extension is .sql when saving + provide default name
@@ -20,7 +19,7 @@ bool Application::OnInit()
 {
     MainWindow* aFrame = new MainWindow(0L, _("My Awareness"));
     Controller::instance_ = new Controller(aFrame);
-    aFrame->SetSize(800, 600);
+    aFrame->SetSize(640, 480);
     aFrame->Show();
     aFrame->setDatabaseEnvironment(false);
     Controller::instance()->start();
