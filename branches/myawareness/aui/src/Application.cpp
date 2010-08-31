@@ -2,6 +2,13 @@
 #include <Controller.h>
 #include <Application.h>
 
+// TBD+: hystogram reports
+// TBD+: delete transaction buton
+// TBD: properties
+// TBD: accoutns items edit dialogs
+// TBD: compact transaction list view
+
+
 IMPLEMENT_APP(Application)
 
 bool Application::OnInit()

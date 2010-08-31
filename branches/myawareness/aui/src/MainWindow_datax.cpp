@@ -52,13 +52,15 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
     for (it = stmt.begin(); it != stmt.end(); ++it) {
         Account* acc = it->first;
 
-        wxString fullName(acc->getFullName().c_str(), wxConvLibc);
+        wxString fullName;
+        UiUtil::appendStdString(fullName, acc->getFullName());
         int id = acc->getId();
         selAccountChoice_->Append(fullName, reinterpret_cast<void*> (id));
         trSourceChoice_->Append(fullName, reinterpret_cast<void*> (id));
         trDestinationChoice_->Append(fullName, reinterpret_cast<void*> (id));
 
-        wxString group(acc->getGroup().c_str(), wxConvLibc);
+        wxString group;
+        UiUtil::appendStdString(group, acc->getGroup());
         if (group != prevGroup) {
             if (!firstGroup) {
                 groupItem.SetColumn(1);
@@ -83,8 +85,8 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
             }
         }
 
-        wxString name(acc->getName().c_str(), wxConvLibc);
-        name.Prepend(_T("      "));
+        wxString name(_T("      "));
+        UiUtil::appendStdString(name, acc->getName());
         item.SetId(accList_->GetItemCount());
         item.SetColumn(0);
         item.SetAlign(wxLIST_FORMAT_LEFT);
@@ -116,8 +118,8 @@ void MainWindow::populateCreditingBudgets(const vector<Account*>& budgets)
     vector<Account*>::const_iterator it;
     for (it = budgets.begin(); it != budgets.end(); ++it) {
         Account* acc = *it;
-        wxString fullName(acc->getFullName().c_str(), wxConvLibc);
-        fullName.Prepend(_T("[+] "));
+        wxString fullName(_T("[+] "));
+        UiUtil::appendStdString(fullName, acc->getFullName());
         int id = acc->getId();
         selAccountChoice_->Append(fullName, reinterpret_cast<void*> (id));
         trSourceChoice_->Append(fullName, reinterpret_cast<void*> (id));
@@ -129,8 +131,8 @@ void MainWindow::populateDebitingBudgets(const vector<Account*>& budgets)
     vector<Account*>::const_iterator it;
     for (it = budgets.begin(); it != budgets.end(); ++it) {
         Account* acc = *it;
-        wxString fullName(acc->getFullName().c_str(), wxConvLibc);
-        fullName.Prepend(_T("[-] "));
+        wxString fullName(_T("[-] "));
+        UiUtil::appendStdString(fullName, acc->getFullName());
         int id = acc->getId();
         selAccountChoice_->Append(fullName, reinterpret_cast<void*> (id));
         trDestinationChoice_->Append(fullName, reinterpret_cast<void*> (id));
@@ -143,8 +145,8 @@ void MainWindow::populateItems(const vector<const Item*>& items)
     vector<const Item*>::const_iterator it;
     for (it = items.begin(); it != items.end(); ++it) {
         const Item* item = *it;
-        const char* itemName = item->getName().c_str();
-        wxString fullName(itemName, wxConvLibc);
+        wxString fullName;
+        UiUtil::appendStdString(fullName, item->getName());
         int id = item->getId();
         trItemCombo_->Append(fullName, reinterpret_cast<void*> (id));
     }
@@ -178,7 +180,8 @@ void MainWindow::transactionToView(const Transaction* t, bool complete)
         idx = getDestinationIndexById(t->getToId());
         trDestinationChoice_->SetSelection(idx);
 
-        wxString comment(t->getDescription().c_str(), wxConvLibc);
+        wxString comment;
+        UiUtil::appendStdString(comment, t->getDescription());
         trCommentText_->SetValue(comment);
 
         if (complete) {

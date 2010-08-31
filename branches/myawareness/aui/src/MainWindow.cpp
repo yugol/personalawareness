@@ -79,9 +79,6 @@ EVT_BUTTON(MainWindow::ID_TR_VIEW, MainWindow::onTransactionViewButton)
 
 END_EVENT_TABLE()
 
-// TODO: compact transaction list view
-// TODO: transaction list date in fixed font
-
 MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     wxFrame(frame, -1, title)
 {

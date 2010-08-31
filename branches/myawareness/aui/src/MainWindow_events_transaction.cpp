@@ -1,3 +1,4 @@
+#include <string>
 #include <wx/htmllbox.h>
 #include <wx/msgdlg.h>
 #include <wx/combobox.h>
@@ -5,10 +6,12 @@
 #include <wx/choice.h>
 #include <Item.h>
 #include <Transaction.h>
+#include <UiUtil.h>
 #include <Controller.h>
 #include <MainWindow.h>
 
 using namespace adb;
+using namespace std;
 
 void MainWindow::onTransactionSelected(wxCommandEvent& event)
 {
@@ -159,7 +162,9 @@ void MainWindow::onAcceptTransaction(wxCommandEvent& event)
         t.setValue(val);
         t.setFromId(fromId);
         t.setToId(toId);
-        t.setDescription(trCommentText_->GetValue().fn_str()); // TODO: use proper conversion
+        string comment;
+        UiUtil::appendWxString(comment, trCommentText_->GetValue());
+        t.setDescription(comment.c_str());
 
         Controller::instance()->acceptTransaction(&t);
 

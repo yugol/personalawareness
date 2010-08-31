@@ -39,8 +39,9 @@ void Controller::reportException(const exception& ex, const wxString& hint)
 {
     wxString title(_T("Error "));
     title.Append(hint);
-    wxString message(ex.what(), wxConvLibc);
-    wxMessageDialog dlg(mainWindow_, message, title, wxOK);
+    wxString errorMessage;
+    UiUtil::appendStdString(errorMessage, ex.what());
+    wxMessageDialog dlg(mainWindow_, errorMessage, title, wxOK);
     dlg.ShowModal();
     dlg.Destroy();
 }
@@ -53,7 +54,7 @@ void Controller::exitApplication()
 
 void Controller::updateAccounts()
 {
-    vector<pair<Account*, double> > statement;
+    vector < pair<Account*, double> > statement;
     vector<Account*> budgets;
     vector<int> sel;
     vector<int>::iterator it;
@@ -128,9 +129,9 @@ void Controller::updateTransactions()
 
         item << "<table id='@" << id << "@' width='90%' border='0' cellpadding='0' cellspacing='0'>";
         item << "<tr>";
-        item << "<td align='left' width='12%'>&nbsp;";
+        item << "<td align='left' width='12%'><tt>&nbsp;";
         UiUtil::streamDate(item, t.getDate());
-        item << "&nbsp;</td>";
+        item << "&nbsp;&nbsp;&nbsp;</tt></td>";
         item << "<td align='left'><b>" << why->getName() << "</b></td>";
         item << "<td align='right' width='20%'>&nbsp;";
         UiUtil::streamCurrency(item, t.getValue());

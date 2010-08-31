@@ -4,7 +4,7 @@
 #include <Controller.h>
 #include <MainWindow.h>
 
-//helper functions TODO: remove them
+//helper functions TBD-: remove them
 enum wxbuildinfoformat {
     short_f, long_f
 };
@@ -36,11 +36,11 @@ void MainWindow::onOpen(wxCommandEvent &event)
 {
     wxString path;
 
-    wxFileDialog* dlg = new wxFileDialog(0, _("Open database"), _T(""), _T(""), _T("*.db"));
+    wxFileDialog* dlg = new wxFileDialog(this, _("Open database"), _T(""), _T(""), _T("*.db"));
     if (wxID_OK == dlg->ShowModal()) {
         path = dlg->GetPath();
     }
-    delete dlg;
+    dlg->Destroy();
 
     if (path.size() > 0) {
         Controller::instance()->openDatabase(&path);
@@ -56,11 +56,11 @@ void MainWindow::onExport(wxCommandEvent& event)
 {
     wxString path;
 
-    wxFileDialog* dlg = new wxFileDialog(0, _("Export database"), _T(""), _T(""), _T("*.sql"));
+    wxFileDialog* dlg = new wxFileDialog(this, _("Export database"), _T(""), _T(""), _T("*.sql"));
     if (wxID_OK == dlg->ShowModal()) {
         path = dlg->GetPath();
     }
-    delete dlg;
+    dlg->Destroy();
 
     if (path.size() > 0) {
         Controller::instance()->dumpDatabase(path);
@@ -74,11 +74,11 @@ void MainWindow::onImport(wxCommandEvent& event)
     if (wxID_YES == msgDlg.ShowModal()) {
         wxString path;
 
-        wxFileDialog* dlg = new wxFileDialog(0, _("Import database"), _T(""), _T(""), _T("*.sql"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+        wxFileDialog* dlg = new wxFileDialog(this, _("Import database"), _T(""), _T(""), _T("*.sql"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
         if (wxID_OK == dlg->ShowModal()) {
             path = dlg->GetPath();
         }
-        delete dlg;
+        dlg->Destroy();
 
         if (path.size() > 0) {
             Controller::instance()->loadDatabase(path);

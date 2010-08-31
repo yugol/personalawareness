@@ -3,6 +3,7 @@
 #include <Controller.h>
 #include <MainWindow.h>
 #include <DatabaseConnection.h>
+#include <UiUtil.h>
 
 using namespace std;
 using namespace adb;
@@ -21,7 +22,8 @@ void Controller::openDatabase(const wxString* path)
 
         // update status message
 
-        wxString statusMessage(DatabaseConnection::instance()->getDatabaseFile().c_str(), wxConvLibc);
+        wxString statusMessage;
+        UiUtil::appendStdString(statusMessage, DatabaseConnection::instance()->getDatabaseFile());
         statusMessage = statusMessage.AfterLast('\\');
         statusMessage = statusMessage.AfterLast('/');
         statusMessage.Prepend(_T("Using: "));
