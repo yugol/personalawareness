@@ -30,7 +30,7 @@ namespace adb {
         try {
             tmpInstance = new DatabaseConnection(databasePath);
             if (isOpened()) {
-                if (instance_->getDatabaseFile() == databasePath) {
+                if (instance_->getDatabaseLocation() == databasePath) {
                     return;
                 }
                 closeDatabase();
@@ -57,7 +57,7 @@ namespace adb {
         if (!isOpened()) {
             THROW(Exception::NO_DATABASE_MESSAGE);
         }
-        string databasePath = instance_->getDatabaseFile();
+        string databasePath = instance_->getDatabaseLocation();
         closeDatabase();
         if (0 != ::remove(databasePath.c_str())) {
             THROW("error deleting database");
@@ -77,17 +77,17 @@ namespace adb {
         if (!isOpened()) {
             THROW(Exception::NO_DATABASE_MESSAGE);
         }
-        string databasePath = instance_->getDatabaseFile();
+        string databasePath = instance_->getDatabaseLocation();
         deleteDatabase();
         openDatabase(databasePath.c_str());
         instance_->loadSql(in);
     }
 
     DatabaseConnection::DatabaseConnection(const char* file) :
-        databaseFile_(file), database_(0)
+        databaseLocation_(file), database_(0)
     {
-        DbUtil::trimSpaces(databaseFile_);
-        if (databaseFile_.size() <= 0) {
+        DbUtil::trimSpaces(databaseLocation_);
+        if (databaseLocation_.size() <= 0) {
             THROW("invalid file name");
         }
         openConnection();
@@ -100,7 +100,7 @@ namespace adb {
 
     void DatabaseConnection::openConnection()
     {
-        if (::sqlite3_open_v2(databaseFile_.c_str(), &database_, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL)) {
+        if (::sqlite3_open_v2(databaseLocation_.c_str(), &database_, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL)) {
             closeConnection();
             THROW("can't read database");
         }

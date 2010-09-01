@@ -30,7 +30,7 @@ namespace adb {
 
         ~DatabaseConnection();
 
-        const std::string& getDatabaseFile() const;
+        const std::string& getDatabaseLocation() const;
 
         void insertUpdate(Account* account);
         void selectAccounts(std::vector<int>* selection, SelectionParameters* parameters) const;
@@ -65,7 +65,7 @@ namespace adb {
     private:
         static DatabaseConnection* instance_;
 
-        std::string databaseFile_;
+        std::string databaseLocation_;
         sqlite3* database_;
         UndoManager undoManager_;
         mutable std::vector<Account> accounts_;
@@ -88,9 +88,9 @@ namespace adb {
         void loadSql(std::istream& in);
     };
 
-    inline const std::string& DatabaseConnection::getDatabaseFile() const
+    inline const std::string& DatabaseConnection::getDatabaseLocation() const
     {
-        return databaseFile_;
+        return databaseLocation_;
     }
 
 } // namespace adb
