@@ -1,9 +1,8 @@
 #include <string>
-#include <wx/htmllbox.h>
-#include <wx/msgdlg.h>
 #include <wx/combobox.h>
 #include <wx/datectrl.h>
 #include <wx/choice.h>
+#include <wx/button.h>
 #include <Item.h>
 #include <Transaction.h>
 #include <UiUtil.h>
@@ -15,16 +14,7 @@ using namespace std;
 
 void MainWindow::onTransactionSelected(wxCommandEvent& event)
 {
-    int idx = transactionsList_->GetSelection();
-    wxString html = transactionsList_->GetString(idx);
-    int first = html.Find(wxChar('@')) + 1;
-    int last = html.Find(wxChar('@'), true) - 1;
-    wxString idString = html.SubString(first, last);
-    long id;
-    if (!idString.ToLong(&id)) {
-        wxMessageBox(_T("Could not read id\n(this should not happen)"));
-    }
-    selectedTransactionId_ = static_cast<int> (id);
+    updateSelectedTransactionId();
     Controller::instance()->transactionToView(selectedTransactionId_, true);
 }
 
@@ -82,6 +72,18 @@ void MainWindow::onTransactionItemText(wxCommandEvent& event)
     }
 }
 
+void MainWindow::onTransactionValueKeyDown(wxKeyEvent& event)
+{
+    if (trAcceptButton_->IsEnabled() && event.ControlDown()) {
+        int keyCode = event.GetKeyCode();
+        if (WXK_RETURN == keyCode || WXK_SPACE == keyCode) {
+            acceptTransaction();
+            return;
+        }
+    }
+    event.Skip();
+}
+
 void MainWindow::onTransactionValueText(wxCommandEvent& event)
 {
     setTransactionDirty();
@@ -115,6 +117,12 @@ void MainWindow::onDeleteTransaction(wxCommandEvent& event)
 
 void MainWindow::onAcceptTransaction(wxCommandEvent& event)
 {
+    acceptTransaction();
+}
+
+void MainWindow::acceptTransaction()
+{
+    clearTransactionErrorHighlight();
     bool isValid = true;
 
     time_t when = trDatePicker_->GetValue().GetTicks();
@@ -122,25 +130,19 @@ void MainWindow::onAcceptTransaction(wxCommandEvent& event)
     double val;
     if (!trValueText_->GetValue().ToDouble(&val)) {
         isValid = false;
-        trValueText_->SetBackgroundColour(errorColor_);
-    } else {
-        trValueText_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
+        trValueText_->SetBackgroundColour(errorHighlight_);
     }
 
     int fromId = reinterpret_cast<int> (trSourceChoice_->GetClientData(trSourceChoice_->GetSelection()));
     if (0 == fromId) {
         isValid = false;
-        trSourceChoice_->SetBackgroundColour(errorColor_);
-    } else {
-        trSourceChoice_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
+        trSourceChoice_->SetBackgroundColour(errorHighlight_);
     }
 
     int toId = reinterpret_cast<int> (trDestinationChoice_->GetClientData(trDestinationChoice_->GetSelection()));
     if (0 == toId) {
         isValid = false;
-        trDestinationChoice_->SetBackgroundColour(errorColor_);
-    } else {
-        trDestinationChoice_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
+        trDestinationChoice_->SetBackgroundColour(errorHighlight_);
     }
 
     int itemId = 0;
@@ -148,11 +150,9 @@ void MainWindow::onAcceptTransaction(wxCommandEvent& event)
         itemId = Controller::instance()->getItemId(trItemCombo_->GetValue());
         if (0 == itemId) {
             isValid = false;
-            trItemCombo_->SetBackgroundColour(errorColor_);
             trItemCombo_->SetValue(_T(""));
+            trItemCombo_->SetBackgroundColour(errorHighlight_);
             checkItem();
-        } else {
-            trItemCombo_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
         }
     }
 

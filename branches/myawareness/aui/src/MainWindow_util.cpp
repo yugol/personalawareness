@@ -1,4 +1,5 @@
 #include <wx/combobox.h>
+#include <wx/htmllbox.h>
 #include <wx/button.h>
 #include <wx/choice.h>
 #include <wx/datectrl.h>
@@ -47,6 +48,22 @@ int MainWindow::getDestinationIndexById(int id)
         }
     }
     return -1;
+}
+
+void MainWindow::updateSelectedTransactionId()
+{
+    int idx = transactionsList_->GetSelection();
+
+    wxString html = transactionsList_->GetString(idx);
+    int first = html.Find(wxChar('@')) + 1;
+    int last = html.Find(wxChar('@'), true) - 1;
+    wxString idString = html.SubString(first, last);
+
+    long id;
+    if (!idString.ToLong(&id)) {
+        uiReport(_T("Could not read id.\n(this should not happen)"), _T("Selecting transaction"));
+    }
+    selectedTransactionId_ = static_cast<int> (id);
 }
 
 void MainWindow::setSelectionInterval(int choice)

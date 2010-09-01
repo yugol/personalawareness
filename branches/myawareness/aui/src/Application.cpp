@@ -2,9 +2,6 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD+: alternate background colors in lists
-// TBD+: Ctrl+Enter in tr edit value commits transaction
-// TBD+: select transaction clears transaction editor errors
 // TBD: change background color in pie reports table header
 // TBD: accoutns items edit dialogs
 // TBD: compact transaction list view

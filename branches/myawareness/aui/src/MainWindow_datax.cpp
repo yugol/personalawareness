@@ -196,6 +196,8 @@ void MainWindow::transactionToView(const Transaction* t, bool complete)
         trDestinationChoice_->SetSelection(0);
         trCommentText_->SetValue(_T(""));
     }
+
+    clearTransactionErrorHighlight();
 }
 
 void MainWindow::getTransactionSelectionParameters(adb::SelectionParameters* parameters)

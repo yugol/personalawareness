@@ -16,7 +16,6 @@
 #include <MainWindow.h>
 
 const int MainWindow::EMPTY_BORDER_SIZE = 5;
-const wxColour MainWindow::errorColor_(255, 0, 255);
 
 const long MainWindow::ID_SEL_VIEW = wxNewId();
 const long MainWindow::ID_SEL_INTERVAL = wxNewId();
@@ -78,6 +77,15 @@ END_EVENT_TABLE()
 MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     wxFrame(frame, -1, title)
 {
+    // formatting
+
+    errorHighlight_ = wxSystemSettings::GetColour(wxSYS_COLOUR_INFOBK);
+    normalFont_ = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+    boldFont_ = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+    boldFont_.SetWeight(wxBOLD);
+
+    wxSize viewButtonSize(16, 16);
+
 #if wxUSE_MENUS
     // create a menu bar
     menuBar_ = new wxMenuBar();
@@ -107,13 +115,6 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 
     SetMenuBar(menuBar_);
 #endif // wxUSE_MENUS
-    // formatting
-
-    normalFont_ = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
-    boldFont_ = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
-    boldFont_.SetWeight(wxBOLD);
-    wxSize viewButtonSize(16, 16);
-
     // main tabs
 
     financialPages_ = new wxNotebook(this, wxNewId());
@@ -264,15 +265,16 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     transactionsSizer_->SetSizeHints(transactionsPage_);
 
 #if wxUSE_STATUSBAR
-    // create a status bar with some information about the used wxWidgets version
+
     CreateStatusBar(2);
     SetStatusText(_("Ready"), 0);
-    // SetStatusText(wxbuildinfo(short_f), 1);
+
 #endif // wxUSE_STATUSBAR
     showSelectionPanel(false);
     showTransactionPanel(true);
 
     trItemCombo_->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(MainWindow::onTransactionItemKeyDown), NULL, this);
+    trValueText_->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(MainWindow::onTransactionValueKeyDown), NULL, this);
 }
 
 void MainWindow::setTransactionDirty(bool dirty)
@@ -376,3 +378,10 @@ void MainWindow::setUpdateTransactionView(bool dirty)
     trAcceptButton_->SetLabel(_("Update"));
 }
 
+void MainWindow::clearTransactionErrorHighlight()
+{
+    trItemCombo_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
+    trValueText_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
+    trSourceChoice_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
+    trDestinationChoice_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
+}

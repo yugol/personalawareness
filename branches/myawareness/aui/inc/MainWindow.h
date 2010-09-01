@@ -50,7 +50,7 @@ public:
 
     void transactionToView(const adb::Transaction* t, bool complete);
 
-    void uiReport(const wxString& message, const wxString& title);
+    void uiReport(const wxString& message, const wxString& title = wxEmptyString);
 
 private:
     enum {
@@ -66,40 +66,34 @@ private:
     static const int EMPTY_BORDER_SIZE;
     wxFont normalFont_;
     wxFont boldFont_;
-    static const wxColour errorColor_;
+    wxColour errorHighlight_;
 
     int selectedTransactionId_;
     bool selectedTransactionDirty_;
 
     void fitAccountsPage();
     void fitTransactionsPage();
+
     void showSelectionPanel(bool visible);
     void showTransactionPanel(bool visible);
+
+    void updateSelectedTransactionId();
 
     void setInsertTransactionView();
     void setUpdateTransactionView(bool dirty = false);
 
-    void setTransactionDirty(bool dirty = true);
     void checkItem();
+    void setTransactionDirty(bool dirty = true);
     void populateSelectionIntervals();
+    void clearTransactionErrorHighlight();
+    void acceptTransaction();
 
     // controls
 
     enum {
-        ID_MENU_OPEN = 1000,
-        ID_MENU_EXPORT,
-        ID_MENU_IMPORT,
-        ID_MENU_EXIT,
-        ID_MENU_UNDO,
-        ID_MENU_REDO,
-        ID_MENU_ACCOUNTS,
-        ID_MENU_PREFERENCES,
-        ID_MENU_ABOUT,
+        ID_MENU_OPEN = 1000, ID_MENU_EXPORT, ID_MENU_IMPORT, ID_MENU_EXIT, ID_MENU_UNDO, ID_MENU_REDO, ID_MENU_ACCOUNTS, ID_MENU_PREFERENCES, ID_MENU_ABOUT,
 
-        ID_REPORT_EXPENSES_PIE,
-        ID_REPORT_EXPENSES_MONTHLY,
-        ID_REPORT_INCOME_PIE,
-        ID_REPORT_INCOME_MONTHLY
+        ID_REPORT_EXPENSES_PIE, ID_REPORT_EXPENSES_MONTHLY, ID_REPORT_INCOME_PIE, ID_REPORT_INCOME_MONTHLY
     };
 
     static const long ID_SEL_VIEW;
@@ -191,6 +185,7 @@ private:
     void onTransactionDateChanged(wxDateEvent& event);
     void onTransactionItemKeyDown(wxKeyEvent& event);
     void onTransactionItemText(wxCommandEvent& event);
+    void onTransactionValueKeyDown(wxKeyEvent& event);
     void onTransactionValueText(wxCommandEvent& event);
     void onTransactionSourceChoice(wxCommandEvent& event);
     void onTransactionDestinationChoice(wxCommandEvent& event);
