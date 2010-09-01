@@ -1,7 +1,6 @@
 #include <sstream>
 #include <fstream>
 #include <wx/file.h>
-#include <wx/msgdlg.h>
 #include <Controller.h>
 #include <MainWindow.h>
 #include <DatabaseConnection.h>
@@ -33,7 +32,9 @@ void Controller::openDatabase(const wxString* location)
         updateAll();
 
     } catch (const exception& ex) {
+
         reportException(ex, _T("opening database"));
+
     }
 
     // update interface
@@ -57,10 +58,12 @@ void Controller::dumpDatabase(wxString& path)
     try {
 
         DatabaseConnection::exportDatabase(fout);
-        wxMessageBox(_T("Operation completed successfully."), _T("Export database"), wxOK);
+        mainWindow_->uiReport(_T("Operation completed successfully."), _T("Export database"));
 
     } catch (const exception& ex) {
+
         reportException(ex, _T("exporting database"));
+
     }
 }
 
@@ -74,7 +77,7 @@ void Controller::loadDatabase(wxString& path)
 
         DatabaseConnection::importDatabase(fin);
         openDatabase(0);
-        wxMessageBox(_T("Operation completed successfully."), _T("Import database"), wxOK);
+        mainWindow_->uiReport(_T("Operation completed successfully."), _T("Import database"));
 
     } catch (const exception& ex) {
 

@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <sstream>
-#include <wx/msgdlg.h>
 #include <Transaction.h>
 #include <UiUtil.h>
 #include <Controller.h>
@@ -25,7 +24,7 @@ void Controller::reportException(const exception& ex, const wxString& hint)
     title.Append(hint);
     wxString errorMessage;
     UiUtil::appendStdString(errorMessage, ex.what());
-    wxMessageBox(errorMessage, title, wxOK);
+    mainWindow_->uiReport(errorMessage, title);
 }
 
 Controller* Controller::instance()

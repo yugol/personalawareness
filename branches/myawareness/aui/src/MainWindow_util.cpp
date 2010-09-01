@@ -2,6 +2,7 @@
 #include <wx/button.h>
 #include <wx/choice.h>
 #include <wx/datectrl.h>
+#include <wx/msgdlg.h>
 #include <Controller.h>
 #include <MainWindow.h>
 
@@ -122,3 +123,9 @@ void MainWindow::setSelectionCustomInterval()
         }
     }
 }
+
+void MainWindow::uiReport(const wxString& message, const wxString& title)
+{
+    wxMessageBox(message, title, wxOK | wxCENTRE, this);
+}
+

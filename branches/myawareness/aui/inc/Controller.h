@@ -12,7 +12,6 @@ namespace adb {
 class Controller {
 public:
     static Controller* instance();
-    static void reportException(const std::exception& ex, const wxString& hint);
 
     ~Controller();
 
@@ -26,6 +25,7 @@ public:
     void updateItems();
     void updateTransactions();
     void updateAll();
+    void transactionToView(int id, bool complete);
 
     void updateUndoRedoStatus();
     void undo();
@@ -34,11 +34,12 @@ public:
     void getDefaultSqlExportName(wxString& name);
     const adb::Item* getItemByName(const wxString& name);
     int getItemId(const wxString& name);
-    void transactionToView(int id, bool complete);
-    void showReport(int chartType, int cashFlowDirection);
 
     void acceptTransaction(adb::Transaction* transaction);
     void deleteTransaction(int transactionId);
+
+    void reportException(const std::exception& ex, const wxString& hint);
+    void showReport(int chartType, int cashFlowDirection);
 
     void exitApplication();
 

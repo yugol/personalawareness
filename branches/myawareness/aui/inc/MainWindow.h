@@ -50,6 +50,8 @@ public:
 
     void transactionToView(const adb::Transaction* t, bool complete);
 
+    void uiReport(const wxString& message, const wxString& title);
+
 private:
     enum {
         SELECTION_INTERVAL_ALL = 0,
