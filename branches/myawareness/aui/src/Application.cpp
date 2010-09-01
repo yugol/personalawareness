@@ -2,8 +2,6 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD+: ensure database extension is .db when saving
-// TBD+: ensure export extension is .sql when saving + provide default name
 // TBD-: properties
 // TBD: accoutns items edit dialogs
 // TBD: compact transaction list view
@@ -17,6 +15,7 @@
 // TBD: change background color in pie reports table header
 // TBD: reports as frames not as dialogs
 // TBD: time ticker
+// TBD+: move all messages to MainWindow
 
 IMPLEMENT_APP(Application)
 

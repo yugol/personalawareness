@@ -1,4 +1,6 @@
+#include <sstream>
 #include <fstream>
+#include <wx/file.h>
 #include <wx/msgdlg.h>
 #include <Controller.h>
 #include <MainWindow.h>
@@ -8,14 +10,21 @@
 using namespace std;
 using namespace adb;
 
-void Controller::openDatabase(const wxString* path)
+void Controller::openDatabase(const wxString* location)
 {
     try {
 
-        if (0 != path) {
-            string stdpath;
-            UiUtil::appendWxString(stdpath, *path);
-            DatabaseConnection::openDatabase(stdpath.c_str());
+        if (0 != location) {
+            string pathFileExt;
+            UiUtil::appendWxString(pathFileExt, *location);
+            if (!wxFile::Exists(location->wc_str())) {
+                ostringstream ext;
+                UiUtil::streamFileExt(ext, pathFileExt);
+                if (ext.rdbuf()->str() != "db") {
+                    pathFileExt.append(".db");
+                }
+            }
+            DatabaseConnection::openDatabase(pathFileExt.c_str());
         } else {
             DatabaseConnection::instance(); // opens default database
         }
@@ -27,15 +36,16 @@ void Controller::openDatabase(const wxString* path)
         reportException(ex, _T("opening database"));
     }
 
+    // update interface
     if (DatabaseConnection::isOpened()) {
-        mainWindow_->SetTitle(UiUtil::getApplicationName(DatabaseConnection::instance()->getDatabaseFile()));
-        mainWindow_->setStatusMessage(UiUtil::getUsingStatusMessage(DatabaseConnection::instance()->getDatabaseFile()));
+        mainWindow_->SetTitle(UiUtil::getApplicationName(DatabaseConnection::instance()->getDatabaseLocation()));
+        mainWindow_->setStatusMessage(UiUtil::getUsingStatusMessage(DatabaseConnection::instance()->getDatabaseLocation()));
     } else {
         mainWindow_->SetTitle(UiUtil::getApplicationName(""));
         mainWindow_->setStatusMessage(UiUtil::getUsingStatusMessage(""));
     }
-    mainWindow_->setDatabaseOpenedView(DatabaseConnection::isOpened());
     updateUndoRedoStatus();
+    mainWindow_->setDatabaseOpenedView(DatabaseConnection::isOpened());
 }
 
 void Controller::dumpDatabase(wxString& path)

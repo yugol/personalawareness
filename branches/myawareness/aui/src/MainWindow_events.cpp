@@ -34,17 +34,12 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 
 void MainWindow::onOpen(wxCommandEvent &event)
 {
-    wxString path;
-
-    wxFileDialog* dlg = new wxFileDialog(this, _("Open database"), _T(""), _T(""), _T("*.db"));
+    wxFileDialog* dlg = new wxFileDialog(this, _("Open database"), _T(""), _T(""), _T("Database files (*.db)|*.db|All files (*.*)|*.*"));
     if (wxID_OK == dlg->ShowModal()) {
-        path = dlg->GetPath();
+        wxString location = dlg->GetPath();
+        Controller::instance()->openDatabase(&location);
     }
     dlg->Destroy();
-
-    if (path.size() > 0) {
-        Controller::instance()->openDatabase(&path);
-    }
 }
 
 void MainWindow::onClose(wxCloseEvent &event)
@@ -54,17 +49,15 @@ void MainWindow::onClose(wxCloseEvent &event)
 
 void MainWindow::onExport(wxCommandEvent& event)
 {
-    wxString path;
+    wxString name;
+    Controller::instance()->getDefaultSqlExportName(name);
 
-    wxFileDialog* dlg = new wxFileDialog(this, _("Export database"), _T(""), _T(""), _T("*.sql"));
+    wxFileDialog* dlg = new wxFileDialog(this, _("Export database"), _T(""), name, _T("*.sql"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
     if (wxID_OK == dlg->ShowModal()) {
-        path = dlg->GetPath();
+        name = dlg->GetPath();
+        Controller::instance()->dumpDatabase(name);
     }
     dlg->Destroy();
-
-    if (path.size() > 0) {
-        Controller::instance()->dumpDatabase(path);
-    }
 }
 
 void MainWindow::onImport(wxCommandEvent& event)

@@ -31,6 +31,7 @@ public:
     void undo();
     void redo();
 
+    void getDefaultSqlExportName(wxString& name);
     const adb::Item* getItemByName(const wxString& name);
     int getItemId(const wxString& name);
     void transactionToView(int id, bool complete);

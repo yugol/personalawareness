@@ -21,6 +21,9 @@ public:
     static std::ostream& streamCurrency(std::ostream& out, double val, bool html = false);
     static std::ostream& streamPercent(std::ostream& out, double val);
     static std::ostream& streamDate(std::ostream& out, const adb::Date& date);
+    static std::ostream& streamFile(std::ostream& out, const std::string& pathFileExt);
+    static std::ostream& streamExt(std::ostream& out, const std::string& pathFileExt);
+    static std::ostream& streamFileExt(std::ostream& out, const std::string& pathFileExt);
 
     static void appendStdString(wxString& to, const std::string& what);
     static void appendWxString(std::string& to, const wxString& what);
@@ -29,7 +32,6 @@ public:
 private:
     static const char APPLICATION_NAME[];
 
-    static std::ostream& streamFileName(std::ostream& out, const std::string& filePath);
 };
 
 #endif /* UIUTIL_H_ */

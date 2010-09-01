@@ -9,25 +9,25 @@ using namespace std;
 const char UiUtil::APPLICATION_NAME[] = "My Awareness";
 const char* UiUtil::MONTH_NAMES[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
-wxString UiUtil::getApplicationName(const std::string& databaseFile)
+wxString UiUtil::getApplicationName(const string& databaseFile)
 {
     ostringstream sout;
     sout << APPLICATION_NAME;
     if (databaseFile.size() > 0) {
         sout << " - ";
-        streamFileName(sout, databaseFile);
+        streamFileExt(sout, databaseFile);
     }
     wxString applicationName;
     appendStdString(applicationName, sout.rdbuf()->str());
     return applicationName;
 }
 
-wxString UiUtil::getUsingStatusMessage(const std::string& databaseFile)
+wxString UiUtil::getUsingStatusMessage(const string& databaseFile)
 {
     ostringstream sout;
     sout << "Using: ";
     if (databaseFile.size() > 0) {
-        streamFileName(sout, databaseFile);
+        streamFileExt(sout, databaseFile);
     } else {
         sout << "N/A";
     }
@@ -36,12 +36,29 @@ wxString UiUtil::getUsingStatusMessage(const std::string& databaseFile)
     return statusMessage;
 }
 
-std::ostream& UiUtil::streamFileName(std::ostream& out, const std::string& filePath)
+ostream& UiUtil::streamFile(ostream& out, const string& pathFileExt)
 {
-    int lastSlashPos = filePath.rfind('/');
-    int lastBackslashPos = filePath.rfind('\\');
+    int lastSlashPos = pathFileExt.rfind('/');
+    int lastBackslashPos = pathFileExt.rfind('\\');
     int namePos = max(lastSlashPos, lastBackslashPos) + 1;
-    out << filePath.substr(namePos);
+    int dotPos = pathFileExt.rfind('.');
+    out << pathFileExt.substr(namePos, dotPos - namePos);
+    return out;
+}
+
+ostream& UiUtil::streamExt(ostream& out, const std::string& pathFileExt)
+{
+    int extPos = pathFileExt.rfind('.') + 1;
+    out << pathFileExt.substr(extPos);
+    return out;
+}
+
+ostream& UiUtil::streamFileExt(ostream& out, const string& pathFileExt)
+{
+    int lastSlashPos = pathFileExt.rfind('/');
+    int lastBackslashPos = pathFileExt.rfind('\\');
+    int namePos = max(lastSlashPos, lastBackslashPos) + 1;
+    out << pathFileExt.substr(namePos);
     return out;
 }
 

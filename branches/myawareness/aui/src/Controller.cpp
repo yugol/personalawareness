@@ -226,7 +226,6 @@ void Controller::deleteTransaction(int transactionId)
     }
 }
 
-
 void Controller::showReport(int chartType, int cashFlowDirection)
 {
     SelectionParameters parameters;
@@ -272,3 +271,17 @@ void Controller::redo()
     updateUndoRedoStatus();
 }
 
+void Controller::getDefaultSqlExportName(wxString& name)
+{
+    Date today;
+    today.setNow();
+
+    ostringstream sout;
+
+    UiUtil::streamFile(sout, DatabaseConnection::instance()->getDatabaseLocation());
+    sout << "-";
+    sout << today;
+    sout << ".sql";
+
+    UiUtil::appendStdString(name, sout.rdbuf()->str());
+}
