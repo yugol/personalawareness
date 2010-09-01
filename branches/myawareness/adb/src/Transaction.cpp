@@ -57,8 +57,9 @@ namespace adb {
         if (0 == itemId_) {
             THROW(Exception::WRONG_VALUE_MESSAGE);
         }
-
-        // TBD+: check if source != destination
+        if (fromId_ == toId_) {
+            THROW(Exception::WRONG_VALUE_MESSAGE);
+        }
     }
 
 } // namespace adb
