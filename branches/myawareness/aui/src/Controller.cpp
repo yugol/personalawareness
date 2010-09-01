@@ -212,6 +212,21 @@ void Controller::acceptTransaction(Transaction* transaction)
     }
 }
 
+void Controller::deleteTransaction(int transactionId)
+{
+    try {
+
+        DatabaseConnection::instance()->deleteTransaction(transactionId);
+        updateTransactions();
+        updateAccounts();
+        updateUndoRedoStatus();
+
+    } catch (const exception& ex) {
+        reportException(ex, _T("deleting transaction"));
+    }
+}
+
+
 void Controller::showReport(int chartType, int cashFlowDirection)
 {
     SelectionParameters parameters;

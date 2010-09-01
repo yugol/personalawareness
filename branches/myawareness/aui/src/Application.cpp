@@ -2,7 +2,6 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD+: 'Delete' transaction buton action
 // TBD+: ensure database extension is .db when saving
 // TBD+: ensure export extension is .sql when saving + provide default name
 // TBD-: properties

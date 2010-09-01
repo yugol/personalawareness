@@ -61,13 +61,13 @@ private:
         SELECTION_INTERVAL_CUSTOM
     };
 
-    static const int EMPTY_BORDER;
+    static const int EMPTY_BORDER_SIZE;
     wxFont normalFont_;
     wxFont boldFont_;
-    static const wxColour errCol_;
+    static const wxColour errorColor_;
 
-    int transactionId_;
-    bool transactionDirty_;
+    int selectedTransactionId_;
+    bool selectedTransactionDirty_;
 
     void fitAccountsPage();
     void fitTransactionsPage();
@@ -93,6 +93,7 @@ private:
         ID_MENU_ACCOUNTS,
         ID_MENU_PREFERENCES,
         ID_MENU_ABOUT,
+
         ID_REPORT_EXPENSES_PIE,
         ID_REPORT_EXPENSES_MONTHLY,
         ID_REPORT_INCOME_PIE,
@@ -192,6 +193,7 @@ private:
     void onTransactionSourceChoice(wxCommandEvent& event);
     void onTransactionDestinationChoice(wxCommandEvent& event);
     void onTransactionCommentText(wxCommandEvent& event);
+
     void onNewTransaction(wxCommandEvent& event);
     void onDeleteTransaction(wxCommandEvent& event);
     void onAcceptTransaction(wxCommandEvent& event);
