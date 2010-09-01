@@ -145,6 +145,12 @@ void MainWindow::acceptTransaction()
         trDestinationChoice_->SetBackgroundColour(errorHighlight_);
     }
 
+    if (fromId == toId) {
+        isValid = false;
+        trSourceChoice_->SetBackgroundColour(errorHighlight_);
+        trDestinationChoice_->SetBackgroundColour(errorHighlight_);
+    }
+
     int itemId = 0;
     if (isValid) {
         itemId = Controller::instance()->getItemId(trItemCombo_->GetValue());
