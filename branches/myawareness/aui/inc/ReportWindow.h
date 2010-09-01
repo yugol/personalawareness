@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include <wx/dialog.h>
+#include <wx/frame.h>
 
 class wxHtmlWindow;
 class wxHtmlCellEvent;
@@ -11,7 +11,7 @@ namespace adb {
     class ReportData;
 }
 
-class ReportWindow: public wxDialog {
+class ReportWindow: public wxFrame {
 public:
     ReportWindow(wxWindow* parent);
     virtual ~ReportWindow();
@@ -49,6 +49,11 @@ private:
     };
 
     static const long ID_HTML_WINDOW;
+    static int MAX_HISTOGRAM_BAR_LEN;
+    static char HORIZONTAL_BAR_UNIT[];
+    static char DARK_BACKGROUND[];
+    static char BACKGROUND[];
+    static char LIGHT_BACKGROUND[];
 
     wxHtmlWindow* htmlWindow_;
     int lastOrdering_;
@@ -60,6 +65,8 @@ private:
 
     void buildHistogramReport(const adb::ReportData& data);
     void renderHistogramReport();
+
+    void setHtml(const std::string& html);
 
     void onSize(wxSizeEvent& event);
     void onCellClick(wxHtmlCellEvent& event);

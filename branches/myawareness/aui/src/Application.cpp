@@ -2,9 +2,6 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD: reports as frames not as dialogs
-// TBD: change background color in pie reports table header
-
 // TBD: accoutns items edit dialogs
 // TBD-: properties
 // TBD-: compact transaction list view
