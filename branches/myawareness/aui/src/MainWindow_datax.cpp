@@ -39,7 +39,7 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
     selAccountChoice_->Append(_T("(All)"));
     selAccountChoice_->SetSelection(0);
 
-    accList_->DeleteAllItems();
+    accountList_->DeleteAllItems();
 
     trSourceChoice_->Clear();
     trSourceChoice_->Append(_T("-"), reinterpret_cast<void*> (Configuration::DEFAULT_ID));
@@ -68,17 +68,17 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
                 wxString balance;
                 UiUtil::appendCurrency(balance, groupBalance);
                 groupItem.SetText(balance);
-                accList_->SetItem(groupItem);
+                accountList_->SetItem(groupItem);
             }
 
             prevGroup = group;
             groupBalance = 0;
 
-            groupItem.SetId(accList_->GetItemCount());
+            groupItem.SetId(accountList_->GetItemCount());
             groupItem.SetColumn(0);
             groupItem.SetAlign(wxLIST_FORMAT_LEFT);
             groupItem.SetText(group.Prepend(_T(" ")));
-            accList_->InsertItem(groupItem);
+            accountList_->InsertItem(groupItem);
 
             if (firstGroup) {
                 firstGroup = false;
@@ -87,11 +87,11 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
 
         wxString name(_T("      "));
         UiUtil::appendStdString(name, acc->getName());
-        item.SetId(accList_->GetItemCount());
+        item.SetId(accountList_->GetItemCount());
         item.SetColumn(0);
         item.SetAlign(wxLIST_FORMAT_LEFT);
         item.SetText(name);
-        accList_->InsertItem(item);
+        accountList_->InsertItem(item);
 
         double balanceVal = it->second;
         groupBalance += balanceVal;
@@ -100,7 +100,7 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
         item.SetColumn(1);
         item.SetAlign(wxLIST_FORMAT_RIGHT);
         item.SetText(balance);
-        accList_->SetItem(item);
+        accountList_->SetItem(item);
     }
 
     if (!firstGroup) {
@@ -109,7 +109,7 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
         wxString balance;
         UiUtil::appendCurrency(balance, groupBalance);
         groupItem.SetText(balance);
-        accList_->SetItem(groupItem);
+        accountList_->SetItem(groupItem);
     }
 }
 
@@ -185,7 +185,7 @@ void MainWindow::transactionToView(const Transaction* t, bool complete)
         trCommentText_->SetValue(comment);
 
         if (complete) {
-            setUpdateTransactionEnv();
+            setUpdateTransactionView();
         }
     } else {
         if (complete) {

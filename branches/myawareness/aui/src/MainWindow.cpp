@@ -15,12 +15,6 @@
 #include <Controller.h>
 #include <MainWindow.h>
 
-static wxMenuBar* mbar = 0;
-static wxMenu* fileMenu = 0;
-static wxMenu* editMenu = 0;
-static wxMenu* helpMenu = 0;
-static wxNotebook* financialPages = 0;
-
 const int MainWindow::EMPTY_BORDER = 5;
 const wxColour MainWindow::errCol_(255, 0, 255);
 
@@ -52,7 +46,9 @@ EVT_CLOSE(MainWindow::onClose)
 EVT_MENU(ID_MENU_OPEN, MainWindow::onOpen)
 EVT_MENU(ID_MENU_EXPORT, MainWindow::onExport)
 EVT_MENU(ID_MENU_IMPORT, MainWindow::onImport)
-EVT_MENU(ID_MENU_EXIT, MainWindow::onQuit)
+EVT_MENU(ID_MENU_UNDO, MainWindow::onUndo)
+EVT_MENU(ID_MENU_REDO, MainWindow::onRedo)
+EVT_MENU(ID_MENU_IMPORT, MainWindow::onImport)
 EVT_MENU(ID_MENU_ABOUT, MainWindow::onAbout)
 
 EVT_CHOICE(MainWindow::ID_SEL_INTERVAL, MainWindow::onSelectionIntervalChoice)
@@ -84,30 +80,32 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 {
 #if wxUSE_MENUS
     // create a menu bar
-    mbar = new wxMenuBar();
+    menuBar_ = new wxMenuBar();
 
-    fileMenu = new wxMenu(_T(""));
-    fileMenu->Append(ID_MENU_OPEN, _("&Open..."), _("Open database"));
-    fileMenu->AppendSeparator();
-    fileMenu->Append(ID_MENU_EXPORT, _("&Export..."), _("Export database to SQL script"));
-    fileMenu->Append(ID_MENU_IMPORT, _("&Import..."), _("Import database from SQL script"));
-    fileMenu->AppendSeparator();
-    fileMenu->Append(ID_MENU_EXIT, _("E&xit\tAlt-F4"), _("Exit the application"));
-    mbar->Append(fileMenu, _("&File"));
+    fileMenu_ = new wxMenu(_T(""));
+    fileMenu_->Append(ID_MENU_OPEN, _("&Open/Create..."), _("Open database or create a new one"));
+    fileMenu_->AppendSeparator();
+    fileMenu_->Append(ID_MENU_EXPORT, _("&Export..."), _("Export database to SQL script"));
+    fileMenu_->Append(ID_MENU_IMPORT, _("&Import..."), _("Import database from SQL script"));
+    fileMenu_->AppendSeparator();
+    fileMenu_->Append(ID_MENU_EXIT, _("E&xit\tAlt-F4"), _("Exit the application"));
+    menuBar_->Append(fileMenu_, _("&Database"));
 
-    editMenu = new wxMenu(_T(""));
-    editMenu->Append(ID_MENU_UNDO, _("&Undo"), _("Undo the last action"));
-    editMenu->Append(ID_MENU_REDO, _("&Redo"), _("Redo the last action"));
-    editMenu->AppendSeparator();
-    editMenu->Append(ID_MENU_ACCOUNTS, _("Accounts/Bugets..."), _("Edit accounts and budget categories"));
-    editMenu->Append(ID_MENU_PREFERENCES, _("Preferences..."), _("Edit preferences"));
-    mbar->Append(editMenu, _("&Edit"));
+    editMenu_ = new wxMenu(_T(""));
+    editMenu_->Append(ID_MENU_UNDO, _("&Undo"), _("Undo the last action"));
+    editMenu_->Append(ID_MENU_REDO, _("&Redo"), _("Redo the last action"));
+    editMenu_->AppendSeparator();
+    editMenu_->Append(ID_MENU_ACCOUNTS, _("&Accounts/Bugets..."), _("Edit accounts and budget categories"));
+    editMenu_->Append(ID_MENU_ACCOUNTS, _("&Items..."), _("Edit items"));
+    editMenu_->AppendSeparator();
+    editMenu_->Append(ID_MENU_PREFERENCES, _("&Preferences..."), _("Edit preferences"));
+    menuBar_->Append(editMenu_, _("&Edit"));
 
-    helpMenu = new wxMenu(_T(""));
-    helpMenu->Append(ID_MENU_ABOUT, _("&About\tF1"), _("Show info about this application"));
-    mbar->Append(helpMenu, _("&Help"));
+    helpMenu_ = new wxMenu(_T(""));
+    helpMenu_->Append(ID_MENU_ABOUT, _("&About\tF1"), _("Show info about this application"));
+    menuBar_->Append(helpMenu_, _("&Help"));
 
-    SetMenuBar(mbar);
+    SetMenuBar(menuBar_);
 #endif // wxUSE_MENUS
     // formatting
 
@@ -118,37 +116,37 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 
     // main tabs
 
-    financialPages = new wxNotebook(this, wxNewId());
-    accPage_ = new wxPanel(financialPages, wxNewId());
-    trPage_ = new wxPanel(financialPages, wxNewId());
-    financialPages->AddPage(accPage_, _("Accounts"));
-    financialPages->AddPage(trPage_, _("Transactions"));
+    financialPages_ = new wxNotebook(this, wxNewId());
+    accountsPage_ = new wxPanel(financialPages_, wxNewId());
+    transactionsPage_ = new wxPanel(financialPages_, wxNewId());
+    financialPages_->AddPage(accountsPage_, _("Accounts"));
+    financialPages_->AddPage(transactionsPage_, _("Transactions"));
 
     // accounts_ page
 
-    accList_ = new wxListCtrl(accPage_, wxNewId(), wxDefaultPosition, wxSize(100, 100), wxLC_REPORT | wxLC_HRULES | wxVSCROLL | wxBORDER_SUNKEN);
-    accList_->InsertColumn(0, _("Name"), wxLIST_FORMAT_LEFT, 200);
-    accList_->InsertColumn(1, _("Balance"), wxLIST_FORMAT_RIGHT, 150);
+    accountList_ = new wxListCtrl(accountsPage_, wxNewId(), wxDefaultPosition, wxSize(100, 100), wxLC_REPORT | wxLC_HRULES | wxVSCROLL | wxBORDER_SUNKEN);
+    accountList_->InsertColumn(0, _("Name"), wxLIST_FORMAT_LEFT, 200);
+    accountList_->InsertColumn(1, _("Balance"), wxLIST_FORMAT_RIGHT, 150);
 
-    netWorthLabel_ = new wxStaticText(accPage_, wxNewId(), _(""));
+    netWorthLabel_ = new wxStaticText(accountsPage_, wxNewId(), _(""));
     netWorthLabel_->SetFont(boldFont_);
 
     wxBoxSizer* labelSizer = new wxBoxSizer(wxHORIZONTAL);
     labelSizer->Add(0, 0, 1);
     labelSizer->Add(netWorthLabel_, 0, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 
-    accSizer_ = new wxBoxSizer(wxVERTICAL);
-    accSizer_->Add(accList_, 1, wxTOP | wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
-    accSizer_->Add(labelSizer, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
-    accPage_->SetSizer(accSizer_);
+    accountsSizer_ = new wxBoxSizer(wxVERTICAL);
+    accountsSizer_->Add(accountList_, 1, wxTOP | wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+    accountsSizer_->Add(labelSizer, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+    accountsPage_->SetSizer(accountsSizer_);
     fitAccountsPage();
 
     // transactions page
 
     // - selection
-    selViewButton_ = new wxButton(trPage_, ID_SEL_VIEW, _("+"), wxDefaultPosition, viewButtonSize);
+    selViewButton_ = new wxButton(transactionsPage_, ID_SEL_VIEW, _("+"), wxDefaultPosition, viewButtonSize);
 
-    selPanel_ = new wxPanel(trPage_, wxNewId());
+    selPanel_ = new wxPanel(transactionsPage_, wxNewId());
 
     selIntervalChoice_ = new wxChoice(selPanel_, ID_SEL_INTERVAL);
     selIntervalChoice_->SetToolTip(_("Select time interval"));
@@ -171,12 +169,12 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     reportsButton_ = new wxButton(selPanel_, ID_SEL_REPORTS, _("Reports"), wxDefaultPosition, wxDefaultSize, 0);
 
     // - transactions list
-    transactionsList_ = new wxSimpleHtmlListBox(trPage_, ID_TRS_LIST);
+    transactionsList_ = new wxSimpleHtmlListBox(transactionsPage_, ID_TRS_LIST);
 
     // - transaction
-    trViewButton_ = new wxButton(trPage_, ID_TR_VIEW, _("-"), wxDefaultPosition, viewButtonSize);
+    trViewButton_ = new wxButton(transactionsPage_, ID_TR_VIEW, _("-"), wxDefaultPosition, viewButtonSize);
 
-    trPanel_ = new wxPanel(trPage_, wxNewId());
+    trPanel_ = new wxPanel(transactionsPage_, wxNewId());
 
     trDatePicker_ = new wxDatePickerCtrl(trPanel_, ID_TR_DATE, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
     trDatePicker_->SetToolTip(_("Transaction date"));
@@ -257,13 +255,13 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     trsBottomSizer->Add(trViewButton_, 0, wxTOP | wxLEFT | wxBOTTOM | wxALIGN_LEFT | wxALIGN_TOP, EMPTY_BORDER);
     trsBottomSizer->Add(trPanel_, 1, wxLEFT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
 
-    trsSizer_ = new wxBoxSizer(wxVERTICAL);
-    trsSizer_->Add(trsTopSizer, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
-    trsSizer_->Add(transactionsList_, 1, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
-    trsSizer_->Add(trsBottomSizer, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
-    trPage_->SetSizer(trsSizer_);
-    trsSizer_->Fit(trPage_);
-    trsSizer_->SetSizeHints(trPage_);
+    transactionsSizer_ = new wxBoxSizer(wxVERTICAL);
+    transactionsSizer_->Add(trsTopSizer, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+    transactionsSizer_->Add(transactionsList_, 1, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+    transactionsSizer_->Add(trsBottomSizer, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER);
+    transactionsPage_->SetSizer(transactionsSizer_);
+    transactionsSizer_->Fit(transactionsPage_);
+    transactionsSizer_->SetSizeHints(transactionsPage_);
 
 #if wxUSE_STATUSBAR
     // create a status bar with some information about the used wxWidgets version
@@ -286,29 +284,16 @@ void MainWindow::setTransactionDirty(bool dirty)
     }
 }
 
-void MainWindow::setDatabaseEnvironment(bool opened)
-{
-    fileMenu->Enable(ID_MENU_EXPORT, opened);
-    fileMenu->Enable(ID_MENU_IMPORT, opened);
-    mbar->EnableTop(1, opened);
-    editMenu->Enable(ID_MENU_UNDO, false);
-    editMenu->Enable(ID_MENU_REDO, false);
-
-    financialPages->Show(opened);
-
-    setInsertTransactionEnv();
-}
-
 void MainWindow::fitAccountsPage()
 {
-    accSizer_->Fit(accPage_);
-    accSizer_->SetSizeHints(accPage_);
+    accountsSizer_->Fit(accountsPage_);
+    accountsSizer_->SetSizeHints(accountsPage_);
 }
 
 void MainWindow::fitTransactionsPage()
 {
-    trsSizer_->Fit(trPage_);
-    trsSizer_->SetSizeHints(trPage_);
+    transactionsSizer_->Fit(transactionsPage_);
+    transactionsSizer_->SetSizeHints(transactionsPage_);
 }
 
 void MainWindow::showSelectionPanel(bool visible)
@@ -333,26 +318,6 @@ void MainWindow::showTransactionPanel(bool visible)
     fitTransactionsPage();
 }
 
-void MainWindow::setInsertTransactionEnv()
-{
-    transactionId_ = 0;
-    transactionsList_->SetSelection(wxNOT_FOUND);
-    transactionsList_->ScrollToLine(transactionsList_->GetLineCount());
-    transactionToView(0, true);
-    trDeleteButton_->Hide();
-    trNewButton_->Hide();
-    trAcceptButton_->Disable();
-    trAcceptButton_->SetLabel(_("Add"));
-}
-
-void MainWindow::setUpdateTransactionEnv(bool dirty)
-{
-    setTransactionDirty(dirty);
-    trDeleteButton_->Show();
-    trNewButton_->Show();
-    trAcceptButton_->SetLabel(_("Update"));
-}
-
 void MainWindow::setStatusMessage(const wxString& message)
 {
     SetStatusText(message, 0);
@@ -367,5 +332,47 @@ void MainWindow::populateSelectionIntervals()
     selIntervalChoice_->Append(_("This year"), reinterpret_cast<void*> (SELECTION_INTERVAL_THISYEAR));
     selIntervalChoice_->Append(_("Last year"), reinterpret_cast<void*> (SELECTION_INTERVAL_LASTYEAR));
     selIntervalChoice_->Append(_("Custom"), reinterpret_cast<void*> (SELECTION_INTERVAL_CUSTOM));
+}
+
+void MainWindow::setUndoRedoView(bool undo, bool redo)
+{
+    editMenu_->Enable(ID_MENU_UNDO, undo);
+    editMenu_->Enable(ID_MENU_REDO, redo);
+}
+
+void MainWindow::setDatabaseOpenedView(bool opened)
+{
+    menuBar_->EnableTop(1, opened);
+
+    fileMenu_->Enable(ID_MENU_EXPORT, opened);
+    fileMenu_->Enable(ID_MENU_IMPORT, opened);
+
+    financialPages_->Show(opened);
+
+    setInsertTransactionView();
+}
+
+void MainWindow::scrollTransactionListAtEnd()
+{
+    transactionsList_->ScrollToLine(transactionsList_->GetLineCount());
+}
+
+void MainWindow::setInsertTransactionView()
+{
+    transactionId_ = 0;
+    transactionsList_->SetSelection(wxNOT_FOUND);
+    transactionToView(0, true);
+    trDeleteButton_->Hide();
+    trNewButton_->Hide();
+    trAcceptButton_->Disable();
+    trAcceptButton_->SetLabel(_("Add"));
+}
+
+void MainWindow::setUpdateTransactionView(bool dirty)
+{
+    setTransactionDirty(dirty);
+    trDeleteButton_->Show();
+    trNewButton_->Show();
+    trAcceptButton_->SetLabel(_("Update"));
 }
 

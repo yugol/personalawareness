@@ -15,6 +15,7 @@ class wxTextCtrl;
 class wxSimpleHtmlListBox;
 class wxComboBox;
 class wxDateEvent;
+class wxNotebook;
 namespace adb {
     class Item;
     class Account;
@@ -26,20 +27,28 @@ class MainWindow: public wxFrame {
 public:
     MainWindow(wxFrame *frame, const wxString& title);
 
-    void setDatabaseEnvironment(bool opened);
-    void setStatusMessage(const wxString& message);
     void setNetWorth(double val);
+    void setSelectionInterval(int choice);
+    void setSelectionStartInterval();
+    void setSelectionCustomInterval();
+    void setStatusMessage(const wxString& message);
+
+    void setDatabaseOpenedView(bool opened);
+    void setUndoRedoView(bool undo, bool redo);
+    void scrollTransactionListAtEnd();
+
     void populateAccounts(const std::vector<std::pair<adb::Account*, double> >& statement);
     void populateCreditingBudgets(const std::vector<adb::Account*>& budgets);
     void populateDebitingBudgets(const std::vector<adb::Account*>& budgets);
     void populateItems(const std::vector<const adb::Item*>& items);
     void populateTransactions(const wxArrayString& items);
+
     int getItemIndexById(int id);
     int getSourceIndexById(int id);
     int getDestinationIndexById(int id);
     void getTransactionSelectionParameters(adb::SelectionParameters* parameters);
+
     void transactionToView(const adb::Transaction* t, bool complete);
-    void selectStartInterval();
 
 private:
     enum {
@@ -64,12 +73,13 @@ private:
     void fitTransactionsPage();
     void showSelectionPanel(bool visible);
     void showTransactionPanel(bool visible);
-    void setInsertTransactionEnv();
-    void setUpdateTransactionEnv(bool dirty = false);
+
+    void setInsertTransactionView();
+    void setUpdateTransactionView(bool dirty = false);
+
     void setTransactionDirty(bool dirty = true);
     void checkItem();
     void populateSelectionIntervals();
-    void selectCustomInterval();
 
     // controls
 
@@ -110,12 +120,18 @@ private:
     static const long ID_TR_NEW;
     static const long ID_TR_ACCEPT;
 
-    wxPanel* accPage_;
-    wxBoxSizer* accSizer_;
-    wxPanel* trPage_;
-    wxBoxSizer* trsSizer_;
+    wxMenuBar* menuBar_;
+    wxMenu* fileMenu_;
+    wxMenu* editMenu_;
+    wxMenu* helpMenu_;
 
-    wxListCtrl *accList_;
+    wxNotebook* financialPages_;
+    wxPanel* accountsPage_;
+    wxBoxSizer* accountsSizer_;
+    wxPanel* transactionsPage_;
+    wxBoxSizer* transactionsSizer_;
+
+    wxListCtrl *accountList_;
     wxStaticText* netWorthLabel_;
 
     wxButton* selViewButton_;
@@ -148,6 +164,8 @@ private:
     void onExport(wxCommandEvent& event);
     void onImport(wxCommandEvent& event);
     void onQuit(wxCommandEvent& event);
+    void onUndo(wxCommandEvent& event);
+    void onRedo(wxCommandEvent& event);
     void onAbout(wxCommandEvent& event);
     void onClose(wxCloseEvent& event);
 

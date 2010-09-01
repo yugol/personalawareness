@@ -1,9 +1,9 @@
 #ifndef UIUTIL_H_
 #define UIUTIL_H_
 
+#include <wx/string.h>
 #include <ostream>
 
-class wxString;
 class wxDateTime;
 namespace adb {
     class Date;
@@ -11,7 +11,10 @@ namespace adb {
 
 class UiUtil {
 public:
-    static const char *MONTH_NAMES[];
+    static const char* MONTH_NAMES[];
+
+    static wxString getApplicationName(const std::string& databaseFile);
+    static wxString getUsingStatusMessage(const std::string& databaseFile);
 
     static void adbDate2wxDate(wxDateTime* to, const adb::Date* from);
 
@@ -22,6 +25,11 @@ public:
     static void appendStdString(wxString& to, const std::string& what);
     static void appendWxString(std::string& to, const wxString& what);
     static void appendCurrency(wxString& to, double val);
+
+private:
+    static const char APPLICATION_NAME[];
+
+    static std::ostream& streamFileName(std::ostream& out, const std::string& filePath);
 };
 
 #endif /* UIUTIL_H_ */

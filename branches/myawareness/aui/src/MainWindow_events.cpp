@@ -93,6 +93,16 @@ void MainWindow::onQuit(wxCommandEvent &event)
     Controller::instance()->exitApplication();
 }
 
+void MainWindow::onUndo(wxCommandEvent& event)
+{
+    Controller::instance()->undo();
+}
+
+void MainWindow::onRedo(wxCommandEvent& event)
+{
+    Controller::instance()->redo();
+}
+
 void MainWindow::onAbout(wxCommandEvent &event)
 {
     wxString msg = wxbuildinfo(long_f);

@@ -22,13 +22,18 @@ public:
     void dumpDatabase(wxString& path);
     void loadDatabase(wxString& path);
 
-    const adb::Item* getItemByName(const wxString& name);
-    int getItemId(const wxString& name);
-    void acceptTransaction(adb::Transaction* transaction);
-
     void updateAccounts();
     void updateItems();
     void updateTransactions();
+    void updateAll();
+
+    void updateUndoRedoStatus();
+    void undo();
+    void redo();
+
+    const adb::Item* getItemByName(const wxString& name);
+    int getItemId(const wxString& name);
+    void acceptTransaction(adb::Transaction* transaction);
 
     void transactionToView(int id, bool complete);
 

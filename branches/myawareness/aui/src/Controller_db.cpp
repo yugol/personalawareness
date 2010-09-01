@@ -16,25 +16,26 @@ void Controller::openDatabase(const wxString* path)
             string stdpath;
             UiUtil::appendWxString(stdpath, *path);
             DatabaseConnection::openDatabase(stdpath.c_str());
+        } else {
+            DatabaseConnection::instance(); // opens default database
         }
 
-        updateAccounts();
-        updateItems();
-        mainWindow_->selectStartInterval(); // updates transactions
-
-        // update status message
-        wxString statusMessage;
-        UiUtil::appendStdString(statusMessage, DatabaseConnection::instance()->getDatabaseFile());
-        statusMessage = statusMessage.AfterLast('\\');
-        statusMessage = statusMessage.AfterLast('/');
-        statusMessage.Prepend(_T("Using: "));
-        mainWindow_->setStatusMessage(statusMessage);
-
-        mainWindow_->setDatabaseEnvironment(true);
+        mainWindow_->setSelectionStartInterval();
+        updateAll();
 
     } catch (const exception& ex) {
         reportException(ex, _T("opening database"));
     }
+
+    if (DatabaseConnection::isOpened()) {
+        mainWindow_->SetTitle(UiUtil::getApplicationName(DatabaseConnection::instance()->getDatabaseFile()));
+        mainWindow_->setStatusMessage(UiUtil::getUsingStatusMessage(DatabaseConnection::instance()->getDatabaseFile()));
+    } else {
+        mainWindow_->SetTitle(UiUtil::getApplicationName(""));
+        mainWindow_->setStatusMessage(UiUtil::getUsingStatusMessage(""));
+    }
+    mainWindow_->setDatabaseOpenedView(DatabaseConnection::isOpened());
+    updateUndoRedoStatus();
 }
 
 void Controller::dumpDatabase(wxString& path)

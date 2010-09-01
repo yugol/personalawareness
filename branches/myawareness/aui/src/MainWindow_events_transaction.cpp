@@ -104,12 +104,12 @@ void MainWindow::onTransactionCommentText(wxCommandEvent& event)
 
 void MainWindow::onNewTransaction(wxCommandEvent& event)
 {
-    setInsertTransactionEnv();
+    setInsertTransactionView();
 }
 
 void MainWindow::onDeleteTransaction(wxCommandEvent& event)
 {
-    setInsertTransactionEnv();
+    setInsertTransactionView();
 }
 
 void MainWindow::onAcceptTransaction(wxCommandEvent& event)
@@ -168,7 +168,7 @@ void MainWindow::onAcceptTransaction(wxCommandEvent& event)
 
         Controller::instance()->acceptTransaction(&t);
 
-        setInsertTransactionEnv();
+        setInsertTransactionView();
     }
 }
 

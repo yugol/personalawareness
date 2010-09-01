@@ -1,5 +1,4 @@
 #include <sstream>
-#include <wx/string.h>
 #include <wx/datetime.h>
 #include <Date.h>
 #include <UiUtil.h>
@@ -7,7 +6,44 @@
 using namespace adb;
 using namespace std;
 
-const char *UiUtil::MONTH_NAMES[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+const char UiUtil::APPLICATION_NAME[] = "My Awareness";
+const char* UiUtil::MONTH_NAMES[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
+wxString UiUtil::getApplicationName(const std::string& databaseFile)
+{
+    ostringstream sout;
+    sout << APPLICATION_NAME;
+    if (databaseFile.size() > 0) {
+        sout << " - ";
+        streamFileName(sout, databaseFile);
+    }
+    wxString applicationName;
+    appendStdString(applicationName, sout.rdbuf()->str());
+    return applicationName;
+}
+
+wxString UiUtil::getUsingStatusMessage(const std::string& databaseFile)
+{
+    ostringstream sout;
+    sout << "Using: ";
+    if (databaseFile.size() > 0) {
+        streamFileName(sout, databaseFile);
+    } else {
+        sout << "N/A";
+    }
+    wxString statusMessage;
+    appendStdString(statusMessage, sout.rdbuf()->str());
+    return statusMessage;
+}
+
+std::ostream& UiUtil::streamFileName(std::ostream& out, const std::string& filePath)
+{
+    int lastSlashPos = filePath.rfind('/');
+    int lastBackslashPos = filePath.rfind('\\');
+    int namePos = max(lastSlashPos, lastBackslashPos) + 1;
+    out << filePath.substr(namePos);
+    return out;
+}
 
 void UiUtil::appendWxString(string& to, const wxString& what)
 {

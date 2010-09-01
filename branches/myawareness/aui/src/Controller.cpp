@@ -14,6 +14,11 @@ using namespace adb;
 
 Controller* Controller::instance_ = 0;
 
+static bool itemPtrComparer(const Item* a, const Item* b)
+{
+    return a->getName() < b->getName();
+}
+
 void Controller::reportException(const exception& ex, const wxString& hint)
 {
     wxString title(_T("Error "));
@@ -88,11 +93,6 @@ void Controller::updateAccounts()
     mainWindow_->populateDebitingBudgets(budgets);
 }
 
-static bool itemPtrComparer(const Item* a, const Item* b)
-{
-    return a->getName() < b->getName();
-}
-
 void Controller::updateItems()
 {
     vector<const Item*> items;
@@ -132,8 +132,8 @@ void Controller::updateTransactions()
         item << "<tr>";
         item << "<td align='left' width='12%'><tt>&nbsp;";
         UiUtil::streamDate(item, t.getDate());
-        item << "&nbsp;&nbsp;&nbsp;</tt></td>";
-        item << "<td align='left'><b>" << why->getName() << "</b></td>";
+        item << "&nbsp;</tt></td>";
+        item << "<td align='left'><b>&nbsp;&nbsp;" << why->getName() << "&nbsp;&nbsp;</b></td>";
         item << "<td align='right' width='20%'>&nbsp;";
         UiUtil::streamCurrency(item, t.getValue(), true);
         item << "&nbsp;</td>";
@@ -151,6 +151,14 @@ void Controller::updateTransactions()
     }
 
     mainWindow_->populateTransactions(items);
+    mainWindow_->scrollTransactionListAtEnd();
+}
+
+void Controller::updateAll()
+{
+    updateAccounts();
+    updateItems();
+    updateTransactions();
 }
 
 void Controller::transactionToView(int id, bool complete)
@@ -197,6 +205,7 @@ void Controller::acceptTransaction(Transaction* transaction)
         DatabaseConnection::instance()->insertUpdate(transaction);
         updateTransactions();
         updateAccounts();
+        updateUndoRedoStatus();
 
     } catch (const exception& ex) {
         reportException(ex, _T("accepting transaction"));
@@ -222,3 +231,29 @@ void Controller::showReport(int chartType, int cashFlowDirection)
     report->render(data);
     report->Show();
 }
+
+void Controller::updateUndoRedoStatus()
+{
+    bool undo = false;
+    bool redo = false;
+    if (DatabaseConnection::isOpened()) {
+        undo = DatabaseConnection::instance()->canUndo();
+        redo = DatabaseConnection::instance()->canRedo();
+    }
+    mainWindow_->setUndoRedoView(undo, redo);
+}
+
+void Controller::undo()
+{
+    DatabaseConnection::instance()->undo();
+    updateAll();
+    updateUndoRedoStatus();
+}
+
+void Controller::redo()
+{
+    DatabaseConnection::instance()->redo();
+    updateAll();
+    updateUndoRedoStatus();
+}
+
