@@ -15,6 +15,7 @@ namespace adb {
         static const char WRONG_NAME_MESSAGE[];
         static const char WRONG_VALUE_MESSAGE[];
         static const char UNDEFINED_MESSAGE[];
+        static const char RECORD_IN_USE[];
 
         Exception();
         Exception(const char* message);

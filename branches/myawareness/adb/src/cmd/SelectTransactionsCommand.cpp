@@ -43,19 +43,15 @@ namespace adb {
                     sout << "AND ([" << Configuration::FROM_COLUMN_NAME << "] = " << parameters_->getAccountId() << " ";
                     sout << "OR [" << Configuration::TO_COLUMN_NAME << "] = " << parameters_->getAccountId() << ") ";
                 }
-
                 if (!(parameters_->getFirstDate()).isNull()) {
                     sout << "AND [" << Configuration::DATE_COLUMN_NAME << "] >= '" << parameters_->getFirstDate() << "' ";
                 }
-
                 if (!(parameters_->getLastDate()).isNull()) {
                     sout << "AND [" << Configuration::DATE_COLUMN_NAME << "] <= '" << parameters_->getLastDate() << "' ";
                 }
-
                 if (parameters_->getAccountType() == Account::CREDIT) {
                     sout << "AND [" << Configuration::ACCOUNTS_TABLE_NAME << "01].[" << Configuration::TYPE_COLUMN_NAME << "] = " << Account::CREDIT << " ";
                 }
-
                 if (parameters_->getAccountType() == Account::DEBT) {
                     sout << "AND [" << Configuration::ACCOUNTS_TABLE_NAME << "02].[" << Configuration::TYPE_COLUMN_NAME << "] = " << Account::DEBT << " ";
                 }

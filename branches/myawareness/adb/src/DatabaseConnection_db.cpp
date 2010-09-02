@@ -1,7 +1,6 @@
 #include <iostream>
 #include <sstream>
 #include <Exception.h>
-#include <DbUtil.h>
 #include <Transaction.h>
 #include <cmd/CreateDatabaseCommand.h>
 #include <cmd/PurgeDatabaseCommand.h>
@@ -81,7 +80,7 @@ namespace adb {
 
     void DatabaseConnection::loadSql(istream& in)
     {
-        char statement[DbUtil::STATEMENT_LEN];
+        char statement[Configuration::LINE_BUFFER_LENGTH];
 
         if (SQLITE_OK != ::sqlite3_exec(database_, "BEGIN;", NULL, NULL, NULL)) {
             string errMessage(Exception::SQL_ERROR_MESSAGE);
@@ -91,7 +90,7 @@ namespace adb {
         }
 
         int lineNo = 0;
-        while (in.getline(statement, DbUtil::STATEMENT_LEN)) {
+        while (in.getline(statement, Configuration::LINE_BUFFER_LENGTH)) {
             ++lineNo;
             if (SQLITE_OK != ::sqlite3_exec(database_, statement, NULL, NULL, NULL)) {
 

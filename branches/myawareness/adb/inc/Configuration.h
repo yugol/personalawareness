@@ -28,7 +28,7 @@ namespace adb {
         static const char TO_COLUMN_NAME[];
         static const char ITEM_COLUMN_NAME[];
 
-        static const int LINE_BUFFER_LENGTH = 5000;
+        static const int LINE_BUFFER_LENGTH = 10000;
         static const int DEFAULT_ID = 0;
 
         static Configuration* instance();

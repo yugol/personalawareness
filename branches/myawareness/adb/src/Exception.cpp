@@ -11,6 +11,7 @@ namespace adb {
     const char Exception::WRONG_NAME_MESSAGE[] = "wrong name";
     const char Exception::WRONG_VALUE_MESSAGE[] = "wrong value";
     const char Exception::UNDEFINED_MESSAGE[] = "this should not happen";
+    const char Exception::RECORD_IN_USE[] = "record in use";
 
     Exception::Exception()
     {
