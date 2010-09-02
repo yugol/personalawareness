@@ -16,24 +16,25 @@ public:
     virtual ~ItemsDialog();
 
 private:
+    long selectedListItemId_;
+
     wxStaticText* patternLabel_;
     wxTextCtrl* patternText_;
     wxListCtrl* itemList_;
     wxButton* renameButton_;
     wxButton* deleteButton_;
     wxButton* closeButton_;
-    long selectedListItemId_;
 
     void selectItem(long selectedId);
-    void updateItemList(int itemId);
+    void refreshItemList(int itemId);
 
+    void onCloseDialog(wxCloseEvent& event);
     void onInitDialog(wxInitDialogEvent& event);
     void onPatternText(wxCommandEvent& event);
     void onItemSelected(wxListEvent& event);
     void onRename(wxCommandEvent& event);
     void onDelete(wxCommandEvent& event);
     void onClose(wxCommandEvent& event);
-
 };
 
 #endif /* ITEMSDIALOG_H_ */

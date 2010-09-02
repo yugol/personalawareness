@@ -59,7 +59,24 @@ void Controller::getDefaultSqlExportName(wxString& name)
     UiUtil::appendStdString(name, sout.rdbuf()->str());
 }
 
-void Controller::selectItems(std::vector<const Item*>& items)
+void Controller::selectAllAccounts(std::vector<int>& accountIds)
+{
+    DatabaseConnection::instance()->getCreditingBudgets(&accountIds);
+    DatabaseConnection::instance()->getAccounts(&accountIds);
+    DatabaseConnection::instance()->getDebitingBudgets(&accountIds);
+}
+
+const adb::Account* Controller::selectAccount(int accountId)
+{
+    return DatabaseConnection::instance()->getAccount(accountId);
+}
+
+bool Controller::selectAccountInUse(int accountId)
+{
+    return DatabaseConnection::instance()->isAccountInUse(accountId);
+}
+
+void Controller::selectAllItems(std::vector<const Item*>& items)
 {
     vector<int> sel;
     DatabaseConnection::instance()->selectItems(&sel, 0);
@@ -213,7 +230,7 @@ void Controller::refreshAccounts()
 void Controller::refreshItems()
 {
     vector<const Item*> items;
-    selectItems(items);
+    selectAllItems(items);
     mainWindow_->populateItems(items);
 }
 

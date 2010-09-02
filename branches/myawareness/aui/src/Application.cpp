@@ -4,7 +4,9 @@
 
 // TBD+: accounts edit dialog
 // TBD+: update search in transaction item combo when Ctrl + Space
-// TBD: refresh main window only when closing edit dialogs
+// TBD+: rename item to description in UI
+// TBD: color values in transaction list (red, blue, black)
+// TBD: when selecting an item / accoun disable delete if it is used
 // TBD: select transactions according to item name pattern
 // TBD: use properties from Configuration
 // TBD-: properties table in database

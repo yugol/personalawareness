@@ -66,6 +66,7 @@ ItemsDialog::ItemsDialog(wxWindow* parent, wxWindowID id, const wxString& title,
     this->Layout();
 
     // Connect Events
+    this->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(ItemsDialog::onCloseDialog));
     this->Connect(wxEVT_INIT_DIALOG, wxInitDialogEventHandler(ItemsDialog::onInitDialog));
     patternText_->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(ItemsDialog::onPatternText), NULL, this);
     itemList_->Connect(wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler(ItemsDialog::onItemSelected), NULL, this);
@@ -77,6 +78,7 @@ ItemsDialog::ItemsDialog(wxWindow* parent, wxWindowID id, const wxString& title,
 ItemsDialog::~ItemsDialog()
 {
     // Disconnect Events
+    this->Disconnect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(ItemsDialog::onCloseDialog));
     this->Disconnect(wxEVT_INIT_DIALOG, wxInitDialogEventHandler(ItemsDialog::onInitDialog));
     patternText_->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(ItemsDialog::onPatternText), NULL, this);
     itemList_->Disconnect(wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler(ItemsDialog::onItemSelected), NULL, this);
@@ -85,80 +87,18 @@ ItemsDialog::~ItemsDialog()
     closeButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ItemsDialog::onClose), NULL, this);
 }
 
-void ItemsDialog::selectItem(long listItemId)
+void ItemsDialog::onCloseDialog(wxCloseEvent& event)
 {
-    wxRect rect;
-
-    if (listItemId >= 0) {
-
-        itemList_->SetItemState(listItemId, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-
-        itemList_->GetItemRect(listItemId, rect);
-        itemList_->ScrollList(rect.x, rect.y);
-
-        selectedListItemId_ = listItemId;
-
-    } else {
-
-        listItemId = -1;
-        while (true) {
-            listItemId = itemList_->GetNextItem(listItemId);
-            if (listItemId < 0) {
-                break;
-            }
-            itemList_->SetItemState(listItemId, wxLIST_STATE_DONTCARE, wxLIST_STATE_SELECTED);
-        }
-
-        renameButton_->Enable(false);
-        deleteButton_->Enable(false);
-
-        itemList_->GetItemRect(0, rect);
-        itemList_->ScrollList(rect.x, rect.y);
-
-        selectedListItemId_ = -1;
-
-    }
-}
-
-void ItemsDialog::updateItemList(int itemId)
-{
-    long selectedListItemId = -1;
-
-    vector<const Item*> items;
-    Controller::instance()->selectItems(items);
-
-    itemList_->DeleteAllItems();
-
-    wxListItem listItem;
-    listItem.SetColumn(0);
-    listItem.SetAlign(wxLIST_FORMAT_LEFT);
-
-    vector<const Item*>::const_iterator it;
-    for (it = items.begin(); it != items.end(); ++it) {
-        const Item* item = *it;
-        int id = item->getId();
-        wxString name;
-        UiUtil::appendStdString(name, item->getName());
-
-        listItem.SetId(itemList_->GetItemCount());
-        listItem.SetText(name);
-        listItem.SetData(id);
-        itemList_->InsertItem(listItem);
-
-        if (id == itemId) {
-            selectedListItemId = listItem.GetId();
-        }
-    }
-
-    selectItem(selectedListItemId);
+    // TBD: refresh main window only when closing edit dialogs
+    event.Skip();
 }
 
 void ItemsDialog::onInitDialog(wxInitDialogEvent& event)
 {
     selectedListItemId_ = -1;
     patternText_->SetFocus();
-    itemList_->InsertColumn(0, wxT(""), wxLIST_FORMAT_LEFT, itemList_->GetSize().GetWidth() - 20);
-    updateItemList(0);
+    itemList_->InsertColumn(0, wxT(""), wxLIST_FORMAT_LEFT, itemList_->GetSize().GetWidth() - UiUtil::LIST_MARGIN);
+    refreshItemList(0);
 }
 
 void ItemsDialog::onPatternText(wxCommandEvent& event)
@@ -211,7 +151,7 @@ void ItemsDialog::onRename(wxCommandEvent& event)
             item.setId(itemId);
             item.setName(itemName.c_str());
             Controller::instance()->insertUpdateItem(&item);
-            updateItemList(itemId);
+            refreshItemList(itemId);
         }
     }
     dlg->Destroy();
@@ -227,7 +167,7 @@ void ItemsDialog::onDelete(wxCommandEvent& event)
         int itemId = itemList_->GetItemData(selectedListItemId_);
         try {
             Controller::instance()->deleteItem(itemId);
-            updateItemList(0);
+            refreshItemList(0);
         } catch (const exception& ex) {
             Controller::instance()->reportException(ex, wxT("deleting item"));
         }
@@ -240,3 +180,67 @@ void ItemsDialog::onClose(wxCommandEvent& event)
     Close();
 }
 
+void ItemsDialog::refreshItemList(int selectedItemId)
+{
+    itemList_->DeleteAllItems();
+    long selectedListItemId = -1;
+
+    wxListItem listItem;
+    listItem.SetColumn(0);
+    listItem.SetAlign(wxLIST_FORMAT_LEFT);
+
+    vector<const Item*> items;
+    Controller::instance()->selectAllItems(items);
+    vector<const Item*>::const_iterator it;
+    for (it = items.begin(); it != items.end(); ++it) {
+        const Item* item = *it;
+        int itemId = item->getId();
+        wxString itemName;
+        UiUtil::appendStdString(itemName, item->getName());
+
+        listItem.SetId(itemList_->GetItemCount());
+        listItem.SetText(itemName);
+        listItem.SetData(itemId);
+        itemList_->InsertItem(listItem);
+
+        if (itemId == selectedItemId) {
+            selectedListItemId = listItem.GetId();
+        }
+    }
+
+    selectItem(selectedListItemId);
+}
+
+void ItemsDialog::selectItem(long listItemId)
+{
+    wxRect rect;
+
+    if (listItemId >= 0) {
+
+        itemList_->SetItemState(listItemId, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+
+        itemList_->GetItemRect(listItemId, rect);
+        itemList_->ScrollList(rect.x, rect.y);
+
+        selectedListItemId_ = listItemId;
+
+    } else {
+
+        listItemId = -1;
+        while (true) {
+            listItemId = itemList_->GetNextItem(listItemId);
+            if (listItemId < 0) {
+                break;
+            }
+            itemList_->SetItemState(listItemId, wxLIST_STATE_DONTCARE, wxLIST_STATE_SELECTED);
+        }
+
+        renameButton_->Enable(false);
+        deleteButton_->Enable(false);
+
+        itemList_->GetItemRect(0, rect);
+        itemList_->ScrollList(rect.x, rect.y);
+
+        selectedListItemId_ = -1;
+    }
+}

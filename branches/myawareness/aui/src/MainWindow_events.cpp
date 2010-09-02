@@ -2,6 +2,7 @@
 #include <wx/msgdlg.h>
 #include <wx/panel.h>
 #include <Controller.h>
+#include <AccountsDialog.h>
 #include <ItemsDialog.h>
 #include <MainWindow.h>
 
@@ -99,13 +100,16 @@ void MainWindow::onRedo(wxCommandEvent& event)
 
 void MainWindow::onAccounts(wxCommandEvent& event)
 {
-
+    AccountsDialog* dlg = new AccountsDialog(this);
+    dlg->ShowModal();
+    dlg->Destroy();
 }
 
 void MainWindow::onItems(wxCommandEvent& event)
 {
     ItemsDialog* dlg = new ItemsDialog(this);
     dlg->ShowModal();
+    dlg->Destroy();
 }
 
 void MainWindow::onPreferences(wxCommandEvent& event)

@@ -7,6 +7,7 @@ class MainWindow;
 class wxString;
 class wxDateTime;
 namespace adb {
+    class Account;
     class Item;
     class Transaction;
 }
@@ -20,8 +21,11 @@ public:
     void initApplication();
 
     void getDefaultSqlExportName(wxString& name);
-    void selectItems(std::vector<const adb::Item*>& items);
 
+    void selectAllAccounts(std::vector<int>& accountIds);
+    const adb::Account* selectAccount(int accountId);
+    bool selectAccountInUse(int accountId);
+    void selectAllItems(std::vector<const adb::Item*>& items);
     const adb::Item* selectItem(const char* name);
     const adb::Item* selectInsertItem(const char* name);
     void insertUpdateItem(adb::Item* item);

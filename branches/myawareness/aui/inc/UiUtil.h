@@ -13,6 +13,7 @@ namespace adb {
 class UiUtil {
 public:
     static const char* MONTH_NAMES[];
+    static const int LIST_MARGIN = 20;
 
     static wxString getApplicationName(const std::string& databaseFile);
     static wxString getUsingStatusMessage(const std::string& databaseFile);

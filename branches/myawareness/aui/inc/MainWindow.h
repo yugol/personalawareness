@@ -63,7 +63,7 @@ private:
         SELECTION_INTERVAL_CUSTOM
     };
 
-    static const int EMPTY_BORDER_SIZE;
+    static const int EMPTY_BORDER_SIZE; // TBD-: move to UiUtil and use in all windows
     wxFont normalFont_;
     wxFont boldFont_;
     wxColour errorHighlight_;

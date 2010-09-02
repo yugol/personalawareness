@@ -118,11 +118,11 @@ void MainWindow::populateCreditingBudgets(const vector<Account*>& budgets)
     vector<Account*>::const_iterator it;
     for (it = budgets.begin(); it != budgets.end(); ++it) {
         Account* acc = *it;
-        wxString fullName(wxT("[+] "));
-        UiUtil::appendStdString(fullName, acc->getFullName());
+        wxString accName;
+        UiUtil::appendStdString(accName, acc->getDecoratedName());
         int id = acc->getId();
-        selAccountChoice_->Append(fullName, reinterpret_cast<void*> (id));
-        trSourceChoice_->Append(fullName, reinterpret_cast<void*> (id));
+        selAccountChoice_->Append(accName, reinterpret_cast<void*> (id));
+        trSourceChoice_->Append(accName, reinterpret_cast<void*> (id));
     }
 }
 
@@ -131,11 +131,11 @@ void MainWindow::populateDebitingBudgets(const vector<Account*>& budgets)
     vector<Account*>::const_iterator it;
     for (it = budgets.begin(); it != budgets.end(); ++it) {
         Account* acc = *it;
-        wxString fullName(wxT("[-] "));
-        UiUtil::appendStdString(fullName, acc->getFullName());
+        wxString accName;
+        UiUtil::appendStdString(accName, acc->getDecoratedName());
         int id = acc->getId();
-        selAccountChoice_->Append(fullName, reinterpret_cast<void*> (id));
-        trDestinationChoice_->Append(fullName, reinterpret_cast<void*> (id));
+        selAccountChoice_->Append(accName, reinterpret_cast<void*> (id));
+        trDestinationChoice_->Append(accName, reinterpret_cast<void*> (id));
     }
 }
 
