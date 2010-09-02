@@ -16,7 +16,8 @@ namespace adb {
 
         int getType() const;
         const std::string& getName() const;
-        const std::string getFullName() const;
+        std::string getFullName() const;
+        std::string getDecoratedName() const;
         const std::string& getGroup() const;
         double getInitialValue() const;
         const std::string& getDescription() const;

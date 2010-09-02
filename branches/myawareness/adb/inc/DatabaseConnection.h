@@ -35,6 +35,7 @@ namespace adb {
         void insertUpdate(Account* account);
         void selectAccounts(std::vector<int>* selection, SelectionParameters* parameters) const;
         void getAccount(Account* account) const;
+        bool isAccountInUse(int id) const;
         void deleteAccount(int id);
         int getAccountCount() const;
         Account* getAccount(int id) const;

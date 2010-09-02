@@ -41,7 +41,7 @@ namespace adb {
         cout << id_ << " " << type_ << " " << name_ << " " << group_ << " " << initialValue_ << " " << description_ << endl;
     }
 
-    const string Account::getFullName() const
+    string Account::getFullName() const
     {
         if (group_.size() <= 0) {
             return name_;
@@ -51,6 +51,23 @@ namespace adb {
         fullName.append(group_);
         fullName.append(")");
         return fullName;
+    }
+
+    string Account::getDecoratedName() const
+    {
+        string name;
+        switch (type_) {
+            case CREDIT:
+                name.append("[+] ");
+                name.append(getFullName());
+                return name;
+            case DEBT:
+                name.append("[-] ");
+                name.append(getFullName());
+                return name;
+            default:
+                return getFullName();
+        }
     }
 
     void Account::validate() const
