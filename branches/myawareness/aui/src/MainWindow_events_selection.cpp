@@ -41,11 +41,11 @@ void MainWindow::onReports(wxCommandEvent& event)
 {
     wxMenu reportsMenu;
 
-    reportsMenu.Append(ID_REPORT_EXPENSES_PIE, _("Expenses"));
-    reportsMenu.Append(ID_REPORT_EXPENSES_MONTHLY, _("Expenses Monthly"));
+    reportsMenu.Append(ID_REPORT_EXPENSES_PIE, wxT("Expenses"));
+    reportsMenu.Append(ID_REPORT_EXPENSES_MONTHLY, wxT("Expenses Monthly"));
     reportsMenu.AppendSeparator();
-    reportsMenu.Append(ID_REPORT_INCOME_PIE, _("Income"));
-    reportsMenu.Append(ID_REPORT_INCOME_MONTHLY, _("Income Monthly"));
+    reportsMenu.Append(ID_REPORT_INCOME_PIE, wxT("Income"));
+    reportsMenu.Append(ID_REPORT_INCOME_MONTHLY, wxT("Income Monthly"));
 
     reportsMenu.Connect(ID_REPORT_EXPENSES_PIE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainWindow::onExpensesPie));
     reportsMenu.Connect(ID_REPORT_EXPENSES_MONTHLY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainWindow::onExpensesMonthly));

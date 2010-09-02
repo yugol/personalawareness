@@ -17,7 +17,7 @@ using namespace adb;
 
 void MainWindow::setNetWorth(double val)
 {
-    wxString wxworth(_("Net worth: "));
+    wxString wxworth(wxT("Net worth: "));
     UiUtil::appendCurrency(wxworth, val);
     netWorthLabel_->SetLabel(wxworth);
     fitAccountsPage();
@@ -36,16 +36,16 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
     groupItem.SetFont(boldFont_);
 
     selAccountChoice_->Clear();
-    selAccountChoice_->Append(_T("(All)"));
+    selAccountChoice_->Append(wxT("(All)"));
     selAccountChoice_->SetSelection(0);
 
     accountList_->DeleteAllItems();
 
     trSourceChoice_->Clear();
-    trSourceChoice_->Append(_T("-"), reinterpret_cast<void*> (Configuration::DEFAULT_ID));
+    trSourceChoice_->Append(wxT("-"), reinterpret_cast<void*> (Configuration::DEFAULT_ID));
     trSourceChoice_->SetSelection(0);
     trDestinationChoice_->Clear();
-    trDestinationChoice_->Append(_T("-"), reinterpret_cast<void*> (Configuration::DEFAULT_ID));
+    trDestinationChoice_->Append(wxT("-"), reinterpret_cast<void*> (Configuration::DEFAULT_ID));
     trDestinationChoice_->SetSelection(0);
 
     vector<pair<Account*, double> >::const_iterator it;
@@ -77,7 +77,7 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
             groupItem.SetId(accountList_->GetItemCount());
             groupItem.SetColumn(0);
             groupItem.SetAlign(wxLIST_FORMAT_LEFT);
-            groupItem.SetText(group.Prepend(_T(" ")));
+            groupItem.SetText(group.Prepend(wxT(" ")));
             accountList_->InsertItem(groupItem);
 
             if (firstGroup) {
@@ -85,7 +85,7 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
             }
         }
 
-        wxString name(_T("      "));
+        wxString name(wxT("      "));
         UiUtil::appendStdString(name, acc->getName());
         item.SetId(accountList_->GetItemCount());
         item.SetColumn(0);
@@ -118,7 +118,7 @@ void MainWindow::populateCreditingBudgets(const vector<Account*>& budgets)
     vector<Account*>::const_iterator it;
     for (it = budgets.begin(); it != budgets.end(); ++it) {
         Account* acc = *it;
-        wxString fullName(_T("[+] "));
+        wxString fullName(wxT("[+] "));
         UiUtil::appendStdString(fullName, acc->getFullName());
         int id = acc->getId();
         selAccountChoice_->Append(fullName, reinterpret_cast<void*> (id));
@@ -131,7 +131,7 @@ void MainWindow::populateDebitingBudgets(const vector<Account*>& budgets)
     vector<Account*>::const_iterator it;
     for (it = budgets.begin(); it != budgets.end(); ++it) {
         Account* acc = *it;
-        wxString fullName(_T("[-] "));
+        wxString fullName(wxT("[-] "));
         UiUtil::appendStdString(fullName, acc->getFullName());
         int id = acc->getId();
         selAccountChoice_->Append(fullName, reinterpret_cast<void*> (id));
@@ -171,7 +171,7 @@ void MainWindow::transactionToView(const Transaction* t, bool complete)
         trItemCombo_->SetSelection(idx);
 
         wxString val;
-        val.Printf(_T("%0.2f"), t->getValue());
+        val.Printf(wxT("%0.2f"), t->getValue());
         trValueText_->SetValue(val);
 
         idx = getSourceIndexById(t->getFromId());
@@ -189,12 +189,12 @@ void MainWindow::transactionToView(const Transaction* t, bool complete)
         }
     } else {
         if (complete) {
-            trItemCombo_->SetValue(_T(""));
+            trItemCombo_->SetValue(wxT(""));
         }
-        trValueText_->SetValue(_T(""));
+        trValueText_->SetValue(wxT(""));
         trSourceChoice_->SetSelection(0);
         trDestinationChoice_->SetSelection(0);
-        trCommentText_->SetValue(_T(""));
+        trCommentText_->SetValue(wxT(""));
     }
 
     clearTransactionErrorHighlight();

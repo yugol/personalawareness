@@ -11,7 +11,7 @@ class wxListEvent;
 
 class ItemsDialog: public wxDialog {
 public:
-    ItemsDialog(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Items"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(400, 520), long style =
+    ItemsDialog(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Edit items"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(400, 520), long style =
             wxDEFAULT_DIALOG_STYLE);
     virtual ~ItemsDialog();
 

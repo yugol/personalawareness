@@ -45,12 +45,12 @@ EVT_CLOSE(MainWindow::onClose)
 EVT_MENU(ID_MENU_OPEN, MainWindow::onOpen)
 EVT_MENU(ID_MENU_EXPORT, MainWindow::onExport)
 EVT_MENU(ID_MENU_IMPORT, MainWindow::onImport)
+EVT_MENU(ID_MENU_EXIT, MainWindow::onQuit)
 EVT_MENU(ID_MENU_UNDO, MainWindow::onUndo)
 EVT_MENU(ID_MENU_REDO, MainWindow::onRedo)
 EVT_MENU(ID_MENU_ACCOUNTS, MainWindow::onAccounts)
 EVT_MENU(ID_MENU_ITEMS, MainWindow::onItems)
 EVT_MENU(ID_MENU_PREFERENCES, MainWindow::onPreferences)
-EVT_MENU(ID_MENU_IMPORT, MainWindow::onImport)
 EVT_MENU(ID_MENU_ABOUT, MainWindow::onAbout)
 
 EVT_CHOICE(MainWindow::ID_SEL_INTERVAL, MainWindow::onSelectionIntervalChoice)
@@ -93,28 +93,28 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     // create a menu bar
     menuBar_ = new wxMenuBar();
 
-    fileMenu_ = new wxMenu(_T(""));
-    fileMenu_->Append(ID_MENU_OPEN, _("&Open/Create..."), _("Open database or create a new one"));
+    fileMenu_ = new wxMenu(wxT(""));
+    fileMenu_->Append(ID_MENU_OPEN, wxT("&Open/Create..."), wxT("Open database or create a new one"));
     fileMenu_->AppendSeparator();
-    fileMenu_->Append(ID_MENU_EXPORT, _("&Export..."), _("Export database to SQL script"));
-    fileMenu_->Append(ID_MENU_IMPORT, _("&Import..."), _("Import database from SQL script"));
+    fileMenu_->Append(ID_MENU_EXPORT, wxT("&Export..."), wxT("Export database to SQL script"));
+    fileMenu_->Append(ID_MENU_IMPORT, wxT("&Import..."), wxT("Import database from SQL script"));
     fileMenu_->AppendSeparator();
-    fileMenu_->Append(ID_MENU_EXIT, _("E&xit\tAlt-F4"), _("Exit the application"));
-    menuBar_->Append(fileMenu_, _("&Database"));
+    fileMenu_->Append(ID_MENU_EXIT, wxT("E&xit\tAlt-F4"), wxT("Exit the application"));
+    menuBar_->Append(fileMenu_, wxT("&Database"));
 
-    editMenu_ = new wxMenu(_T(""));
-    editMenu_->Append(ID_MENU_UNDO, _("&Undo"), _("Undo the last action"));
-    editMenu_->Append(ID_MENU_REDO, _("&Redo"), _("Redo the last action"));
+    editMenu_ = new wxMenu(wxT(""));
+    editMenu_->Append(ID_MENU_UNDO, wxT("&Undo"), wxT("Undo the last action"));
+    editMenu_->Append(ID_MENU_REDO, wxT("&Redo"), wxT("Redo the last action"));
     editMenu_->AppendSeparator();
-    editMenu_->Append(ID_MENU_ACCOUNTS, _("&Accounts/Bugets..."), _("Edit accounts and budget categories"));
-    editMenu_->Append(ID_MENU_ITEMS, _("&Items..."), _("Edit items"));
+    editMenu_->Append(ID_MENU_ACCOUNTS, wxT("&Accounts..."), wxT("Edit accounts and budget categories"));
+    editMenu_->Append(ID_MENU_ITEMS, wxT("&Items..."), wxT("Edit items"));
     editMenu_->AppendSeparator();
-    editMenu_->Append(ID_MENU_PREFERENCES, _("&Preferences..."), _("Edit preferences"));
-    menuBar_->Append(editMenu_, _("&Edit"));
+    editMenu_->Append(ID_MENU_PREFERENCES, wxT("&Preferences..."), wxT("Edit preferences"));
+    menuBar_->Append(editMenu_, wxT("&Edit"));
 
-    helpMenu_ = new wxMenu(_T(""));
-    helpMenu_->Append(ID_MENU_ABOUT, _("&About\tF1"), _("Show info about this application"));
-    menuBar_->Append(helpMenu_, _("&Help"));
+    helpMenu_ = new wxMenu(wxT(""));
+    helpMenu_->Append(ID_MENU_ABOUT, wxT("&About\tF1"), wxT("Show info about this application"));
+    menuBar_->Append(helpMenu_, wxT("&Help"));
 
     SetMenuBar(menuBar_);
 #endif // wxUSE_MENUS
@@ -123,16 +123,16 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     financialPages_ = new wxNotebook(this, wxNewId());
     accountsPage_ = new wxPanel(financialPages_, wxNewId());
     transactionsPage_ = new wxPanel(financialPages_, wxNewId());
-    financialPages_->AddPage(accountsPage_, _("Accounts"));
-    financialPages_->AddPage(transactionsPage_, _("Transactions"));
+    financialPages_->AddPage(accountsPage_, wxT("Accounts"));
+    financialPages_->AddPage(transactionsPage_, wxT("Transactions"));
 
     // accounts_ page
 
     accountList_ = new wxListCtrl(accountsPage_, wxNewId(), wxDefaultPosition, wxSize(100, 100), wxLC_REPORT | wxLC_HRULES | wxVSCROLL | wxBORDER_SUNKEN);
-    accountList_->InsertColumn(0, _("Name"), wxLIST_FORMAT_LEFT, 200);
-    accountList_->InsertColumn(1, _("Balance"), wxLIST_FORMAT_RIGHT, 150);
+    accountList_->InsertColumn(0, wxT("Name"), wxLIST_FORMAT_LEFT, 200);
+    accountList_->InsertColumn(1, wxT("Balance"), wxLIST_FORMAT_RIGHT, 150);
 
-    netWorthLabel_ = new wxStaticText(accountsPage_, wxNewId(), _(""));
+    netWorthLabel_ = new wxStaticText(accountsPage_, wxNewId(), wxT(""));
     netWorthLabel_->SetFont(boldFont_);
 
     wxBoxSizer* labelSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -148,63 +148,63 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     // transactions page
 
     // - selection
-    selViewButton_ = new wxButton(transactionsPage_, ID_SEL_VIEW, _("+"), wxDefaultPosition, viewButtonSize);
+    selViewButton_ = new wxButton(transactionsPage_, ID_SEL_VIEW, wxT("+"), wxDefaultPosition, viewButtonSize);
 
     selPanel_ = new wxPanel(transactionsPage_, wxNewId());
 
     selIntervalChoice_ = new wxChoice(selPanel_, ID_SEL_INTERVAL);
-    selIntervalChoice_->SetToolTip(_("Select time interval"));
+    selIntervalChoice_->SetToolTip(wxT("Select time interval"));
     populateSelectionIntervals();
 
     selFirstDatePicker_ = new wxDatePickerCtrl(selPanel_, ID_SEL_FIRST, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
-    selFirstDatePicker_->SetToolTip(_("\'From\' date"));
+    selFirstDatePicker_->SetToolTip(wxT("\'From\' date"));
 
-    wxStaticText* selTowards = new wxStaticText(selPanel_, wxNewId(), _(">>"));
+    wxStaticText* selTowards = new wxStaticText(selPanel_, wxNewId(), wxT(">>"));
 
     selLastDatePicker_ = new wxDatePickerCtrl(selPanel_, ID_SEL_LAST, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
-    selLastDatePicker_->SetToolTip(_("\'To\' date"));
+    selLastDatePicker_->SetToolTip(wxT("\'To\' date"));
 
     selAccountChoice_ = new wxChoice(selPanel_, ID_SEL_ACCOUNT);
-    selAccountChoice_->SetToolTip(_("Select account"));
+    selAccountChoice_->SetToolTip(wxT("Select account"));
 
     selPatternText_ = new wxTextCtrl(selPanel_, ID_SEL_PATTERN);
-    selPatternText_->SetToolTip(_("Select description"));
+    selPatternText_->SetToolTip(wxT("Select description"));
 
-    reportsButton_ = new wxButton(selPanel_, ID_SEL_REPORTS, _("Reports"), wxDefaultPosition, wxDefaultSize, 0);
+    reportsButton_ = new wxButton(selPanel_, ID_SEL_REPORTS, wxT("Reports"), wxDefaultPosition, wxDefaultSize, 0);
 
     // - transactions list
     transactionsList_ = new wxSimpleHtmlListBox(transactionsPage_, ID_TRS_LIST);
 
     // - transaction
-    trViewButton_ = new wxButton(transactionsPage_, ID_TR_VIEW, _("-"), wxDefaultPosition, viewButtonSize);
+    trViewButton_ = new wxButton(transactionsPage_, ID_TR_VIEW, wxT("-"), wxDefaultPosition, viewButtonSize);
 
     trPanel_ = new wxPanel(transactionsPage_, wxNewId());
 
     trDatePicker_ = new wxDatePickerCtrl(trPanel_, ID_TR_DATE, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
-    trDatePicker_->SetToolTip(_("Transaction date"));
+    trDatePicker_->SetToolTip(wxT("Transaction date"));
 
     trItemCombo_ = new wxComboBox(trPanel_, ID_TR_ITEM);
-    trItemCombo_->SetToolTip(_("Transaction description"));
+    trItemCombo_->SetToolTip(wxT("Transaction description"));
 
     trValueText_ = new wxTextCtrl(trPanel_, ID_TR_VALUE);
-    trValueText_->SetToolTip(_("Transaction value\n(numeric value)"));
+    trValueText_->SetToolTip(wxT("Transaction value\n(numeric value)"));
 
     trSourceChoice_ = new wxChoice(trPanel_, ID_TR_SOURCE);
-    trSourceChoice_->SetToolTip(_("Transaction source"));
+    trSourceChoice_->SetToolTip(wxT("Transaction source"));
 
-    wxStaticText* trTowards = new wxStaticText(trPanel_, wxNewId(), _(">>"));
+    wxStaticText* trTowards = new wxStaticText(trPanel_, wxNewId(), wxT(">>"));
 
     trDestinationChoice_ = new wxChoice(trPanel_, ID_TR_DESTINATION);
-    trDestinationChoice_->SetToolTip(_("Transaction destination"));
+    trDestinationChoice_->SetToolTip(wxT("Transaction destination"));
 
     trCommentText_ = new wxTextCtrl(trPanel_, ID_TR_COMMENT);
-    trCommentText_->SetToolTip(_("Transaction comment\n(optional)"));
+    trCommentText_->SetToolTip(wxT("Transaction comment\n(optional)"));
 
-    trDeleteButton_ = new wxButton(trPanel_, ID_TR_DELETE, _("Delete"));
+    trDeleteButton_ = new wxButton(trPanel_, ID_TR_DELETE, wxT("Delete"));
 
-    trNewButton_ = new wxButton(trPanel_, ID_TR_NEW, _("New"));
+    trNewButton_ = new wxButton(trPanel_, ID_TR_NEW, wxT("New"));
 
-    trAcceptButton_ = new wxButton(trPanel_, ID_TR_ACCEPT, _("Accept"));
+    trAcceptButton_ = new wxButton(trPanel_, ID_TR_ACCEPT, wxT("Accept"));
 
     wxBoxSizer* selSizerUp = new wxBoxSizer(wxHORIZONTAL);
     selSizerUp->Add(selIntervalChoice_, 1, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
@@ -270,7 +270,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 #if wxUSE_STATUSBAR
 
     CreateStatusBar(2);
-    SetStatusText(_("Ready"), 0);
+    SetStatusText(wxT("Ready"), 0);
 
 #endif // wxUSE_STATUSBAR
     showSelectionPanel(false);
@@ -304,9 +304,9 @@ void MainWindow::fitTransactionsPage()
 void MainWindow::showSelectionPanel(bool visible)
 {
     if (visible) {
-        selViewButton_->SetLabel(_("-"));
+        selViewButton_->SetLabel(wxT("-"));
     } else {
-        selViewButton_->SetLabel(_("+"));
+        selViewButton_->SetLabel(wxT("+"));
     }
     selPanel_->Show(visible);
     fitTransactionsPage();
@@ -315,9 +315,9 @@ void MainWindow::showSelectionPanel(bool visible)
 void MainWindow::showTransactionPanel(bool visible)
 {
     if (visible) {
-        trViewButton_->SetLabel(_("-"));
+        trViewButton_->SetLabel(wxT("-"));
     } else {
-        trViewButton_->SetLabel(_("+"));
+        trViewButton_->SetLabel(wxT("+"));
     }
     trPanel_->Show(visible);
     fitTransactionsPage();
@@ -330,13 +330,13 @@ void MainWindow::setStatusMessage(const wxString& message)
 
 void MainWindow::populateSelectionIntervals()
 {
-    selIntervalChoice_->Append(_("All"), reinterpret_cast<void*> (SELECTION_INTERVAL_ALL));
-    selIntervalChoice_->Append(_("Today"), reinterpret_cast<void*> (SELECTION_INTERVAL_TODAY));
-    selIntervalChoice_->Append(_("This month"), reinterpret_cast<void*> (SELECTION_INTERVAL_THISMONTH));
-    selIntervalChoice_->Append(_("This quarter"), reinterpret_cast<void*> (SELECTION_INTERVAL_THISQUARTER));
-    selIntervalChoice_->Append(_("This year"), reinterpret_cast<void*> (SELECTION_INTERVAL_THISYEAR));
-    selIntervalChoice_->Append(_("Last year"), reinterpret_cast<void*> (SELECTION_INTERVAL_LASTYEAR));
-    selIntervalChoice_->Append(_("Custom"), reinterpret_cast<void*> (SELECTION_INTERVAL_CUSTOM));
+    selIntervalChoice_->Append(wxT("All"), reinterpret_cast<void*> (SELECTION_INTERVAL_ALL));
+    selIntervalChoice_->Append(wxT("Today"), reinterpret_cast<void*> (SELECTION_INTERVAL_TODAY));
+    selIntervalChoice_->Append(wxT("This month"), reinterpret_cast<void*> (SELECTION_INTERVAL_THISMONTH));
+    selIntervalChoice_->Append(wxT("This quarter"), reinterpret_cast<void*> (SELECTION_INTERVAL_THISQUARTER));
+    selIntervalChoice_->Append(wxT("This year"), reinterpret_cast<void*> (SELECTION_INTERVAL_THISYEAR));
+    selIntervalChoice_->Append(wxT("Last year"), reinterpret_cast<void*> (SELECTION_INTERVAL_LASTYEAR));
+    selIntervalChoice_->Append(wxT("Custom"), reinterpret_cast<void*> (SELECTION_INTERVAL_CUSTOM));
 }
 
 void MainWindow::setUndoRedoView(bool undo, bool redo)
@@ -370,7 +370,7 @@ void MainWindow::setInsertTransactionView()
     trDeleteButton_->Hide();
     trNewButton_->Hide();
     trAcceptButton_->Disable();
-    trAcceptButton_->SetLabel(_("Add"));
+    trAcceptButton_->SetLabel(wxT("Add"));
 }
 
 void MainWindow::setUpdateTransactionView(bool dirty)
@@ -378,7 +378,7 @@ void MainWindow::setUpdateTransactionView(bool dirty)
     setTransactionDirty(dirty);
     trDeleteButton_->Show();
     trNewButton_->Show();
-    trAcceptButton_->SetLabel(_("Update"));
+    trAcceptButton_->SetLabel(wxT("Update"));
 }
 
 void MainWindow::clearTransactionErrorHighlight()

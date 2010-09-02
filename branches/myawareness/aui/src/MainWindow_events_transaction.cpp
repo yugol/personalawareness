@@ -3,6 +3,7 @@
 #include <wx/datectrl.h>
 #include <wx/choice.h>
 #include <wx/button.h>
+#include <wx/msgdlg.h>
 #include <Item.h>
 #include <Transaction.h>
 #include <UiUtil.h>
@@ -114,8 +115,11 @@ void MainWindow::onNewTransaction(wxCommandEvent& event)
 
 void MainWindow::onDeleteTransaction(wxCommandEvent& event)
 {
-    Controller::instance()->deleteTransaction(selectedTransactionId_);
-    setInsertTransactionView();
+    wxMessageDialog* dlg = new wxMessageDialog(this, wxT("Are you sure you want to delete this transaction?"), wxT("Delete transaction"), wxOK | wxCANCEL);
+    if (wxID_OK == dlg->ShowModal()) {
+        Controller::instance()->deleteTransaction(selectedTransactionId_);
+        setInsertTransactionView();
+    }
 }
 
 void MainWindow::onAcceptTransaction(wxCommandEvent& event)
@@ -164,7 +168,7 @@ void MainWindow::acceptTransaction()
         }
         if (0 == item) {
             isValid = false;
-            trItemCombo_->SetValue(_T(""));
+            trItemCombo_->SetValue(wxT(""));
             trItemCombo_->SetBackgroundColour(errorHighlight_);
             checkItem();
         }

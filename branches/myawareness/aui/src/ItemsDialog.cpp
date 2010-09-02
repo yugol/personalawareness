@@ -5,12 +5,11 @@
 #include <wx/listctrl.h>
 #include <wx/button.h>
 #include <wx/textdlg.h>
+#include <wx/msgdlg.h>
 #include <Item.h>
 #include <UiUtil.h>
 #include <Controller.h>
 #include <ItemsDialog.h>
-
-#include <wx/msgdlg.h>
 
 using namespace std;
 using namespace adb;
@@ -30,7 +29,7 @@ ItemsDialog::ItemsDialog(wxWindow* parent, wxWindowID id, const wxString& title,
     wxBoxSizer* patternSizer;
     patternSizer = new wxBoxSizer(wxHORIZONTAL);
 
-    patternLabel_ = new wxStaticText(this, wxID_ANY, wxT("Search:"), wxDefaultPosition, wxDefaultSize, 0);
+    patternLabel_ = new wxStaticText(this, wxID_ANY, wxT("Search item:"), wxDefaultPosition, wxDefaultSize, 0);
     patternLabel_->Wrap(-1);
     patternSizer->Add(patternLabel_, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
@@ -158,7 +157,7 @@ void ItemsDialog::onInitDialog(wxInitDialogEvent& event)
 {
     selectedListItemId_ = -1;
     patternText_->SetFocus();
-    itemList_->InsertColumn(0, _(""), wxLIST_FORMAT_LEFT, itemList_->GetSize().GetWidth() - 20);
+    itemList_->InsertColumn(0, wxT(""), wxLIST_FORMAT_LEFT, itemList_->GetSize().GetWidth() - 20);
     updateItemList(0);
 }
 
@@ -201,7 +200,7 @@ void ItemsDialog::onItemSelected(wxListEvent& event)
 void ItemsDialog::onRename(wxCommandEvent& event)
 {
     wxString prevName = itemList_->GetItemText(selectedListItemId_);
-    wxTextEntryDialog* dlg = new wxTextEntryDialog(this, _("New name:"), _("Rename item"), prevName);
+    wxTextEntryDialog* dlg = new wxTextEntryDialog(this, wxT("New name:"), wxT("Rename item"), prevName);
     if (wxID_OK == dlg->ShowModal()) {
         wxString newName = dlg->GetValue();
         if (newName != prevName) {
@@ -220,6 +219,20 @@ void ItemsDialog::onRename(wxCommandEvent& event)
 
 void ItemsDialog::onDelete(wxCommandEvent& event)
 {
+    wxString msg(wxT("Are you sure you want to delete item\n'"));
+    msg.Append(itemList_->GetItemText(selectedListItemId_));
+    msg.Append(wxT("'?"));
+    wxMessageDialog* dlg = new wxMessageDialog(this, msg, wxT("Delete item"), wxOK | wxCANCEL);
+    if (wxID_OK == dlg->ShowModal()) {
+        int itemId = itemList_->GetItemData(selectedListItemId_);
+        try {
+            Controller::instance()->deleteItem(itemId);
+            updateItemList(0);
+        } catch (const exception& ex) {
+            Controller::instance()->reportException(ex, wxT("deleting item"));
+        }
+    }
+    dlg->Destroy();
 }
 
 void ItemsDialog::onClose(wxCommandEvent& event)

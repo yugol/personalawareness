@@ -52,9 +52,9 @@ void ReportWindow::onCellClick(wxHtmlCellEvent& event)
     wxHtmlLinkInfo* link = event.GetCell()->GetLink();
     if (0 != link) {
         wxString cmd = link->GetHref();
-        if (cmd == _T("close")) {
+        if (cmd == wxT("close")) {
             Destroy();
-        } else if (cmd == _T("order_by_value")) {
+        } else if (cmd == wxT("order_by_value")) {
             switch (lastOrdering_) {
                 case ASC:
                     sort(data_.begin(), data_.end(), Entry::byValueDesc);
@@ -66,7 +66,7 @@ void ReportWindow::onCellClick(wxHtmlCellEvent& event)
                     break;
             }
             renderPieReport();
-        } else if (cmd == _T("order_by_name")) {
+        } else if (cmd == wxT("order_by_name")) {
             switch (lastOrdering_) {
                 case ASC:
                     sort(data_.begin(), data_.end(), Entry::byNameDesc);

@@ -61,7 +61,7 @@ void MainWindow::updateSelectedTransactionId()
 
     long id;
     if (!idString.ToLong(&id)) {
-        uiReport(_T("Could not read id.\n(this should not happen)"), _T("Selecting transaction"));
+        uiReport(wxT("Could not read id.\n(this should not happen)"), wxT("Selecting transaction"));
     }
     selectedTransactionId_ = static_cast<int> (id);
 }

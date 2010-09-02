@@ -33,7 +33,7 @@ void Controller::openDatabase(const wxString* location)
 
     } catch (const exception& ex) {
 
-        reportException(ex, _T("opening database"));
+        reportException(ex, wxT("opening database"));
 
     }
 
@@ -58,11 +58,11 @@ void Controller::dumpDatabase(wxString& path)
     try {
 
         DatabaseConnection::exportDatabase(fout);
-        mainWindow_->uiReport(_T("Operation completed successfully."), _T("Export database"));
+        mainWindow_->uiReport(wxT("Operation completed successfully."), wxT("Export database"));
 
     } catch (const exception& ex) {
 
-        reportException(ex, _T("exporting database"));
+        reportException(ex, wxT("exporting database"));
 
     }
 }
@@ -77,12 +77,12 @@ void Controller::loadDatabase(wxString& path)
 
         DatabaseConnection::importDatabase(fin);
         openDatabase(0);
-        mainWindow_->uiReport(_T("Operation completed successfully."), _T("Import database"));
+        mainWindow_->uiReport(wxT("Operation completed successfully."), wxT("Import database"));
 
     } catch (const exception& ex) {
 
         openDatabase(0);
-        reportException(ex, _T("importing database"));
+        reportException(ex, wxT("importing database"));
 
     }
 }

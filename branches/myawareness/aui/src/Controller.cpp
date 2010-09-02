@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <sstream>
+#include <Exception.h>
 #include <Transaction.h>
 #include <UiUtil.h>
 #include <Controller.h>
@@ -15,7 +16,7 @@ Controller* Controller::instance_ = 0;
 
 void Controller::reportException(const exception& ex, const wxString& hint)
 {
-    wxString title(_T("Error "));
+    wxString title(wxT("Error "));
     title.Append(hint);
     wxString errorMessage;
     UiUtil::appendStdString(errorMessage, ex.what());
@@ -109,7 +110,24 @@ void Controller::insertUpdateItem(adb::Item* item)
         updateUndoRedoStatus();
 
     } catch (const exception& ex) {
-        reportException(ex, _T("inserting or updating item"));
+        reportException(ex, wxT("inserting or updating item"));
+    }
+}
+
+void Controller::deleteItem(int itemId)
+{
+    try {
+
+        DatabaseConnection::instance()->deleteItem(itemId);
+        refreshItems();
+        updateUndoRedoStatus();
+
+    } catch (const exception& ex) {
+        if (0 == ::strstr(ex.what(), Exception::RECORD_IN_USE)) {
+            reportException(ex, wxT("deleting item"));
+        } else {
+            throw Exception("Cannot delete item because it is used by a transaction!");
+        }
     }
 }
 
@@ -123,7 +141,7 @@ void Controller::insertUpdateTransaction(Transaction* transaction)
         updateUndoRedoStatus();
 
     } catch (const exception& ex) {
-        reportException(ex, _T("inserting or updating transaction"));
+        reportException(ex, wxT("inserting or updating transaction"));
     }
 }
 
@@ -137,7 +155,7 @@ void Controller::deleteTransaction(int transactionId)
         updateUndoRedoStatus();
 
     } catch (const exception& ex) {
-        reportException(ex, _T("deleting transaction"));
+        reportException(ex, wxT("deleting transaction"));
     }
 }
 

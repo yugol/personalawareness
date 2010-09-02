@@ -2,9 +2,12 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD+: accounts and items edit dialogs
+// TBD+: accounts edit dialog
+// TBD+: update search in transaction item combo when Ctrl + Space
+// TBD: refresh main window only when closing edit dialogs
 // TBD: select transactions according to item name pattern
-// TBD-: properties
+// TBD: use properties from Configuration
+// TBD-: properties table in database
 // TBD-: compact transaction list view
 // TBD-: internationalization
 // TBD-: About dialog
@@ -15,7 +18,7 @@ IMPLEMENT_APP(Application)
 
 bool Application::OnInit()
 {
-    MainWindow* aFrame = new MainWindow(0L, _(">-- TA DA --<"));
+    MainWindow* aFrame = new MainWindow(0L, wxT(">-- TA DA --<"));
     Controller::instance_ = new Controller(aFrame);
     aFrame->SetSize(700, 525);
     aFrame->Show();
