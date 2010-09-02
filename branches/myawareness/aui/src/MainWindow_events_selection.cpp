@@ -11,7 +11,7 @@ void MainWindow::onSelectionIntervalChoice(wxCommandEvent& event)
 {
     int choice = reinterpret_cast<int> (event.GetClientData());
     setSelectionInterval(choice);
-    Controller::instance()->updateTransactions();
+    Controller::instance()->refreshTransactions();
 }
 
 void MainWindow::onSelectionFirstDateChanged(wxDateEvent& event)
@@ -20,7 +20,7 @@ void MainWindow::onSelectionFirstDateChanged(wxDateEvent& event)
     if (event.GetDate() > selLastDatePicker_->GetValue()) {
         selFirstDatePicker_->SetValue(selLastDatePicker_->GetValue());
     }
-    Controller::instance()->updateTransactions();
+    Controller::instance()->refreshTransactions();
 }
 
 void MainWindow::onSelectionLastDateChanged(wxDateEvent& event)
@@ -29,12 +29,12 @@ void MainWindow::onSelectionLastDateChanged(wxDateEvent& event)
     if (event.GetDate() < selFirstDatePicker_->GetValue()) {
         selLastDatePicker_->SetValue(selFirstDatePicker_->GetValue());
     }
-    Controller::instance()->updateTransactions();
+    Controller::instance()->refreshTransactions();
 }
 
 void MainWindow::onSelectionAccountChoice(wxCommandEvent& event)
 {
-    Controller::instance()->updateTransactions();
+    Controller::instance()->refreshTransactions();
 }
 
 void MainWindow::onReports(wxCommandEvent& event)

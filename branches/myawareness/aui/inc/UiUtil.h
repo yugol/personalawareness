@@ -7,6 +7,7 @@
 class wxDateTime;
 namespace adb {
     class Date;
+    class Item;
 }
 
 class UiUtil {
@@ -29,7 +30,8 @@ public:
     static void appendWxString(std::string& to, const wxString& what);
     static void appendCurrency(wxString& to, double val);
 
-    static int cmpMatch(const wxString& a, const wxString& b);
+    static int compareBeginning(const wxString& a, const wxString& b);
+    static bool compareByName(const adb::Item* a, const adb::Item* b);
 
 private:
     static const char APPLICATION_NAME[];

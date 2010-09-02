@@ -13,11 +13,6 @@ using namespace adb;
 
 Controller* Controller::instance_ = 0;
 
-static bool itemPtrComparer(const Item* a, const Item* b)
-{
-    return a->getName() < b->getName();
-}
-
 void Controller::reportException(const exception& ex, const wxString& hint)
 {
     wxString title(_T("Error "));
@@ -41,10 +36,108 @@ Controller::~Controller()
 {
 }
 
-void Controller::start()
+void Controller::initApplication()
 {
     if (Configuration::instance()->existsConfigurationFile()) {
         openDatabase(0);
+    }
+}
+
+void Controller::getDefaultSqlExportName(wxString& name)
+{
+    Date today;
+    today.setNow();
+
+    ostringstream sout;
+
+    UiUtil::streamFile(sout, DatabaseConnection::instance()->getDatabaseLocation());
+    sout << "-";
+    sout << today;
+    sout << ".sql";
+
+    UiUtil::appendStdString(name, sout.rdbuf()->str());
+}
+
+void Controller::selectItems(std::vector<const Item*>& items)
+{
+    vector<int> sel;
+    DatabaseConnection::instance()->selectItems(&sel, 0);
+
+    vector<int>::iterator it;
+    for (it = sel.begin(); it != sel.end(); ++it) {
+        const Item* item = DatabaseConnection::instance()->getItem(*it);
+        items.push_back(item);
+    }
+
+    sort(items.begin(), items.end(), UiUtil::compareByName);
+}
+
+const adb::Item* Controller::selectItem(const char* name)
+{
+    if (0 == name || 0 == ::strlen(name)) {
+        return 0;
+    }
+    return DatabaseConnection::instance()->getItem(name);
+}
+
+const adb::Item* Controller::selectInsertItem(const char* name)
+{
+    if (0 == name || 0 == ::strlen(name)) {
+        return 0;
+    }
+
+    const Item* item = DatabaseConnection::instance()->getItem(name);
+    if (0 == item) {
+        Item newItem;
+        newItem.setName(name);
+        insertUpdateItem(&newItem);
+    }
+
+    return DatabaseConnection::instance()->getItem(name);
+}
+
+void Controller::insertUpdateItem(adb::Item* item)
+{
+    try {
+
+        int tempId = item->getId();
+        DatabaseConnection::instance()->insertUpdate(item);
+        refreshItems();
+        if (tempId != Configuration::DEFAULT_ID) {
+            refreshTransactions();
+        }
+        updateUndoRedoStatus();
+
+    } catch (const exception& ex) {
+        reportException(ex, _T("inserting or updating item"));
+    }
+}
+
+void Controller::insertUpdateTransaction(Transaction* transaction)
+{
+    try {
+
+        DatabaseConnection::instance()->insertUpdate(transaction);
+        refreshTransactions();
+        refreshAccounts();
+        updateUndoRedoStatus();
+
+    } catch (const exception& ex) {
+        reportException(ex, _T("inserting or updating transaction"));
+    }
+}
+
+void Controller::deleteTransaction(int transactionId)
+{
+    try {
+
+        DatabaseConnection::instance()->deleteTransaction(transactionId);
+        refreshTransactions();
+        refreshAccounts();
+        updateUndoRedoStatus();
+
+    } catch (const exception& ex) {
+        reportException(ex, _T("deleting transaction"));
     }
 }
 
@@ -56,7 +149,14 @@ void Controller::exitApplication()
     mainWindow_->Destroy();
 }
 
-void Controller::updateAccounts()
+void Controller::refreshAll()
+{
+    refreshAccounts();
+    refreshItems();
+    refreshTransactions();
+}
+
+void Controller::refreshAccounts()
 {
     vector<pair<Account*, double> > statement;
     vector<Account*> budgets;
@@ -92,26 +192,14 @@ void Controller::updateAccounts()
     mainWindow_->populateDebitingBudgets(budgets);
 }
 
-void Controller::buildItemList(std::vector<const Item*>& items)
-{
-    vector<int> sel;
-    vector<int>::iterator it;
-    DatabaseConnection::instance()->selectItems(&sel, 0);
-    for (it = sel.begin(); it != sel.end(); ++it) {
-        const Item* item = DatabaseConnection::instance()->getItem(*it);
-        items.push_back(item);
-    }
-    sort(items.begin(), items.end(), ::itemPtrComparer);
-}
-
-void Controller::updateItems()
+void Controller::refreshItems()
 {
     vector<const Item*> items;
-    buildItemList(items);
+    selectItems(items);
     mainWindow_->populateItems(items);
 }
 
-void Controller::updateTransactions()
+void Controller::refreshTransactions()
 {
     wxArrayString items;
 
@@ -158,76 +246,11 @@ void Controller::updateTransactions()
     mainWindow_->scrollTransactionListAtEnd();
 }
 
-void Controller::updateAll()
-{
-    updateAccounts();
-    updateItems();
-    updateTransactions();
-}
-
 void Controller::transactionToView(int id, bool complete)
 {
     Transaction t(id);
     DatabaseConnection::instance()->getTransaction(&t);
     mainWindow_->transactionToView(&t, complete);
-}
-
-const Item* Controller::getItemByName(const wxString& name)
-{
-    if (name.size() <= 0) {
-        return 0;
-    }
-    string stdname;
-    UiUtil::appendWxString(stdname, name);
-    return DatabaseConnection::instance()->getItem(stdname.c_str());
-}
-
-int Controller::getItemId(const wxString& name)
-{
-    const Item* item = getItemByName(name);
-    if (0 == item) {
-        Item newItem;
-        string stdname;
-        UiUtil::appendWxString(stdname, name);
-        newItem.setName(stdname.c_str());
-
-        DatabaseConnection::instance()->insertUpdate(&newItem);
-        updateItems();
-        item = &newItem;
-    }
-
-    if (0 != item) {
-        return item->getId();
-    }
-    return 0;
-}
-
-void Controller::acceptTransaction(Transaction* transaction)
-{
-    try {
-
-        DatabaseConnection::instance()->insertUpdate(transaction);
-        updateTransactions();
-        updateAccounts();
-        updateUndoRedoStatus();
-
-    } catch (const exception& ex) {
-        reportException(ex, _T("accepting transaction"));
-    }
-}
-
-void Controller::deleteTransaction(int transactionId)
-{
-    try {
-
-        DatabaseConnection::instance()->deleteTransaction(transactionId);
-        updateTransactions();
-        updateAccounts();
-        updateUndoRedoStatus();
-
-    } catch (const exception& ex) {
-        reportException(ex, _T("deleting transaction"));
-    }
 }
 
 void Controller::showReport(int chartType, int cashFlowDirection)
@@ -264,28 +287,14 @@ void Controller::updateUndoRedoStatus()
 void Controller::undo()
 {
     DatabaseConnection::instance()->undo();
-    updateAll();
+    refreshAll();
     updateUndoRedoStatus();
 }
 
 void Controller::redo()
 {
     DatabaseConnection::instance()->redo();
-    updateAll();
+    refreshAll();
     updateUndoRedoStatus();
 }
 
-void Controller::getDefaultSqlExportName(wxString& name)
-{
-    Date today;
-    today.setNow();
-
-    ostringstream sout;
-
-    UiUtil::streamFile(sout, DatabaseConnection::instance()->getDatabaseLocation());
-    sout << "-";
-    sout << today;
-    sout << ".sql";
-
-    UiUtil::appendStdString(name, sout.rdbuf()->str());
-}

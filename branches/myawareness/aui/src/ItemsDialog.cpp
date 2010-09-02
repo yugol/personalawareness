@@ -4,6 +4,7 @@
 #include <wx/textctrl.h>
 #include <wx/listctrl.h>
 #include <wx/button.h>
+#include <wx/textdlg.h>
 #include <Item.h>
 #include <UiUtil.h>
 #include <Controller.h>
@@ -90,11 +91,16 @@ void ItemsDialog::selectItem(long listItemId)
     wxRect rect;
 
     if (listItemId >= 0) {
+
         itemList_->SetItemState(listItemId, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 
         itemList_->GetItemRect(listItemId, rect);
         itemList_->ScrollList(rect.x, rect.y);
+
+        selectedListItemId_ = listItemId;
+
     } else {
+
         listItemId = -1;
         while (true) {
             listItemId = itemList_->GetNextItem(listItemId);
@@ -109,15 +115,18 @@ void ItemsDialog::selectItem(long listItemId)
 
         itemList_->GetItemRect(0, rect);
         itemList_->ScrollList(rect.x, rect.y);
+
+        selectedListItemId_ = -1;
+
     }
 }
 
-void ItemsDialog::updateItems(int itemId)
+void ItemsDialog::updateItemList(int itemId)
 {
     long selectedListItemId = -1;
 
     vector<const Item*> items;
-    Controller::instance()->buildItemList(items);
+    Controller::instance()->selectItems(items);
 
     itemList_->DeleteAllItems();
 
@@ -147,9 +156,10 @@ void ItemsDialog::updateItems(int itemId)
 
 void ItemsDialog::onInitDialog(wxInitDialogEvent& event)
 {
+    selectedListItemId_ = -1;
     patternText_->SetFocus();
     itemList_->InsertColumn(0, _(""), wxLIST_FORMAT_LEFT, itemList_->GetSize().GetWidth() - 20);
-    updateItems(0);
+    updateItemList(0);
 }
 
 void ItemsDialog::onPatternText(wxCommandEvent& event)
@@ -165,7 +175,7 @@ void ItemsDialog::onPatternText(wxCommandEvent& event)
                 break;
             }
 
-            int match = UiUtil::cmpMatch(event.GetString(), itemList_ ->GetItemText(listItemId));
+            int match = UiUtil::compareBeginning(event.GetString(), itemList_ ->GetItemText(listItemId));
 
             if (match > 0) {
                 selectedListItemId = listItemId;
@@ -183,12 +193,29 @@ void ItemsDialog::onPatternText(wxCommandEvent& event)
 
 void ItemsDialog::onItemSelected(wxListEvent& event)
 {
+    selectedListItemId_ = event.GetIndex();
     renameButton_->Enable(true);
     deleteButton_->Enable(true);
 }
 
 void ItemsDialog::onRename(wxCommandEvent& event)
 {
+    wxString prevName = itemList_->GetItemText(selectedListItemId_);
+    wxTextEntryDialog* dlg = new wxTextEntryDialog(this, _("New name:"), _("Rename item"), prevName);
+    if (wxID_OK == dlg->ShowModal()) {
+        wxString newName = dlg->GetValue();
+        if (newName != prevName) {
+            int itemId = itemList_->GetItemData(selectedListItemId_);
+            string itemName;
+            UiUtil::appendWxString(itemName, newName);
+            Item item;
+            item.setId(itemId);
+            item.setName(itemName.c_str());
+            Controller::instance()->insertUpdateItem(&item);
+            updateItemList(itemId);
+        }
+    }
+    dlg->Destroy();
 }
 
 void ItemsDialog::onDelete(wxCommandEvent& event)

@@ -64,7 +64,10 @@ void MainWindow::onTransactionItemKeyDown(wxKeyEvent& event)
 void MainWindow::onTransactionItemText(wxCommandEvent& event)
 {
     setTransactionDirty();
-    const Item* item = Controller::instance()->getItemByName(trItemCombo_->GetValue());
+
+    string itemName;
+    UiUtil::appendWxString(itemName, trItemCombo_->GetValue());
+    const Item* item = Controller::instance()->selectItem(itemName.c_str());
     if (0 != item) {
         Controller::instance()->transactionToView(item->getLastTransactionId(), false);
     } else {
@@ -153,8 +156,13 @@ void MainWindow::acceptTransaction()
 
     int itemId = 0;
     if (isValid) {
-        itemId = Controller::instance()->getItemId(trItemCombo_->GetValue());
-        if (0 == itemId) {
+        string itemName;
+        UiUtil::appendWxString(itemName, trItemCombo_->GetValue());
+        const Item* item = Controller::instance()->selectInsertItem(itemName.c_str());
+        if (0 != item) {
+            itemId = item->getId();
+        }
+        if (0 == item) {
             isValid = false;
             trItemCombo_->SetValue(_T(""));
             trItemCombo_->SetBackgroundColour(errorHighlight_);
@@ -173,7 +181,7 @@ void MainWindow::acceptTransaction()
         UiUtil::appendWxString(description, trCommentText_->GetValue());
         t.setDescription(description.c_str());
 
-        Controller::instance()->acceptTransaction(&t);
+        Controller::instance()->insertUpdateTransaction(&t);
 
         setInsertTransactionView();
     }

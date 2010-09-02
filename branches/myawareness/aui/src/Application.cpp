@@ -3,7 +3,6 @@
 #include <Application.h>
 
 // TBD+: accounts and items edit dialogs
-// TBD+: investigate auto-completion of the item's last transaction
 // TBD: select transactions according to item name pattern
 // TBD-: properties
 // TBD-: compact transaction list view
@@ -21,6 +20,6 @@ bool Application::OnInit()
     aFrame->SetSize(700, 525);
     aFrame->Show();
     aFrame->setDatabaseOpenedView(false);
-    Controller::instance()->start();
+    Controller::instance()->initApplication();
     return true;
 }

@@ -22,9 +22,10 @@ private:
     wxButton* renameButton_;
     wxButton* deleteButton_;
     wxButton* closeButton_;
+    long selectedListItemId_;
 
     void selectItem(long selectedId);
-    void updateItems(int itemId);
+    void updateItemList(int itemId);
 
     void onInitDialog(wxInitDialogEvent& event);
     void onPatternText(wxCommandEvent& event);

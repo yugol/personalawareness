@@ -29,7 +29,7 @@ void Controller::openDatabase(const wxString* location)
         }
 
         mainWindow_->setSelectionStartInterval();
-        updateAll();
+        refreshAll();
 
     } catch (const exception& ex) {
 

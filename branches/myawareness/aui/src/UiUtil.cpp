@@ -1,6 +1,7 @@
 #include <sstream>
 #include <wx/datetime.h>
 #include <Date.h>
+#include <Item.h>
 #include <UiUtil.h>
 
 using namespace adb;
@@ -173,7 +174,7 @@ void UiUtil::appendCurrency(wxString& to, double val)
     appendStdString(to, sout.rdbuf()->str());
 }
 
-int UiUtil::cmpMatch(const wxString& sa, const wxString& sb)
+int UiUtil::compareBeginning(const wxString& sa, const wxString& sb)
 {
     size_t minLen = min(sa.Len(), sb.Len());
     for (size_t i = 0; i < minLen; ++i) {
@@ -198,3 +199,11 @@ int UiUtil::cmpMatch(const wxString& sa, const wxString& sb)
     return 0;
 }
 
+bool UiUtil::compareByName(const Item* a, const Item* b)
+{
+    wxString wxa, wxb;
+    appendStdString(wxa, a->getName());
+    appendStdString(wxb, b->getName());
+    int cmp = compareBeginning(wxa, wxb);
+    return (cmp <= 0);
+}

@@ -17,36 +17,36 @@ public:
 
     ~Controller();
 
-    void start();
+    void initApplication();
+
+    void getDefaultSqlExportName(wxString& name);
+    void selectItems(std::vector<const adb::Item*>& items);
+
+    const adb::Item* selectItem(const char* name);
+    const adb::Item* selectInsertItem(const char* name);
+    void insertUpdateItem(adb::Item* item);
+    void deleteItem(int itemId);
+    void insertUpdateTransaction(adb::Transaction* transaction);
+    void deleteTransaction(int transactionId);
+
+    void exitApplication();
 
     void openDatabase(const wxString* path);
     void dumpDatabase(wxString& path);
     void loadDatabase(wxString& path);
 
-    void updateAccounts();
-    void updateItems();
-    void updateTransactions();
-    void updateAll();
+    void refreshAccounts();
+    void refreshItems();
+    void refreshTransactions();
+    void refreshAll();
     void transactionToView(int id, bool complete);
 
     void updateUndoRedoStatus();
     void undo();
     void redo();
 
-    void buildItemList(std::vector<const adb::Item*>& items);
-    void getDefaultSqlExportName(wxString& name);
-    const adb::Item* getItemByName(const wxString& name);
-    int getItemId(const wxString& name);
-
-    void acceptTransaction(adb::Transaction* transaction);
-    void deleteTransaction(int transactionId);
-
     void reportException(const std::exception& ex, const wxString& hint);
     void showReport(int chartType, int cashFlowDirection);
-
-    void exitApplication();
-
-protected:
 
 private:
     static Controller* instance_;
