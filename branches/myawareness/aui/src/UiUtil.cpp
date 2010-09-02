@@ -173,3 +173,28 @@ void UiUtil::appendCurrency(wxString& to, double val)
     appendStdString(to, sout.rdbuf()->str());
 }
 
+int UiUtil::cmpMatch(const wxString& sa, const wxString& sb)
+{
+    size_t minLen = min(sa.Len(), sb.Len());
+    for (size_t i = 0; i < minLen; ++i) {
+
+        wxChar ca = wxTolower(sa.GetChar(i));
+        wxChar cb = wxTolower(sb.GetChar(i));
+
+        if (ca > 255) {
+            ca = 256;
+        }
+        if (cb > 255) {
+            cb = 256;
+        }
+
+        if (ca < cb) {
+            return -1;
+        }
+        if (ca > cb) {
+            return 1;
+        }
+    }
+    return 0;
+}
+

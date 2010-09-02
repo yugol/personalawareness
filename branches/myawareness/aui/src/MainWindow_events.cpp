@@ -2,6 +2,7 @@
 #include <wx/msgdlg.h>
 #include <wx/panel.h>
 #include <Controller.h>
+#include <ItemsDialog.h>
 #include <MainWindow.h>
 
 //helper functions TBD-: remove them
@@ -94,6 +95,22 @@ void MainWindow::onUndo(wxCommandEvent& event)
 void MainWindow::onRedo(wxCommandEvent& event)
 {
     Controller::instance()->redo();
+}
+
+void MainWindow::onAccounts(wxCommandEvent& event)
+{
+
+}
+
+void MainWindow::onItems(wxCommandEvent& event)
+{
+    ItemsDialog* dlg = new ItemsDialog(this);
+    dlg->ShowModal();
+}
+
+void MainWindow::onPreferences(wxCommandEvent& event)
+{
+
 }
 
 void MainWindow::onAbout(wxCommandEvent &event)

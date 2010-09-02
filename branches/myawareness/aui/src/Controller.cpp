@@ -92,9 +92,8 @@ void Controller::updateAccounts()
     mainWindow_->populateDebitingBudgets(budgets);
 }
 
-void Controller::updateItems()
+void Controller::buildItemList(std::vector<const Item*>& items)
 {
-    vector<const Item*> items;
     vector<int> sel;
     vector<int>::iterator it;
     DatabaseConnection::instance()->selectItems(&sel, 0);
@@ -103,6 +102,12 @@ void Controller::updateItems()
         items.push_back(item);
     }
     sort(items.begin(), items.end(), ::itemPtrComparer);
+}
+
+void Controller::updateItems()
+{
+    vector<const Item*> items;
+    buildItemList(items);
     mainWindow_->populateItems(items);
 }
 

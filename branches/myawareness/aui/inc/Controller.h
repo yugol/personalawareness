@@ -1,6 +1,8 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
+#include <vector>
+
 class MainWindow;
 class wxString;
 class wxDateTime;
@@ -31,6 +33,7 @@ public:
     void undo();
     void redo();
 
+    void buildItemList(std::vector<const adb::Item*>& items);
     void getDefaultSqlExportName(wxString& name);
     const adb::Item* getItemByName(const wxString& name);
     int getItemId(const wxString& name);

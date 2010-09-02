@@ -29,6 +29,8 @@ public:
     static void appendWxString(std::string& to, const wxString& what);
     static void appendCurrency(wxString& to, double val);
 
+    static int cmpMatch(const wxString& a, const wxString& b);
+
 private:
     static const char APPLICATION_NAME[];
 

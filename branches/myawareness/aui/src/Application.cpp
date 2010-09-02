@@ -2,14 +2,15 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD: accoutns items edit dialogs
+// TBD+: accounts and items edit dialogs
+// TBD+: investigate auto-completion of the item's last transaction
+// TBD: select transactions according to item name pattern
 // TBD-: properties
 // TBD-: compact transaction list view
 // TBD-: internationalization
 // TBD-: About dialog
-// TBD: insert transaction focuses on item
-// TBD: investigate auto-completion of the item's last transaction
-// TBD: time ticker
+// TBD-: insert transaction focuses on item
+// TBD-: time ticker
 
 IMPLEMENT_APP(Application)
 

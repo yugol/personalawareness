@@ -47,6 +47,9 @@ EVT_MENU(ID_MENU_EXPORT, MainWindow::onExport)
 EVT_MENU(ID_MENU_IMPORT, MainWindow::onImport)
 EVT_MENU(ID_MENU_UNDO, MainWindow::onUndo)
 EVT_MENU(ID_MENU_REDO, MainWindow::onRedo)
+EVT_MENU(ID_MENU_ACCOUNTS, MainWindow::onAccounts)
+EVT_MENU(ID_MENU_ITEMS, MainWindow::onItems)
+EVT_MENU(ID_MENU_PREFERENCES, MainWindow::onPreferences)
 EVT_MENU(ID_MENU_IMPORT, MainWindow::onImport)
 EVT_MENU(ID_MENU_ABOUT, MainWindow::onAbout)
 
@@ -104,7 +107,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     editMenu_->Append(ID_MENU_REDO, _("&Redo"), _("Redo the last action"));
     editMenu_->AppendSeparator();
     editMenu_->Append(ID_MENU_ACCOUNTS, _("&Accounts/Bugets..."), _("Edit accounts and budget categories"));
-    editMenu_->Append(ID_MENU_ACCOUNTS, _("&Items..."), _("Edit items"));
+    editMenu_->Append(ID_MENU_ITEMS, _("&Items..."), _("Edit items"));
     editMenu_->AppendSeparator();
     editMenu_->Append(ID_MENU_PREFERENCES, _("&Preferences..."), _("Edit preferences"));
     menuBar_->Append(editMenu_, _("&Edit"));
