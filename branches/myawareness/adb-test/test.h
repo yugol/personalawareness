@@ -6,6 +6,9 @@
 extern char testDatabase[];
 extern char disposableDatabase[];
 
+namespace adb {
+}
+
 using namespace std;
 using namespace adb;
 
