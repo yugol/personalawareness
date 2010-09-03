@@ -45,7 +45,7 @@ void Controller::openDatabase(const wxString* location)
         mainWindow_->SetTitle(UiUtil::getApplicationName(""));
         mainWindow_->setStatusMessage(UiUtil::getUsingStatusMessage(""));
     }
-    updateUndoRedoStatus();
+    refreshUndoRedoStatus();
     mainWindow_->setDatabaseOpenedView(DatabaseConnection::isOpened());
 }
 

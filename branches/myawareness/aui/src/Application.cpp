@@ -2,11 +2,13 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD+: accounts edit dialog
 // TBD+: update search in transaction item combo when Ctrl + Space
-// TBD+: rename item to description in UI
+// TBD-: rename 'item' to 'description' in UI
+// TBD: readValidateRefresh for items
+// TBD: readValidateRefresh for accounts
+// TBD: handle all errors in Window and not in controller
 // TBD: color values in transaction list (red, blue, black)
-// TBD: when selecting an item / accoun disable delete if it is used
+// TBD: when selecting an item / account disable delete if it is used
 // TBD: select transactions according to item name pattern
 // TBD: use properties from Configuration
 // TBD-: properties table in database

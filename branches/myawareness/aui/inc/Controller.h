@@ -26,11 +26,15 @@ public:
     const adb::Account* selectAccount(const char* name);
     const adb::Account* selectAccount(int accountId);
     bool selectAccountInUse(int accountId);
+    void insertUpdateAccount(adb::Account* account);
+    void deleteAccount(int accountId);
+
     void selectAllItems(std::vector<const adb::Item*>& items);
     const adb::Item* selectItem(const char* name);
     const adb::Item* selectInsertItem(const char* name);
     void insertUpdateItem(adb::Item* item);
     void deleteItem(int itemId);
+
     void insertUpdateTransaction(adb::Transaction* transaction);
     void deleteTransaction(int transactionId);
 
@@ -46,7 +50,7 @@ public:
     void refreshAll();
     void transactionToView(int id, bool complete);
 
-    void updateUndoRedoStatus();
+    void refreshUndoRedoStatus();
     void undo();
     void redo();
 

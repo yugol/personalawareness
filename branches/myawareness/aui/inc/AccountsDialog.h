@@ -24,6 +24,7 @@ private:
     bool dirty_;
     long selectedListItemId_;
     const adb::Account* selectedAccount_;
+    bool processEditEvents_;
 
     wxStaticText* listLabel_;
     wxListCtrl* accountList_;
@@ -40,11 +41,12 @@ private:
     wxButton* insertButton_;
     wxButton* updateButton_;
     wxButton* deleteButton_;
+    wxButton* newButton_;
     wxButton* closeButton_;
 
-    void refreshAccountList(int selectedAccountId);
-    void selectAccount(long selectedListItemId);
-    void validateRefresh();
+    void refreshAccountList(int selectedAccountId = 0);
+    void selectAccount(long selectedListItemId = -1);
+    bool readValidateRefresh(adb::Account* account = 0);
 
     void onCloseDialog(wxCloseEvent& event);
     void onInitDialog(wxInitDialogEvent& event);
@@ -57,6 +59,7 @@ private:
     void onInsert(wxCommandEvent& event);
     void onUpdate(wxCommandEvent& event);
     void onDelete(wxCommandEvent& event);
+    void onNew(wxCommandEvent& event);
     void onClose(wxCommandEvent& event);
 };
 

@@ -84,6 +84,18 @@ bool Controller::selectAccountInUse(int accountId)
     return DatabaseConnection::instance()->isAccountInUse(accountId);
 }
 
+void Controller::insertUpdateAccount(adb::Account* account)
+{
+    DatabaseConnection::instance()->insertUpdate(account);
+    refreshAccounts();
+}
+
+void Controller::deleteAccount(int accountId)
+{
+    DatabaseConnection::instance()->deleteAccount(accountId);
+    refreshAccounts();
+}
+
 void Controller::selectAllItems(std::vector<const Item*>& items)
 {
     vector<int> sel;
@@ -132,7 +144,7 @@ void Controller::insertUpdateItem(adb::Item* item)
         if (tempId != Configuration::DEFAULT_ID) {
             refreshTransactions();
         }
-        updateUndoRedoStatus();
+        refreshUndoRedoStatus();
 
     } catch (const exception& ex) {
         reportException(ex, wxT("inserting or updating item"));
@@ -145,7 +157,7 @@ void Controller::deleteItem(int itemId)
 
         DatabaseConnection::instance()->deleteItem(itemId);
         refreshItems();
-        updateUndoRedoStatus();
+        refreshUndoRedoStatus();
 
     } catch (const exception& ex) {
         if (0 == ::strstr(ex.what(), Exception::RECORD_IN_USE)) {
@@ -163,7 +175,7 @@ void Controller::insertUpdateTransaction(Transaction* transaction)
         DatabaseConnection::instance()->insertUpdate(transaction);
         refreshTransactions();
         refreshAccounts();
-        updateUndoRedoStatus();
+        refreshUndoRedoStatus();
 
     } catch (const exception& ex) {
         reportException(ex, wxT("inserting or updating transaction"));
@@ -177,7 +189,7 @@ void Controller::deleteTransaction(int transactionId)
         DatabaseConnection::instance()->deleteTransaction(transactionId);
         refreshTransactions();
         refreshAccounts();
-        updateUndoRedoStatus();
+        refreshUndoRedoStatus();
 
     } catch (const exception& ex) {
         reportException(ex, wxT("deleting transaction"));
@@ -316,7 +328,7 @@ void Controller::showReport(int chartType, int cashFlowDirection)
     report->Show();
 }
 
-void Controller::updateUndoRedoStatus()
+void Controller::refreshUndoRedoStatus()
 {
     bool undo = false;
     bool redo = false;
@@ -331,13 +343,13 @@ void Controller::undo()
 {
     DatabaseConnection::instance()->undo();
     refreshAll();
-    updateUndoRedoStatus();
+    refreshUndoRedoStatus();
 }
 
 void Controller::redo()
 {
     DatabaseConnection::instance()->redo();
     refreshAll();
-    updateUndoRedoStatus();
+    refreshUndoRedoStatus();
 }
 
