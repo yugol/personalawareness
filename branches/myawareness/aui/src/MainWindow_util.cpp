@@ -76,7 +76,7 @@ void MainWindow::setSelectionInterval(int choice)
         case SELECTION_INTERVAL_ALL:
             firstDate.SetDay(1);
             firstDate.SetMonth(wxDateTime::Jan);
-            firstDate.SetYear(2000);
+            firstDate.SetYear(1900);
             break;
         case SELECTION_INTERVAL_TODAY:
             firstDate = lastDate;

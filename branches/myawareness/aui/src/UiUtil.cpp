@@ -1,5 +1,6 @@
 #include <sstream>
 #include <wx/datetime.h>
+#include <Configuration.h>
 #include <Date.h>
 #include <Item.h>
 #include <UiUtil.h>
@@ -132,17 +133,26 @@ void UiUtil::appendStdString(wxString& to, const string& what)
 
 ostream& UiUtil::streamCurrency(ostream& out, double val, bool html)
 {
+
+    if (Configuration::instance()->PREFIX_CURRENCY) {
+        out << Configuration::instance()->CURRENCY_SYMBOL;
+    }
+
     if (-0.01 < val && val < 0) {
         val = 0;
     }
     out.precision(2);
     out << fixed << val;
-    if (html) {
-        out << "&nbsp;";
-    } else {
-        out << " ";
+
+    if (!Configuration::instance()->PREFIX_CURRENCY) {
+        if (html) {
+            out << "&nbsp;";
+        } else {
+            out << " ";
+        }
+        out << Configuration::instance()->CURRENCY_SYMBOL;
     }
-    out << "RON";
+
     return out;
 }
 

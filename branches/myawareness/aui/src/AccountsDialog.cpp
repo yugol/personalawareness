@@ -171,7 +171,7 @@ void AccountsDialog::onInitDialog(wxInitDialogEvent& event)
 {
     dirty_ = false;
 
-    typeChoice_->Insert(wxT("Money"), 0, reinterpret_cast<void*> (Account::ACCOUNT));
+    typeChoice_->Insert(wxT("Cash"), 0, reinterpret_cast<void*> (Account::ACCOUNT));
     typeChoice_->Insert(wxT("Income"), 1, reinterpret_cast<void*> (Account::CREDIT));
     typeChoice_->Insert(wxT("Expenses"), 2, reinterpret_cast<void*> (Account::DEBT));
 
