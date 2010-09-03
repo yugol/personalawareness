@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <sstream>
 #include <Exception.h>
+#include <Configuration.h>
 #include <Transaction.h>
 #include <UiUtil.h>
 #include <Controller.h>
@@ -274,7 +275,9 @@ void Controller::refreshTransactions()
 
         ostringstream item;
 
-        item << "<table id='@" << id << "@' width='90%' border='0' cellpadding='0' cellspacing='0'>";
+        item << "<table id='@" << id << "@' width='";
+        item << ((Configuration::instance()->COMPACT_TRNSACTION_VIEW) ? ("80%") : ("90%"));
+        item << "' border='0' cellpadding='0' cellspacing='0'>";
 
         item << "<tr>";
         item << "<td align='left' width='12%'><tt>&nbsp;";
@@ -282,13 +285,27 @@ void Controller::refreshTransactions()
         item << "&nbsp;</tt></td>";
         item << "<td align='left'><b>&nbsp;&nbsp;" << why->getName() << "&nbsp;&nbsp;</b></td>";
         item << "<td align='right' width='20%'>&nbsp;";
-        UiUtil::streamCurrency(item, t.getValue(), true);
+
+        if (to->getType() == Account::DEBT) {
+            item << "<font color='red'>";
+            UiUtil::streamCurrency(item, t.getValue(), true);
+            item << "</font>";
+        } else if (from->getType() == Account::CREDIT) {
+            item << "<font color='blue'>";
+            UiUtil::streamCurrency(item, t.getValue(), true);
+            item << "</font>";
+        } else {
+            UiUtil::streamCurrency(item, t.getValue(), true);
+        }
+
         item << "&nbsp;</td>";
         item << "</tr>";
 
-        item << "<tr>";
-        item << "<td colspan='2'align='right'><small><i>" << from->getFullName() << " --> " << to->getFullName() << "</i></small>&nbsp;</td>";
-        item << "</tr>";
+        if (!Configuration::instance()->COMPACT_TRNSACTION_VIEW) {
+            item << "<tr>";
+            item << "<td colspan='2'align='right'><small><i><font color='DarkSlateGray'>" << from->getFullName() << " --> " << to->getFullName() << "</font></i></small>&nbsp;</td>";
+            item << "</tr>";
+        }
 
         item << "</table>";
 

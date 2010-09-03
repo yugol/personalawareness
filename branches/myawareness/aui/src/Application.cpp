@@ -2,21 +2,25 @@
 #include <Controller.h>
 #include <Application.h>
 
+// TBD+: readValidateRefresh for transactions
+// TBD+: select transactions according to item name pattern
 // TBD+: update search in transaction item combo when Ctrl + Space
-// TBD-: rename 'item' to 'description' in UI
-// TBD: readValidateRefresh for items
-// TBD: readValidateRefresh for transactions
-// TBD: handle all errors in Window and not in controller
-// TBD: color values in transaction list (red, blue, black)
-// TBD: when selecting an item / account disable delete if it is used
-// TBD: select transactions according to item name pattern
-// TBD+: use properties from Configuration
-// TBD-: properties table in database
-// TBD-: compact transaction list view
-// TBD-: internationalization
-// TBD-: About dialog
 // TBD-: insert transaction focuses on item
-// TBD-: time ticker
+
+// TBD: when selecting an item / account disable delete if it is used
+// TBD: readValidateRefresh for items
+
+// TBD: time ticker
+
+// TBD: About dialog
+
+// TBD: handle all errors in Window and not in controller
+
+// TBD: propertied dialog
+// TBD-: properties table in database
+
+// TBD-: rename 'item' to 'description' in UI
+// TBD-: internationalization
 
 IMPLEMENT_APP(Application)
 
