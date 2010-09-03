@@ -35,6 +35,7 @@ namespace adb {
 
         std::string CURRENCY_SYMBOL;
         bool PREFIX_CURRENCY;
+        bool COMPACT_TRNSACTION_VIEW;
 
         virtual ~Configuration();
 
