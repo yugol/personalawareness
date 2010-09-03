@@ -1,71 +1,10 @@
 #include <wx/combobox.h>
-#include <wx/htmllbox.h>
 #include <wx/button.h>
 #include <wx/choice.h>
 #include <wx/datectrl.h>
 #include <wx/msgdlg.h>
 #include <Controller.h>
 #include <MainWindow.h>
-
-void MainWindow::checkItem()
-{
-    int nChars = trItemText_->GetValue().Trim(true).Trim(false).size();
-    if (nChars > 0) {
-        trAcceptButton_->Enable();
-    } else {
-        trAcceptButton_->Disable();
-    }
-}
-
-int MainWindow::getItemIndexById(int id)
-{
-    // TBD+: see if this is necessary
-//    for (unsigned int i = 0; i < trItemText_->GetCount(); ++i) {
-//        int tmpId = reinterpret_cast<int> (trItemText_->GetClientData(i));
-//        if (tmpId == id) {
-//            return i;
-//        }
-//    }
-    return -1;
-}
-
-int MainWindow::getSourceIndexById(int id)
-{
-    for (unsigned int i = 0; i < trSourceChoice_->GetCount(); ++i) {
-        int tmpId = reinterpret_cast<int> (trSourceChoice_->GetClientData(i));
-        if (tmpId == id) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-int MainWindow::getDestinationIndexById(int id)
-{
-    for (unsigned int i = 0; i < trDestinationChoice_->GetCount(); ++i) {
-        int tmpId = reinterpret_cast<int> (trDestinationChoice_->GetClientData(i));
-        if (tmpId == id) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-void MainWindow::updateSelectedTransactionId()
-{
-    int idx = transactionsList_->GetSelection();
-
-    wxString html = transactionsList_->GetString(idx);
-    int first = html.Find(wxChar('@')) + 1;
-    int last = html.Find(wxChar('@'), true) - 1;
-    wxString idString = html.SubString(first, last);
-
-    long id;
-    if (!idString.ToLong(&id)) {
-        uiReport(wxT("Could not read id.\n(this should not happen)"), wxT("Selecting transaction"));
-    }
-    selectedTransactionId_ = static_cast<int> (id);
-}
 
 void MainWindow::setSelectionInterval(int choice)
 {
@@ -142,7 +81,7 @@ void MainWindow::setSelectionCustomInterval()
     }
 }
 
-void MainWindow::uiReport(const wxString& message, const wxString& title)
+void MainWindow::reportMessage(const wxString& message, const wxString& title)
 {
     wxMessageBox(message, title, wxOK | wxCENTRE, this);
 }

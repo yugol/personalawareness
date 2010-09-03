@@ -83,7 +83,6 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 {
     // formatting
 
-    errorHighlight_ = wxSystemSettings::GetColour(wxSYS_COLOUR_INFOBK);
     normalFont_ = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
     boldFont_ = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
     boldFont_.SetWeight(wxBOLD);
@@ -281,15 +280,6 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     trItemText_->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(MainWindow::onTransactionItemKeyDown), NULL, this);
 }
 
-void MainWindow::setTransactionDirty(bool dirty)
-{
-    selectedTransactionDirty_ = dirty;
-    trAcceptButton_->Enable(selectedTransactionDirty_);
-    if (selectedTransactionDirty_) {
-        checkItem();
-    }
-}
-
 void MainWindow::fitAccountsPage()
 {
     accountsSizer_->Fit(accountsPage_);
@@ -355,7 +345,7 @@ void MainWindow::setDatabaseOpenedView(bool opened)
 
     financialPages_->Show(opened);
 
-    setInsertTransactionView();
+    selectTransaction(0);
 }
 
 void MainWindow::scrollTransactionListAtEnd()
@@ -363,27 +353,3 @@ void MainWindow::scrollTransactionListAtEnd()
     transactionsList_->ScrollToLine(transactionsList_->GetLineCount());
 }
 
-void MainWindow::setInsertTransactionView()
-{
-    selectedTransactionId_ = 0;
-    transactionsList_->SetSelection(wxNOT_FOUND);
-    transactionToView(0, true);
-    trDeleteButton_->Hide();
-    trNewButton_->Hide();
-    trAcceptButton_->Disable();
-}
-
-void MainWindow::setUpdateTransactionView(bool dirty)
-{
-    setTransactionDirty(dirty);
-    trDeleteButton_->Show();
-    trNewButton_->Show();
-}
-
-void MainWindow::clearTransactionErrorHighlight()
-{
-    trItemText_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
-    trValueText_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
-    trSourceChoice_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
-    trDestinationChoice_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
-}

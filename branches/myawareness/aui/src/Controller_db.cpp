@@ -58,7 +58,7 @@ void Controller::dumpDatabase(wxString& path)
     try {
 
         DatabaseConnection::exportDatabase(fout);
-        mainWindow_->uiReport(wxT("Operation completed successfully."), wxT("Export database"));
+        mainWindow_->reportMessage(wxT("Operation completed successfully."), wxT("Export database"));
 
     } catch (const exception& ex) {
 
@@ -77,7 +77,7 @@ void Controller::loadDatabase(wxString& path)
 
         DatabaseConnection::importDatabase(fin);
         openDatabase(0);
-        mainWindow_->uiReport(wxT("Operation completed successfully."), wxT("Import database"));
+        mainWindow_->reportMessage(wxT("Operation completed successfully."), wxT("Import database"));
 
     } catch (const exception& ex) {
 

@@ -337,7 +337,7 @@ void AccountsDialog::selectAccount(long listItemId)
     nameText_->SetValue(wxEmptyString);
 
     typeChoice_->Select(0);
-    typeChoice_->SetToolTip(wxEmptyString);
+    typeChoice_->SetToolTip(0);
     typeChoice_->Enable(true);
 
     groupCombo_->SetValue(wxEmptyString);
@@ -347,7 +347,7 @@ void AccountsDialog::selectAccount(long listItemId)
     descriptionText_->SetValue(wxEmptyString);
 
     deleteButton_->Enable(false);
-    deleteButton_->SetToolTip(wxEmptyString);
+    deleteButton_->SetToolTip(0);
 
     if (listItemId >= 0) {
         selectedListItemId_ = listItemId;
@@ -418,8 +418,8 @@ void AccountsDialog::selectAccount(long listItemId)
 
 bool AccountsDialog::readValidateRefresh(Account* account)
 {
-    insertButton_->SetToolTip(wxEmptyString);
-    updateButton_->SetToolTip(wxEmptyString);
+    insertButton_->SetToolTip(0);
+    updateButton_->SetToolTip(0);
     bool dirty = false;
 
     // account name
@@ -446,7 +446,7 @@ bool AccountsDialog::readValidateRefresh(Account* account)
     const Account* tmpAcc = Controller::instance()->selectAccount(name.c_str());
     if (tmpAcc == 0) {
         insertButton_->Enable(true);
-        insertButton_->SetToolTip(wxEmptyString);
+        insertButton_->SetToolTip(0);
     } else {
         insertButton_->Enable(false);
         insertButton_->SetToolTip(insertTip);
@@ -526,7 +526,7 @@ bool AccountsDialog::readValidateRefresh(Account* account)
 
     if (dirty) {
         updateButton_->Enable(true);
-        updateButton_->SetToolTip(wxEmptyString);
+        updateButton_->SetToolTip(0);
     } else {
         updateButton_->Enable(false);
         if (selectedAccount_ != 0) {

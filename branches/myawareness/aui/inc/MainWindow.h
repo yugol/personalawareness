@@ -44,14 +44,11 @@ public:
     void populateItems(const std::vector<const adb::Item*>& items);
     void populateTransactions(const wxArrayString& items);
 
-    int getItemIndexById(int id);
-    int getSourceIndexById(int id);
-    int getDestinationIndexById(int id);
+    int getTransactionSourceIndexById(int id);
+    int getTransactionDestinationIndexById(int id);
     void getTransactionSelectionParameters(adb::SelectionParameters* parameters);
 
-    void transactionToView(const adb::Transaction* t, bool complete);
-
-    void uiReport(const wxString& message, const wxString& title = wxEmptyString);
+    void reportMessage(const wxString& message, const wxString& title = wxEmptyString);
 
 private:
     enum {
@@ -64,13 +61,10 @@ private:
         SELECTION_INTERVAL_CUSTOM
     };
 
-    static const int EMPTY_BORDER_SIZE; // TBD-: move to UiUtil and use in all windows
+    static const int EMPTY_BORDER_SIZE; // TBD: move to UiUtil and use in all windows
     wxFont normalFont_;
     wxFont boldFont_;
-    wxColour errorHighlight_;
 
-    int selectedTransactionId_;
-    bool selectedTransactionDirty_;
     bool processTransactionEditEvents_;
 
     void fitAccountsPage();
@@ -79,16 +73,11 @@ private:
     void showSelectionPanel(bool visible);
     void showTransactionPanel(bool visible);
 
-    void updateSelectedTransactionId();
-
-    void setInsertTransactionView();
-    void setUpdateTransactionView(bool dirty = false);
-
-    void checkItem();
-    void setTransactionDirty(bool dirty = true);
     void populateSelectionIntervals();
-    void clearTransactionErrorHighlight();
-    void acceptTransaction();
+
+    int getSelectedTransactionId();
+    void selectTransaction(int transactionId, bool isAutocomplete = false);
+    bool readValidateRefreshTransaction(adb::Transaction* transaction = 0);
 
     // controls
 

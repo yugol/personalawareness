@@ -32,10 +32,10 @@ public:
     void selectAllItems(std::vector<const adb::Item*>& items);
     const adb::Item* selectItem(int itemId);
     const adb::Item* selectItem(const char* name);
-    const adb::Item* selectInsertItem(const char* name);
     void insertUpdateItem(adb::Item* item);
     void deleteItem(int itemId);
 
+    void selectTransaction(const adb::Transaction* transaction, int transactionId);
     void insertUpdateTransaction(adb::Transaction* transaction);
     void deleteTransaction(int transactionId);
 
@@ -49,7 +49,6 @@ public:
     void refreshItems();
     void refreshTransactions();
     void refreshAll();
-    void transactionToView(int id, bool complete);
 
     void refreshUndoRedoStatus();
     void undo();

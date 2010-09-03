@@ -21,7 +21,7 @@ void Controller::reportException(const exception& ex, const wxString& hint)
     title.Append(hint);
     wxString errorMessage;
     UiUtil::appendStdString(errorMessage, ex.what());
-    mainWindow_->uiReport(errorMessage, title);
+    mainWindow_->reportMessage(errorMessage, title);
 }
 
 Controller* Controller::instance()
@@ -67,7 +67,7 @@ void Controller::selectAllAccounts(std::vector<int>& accountIds)
     DatabaseConnection::instance()->getDebitingBudgets(&accountIds);
 }
 
-const adb::Account* Controller::selectAccount(const char* name)
+const Account* Controller::selectAccount(const char* name)
 {
     if (0 == name || 0 == ::strlen(name)) {
         return 0;
@@ -75,7 +75,7 @@ const adb::Account* Controller::selectAccount(const char* name)
     return DatabaseConnection::instance()->getAccount(name);
 }
 
-const adb::Account* Controller::selectAccount(int accountId)
+const Account* Controller::selectAccount(int accountId)
 {
     return DatabaseConnection::instance()->getAccount(accountId);
 }
@@ -111,32 +111,16 @@ void Controller::selectAllItems(std::vector<const Item*>& items)
     sort(items.begin(), items.end(), UiUtil::compareByName);
 }
 
-const adb::Item* Controller::selectItem(int itemId)
+const Item* Controller::selectItem(int itemId)
 {
     return DatabaseConnection::instance()->getItem(itemId);
 }
 
-const adb::Item* Controller::selectItem(const char* name)
+const Item* Controller::selectItem(const char* name)
 {
     if (0 == name || 0 == ::strlen(name)) {
         return 0;
     }
-    return DatabaseConnection::instance()->getItem(name);
-}
-
-const adb::Item* Controller::selectInsertItem(const char* name)
-{
-    if (0 == name || 0 == ::strlen(name)) {
-        return 0;
-    }
-
-    const Item* item = DatabaseConnection::instance()->getItem(name);
-    if (0 == item) {
-        Item newItem;
-        newItem.setName(name);
-        insertUpdateItem(&newItem);
-    }
-
     return DatabaseConnection::instance()->getItem(name);
 }
 
@@ -172,6 +156,13 @@ void Controller::deleteItem(int itemId)
             throw Exception("Cannot delete item because it is used by a transaction!");
         }
     }
+}
+
+void Controller::selectTransaction(const Transaction* transaction, int transactionId)
+{
+    Transaction* t = const_cast<Transaction*> (transaction);
+    t->setId(transactionId);
+    return DatabaseConnection::instance()->getTransaction(t);
 }
 
 void Controller::insertUpdateTransaction(Transaction* transaction)
@@ -321,13 +312,6 @@ void Controller::refreshTransactions()
 
     mainWindow_->populateTransactions(items);
     mainWindow_->scrollTransactionListAtEnd();
-}
-
-void Controller::transactionToView(int id, bool complete)
-{
-    Transaction t(id);
-    DatabaseConnection::instance()->getTransaction(&t);
-    mainWindow_->transactionToView(&t, complete);
 }
 
 void Controller::showReport(int chartType, int cashFlowDirection)

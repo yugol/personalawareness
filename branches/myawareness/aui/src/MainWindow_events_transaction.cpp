@@ -3,6 +3,7 @@
 #include <wx/datectrl.h>
 #include <wx/choice.h>
 #include <wx/button.h>
+#include <wx/htmllbox.h>
 #include <wx/msgdlg.h>
 #include <Item.h>
 #include <Transaction.h>
@@ -16,13 +17,14 @@ using namespace std;
 
 void MainWindow::onTransactionSelected(wxCommandEvent& event)
 {
-    updateSelectedTransactionId();
-    Controller::instance()->transactionToView(selectedTransactionId_, true);
+    selectTransaction(getSelectedTransactionId(), false);
 }
 
 void MainWindow::onTransactionDateChanged(wxDateEvent& event)
 {
-    setTransactionDirty();
+    if (processTransactionEditEvents_) {
+        readValidateRefreshTransaction();
+    }
 }
 
 void MainWindow::onTransactionItemKeyDown(wxKeyEvent& event)
@@ -47,16 +49,14 @@ void MainWindow::onTransactionItemKeyDown(wxKeyEvent& event)
 
 void MainWindow::onTransactionItemText(wxCommandEvent& event)
 {
-    setTransactionDirty();
     if (processTransactionEditEvents_) {
-
         string itemName;
         UiUtil::appendWxString(itemName, trItemText_->GetValue());
         const Item* item = Controller::instance()->selectItem(itemName.c_str());
         if (0 != item) {
-            Controller::instance()->transactionToView(item->getLastTransactionId(), false);
+            selectTransaction(item->getLastTransactionId(), true);
         } else {
-            transactionToView(0, false);
+            selectTransaction(0, true);
         }
     }
 }
@@ -64,158 +64,250 @@ void MainWindow::onTransactionItemText(wxCommandEvent& event)
 void MainWindow::onTransactionValueText(wxCommandEvent& event)
 {
     if (processTransactionEditEvents_) {
-        setTransactionDirty();
+        readValidateRefreshTransaction();
     }
 }
 
 void MainWindow::onTransactionSourceChoice(wxCommandEvent& event)
 {
     if (processTransactionEditEvents_) {
-        setTransactionDirty();
+        readValidateRefreshTransaction();
     }
 }
 
 void MainWindow::onTransactionDestinationChoice(wxCommandEvent& event)
 {
     if (processTransactionEditEvents_) {
-        setTransactionDirty();
+        readValidateRefreshTransaction();
     }
 }
 
 void MainWindow::onTransactionCommentText(wxCommandEvent& event)
 {
     if (processTransactionEditEvents_) {
-        setTransactionDirty();
+        readValidateRefreshTransaction();
     }
 }
 
 void MainWindow::onNewTransaction(wxCommandEvent& event)
 {
-    setInsertTransactionView();
+    selectTransaction(0);
 }
 
 void MainWindow::onDeleteTransaction(wxCommandEvent& event)
 {
     wxMessageDialog* dlg = new wxMessageDialog(this, wxT("Are you sure you want to delete this transaction?"), wxT("Delete transaction"), wxOK | wxCANCEL);
     if (wxID_OK == dlg->ShowModal()) {
-        Controller::instance()->deleteTransaction(selectedTransactionId_);
-        setInsertTransactionView();
+        Controller::instance()->deleteTransaction(getSelectedTransactionId());
+        selectTransaction(0);
     }
 }
 
 void MainWindow::onAcceptTransaction(wxCommandEvent& event)
 {
-    acceptTransaction();
+    Transaction transaction;
+    if (readValidateRefreshTransaction(&transaction)) {
+        if (transaction.getItemId() == 0) {
+            string description;
+            UiUtil::appendWxString(description, trItemText_->GetValue());
+            Item item;
+            item.setName(description.c_str());
+            Controller::instance()->insertUpdateItem(&item);
+            transaction.setItemId(item.getId());
+        }
+        Controller::instance()->insertUpdateTransaction(&transaction);
+    }
+    selectTransaction(0);
 }
 
-void MainWindow::transactionToView(const Transaction* t, bool complete)
+int MainWindow::getSelectedTransactionId()
+{
+    int idx = transactionsList_->GetSelection();
+    if (idx < 0) {
+        return 0;
+    }
+
+    wxString html = transactionsList_->GetString(idx);
+    int first = html.Find(wxChar('@')) + 1;
+    int last = html.Find(wxChar('@'), true) - 1;
+    wxString idString = html.SubString(first, last);
+
+    long transactionId = 0;
+    idString.ToLong(&transactionId);
+
+    return transactionId;
+}
+
+int MainWindow::getTransactionSourceIndexById(int id)
+{
+    for (unsigned int i = 0; i < trSourceChoice_->GetCount(); ++i) {
+        int tmpId = reinterpret_cast<int> (trSourceChoice_->GetClientData(i));
+        if (tmpId == id) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int MainWindow::getTransactionDestinationIndexById(int id)
+{
+    for (unsigned int i = 0; i < trDestinationChoice_->GetCount(); ++i) {
+        int tmpId = reinterpret_cast<int> (trDestinationChoice_->GetClientData(i));
+        if (tmpId == id) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void MainWindow::selectTransaction(int transactionId, bool isAutocomplete)
 {
     processTransactionEditEvents_ = false;
 
-    if (0 != t) {
-        if (complete) {
-            wxDateTime trDate;
-            UiUtil::adbDate2wxDate(&trDate, &(t->getDate()));
-            trDatePicker_->SetValue(trDate);
-        }
+    const Transaction transaction;
+    if (transactionId != 0) {
+        Controller::instance()->selectTransaction(&transaction, transactionId);
+    }
 
-        wxString itemName;
-        UiUtil::appendStdString(itemName, Controller::instance()->selectItem(t->getItemId())->getName());
-        trItemText_->SetValue(itemName);
+    trDeleteButton_->Show(false);
+    trNewButton_->Show(false);
 
-        wxString val;
-        val.Printf(wxT("%0.2f"), t->getValue());
-        trValueText_->SetValue(val);
-
-        int idx = getSourceIndexById(t->getFromId());
-        trSourceChoice_->SetSelection(idx);
-
-        idx = getDestinationIndexById(t->getToId());
-        trDestinationChoice_->SetSelection(idx);
-
-        wxString comment;
-        UiUtil::appendStdString(comment, t->getDescription());
-        trCommentText_->SetValue(comment);
-
-        if (complete) {
-            setUpdateTransactionView();
-        }
-    } else {
-        if (complete) {
+    if (transaction.getId() == 0) {
+        transactionsList_->SetSelection(wxNOT_FOUND);
+        if (!isAutocomplete) {
             trItemText_->SetValue(wxEmptyString);
         }
         trValueText_->SetValue(wxEmptyString);
         trSourceChoice_->SetSelection(0);
         trDestinationChoice_->SetSelection(0);
         trCommentText_->SetValue(wxEmptyString);
+    } else {
+        if (!isAutocomplete) {
+            wxDateTime trDate;
+            UiUtil::adbDate2wxDate(&trDate, &(transaction.getDate()));
+            trDatePicker_->SetValue(trDate);
+        }
+
+        wxString itemName;
+        UiUtil::appendStdString(itemName, Controller::instance()->selectItem(transaction.getItemId())->getName());
+        trItemText_->SetValue(itemName);
+
+        wxString value;
+        value.Printf(wxT("%0.2f"), transaction.getValue());
+        trValueText_->SetValue(value);
+
+        int idx = getTransactionSourceIndexById(transaction.getFromId());
+        trSourceChoice_->SetSelection(idx);
+
+        idx = getTransactionDestinationIndexById(transaction.getToId());
+        trDestinationChoice_->SetSelection(idx);
+
+        wxString comment;
+        UiUtil::appendStdString(comment, transaction.getDescription());
+        trCommentText_->SetValue(comment);
+
+        if (!isAutocomplete) {
+            trDeleteButton_->Show(true);
+            trNewButton_->Show(true);
+        }
     }
 
-    clearTransactionErrorHighlight();
+    readValidateRefreshTransaction();
+
+    trItemText_->SetFocus();
 
     processTransactionEditEvents_ = true;
 }
 
-void MainWindow::acceptTransaction()
+bool MainWindow::readValidateRefreshTransaction(adb::Transaction* transaction)
 {
-    clearTransactionErrorHighlight();
-    bool isValid = true;
+    // transaction id
 
-    time_t when = trDatePicker_->GetValue().GetTicks();
-
-    double val;
-    if (!trValueText_->GetValue().ToDouble(&val)) {
-        isValid = false;
-        trValueText_->SetBackgroundColour(errorHighlight_);
+    if (transaction != 0) {
+        transaction->setId(getSelectedTransactionId());
     }
+
+    // transaction date
+
+    if (transaction != 0) {
+        time_t when = trDatePicker_->GetValue().GetTicks();
+        transaction->setDate(when);
+    }
+
+    // transaction description
+
+    string description;
+    UiUtil::appendWxString(description, trItemText_->GetValue().Trim(true).Trim(false));
+    if (description.size() <= 0) {
+        trAcceptButton_->Enable(false);
+        trAcceptButton_->SetToolTip(wxT("Description cannot be empty"));
+        return false;
+    }
+    if (transaction != 0) {
+        const Item* item = Controller::instance()->selectItem(description.c_str());
+        if (0 != item) {
+            transaction->setItemId(item->getId());
+        } else {
+            transaction->setItemId(0);
+        }
+    }
+
+    // transaction value
+
+    double value = 0;
+    trValueText_->GetValue().ToDouble(&value);
+    if (value == 0) {
+        trAcceptButton_->Enable(false);
+        trAcceptButton_->SetToolTip(wxT("Value must be a real non zero number"));
+        return false;
+    }
+    if (transaction != 0) {
+        transaction->setValue(value);
+    }
+
+    // transaction source
 
     int fromId = reinterpret_cast<int> (trSourceChoice_->GetClientData(trSourceChoice_->GetSelection()));
-    if (0 == fromId) {
-        isValid = false;
-        trSourceChoice_->SetBackgroundColour(errorHighlight_);
+    if (fromId == 0) {
+        trAcceptButton_->Enable(false);
+        trAcceptButton_->SetToolTip(wxT("Source account must be specified"));
+        return false;
     }
+    if (transaction != 0) {
+        transaction->setFromId(fromId);
+    }
+
+    // transaction destination
 
     int toId = reinterpret_cast<int> (trDestinationChoice_->GetClientData(trDestinationChoice_->GetSelection()));
-    if (0 == toId) {
-        isValid = false;
-        trDestinationChoice_->SetBackgroundColour(errorHighlight_);
+    if (toId == 0) {
+        trAcceptButton_->Enable(false);
+        trAcceptButton_->SetToolTip(wxT("Destination account must be specified"));
+        return false;
     }
+    if (transaction != 0) {
+        transaction->setToId(toId);
+    }
+
+    // source - destination relation
 
     if (fromId == toId) {
-        isValid = false;
-        trSourceChoice_->SetBackgroundColour(errorHighlight_);
-        trDestinationChoice_->SetBackgroundColour(errorHighlight_);
+        trAcceptButton_->Enable(false);
+        trAcceptButton_->SetToolTip(wxT("Destination account and Source account must be different"));
+        return false;
     }
 
-    int itemId = 0;
-    if (isValid) {
-        string itemName;
-        UiUtil::appendWxString(itemName, trItemText_->GetValue());
-        const Item* item = Controller::instance()->selectInsertItem(itemName.c_str());
-        if (0 != item) {
-            itemId = item->getId();
-        }
-        if (0 == item) {
-            isValid = false;
-            trItemText_->SetValue(wxEmptyString);
-            trItemText_->SetBackgroundColour(errorHighlight_);
-            checkItem();
-        }
+    // transaction comment
+
+    string comment;
+    UiUtil::appendWxString(comment, trCommentText_->GetValue());
+    if (transaction != 0) {
+        transaction->setDescription(comment.c_str());
     }
 
-    if (isValid) {
-        Transaction t(selectedTransactionId_);
-        t.setDate(when);
-        t.setItemId(itemId);
-        t.setValue(val);
-        t.setFromId(fromId);
-        t.setToId(toId);
-        string description;
-        UiUtil::appendWxString(description, trCommentText_->GetValue());
-        t.setDescription(description.c_str());
-
-        Controller::instance()->insertUpdateTransaction(&t);
-
-        setInsertTransactionView();
-    }
+    // finalizing
+    trAcceptButton_->Enable(true);
+    trAcceptButton_->SetToolTip(0);
+    return true;
 }
 

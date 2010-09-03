@@ -2,24 +2,32 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD+: readValidateRefresh for transactions
 // TBD+: select transactions according to item name pattern
-// TBD-: insert transaction focuses on item
 
+// TBD: readValidateRefreshTransaction for items
 // TBD: when selecting an item / account disable delete if it is used
-// TBD: readValidateRefresh for items
 
+// TBD: properties dialog
+// TBD: count versions system
+// TBD: About dialog
+// TBD: create an icon
 // TBD: time ticker
 
-// TBD: About dialog
+// TBD: review undo/redo
 
 // TBD: handle all errors in Window and not in controller
+// TBD: get rid of magic numbers
 
-// TBD: propertied dialog
+// TBD: csv import/export
+// TBD: MySQL & other DBMS compatible sql dump
+
 // TBD-: properties table in database
 
 // TBD-: rename 'item' to 'description' in UI
 // TBD-: internationalization
+// TBD-: rename code
+
+// TBD: compile under Windows
 
 IMPLEMENT_APP(Application)
 
