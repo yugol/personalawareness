@@ -1,9 +1,7 @@
 #include <sstream>
-#include <vector>
 #include <Configuration.h>
 #include <Exception.h>
-#include <SelectionParameters.h>
-#include <cmd/SelectTransactionsCommand.h>
+#include <DatabaseConnection.h>
 #include <cmd/GetItemCommand.h>
 #include <cmd/DeleteItemCommand.h>
 
@@ -14,16 +12,9 @@ namespace adb {
     DeleteItemCommand::DeleteItemCommand(sqlite3* database, int id) :
         ReversibleDatabaseCommand(database), item_(id)
     {
-        SelectionParameters parameters;
-        parameters.setItemId(id);
-        parameters.setLastTransactionOnly(true); // TBD-: optimize here not to sort transactions
-
-        vector<int> selection;
-        SelectTransactionsCommand(database_, &selection, &parameters).execute();
-        if (selection.size() > 0) {
+        if (DatabaseConnection::isItemInUse(database_, id)) {
             THROW(Exception::RECORD_IN_USE);
         }
-
         GetItemCommand(database_, &item_).execute();
     }
 

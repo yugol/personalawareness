@@ -1,13 +1,36 @@
 #include <cstdio>
 #include <Configuration.h>
 #include <Exception.h>
+#include <SelectionParameters.h>
 #include <DbUtil.h>
 #include <cmd/ReversibleDatabaseCommand.h>
+#include <cmd/SelectTransactionsCommand.h>
 #include <DatabaseConnection.h>
 
 using namespace std;
 
 namespace adb {
+
+    bool DatabaseConnection::isAccountInUse(sqlite3* database, int accountId)
+    {
+        SelectionParameters parameters;
+        parameters.setAccountId(accountId);
+        parameters.setLastTransactionOnly(true); // TBD-: optimize here not to sort transactions
+        vector<int> selection;
+        SelectTransactionsCommand(database, &selection, &parameters).execute();
+        return selection.size() > 0;
+
+    }
+
+    bool DatabaseConnection::isItemInUse(sqlite3* database, int itemId)
+    {
+        SelectionParameters parameters;
+        parameters.setItemId(itemId);
+        parameters.setLastTransactionOnly(true); // TBD-: optimize here not to sort transactions
+        vector<int> selection;
+        SelectTransactionsCommand(database, &selection, &parameters).execute();
+        return selection.size() > 0;
+    }
 
     DatabaseConnection* DatabaseConnection::instance_ = 0;
 

@@ -1,5 +1,7 @@
 #include <sstream>
 #include <Configuration.h>
+#include <Exception.h>
+#include <DatabaseConnection.h>
 #include <cmd/GetAccountCommand.h>
 #include <cmd/DeleteAccountCommand.h>
 
@@ -10,7 +12,9 @@ namespace adb {
     DeleteAccountCommand::DeleteAccountCommand(sqlite3* database, int id) :
         ReversibleDatabaseCommand(database), account_(id)
     {
-        // TBD: account in use
+        if (DatabaseConnection::isAccountInUse(database_, id)) {
+            THROW(Exception::RECORD_IN_USE);
+        }
         GetAccountCommand(database_, &account_).execute();
     }
 

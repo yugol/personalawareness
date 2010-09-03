@@ -1,13 +1,11 @@
 #include <cstring>
 #include <Exception.h>
-#include <SelectionParameters.h>
 #include <cmd/SelectAccountsCommand.h>
 #include <cmd/GetAccountCommand.h>
 #include <cmd/InsertAccountCommand.h>
 #include <cmd/UpdateAccountCommand.h>
 #include <cmd/DeleteAccountCommand.h>
 #include <cmd/GetAccountBalanceCommand.h>
-#include <cmd/SelectTransactionsCommand.h>
 #include <DatabaseConnection.h>
 
 using namespace std;
@@ -46,13 +44,7 @@ namespace adb {
 
     bool DatabaseConnection::isAccountInUse(int id) const
     {
-        // TBD+: refactor this to be used when deleting
-        SelectionParameters parameters;
-        parameters.setAccountId(id);
-        parameters.setLastTransactionOnly(true);
-        vector<int> selection;
-        SelectTransactionsCommand(database_, &selection, &parameters).execute();
-        return selection.size() > 0;
+        return isAccountInUse(database_, id);
     }
 
     void DatabaseConnection::deleteAccount(int id)

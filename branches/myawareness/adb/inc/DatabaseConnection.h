@@ -27,6 +27,8 @@ namespace adb {
         static void exportDatabase(std::ostream& out);
         static void importDatabase(std::istream& in);
         static bool isOpened();
+        static bool isAccountInUse(sqlite3* database, int accountId);
+        static bool isItemInUse(sqlite3* database, int itemId);
 
         ~DatabaseConnection();
 
