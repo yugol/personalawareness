@@ -97,7 +97,7 @@ void ItemsDialog::onInitDialog(wxInitDialogEvent& event)
 {
     selectedListItemId_ = -1;
     patternText_->SetFocus();
-    itemList_->InsertColumn(0, wxT(""), wxLIST_FORMAT_LEFT, itemList_->GetSize().GetWidth() - UiUtil::LIST_MARGIN);
+    itemList_->InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, itemList_->GetSize().GetWidth() - UiUtil::LIST_MARGIN);
     refreshItemList(0);
 }
 

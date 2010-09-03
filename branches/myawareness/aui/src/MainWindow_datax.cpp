@@ -23,7 +23,7 @@ void MainWindow::setNetWorth(double val)
     fitAccountsPage();
 }
 
-void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
+void MainWindow::populateAccounts(const vector<pair<const Account*, double> >& stmt)
 {
     bool firstGroup = true;
     double groupBalance = 0;
@@ -48,9 +48,9 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
     trDestinationChoice_->Append(wxT("-"), reinterpret_cast<void*> (Configuration::DEFAULT_ID));
     trDestinationChoice_->SetSelection(0);
 
-    vector<pair<Account*, double> >::const_iterator it;
+    vector<pair<const Account*, double> >::const_iterator it;
     for (it = stmt.begin(); it != stmt.end(); ++it) {
-        Account* acc = it->first;
+        const Account* acc = it->first;
 
         wxString fullName;
         UiUtil::appendStdString(fullName, acc->getFullName());
@@ -113,11 +113,11 @@ void MainWindow::populateAccounts(const vector<pair<Account*, double> >& stmt)
     }
 }
 
-void MainWindow::populateCreditingBudgets(const vector<Account*>& budgets)
+void MainWindow::populateCreditingBudgets(const vector<const Account*>& budgets)
 {
-    vector<Account*>::const_iterator it;
+    vector<const Account*>::const_iterator it;
     for (it = budgets.begin(); it != budgets.end(); ++it) {
-        Account* acc = *it;
+        const Account* acc = *it;
         wxString accName;
         UiUtil::appendStdString(accName, acc->getDecoratedName());
         int id = acc->getId();
@@ -126,11 +126,11 @@ void MainWindow::populateCreditingBudgets(const vector<Account*>& budgets)
     }
 }
 
-void MainWindow::populateDebitingBudgets(const vector<Account*>& budgets)
+void MainWindow::populateDebitingBudgets(const vector<const Account*>& budgets)
 {
-    vector<Account*>::const_iterator it;
+    vector<const Account*>::const_iterator it;
     for (it = budgets.begin(); it != budgets.end(); ++it) {
-        Account* acc = *it;
+        const Account* acc = *it;
         wxString accName;
         UiUtil::appendStdString(accName, acc->getDecoratedName());
         int id = acc->getId();
@@ -189,12 +189,12 @@ void MainWindow::transactionToView(const Transaction* t, bool complete)
         }
     } else {
         if (complete) {
-            trItemCombo_->SetValue(wxT(""));
+            trItemCombo_->SetValue(wxEmptyString);
         }
-        trValueText_->SetValue(wxT(""));
+        trValueText_->SetValue(wxEmptyString);
         trSourceChoice_->SetSelection(0);
         trDestinationChoice_->SetSelection(0);
-        trCommentText_->SetValue(wxT(""));
+        trCommentText_->SetValue(wxEmptyString);
     }
 
     clearTransactionErrorHighlight();

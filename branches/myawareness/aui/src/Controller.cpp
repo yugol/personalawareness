@@ -66,6 +66,14 @@ void Controller::selectAllAccounts(std::vector<int>& accountIds)
     DatabaseConnection::instance()->getDebitingBudgets(&accountIds);
 }
 
+const adb::Account* Controller::selectAccount(const char* name)
+{
+    if (0 == name || 0 == ::strlen(name)) {
+        return 0;
+    }
+    return DatabaseConnection::instance()->getAccount(name);
+}
+
 const adb::Account* Controller::selectAccount(int accountId)
 {
     return DatabaseConnection::instance()->getAccount(accountId);
@@ -193,15 +201,15 @@ void Controller::refreshAll()
 
 void Controller::refreshAccounts()
 {
-    vector<pair<Account*, double> > statement;
-    vector<Account*> budgets;
+    vector<pair<const Account*, double> > statement;
+    vector<const Account*> budgets;
     vector<int> sel;
-    vector<int>::iterator it;
+    vector<int>::const_iterator it;
 
     DatabaseConnection::instance()->getAccounts(&sel);
     double netWorth = 0;
     for (it = sel.begin(); it != sel.end(); ++it) {
-        Account* acc = DatabaseConnection::instance()->getAccount(*it);
+        const Account* acc = DatabaseConnection::instance()->getAccount(*it);
         double balance = DatabaseConnection::instance()->getBalance(acc);
         statement.push_back(make_pair(acc, balance));
         netWorth += balance;
@@ -212,7 +220,7 @@ void Controller::refreshAccounts()
     sel.clear();
     DatabaseConnection::instance()->getCreditingBudgets(&sel);
     for (it = sel.begin(); it != sel.end(); ++it) {
-        Account* acc = DatabaseConnection::instance()->getAccount(*it);
+        const Account* acc = DatabaseConnection::instance()->getAccount(*it);
         budgets.push_back(acc);
     }
     mainWindow_->populateCreditingBudgets(budgets);
@@ -221,7 +229,7 @@ void Controller::refreshAccounts()
     budgets.clear();
     DatabaseConnection::instance()->getDebitingBudgets(&sel);
     for (it = sel.begin(); it != sel.end(); ++it) {
-        Account* acc = DatabaseConnection::instance()->getAccount(*it);
+        const Account* acc = DatabaseConnection::instance()->getAccount(*it);
         budgets.push_back(acc);
     }
     mainWindow_->populateDebitingBudgets(budgets);
@@ -249,8 +257,8 @@ void Controller::refreshTransactions()
         Transaction t(id);
         DatabaseConnection::instance()->getTransaction(&t);
         const Item* why = DatabaseConnection::instance()->getItem(t.getItemId());
-        Account* from = DatabaseConnection::instance()->getAccount(t.getFromId());
-        Account* to = DatabaseConnection::instance()->getAccount(t.getToId());
+        const Account* from = DatabaseConnection::instance()->getAccount(t.getFromId());
+        const Account* to = DatabaseConnection::instance()->getAccount(t.getToId());
 
         ostringstream item;
 

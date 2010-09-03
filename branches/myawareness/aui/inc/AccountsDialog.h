@@ -10,6 +10,9 @@ class wxChoice;
 class wxButton;
 class wxTextCtrl;
 class wxListEvent;
+namespace adb {
+    class Account;
+}
 
 class AccountsDialog: public wxDialog {
 public:
@@ -20,6 +23,7 @@ public:
 private:
     bool dirty_;
     long selectedListItemId_;
+    const adb::Account* selectedAccount_;
 
     wxStaticText* listLabel_;
     wxListCtrl* accountList_;
@@ -40,11 +44,16 @@ private:
 
     void refreshAccountList(int selectedAccountId);
     void selectAccount(long selectedListItemId);
+    void validateRefresh();
 
     void onCloseDialog(wxCloseEvent& event);
     void onInitDialog(wxInitDialogEvent& event);
     void onSelectAccount(wxListEvent& event);
+    void onNameText(wxCommandEvent& event);
     void onTypeChange(wxCommandEvent& event);
+    void onGroupText(wxCommandEvent& event);
+    void onValueText(wxCommandEvent& event);
+    void onDescriptionText(wxCommandEvent& event);
     void onInsert(wxCommandEvent& event);
     void onUpdate(wxCommandEvent& event);
     void onDelete(wxCommandEvent& event);

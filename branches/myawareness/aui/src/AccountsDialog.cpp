@@ -16,6 +16,14 @@
 using namespace std;
 using namespace adb;
 
+static const wxString typeTip(wxT("Type cannot be changed when a transaction uses the account"));
+static const wxString insertTip(wxT("Account name already used"));
+static const wxString updateTip(wxT("Account is unchanged"));
+static const wxString deleteAccountInUseTip(wxT("Account is used in a transaction"));
+static const wxString deleteNoAccountTip(wxT("No account was selected"));
+static const wxString invalidNameTip(wxT("Account name cannot be empty"));
+static const wxString invalidValueTip(wxT("Start balance must be a real number or empty"));
+
 AccountsDialog::AccountsDialog(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) :
     wxDialog(parent, id, title, pos, size, style)
 {
@@ -68,7 +76,7 @@ AccountsDialog::AccountsDialog(wxWindow* parent, wxWindowID id, const wxString& 
     groupLabel_->Wrap(-1);
     middleSizer->Add(groupLabel_, 0, wxALL, 5);
 
-    groupCombo_ = new wxComboBox(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
+    groupCombo_ = new wxComboBox(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
     middleSizer->Add(groupCombo_, 0, wxALL | wxEXPAND, 5);
 
     valueLabel_ = new wxStaticText(this, wxID_ANY, wxT("Start balance:"), wxDefaultPosition, wxDefaultSize, 0);
@@ -113,7 +121,11 @@ AccountsDialog::AccountsDialog(wxWindow* parent, wxWindowID id, const wxString& 
     this->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AccountsDialog::onCloseDialog));
     this->Connect(wxEVT_INIT_DIALOG, wxInitDialogEventHandler(AccountsDialog::onInitDialog));
     accountList_->Connect(wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler(AccountsDialog::onSelectAccount), NULL, this);
+    nameText_->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onNameText), NULL, this);
     typeChoice_->Connect(wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler(AccountsDialog::onTypeChange), NULL, this);
+    groupCombo_->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onGroupText), NULL, this);
+    valueText_->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onValueText), NULL, this);
+    descriptionText_->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onDescriptionText), NULL, this);
     insertButton_->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onInsert), NULL, this);
     updateButton_->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onUpdate), NULL, this);
     deleteButton_->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onDelete), NULL, this);
@@ -126,7 +138,11 @@ AccountsDialog::~AccountsDialog()
     this->Disconnect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AccountsDialog::onCloseDialog));
     this->Disconnect(wxEVT_INIT_DIALOG, wxInitDialogEventHandler(AccountsDialog::onInitDialog));
     accountList_->Disconnect(wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler(AccountsDialog::onSelectAccount), NULL, this);
+    nameText_->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onNameText), NULL, this);
     typeChoice_->Disconnect(wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler(AccountsDialog::onTypeChange), NULL, this);
+    groupCombo_->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onGroupText), NULL, this);
+    valueText_->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onValueText), NULL, this);
+    descriptionText_->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onDescriptionText), NULL, this);
     insertButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onInsert), NULL, this);
     updateButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onUpdate), NULL, this);
     deleteButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onDelete), NULL, this);
@@ -147,35 +163,68 @@ void AccountsDialog::onInitDialog(wxInitDialogEvent& event)
     typeChoice_->Insert(wxT("Income"), 1, reinterpret_cast<void*> (Account::CREDIT));
     typeChoice_->Insert(wxT("Expenses"), 2, reinterpret_cast<void*> (Account::DEBT));
 
-    accountList_->InsertColumn(0, wxT(""), wxLIST_FORMAT_LEFT, accountList_->GetSize().GetWidth() - UiUtil::LIST_MARGIN);
+    accountList_->InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, accountList_->GetSize().GetWidth() - UiUtil::LIST_MARGIN);
     refreshAccountList(0);
 }
 
 void AccountsDialog::onSelectAccount(wxListEvent& event)
 {
-    // if (processEvents_) {
     selectAccount(event.GetIndex());
-    //}
+}
+
+void AccountsDialog::onNameText(wxCommandEvent& event)
+{
+    validateRefresh();
 }
 
 void AccountsDialog::onTypeChange(wxCommandEvent& event)
 {
+    int type = reinterpret_cast<int> (typeChoice_->GetClientData(typeChoice_->GetSelection()));
+    if (type == Account::ACCOUNT) {
+        groupCombo_->Enable(true);
+        groupLabel_->Enable(true);
 
+        valueText_->Enable(true);
+        valueLabel_->Enable(true);
+    } else {
+        groupCombo_->SetValue(wxEmptyString);
+        groupCombo_->Enable(false);
+        groupLabel_->Enable(false);
+
+        valueText_->SetValue(wxEmptyString);
+        valueText_->Enable(false);
+        valueLabel_->Enable(false);
+    }
+}
+
+void AccountsDialog::onGroupText(wxCommandEvent& event)
+{
+    validateRefresh();
+}
+
+void AccountsDialog::onValueText(wxCommandEvent& event)
+{
+    validateRefresh();
+}
+
+void AccountsDialog::onDescriptionText(wxCommandEvent& event)
+{
+    validateRefresh();
 }
 
 void AccountsDialog::onInsert(wxCommandEvent& event)
 {
-
+    dirty_ = true;
 }
 
 void AccountsDialog::onUpdate(wxCommandEvent& event)
 {
-
+    dirty_ = true;
 }
 
 void AccountsDialog::onDelete(wxCommandEvent& event)
 {
-
+    dirty_ = true;
 }
 
 void AccountsDialog::onClose(wxCommandEvent& event)
@@ -233,59 +282,46 @@ void AccountsDialog::refreshAccountList(int selectedAccountId)
 
 void AccountsDialog::selectAccount(long listItemId)
 {
-    nameLabel_->Enable(false);
-    nameText_->SetValue(wxT(""));
-    nameText_->Enable(false);
+    nameText_->SetValue(wxEmptyString);
 
-    typeLabel_->Enable(false);
+    typeLabel_->Enable(true);
     typeChoice_->Select(0);
-    typeChoice_->SetToolTip(wxT(""));
-    typeChoice_->Enable(false);
+    typeChoice_->SetToolTip(wxEmptyString);
+    typeChoice_->Enable(true);
 
-    groupLabel_->Enable(false);
-    groupCombo_->SetValue(wxT(""));
-    groupCombo_->Enable(false);
+    groupLabel_->Enable(true);
+    groupCombo_->SetValue(wxEmptyString);
+    groupCombo_->Enable(true);
 
-    valueLabel_->Enable(false);
-    valueText_->SetValue(wxT(""));
-    valueText_->Enable(false);
+    valueLabel_->Enable(true);
+    valueText_->SetValue(wxEmptyString);
+    valueText_->Enable(true);
 
-    descriptionLabel_->Enable(false);
-    descriptionText_->SetValue(wxT(""));
-    descriptionText_->Enable(false);
-
-    insertButton_->Enable(false);
-    insertButton_->SetToolTip(wxT(""));
-
-    updateButton_->Enable(false);
-    updateButton_->SetToolTip(wxT(""));
+    descriptionText_->SetValue(wxEmptyString);
 
     deleteButton_->Enable(false);
-    deleteButton_->SetToolTip(wxT(""));
+    deleteButton_->SetToolTip(wxEmptyString);
 
     if (listItemId >= 0) {
         selectedListItemId_ = listItemId;
+        selectedAccount_ = Controller::instance()->selectAccount(accountList_->GetItemData(selectedListItemId_));
+        bool accInUse = Controller::instance()->selectAccountInUse(selectedAccount_->getId());
 
         accountList_->SetItemState(listItemId, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
         accountList_->EnsureVisible(selectedListItemId_);
 
-        const Account* acc = Controller::instance()->selectAccount(accountList_->GetItemData(selectedListItemId_));
-        bool accInUse = Controller::instance()->selectAccountInUse(acc->getId());
-
         wxString accName;
-        UiUtil::appendStdString(accName, acc->getName());
+        UiUtil::appendStdString(accName, selectedAccount_->getName());
         nameText_->SetValue(accName);
-        nameText_->Enable(true);
-        nameLabel_->Enable(true);
 
-        int accType = acc->getType();
+        int accType = selectedAccount_->getType();
         for (unsigned int choice = 0; choice < typeChoice_->GetCount(); ++choice) {
             int type = reinterpret_cast<int> (typeChoice_->GetClientData(choice));
             if (type == accType) {
                 typeChoice_->SetSelection(choice);
                 typeChoice_->Enable(!accInUse);
                 if (accInUse) {
-                    typeChoice_->SetToolTip(wxT("Cannot change type when a transaction uses the account"));
+                    typeChoice_->SetToolTip(typeTip);
                 }
                 break;
             }
@@ -294,35 +330,30 @@ void AccountsDialog::selectAccount(long listItemId)
 
         if (accType == Account::ACCOUNT) {
             wxString groupName;
-            UiUtil::appendStdString(groupName, acc->getGroup());
+            UiUtil::appendStdString(groupName, selectedAccount_->getGroup());
             groupCombo_->SetValue(groupName);
             groupCombo_->Enable(true);
             groupLabel_->Enable(true);
 
             wxString accValue;
-            accValue.Printf(wxT("%0.2f"), acc->getInitialValue());
+            accValue.Printf(wxT("%0.2f"), selectedAccount_->getInitialValue());
             valueText_->SetValue(accValue);
             valueText_->Enable(true);
             valueLabel_->Enable(true);
         }
 
         wxString accDesc;
-        UiUtil::appendStdString(accDesc, acc->getDescription());
+        UiUtil::appendStdString(accDesc, selectedAccount_->getDescription());
         descriptionText_->SetValue(accDesc);
-        descriptionText_->Enable(true);
-        descriptionLabel_->Enable(true);
-
-        insertButton_->SetToolTip(wxT("No two accounts can have the same name"));
-
-        updateButton_->SetToolTip(wxT("No changes were made to the account"));
 
         deleteButton_->Enable(!accInUse);
         if (accInUse) {
-            deleteButton_->SetToolTip(wxT("Cannot delete the account when it is used in a transaction"));
+            deleteButton_->SetToolTip(deleteAccountInUseTip);
         }
 
     } else {
         selectedListItemId_ = -1;
+        selectedAccount_ = 0;
 
         listItemId = -1;
         while (true) {
@@ -333,6 +364,92 @@ void AccountsDialog::selectAccount(long listItemId)
             accountList_->SetItemState(listItemId, wxLIST_STATE_DONTCARE, wxLIST_STATE_SELECTED);
         }
         accountList_->EnsureVisible(selectedListItemId_);
+
+        deleteButton_->SetToolTip(deleteNoAccountTip);
+    }
+
+    validateRefresh();
+}
+
+void AccountsDialog::validateRefresh()
+{
+    insertButton_->SetToolTip(wxEmptyString);
+    updateButton_->SetToolTip(wxEmptyString);
+    bool dirty = false;
+
+    if (nameText_->GetValue().Len() <= 0) {
+        insertButton_->Enable(false);
+        insertButton_->SetToolTip(invalidNameTip);
+
+        updateButton_->Enable(false);
+        updateButton_->SetToolTip(invalidNameTip);
+
+        return;
+    } else {
+        string name;
+        UiUtil::appendWxString(name, nameText_->GetValue());
+
+        const Account* acc = Controller::instance()->selectAccount(name.c_str());
+        if (acc == 0) {
+            insertButton_->Enable(true);
+            insertButton_->SetToolTip(wxEmptyString);
+        } else {
+            insertButton_->Enable(false);
+            insertButton_->SetToolTip(insertTip);
+        }
+
+        if (selectedAccount_ != 0) {
+            if (name != selectedAccount_->getName()) {
+                dirty = true;
+            }
+        }
+    }
+
+    if (selectedAccount_ != 0) {
+        int accType = selectedAccount_->getType();
+        int type = reinterpret_cast<int> (typeChoice_->GetClientData(typeChoice_->GetSelection()));
+        if (accType != type) {
+            dirty = true;
+        }
+    }
+
+    if (selectedAccount_ != 0) {
+        wxString accGroup;
+        UiUtil::appendStdString(accGroup, selectedAccount_->getGroup());
+        if (accGroup != groupCombo_->GetValue()) {
+            dirty = true;
+        }
+    }
+
+    double value = 0;
+    if ((valueText_->GetValue().Len() > 0) && (!valueText_->GetValue().ToDouble(&value))) {
+        insertButton_->Enable(false);
+        insertButton_->SetToolTip(invalidValueTip);
+
+        updateButton_->Enable(false);
+        updateButton_->SetToolTip(invalidValueTip);
+
+        return;
+    } else if (selectedAccount_ != 0) {
+        if (selectedAccount_->getInitialValue() != value) {
+            dirty = true;
+        }
+    }
+
+    if (selectedAccount_ != 0) {
+        wxString accDescription;
+        UiUtil::appendStdString(accDescription, selectedAccount_->getDescription());
+        if (accDescription != descriptionText_->GetValue()) {
+            dirty = true;
+        }
+    }
+
+    if (dirty) {
+        updateButton_->Enable(true);
+        updateButton_->SetToolTip(wxEmptyString);
+    } else {
+        updateButton_->Enable(false);
+        updateButton_->SetToolTip(updateTip);
     }
 }
 

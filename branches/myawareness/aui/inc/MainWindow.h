@@ -37,9 +37,9 @@ public:
     void setUndoRedoView(bool undo, bool redo);
     void scrollTransactionListAtEnd();
 
-    void populateAccounts(const std::vector<std::pair<adb::Account*, double> >& statement);
-    void populateCreditingBudgets(const std::vector<adb::Account*>& budgets);
-    void populateDebitingBudgets(const std::vector<adb::Account*>& budgets);
+    void populateAccounts(const std::vector<std::pair<const adb::Account*, double> >& statement);
+    void populateCreditingBudgets(const std::vector<const adb::Account*>& budgets);
+    void populateDebitingBudgets(const std::vector<const adb::Account*>& budgets);
     void populateItems(const std::vector<const adb::Item*>& items);
     void populateTransactions(const wxArrayString& items);
 

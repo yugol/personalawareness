@@ -93,7 +93,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     // create a menu bar
     menuBar_ = new wxMenuBar();
 
-    fileMenu_ = new wxMenu(wxT(""));
+    fileMenu_ = new wxMenu(wxEmptyString);
     fileMenu_->Append(ID_MENU_OPEN, wxT("&Open/Create..."), wxT("Open database or create a new one"));
     fileMenu_->AppendSeparator();
     fileMenu_->Append(ID_MENU_EXPORT, wxT("&Export..."), wxT("Export database to SQL script"));
@@ -102,7 +102,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     fileMenu_->Append(ID_MENU_EXIT, wxT("E&xit\tAlt-F4"), wxT("Exit the application"));
     menuBar_->Append(fileMenu_, wxT("&Database"));
 
-    editMenu_ = new wxMenu(wxT(""));
+    editMenu_ = new wxMenu(wxEmptyString);
     editMenu_->Append(ID_MENU_UNDO, wxT("&Undo"), wxT("Undo the last action"));
     editMenu_->Append(ID_MENU_REDO, wxT("&Redo"), wxT("Redo the last action"));
     editMenu_->AppendSeparator();
@@ -112,7 +112,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     editMenu_->Append(ID_MENU_PREFERENCES, wxT("&Preferences..."), wxT("Edit preferences"));
     menuBar_->Append(editMenu_, wxT("&Edit"));
 
-    helpMenu_ = new wxMenu(wxT(""));
+    helpMenu_ = new wxMenu(wxEmptyString);
     helpMenu_->Append(ID_MENU_ABOUT, wxT("&About\tF1"), wxT("Show info about this application"));
     menuBar_->Append(helpMenu_, wxT("&Help"));
 
@@ -132,7 +132,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     accountList_->InsertColumn(0, wxT("Name"), wxLIST_FORMAT_LEFT, 200);
     accountList_->InsertColumn(1, wxT("Balance"), wxLIST_FORMAT_RIGHT, 150);
 
-    netWorthLabel_ = new wxStaticText(accountsPage_, wxNewId(), wxT(""));
+    netWorthLabel_ = new wxStaticText(accountsPage_, wxNewId(), wxEmptyString);
     netWorthLabel_->SetFont(boldFont_);
 
     wxBoxSizer* labelSizer = new wxBoxSizer(wxHORIZONTAL);

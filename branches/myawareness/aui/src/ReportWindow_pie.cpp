@@ -18,7 +18,7 @@ void ReportWindow::buildPieReport(const ReportData& data)
     for (size_t accId = 0; accId < dataValues.size(); ++accId) {
         double accValue = dataValues[accId];
         if (accValue != 0) {
-            Account* acc = DatabaseConnection::instance()->getAccount(accId);
+            const Account* acc = DatabaseConnection::instance()->getAccount(accId);
             Entry entry;
             entry.name = acc->getFullName();
             entry.value = accValue;

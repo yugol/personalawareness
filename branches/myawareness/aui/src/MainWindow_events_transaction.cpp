@@ -168,7 +168,7 @@ void MainWindow::acceptTransaction()
         }
         if (0 == item) {
             isValid = false;
-            trItemCombo_->SetValue(wxT(""));
+            trItemCombo_->SetValue(wxEmptyString);
             trItemCombo_->SetBackgroundColour(errorHighlight_);
             checkItem();
         }

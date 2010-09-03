@@ -23,6 +23,7 @@ public:
     void getDefaultSqlExportName(wxString& name);
 
     void selectAllAccounts(std::vector<int>& accountIds);
+    const adb::Account* selectAccount(const char* name);
     const adb::Account* selectAccount(int accountId);
     bool selectAccountInUse(int accountId);
     void selectAllItems(std::vector<const adb::Item*>& items);
