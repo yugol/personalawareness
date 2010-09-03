@@ -5,7 +5,7 @@
 
 namespace adb {
 
-    GetAccountBalanceCommand::GetAccountBalanceCommand(sqlite3* database, Account* account) :
+    GetAccountBalanceCommand::GetAccountBalanceCommand(sqlite3* database, const Account* account) :
         DatabaseCommand(database), account_(account), balance_(0)
     {
     }

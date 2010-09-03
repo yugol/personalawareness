@@ -38,8 +38,9 @@ namespace adb {
         bool isAccountInUse(int id) const;
         void deleteAccount(int id);
         int getAccountCount() const;
-        Account* getAccount(int id) const;
-        double getBalance(Account* account) const;
+        const Account* getAccount(int id) const;
+        const Account* getAccount(const char* name) const;
+        double getBalance(const Account* account) const;
         void getAccounts(std::vector<int>* sel) const;
         void getBudgetCategories(std::vector<int>* sel) const;
         void getCreditingBudgets(std::vector<int>* sel) const;

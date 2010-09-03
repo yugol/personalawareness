@@ -9,7 +9,7 @@ namespace adb {
 
     class GetAccountBalanceCommand: public DatabaseCommand {
     public:
-        GetAccountBalanceCommand(sqlite3* database, Account* account);
+        GetAccountBalanceCommand(sqlite3* database, const Account* account);
 
         virtual void execute();
 
@@ -19,7 +19,7 @@ namespace adb {
         virtual void buildSqlCommand();
 
     private:
-        Account* account_;
+        const Account* account_;
         double balance_;
     };
 

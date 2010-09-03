@@ -9,7 +9,7 @@ namespace adb {
 
     class GetAccountCreditCommand: public DatabaseCommand {
     public:
-        GetAccountCreditCommand(sqlite3* database, Account* account);
+        GetAccountCreditCommand(sqlite3* database, const Account* account);
 
         virtual sqlite3_callback getCallbackFunction();
         virtual void* getCallbackParameter();
@@ -21,7 +21,7 @@ namespace adb {
         virtual void buildSqlCommand();
 
     private:
-        Account* account_;
+        const Account* account_;
         double credit_;
     };
 

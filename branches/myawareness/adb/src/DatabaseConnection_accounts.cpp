@@ -1,3 +1,4 @@
+#include <cstring>
 #include <Exception.h>
 #include <SelectionParameters.h>
 #include <cmd/SelectAccountsCommand.h>
@@ -88,7 +89,7 @@ namespace adb {
         }
     }
 
-    Account* DatabaseConnection::getAccount(int id) const
+    const Account* DatabaseConnection::getAccount(int id) const
     {
         cashAccounts();
         vector<Account>::iterator it;
@@ -100,9 +101,23 @@ namespace adb {
         return 0;
     }
 
-    double DatabaseConnection::getBalance(Account* account) const
+    const Account* DatabaseConnection::getAccount(const char* name) const
     {
-        GetAccountBalanceCommand cmd(database_, account);
+        cashAccounts();
+        std::vector<Account>::iterator it;
+        for (it = accounts_.begin(); it != accounts_.end(); ++it) {
+            const char* accName = it->getName().c_str();
+            int cmp = ::strcmp(accName, name);
+            if (0 == cmp) {
+                return &(*it);
+            }
+        }
+        return 0;
+    }
+
+    double DatabaseConnection::getBalance(const Account* acc) const
+    {
+        GetAccountBalanceCommand cmd(database_, acc);
         cmd.execute();
         return cmd.getBalance();
     }

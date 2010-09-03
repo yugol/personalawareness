@@ -7,7 +7,7 @@ using namespace std;
 
 namespace adb {
 
-    GetAccountCreditCommand::GetAccountCreditCommand(sqlite3* database, Account* account) :
+    GetAccountCreditCommand::GetAccountCreditCommand(sqlite3* database, const Account* account) :
         DatabaseCommand(database), account_(account), credit_(0)
     {
     }
