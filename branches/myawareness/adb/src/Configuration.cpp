@@ -41,7 +41,8 @@ namespace adb {
         return instance_;
     }
 
-    Configuration::Configuration()
+    Configuration::Configuration() :
+        CURRENCY_SYMBOL("CU"), PREFIX_CURRENCY(false)
     {
         const char* homeFolder = ::getenv(HOME_ENVIRONMENT_VARIABLE_NAME);
         if (NULL == homeFolder) {

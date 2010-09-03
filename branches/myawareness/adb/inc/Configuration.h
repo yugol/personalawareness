@@ -33,6 +33,9 @@ namespace adb {
 
         static Configuration* instance();
 
+        std::string CURRENCY_SYMBOL;
+        bool PREFIX_CURRENCY;
+
         virtual ~Configuration();
 
         const std::string& getConfigurationFilePath() const;
