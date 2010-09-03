@@ -7,6 +7,7 @@
 #include <Item.h>
 #include <Transaction.h>
 #include <UiUtil.h>
+#include <AutocompletionWindow.h>
 #include <Controller.h>
 #include <MainWindow.h>
 
@@ -26,86 +27,66 @@ void MainWindow::onTransactionDateChanged(wxDateEvent& event)
 
 void MainWindow::onTransactionItemKeyDown(wxKeyEvent& event)
 {
-    int keyCode = event.GetKeyCode();
-    int idx = trItemCombo_->GetSelection();
+    if (processTransactionEditEvents_) {
+        int keyCode = event.GetKeyCode();
 
-    if (WXK_UP == keyCode) {
-        --idx;
-        if (idx < 0) {
-            idx = 0;
+        if (WXK_UP == keyCode) {
+            trItemAutocompletion_->show();
+            trItemAutocompletion_->select(trItemText_->GetValue(), -1);
+        } else if (WXK_DOWN == keyCode) {
+            trItemAutocompletion_->show();
+            trItemAutocompletion_->select(trItemText_->GetValue(), 1);
+        } else if (WXK_SPACE == keyCode && event.ControlDown()) {
+            trItemAutocompletion_->show();
+            trItemAutocompletion_->select(trItemText_->GetValue(), 0);
+        } else {
+            event.Skip();
         }
-    } else if (WXK_DOWN == keyCode) {
-        ++idx;
-        if (static_cast<unsigned int> (idx) >= trItemCombo_->GetCount()) {
-            idx = trItemCombo_->GetCount() - 1;
-        }
-    } else if (WXK_SPACE == keyCode && event.ControlDown()) {
-        wxString text = trItemCombo_->GetValue();
-        for (unsigned int i = 0; i < trItemCombo_->GetCount(); ++i) {
-            wxString itemString = trItemCombo_->GetString(i);
-            int cmp = itemString.CmpNoCase(text);
-            if (0 <= cmp) {
-                idx = i;
-                break;
-            }
-        }
-    } else {
-        event.Skip();
-        idx = -1;
-    }
-
-    if (idx >= 0) {
-        trItemCombo_->SetSelection(idx);
-        trItemCombo_->SetInsertionPoint(trItemCombo_->GetValue().size());
-        wxCommandEvent dummy;
-        onTransactionItemText(dummy);
     }
 }
 
 void MainWindow::onTransactionItemText(wxCommandEvent& event)
 {
     setTransactionDirty();
+    if (processTransactionEditEvents_) {
 
-    string itemName;
-    UiUtil::appendWxString(itemName, trItemCombo_->GetValue());
-    const Item* item = Controller::instance()->selectItem(itemName.c_str());
-    if (0 != item) {
-        Controller::instance()->transactionToView(item->getLastTransactionId(), false);
-    } else {
-        transactionToView(0, false);
-    }
-}
-
-void MainWindow::onTransactionValueKeyDown(wxKeyEvent& event)
-{
-    if (trAcceptButton_->IsEnabled() && event.ControlDown()) {
-        int keyCode = event.GetKeyCode();
-        if (WXK_RETURN == keyCode || WXK_SPACE == keyCode) {
-            acceptTransaction();
-            return;
+        string itemName;
+        UiUtil::appendWxString(itemName, trItemText_->GetValue());
+        const Item* item = Controller::instance()->selectItem(itemName.c_str());
+        if (0 != item) {
+            Controller::instance()->transactionToView(item->getLastTransactionId(), false);
+        } else {
+            transactionToView(0, false);
         }
     }
-    event.Skip();
 }
 
 void MainWindow::onTransactionValueText(wxCommandEvent& event)
 {
-    setTransactionDirty();
+    if (processTransactionEditEvents_) {
+        setTransactionDirty();
+    }
 }
 
 void MainWindow::onTransactionSourceChoice(wxCommandEvent& event)
 {
-    setTransactionDirty();
+    if (processTransactionEditEvents_) {
+        setTransactionDirty();
+    }
 }
 
 void MainWindow::onTransactionDestinationChoice(wxCommandEvent& event)
 {
-    setTransactionDirty();
+    if (processTransactionEditEvents_) {
+        setTransactionDirty();
+    }
 }
 
 void MainWindow::onTransactionCommentText(wxCommandEvent& event)
 {
-    setTransactionDirty();
+    if (processTransactionEditEvents_) {
+        setTransactionDirty();
+    }
 }
 
 void MainWindow::onNewTransaction(wxCommandEvent& event)
@@ -125,6 +106,53 @@ void MainWindow::onDeleteTransaction(wxCommandEvent& event)
 void MainWindow::onAcceptTransaction(wxCommandEvent& event)
 {
     acceptTransaction();
+}
+
+void MainWindow::transactionToView(const Transaction* t, bool complete)
+{
+    processTransactionEditEvents_ = false;
+
+    if (0 != t) {
+        if (complete) {
+            wxDateTime trDate;
+            UiUtil::adbDate2wxDate(&trDate, &(t->getDate()));
+            trDatePicker_->SetValue(trDate);
+        }
+
+        wxString itemName;
+        UiUtil::appendStdString(itemName, Controller::instance()->selectItem(t->getItemId())->getName());
+        trItemText_->SetValue(itemName);
+
+        wxString val;
+        val.Printf(wxT("%0.2f"), t->getValue());
+        trValueText_->SetValue(val);
+
+        int idx = getSourceIndexById(t->getFromId());
+        trSourceChoice_->SetSelection(idx);
+
+        idx = getDestinationIndexById(t->getToId());
+        trDestinationChoice_->SetSelection(idx);
+
+        wxString comment;
+        UiUtil::appendStdString(comment, t->getDescription());
+        trCommentText_->SetValue(comment);
+
+        if (complete) {
+            setUpdateTransactionView();
+        }
+    } else {
+        if (complete) {
+            trItemText_->SetValue(wxEmptyString);
+        }
+        trValueText_->SetValue(wxEmptyString);
+        trSourceChoice_->SetSelection(0);
+        trDestinationChoice_->SetSelection(0);
+        trCommentText_->SetValue(wxEmptyString);
+    }
+
+    clearTransactionErrorHighlight();
+
+    processTransactionEditEvents_ = true;
 }
 
 void MainWindow::acceptTransaction()
@@ -161,15 +189,15 @@ void MainWindow::acceptTransaction()
     int itemId = 0;
     if (isValid) {
         string itemName;
-        UiUtil::appendWxString(itemName, trItemCombo_->GetValue());
+        UiUtil::appendWxString(itemName, trItemText_->GetValue());
         const Item* item = Controller::instance()->selectInsertItem(itemName.c_str());
         if (0 != item) {
             itemId = item->getId();
         }
         if (0 == item) {
             isValid = false;
-            trItemCombo_->SetValue(wxEmptyString);
-            trItemCombo_->SetBackgroundColour(errorHighlight_);
+            trItemText_->SetValue(wxEmptyString);
+            trItemText_->SetBackgroundColour(errorHighlight_);
             checkItem();
         }
     }

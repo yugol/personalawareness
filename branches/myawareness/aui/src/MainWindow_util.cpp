@@ -9,7 +9,7 @@
 
 void MainWindow::checkItem()
 {
-    int nChars = trItemCombo_->GetValue().Trim(true).Trim(false).size();
+    int nChars = trItemText_->GetValue().Trim(true).Trim(false).size();
     if (nChars > 0) {
         trAcceptButton_->Enable();
     } else {
@@ -19,12 +19,13 @@ void MainWindow::checkItem()
 
 int MainWindow::getItemIndexById(int id)
 {
-    for (unsigned int i = 0; i < trItemCombo_->GetCount(); ++i) {
-        int tmpId = reinterpret_cast<int> (trItemCombo_->GetClientData(i));
-        if (tmpId == id) {
-            return i;
-        }
-    }
+    // TBD+: see if this is necessary
+//    for (unsigned int i = 0; i < trItemText_->GetCount(); ++i) {
+//        int tmpId = reinterpret_cast<int> (trItemText_->GetClientData(i));
+//        if (tmpId == id) {
+//            return i;
+//        }
+//    }
     return -1;
 }
 

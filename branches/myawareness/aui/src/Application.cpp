@@ -4,7 +4,6 @@
 
 // TBD+: readValidateRefresh for transactions
 // TBD+: select transactions according to item name pattern
-// TBD+: update search in transaction item combo when Ctrl + Space
 // TBD-: insert transaction focuses on item
 
 // TBD: when selecting an item / account disable delete if it is used

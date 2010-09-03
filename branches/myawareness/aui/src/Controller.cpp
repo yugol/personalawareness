@@ -111,6 +111,11 @@ void Controller::selectAllItems(std::vector<const Item*>& items)
     sort(items.begin(), items.end(), UiUtil::compareByName);
 }
 
+const adb::Item* Controller::selectItem(int itemId)
+{
+    return DatabaseConnection::instance()->getItem(itemId);
+}
+
 const adb::Item* Controller::selectItem(const char* name)
 {
     if (0 == name || 0 == ::strlen(name)) {

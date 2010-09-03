@@ -12,6 +12,7 @@
 #include <wx/combobox.h>
 #include <wx/sizer.h>
 #include <wx/notebook.h>
+#include <AutocompletionWindow.h>
 #include <Controller.h>
 #include <MainWindow.h>
 
@@ -78,7 +79,7 @@ EVT_BUTTON(MainWindow::ID_TR_VIEW, MainWindow::onTransactionViewButton)
 END_EVENT_TABLE()
 
 MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
-    wxFrame(frame, -1, title)
+    wxFrame(frame, -1, title), processTransactionEditEvents_ (false)
 {
     // formatting
 
@@ -100,7 +101,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     fileMenu_->Append(ID_MENU_IMPORT, wxT("&Import..."), wxT("Import database from SQL script"));
     fileMenu_->AppendSeparator();
     fileMenu_->Append(ID_MENU_EXIT, wxT("E&xit\tAlt-F4"), wxT("Exit the application"));
-    menuBar_->Append(fileMenu_, wxT("&Database"));
+    menuBar_->Append(fileMenu_, wxT("Data&base"));
 
     editMenu_ = new wxMenu(wxEmptyString);
     editMenu_->Append(ID_MENU_UNDO, wxT("&Undo"), wxT("Undo the last action"));
@@ -123,8 +124,8 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     financialPages_ = new wxNotebook(this, wxNewId());
     accountsPage_ = new wxPanel(financialPages_, wxNewId());
     transactionsPage_ = new wxPanel(financialPages_, wxNewId());
-    financialPages_->AddPage(accountsPage_, wxT("Accounts"));
-    financialPages_->AddPage(transactionsPage_, wxT("Transactions"));
+    financialPages_->AddPage(accountsPage_, wxT("&Accounts"));
+    financialPages_->AddPage(transactionsPage_, wxT("&Transactions"));
 
     // accounts_ page
 
@@ -183,8 +184,9 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     trDatePicker_ = new wxDatePickerCtrl(trPanel_, ID_TR_DATE, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
     trDatePicker_->SetToolTip(wxT("Transaction date"));
 
-    trItemCombo_ = new wxComboBox(trPanel_, ID_TR_ITEM);
-    trItemCombo_->SetToolTip(wxT("Transaction description"));
+    trItemText_ = new wxTextCtrl(trPanel_, ID_TR_ITEM);
+    trItemText_->SetToolTip(wxT("Transaction description"));
+    trItemAutocompletion_ = new AutocompletionWindow(this, trItemText_);
 
     trValueText_ = new wxTextCtrl(trPanel_, ID_TR_VALUE);
     trValueText_->SetToolTip(wxT("Transaction value\n(numeric value)"));
@@ -200,11 +202,11 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     trCommentText_ = new wxTextCtrl(trPanel_, ID_TR_COMMENT);
     trCommentText_->SetToolTip(wxT("Transaction comment\n(optional)"));
 
-    trDeleteButton_ = new wxButton(trPanel_, ID_TR_DELETE, wxT("Delete"));
+    trDeleteButton_ = new wxButton(trPanel_, ID_TR_DELETE, wxT("&Delete"));
 
-    trNewButton_ = new wxButton(trPanel_, ID_TR_NEW, wxT("New"));
+    trNewButton_ = new wxButton(trPanel_, ID_TR_NEW, wxT("&New"));
 
-    trAcceptButton_ = new wxButton(trPanel_, ID_TR_ACCEPT, wxT("Accept"));
+    trAcceptButton_ = new wxButton(trPanel_, ID_TR_ACCEPT, wxT("Acce&pt"));
 
     wxBoxSizer* selSizerUp = new wxBoxSizer(wxHORIZONTAL);
     selSizerUp->Add(selIntervalChoice_, 1, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
@@ -229,7 +231,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 
     wxBoxSizer* trSizerUp = new wxBoxSizer(wxHORIZONTAL);
     trSizerUp->Add(trDatePicker_, 1, wxALL | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
-    trSizerUp->Add(trItemCombo_, 2, wxALL | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
+    trSizerUp->Add(trItemText_, 2, wxALL | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
     trSizerUp->Add(trValueText_, 1, wxALL | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
 
     wxBoxSizer* trSizerMiddle = new wxBoxSizer(wxHORIZONTAL);
@@ -276,8 +278,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     showSelectionPanel(false);
     showTransactionPanel(true);
 
-    trItemCombo_->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(MainWindow::onTransactionItemKeyDown), NULL, this);
-    trValueText_->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(MainWindow::onTransactionValueKeyDown), NULL, this);
+    trItemText_->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(MainWindow::onTransactionItemKeyDown), NULL, this);
 }
 
 void MainWindow::setTransactionDirty(bool dirty)
@@ -370,7 +371,6 @@ void MainWindow::setInsertTransactionView()
     trDeleteButton_->Hide();
     trNewButton_->Hide();
     trAcceptButton_->Disable();
-    trAcceptButton_->SetLabel(wxT("Add"));
 }
 
 void MainWindow::setUpdateTransactionView(bool dirty)
@@ -378,12 +378,11 @@ void MainWindow::setUpdateTransactionView(bool dirty)
     setTransactionDirty(dirty);
     trDeleteButton_->Show();
     trNewButton_->Show();
-    trAcceptButton_->SetLabel(wxT("Update"));
 }
 
 void MainWindow::clearTransactionErrorHighlight()
 {
-    trItemCombo_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
+    trItemText_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
     trValueText_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
     trSourceChoice_->SetBackgroundColour(trCommentText_->GetBackgroundColour());
     trDestinationChoice_->SetBackgroundColour(trCommentText_->GetBackgroundColour());

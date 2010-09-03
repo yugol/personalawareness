@@ -10,6 +10,8 @@
 #include <Transaction.h>
 #include <SelectionParameters.h>
 #include <UiUtil.h>
+#include <AutocompletionWindow.h>
+#include <Controller.h>
 #include <MainWindow.h>
 
 using namespace std;
@@ -141,14 +143,13 @@ void MainWindow::populateDebitingBudgets(const vector<const Account*>& budgets)
 
 void MainWindow::populateItems(const vector<const Item*>& items)
 {
-    trItemCombo_->Clear();
+    trItemAutocompletion_->clear();
     vector<const Item*>::const_iterator it;
     for (it = items.begin(); it != items.end(); ++it) {
         const Item* item = *it;
-        wxString fullName;
-        UiUtil::appendStdString(fullName, item->getName());
-        int id = item->getId();
-        trItemCombo_->Append(fullName, reinterpret_cast<void*> (id));
+        wxString itemName;
+        UiUtil::appendStdString(itemName, item->getName());
+        trItemAutocompletion_->append(itemName, item->getId());
     }
 }
 
@@ -156,48 +157,6 @@ void MainWindow::populateTransactions(const wxArrayString& items)
 {
     transactionsList_->Clear();
     transactionsList_->Append(items);
-}
-
-void MainWindow::transactionToView(const Transaction* t, bool complete)
-{
-    if (0 != t) {
-        if (complete) {
-            wxDateTime trDate;
-            UiUtil::adbDate2wxDate(&trDate, &(t->getDate()));
-            trDatePicker_->SetValue(trDate);
-        }
-
-        int idx = getItemIndexById(t->getItemId());
-        trItemCombo_->SetSelection(idx);
-
-        wxString val;
-        val.Printf(wxT("%0.2f"), t->getValue());
-        trValueText_->SetValue(val);
-
-        idx = getSourceIndexById(t->getFromId());
-        trSourceChoice_->SetSelection(idx);
-
-        idx = getDestinationIndexById(t->getToId());
-        trDestinationChoice_->SetSelection(idx);
-
-        wxString comment;
-        UiUtil::appendStdString(comment, t->getDescription());
-        trCommentText_->SetValue(comment);
-
-        if (complete) {
-            setUpdateTransactionView();
-        }
-    } else {
-        if (complete) {
-            trItemCombo_->SetValue(wxEmptyString);
-        }
-        trValueText_->SetValue(wxEmptyString);
-        trSourceChoice_->SetSelection(0);
-        trDestinationChoice_->SetSelection(0);
-        trCommentText_->SetValue(wxEmptyString);
-    }
-
-    clearTransactionErrorHighlight();
 }
 
 void MainWindow::getTransactionSelectionParameters(adb::SelectionParameters* parameters)

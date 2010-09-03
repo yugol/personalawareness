@@ -16,6 +16,7 @@ class wxSimpleHtmlListBox;
 class wxComboBox;
 class wxDateEvent;
 class wxNotebook;
+class AutocompletionWindow;
 namespace adb {
     class Item;
     class Account;
@@ -70,6 +71,7 @@ private:
 
     int selectedTransactionId_;
     bool selectedTransactionDirty_;
+    bool processTransactionEditEvents_;
 
     void fitAccountsPage();
     void fitTransactionsPage();
@@ -157,7 +159,8 @@ private:
     wxButton* trViewButton_;
     wxPanel* trPanel_;
     wxDatePickerCtrl* trDatePicker_;
-    wxComboBox* trItemCombo_;
+    wxTextCtrl* trItemText_;
+    AutocompletionWindow* trItemAutocompletion_;
     wxTextCtrl* trValueText_;
     wxChoice* trSourceChoice_;
     wxChoice* trDestinationChoice_;
@@ -199,7 +202,6 @@ private:
     void onTransactionDateChanged(wxDateEvent& event);
     void onTransactionItemKeyDown(wxKeyEvent& event);
     void onTransactionItemText(wxCommandEvent& event);
-    void onTransactionValueKeyDown(wxKeyEvent& event);
     void onTransactionValueText(wxCommandEvent& event);
     void onTransactionSourceChoice(wxCommandEvent& event);
     void onTransactionDestinationChoice(wxCommandEvent& event);
