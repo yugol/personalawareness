@@ -42,7 +42,7 @@ namespace adb {
     }
 
     Configuration::Configuration() :
-        CURRENCY_SYMBOL("CU"), PREFIX_CURRENCY(false), COMPACT_TRNSACTION_VIEW(true)
+        CURRENCY_SYMBOL("#"), PREFIX_CURRENCY(false), COMPACT_TRNSACTION_VIEW(true), SAME_NONASCII_CHARS(false)
     {
         const char* homeFolder = ::getenv(HOME_ENVIRONMENT_VARIABLE_NAME);
         if (NULL == homeFolder) {

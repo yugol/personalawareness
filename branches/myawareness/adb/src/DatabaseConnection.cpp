@@ -15,7 +15,7 @@ namespace adb {
     {
         SelectionParameters parameters;
         parameters.setAccountId(accountId);
-        parameters.setLastTransactionOnly(true); // TBD-: optimize here not to sort transactions
+        parameters.setLastTransactionOnly(true); // TBD-: optim: not to sort transactions
         vector<int> selection;
         SelectTransactionsCommand(database, &selection, &parameters).execute();
         return selection.size() > 0;
@@ -26,7 +26,7 @@ namespace adb {
     {
         SelectionParameters parameters;
         parameters.setItemId(itemId);
-        parameters.setLastTransactionOnly(true); // TBD-: optimize here not to sort transactions
+        parameters.setLastTransactionOnly(true); // TBD-: optim: not to sort transactions
         vector<int> selection;
         SelectTransactionsCommand(database, &selection, &parameters).execute();
         return selection.size() > 0;
