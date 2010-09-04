@@ -13,13 +13,15 @@
 // TBD: create an icon
 // TBD: time ticker
 
+// TBD: REPORTS
+
 // TBD: review undo/redo
 
 // TBD: handle all errors in Window and not in controller
 // TBD: get rid of magic numbers
 
-// TBD: csv import/export
-// TBD: MySQL & other DBMS compatible sql dump
+// TBD-: csv import/export
+// TBD-: MySQL & other DBMS compatible sql dump
 
 // TBD-: properties table in database
 
