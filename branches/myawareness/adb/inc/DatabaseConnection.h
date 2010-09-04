@@ -61,6 +61,7 @@ namespace adb {
         void deleteTransaction(int id);
         void selectTransactions(std::vector<int>* selection, SelectionParameters* parameters) const;
         void getTransaction(Transaction* transaction) const;
+        void getLastTransaction(Transaction* transaction) const;
 
         bool canUndo();
         bool canRedo();

@@ -1,4 +1,5 @@
 #include <Exception.h>
+#include <SelectionParameters.h>
 #include <cmd/SelectTransactionsCommand.h>
 #include <cmd/GetTransactionCommand.h>
 #include <cmd/InsertTransactionCommand.h>
@@ -9,16 +10,6 @@
 using namespace std;
 
 namespace adb {
-
-    void DatabaseConnection::selectTransactions(vector<int>* selection, SelectionParameters* parameters) const
-    {
-        SelectTransactionsCommand(database_, selection, parameters).execute();
-    }
-
-    void DatabaseConnection::getTransaction(Transaction* transaction) const
-    {
-        GetTransactionCommand(database_, transaction).execute();
-    }
 
     void DatabaseConnection::insertUpdate(Transaction* transaction)
     {
@@ -49,6 +40,30 @@ namespace adb {
         } catch (const Exception& ex) {
             delete cmd;
             RETHROW(ex);
+        }
+    }
+
+    void DatabaseConnection::selectTransactions(vector<int>* selection, SelectionParameters* parameters) const
+    {
+        SelectTransactionsCommand(database_, selection, parameters).execute();
+    }
+
+    void DatabaseConnection::getTransaction(Transaction* transaction) const
+    {
+        GetTransactionCommand(database_, transaction).execute();
+    }
+
+    void DatabaseConnection::getLastTransaction(Transaction* transaction) const
+    {
+        SelectionParameters tmpParameters;
+        tmpParameters.setLastTransactionOnly(true);
+        vector<int> tmpSelection;
+        SelectTransactionsCommand(database_, &tmpSelection, &tmpParameters).execute();
+        if (tmpSelection.size() == 1) {
+            transaction->setId(tmpSelection[0]);
+            getTransaction(transaction);
+        } else {
+            transaction->setId(0);
         }
     }
 
