@@ -11,23 +11,27 @@ namespace adb {
 
         int getItemId() const;
         bool isLastTransactionOnly() const;
+        bool isCheckUsage() const;
         int getAccountType() const;
         const Date& getFirstDate() const;
         const Date& getLastDate() const;
         int getAccountId() const;
         const std::string& getNamePattern() const;
+        bool hasNamePattern() const;
 
         void setItemId(int);
         void setLastTransactionOnly(bool);
+        void setCheckUsage(bool);
         void setAccountType(int type);
-        void setFirstDate(time_t when);
-        void setLastDate(time_t when);
-        void setAccountId(int id);
-        void setNamePattern(const char* pattern);
+        void setFirstDate(time_t);
+        void setLastDate(time_t);
+        void setAccountId(int);
+        void setNamePattern(const char*);
 
     private:
         int itemId_;
         bool lastTransactionOnly_;
+        bool checkUsage_;
 
         int accountType_;
 
@@ -45,6 +49,11 @@ namespace adb {
     inline bool SelectionParameters::isLastTransactionOnly() const
     {
         return lastTransactionOnly_;
+    }
+
+    inline bool SelectionParameters::isCheckUsage() const
+    {
+        return checkUsage_;
     }
 
     inline int SelectionParameters::getAccountType() const
@@ -70,6 +79,11 @@ namespace adb {
     inline const std::string& SelectionParameters::getNamePattern() const
     {
         return namePattern_;
+    }
+
+    inline bool SelectionParameters::hasNamePattern() const
+    {
+        return namePattern_.size() > 0;
     }
 
 } // namespace adb

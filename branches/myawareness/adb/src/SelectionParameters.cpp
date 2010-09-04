@@ -1,11 +1,12 @@
 #include <Configuration.h>
+#include <DbUtil.h>
 #include <Account.h>
 #include <SelectionParameters.h>
 
 namespace adb {
 
     SelectionParameters::SelectionParameters() :
-        itemId_(Configuration::DEFAULT_ID), lastTransactionOnly_(false), accountType_(Account::ALL), accountId_(Configuration::DEFAULT_ID)
+        itemId_(Configuration::DEFAULT_ID), lastTransactionOnly_(false), checkUsage_(false), accountType_(Account::ALL), accountId_(Configuration::DEFAULT_ID)
     {
     }
 
@@ -17,6 +18,11 @@ namespace adb {
     void SelectionParameters::setLastTransactionOnly(bool val)
     {
         lastTransactionOnly_ = val;
+    }
+
+    void SelectionParameters::setCheckUsage(bool val)
+    {
+        checkUsage_ = val;
     }
 
     void SelectionParameters::setAccountType(int type)
@@ -41,7 +47,8 @@ namespace adb {
 
     void SelectionParameters::setNamePattern(const char* pattern)
     {
-        namePattern_ = pattern;
+        DbUtil::charPtrToString(namePattern_, pattern);
+        DbUtil::trimSpaces(namePattern_);
     }
 
 } // namespace adb
