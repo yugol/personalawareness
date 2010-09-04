@@ -29,7 +29,7 @@ namespace adb {
         cashItems();
 
         // dump accounts
-        // TBD-: use select to check for usage
+        // TBD-: use select to check for usage (iterators ???)
         map<int, int> accountIds;
         int accountNo = 0;
 
@@ -46,7 +46,7 @@ namespace adb {
         }
 
         // dump items
-        // TBD-: use select to check for usage
+        // TBD-: use select to check for usage (iterators ???)
         map<int, int> itemIds;
         int itemNo = 0;
 

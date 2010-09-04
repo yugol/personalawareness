@@ -36,6 +36,11 @@ namespace adb {
         SelectItemsCommand(database_, selection, parameters).execute();
     }
 
+    bool DatabaseConnection::isItemInUse(int id) const
+    {
+        return isItemInUse(database_, id);
+    }
+
     void DatabaseConnection::getItem(Item* item) const
     {
         GetItemCommand(database_, item).execute();

@@ -35,11 +35,11 @@ namespace adb {
         const std::string& getDatabaseLocation() const;
 
         void insertUpdate(Account* account);
-        void selectAccounts(std::vector<int>* selection, SelectionParameters* parameters) const;
-        void getAccount(Account* account) const;
-        bool isAccountInUse(int id) const;
         void deleteAccount(int id);
+        void selectAccounts(std::vector<int>* selection, SelectionParameters* parameters) const;
+        bool isAccountInUse(int id) const;
         int getAccountCount() const;
+        void getAccount(Account* account) const;
         const Account* getAccount(int id) const;
         const Account* getAccount(const char* name) const;
         double getBalance(const Account* account) const;
@@ -49,17 +49,18 @@ namespace adb {
         void getDebitingBudgets(std::vector<int>* sel) const;
 
         void insertUpdate(Item* item);
-        void selectItems(std::vector<int>* selection, SelectionParameters* parameters) const;
-        void getItem(Item* item) const;
         void deleteItem(int id);
+        void selectItems(std::vector<int>* selection, SelectionParameters* parameters) const;
+        bool isItemInUse(int id) const;
+        void getItem(Item* item) const;
         int getItemCount() const;
         const Item* getItem(int id) const;
         const Item* getItem(const char* name) const;
 
         void insertUpdate(Transaction* transaction);
+        void deleteTransaction(int id);
         void selectTransactions(std::vector<int>* selection, SelectionParameters* parameters) const;
         void getTransaction(Transaction* transaction) const;
-        void deleteTransaction(int id);
 
         bool canUndo();
         bool canRedo();
