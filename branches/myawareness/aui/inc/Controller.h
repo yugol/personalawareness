@@ -36,7 +36,8 @@ public:
     void insertUpdateItem(adb::Item* item);
     void deleteItem(int itemId);
 
-    void selectTransaction(const adb::Transaction* transaction, int transactionId);
+    void selectTransaction(adb::Transaction* transaction, int transactionId);
+    void selectLastTransaction(adb::Transaction* transaction);
     void insertUpdateTransaction(adb::Transaction* transaction);
     void deleteTransaction(int transactionId);
 

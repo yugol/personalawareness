@@ -19,7 +19,7 @@ public:
     static wxString getUsingStatusMessage(const std::string& databaseFile);
     static wxString makeProperName(wxString rawName);
 
-    static void adbDate2wxDate(wxDateTime* to, const adb::Date* from);
+    static void adbDate2wxDate(wxDateTime& to, const adb::Date& from);
 
     static std::ostream& streamCurrency(std::ostream& out, double val, bool html = false);
     static std::ostream& streamPercent(std::ostream& out, double val);

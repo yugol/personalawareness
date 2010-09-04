@@ -155,11 +155,15 @@ void Controller::deleteItem(int itemId)
     }
 }
 
-void Controller::selectTransaction(const Transaction* transaction, int transactionId)
+void Controller::selectTransaction(Transaction* transaction, int transactionId)
 {
-    Transaction* t = const_cast<Transaction*> (transaction);
-    t->setId(transactionId);
-    return DatabaseConnection::instance()->getTransaction(t);
+    transaction->setId(transactionId);
+    DatabaseConnection::instance()->getTransaction(transaction);
+}
+
+void Controller::selectLastTransaction(adb::Transaction* transaction)
+{
+    DatabaseConnection::instance()->getLastTransaction(transaction);
 }
 
 void Controller::insertUpdateTransaction(Transaction* transaction)
@@ -250,13 +254,12 @@ void Controller::refreshItems()
 
 void Controller::refreshTransactions()
 {
-    wxArrayString items;
-
     vector<int> sel;
     SelectionParameters parameters;
     mainWindow_->getTransactionSelectionParameters(&parameters);
     DatabaseConnection::instance()->selectTransactions(&sel, &parameters);
 
+    wxArrayString items;
     vector<int>::iterator it;
     for (it = sel.begin(); it != sel.end(); ++it) {
         int id = *it;

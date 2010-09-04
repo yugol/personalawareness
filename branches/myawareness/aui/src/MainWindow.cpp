@@ -327,10 +327,10 @@ void MainWindow::populateSelectionIntervals()
 {
     selIntervalChoice_->Append(wxT("All"), reinterpret_cast<void*> (SELECTION_INTERVAL_ALL));
     selIntervalChoice_->Append(wxT("Today"), reinterpret_cast<void*> (SELECTION_INTERVAL_TODAY));
-    selIntervalChoice_->Append(wxT("This month"), reinterpret_cast<void*> (SELECTION_INTERVAL_THISMONTH));
-    selIntervalChoice_->Append(wxT("This quarter"), reinterpret_cast<void*> (SELECTION_INTERVAL_THISQUARTER));
-    selIntervalChoice_->Append(wxT("This year"), reinterpret_cast<void*> (SELECTION_INTERVAL_THISYEAR));
+    selIntervalChoice_->Append(wxT("Last month"), reinterpret_cast<void*> (SELECTION_INTERVAL_LASTMONTH));
+    selIntervalChoice_->Append(wxT("Last quarter"), reinterpret_cast<void*> (SELECTION_INTERVAL_LASTQUARTER));
     selIntervalChoice_->Append(wxT("Last year"), reinterpret_cast<void*> (SELECTION_INTERVAL_LASTYEAR));
+    selIntervalChoice_->Append(wxT("Previous year"), reinterpret_cast<void*> (SELECTION_INTERVAL_PREVYEAR));
     selIntervalChoice_->Append(wxT("Custom"), reinterpret_cast<void*> (SELECTION_INTERVAL_CUSTOM));
 }
 

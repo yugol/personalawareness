@@ -158,7 +158,7 @@ void MainWindow::selectTransaction(int transactionId, bool isAutocomplete)
 {
     processTransactionEditEvents_ = false;
 
-    const Transaction transaction;
+    Transaction transaction;
     if (transactionId != 0) {
         Controller::instance()->selectTransaction(&transaction, transactionId);
     }
@@ -178,7 +178,7 @@ void MainWindow::selectTransaction(int transactionId, bool isAutocomplete)
     } else {
         if (!isAutocomplete) {
             wxDateTime trDate;
-            UiUtil::adbDate2wxDate(&trDate, &(transaction.getDate()));
+            UiUtil::adbDate2wxDate(trDate, transaction.getDate());
             trDatePicker_->SetValue(trDate);
         }
 

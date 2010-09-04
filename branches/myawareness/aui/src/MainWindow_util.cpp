@@ -3,14 +3,26 @@
 #include <wx/choice.h>
 #include <wx/datectrl.h>
 #include <wx/msgdlg.h>
+#include <Transaction.h>
+#include <UiUtil.h>
 #include <Controller.h>
 #include <MainWindow.h>
+
+using namespace adb;
 
 void MainWindow::setSelectionInterval(int choice)
 {
     wxDateTime firstDate;
-    wxDateTime lastDate = wxDateTime::Today();
+    wxDateTime lastDate;
     int year, month;
+
+    Transaction lastTransaction;
+    Controller::instance()->selectLastTransaction(&lastTransaction);
+    if (lastTransaction.getId() == 0) {
+        lastDate = wxDateTime::Today();
+    } else {
+        UiUtil::adbDate2wxDate(lastDate, lastTransaction.getDate());
+    }
 
     switch (choice) {
         case SELECTION_INTERVAL_ALL:
@@ -19,30 +31,31 @@ void MainWindow::setSelectionInterval(int choice)
             firstDate.SetYear(1900);
             break;
         case SELECTION_INTERVAL_TODAY:
-            firstDate = lastDate;
+            firstDate = wxDateTime::Today();
+            lastDate = wxDateTime::Today();
             break;
-        case SELECTION_INTERVAL_THISMONTH:
+        case SELECTION_INTERVAL_LASTMONTH:
             firstDate = lastDate;
             firstDate.SetDay(1);
             break;
-        case SELECTION_INTERVAL_THISQUARTER:
-            year = wxDateTime::GetCurrentYear();
-            month = wxDateTime::GetCurrentMonth() - 2;
-            if (month < 0) {
+        case SELECTION_INTERVAL_LASTQUARTER:
+            year = lastDate.GetYear();
+            month = lastDate.GetMonth() - 2;
+            if (month < wxDateTime::Jan) {
                 --year;
-                month %= wxDateTime::Inv_Month;
+                month = wxDateTime::Inv_Month - ::abs(month);
             }
             firstDate.SetDay(1);
             firstDate.SetMonth(static_cast<wxDateTime::Month> (month));
             firstDate.SetYear(year);
             break;
-        case SELECTION_INTERVAL_THISYEAR:
+        case SELECTION_INTERVAL_LASTYEAR:
             firstDate = lastDate;
             firstDate.SetDay(1);
             firstDate.SetMonth(wxDateTime::Jan);
             break;
-        case SELECTION_INTERVAL_LASTYEAR:
-            year = wxDateTime::GetCurrentYear() - 1;
+        case SELECTION_INTERVAL_PREVYEAR:
+            year = lastDate.GetYear() - 1;
             firstDate.SetDay(1);
             firstDate.SetMonth(wxDateTime::Jan);
             firstDate.SetYear(year);
@@ -62,7 +75,7 @@ void MainWindow::setSelectionStartInterval()
 {
     for (unsigned int choice = 0; choice < selIntervalChoice_->GetCount(); ++choice) {
         int data = reinterpret_cast<int> (selIntervalChoice_->GetClientData(choice));
-        if (SELECTION_INTERVAL_THISQUARTER == data) {
+        if (SELECTION_INTERVAL_LASTQUARTER == data) {
             selIntervalChoice_->Select(choice);
             setSelectionInterval(choice);
             break;

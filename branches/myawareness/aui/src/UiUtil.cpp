@@ -86,11 +86,11 @@ void UiUtil::appendWxString(string& to, const wxString& what)
     }
 }
 
-void UiUtil::adbDate2wxDate(wxDateTime* wxdate, const Date* date)
+void UiUtil::adbDate2wxDate(wxDateTime& wxdate, const Date& date)
 {
-    wxdate->SetDay(date->getDay());
-    wxdate->SetMonth(static_cast<wxDateTime::Month> (date->getMonth() - 1));
-    wxdate->SetYear(date->getYear());
+    wxdate.SetDay(date.getDay());
+    wxdate.SetMonth(static_cast<wxDateTime::Month> (date.getMonth() - 1));
+    wxdate.SetYear(date.getYear());
 }
 
 void UiUtil::appendStdString(wxString& to, const string& what)

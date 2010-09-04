@@ -2,8 +2,6 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD+: select last interval relative to the last entry
-// TBD+: select transactions according to item name pattern
 // TBD+: properties table in database
 
 // TBD: count versions system
