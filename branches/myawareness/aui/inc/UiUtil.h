@@ -32,7 +32,7 @@ public:
     static void appendWxString(std::string& to, const wxString& what);
     static void appendCurrency(wxString& to, double val);
 
-    static int compareBeginning(const wxString& a, const wxString& b);
+    static int compareBeginning(const wxString& needle, const wxString& hay);
     static bool compareByName(const adb::Item* a, const adb::Item* b);
 
 private:

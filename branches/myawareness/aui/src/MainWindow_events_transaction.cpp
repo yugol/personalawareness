@@ -32,13 +32,7 @@ void MainWindow::onTransactionItemKeyDown(wxKeyEvent& event)
     if (processTransactionEditEvents_) {
         int keyCode = event.GetKeyCode();
 
-        if (WXK_UP == keyCode) {
-            trItemAutocompletion_->show();
-            trItemAutocompletion_->select(UiUtil::makeProperName(trItemText_->GetValue()), -1);
-        } else if (WXK_DOWN == keyCode) {
-            trItemAutocompletion_->show();
-            trItemAutocompletion_->select(UiUtil::makeProperName(trItemText_->GetValue()), 1);
-        } else if (WXK_SPACE == keyCode && event.ControlDown()) {
+        if (WXK_SPACE == keyCode && event.ControlDown()) {
             trItemAutocompletion_->show();
             trItemAutocompletion_->select(UiUtil::makeProperName(trItemText_->GetValue()), 0);
         } else {
@@ -49,9 +43,9 @@ void MainWindow::onTransactionItemKeyDown(wxKeyEvent& event)
 
 void MainWindow::onTransactionItemText(wxCommandEvent& event)
 {
-    if (processTransactionEditEvents_) {
+    if (processTransactionEditEvents_ && getSelectedTransactionId() == 0) {
         string itemName;
-        UiUtil::appendWxString(itemName, trItemText_->GetValue());
+        UiUtil::appendWxString(itemName, UiUtil::makeProperName(trItemText_->GetValue()));
         const Item* item = Controller::instance()->selectItem(itemName.c_str());
         if (0 != item) {
             selectTransaction(item->getLastTransactionId(), true);

@@ -58,6 +58,7 @@ EVT_CHOICE(MainWindow::ID_SEL_INTERVAL, MainWindow::onSelectionIntervalChoice)
 EVT_DATE_CHANGED(MainWindow::ID_SEL_FIRST, MainWindow::onSelectionFirstDateChanged)
 EVT_DATE_CHANGED(MainWindow::ID_SEL_LAST, MainWindow::onSelectionLastDateChanged)
 EVT_CHOICE(MainWindow::ID_SEL_ACCOUNT, MainWindow::onSelectionAccountChoice)
+EVT_TEXT(MainWindow::ID_SEL_PATTERN, MainWindow::onSelectionPatternText)
 EVT_BUTTON(MainWindow::ID_SEL_REPORTS, MainWindow::onReports)
 
 EVT_LISTBOX(MainWindow::ID_TRS_LIST, MainWindow::onTransactionSelected)
@@ -100,11 +101,11 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     fileMenu_->Append(ID_MENU_IMPORT, wxT("&Import..."), wxT("Import database from SQL script"));
     fileMenu_->AppendSeparator();
     fileMenu_->Append(ID_MENU_EXIT, wxT("E&xit\tAlt-F4"), wxT("Exit the application"));
-    menuBar_->Append(fileMenu_, wxT("&File"));
+    menuBar_->Append(fileMenu_, wxT("Data&base"));
 
     editMenu_ = new wxMenu(wxEmptyString);
-    editMenu_->Append(ID_MENU_UNDO, wxT("&Undo"), wxT("Undo the last action"));
-    editMenu_->Append(ID_MENU_REDO, wxT("&Redo"), wxT("Redo the last action"));
+    editMenu_->Append(ID_MENU_UNDO, wxT("&Undo"), wxT("Undo the last database modification"));
+    editMenu_->Append(ID_MENU_REDO, wxT("&Redo"), wxT("Redo the last database modification"));
     editMenu_->AppendSeparator();
     editMenu_->Append(ID_MENU_ACCOUNTS, wxT("&Accounts..."), wxT("Edit accounts and budget categories"));
     editMenu_->Append(ID_MENU_ITEMS, wxT("&Descriptions..."), wxT("Edit items"));
@@ -113,8 +114,8 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     menuBar_->Append(editMenu_, wxT("&Edit"));
 
     helpMenu_ = new wxMenu(wxEmptyString);
-    helpMenu_->Append(ID_MENU_CONTENTS, wxT("&Contents\tF1"), wxT("Opens the help window"));
-    helpMenu_->Append(ID_MENU_WEBPAGE, wxT("&Web Page"), wxT("Opens the application web site"));
+    helpMenu_->Append(ID_MENU_CONTENTS, wxT("User &Manual\tF1"), wxT("Opens the help window"));
+    helpMenu_->Append(ID_MENU_WEBPAGE, wxT("&Web Page"), wxT("Opens the application's web site"));
     helpMenu_->AppendSeparator();
     helpMenu_->Append(ID_MENU_ABOUT, wxT("&About"), wxT("Show info about this application"));
     menuBar_->Append(helpMenu_, wxT("&Help"));
@@ -208,7 +209,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 
     trNewButton_ = new wxButton(trPanel_, ID_TR_NEW, wxT("&New"));
 
-    trAcceptButton_ = new wxButton(trPanel_, ID_TR_ACCEPT, wxT("Accep&t"));
+    trAcceptButton_ = new wxButton(trPanel_, ID_TR_ACCEPT, wxT("Acce&pt"));
 
     wxBoxSizer* selSizerUp = new wxBoxSizer(wxHORIZONTAL);
     selSizerUp->Add(selIntervalChoice_, 1, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);

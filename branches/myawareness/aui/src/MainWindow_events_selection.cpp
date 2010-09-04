@@ -37,6 +37,11 @@ void MainWindow::onSelectionAccountChoice(wxCommandEvent& event)
     Controller::instance()->refreshTransactions();
 }
 
+void MainWindow::onSelectionPatternText(wxCommandEvent& event)
+{
+    Controller::instance()->refreshTransactions();
+}
+
 void MainWindow::onReports(wxCommandEvent& event)
 {
     wxMenu reportsMenu;

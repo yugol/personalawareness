@@ -19,7 +19,7 @@ using namespace adb;
 
 void MainWindow::setNetWorth(double val)
 {
-    wxString wxworth(wxT("Net worth: "));
+    wxString wxworth(wxT("Net balance: "));
     UiUtil::appendCurrency(wxworth, val);
     netWorthLabel_->SetLabel(wxworth);
     fitAccountsPage();
@@ -161,12 +161,13 @@ void MainWindow::populateTransactions(const wxArrayString& items)
 
 void MainWindow::getTransactionSelectionParameters(adb::SelectionParameters* parameters)
 {
-    parameters->setFirstDate(selFirstDatePicker_->GetValue().GetTicks());
-    parameters->setLastDate(selLastDatePicker_->GetValue().GetTicks());
     int accountId = reinterpret_cast<int> (selAccountChoice_->GetClientData(selAccountChoice_->GetSelection()));
-    parameters->setAccountId(accountId);
     string pattern;
     UiUtil::appendWxString(pattern, selPatternText_->GetValue());
+
+    parameters->setFirstDate(selFirstDatePicker_->GetValue().GetTicks());
+    parameters->setLastDate(selLastDatePicker_->GetValue().GetTicks());
+    parameters->setAccountId(accountId);
     parameters->setNamePattern(pattern.c_str());
 }
 

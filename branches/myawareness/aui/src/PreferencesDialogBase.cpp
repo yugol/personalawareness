@@ -21,14 +21,14 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	wxStaticBoxSizer* transactionsViewGroup;
 	transactionsViewGroup = new wxStaticBoxSizer( new wxStaticBox( viewPage_, wxID_ANY, wxT(" Transactions ") ), wxVERTICAL );
 	
-	expandedTransactionsViewheCkBox_ = new wxCheckBox( viewPage_, wxID_ANY, wxT("Show expanded transactios in list"), wxDefaultPosition, wxDefaultSize, 0 );
+	compactTransactionsViewCkBox_ = new wxCheckBox( viewPage_, wxID_ANY, wxT("Display compact transactions in list"), wxDefaultPosition, wxDefaultSize, 0 );
 	
-	transactionsViewGroup->Add( expandedTransactionsViewheCkBox_, 0, wxALL, 5 );
+	transactionsViewGroup->Add( compactTransactionsViewCkBox_, 0, wxALL, 5 );
 	
 	viewPage_->SetSizer( transactionsViewGroup );
 	viewPage_->Layout();
 	transactionsViewGroup->Fit( viewPage_ );
-	propertiesNotebook_->AddPage( viewPage_, wxT("View"), false );
+	propertiesNotebook_->AddPage( viewPage_, wxT("View"), true );
 	formattingPage_ = new wxPanel( propertiesNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* currencyFormattingGroup;
 	currencyFormattingGroup = new wxStaticBoxSizer( new wxStaticBox( formattingPage_, wxID_ANY, wxT(" Currency ") ), wxVERTICAL );
@@ -70,14 +70,14 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	wxStaticBoxSizer* unicodeInternalsGroup;
 	unicodeInternalsGroup = new wxStaticBoxSizer( new wxStaticBox( internalsPage_, wxID_ANY, wxT(" Unicode ") ), wxVERTICAL );
 	
-	identicalUnicodeInternalsCheckBox_ = new wxCheckBox( internalsPage_, wxID_ANY, wxT("Treat all non-ASCII chars as being identical"), wxDefaultPosition, wxDefaultSize, 0 );
+	treatNonAsciiCharsIdenticallyCheckBox_ = new wxCheckBox( internalsPage_, wxID_ANY, wxT("Treat all non-ASCII chars as being identical"), wxDefaultPosition, wxDefaultSize, 0 );
 	
-	unicodeInternalsGroup->Add( identicalUnicodeInternalsCheckBox_, 0, wxALL, 5 );
+	unicodeInternalsGroup->Add( treatNonAsciiCharsIdenticallyCheckBox_, 0, wxALL, 5 );
 	
 	internalsPage_->SetSizer( unicodeInternalsGroup );
 	internalsPage_->Layout();
 	unicodeInternalsGroup->Fit( internalsPage_ );
-	propertiesNotebook_->AddPage( internalsPage_, wxT("Internals"), true );
+	propertiesNotebook_->AddPage( internalsPage_, wxT("Internals"), false );
 	
 	dialogSizer->Add( propertiesNotebook_, 1, wxEXPAND | wxALL, 5 );
 	

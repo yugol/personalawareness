@@ -61,7 +61,7 @@ private:
         SELECTION_INTERVAL_CUSTOM
     };
 
-    static const int EMPTY_BORDER_SIZE; // TBD: move to UiUtil and use in all windows
+    static const int EMPTY_BORDER_SIZE; // TBD-: move to UiUtil and use in all windows
     wxFont normalFont_;
     wxFont boldFont_;
 
@@ -185,6 +185,7 @@ private:
     void onSelectionFirstDateChanged(wxDateEvent& event);
     void onSelectionLastDateChanged(wxDateEvent& event);
     void onSelectionAccountChoice(wxCommandEvent& event);
+    void onSelectionPatternText(wxCommandEvent& event);
     void onReports(wxCommandEvent& event);
 
     void onTransactionViewButton(wxCommandEvent& event);

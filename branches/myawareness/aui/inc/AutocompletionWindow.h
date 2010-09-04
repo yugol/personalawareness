@@ -20,7 +20,6 @@ private:
     wxTextCtrl* handler_;
     wxListBox* optionList_;
 
-    void onSelectOption(wxCommandEvent& event);
     void onKillFocus(wxFocusEvent& event);
     void onKeyDown(wxKeyEvent& event);
 };

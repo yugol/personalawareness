@@ -39,14 +39,14 @@ class PreferencesDialogBase : public wxDialog
 	protected:
 		wxNotebook* propertiesNotebook_;
 		wxPanel* viewPage_;
-		wxCheckBox* expandedTransactionsViewheCkBox_;
+		wxCheckBox* compactTransactionsViewCkBox_;
 		wxPanel* formattingPage_;
 		wxStaticText* currencySymbolLabel_;
 		wxTextCtrl* currencySymbolText_;
 		wxCheckBox* currencyPositionCheckBox_;
 		
 		wxPanel* internalsPage_;
-		wxCheckBox* identicalUnicodeInternalsCheckBox_;
+		wxCheckBox* treatNonAsciiCharsIdenticallyCheckBox_;
 		wxStdDialogButtonSizer* buttonsSizer_;
 		wxButton* buttonsSizer_OK;
 		wxButton* buttonsSizer_Cancel;

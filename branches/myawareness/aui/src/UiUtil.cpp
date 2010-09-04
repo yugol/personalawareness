@@ -194,13 +194,17 @@ void UiUtil::appendCurrency(wxString& to, double val)
     appendStdString(to, sout.rdbuf()->str());
 }
 
-int UiUtil::compareBeginning(const wxString& sa, const wxString& sb)
+int UiUtil::compareBeginning(const wxString& needle, const wxString& hay)
 {
-    size_t minLen = min(sa.Len(), sb.Len());
-    for (size_t i = 0; i < minLen; ++i) {
+    size_t needleLen = needle.Len();
+    for (size_t i = 0; i < needleLen; ++i) {
 
-        wxChar ca = wxTolower(sa.GetChar(i));
-        wxChar cb = wxTolower(sb.GetChar(i));
+        if (i >= needleLen) {
+            return 1;
+        }
+
+        wxChar ca = wxTolower(needle.GetChar(i));
+        wxChar cb = wxTolower(hay.GetChar(i));
 
         if (Configuration::instance()->SAME_NONASCII_CHARS) {
             if (ca >= 128) {

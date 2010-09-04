@@ -22,19 +22,10 @@ AutocompletionWindow::AutocompletionWindow(wxWindow* parent, wxTextCtrl* handler
     // Connect Events
     optionList_->Connect(wxEVT_KILL_FOCUS, wxFocusEventHandler( AutocompletionWindow::onKillFocus ), NULL, this);
     optionList_->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler( AutocompletionWindow::onKeyDown ), NULL, this);
-    optionList_->Connect(wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( AutocompletionWindow::onSelectOption ), NULL, this);
 }
 
 AutocompletionWindow::~AutocompletionWindow()
 {
-    // Disconnect Events
-    optionList_->Disconnect(wxEVT_KILL_FOCUS, wxFocusEventHandler( AutocompletionWindow::onKillFocus ), NULL, this);
-    optionList_->Disconnect(wxEVT_KEY_DOWN, wxKeyEventHandler( AutocompletionWindow::onKeyDown ), NULL, this);
-    optionList_->Disconnect(wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( AutocompletionWindow::onSelectOption ), NULL, this);
-}
-void AutocompletionWindow::onSelectOption(wxCommandEvent& event)
-{
-
 }
 
 void AutocompletionWindow::onKillFocus(wxFocusEvent& event)
@@ -45,17 +36,6 @@ void AutocompletionWindow::onKillFocus(wxFocusEvent& event)
 void AutocompletionWindow::onKeyDown(wxKeyEvent& event)
 {
     int keyCode = event.GetKeyCode();
-
-    if (keyCode == WXK_ESCAPE) {
-        hide();
-        return;
-    }
-
-    if (keyCode == WXK_RETURN || keyCode == WXK_SPACE) {
-        handler_->SetValue(optionList_->GetString(optionList_->GetSelection()));
-        hide();
-        return;
-    }
 
     if (keyCode == WXK_UP) {
         int selection = optionList_->GetSelection();
@@ -75,7 +55,15 @@ void AutocompletionWindow::onKeyDown(wxKeyEvent& event)
         return;
     }
 
-    event.Skip();
+    if (keyCode == WXK_RETURN || keyCode == WXK_SPACE) {
+        handler_->SetValue(optionList_->GetString(optionList_->GetSelection()));
+    }
+
+    if (keyCode == WXK_BACK) {
+        handler_->EmulateKeyPress(event);
+    }
+
+    hide();
 }
 
 void AutocompletionWindow::show()
@@ -100,6 +88,8 @@ void AutocompletionWindow::show()
 void AutocompletionWindow::hide()
 {
     Show(false);
+    int lastPos = handler_->GetValue().Len();
+    handler_->SetSelection(lastPos, lastPos);
 }
 
 void AutocompletionWindow::clear()
