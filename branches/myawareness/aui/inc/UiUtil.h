@@ -17,6 +17,7 @@ public:
 
     static wxString getApplicationName(const std::string& databaseFile);
     static wxString getUsingStatusMessage(const std::string& databaseFile);
+    static wxString makeProperName(wxString rawName);
 
     static void adbDate2wxDate(wxDateTime* to, const adb::Date* from);
 

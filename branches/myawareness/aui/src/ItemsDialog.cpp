@@ -15,7 +15,7 @@ using namespace std;
 using namespace adb;
 
 ItemsDialog::ItemsDialog(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) :
-    wxDialog(parent, id, title, pos, size, style)
+    wxDialog(parent, id, title, pos, size, style), processEvents_(false)
 {
     this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
@@ -29,7 +29,7 @@ ItemsDialog::ItemsDialog(wxWindow* parent, wxWindowID id, const wxString& title,
     wxBoxSizer* patternSizer;
     patternSizer = new wxBoxSizer(wxHORIZONTAL);
 
-    patternLabel_ = new wxStaticText(this, wxID_ANY, wxT("Search item:"), wxDefaultPosition, wxDefaultSize, 0);
+    patternLabel_ = new wxStaticText(this, wxID_ANY, wxT("Search by name:"), wxDefaultPosition, wxDefaultSize, 0);
     patternLabel_->Wrap(-1);
     patternSizer->Add(patternLabel_, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
@@ -89,69 +89,87 @@ ItemsDialog::~ItemsDialog()
 
 void ItemsDialog::onCloseDialog(wxCloseEvent& event)
 {
-    // TBD: refresh main window only when closing edit dialogs
+    if (dirty_) {
+        Controller::instance()->refreshTransactions();
+    }
     event.Skip();
 }
 
 void ItemsDialog::onInitDialog(wxInitDialogEvent& event)
 {
+    dirty_ = false;
     selectedListItemId_ = -1;
     patternText_->SetFocus();
     itemList_->InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, itemList_->GetSize().GetWidth() - UiUtil::LIST_MARGIN);
     refreshItemList(0);
 }
 
-void ItemsDialog::onPatternText(wxCommandEvent& event)
-{
-    long selectedListItemId = -1;
-
-    if (event.GetString().Len() > 0) {
-        long listItemId = -1;
-        while (true) {
-
-            listItemId = itemList_->GetNextItem(listItemId);
-            if (listItemId < 0) {
-                break;
-            }
-
-            int match = UiUtil::compareBeginning(event.GetString(), itemList_ ->GetItemText(listItemId));
-
-            if (match > 0) {
-                selectedListItemId = listItemId;
-            } else if (match == 0) {
-                selectedListItemId = listItemId;
-                break;
-            } else {
-                break;
-            }
-        }
-    }
-
-    selectItem(selectedListItemId);
-}
-
 void ItemsDialog::onItemSelected(wxListEvent& event)
 {
-    selectedListItemId_ = event.GetIndex();
-    renameButton_->Enable(true);
-    deleteButton_->Enable(true);
+    if (processEvents_) {
+        selectItem(event.GetIndex());
+    }
+}
+
+void ItemsDialog::onPatternText(wxCommandEvent& event)
+{
+    if (processEvents_) {
+        long selectedListItemId = -1;
+
+        if (event.GetString().Len() > 0) {
+            long listItemId = -1;
+            while (true) {
+
+                listItemId = itemList_->GetNextItem(listItemId);
+                if (listItemId < 0) {
+                    break;
+                }
+
+                int match = UiUtil::compareBeginning(event.GetString(), itemList_ ->GetItemText(listItemId));
+
+                if (match > 0) {
+                    selectedListItemId = listItemId;
+                } else if (match == 0) {
+                    selectedListItemId = listItemId;
+                    break;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        selectItem(selectedListItemId);
+    }
 }
 
 void ItemsDialog::onRename(wxCommandEvent& event)
 {
-    wxString prevName = itemList_->GetItemText(selectedListItemId_);
-    wxTextEntryDialog* dlg = new wxTextEntryDialog(this, wxT("New name:"), wxT("Rename item"), prevName);
+    wxString previousName = itemList_->GetItemText(selectedListItemId_);
+
+    wxTextEntryDialog* dlg = new wxTextEntryDialog(this, wxT("New name:"), wxT("Rename description"), previousName);
     if (wxID_OK == dlg->ShowModal()) {
-        wxString newName = dlg->GetValue();
-        if (newName != prevName) {
-            int itemId = itemList_->GetItemData(selectedListItemId_);
-            string itemName;
-            UiUtil::appendWxString(itemName, newName);
-            Item item;
-            item.setId(itemId);
-            item.setName(itemName.c_str());
-            Controller::instance()->insertUpdateItem(&item);
-            refreshItemList(itemId);
+
+        wxString newName = UiUtil::makeProperName(dlg->GetValue());
+        if (newName.Len() <= 0) {
+            wxMessageBox(wxT("Description name cannot be empty"), wxT("Renaming description"));
+        } else {
+            if (newName != previousName) {
+                string name;
+                UiUtil::appendWxString(name, newName);
+                const Item* tmp = Controller::instance()->selectItem(name.c_str());
+                if (tmp != 0) {
+                    wxString msg(wxT("The name '"));
+                    msg.Append(newName);
+                    msg.Append(wxT("'\nis already used by another description"));
+                    wxMessageBox(msg, wxT("Renaming description"));
+                } else {
+                    Item item;
+                    item.setId(selectedItem_->getId());
+                    item.setName(name.c_str());
+                    Controller::instance()->insertUpdateItem(&item);
+                    refreshItemList(item.getId());
+                }
+            }
         }
     }
     dlg->Destroy();
@@ -159,18 +177,15 @@ void ItemsDialog::onRename(wxCommandEvent& event)
 
 void ItemsDialog::onDelete(wxCommandEvent& event)
 {
-    wxString msg(wxT("Are you sure you want to delete item\n'"));
+    wxString msg(wxT("Are you sure you want to delete description\n'"));
     msg.Append(itemList_->GetItemText(selectedListItemId_));
     msg.Append(wxT("'?"));
-    wxMessageDialog* dlg = new wxMessageDialog(this, msg, wxT("Delete item"), wxOK | wxCANCEL);
+
+    wxMessageDialog* dlg = new wxMessageDialog(this, msg, wxT("Delete description"), wxOK | wxCANCEL);
     if (wxID_OK == dlg->ShowModal()) {
-        int itemId = itemList_->GetItemData(selectedListItemId_);
-        try {
-            Controller::instance()->deleteItem(itemId);
-            refreshItemList(0);
-        } catch (const exception& ex) {
-            Controller::instance()->reportException(ex, wxT("deleting item"));
-        }
+        Controller::instance()->deleteItem(selectedItem_->getId());
+        refreshItemList(0);
+        patternText_->SetFocus();
     }
     dlg->Destroy();
 }
@@ -213,19 +228,29 @@ void ItemsDialog::refreshItemList(int selectedItemId)
 
 void ItemsDialog::selectItem(long listItemId)
 {
-    wxRect rect;
+    processEvents_ = false;
+
+    renameButton_->Enable(false);
+
+    deleteButton_->Enable(false);
+    deleteButton_->SetToolTip(0);
 
     if (listItemId >= 0) {
+        selectedListItemId_ = listItemId;
+        selectedItem_ = Controller::instance()->selectItem(itemList_->GetItemData(selectedListItemId_));
+        bool itemInUse = Controller::instance()->selectItemInUse(selectedItem_->getId());
 
         itemList_->SetItemState(listItemId, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+        itemList_->EnsureVisible(listItemId);
 
-        itemList_->GetItemRect(listItemId, rect);
-        itemList_->ScrollList(rect.x, rect.y);
+        renameButton_->Enable(true);
 
-        selectedListItemId_ = listItemId;
-
+        if (itemInUse) {
+            deleteButton_->SetToolTip(wxT("Description is used in a transaction"));
+        } else {
+            deleteButton_->Enable(true);
+        }
     } else {
-
         listItemId = -1;
         while (true) {
             listItemId = itemList_->GetNextItem(listItemId);
@@ -234,13 +259,12 @@ void ItemsDialog::selectItem(long listItemId)
             }
             itemList_->SetItemState(listItemId, wxLIST_STATE_DONTCARE, wxLIST_STATE_SELECTED);
         }
-
-        renameButton_->Enable(false);
-        deleteButton_->Enable(false);
-
-        itemList_->GetItemRect(0, rect);
-        itemList_->ScrollList(rect.x, rect.y);
-
         selectedListItemId_ = -1;
+
+        patternText_->SetValue(wxEmptyString);
+
+        itemList_->EnsureVisible(0);
     }
+
+    processEvents_ = true;
 }

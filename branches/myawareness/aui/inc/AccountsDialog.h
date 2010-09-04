@@ -21,10 +21,10 @@ public:
     virtual ~AccountsDialog();
 
 private:
+    bool processEvents_;
     bool dirty_;
     long selectedListItemId_;
     const adb::Account* selectedAccount_;
-    bool processEditEvents_;
 
     wxStaticText* listLabel_;
     wxListCtrl* accountList_;

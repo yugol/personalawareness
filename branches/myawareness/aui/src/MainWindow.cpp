@@ -107,7 +107,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     editMenu_->Append(ID_MENU_REDO, wxT("&Redo"), wxT("Redo the last action"));
     editMenu_->AppendSeparator();
     editMenu_->Append(ID_MENU_ACCOUNTS, wxT("&Accounts..."), wxT("Edit accounts and budget categories"));
-    editMenu_->Append(ID_MENU_ITEMS, wxT("&Items..."), wxT("Edit items"));
+    editMenu_->Append(ID_MENU_ITEMS, wxT("&Descriptions..."), wxT("Edit items"));
     editMenu_->AppendSeparator();
     editMenu_->Append(ID_MENU_PREFERENCES, wxT("&Preferences..."), wxT("Edit preferences"));
     menuBar_->Append(editMenu_, wxT("&Edit"));

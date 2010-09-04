@@ -89,12 +89,14 @@ void Controller::insertUpdateAccount(adb::Account* account)
 {
     DatabaseConnection::instance()->insertUpdate(account);
     refreshAccounts();
+    refreshUndoRedoStatus();
 }
 
 void Controller::deleteAccount(int accountId)
 {
     DatabaseConnection::instance()->deleteAccount(accountId);
     refreshAccounts();
+    refreshUndoRedoStatus();
 }
 
 void Controller::selectAllItems(std::vector<const Item*>& items)
@@ -124,21 +126,16 @@ const Item* Controller::selectItem(const char* name)
     return DatabaseConnection::instance()->getItem(name);
 }
 
+bool Controller::selectItemInUse(int itemId)
+{
+    return DatabaseConnection::instance()->isItemInUse(itemId);
+}
+
 void Controller::insertUpdateItem(adb::Item* item)
 {
-    try {
-
-        int tempId = item->getId();
-        DatabaseConnection::instance()->insertUpdate(item);
-        refreshItems();
-        if (tempId != Configuration::DEFAULT_ID) {
-            refreshTransactions();
-        }
-        refreshUndoRedoStatus();
-
-    } catch (const exception& ex) {
-        reportException(ex, wxT("inserting or updating item"));
-    }
+    DatabaseConnection::instance()->insertUpdate(item);
+    refreshItems();
+    refreshUndoRedoStatus();
 }
 
 void Controller::deleteItem(int itemId)

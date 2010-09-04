@@ -32,6 +32,7 @@ public:
     void selectAllItems(std::vector<const adb::Item*>& items);
     const adb::Item* selectItem(int itemId);
     const adb::Item* selectItem(const char* name);
+    bool selectItemInUse(int itemId);
     void insertUpdateItem(adb::Item* item);
     void deleteItem(int itemId);
 

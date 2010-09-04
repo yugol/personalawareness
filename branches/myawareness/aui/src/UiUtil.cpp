@@ -38,6 +38,11 @@ wxString UiUtil::getUsingStatusMessage(const string& databaseFile)
     return statusMessage;
 }
 
+wxString UiUtil::makeProperName(wxString rawName)
+{
+    return rawName.Trim(true).Trim(false);
+}
+
 ostream& UiUtil::streamFile(ostream& out, const string& pathFileExt)
 {
     int lastSlashPos = pathFileExt.rfind('/');

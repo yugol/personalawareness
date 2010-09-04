@@ -4,9 +4,6 @@
 
 // TBD+: select transactions according to item name pattern
 
-// TBD: readValidateRefreshTransaction for items
-// TBD: when selecting an item / account disable delete if it is used
-
 // TBD: properties dialog
 // TBD: count versions system
 // TBD: About dialog
@@ -15,7 +12,14 @@
 
 // TBD: REPORTS
 
+// TBD: optim: rename description updates only the entry in the list
+// TBD: optim: use virtual list for transactions or change only the affected row
+// TBD: optim: review refreshes in controller
+// TBD: optim: read descriptions in autocompletion only when showing the window for the first time
+// TBD: optim: update only visible tabs in UI
+
 // TBD: review undo/redo
+// TBD: undo/redo buffer
 
 // TBD: handle all errors in Window and not in controller
 // TBD: get rid of magic numbers
@@ -30,6 +34,10 @@
 // TBD-: rename code
 
 // TBD: compile under Windows
+
+// TBD: write help
+// TBD: update Google code
+// TBD: write Google site
 
 IMPLEMENT_APP(Application)
 

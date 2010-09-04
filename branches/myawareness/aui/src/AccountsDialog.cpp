@@ -26,7 +26,7 @@ static const wxString invalidNameTip(wxT("Account name cannot be empty"));
 static const wxString invalidValueTip(wxT("Start balance must be a real number or empty"));
 
 AccountsDialog::AccountsDialog(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) :
-    wxDialog(parent, id, title, pos, size, style), processEditEvents_(false)
+    wxDialog(parent, id, title, pos, size, style), processEvents_(false)
 {
     this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
@@ -162,7 +162,6 @@ void AccountsDialog::onCloseDialog(wxCloseEvent& event)
 {
     if (dirty_) {
         Controller::instance()->refreshTransactions();
-        Controller::instance()->refreshUndoRedoStatus();
     }
     event.Skip();
 }
@@ -181,19 +180,21 @@ void AccountsDialog::onInitDialog(wxInitDialogEvent& event)
 
 void AccountsDialog::onSelectAccount(wxListEvent& event)
 {
-    selectAccount(event.GetIndex());
+    if (processEvents_) {
+        selectAccount(event.GetIndex());
+    }
 }
 
 void AccountsDialog::onNameText(wxCommandEvent& event)
 {
-    if (processEditEvents_) {
+    if (processEvents_) {
         readValidateRefresh();
     }
 }
 
 void AccountsDialog::onTypeChange(wxCommandEvent& event)
 {
-    if (processEditEvents_) {
+    if (processEvents_) {
         int type = reinterpret_cast<int> (typeChoice_->GetClientData(typeChoice_->GetSelection()));
         if (type != Account::ACCOUNT) {
             groupCombo_->SetValue(wxEmptyString);
@@ -205,21 +206,21 @@ void AccountsDialog::onTypeChange(wxCommandEvent& event)
 
 void AccountsDialog::onGroupText(wxCommandEvent& event)
 {
-    if (processEditEvents_) {
+    if (processEvents_) {
         readValidateRefresh();
     }
 }
 
 void AccountsDialog::onValueText(wxCommandEvent& event)
 {
-    if (processEditEvents_) {
+    if (processEvents_) {
         readValidateRefresh();
     }
 }
 
 void AccountsDialog::onDescriptionText(wxCommandEvent& event)
 {
-    if (processEditEvents_) {
+    if (processEvents_) {
         readValidateRefresh();
     }
 }
@@ -332,7 +333,7 @@ void AccountsDialog::refreshAccountList(int selectedAccountId)
 
 void AccountsDialog::selectAccount(long listItemId)
 {
-    processEditEvents_ = false;
+    processEvents_ = false;
 
     nameText_->SetValue(wxEmptyString);
 
@@ -413,7 +414,7 @@ void AccountsDialog::selectAccount(long listItemId)
 
     readValidateRefresh();
 
-    processEditEvents_ = true;
+    processEvents_ = true;
 }
 
 bool AccountsDialog::readValidateRefresh(Account* account)
@@ -425,7 +426,7 @@ bool AccountsDialog::readValidateRefresh(Account* account)
     // account name
 
     string name;
-    UiUtil::appendWxString(name, nameText_->GetValue());
+    UiUtil::appendWxString(name, UiUtil::makeProperName(nameText_->GetValue()));
     if (name.size() <= 0) {
         updateButton_->Enable(false);
         updateButton_->SetToolTip(invalidNameTip);

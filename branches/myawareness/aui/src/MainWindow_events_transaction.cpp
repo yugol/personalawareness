@@ -34,13 +34,13 @@ void MainWindow::onTransactionItemKeyDown(wxKeyEvent& event)
 
         if (WXK_UP == keyCode) {
             trItemAutocompletion_->show();
-            trItemAutocompletion_->select(trItemText_->GetValue(), -1);
+            trItemAutocompletion_->select(UiUtil::makeProperName(trItemText_->GetValue()), -1);
         } else if (WXK_DOWN == keyCode) {
             trItemAutocompletion_->show();
-            trItemAutocompletion_->select(trItemText_->GetValue(), 1);
+            trItemAutocompletion_->select(UiUtil::makeProperName(trItemText_->GetValue()), 1);
         } else if (WXK_SPACE == keyCode && event.ControlDown()) {
             trItemAutocompletion_->show();
-            trItemAutocompletion_->select(trItemText_->GetValue(), 0);
+            trItemAutocompletion_->select(UiUtil::makeProperName(trItemText_->GetValue()), 0);
         } else {
             event.Skip();
         }
@@ -237,10 +237,10 @@ bool MainWindow::readValidateRefreshTransaction(adb::Transaction* transaction)
     // transaction description
 
     string description;
-    UiUtil::appendWxString(description, trItemText_->GetValue().Trim(true).Trim(false));
+    UiUtil::appendWxString(description, UiUtil::makeProperName(trItemText_->GetValue()));
     if (description.size() <= 0) {
         trAcceptButton_->Enable(false);
-        trAcceptButton_->SetToolTip(wxT("Description cannot be empty"));
+        trAcceptButton_->SetToolTip(wxT("Description name cannot be empty"));
         return false;
     }
     if (transaction != 0) {
