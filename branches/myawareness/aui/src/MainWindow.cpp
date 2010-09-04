@@ -100,7 +100,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     fileMenu_->Append(ID_MENU_IMPORT, wxT("&Import..."), wxT("Import database from SQL script"));
     fileMenu_->AppendSeparator();
     fileMenu_->Append(ID_MENU_EXIT, wxT("E&xit\tAlt-F4"), wxT("Exit the application"));
-    menuBar_->Append(fileMenu_, wxT("Data&base"));
+    menuBar_->Append(fileMenu_, wxT("&File"));
 
     editMenu_ = new wxMenu(wxEmptyString);
     editMenu_->Append(ID_MENU_UNDO, wxT("&Undo"), wxT("Undo the last action"));
@@ -113,7 +113,10 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     menuBar_->Append(editMenu_, wxT("&Edit"));
 
     helpMenu_ = new wxMenu(wxEmptyString);
-    helpMenu_->Append(ID_MENU_ABOUT, wxT("&About\tF1"), wxT("Show info about this application"));
+    helpMenu_->Append(ID_MENU_CONTENTS, wxT("&Contents\tF1"), wxT("Opens the help window"));
+    helpMenu_->Append(ID_MENU_WEBPAGE, wxT("&Web Page"), wxT("Opens the application web site"));
+    helpMenu_->AppendSeparator();
+    helpMenu_->Append(ID_MENU_ABOUT, wxT("&About"), wxT("Show info about this application"));
     menuBar_->Append(helpMenu_, wxT("&Help"));
 
     SetMenuBar(menuBar_);
@@ -123,8 +126,8 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     financialPages_ = new wxNotebook(this, wxNewId());
     accountsPage_ = new wxPanel(financialPages_, wxNewId());
     transactionsPage_ = new wxPanel(financialPages_, wxNewId());
-    financialPages_->AddPage(accountsPage_, wxT("&Accounts"));
-    financialPages_->AddPage(transactionsPage_, wxT("&Transactions"));
+    financialPages_->AddPage(accountsPage_, wxT("Accounts"));
+    financialPages_->AddPage(transactionsPage_, wxT("Transactions"));
 
     // accounts_ page
 
@@ -184,28 +187,28 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     trDatePicker_->SetToolTip(wxT("Transaction date"));
 
     trItemText_ = new wxTextCtrl(trPanel_, ID_TR_ITEM);
-    trItemText_->SetToolTip(wxT("Transaction description"));
+    trItemText_->SetToolTip(wxT("Description"));
     trItemAutocompletion_ = new AutocompletionWindow(this, trItemText_);
 
     trValueText_ = new wxTextCtrl(trPanel_, ID_TR_VALUE);
-    trValueText_->SetToolTip(wxT("Transaction value\n(numeric value)"));
+    trValueText_->SetToolTip(wxT("Value"));
 
     trSourceChoice_ = new wxChoice(trPanel_, ID_TR_SOURCE);
-    trSourceChoice_->SetToolTip(wxT("Transaction source"));
+    trSourceChoice_->SetToolTip(wxT("Source account"));
 
     wxStaticText* trTowards = new wxStaticText(trPanel_, wxNewId(), wxT(">>"));
 
     trDestinationChoice_ = new wxChoice(trPanel_, ID_TR_DESTINATION);
-    trDestinationChoice_->SetToolTip(wxT("Transaction destination"));
+    trDestinationChoice_->SetToolTip(wxT("Destination account"));
 
     trCommentText_ = new wxTextCtrl(trPanel_, ID_TR_COMMENT);
-    trCommentText_->SetToolTip(wxT("Transaction comment\n(optional)"));
+    trCommentText_->SetToolTip(wxT("Comment"));
 
     trDeleteButton_ = new wxButton(trPanel_, ID_TR_DELETE, wxT("&Delete"));
 
     trNewButton_ = new wxButton(trPanel_, ID_TR_NEW, wxT("&New"));
 
-    trAcceptButton_ = new wxButton(trPanel_, ID_TR_ACCEPT, wxT("Acce&pt"));
+    trAcceptButton_ = new wxButton(trPanel_, ID_TR_ACCEPT, wxT("Accep&t"));
 
     wxBoxSizer* selSizerUp = new wxBoxSizer(wxHORIZONTAL);
     selSizerUp->Add(selIntervalChoice_, 1, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
@@ -270,7 +273,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 
 #if wxUSE_STATUSBAR
 
-    CreateStatusBar(2);
+    CreateStatusBar(1);
     SetStatusText(wxT("Ready"), 0);
 
 #endif // wxUSE_STATUSBAR

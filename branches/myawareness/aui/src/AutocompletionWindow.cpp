@@ -85,7 +85,7 @@ void AutocompletionWindow::show()
     }
 
     int width = handler_->GetSize().GetWidth();
-    int height = GetParent()->GetSize().GetHeight() / 3;
+    int height = GetParent()->GetSize().GetHeight() / 2;
     SetSize(width, height);
 
     int x, y;

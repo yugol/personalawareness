@@ -4,6 +4,7 @@
 #include <Controller.h>
 #include <AccountsDialog.h>
 #include <ItemsDialog.h>
+#include <PreferencesDialog.h>
 #include <MainWindow.h>
 
 //helper functions TBD-: remove them
@@ -114,7 +115,12 @@ void MainWindow::onItems(wxCommandEvent& event)
 
 void MainWindow::onPreferences(wxCommandEvent& event)
 {
-
+    PreferencesDialog* dlg = new PreferencesDialog(this);
+    if (wxID_OK == dlg->ShowModal()) {
+        dlg->updatePreferences();
+        Controller::instance()->refreshAll();
+    }
+    dlg->Destroy();
 }
 
 void MainWindow::onAbout(wxCommandEvent &event)

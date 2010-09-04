@@ -8,7 +8,7 @@
 using namespace adb;
 using namespace std;
 
-const char UiUtil::APPLICATION_NAME[] = "My Awareness";
+const char UiUtil::APPLICATION_NAME[] = "Personal Awareness";
 const char* UiUtil::MONTH_NAMES[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
 wxString UiUtil::getApplicationName(const string& databaseFile)
@@ -141,6 +141,11 @@ ostream& UiUtil::streamCurrency(ostream& out, double val, bool html)
 
     if (Configuration::instance()->PREFIX_CURRENCY) {
         out << Configuration::instance()->CURRENCY_SYMBOL;
+        if (html) {
+            out << "&nbsp;";
+        } else {
+            out << " ";
+        }
     }
 
     if (-0.01 < val && val < 0) {
@@ -197,11 +202,13 @@ int UiUtil::compareBeginning(const wxString& sa, const wxString& sb)
         wxChar ca = wxTolower(sa.GetChar(i));
         wxChar cb = wxTolower(sb.GetChar(i));
 
-        if (ca > 255) {
-            ca = 256;
-        }
-        if (cb > 255) {
-            cb = 256;
+        if (Configuration::instance()->SAME_NONASCII_CHARS) {
+            if (ca >= 128) {
+                ca = 128;
+            }
+            if (cb >= 128) {
+                cb = 128;
+            }
         }
 
         if (ca < cb) {
