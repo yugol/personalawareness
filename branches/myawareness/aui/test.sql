@@ -1,0 +1,16 @@
+UPDATE [preferences] SET [val] = '0' WHERE [name] = 'COMPACT_TRNSACTIONS';
+UPDATE [preferences] SET [val] = '1' WHERE [name] = 'COMPARE_ASCII_ONLY';
+UPDATE [preferences] SET [val] = 'acorn' WHERE [name] = 'CURRENCY_SYMBOL';
+UPDATE [preferences] SET [val] = '0.1' WHERE [name] = 'DATABASE_VERSION';
+UPDATE [preferences] SET [val] = '0' WHERE [name] = 'PREFIX_CURRENCY';
+UPDATE [preferences] SET [val] = '5A08548C-B8C3-11DF-8AC9-BD12E0D72085-PERSONALAWARENESS' WHERE [name] = 'PROJECT_MARKER';
+INSERT INTO accounts (type, ival, name, [group], [desc]) VALUES ( 2, 0, 'Income', NULL, NULL );
+INSERT INTO accounts (type, ival, name, [group], [desc]) VALUES ( 1, 0, 'Pocket', 'Cash', NULL );
+INSERT INTO accounts (type, ival, name, [group], [desc]) VALUES ( 1, 0, 'Piggy bank', 'Savings', NULL );
+INSERT INTO accounts (type, ival, name, [group], [desc]) VALUES ( 0, 0, 'Expenses', NULL, NULL );
+INSERT INTO items (name) VALUES ( 'Tooth Fairy' );
+INSERT INTO items (name) VALUES ( 'For bicycle' );
+INSERT INTO items (name) VALUES ( 'Ice cream' );
+INSERT INTO transactions ([date], val, [from], [to], item, [desc]) VALUES ( '20100905', 100, 1, 2, 1, NULL );
+INSERT INTO transactions ([date], val, [from], [to], item, [desc]) VALUES ( '20100905', 40, 2, 3, 2, NULL );
+INSERT INTO transactions ([date], val, [from], [to], item, [desc]) VALUES ( '20100905', 10, 2, 4, 3, NULL );

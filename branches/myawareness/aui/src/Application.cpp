@@ -20,6 +20,7 @@
 // TBD: add help support
 // TBD: write Google site
 
+// TBD: optim: replace const char* with std::string
 // TBD: optim: rename description updates only the entry in the list
 // TBD: optim: use virtual list for transactions or change only the affected row
 // TBD: optim: review refreshes in controller

@@ -70,6 +70,8 @@ ostream& UiUtil::streamFileExt(ostream& out, const string& pathFileExt)
 
 void UiUtil::appendWxString(string& to, const wxString& what)
 {
+    // TBD: optim: use a char* buffer then assign to string
+
     for (size_t strPos = 0; strPos < what.size(); ++strPos) {
         wxChar wch = what.GetChar(strPos);
         if (wch < 0x80) {
@@ -95,6 +97,8 @@ void UiUtil::adbDate2wxDate(wxDateTime& wxdate, const Date& date)
 void UiUtil::appendStdString(wxString& to, const string& what)
 {
     unsigned int byte;
+
+    // TBD: optim: use a char* buffer then assign to string or a LUT
 
     for (size_t i = 0; i < what.size(); ++i) {
         byte = static_cast<unsigned char> (what[i]);
