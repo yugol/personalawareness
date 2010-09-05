@@ -1,5 +1,6 @@
 #include <sstream>
 #include <Configuration.h>
+#include <DbUtil.h>
 #include <cmd/GetItemCommand.h>
 #include <cmd/UpdateItemCommand.h>
 
@@ -19,11 +20,11 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << "UPDATE [" << Configuration::ITEMS_TABLE_NAME << "] ";
+        sout << "UPDATE [" << Configuration::TABLE_DESCRIPTIONS << "] ";
         sout << "SET ";
-        sout << "[" << Configuration::NAME_COLUMN_NAME << "] = " << toParameter(item.getName()) << ", ";
-        sout << "[" << Configuration::LASTR_COLUMN_NAME << "] = " << item.getLastTransactionId() << " ";
-        sout << "WHERE [" << Configuration::ID_COLUMN_NAME << "] = " << item.getId() << ";" << endl;
+        sout << "[" << Configuration::COLUMN_NAME << "] = " << DbUtil::toParameter(item.getName()) << ", ";
+        sout << "[" << Configuration::COLUMN_TRANSACTION << "] = " << item.getLastTransactionId() << " ";
+        sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << item.getId() << ";" << endl;
 
         sql = sout.rdbuf()->str();
     }

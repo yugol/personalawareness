@@ -7,49 +7,78 @@ namespace adb {
 
     class Configuration {
     public:
-        static const char PROJECT_NAME[];
-        static const char PROJECT_VERSION[];
-
-        static const char ACCOUNTS_TABLE_NAME[];
-        static const char ITEMS_TABLE_NAME[];
-        static const char TRANSACTIONS_TABLE_NAME[];
-        static const char INDEX_SUFFIX[];
-        static const char ID_COLUMN_NAME[];
-        static const char DEL_COLUMN_NAME[];
-        static const char TYPE_COLUMN_NAME[];
-        static const char NAME_COLUMN_NAME[];
-        static const char GROUP_COLUMN_NAME[];
-        static const char IVAL_COLUMN_NAME[];
-        static const char DESC_COLUMN_NAME[];
-        static const char LASTR_COLUMN_NAME[];
-        static const char DATE_COLUMN_NAME[];
-        static const char VAL_COLUMN_NAME[];
-        static const char FROM_COLUMN_NAME[];
-        static const char TO_COLUMN_NAME[];
-        static const char ITEM_COLUMN_NAME[];
-
+        // utilities
         static const int LINE_BUFFER_LENGTH = 10000;
         static const int DEFAULT_ID = 0;
+        // defaults
+        static const char PROJECT_MARKER[]; // used for database identification
+        static const char PROJECT_NAME[];
+        static const char PROJECT_VERSION[];
+        static const char PROJECT_DATABASE_VERSION[];
+        static const char DEFAULT_CURRENCY_SYMBOL[];
+        static const bool DEFAULT_PREFIX_CURRENCY;
+        static const bool DEFAULT_COMPACT_TRNSACTIONS;
+        static const bool DEFAULT_COMPARE_ASCII_ONLY;
+        // tables
+        static const char TABLE_PREFERENCES[];
+        static const char TABLE_ACCOUNTS[];
+        static const char TABLE_DESCRIPTIONS[];
+        static const char TABLE_TRANSACTIONS[];
+        // indexes
+        static const char INDEX_MARKER[];
+        // columns
+        static const char COLUMN_ID[];
+        static const char COLUMN_DELETED[];
+        static const char COLUMN_TYPE[];
+        static const char COLUMN_NAME[];
+        static const char COLUMN_GROUP[];
+        static const char COLUMN_BALANCE[];
+        static const char COLUMN_COMMENT[];
+        static const char COLUMN_TRANSACTION[];
+        static const char COLUMN_DATE[];
+        static const char COLUMN_VALUE[];
+        static const char COLUMN_SOURCE[];
+        static const char COLUMN_DESTINATION[];
+        static const char COLUMN_DESCRIPTION[];
+        // preference names
+        static const char PREF_PROJECT_MARKER[];
+        static const char PREF_DATABASE_VERSION[];
+        static const char PREF_CURRENCY_SYMBOL[];
+        static const char PREF_PREFIX_CURRENCY[];
+        static const char PREF_COMPACT_TRNSACTIONS[];
+        static const char PREF_COMPARE_ASCII_ONLY[];
 
         static Configuration* instance();
 
-        std::string CURRENCY_SYMBOL;
-        bool PREFIX_CURRENCY;
-        bool COMPACT_TRNSACTION_VIEW;
-        bool SAME_NONASCII_CHARS;
-
         virtual ~Configuration();
 
-        const std::string& getConfigurationFilePath() const;
         bool existsConfigurationFile() const;
+        const std::string& getConfigurationFilePath() const;
         const std::string& getLastDatabasePath() const;
-        void setLastDatabasePath(const char* path);
+        const std::string& getCurrencySymbol() const;
+        bool isPrefixCurrency() const;
+        bool isCompactTransactions() const;
+        bool isCompareAsciiOnly() const;
+
+        void setLastDatabasePath(const char*);
+        void setCurrencySymbol(const char*);
+        void setPrefixCurrency(const char*);
+        void setCompactTransactions(const char*);
+        void setCompareAsciiOnly(const char*);
+        void setPrefixCurrency(bool);
+        void setCompactTransactions(bool);
+        void setCompareAsciiOnly(bool);
 
     private:
         static Configuration* instance_;
 
         std::string configurationFilePath_;
         std::string lastDatabasePath_;
+
+        std::string currencySymbol_;
+        bool prefixCurrency_;
+        bool compactTransactions_;
+        bool compareAsciiOnly_;
 
         Configuration();
         Configuration(const Configuration&);
@@ -67,6 +96,26 @@ namespace adb {
     inline const std::string& Configuration::getLastDatabasePath() const
     {
         return lastDatabasePath_;
+    }
+
+    inline const std::string& Configuration::getCurrencySymbol() const
+    {
+        return currencySymbol_;
+    }
+
+    inline bool Configuration::isPrefixCurrency() const
+    {
+        return prefixCurrency_;
+    }
+
+    inline bool Configuration::isCompactTransactions() const
+    {
+        return compactTransactions_;
+    }
+
+    inline bool Configuration::isCompareAsciiOnly() const
+    {
+        return compareAsciiOnly_;
     }
 
 } // namespace adb

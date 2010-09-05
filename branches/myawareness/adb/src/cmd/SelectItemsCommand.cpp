@@ -15,9 +15,9 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << "SELECT [" << Configuration::ID_COLUMN_NAME << "] ";
-        sout << "FROM [" << Configuration::ITEMS_TABLE_NAME << "] ";
-        sout << "WHERE [" << Configuration::DEL_COLUMN_NAME << "] IS NULL;" << endl;
+        sout << "SELECT [" << Configuration::COLUMN_ID << "] ";
+        sout << "FROM [" << Configuration::TABLE_DESCRIPTIONS << "] ";
+        sout << "WHERE [" << Configuration::COLUMN_DELETED << "] IS NULL;" << endl;
 
         sql_ = sout.rdbuf()->str();
     }

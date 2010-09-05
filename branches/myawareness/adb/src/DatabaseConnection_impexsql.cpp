@@ -1,80 +1,72 @@
 #include <iostream>
 #include <sstream>
 #include <Exception.h>
+#include <DbUtil.h>
 #include <Transaction.h>
-#include <cmd/CreateDatabaseCommand.h>
-#include <cmd/PurgeDatabaseCommand.h>
+#include <cmd/SelectPreferences.h>
+#include <cmd/UpdatePreference.h>
 #include <DatabaseConnection.h>
 
 using namespace std;
 
 namespace adb {
 
-    int DatabaseConnection::createNewDatabase()
-    {
-        CreateDatabaseCommand cmd(database_);
-        cmd.execute();
-        return OK;
-    }
-
-    void DatabaseConnection::purgeDatabase()
-    {
-        PurgeDatabaseCommand cmd(database_);
-        cmd.execute();
-    }
-
     void DatabaseConnection::dumpSql(ostream& out) const
     {
         cashAccounts();
         cashItems();
 
-        // dump accounts
-        // TBD-: use select to check for usage (iterators ???)
-        map<int, int> accountIds;
-        int accountNo = 0;
+        // dump properties
+        writePreferences(database_);
+        SelectPreferences prefs(database_);
+        prefs.execute();
+        map<const string, const string>::iterator it;
+        for (it = prefs.begin(); it != prefs.end(); ++it) {
+            UpdatePreference::buildSqlCommand(out, it->first, it->second);
+        }
 
+        // dump accounts
+        int accountNo = 0;
+        map<int, int> accountIds;
         vector<Account>::iterator iAccounts;
         for (iAccounts = accounts_.begin(); iAccounts != accounts_.end(); ++iAccounts) {
             accountIds[iAccounts->getId()] = ++accountNo;
 
-            out << "INSERT INTO accounts (type, ival, name, [group], [desc]) VALUES ( ";
+            out << "INSERT INTO accounts (type, ival, name, [group], [desc]) VALUES ( "; // TBD+: use Configuration names
             out << iAccounts->getType() << ", ";
             out << iAccounts->getInitialValue() << ", ";
-            out << DatabaseCommand::toParameter(iAccounts->getName()) << ", ";
-            out << DatabaseCommand::toParameter(iAccounts->getGroup()) << ", ";
-            out << DatabaseCommand::toParameter(iAccounts->getDescription()) << " );" << endl;
+            out << DbUtil::toParameter(iAccounts->getName()) << ", ";
+            out << DbUtil::toParameter(iAccounts->getGroup()) << ", ";
+            out << DbUtil::toParameter(iAccounts->getDescription()) << " );" << endl;
         }
 
         // dump items
-        // TBD-: use select to check for usage (iterators ???)
-        map<int, int> itemIds;
         int itemNo = 0;
-
+        map<int, int> itemIds;
         map<int, Item>::iterator iItems;
         for (iItems = items_.begin(); iItems != items_.end(); ++iItems) {
             Item* item = &(iItems->second);
             itemIds[item->getId()] = ++itemNo;
 
-            out << "INSERT INTO items (name) VALUES ( ";
-            out << DatabaseCommand::toParameter(item->getName()) << " );" << endl;
+            out << "INSERT INTO items (name) VALUES ( "; // TBD+: use Configuration names
+            out << DbUtil::toParameter(item->getName()) << " );" << endl;
         }
 
         // dump transactions
         vector<int> allTransactions;
         selectTransactions(&allTransactions, 0);
-
         vector<int>::iterator iTransactions;
         for (iTransactions = allTransactions.begin(); iTransactions != allTransactions.end(); ++iTransactions) {
             Transaction transaction(*iTransactions);
             getTransaction(&transaction);
 
-            out << "INSERT INTO transactions ([date], val, [from], [to], item, [desc]) VALUES ( ";
+            out << "INSERT INTO transactions ([date], val, [from], [to], item, [desc]) VALUES ( "; // TBD+: use Configuration names
             out << "'" << transaction.getDate() << "', ";
             out << transaction.getValue() << ", ";
             out << accountIds[transaction.getFromId()] << ", ";
             out << accountIds[transaction.getToId()] << ", ";
             out << itemIds[transaction.getItemId()] << ", ";
-            out << DatabaseCommand::toParameter(transaction.getDescription()) << " );" << endl;
+            out << DbUtil::toParameter(transaction.getDescription()) << " );" << endl;
         }
     }
 

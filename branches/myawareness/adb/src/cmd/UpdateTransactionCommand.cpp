@@ -1,5 +1,6 @@
 #include <sstream>
 #include <Configuration.h>
+#include <DbUtil.h>
 #include <cmd/GetTransactionCommand.h>
 #include <cmd/UpdateTransactionCommand.h>
 
@@ -19,15 +20,15 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << "UPDATE [" << Configuration::TRANSACTIONS_TABLE_NAME << "] ";
+        sout << "UPDATE [" << Configuration::TABLE_TRANSACTIONS << "] ";
         sout << "SET ";
-        sout << "[" << Configuration::DATE_COLUMN_NAME << "] = '" << transaction.getDate() << "', ";
-        sout << "[" << Configuration::VAL_COLUMN_NAME << "] = " << transaction.getValue() << ", ";
-        sout << "[" << Configuration::FROM_COLUMN_NAME << "] = " << transaction.getFromId() << ", ";
-        sout << "[" << Configuration::TO_COLUMN_NAME << "] = " << transaction.getToId() << ", ";
-        sout << "[" << Configuration::ITEM_COLUMN_NAME << "] = " << transaction.getItemId() << ", ";
-        sout << "[" << Configuration::DESC_COLUMN_NAME << "] = " << toParameter(transaction.getDescription()) << " ";
-        sout << "WHERE [" << Configuration::ID_COLUMN_NAME << "] = " << transaction.getId() << ";" << endl;
+        sout << "[" << Configuration::COLUMN_DATE << "] = '" << transaction.getDate() << "', ";
+        sout << "[" << Configuration::COLUMN_VALUE << "] = " << transaction.getValue() << ", ";
+        sout << "[" << Configuration::COLUMN_SOURCE << "] = " << transaction.getFromId() << ", ";
+        sout << "[" << Configuration::COLUMN_DESTINATION << "] = " << transaction.getToId() << ", ";
+        sout << "[" << Configuration::COLUMN_DESCRIPTION << "] = " << transaction.getItemId() << ", ";
+        sout << "[" << Configuration::COLUMN_COMMENT << "] = " << DbUtil::toParameter(transaction.getDescription()) << " ";
+        sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << transaction.getId() << ";" << endl;
 
         sql = sout.rdbuf()->str();
     }
@@ -42,6 +43,6 @@ namespace adb {
         buildUpdateTransactionCommand(reverseSql_, previousTransaction_);
     }
 
-// TBD-: also update the item
+// TBD+: also update the item
 
 } // namespac adb

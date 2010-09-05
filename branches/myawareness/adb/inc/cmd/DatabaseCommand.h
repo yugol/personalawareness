@@ -2,7 +2,7 @@
 #define DATABASECOMMAND_H_
 
 #include <string>
-#include <ostream>
+// #include <ostream>
 #include <sqlite3.h>
 #include <Command.h>
 
@@ -10,8 +10,6 @@ namespace adb {
 
     class DatabaseCommand: public Command {
     public:
-        static const std::string toParameter(const std::string& str);
-
         DatabaseCommand(sqlite3* database);
 
         virtual void execute();

@@ -15,13 +15,13 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << "SELECT [" << Configuration::ID_COLUMN_NAME << "] ";
-        sout << "FROM [" << Configuration::ACCOUNTS_TABLE_NAME << "] ";
-        sout << "WHERE [" << Configuration::DEL_COLUMN_NAME << "] IS NULL ";
+        sout << "SELECT [" << Configuration::COLUMN_ID << "] ";
+        sout << "FROM [" << Configuration::TABLE_ACCOUNTS << "] ";
+        sout << "WHERE [" << Configuration::COLUMN_DELETED << "] IS NULL ";
         sout << "ORDER BY ";
-        sout << "[" << Configuration::TYPE_COLUMN_NAME << "] DESC, ";
-        sout << "[" << Configuration::GROUP_COLUMN_NAME << "] ASC, ";
-        sout << "[" << Configuration::NAME_COLUMN_NAME << "] ASC;" << endl;
+        sout << "[" << Configuration::COLUMN_TYPE << "] DESC, ";
+        sout << "[" << Configuration::COLUMN_GROUP << "] ASC, ";
+        sout << "[" << Configuration::COLUMN_NAME << "] ASC;" << endl;
 
         sql_ = sout.rdbuf()->str();
     }

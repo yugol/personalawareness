@@ -3,35 +3,53 @@
 #include <fstream>
 #include <Configuration.h>
 #include <Exception.h>
+#include <DbUtil.h>
 
 using namespace std;
 
 namespace adb {
 
-    const char Configuration::PROJECT_NAME[] = "myawareness";
-    const char Configuration::PROJECT_VERSION[] = "0.1";
-
-    const char Configuration::ACCOUNTS_TABLE_NAME[] = "accounts";
-    const char Configuration::ITEMS_TABLE_NAME[] = "items";
-    const char Configuration::TRANSACTIONS_TABLE_NAME[] = "transactions";
-    const char Configuration::INDEX_SUFFIX[] = "_index";
-    const char Configuration::ID_COLUMN_NAME[] = "id";
-    const char Configuration::DEL_COLUMN_NAME[] = "del";
-    const char Configuration::TYPE_COLUMN_NAME[] = "type";
-    const char Configuration::NAME_COLUMN_NAME[] = "name";
-    const char Configuration::GROUP_COLUMN_NAME[] = "group";
-    const char Configuration::IVAL_COLUMN_NAME[] = "ival";
-    const char Configuration::DESC_COLUMN_NAME[] = "desc";
-    const char Configuration::LASTR_COLUMN_NAME[] = "lastr";
-    const char Configuration::DATE_COLUMN_NAME[] = "date";
-    const char Configuration::VAL_COLUMN_NAME[] = "val";
-    const char Configuration::FROM_COLUMN_NAME[] = "from";
-    const char Configuration::TO_COLUMN_NAME[] = "to";
-    const char Configuration::ITEM_COLUMN_NAME[] = "item";
-
     static const char HOME_ENVIRONMENT_VARIABLE_NAME[] = "HOME";
 
     Configuration* Configuration::instance_ = 0;
+
+    // defaults
+    const char Configuration::PROJECT_MARKER[] = "5A08548C-B8C3-11DF-8AC9-BD12E0D72085-PERSONALAWARENESS";
+    const char Configuration::PROJECT_NAME[] = "Personal Awareness";
+    const char Configuration::PROJECT_VERSION[] = "0.1.0";
+    const char Configuration::PROJECT_DATABASE_VERSION[] = "0.1";
+    const char Configuration::DEFAULT_CURRENCY_SYMBOL[] = "\"";
+    const bool Configuration::DEFAULT_PREFIX_CURRENCY = false;
+    const bool Configuration::DEFAULT_COMPACT_TRNSACTIONS = false;
+    const bool Configuration::DEFAULT_COMPARE_ASCII_ONLY = false;
+    // tables
+    const char Configuration::TABLE_PREFERENCES[] = "preferences";
+    const char Configuration::TABLE_ACCOUNTS[] = "accounts";
+    const char Configuration::TABLE_DESCRIPTIONS[] = "items";
+    const char Configuration::TABLE_TRANSACTIONS[] = "transactions";
+    // indexes
+    const char Configuration::INDEX_MARKER[] = "_index";
+    // columns
+    const char Configuration::COLUMN_ID[] = "id";
+    const char Configuration::COLUMN_DELETED[] = "del";
+    const char Configuration::COLUMN_TYPE[] = "type";
+    const char Configuration::COLUMN_NAME[] = "name";
+    const char Configuration::COLUMN_GROUP[] = "group";
+    const char Configuration::COLUMN_BALANCE[] = "ival";
+    const char Configuration::COLUMN_COMMENT[] = "desc";
+    const char Configuration::COLUMN_TRANSACTION[] = "lastr";
+    const char Configuration::COLUMN_DATE[] = "date";
+    const char Configuration::COLUMN_VALUE[] = "val";
+    const char Configuration::COLUMN_SOURCE[] = "from";
+    const char Configuration::COLUMN_DESTINATION[] = "to";
+    const char Configuration::COLUMN_DESCRIPTION[] = "item";
+    // preference names
+    const char Configuration::PREF_PROJECT_MARKER[] = "PROJECT_MARKER";
+    const char Configuration::PREF_DATABASE_VERSION[] = "DATABASE_VERSION";
+    const char Configuration::PREF_CURRENCY_SYMBOL[] = "CURRENCY_SYMBOL";
+    const char Configuration::PREF_PREFIX_CURRENCY[] = "PREFIX_CURRENCY";
+    const char Configuration::PREF_COMPACT_TRNSACTIONS[] = "COMPACT_TRNSACTIONS";
+    const char Configuration::PREF_COMPARE_ASCII_ONLY[] = "COMPARE_ASCII_ONLY";
 
     Configuration* Configuration::instance()
     {
@@ -42,7 +60,7 @@ namespace adb {
     }
 
     Configuration::Configuration() :
-        CURRENCY_SYMBOL("\""), PREFIX_CURRENCY(false), COMPACT_TRNSACTION_VIEW(false), SAME_NONASCII_CHARS(false)
+        currencySymbol_(DEFAULT_CURRENCY_SYMBOL), prefixCurrency_(DEFAULT_PREFIX_CURRENCY), compactTransactions_(DEFAULT_COMPACT_TRNSACTIONS), compareAsciiOnly_(DEFAULT_COMPARE_ASCII_ONLY)
     {
         const char* homeFolder = ::getenv(HOME_ENVIRONMENT_VARIABLE_NAME);
         if (NULL == homeFolder) {
@@ -65,14 +83,47 @@ namespace adb {
         return fin.is_open();
     }
 
-    void Configuration::setLastDatabasePath(const char* path)
+    void Configuration::setLastDatabasePath(const char* location)
     {
-        lastDatabasePath_ = path;
+        DbUtil::charPtrToString(lastDatabasePath_, location);
+        DbUtil::trimSpaces(lastDatabasePath_);
         writeConfiguration();
+    }
 
-        // this is for testing purpose (ensuring the configuration was actually written)
-        lastDatabasePath_ = "";
-        readConfiguration();
+    void Configuration::setCurrencySymbol(const char* symbol)
+    {
+        DbUtil::charPtrToString(currencySymbol_, symbol);
+        DbUtil::trimSpaces(currencySymbol_);
+    }
+
+    void Configuration::setPrefixCurrency(const char* cstr)
+    {
+        prefixCurrency_ = DbUtil::toBool(cstr);
+    }
+
+    void Configuration::setCompactTransactions(const char* cstr)
+    {
+        compactTransactions_ = DbUtil::toBool(cstr);
+    }
+
+    void Configuration::setCompareAsciiOnly(const char* cstr)
+    {
+        compareAsciiOnly_ = DbUtil::toBool(cstr);
+    }
+
+    void Configuration::setPrefixCurrency(bool val)
+    {
+        prefixCurrency_ = val;
+    }
+
+    void Configuration::setCompactTransactions(bool val)
+    {
+        compactTransactions_ = val;
+    }
+
+    void Configuration::setCompareAsciiOnly(bool val)
+    {
+        compareAsciiOnly_ = val;
     }
 
     void Configuration::readConfiguration()

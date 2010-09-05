@@ -13,6 +13,7 @@ namespace adb {
 
     class Transaction;
     class SelectionParameters;
+    class SelectPreferences;
 
     class DatabaseConnection {
     public:
@@ -69,6 +70,9 @@ namespace adb {
         void redo();
 
     private:
+        static void readPreferences(SelectPreferences& prefs);
+        static void writePreferences(sqlite3* database);
+
         static DatabaseConnection* instance_;
 
         std::string databaseLocation_;
@@ -77,15 +81,15 @@ namespace adb {
         mutable std::vector<Account> accounts_;
         mutable std::map<int, Item> items_;
 
-        DatabaseConnection(const char* databasePath);
+        DatabaseConnection(const char* location);
         DatabaseConnection(const DatabaseConnection&);
         void operator=(const DatabaseConnection&);
 
+        void createNewDatabase();
         void openConnection();
-        int checkConnection();
-        void closeConnection();
-        int createNewDatabase();
+        int getTableCount();
         void purgeDatabase();
+        void closeConnection(bool purge);
 
         void cashAccounts() const;
         void cashItems() const;

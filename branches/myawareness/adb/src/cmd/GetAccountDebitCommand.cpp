@@ -15,9 +15,9 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << "SELECT SUM([" << Configuration::VAL_COLUMN_NAME << "]) ";
-        sout << "FROM [" << Configuration::TRANSACTIONS_TABLE_NAME << "] ";
-        sout << "WHERE [" << Configuration::FROM_COLUMN_NAME << "] = " << account_->getId() << ";" << endl;
+        sout << "SELECT SUM([" << Configuration::COLUMN_VALUE << "]) ";
+        sout << "FROM [" << Configuration::TABLE_TRANSACTIONS << "] ";
+        sout << "WHERE [" << Configuration::COLUMN_SOURCE << "] = " << account_->getId() << ";" << endl;
 
         sql_ = sout.rdbuf()->str();
     }

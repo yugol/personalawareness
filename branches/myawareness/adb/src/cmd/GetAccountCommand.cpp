@@ -43,14 +43,14 @@ namespace adb {
         ostringstream sout;
 
         sout << "SELECT ";
-        sout << "[" << Configuration::ID_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::TYPE_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::NAME_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::GROUP_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::IVAL_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::DESC_COLUMN_NAME << "] ";
-        sout << "FROM [" << Configuration::ACCOUNTS_TABLE_NAME << "] ";
-        sout << "WHERE [" << Configuration::ID_COLUMN_NAME << "] = " << account_->getId() << ";" << endl;
+        sout << "[" << Configuration::COLUMN_ID << "], ";
+        sout << "[" << Configuration::COLUMN_TYPE << "], ";
+        sout << "[" << Configuration::COLUMN_NAME << "], ";
+        sout << "[" << Configuration::COLUMN_GROUP << "], ";
+        sout << "[" << Configuration::COLUMN_BALANCE << "], ";
+        sout << "[" << Configuration::COLUMN_COMMENT << "] ";
+        sout << "FROM [" << Configuration::TABLE_ACCOUNTS << "] ";
+        sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << account_->getId() << ";" << endl;
 
         sql_ = sout.rdbuf()->str();
     }

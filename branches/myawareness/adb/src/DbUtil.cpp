@@ -1,3 +1,4 @@
+#include <cctype>
 #include <cstring>
 #include <cstdio>
 #include <DbUtil.h>
@@ -6,12 +7,40 @@ using namespace std;
 
 namespace adb {
 
-    void DbUtil::charPtrToString(string &str, const char *cptr)
+    bool DbUtil::toBool(const char* cstr)
     {
-        if (0 == cptr) {
+        if (cstr == 0) {
+            return false;
+        }
+        switch (::tolower(cstr[0])) {
+            case '1':
+            case 't':
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    const string DbUtil::toParameter(const string& str)
+    {
+        // TBD++:escape characters
+        string param;
+        if (str.size() > 0) {
+            param = "'";
+            param.append(str);
+            param.append("'");
+        } else {
+            param = "NULL";
+        }
+        return param;
+    }
+
+    void DbUtil::charPtrToString(string& str, const char* cstr)
+    {
+        if (0 == cstr) {
             str = "";
         } else {
-            str = cptr;
+            str = cstr;
         }
     }
 

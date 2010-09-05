@@ -26,8 +26,8 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << message << " : in" << endl;
-        sout << fileName << ":" << lineNo << ":";
+        sout << message << "\nerror trace (top line is the source) :" << endl;
+        sout << fileName << " : line " << lineNo;
 
         message_ = sout.rdbuf()->str();
     }
@@ -36,8 +36,8 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << ex.what() << " in" << endl;
-        sout << fileName << ":" << lineNo << ":";
+        sout << ex.what() << endl;
+        sout << fileName << " : line " << lineNo;
 
         message_ = sout.rdbuf()->str();
     }

@@ -1,5 +1,6 @@
 #include <sstream>
 #include <Configuration.h>
+#include <DbUtil.h>
 #include <cmd/GetAccountCommand.h>
 #include <cmd/UpdateAccountCommand.h>
 
@@ -19,14 +20,14 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << "UPDATE [" << Configuration::ACCOUNTS_TABLE_NAME << "] ";
+        sout << "UPDATE [" << Configuration::TABLE_ACCOUNTS << "] ";
         sout << "SET ";
-        sout << "[" << Configuration::TYPE_COLUMN_NAME << "] = " << account.getType() << ", ";
-        sout << "[" << Configuration::IVAL_COLUMN_NAME << "] = " << account.getInitialValue() << ", ";
-        sout << "[" << Configuration::NAME_COLUMN_NAME << "] = " << toParameter(account.getName()) << ", ";
-        sout << "[" << Configuration::GROUP_COLUMN_NAME << "] = " << toParameter(account.getGroup()) << ", ";
-        sout << "[" << Configuration::DESC_COLUMN_NAME << "] = " << toParameter(account.getDescription()) << " ";
-        sout << "WHERE [" << Configuration::ID_COLUMN_NAME << "] = " << account.getId() << ";" << endl;
+        sout << "[" << Configuration::COLUMN_TYPE << "] = " << account.getType() << ", ";
+        sout << "[" << Configuration::COLUMN_BALANCE << "] = " << account.getInitialValue() << ", ";
+        sout << "[" << Configuration::COLUMN_NAME << "] = " << DbUtil::toParameter(account.getName()) << ", ";
+        sout << "[" << Configuration::COLUMN_GROUP << "] = " << DbUtil::toParameter(account.getGroup()) << ", ";
+        sout << "[" << Configuration::COLUMN_COMMENT << "] = " << DbUtil::toParameter(account.getDescription()) << " ";
+        sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << account.getId() << ";" << endl;
 
         sql = sout.rdbuf()->str();
     }

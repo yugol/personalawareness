@@ -1,6 +1,7 @@
 #include <sstream>
 #include <Exception.h>
 #include <Configuration.h>
+#include <DbUtil.h>
 #include <cmd/DeleteTransactionCommand.h>
 #include <cmd/UpdateTransactionCommand.h>
 #include <cmd/InsertTransactionCommand.h>
@@ -19,20 +20,20 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << "INSERT INTO [" << Configuration::TRANSACTIONS_TABLE_NAME << "] (";
-        sout << "[" << Configuration::DATE_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::VAL_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::FROM_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::TO_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::ITEM_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::DESC_COLUMN_NAME << "]) ";
+        sout << "INSERT INTO [" << Configuration::TABLE_TRANSACTIONS << "] (";
+        sout << "[" << Configuration::COLUMN_DATE << "], ";
+        sout << "[" << Configuration::COLUMN_VALUE << "], ";
+        sout << "[" << Configuration::COLUMN_SOURCE << "], ";
+        sout << "[" << Configuration::COLUMN_DESTINATION << "], ";
+        sout << "[" << Configuration::COLUMN_DESCRIPTION << "], ";
+        sout << "[" << Configuration::COLUMN_COMMENT << "]) ";
         sout << "VALUES ( ";
         sout << "'" << transaction_.getDate() << "', ";
         sout << transaction_.getValue() << ", ";
         sout << transaction_.getFromId() << ", ";
         sout << transaction_.getToId() << ", ";
         sout << transaction_.getItemId() << ", ";
-        sout << toParameter(transaction_.getDescription()) << " );" << endl;
+        sout << DbUtil::toParameter(transaction_.getDescription()) << " );" << endl;
 
         sql_ = sout.rdbuf()->str();
     }

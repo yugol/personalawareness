@@ -41,11 +41,11 @@ namespace adb {
         ostringstream sout;
 
         sout << "SELECT ";
-        sout << "[" << Configuration::ID_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::NAME_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::LASTR_COLUMN_NAME << "] ";
-        sout << "FROM [" << Configuration::ITEMS_TABLE_NAME << "] ";
-        sout << "WHERE [" << Configuration::ID_COLUMN_NAME << "] = " << item_->getId() << ";" << endl;
+        sout << "[" << Configuration::COLUMN_ID << "], ";
+        sout << "[" << Configuration::COLUMN_NAME << "], ";
+        sout << "[" << Configuration::COLUMN_TRANSACTION << "] ";
+        sout << "FROM [" << Configuration::TABLE_DESCRIPTIONS << "] ";
+        sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << item_->getId() << ";" << endl;
 
         sql_ = sout.rdbuf()->str();
     }

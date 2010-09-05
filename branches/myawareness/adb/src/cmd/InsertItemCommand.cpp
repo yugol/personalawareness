@@ -1,6 +1,7 @@
 #include <sstream>
 #include <Exception.h>
 #include <Configuration.h>
+#include <DbUtil.h>
 #include <cmd/DeleteItemCommand.h>
 #include <cmd/UpdateItemCommand.h>
 #include <cmd/InsertItemCommand.h>
@@ -19,11 +20,11 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << "INSERT INTO [" << Configuration::ITEMS_TABLE_NAME << "] ( ";
-        sout << "[" << Configuration::NAME_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::LASTR_COLUMN_NAME << "] ) ";
+        sout << "INSERT INTO [" << Configuration::TABLE_DESCRIPTIONS << "] ( ";
+        sout << "[" << Configuration::COLUMN_NAME << "], ";
+        sout << "[" << Configuration::COLUMN_TRANSACTION << "] ) ";
         sout << "VALUES ( ";
-        sout << toParameter(item_.getName()) << ", ";
+        sout << DbUtil::toParameter(item_.getName()) << ", ";
         sout << item_.getLastTransactionId() << " );" << endl;
 
         sql_ = sout.rdbuf()->str();

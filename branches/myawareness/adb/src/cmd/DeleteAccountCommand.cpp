@@ -22,9 +22,9 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << "UPDATE [" << Configuration::ACCOUNTS_TABLE_NAME << "] ";
-        sout << "SET [" << Configuration::DEL_COLUMN_NAME << "] = '*' ";
-        sout << "WHERE [" << Configuration::ID_COLUMN_NAME << "] = " << account_.getId() << ";" << endl;
+        sout << "UPDATE [" << Configuration::TABLE_ACCOUNTS << "] ";
+        sout << "SET [" << Configuration::COLUMN_DELETED << "] = '*' ";
+        sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << account_.getId() << ";" << endl;
 
         sql_ = sout.rdbuf()->str();
     }
@@ -33,9 +33,9 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << "UPDATE [" << Configuration::ACCOUNTS_TABLE_NAME << "] ";
-        sout << "SET [" << Configuration::DEL_COLUMN_NAME << "] = NULL ";
-        sout << "WHERE [" << Configuration::ID_COLUMN_NAME << "] = " << account_.getId() << ";" << endl;
+        sout << "UPDATE [" << Configuration::TABLE_ACCOUNTS << "] ";
+        sout << "SET [" << Configuration::COLUMN_DELETED << "] = NULL ";
+        sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << account_.getId() << ";" << endl;
 
         reverseSql_ = sout.rdbuf()->str();
     }

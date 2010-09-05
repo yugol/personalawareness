@@ -23,19 +23,6 @@ namespace adb {
         return 0;
     }
 
-    const string DatabaseCommand::toParameter(const string& str)
-    {
-        string param;
-        if (str.size() > 0) {
-            param = "'";
-            param.append(str);
-            param.append("'");
-        } else {
-            param = "NULL";
-        }
-        return param;
-    }
-
     const char* DatabaseCommand::getSqlCommand()
     {
         if (sql_.size() <= 0) {

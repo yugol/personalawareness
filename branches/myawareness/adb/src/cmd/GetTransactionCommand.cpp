@@ -42,15 +42,15 @@ namespace adb {
         ostringstream sout;
 
         sout << "SELECT ";
-        sout << "[" << Configuration::ID_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::DATE_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::VAL_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::FROM_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::TO_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::ITEM_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::DESC_COLUMN_NAME << "] ";
-        sout << "FROM [" << Configuration::TRANSACTIONS_TABLE_NAME << "] ";
-        sout << "WHERE [" << Configuration::ID_COLUMN_NAME << "] = " << transaction_->getId() << ";" << endl;
+        sout << "[" << Configuration::COLUMN_ID << "], ";
+        sout << "[" << Configuration::COLUMN_DATE << "], ";
+        sout << "[" << Configuration::COLUMN_VALUE << "], ";
+        sout << "[" << Configuration::COLUMN_SOURCE << "], ";
+        sout << "[" << Configuration::COLUMN_DESTINATION << "], ";
+        sout << "[" << Configuration::COLUMN_DESCRIPTION << "], ";
+        sout << "[" << Configuration::COLUMN_COMMENT << "] ";
+        sout << "FROM [" << Configuration::TABLE_TRANSACTIONS << "] ";
+        sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << transaction_->getId() << ";" << endl;
 
         sql_ = sout.rdbuf()->str();
     }

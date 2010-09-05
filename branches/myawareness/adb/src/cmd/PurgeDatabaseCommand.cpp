@@ -15,14 +15,14 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << "DELETE FROM [" << Configuration::TRANSACTIONS_TABLE_NAME << "] ";
-        sout << "WHERE [" << Configuration::DEL_COLUMN_NAME << "] NOT NULL;" << endl;
+        sout << "DELETE FROM [" << Configuration::TABLE_TRANSACTIONS << "] ";
+        sout << "WHERE [" << Configuration::COLUMN_DELETED << "] NOT NULL;" << endl;
 
-        sout << "DELETE FROM [" << Configuration::ITEMS_TABLE_NAME << "] ";
-        sout << "WHERE [" << Configuration::DEL_COLUMN_NAME << "] NOT NULL;" << endl;
+        sout << "DELETE FROM [" << Configuration::TABLE_DESCRIPTIONS << "] ";
+        sout << "WHERE [" << Configuration::COLUMN_DELETED << "] NOT NULL;" << endl;
 
-        sout << "DELETE FROM [" << Configuration::ACCOUNTS_TABLE_NAME << "] ";
-        sout << "WHERE [" << Configuration::DEL_COLUMN_NAME << "] NOT NULL;" << endl;
+        sout << "DELETE FROM [" << Configuration::TABLE_ACCOUNTS << "] ";
+        sout << "WHERE [" << Configuration::COLUMN_DELETED << "] NOT NULL;" << endl;
 
         sql_ = sout.rdbuf()->str();
     }

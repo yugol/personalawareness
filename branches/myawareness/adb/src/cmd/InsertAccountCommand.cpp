@@ -1,6 +1,7 @@
 #include <sstream>
 #include <Exception.h>
 #include <Configuration.h>
+#include <DbUtil.h>
 #include <cmd/DeleteAccountCommand.h>
 #include <cmd/UpdateAccountCommand.h>
 #include <cmd/InsertAccountCommand.h>
@@ -19,18 +20,18 @@ namespace adb {
     {
         ostringstream sout;
 
-        sout << "INSERT INTO [" << Configuration::ACCOUNTS_TABLE_NAME << "] ( ";
-        sout << "[" << Configuration::TYPE_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::IVAL_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::NAME_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::GROUP_COLUMN_NAME << "], ";
-        sout << "[" << Configuration::DESC_COLUMN_NAME << "] ) ";
+        sout << "INSERT INTO [" << Configuration::TABLE_ACCOUNTS << "] ( ";
+        sout << "[" << Configuration::COLUMN_TYPE << "], ";
+        sout << "[" << Configuration::COLUMN_BALANCE << "], ";
+        sout << "[" << Configuration::COLUMN_NAME << "], ";
+        sout << "[" << Configuration::COLUMN_GROUP << "], ";
+        sout << "[" << Configuration::COLUMN_COMMENT << "] ) ";
         sout << "VALUES ( ";
         sout << account_.getType() << ", ";
         sout << account_.getInitialValue() << ", ";
-        sout << toParameter(account_.getName()) << ", ";
-        sout << toParameter(account_.getGroup()) << ", ";
-        sout << toParameter(account_.getDescription()) << " );" << endl;
+        sout << DbUtil::toParameter(account_.getName()) << ", ";
+        sout << DbUtil::toParameter(account_.getGroup()) << ", ";
+        sout << DbUtil::toParameter(account_.getDescription()) << " );" << endl;
 
         sql_ = sout.rdbuf()->str();
     }
