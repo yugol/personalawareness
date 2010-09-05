@@ -2,7 +2,7 @@
 #define DATABASECOMMAND_H_
 
 #include <string>
-// #include <ostream>
+#include <ostream>
 #include <sqlite3.h>
 #include <Command.h>
 

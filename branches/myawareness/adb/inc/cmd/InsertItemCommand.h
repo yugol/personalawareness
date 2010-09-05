@@ -8,6 +8,8 @@ namespace adb {
 
     class InsertItemCommand: public ReversibleDatabaseCommand {
     public:
+        static void buildSqlCommand(std::ostream& out, const Item& item, bool dump);
+
         InsertItemCommand(sqlite3* database, const Item& item);
 
         const Item& getItem() const;

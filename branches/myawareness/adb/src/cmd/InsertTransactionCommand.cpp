@@ -10,6 +10,24 @@ using namespace std;
 
 namespace adb {
 
+    void InsertTransactionCommand::buildSqlCommand(ostream& out, const Transaction& transaction)
+    {
+        out << "INSERT INTO [" << Configuration::TABLE_TRANSACTIONS << "] (";
+        out << "[" << Configuration::COLUMN_DATE << "], ";
+        out << "[" << Configuration::COLUMN_VALUE << "], ";
+        out << "[" << Configuration::COLUMN_SOURCE << "], ";
+        out << "[" << Configuration::COLUMN_DESTINATION << "], ";
+        out << "[" << Configuration::COLUMN_DESCRIPTION << "], ";
+        out << "[" << Configuration::COLUMN_COMMENT << "]) ";
+        out << "VALUES ( ";
+        out << "'" << transaction.getDate() << "', ";
+        out << transaction.getValue() << ", ";
+        out << transaction.getFromId() << ", ";
+        out << transaction.getToId() << ", ";
+        out << transaction.getItemId() << ", ";
+        out << DbUtil::toDbParameter(transaction.getDescription()) << " );" << endl;
+    }
+
     InsertTransactionCommand::InsertTransactionCommand(sqlite3* database, const Transaction& transaction) :
         ReversibleDatabaseCommand(database), transaction_(transaction)
     {
@@ -19,22 +37,7 @@ namespace adb {
     void InsertTransactionCommand::buildSqlCommand()
     {
         ostringstream sout;
-
-        sout << "INSERT INTO [" << Configuration::TABLE_TRANSACTIONS << "] (";
-        sout << "[" << Configuration::COLUMN_DATE << "], ";
-        sout << "[" << Configuration::COLUMN_VALUE << "], ";
-        sout << "[" << Configuration::COLUMN_SOURCE << "], ";
-        sout << "[" << Configuration::COLUMN_DESTINATION << "], ";
-        sout << "[" << Configuration::COLUMN_DESCRIPTION << "], ";
-        sout << "[" << Configuration::COLUMN_COMMENT << "]) ";
-        sout << "VALUES ( ";
-        sout << "'" << transaction_.getDate() << "', ";
-        sout << transaction_.getValue() << ", ";
-        sout << transaction_.getFromId() << ", ";
-        sout << transaction_.getToId() << ", ";
-        sout << transaction_.getItemId() << ", ";
-        sout << DbUtil::toDbParameter(transaction_.getDescription()) << " );" << endl;
-
+        buildSqlCommand(sout, transaction_);
         sql_ = sout.rdbuf()->str();
     }
 

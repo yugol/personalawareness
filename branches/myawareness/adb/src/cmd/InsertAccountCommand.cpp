@@ -10,6 +10,22 @@ using namespace std;
 
 namespace adb {
 
+    void InsertAccountCommand::buildReverseSqlCommand(std::ostream& out, const Account& account)
+    {
+        out << "INSERT INTO [" << Configuration::TABLE_ACCOUNTS << "] ( ";
+        out << "[" << Configuration::COLUMN_TYPE << "], ";
+        out << "[" << Configuration::COLUMN_BALANCE << "], ";
+        out << "[" << Configuration::COLUMN_NAME << "], ";
+        out << "[" << Configuration::COLUMN_GROUP << "], ";
+        out << "[" << Configuration::COLUMN_COMMENT << "] ) ";
+        out << "VALUES ( ";
+        out << account.getType() << ", ";
+        out << account.getInitialValue() << ", ";
+        out << DbUtil::toDbParameter(account.getName()) << ", ";
+        out << DbUtil::toDbParameter(account.getGroup()) << ", ";
+        out << DbUtil::toDbParameter(account.getDescription()) << " );" << endl;
+    }
+
     InsertAccountCommand::InsertAccountCommand(sqlite3* database, const Account& account) :
         ReversibleDatabaseCommand(database), account_(account)
     {
@@ -19,20 +35,7 @@ namespace adb {
     void InsertAccountCommand::buildSqlCommand()
     {
         ostringstream sout;
-
-        sout << "INSERT INTO [" << Configuration::TABLE_ACCOUNTS << "] ( ";
-        sout << "[" << Configuration::COLUMN_TYPE << "], ";
-        sout << "[" << Configuration::COLUMN_BALANCE << "], ";
-        sout << "[" << Configuration::COLUMN_NAME << "], ";
-        sout << "[" << Configuration::COLUMN_GROUP << "], ";
-        sout << "[" << Configuration::COLUMN_COMMENT << "] ) ";
-        sout << "VALUES ( ";
-        sout << account_.getType() << ", ";
-        sout << account_.getInitialValue() << ", ";
-        sout << DbUtil::toDbParameter(account_.getName()) << ", ";
-        sout << DbUtil::toDbParameter(account_.getGroup()) << ", ";
-        sout << DbUtil::toDbParameter(account_.getDescription()) << " );" << endl;
-
+        buildReverseSqlCommand(sout, account_);
         sql_ = sout.rdbuf()->str();
     }
 

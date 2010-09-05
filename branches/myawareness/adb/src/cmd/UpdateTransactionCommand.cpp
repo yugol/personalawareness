@@ -43,6 +43,6 @@ namespace adb {
         buildUpdateTransactionCommand(reverseSql_, previousTransaction_);
     }
 
-// TBD+: also update the item
+// TBD: also update the item
 
 } // namespac adb

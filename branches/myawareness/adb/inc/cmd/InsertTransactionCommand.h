@@ -8,6 +8,8 @@ namespace adb {
 
     class InsertTransactionCommand: public ReversibleDatabaseCommand {
     public:
+        static void buildSqlCommand(std::ostream& out, const Transaction& transaction);
+
         InsertTransactionCommand(sqlite3* database, const Transaction& transaction);
 
         const Transaction& getTransaction() const;

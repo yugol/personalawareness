@@ -5,6 +5,9 @@
 #include <Transaction.h>
 #include <cmd/SelectPreferences.h>
 #include <cmd/UpdatePreference.h>
+#include <cmd/InsertAccountCommand.h>
+#include <cmd/InsertItemCommand.h>
+#include <cmd/InsertTransactionCommand.h>
 #include <DatabaseConnection.h>
 
 using namespace std;
@@ -31,13 +34,7 @@ namespace adb {
         vector<Account>::iterator iAccounts;
         for (iAccounts = accounts_.begin(); iAccounts != accounts_.end(); ++iAccounts) {
             accountIds[iAccounts->getId()] = ++accountNo;
-
-            out << "INSERT INTO accounts (type, ival, name, [group], [desc]) VALUES ( "; // TBD+: use Configuration names
-            out << iAccounts->getType() << ", ";
-            out << iAccounts->getInitialValue() << ", ";
-            out << DbUtil::toDbParameter(iAccounts->getName()) << ", ";
-            out << DbUtil::toDbParameter(iAccounts->getGroup()) << ", ";
-            out << DbUtil::toDbParameter(iAccounts->getDescription()) << " );" << endl;
+            InsertAccountCommand::buildReverseSqlCommand(out, *iAccounts);
         }
 
         // dump items
@@ -47,9 +44,7 @@ namespace adb {
         for (iItems = items_.begin(); iItems != items_.end(); ++iItems) {
             Item* item = &(iItems->second);
             itemIds[item->getId()] = ++itemNo;
-
-            out << "INSERT INTO items (name) VALUES ( "; // TBD+: use Configuration names
-            out << DbUtil::toDbParameter(item->getName()) << " );" << endl;
+            InsertItemCommand::buildSqlCommand(out, *item, true);
         }
 
         // dump transactions
@@ -59,14 +54,7 @@ namespace adb {
         for (iTransactions = allTransactions.begin(); iTransactions != allTransactions.end(); ++iTransactions) {
             Transaction transaction(*iTransactions);
             getTransaction(&transaction);
-
-            out << "INSERT INTO transactions ([date], val, [from], [to], item, [desc]) VALUES ( "; // TBD+: use Configuration names
-            out << "'" << transaction.getDate() << "', ";
-            out << transaction.getValue() << ", ";
-            out << accountIds[transaction.getFromId()] << ", ";
-            out << accountIds[transaction.getToId()] << ", ";
-            out << itemIds[transaction.getItemId()] << ", ";
-            out << DbUtil::toDbParameter(transaction.getDescription()) << " );" << endl;
+            InsertTransactionCommand::buildSqlCommand(out, transaction);
         }
     }
 

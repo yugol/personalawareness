@@ -10,6 +10,21 @@ using namespace std;
 
 namespace adb {
 
+    void InsertItemCommand::buildSqlCommand(ostream& out, const Item& item, bool dump)
+    {
+        out << "INSERT INTO [" << Configuration::TABLE_DESCRIPTIONS << "] ( ";
+        out << "[" << Configuration::COLUMN_NAME << "]";
+        if (!dump) {
+            out << ", [" << Configuration::COLUMN_TRANSACTION << "]";
+        }
+        out << " ) VALUES ( ";
+        out << DbUtil::toDbParameter(item.getName());
+        if (!dump) {
+            out << ", " << item.getLastTransactionId() << " ";
+        }
+        out << " );" << endl;
+    }
+
     InsertItemCommand::InsertItemCommand(sqlite3* database, const Item& item) :
         ReversibleDatabaseCommand(database), item_(item)
     {
@@ -19,14 +34,7 @@ namespace adb {
     void InsertItemCommand::buildSqlCommand()
     {
         ostringstream sout;
-
-        sout << "INSERT INTO [" << Configuration::TABLE_DESCRIPTIONS << "] ( ";
-        sout << "[" << Configuration::COLUMN_NAME << "], ";
-        sout << "[" << Configuration::COLUMN_TRANSACTION << "] ) ";
-        sout << "VALUES ( ";
-        sout << DbUtil::toDbParameter(item_.getName()) << ", ";
-        sout << item_.getLastTransactionId() << " );" << endl;
-
+        buildSqlCommand(sout, item_, false);
         sql_ = sout.rdbuf()->str();
     }
 
