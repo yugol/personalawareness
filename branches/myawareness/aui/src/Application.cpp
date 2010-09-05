@@ -27,6 +27,7 @@
 // TBD: optim: read descriptions in autocompletion only when showing the window for the first time
 // TBD: optim: update only visible tabs in UI
 // TBD: optim: use a thread to import/export database
+// TBD: optim: shorten SQL commands
 
 // TBD-: internationalization
 // TBD-: wxBuilder forms
