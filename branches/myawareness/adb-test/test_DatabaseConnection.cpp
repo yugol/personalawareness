@@ -3,13 +3,13 @@
 #include <Exception.h>
 #include <Transaction.h>
 #include <DatabaseConnection.h>
-#include "test.h"
+#include "_test.h"
 
 TEST( GetBalance, DatabaseConnection )
 {
     DatabaseConnection::openDatabase(testDatabase);
 
-    Account* acc = DatabaseConnection::instance()->getAccount(1);
+    const Account* acc = DatabaseConnection::instance()->getAccount(1);
     LONGS_EQUAL(Account::ACCOUNT, acc->getType());
 
     double balance = DatabaseConnection::instance()->getBalance(acc);

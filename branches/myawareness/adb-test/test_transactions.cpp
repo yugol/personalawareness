@@ -1,6 +1,6 @@
 #include <Transaction.h>
 #include <DatabaseConnection.h>
-#include "test.h"
+#include "_test.h"
 
 TEST( Transactions, UndoRedo )
 {

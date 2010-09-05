@@ -1,7 +1,7 @@
 #include <iostream>
 #include <Transaction.h>
 #include <DatabaseConnection.h>
-#include "test.h"
+#include "_test.h"
 
 SKIPTEST( transactions, list )
 {
@@ -16,8 +16,8 @@ SKIPTEST( transactions, list )
         Transaction t(id_);
         DatabaseConnection::instance()->getTransaction(&t);
         const Item* item_ = DatabaseConnection::instance()->getItem(t.getItemId());
-        Account* from_ = DatabaseConnection::instance()->getAccount(t.getFromId());
-        Account* to_ = DatabaseConnection::instance()->getAccount(t.getToId());
+        const Account* from_ = DatabaseConnection::instance()->getAccount(t.getFromId());
+        const Account* to_ = DatabaseConnection::instance()->getAccount(t.getToId());
         cout << id_ << " " << item_->getName() << " : " << from_->getName() << " -> " << to_->getName() << endl;
     }
 }
@@ -37,7 +37,7 @@ SKIPTEST( accounts, list )
     DatabaseConnection::openDatabase(testDatabase);
 
     for (int id_ = 1; id_ <= DatabaseConnection::instance()->getAccountCount(); ++id_) {
-        Account* acc = DatabaseConnection::instance()->getAccount(id_);
+        const Account* acc = DatabaseConnection::instance()->getAccount(id_);
         cout << id_ << " " << acc->getName() << endl;
     }
 }
