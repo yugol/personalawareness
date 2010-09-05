@@ -272,7 +272,7 @@ void Controller::refreshTransactions()
         ostringstream item;
 
         item << "<table id='@" << id << "@' width='";
-        item << ((Configuration::instance()->COMPACT_TRNSACTION_VIEW) ? ("80%") : ("90%"));
+        item << ((Configuration::instance()->isCompactTransactions()) ? ("80%") : ("90%"));
         item << "' border='0' cellpadding='0' cellspacing='0'>";
 
         item << "<tr>";
@@ -297,7 +297,7 @@ void Controller::refreshTransactions()
         item << "&nbsp;</td>";
         item << "</tr>";
 
-        if (!Configuration::instance()->COMPACT_TRNSACTION_VIEW) {
+        if (!Configuration::instance()->isCompactTransactions()) {
             item << "<tr>";
             item << "<td colspan='2'align='right'><small><i><font color='DarkSlateGray'>" << from->getFullName() << " --> " << to->getFullName() << "</font></i></small>&nbsp;</td>";
             item << "</tr>";

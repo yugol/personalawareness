@@ -17,9 +17,9 @@ void Controller::openDatabase(const wxString* location)
             string pathFileExt;
             UiUtil::appendWxString(pathFileExt, *location);
             if (!wxFile::Exists(location->wc_str())) {
-                ostringstream ext;
-                UiUtil::streamFileExt(ext, pathFileExt);
-                if (ext.rdbuf()->str() != "db") {
+                ostringstream extOut;
+                UiUtil::streamExt(extOut, pathFileExt);
+                if (extOut.rdbuf()->str() != "db") {
                     pathFileExt.append(".db");
                 }
             }

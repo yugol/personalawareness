@@ -34,10 +34,6 @@ public:
 
     static int compareBeginning(const wxString& needle, const wxString& hay);
     static bool compareByName(const adb::Item* a, const adb::Item* b);
-
-private:
-    static const char APPLICATION_NAME[];
-
 };
 
 #endif /* UIUTIL_H_ */

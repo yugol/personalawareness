@@ -8,13 +8,12 @@
 using namespace adb;
 using namespace std;
 
-const char UiUtil::APPLICATION_NAME[] = "Personal Awareness";
 const char* UiUtil::MONTH_NAMES[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
 wxString UiUtil::getApplicationName(const string& databaseFile)
 {
     ostringstream sout;
-    sout << APPLICATION_NAME;
+    sout << Configuration::PROJECT_NAME;
     if (databaseFile.size() > 0) {
         sout << " - ";
         streamFileExt(sout, databaseFile);
@@ -139,8 +138,8 @@ void UiUtil::appendStdString(wxString& to, const string& what)
 ostream& UiUtil::streamCurrency(ostream& out, double val, bool html)
 {
 
-    if (Configuration::instance()->PREFIX_CURRENCY) {
-        out << Configuration::instance()->CURRENCY_SYMBOL;
+    if (Configuration::instance()->isPrefixCurrency()) {
+        out << Configuration::instance()->getCurrencySymbol();
         if (html) {
             out << "&nbsp;";
         } else {
@@ -154,13 +153,13 @@ ostream& UiUtil::streamCurrency(ostream& out, double val, bool html)
     out.precision(2);
     out << fixed << val;
 
-    if (!Configuration::instance()->PREFIX_CURRENCY) {
+    if (!Configuration::instance()->isPrefixCurrency()) {
         if (html) {
             out << "&nbsp;";
         } else {
             out << " ";
         }
-        out << Configuration::instance()->CURRENCY_SYMBOL;
+        out << Configuration::instance()->getCurrencySymbol();
     }
 
     return out;
@@ -206,7 +205,7 @@ int UiUtil::compareBeginning(const wxString& needle, const wxString& hay)
         wxChar ca = wxTolower(needle.GetChar(i));
         wxChar cb = wxTolower(hay.GetChar(i));
 
-        if (Configuration::instance()->SAME_NONASCII_CHARS) {
+        if (Configuration::instance()->isCompareAsciiOnly()) {
             if (ca >= 128) {
                 ca = 128;
             }
