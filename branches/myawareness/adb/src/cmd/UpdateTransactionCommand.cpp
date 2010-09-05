@@ -27,7 +27,7 @@ namespace adb {
         sout << "[" << Configuration::COLUMN_SOURCE << "] = " << transaction.getFromId() << ", ";
         sout << "[" << Configuration::COLUMN_DESTINATION << "] = " << transaction.getToId() << ", ";
         sout << "[" << Configuration::COLUMN_DESCRIPTION << "] = " << transaction.getItemId() << ", ";
-        sout << "[" << Configuration::COLUMN_COMMENT << "] = " << DbUtil::toParameter(transaction.getDescription()) << " ";
+        sout << "[" << Configuration::COLUMN_COMMENT << "] = " << DbUtil::toDbParameter(transaction.getDescription()) << " ";
         sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << transaction.getId() << ";" << endl;
 
         sql = sout.rdbuf()->str();

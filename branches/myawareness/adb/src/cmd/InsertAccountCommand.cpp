@@ -29,9 +29,9 @@ namespace adb {
         sout << "VALUES ( ";
         sout << account_.getType() << ", ";
         sout << account_.getInitialValue() << ", ";
-        sout << DbUtil::toParameter(account_.getName()) << ", ";
-        sout << DbUtil::toParameter(account_.getGroup()) << ", ";
-        sout << DbUtil::toParameter(account_.getDescription()) << " );" << endl;
+        sout << DbUtil::toDbParameter(account_.getName()) << ", ";
+        sout << DbUtil::toDbParameter(account_.getGroup()) << ", ";
+        sout << DbUtil::toDbParameter(account_.getDescription()) << " );" << endl;
 
         sql_ = sout.rdbuf()->str();
     }

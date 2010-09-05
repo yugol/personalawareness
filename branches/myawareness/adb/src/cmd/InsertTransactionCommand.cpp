@@ -33,7 +33,7 @@ namespace adb {
         sout << transaction_.getFromId() << ", ";
         sout << transaction_.getToId() << ", ";
         sout << transaction_.getItemId() << ", ";
-        sout << DbUtil::toParameter(transaction_.getDescription()) << " );" << endl;
+        sout << DbUtil::toDbParameter(transaction_.getDescription()) << " );" << endl;
 
         sql_ = sout.rdbuf()->str();
     }

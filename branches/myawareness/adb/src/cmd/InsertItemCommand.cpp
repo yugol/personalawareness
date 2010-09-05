@@ -24,7 +24,7 @@ namespace adb {
         sout << "[" << Configuration::COLUMN_NAME << "], ";
         sout << "[" << Configuration::COLUMN_TRANSACTION << "] ) ";
         sout << "VALUES ( ";
-        sout << DbUtil::toParameter(item_.getName()) << ", ";
+        sout << DbUtil::toDbParameter(item_.getName()) << ", ";
         sout << item_.getLastTransactionId() << " );" << endl;
 
         sql_ = sout.rdbuf()->str();

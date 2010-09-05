@@ -21,14 +21,24 @@ namespace adb {
         }
     }
 
-    const string DbUtil::toParameter(const string& str)
+    const string DbUtil::toDbParameter(const string& str)
     {
-        // TBD++:escape characters
         string param;
         if (str.size() > 0) {
-            param = "'";
-            param.append(str);
-            param.append("'");
+            char* buf = new char[str.size() * 2 + 3];
+            char* dst = buf;
+            *dst++ = '\'';
+            for (size_t i = 0; i < str.size(); ++i) {
+                char ch = str[i];
+                *dst++ = ch;
+                if (ch == '\'') {
+                    *dst++ = '\'';
+                }
+            }
+            *dst++ = '\'';
+            *dst++ = '\0';
+            param = buf;
+            delete[] buf;
         } else {
             param = "NULL";
         }

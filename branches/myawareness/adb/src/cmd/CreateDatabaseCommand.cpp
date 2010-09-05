@@ -1,5 +1,6 @@
 #include <sstream>
 #include <Configuration.h>
+#include <DbUtil.h>
 #include <cmd/CreateDatabaseCommand.h>
 
 using namespace std;
@@ -64,20 +65,20 @@ namespace adb {
         sout << "INSERT INTO [" << Configuration::TABLE_PREFERENCES << "] ( ";
         sout << "[" << Configuration::COLUMN_NAME << "], ";
         sout << "[" << Configuration::COLUMN_VALUE << "] ) VALUES ( '";
-        sout << Configuration::PREF_PROJECT_MARKER << "', '";
-        sout << Configuration::PROJECT_MARKER << "' );" << endl;
+        sout << Configuration::PREF_PROJECT_MARKER << "', ";
+        sout << DbUtil::toDbParameter(Configuration::PROJECT_MARKER) << " );" << endl;
 
         sout << "INSERT INTO [" << Configuration::TABLE_PREFERENCES << "] ( ";
         sout << "[" << Configuration::COLUMN_NAME << "], ";
         sout << "[" << Configuration::COLUMN_VALUE << "] ) VALUES ( '";
-        sout << Configuration::PREF_DATABASE_VERSION << "', '";
-        sout << Configuration::PROJECT_DATABASE_VERSION << "' );" << endl;
+        sout << Configuration::PREF_DATABASE_VERSION << "', ";
+        sout << DbUtil::toDbParameter(Configuration::PROJECT_DATABASE_VERSION) << " );" << endl;
 
         sout << "INSERT INTO [" << Configuration::TABLE_PREFERENCES << "] ( ";
         sout << "[" << Configuration::COLUMN_NAME << "], ";
         sout << "[" << Configuration::COLUMN_VALUE << "] ) VALUES ( '";
-        sout << Configuration::PREF_CURRENCY_SYMBOL << "', '";
-        sout << Configuration::DEFAULT_CURRENCY_SYMBOL << "' );" << endl;
+        sout << Configuration::PREF_CURRENCY_SYMBOL << "', ";
+        sout << DbUtil::toDbParameter(Configuration::DEFAULT_CURRENCY_SYMBOL) << " );" << endl;
 
         sout << "INSERT INTO [" << Configuration::TABLE_PREFERENCES << "] ( ";
         sout << "[" << Configuration::COLUMN_NAME << "], ";

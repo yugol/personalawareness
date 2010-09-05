@@ -22,7 +22,7 @@ namespace adb {
 
         sout << "UPDATE [" << Configuration::TABLE_DESCRIPTIONS << "] ";
         sout << "SET ";
-        sout << "[" << Configuration::COLUMN_NAME << "] = " << DbUtil::toParameter(item.getName()) << ", ";
+        sout << "[" << Configuration::COLUMN_NAME << "] = " << DbUtil::toDbParameter(item.getName()) << ", ";
         sout << "[" << Configuration::COLUMN_TRANSACTION << "] = " << item.getLastTransactionId() << " ";
         sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << item.getId() << ";" << endl;
 

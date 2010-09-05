@@ -11,9 +11,9 @@ namespace adb {
         out << "UPDATE [" << Configuration::TABLE_PREFERENCES << "] ";
 
         out << "SET ";
-        out << "[" << Configuration::COLUMN_VALUE << "] = " << DbUtil::toParameter(value) << " ";
+        out << "[" << Configuration::COLUMN_VALUE << "] = " << DbUtil::toDbParameter(value) << " ";
 
-        out << "WHERE [" << Configuration::COLUMN_NAME << "] = " << DbUtil::toParameter(name) << ";" << endl;
+        out << "WHERE [" << Configuration::COLUMN_NAME << "] = " << DbUtil::toDbParameter(name) << ";" << endl;
     }
 
     UpdatePreference::UpdatePreference(sqlite3* database, const char* name, const char* value) :

@@ -35,9 +35,9 @@ namespace adb {
             out << "INSERT INTO accounts (type, ival, name, [group], [desc]) VALUES ( "; // TBD+: use Configuration names
             out << iAccounts->getType() << ", ";
             out << iAccounts->getInitialValue() << ", ";
-            out << DbUtil::toParameter(iAccounts->getName()) << ", ";
-            out << DbUtil::toParameter(iAccounts->getGroup()) << ", ";
-            out << DbUtil::toParameter(iAccounts->getDescription()) << " );" << endl;
+            out << DbUtil::toDbParameter(iAccounts->getName()) << ", ";
+            out << DbUtil::toDbParameter(iAccounts->getGroup()) << ", ";
+            out << DbUtil::toDbParameter(iAccounts->getDescription()) << " );" << endl;
         }
 
         // dump items
@@ -49,7 +49,7 @@ namespace adb {
             itemIds[item->getId()] = ++itemNo;
 
             out << "INSERT INTO items (name) VALUES ( "; // TBD+: use Configuration names
-            out << DbUtil::toParameter(item->getName()) << " );" << endl;
+            out << DbUtil::toDbParameter(item->getName()) << " );" << endl;
         }
 
         // dump transactions
@@ -66,7 +66,7 @@ namespace adb {
             out << accountIds[transaction.getFromId()] << ", ";
             out << accountIds[transaction.getToId()] << ", ";
             out << itemIds[transaction.getItemId()] << ", ";
-            out << DbUtil::toParameter(transaction.getDescription()) << " );" << endl;
+            out << DbUtil::toDbParameter(transaction.getDescription()) << " );" << endl;
         }
     }
 

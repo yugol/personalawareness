@@ -24,9 +24,9 @@ namespace adb {
         sout << "SET ";
         sout << "[" << Configuration::COLUMN_TYPE << "] = " << account.getType() << ", ";
         sout << "[" << Configuration::COLUMN_BALANCE << "] = " << account.getInitialValue() << ", ";
-        sout << "[" << Configuration::COLUMN_NAME << "] = " << DbUtil::toParameter(account.getName()) << ", ";
-        sout << "[" << Configuration::COLUMN_GROUP << "] = " << DbUtil::toParameter(account.getGroup()) << ", ";
-        sout << "[" << Configuration::COLUMN_COMMENT << "] = " << DbUtil::toParameter(account.getDescription()) << " ";
+        sout << "[" << Configuration::COLUMN_NAME << "] = " << DbUtil::toDbParameter(account.getName()) << ", ";
+        sout << "[" << Configuration::COLUMN_GROUP << "] = " << DbUtil::toDbParameter(account.getGroup()) << ", ";
+        sout << "[" << Configuration::COLUMN_COMMENT << "] = " << DbUtil::toDbParameter(account.getDescription()) << " ";
         sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << account.getId() << ";" << endl;
 
         sql = sout.rdbuf()->str();

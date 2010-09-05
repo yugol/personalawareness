@@ -18,7 +18,7 @@ namespace adb {
     const char Configuration::PROJECT_NAME[] = "Personal Awareness";
     const char Configuration::PROJECT_VERSION[] = "0.1.0";
     const char Configuration::PROJECT_DATABASE_VERSION[] = "0.1";
-    const char Configuration::DEFAULT_CURRENCY_SYMBOL[] = "\"";
+    const char Configuration::DEFAULT_CURRENCY_SYMBOL[] = "'";
     const bool Configuration::DEFAULT_PREFIX_CURRENCY = false;
     const bool Configuration::DEFAULT_COMPACT_TRNSACTIONS = false;
     const bool Configuration::DEFAULT_COMPARE_ASCII_ONLY = false;
