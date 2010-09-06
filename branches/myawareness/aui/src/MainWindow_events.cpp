@@ -5,6 +5,7 @@
 #include <AccountsDialog.h>
 #include <ItemsDialog.h>
 #include <PreferencesDialog.h>
+#include <AboutDialog.h>
 #include <MainWindow.h>
 
 //helper functions TBD-: remove them
@@ -125,8 +126,9 @@ void MainWindow::onPreferences(wxCommandEvent& event)
 
 void MainWindow::onAbout(wxCommandEvent &event)
 {
-    wxString msg = wxbuildinfo(long_f);
-    wxMessageBox(msg, wxT("Welcome to..."));
+    AboutDialog* dlg = new AboutDialog(this);
+    dlg->ShowModal();
+    dlg->Destroy();
 }
 
 void MainWindow::onSelectionViewButton(wxCommandEvent& event)

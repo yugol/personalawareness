@@ -12,6 +12,8 @@
 #include <wx/combobox.h>
 #include <wx/sizer.h>
 #include <wx/notebook.h>
+#include <wx/icon.h>
+#include <UiUtil.h>
 #include <AutocompletionWindow.h>
 #include <Controller.h>
 #include <MainWindow.h>
@@ -280,6 +282,9 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 #endif // wxUSE_STATUSBAR
     showSelectionPanel(false);
     showTransactionPanel(true);
+
+    wxIcon acorn32(acorn32xpm);
+    SetIcon(acorn32);
 
     trItemText_->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(MainWindow::onTransactionItemKeyDown), NULL, this);
 }

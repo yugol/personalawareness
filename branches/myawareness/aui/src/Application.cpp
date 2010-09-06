@@ -3,10 +3,6 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD: count versions system
-// TBD: create an icon
-// TBD: About dialog
-
 // TBD: handle all errors in Window and not in controller
 // TBD: get rid of magic numbers
 
@@ -47,7 +43,7 @@
 
 // TBD-: export table deletion & creation
 // TBD-: csv import/export
-// TBD-: MySQL & other DBMS compatible sql dump
+// TBD-: MySQL & other DBMS compatible SQL dump
 
 
 IMPLEMENT_APP(Application)
