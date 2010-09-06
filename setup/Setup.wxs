@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="*" Name="Personal Awareness" Language="1033" Version="0.2.2" UpgradeCode="6045AEB7-134D-4881-8139-BB52EBEB2F01" Manufacturer="Iulian Goriac">
+        <Package Description="This application allows you to keep track of your personal data" Comments="Manage Your Time - Ideas - Energy - Finances" InstallerVersion="200" Compressed="yes" />
+        <!--
+            Source media for the installation. 
+             Specifies a single cab file to be embedded in the installer's .msi. 
+        -->
+        <Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high" />
+        <!-- Installation directory and files are defined in Files.wxs -->
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramMenuFolder" Name="PMenu" />
+            <Directory Id="DesktopFolder" Name="Desktop" />
+        </Directory>
+        <Feature Id="Complete" Title="Personal Awareness" Description="Common files" Level="1">
+            <ComponentRef Id="MainComponent" />
+        </Feature>
+        <!-- 
+            Using the Wix UI library
+ 
+            WixUI_InstallDir does not allow the user to choose 
+            features but adds a dialog to let the user choose a 
+            directory where the product will be installed
+        -->
+        <Property Id="WIXUI_INSTALLDIR">INSTALLDIR</Property>
+        <UIRef Id="WixUI_InstallDir" />
+    </Product>
+</Wix>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="TARGETDIR">
+            <Directory Id="ProgramFilesFolder" Name="PFiles">
+                <Directory Id="INSTALLDIR" Name="Personal Awareness">
+                    <Component Id="MainComponent" Guid="44716D57-06AA-440E-94CD-E475550C550A" DiskId="1">
+                        <File Id="MainExecutableFile" Name="awareness.exe" Source="..\awareness\bin\Release\awareness.exe">
+                            <Shortcut Advertise="yes" Id="programsMenuShortcut" Directory="ProgramMenuFolder" Name="Personal Awareness" WorkingDirectory="INSTALLDIR" Icon="ApplicationIcon.exe">
+                                <Icon Id="ApplicationIcon.exe" SourceFile="..\awareness\bin\Release\awareness.exe" />
+                            </Shortcut>
+                            <Shortcut Advertise="yes" Id="desktopShortcut" Directory="DesktopFolder" Name="Personal Awareness" WorkingDirectory="INSTALLDIR" Icon="ApplicationIcon.exe" />
+                        </File>
+                        <File Id="LicenseFile" Name="executable-license.txt" Source="executable-license.txt" />
+                        <File Id="ZedGraphLibraryFile" Name="ZedGraph.dll" Source="..\awareness\bin\Release\ZedGraph.dll" />
+                        <File Id="ZedGraphLicenseFile" Name="ZedGraph-license.txt" Source="ZedGraph-license.txt" />
+                    </Component>
+                </Directory>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+</Wix>
