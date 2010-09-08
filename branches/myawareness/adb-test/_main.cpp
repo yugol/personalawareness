@@ -47,7 +47,7 @@ void generateTestDatabase()
     tr2.setFromId(1);
     tr2.setToId(2);
     tr2.setItemId(2);
-    tr2.setDescription("no more");
+    tr2.setComment("no more");
 
     DatabaseConnection::instance()->insertUpdate(&tr1);
     DatabaseConnection::instance()->insertUpdate(&tr2);
