@@ -1,11 +1,11 @@
 #include <cstring>
 #include <Exception.h>
-#include <cmd/SelectAccountsCommand.h>
-#include <cmd/GetAccountCommand.h>
-#include <cmd/InsertAccountCommand.h>
-#include <cmd/UpdateAccountCommand.h>
-#include <cmd/DeleteAccountCommand.h>
-#include <cmd/GetAccountBalanceCommand.h>
+#include <cmd/SelectAccounts.h>
+#include <cmd/GetAccount.h>
+#include <cmd/InsertAccount.h>
+#include <cmd/UpdateAccount.h>
+#include <cmd/DeleteAccount.h>
+#include <cmd/GetAccountBalance.h>
 #include <DatabaseConnection.h>
 
 using namespace std;
@@ -18,11 +18,11 @@ namespace adb {
         ReversibleDatabaseCommand* cmd = 0;
         try {
             if (0 == account->getId()) {
-                cmd = new InsertAccountCommand(database_, *account);
+                cmd = new InsertAccount(database_, *account);
                 cmd->execute();
-                account->setId(static_cast<InsertAccountCommand*> (cmd)->getAccount().getId());
+                account->setId(static_cast<InsertAccount*> (cmd)->getAccount().getId());
             } else {
-                cmd = new UpdateAccountCommand(database_, *account);
+                cmd = new UpdateAccount(database_, *account);
                 cmd->execute();
             }
             undoManager_.add(cmd);
@@ -34,12 +34,12 @@ namespace adb {
 
     void DatabaseConnection::selectAccounts(vector<int>* selection, SelectionParameters* parameters) const
     {
-        SelectAccountsCommand(database_, selection, parameters).execute();
+        SelectAccounts(database_, selection, parameters).execute();
     }
 
     void DatabaseConnection::getAccount(Account* account) const
     {
-        GetAccountCommand(database_, account).execute();
+        GetAccount(database_, account).execute();
     }
 
     bool DatabaseConnection::isAccountInUse(int id) const
@@ -52,7 +52,7 @@ namespace adb {
         accounts_.clear();
         ReversibleDatabaseCommand* cmd = 0;
         try {
-            cmd = new DeleteAccountCommand(database_, id);
+            cmd = new DeleteAccount(database_, id);
             cmd->execute();
             undoManager_.add(cmd);
         } catch (const Exception& ex) {
@@ -68,7 +68,7 @@ namespace adb {
         }
 
         vector<int> selection;
-        SelectAccountsCommand selectCmd(database_, &selection, 0);
+        SelectAccounts selectCmd(database_, &selection, 0);
         selectCmd.execute();
 
         accounts_.clear();
@@ -76,7 +76,7 @@ namespace adb {
         for (it = selection.begin(); it != selection.end(); ++it) {
             int id = (*it);
             accounts_.push_back(Account(id));
-            GetAccountCommand getCmd(database_, &accounts_[accounts_.size() - 1]);
+            GetAccount getCmd(database_, &accounts_[accounts_.size() - 1]);
             getCmd.execute();
         }
     }
@@ -109,7 +109,7 @@ namespace adb {
 
     double DatabaseConnection::getBalance(const Account* acc) const
     {
-        GetAccountBalanceCommand cmd(database_, acc);
+        GetAccountBalance cmd(database_, acc);
         cmd.execute();
         return cmd.getBalance();
     }

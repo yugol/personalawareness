@@ -1,10 +1,10 @@
 #include <Configuration.h>
 #include <Exception.h>
 #include <DbUtil.h>
-#include <cmd/CreateDatabaseCommand.h>
+#include <cmd/CreateDatabase.h>
 #include <cmd/ReversibleDatabaseCommand.h>
 #include <cmd/SelectPreferences.h>
-#include <cmd/PurgeDatabaseCommand.h>
+#include <cmd/PurgeDatabase.h>
 #include <DatabaseConnection.h>
 
 using namespace std;
@@ -58,13 +58,13 @@ namespace adb {
 
     void DatabaseConnection::createNewDatabase()
     {
-        CreateDatabaseCommand(database_).execute();
+        CreateDatabase(database_).execute();
     }
 
     void DatabaseConnection::purgeDatabase()
     {
-        PurgeDatabaseCommand(database_).execute(); // TBD-: - optional via preferences
-        // TBD-: remove unused descriptions - optional via preferences
+        PurgeDatabase(database_).execute(); // TBD-: - optional via preferences
+        // TBD-: remove unused items - optional via preferences
         // TBD-: compact identical transactions in each day - optional via preferences
         // TBD-: kill undo buffer
     }

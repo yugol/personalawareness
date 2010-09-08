@@ -16,7 +16,7 @@ namespace adb {
         int getFromId() const;
         int getToId() const;
         int getItemId() const;
-        const std::string& getDescription() const;
+        const std::string& getComment() const;
 
         void setDate(const char* date);
         void setDate(time_t when);
@@ -24,7 +24,7 @@ namespace adb {
         void setFromId(int from);
         void setToId(int to);
         void setItemId(int item);
-        void setDescription(const char* desc);
+        void setComment(const char* desc);
 
         void validate() const;
 
@@ -34,7 +34,7 @@ namespace adb {
         int fromId_;
         int toId_;
         int itemId_;
-        std::string description_;
+        std::string comment_;
 
     };
 
@@ -63,9 +63,9 @@ namespace adb {
         return itemId_;
     }
 
-    inline const std::string& Transaction::getDescription() const
+    inline const std::string& Transaction::getComment() const
     {
-        return description_;
+        return comment_;
     }
 
 } // namespace adb

@@ -38,9 +38,9 @@ namespace adb {
         itemId_ = item;
     }
 
-    void Transaction::setDescription(const char* description)
+    void Transaction::setComment(const char* comment)
     {
-        assign(description_, description);
+        assign(comment_, comment);
     }
 
     void Transaction::validate() const

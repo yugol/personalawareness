@@ -20,13 +20,13 @@ namespace adb {
         std::string getDecoratedName() const;
         const std::string& getGroup() const;
         double getInitialValue() const;
-        const std::string& getDescription() const;
+        const std::string& getComment() const;
 
         void setType(Type);
         void setName(const char*);
         void setGroup(const char*);
         void setInitialValue(double);
-        void setDescription(const char*);
+        void setComment(const char*);
 
         virtual void validate() const;
         void print() const;
@@ -36,7 +36,7 @@ namespace adb {
         std::string name_;
         std::string group_;
         double initialValue_;
-        std::string description_;
+        std::string comment_;
     };
 
     inline int Account::getType() const
@@ -59,9 +59,9 @@ namespace adb {
         return initialValue_;
     }
 
-    inline const std::string& Account::getDescription() const
+    inline const std::string& Account::getComment() const
     {
-        return description_;
+        return comment_;
     }
 
 } // namespace adb

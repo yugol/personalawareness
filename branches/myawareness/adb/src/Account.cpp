@@ -31,14 +31,14 @@ namespace adb {
         assign(group_, group);
     }
 
-    void Account::setDescription(const char *description)
+    void Account::setComment(const char *comment)
     {
-        assign(description_, description);
+        assign(comment_, comment);
     }
 
     void Account::print() const
     {
-        cout << id_ << " " << type_ << " " << name_ << " " << group_ << " " << initialValue_ << " " << description_ << endl;
+        cout << id_ << " " << type_ << " " << name_ << " " << group_ << " " << initialValue_ << " " << comment_ << endl;
     }
 
     string Account::getFullName() const

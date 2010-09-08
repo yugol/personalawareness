@@ -1,10 +1,10 @@
 #include <Exception.h>
 #include <SelectionParameters.h>
-#include <cmd/SelectTransactionsCommand.h>
-#include <cmd/GetTransactionCommand.h>
-#include <cmd/InsertTransactionCommand.h>
-#include <cmd/UpdateTransactionCommand.h>
-#include <cmd/DeleteTransactionCommand.h>
+#include <cmd/SelectTransactions.h>
+#include <cmd/GetTransaction.h>
+#include <cmd/InsertTransaction.h>
+#include <cmd/UpdateTransaction.h>
+#include <cmd/DeleteTransaction.h>
 #include <DatabaseConnection.h>
 
 using namespace std;
@@ -16,11 +16,11 @@ namespace adb {
         ReversibleDatabaseCommand* cmd = 0;
         try {
             if (0 == transaction->getId()) {
-                cmd = new InsertTransactionCommand(database_, *transaction);
+                cmd = new InsertTransaction(database_, *transaction);
                 cmd->execute();
-                transaction->setId(static_cast<InsertTransactionCommand*> (cmd)->getTransaction().getId());
+                transaction->setId(static_cast<InsertTransaction*> (cmd)->getTransaction().getId());
             } else {
-                cmd = new UpdateTransactionCommand(database_, *transaction);
+                cmd = new UpdateTransaction(database_, *transaction);
                 cmd->execute();
             }
             undoManager_.add(cmd);
@@ -34,7 +34,7 @@ namespace adb {
     {
         ReversibleDatabaseCommand* cmd = 0;
         try {
-            cmd = new DeleteTransactionCommand(database_, id);
+            cmd = new DeleteTransaction(database_, id);
             cmd->execute();
             undoManager_.add(cmd);
         } catch (const Exception& ex) {
@@ -45,12 +45,12 @@ namespace adb {
 
     void DatabaseConnection::selectTransactions(vector<int>* selection, SelectionParameters* parameters) const
     {
-        SelectTransactionsCommand(database_, selection, parameters).execute();
+        SelectTransactions(database_, selection, parameters).execute();
     }
 
     void DatabaseConnection::getTransaction(Transaction* transaction) const
     {
-        GetTransactionCommand(database_, transaction).execute();
+        GetTransaction(database_, transaction).execute();
     }
 
     void DatabaseConnection::getLastTransaction(Transaction* transaction) const
@@ -58,7 +58,7 @@ namespace adb {
         SelectionParameters tmpParameters;
         tmpParameters.setLastTransactionOnly(true);
         vector<int> tmpSelection;
-        SelectTransactionsCommand(database_, &tmpSelection, &tmpParameters).execute();
+        SelectTransactions(database_, &tmpSelection, &tmpParameters).execute();
         if (tmpSelection.size() == 1) {
             transaction->setId(tmpSelection[0]);
             getTransaction(transaction);

@@ -5,9 +5,9 @@
 #include <Transaction.h>
 #include <cmd/SelectPreferences.h>
 #include <cmd/UpdatePreference.h>
-#include <cmd/InsertAccountCommand.h>
-#include <cmd/InsertItemCommand.h>
-#include <cmd/InsertTransactionCommand.h>
+#include <cmd/InsertAccount.h>
+#include <cmd/InsertItem.h>
+#include <cmd/InsertTransaction.h>
 #include <DatabaseConnection.h>
 
 using namespace std;
@@ -34,7 +34,7 @@ namespace adb {
         vector<Account>::iterator iAccounts;
         for (iAccounts = accounts_.begin(); iAccounts != accounts_.end(); ++iAccounts) {
             accountIds[iAccounts->getId()] = ++accountNo;
-            InsertAccountCommand::buildReverseSqlCommand(out, *iAccounts);
+            InsertAccount::buildReverseSqlCommand(out, *iAccounts);
         }
 
         // dump items
@@ -44,7 +44,7 @@ namespace adb {
         for (iItems = items_.begin(); iItems != items_.end(); ++iItems) {
             Item* item = &(iItems->second);
             itemIds[item->getId()] = ++itemNo;
-            InsertItemCommand::buildSqlCommand(out, *item, true);
+            InsertItem::buildSqlCommand(out, *item, true);
         }
 
         // dump transactions
@@ -54,7 +54,7 @@ namespace adb {
         for (iTransactions = allTransactions.begin(); iTransactions != allTransactions.end(); ++iTransactions) {
             Transaction transaction(*iTransactions);
             getTransaction(&transaction);
-            InsertTransactionCommand::buildSqlCommand(out, transaction);
+            InsertTransaction::buildSqlCommand(out, transaction);
         }
     }
 

@@ -1,10 +1,10 @@
 #include <cstring>
 #include <Exception.h>
-#include <cmd/SelectItemsCommand.h>
-#include <cmd/GetItemCommand.h>
-#include <cmd/InsertItemCommand.h>
-#include <cmd/UpdateItemCommand.h>
-#include <cmd/DeleteItemCommand.h>
+#include <cmd/SelectItems.h>
+#include <cmd/GetItem.h>
+#include <cmd/InsertItem.h>
+#include <cmd/UpdateItem.h>
+#include <cmd/DeleteItem.h>
 #include <DatabaseConnection.h>
 
 using namespace std;
@@ -17,11 +17,11 @@ namespace adb {
         ReversibleDatabaseCommand* cmd = 0;
         try {
             if (0 == item->getId()) {
-                cmd = new InsertItemCommand(database_, *item);
+                cmd = new InsertItem(database_, *item);
                 cmd->execute();
-                item->setId(static_cast<InsertItemCommand*> (cmd)->getItem().getId());
+                item->setId(static_cast<InsertItem*> (cmd)->getItem().getId());
             } else {
-                cmd = new UpdateItemCommand(database_, *item);
+                cmd = new UpdateItem(database_, *item);
                 cmd->execute();
             }
             undoManager_.add(cmd);
@@ -33,7 +33,7 @@ namespace adb {
 
     void DatabaseConnection::selectItems(vector<int>* selection, SelectionParameters* parameters) const
     {
-        SelectItemsCommand(database_, selection, parameters).execute();
+        SelectItems(database_, selection, parameters).execute();
     }
 
     bool DatabaseConnection::isItemInUse(int id) const
@@ -43,7 +43,7 @@ namespace adb {
 
     void DatabaseConnection::getItem(Item* item) const
     {
-        GetItemCommand(database_, item).execute();
+        GetItem(database_, item).execute();
     }
 
     void DatabaseConnection::deleteItem(int id)
@@ -51,7 +51,7 @@ namespace adb {
         items_.clear();
         ReversibleDatabaseCommand* cmd = 0;
         try {
-            cmd = new DeleteItemCommand(database_, id);
+            cmd = new DeleteItem(database_, id);
             cmd->execute();
             undoManager_.add(cmd);
         } catch (const Exception& ex) {
@@ -67,7 +67,7 @@ namespace adb {
         }
 
         vector<int> selection;
-        SelectItemsCommand selectCmd(database_, &selection, 0);
+        SelectItems selectCmd(database_, &selection, 0);
         selectCmd.execute();
 
         items_.clear();
@@ -75,7 +75,7 @@ namespace adb {
         for (it = selection.begin(); it != selection.end(); ++it) {
             int id = (*it);
             items_[id] = Item(id);
-            GetItemCommand getCmd(database_, &items_[id]);
+            GetItem getCmd(database_, &items_[id]);
             getCmd.execute();
         }
     }

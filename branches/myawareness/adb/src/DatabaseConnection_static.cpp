@@ -3,7 +3,7 @@
 #include <Exception.h>
 #include <SelectionParameters.h>
 #include <cmd/SelectPreferences.h>
-#include <cmd/SelectTransactionsCommand.h>
+#include <cmd/SelectTransactions.h>
 #include <cmd/UpdatePreference.h>
 #include <DatabaseConnection.h>
 
@@ -71,7 +71,7 @@ namespace adb {
         parameters.setAccountId(accountId);
         parameters.setCheckUsage(true);
         vector<int> selection;
-        SelectTransactionsCommand(database, &selection, &parameters).execute();
+        SelectTransactions(database, &selection, &parameters).execute();
         return selection.size() > 0;
     }
 
@@ -81,7 +81,7 @@ namespace adb {
         parameters.setItemId(itemId);
         parameters.setCheckUsage(true);
         vector<int> selection;
-        SelectTransactionsCommand(database, &selection, &parameters).execute();
+        SelectTransactions(database, &selection, &parameters).execute();
         return selection.size() > 0;
     }
 

@@ -22,7 +22,7 @@ namespace adb {
         // tables
         static const char TABLE_PREFERENCES[];
         static const char TABLE_ACCOUNTS[];
-        static const char TABLE_DESCRIPTIONS[];
+        static const char TABLE_ITEMS[];
         static const char TABLE_TRANSACTIONS[];
         // indexes
         static const char INDEX_MARKER[];
@@ -39,7 +39,7 @@ namespace adb {
         static const char COLUMN_VALUE[];
         static const char COLUMN_SOURCE[];
         static const char COLUMN_DESTINATION[];
-        static const char COLUMN_DESCRIPTION[];
+        static const char COLUMN_ITEM[];
         // preference names
         static const char PREF_PROJECT_MARKER[];
         static const char PREF_DATABASE_VERSION[];

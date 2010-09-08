@@ -25,7 +25,7 @@ namespace adb {
     // tables
     const char Configuration::TABLE_PREFERENCES[] = "preferences";
     const char Configuration::TABLE_ACCOUNTS[] = "accounts";
-    const char Configuration::TABLE_DESCRIPTIONS[] = "items";
+    const char Configuration::TABLE_ITEMS[] = "items";
     const char Configuration::TABLE_TRANSACTIONS[] = "transactions";
     // indexes
     const char Configuration::INDEX_MARKER[] = "_index";
@@ -42,7 +42,7 @@ namespace adb {
     const char Configuration::COLUMN_VALUE[] = "val";
     const char Configuration::COLUMN_SOURCE[] = "from";
     const char Configuration::COLUMN_DESTINATION[] = "to";
-    const char Configuration::COLUMN_DESCRIPTION[] = "item";
+    const char Configuration::COLUMN_ITEM[] = "item";
     // preference names
     const char Configuration::PREF_PROJECT_MARKER[] = "PROJECT_MARKER";
     const char Configuration::PREF_DATABASE_VERSION[] = "DATABASE_VERSION";
