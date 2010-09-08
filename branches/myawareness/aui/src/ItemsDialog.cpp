@@ -146,12 +146,12 @@ void ItemsDialog::onRename(wxCommandEvent& event)
 {
     wxString previousName = itemList_->GetItemText(selectedListItemId_);
 
-    wxTextEntryDialog* dlg = new wxTextEntryDialog(this, wxT("New name:"), wxT("Rename description"), previousName);
+    wxTextEntryDialog* dlg = new wxTextEntryDialog(this, wxT("New name:"), wxT("Rename item"), previousName);
     if (wxID_OK == dlg->ShowModal()) {
 
         wxString newName = UiUtil::makeProperName(dlg->GetValue());
         if (newName.Len() <= 0) {
-            wxMessageBox(wxT("Description name cannot be empty"), wxT("Renaming description"));
+            wxMessageBox(wxT("Item name cannot be empty"), wxT("Renaming item"));
         } else {
             if (newName != previousName) {
                 string name;
@@ -160,8 +160,8 @@ void ItemsDialog::onRename(wxCommandEvent& event)
                 if (tmp != 0) {
                     wxString msg(wxT("The name '"));
                     msg.Append(newName);
-                    msg.Append(wxT("'\nis already used by another description"));
-                    wxMessageBox(msg, wxT("Renaming description"));
+                    msg.Append(wxT("'\nis already used by another item"));
+                    wxMessageBox(msg, wxT("Renaming item"));
                 } else {
                     Item item;
                     item.setId(selectedItem_->getId());
@@ -177,11 +177,11 @@ void ItemsDialog::onRename(wxCommandEvent& event)
 
 void ItemsDialog::onDelete(wxCommandEvent& event)
 {
-    wxString msg(wxT("Are you sure you want to delete description\n'"));
+    wxString msg(wxT("Are you sure you want to delete the item\n'"));
     msg.Append(itemList_->GetItemText(selectedListItemId_));
     msg.Append(wxT("'?"));
 
-    wxMessageDialog* dlg = new wxMessageDialog(this, msg, wxT("Delete description"), wxOK | wxCANCEL);
+    wxMessageDialog* dlg = new wxMessageDialog(this, msg, wxT("Delete item"), wxOK | wxCANCEL);
     if (wxID_OK == dlg->ShowModal()) {
         Controller::instance()->deleteItem(selectedItem_->getId());
         refreshItemList(0);
@@ -246,7 +246,7 @@ void ItemsDialog::selectItem(long listItemId)
         renameButton_->Enable(true);
 
         if (itemInUse) {
-            deleteButton_->SetToolTip(wxT("Description is used in a transaction"));
+            deleteButton_->SetToolTip(wxT("Item is used in a transaction"));
         } else {
             deleteButton_->Enable(true);
         }

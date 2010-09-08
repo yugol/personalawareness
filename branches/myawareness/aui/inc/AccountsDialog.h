@@ -36,8 +36,8 @@ private:
     wxComboBox* groupCombo_;
     wxStaticText* valueLabel_;
     wxTextCtrl* valueText_;
-    wxStaticText* descriptionLabel_;
-    wxTextCtrl* descriptionText_;
+    wxStaticText* commentLabel_;
+    wxTextCtrl* commentText_;
     wxButton* insertButton_;
     wxButton* updateButton_;
     wxButton* deleteButton_;
@@ -55,7 +55,7 @@ private:
     void onTypeChange(wxCommandEvent& event);
     void onGroupText(wxCommandEvent& event);
     void onValueText(wxCommandEvent& event);
-    void onDescriptionText(wxCommandEvent& event);
+    void onCommentText(wxCommandEvent& event);
     void onInsert(wxCommandEvent& event);
     void onUpdate(wxCommandEvent& event);
     void onDelete(wxCommandEvent& event);

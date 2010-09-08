@@ -87,12 +87,12 @@ AccountsDialog::AccountsDialog(wxWindow* parent, wxWindowID id, const wxString& 
     valueText_ = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
     middleSizer->Add(valueText_, 0, wxALL | wxEXPAND, 5);
 
-    descriptionLabel_ = new wxStaticText(this, wxID_ANY, wxT("Comment:"), wxDefaultPosition, wxDefaultSize, 0);
-    descriptionLabel_->Wrap(-1);
-    middleSizer->Add(descriptionLabel_, 0, wxALL, 5);
+    commentLabel_ = new wxStaticText(this, wxID_ANY, wxT("Comment:"), wxDefaultPosition, wxDefaultSize, 0);
+    commentLabel_->Wrap(-1);
+    middleSizer->Add(commentLabel_, 0, wxALL, 5);
 
-    descriptionText_ = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_WORDWRAP);
-    middleSizer->Add(descriptionText_, 0, wxALL | wxEXPAND, 5);
+    commentText_ = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_WORDWRAP);
+    middleSizer->Add(commentText_, 0, wxALL | wxEXPAND, 5);
 
     dialogSizer->Add(middleSizer, 1, wxEXPAND, 5);
 
@@ -132,7 +132,7 @@ AccountsDialog::AccountsDialog(wxWindow* parent, wxWindowID id, const wxString& 
     typeChoice_->Connect(wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler(AccountsDialog::onTypeChange), NULL, this);
     groupCombo_->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onGroupText), NULL, this);
     valueText_->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onValueText), NULL, this);
-    descriptionText_->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onDescriptionText), NULL, this);
+    commentText_->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onCommentText), NULL, this);
     insertButton_->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onInsert), NULL, this);
     updateButton_->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onUpdate), NULL, this);
     deleteButton_->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onDelete), NULL, this);
@@ -150,7 +150,7 @@ AccountsDialog::~AccountsDialog()
     typeChoice_->Disconnect(wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler(AccountsDialog::onTypeChange), NULL, this);
     groupCombo_->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onGroupText), NULL, this);
     valueText_->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onValueText), NULL, this);
-    descriptionText_->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onDescriptionText), NULL, this);
+    commentText_->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onCommentText), NULL, this);
     insertButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onInsert), NULL, this);
     updateButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onUpdate), NULL, this);
     deleteButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onDelete), NULL, this);
@@ -218,7 +218,7 @@ void AccountsDialog::onValueText(wxCommandEvent& event)
     }
 }
 
-void AccountsDialog::onDescriptionText(wxCommandEvent& event)
+void AccountsDialog::onCommentText(wxCommandEvent& event)
 {
     if (processEvents_) {
         readValidateRefresh();
@@ -345,7 +345,7 @@ void AccountsDialog::selectAccount(long listItemId)
 
     valueText_->SetValue(wxEmptyString);
 
-    descriptionText_->SetValue(wxEmptyString);
+    commentText_->SetValue(wxEmptyString);
 
     deleteButton_->Enable(false);
     deleteButton_->SetToolTip(0);
@@ -387,8 +387,8 @@ void AccountsDialog::selectAccount(long listItemId)
         }
 
         wxString accDesc;
-        UiUtil::appendStdString(accDesc, selectedAccount_->getDescription());
-        descriptionText_->SetValue(accDesc);
+        UiUtil::appendStdString(accDesc, selectedAccount_->getComment());
+        commentText_->SetValue(accDesc);
 
         deleteButton_->Enable(!accInUse);
         if (accInUse) {
@@ -512,15 +512,15 @@ bool AccountsDialog::readValidateRefresh(Account* account)
         }
     }
 
-    // account description
+    // account comment
 
-    string description;
-    UiUtil::appendWxString(description, descriptionText_->GetValue());
+    string comment;
+    UiUtil::appendWxString(comment, commentText_->GetValue());
     if (account != 0) {
-        account->setDescription(description.c_str());
+        account->setComment(comment.c_str());
     }
     if (selectedAccount_ != 0) {
-        if (description != selectedAccount_->getDescription()) {
+        if (comment != selectedAccount_->getComment()) {
             dirty = true;
         }
     }

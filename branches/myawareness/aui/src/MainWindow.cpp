@@ -110,7 +110,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     editMenu_->Append(ID_MENU_REDO, wxT("&Redo"), wxT("Redo the last database modification"));
     editMenu_->AppendSeparator();
     editMenu_->Append(ID_MENU_ACCOUNTS, wxT("&Accounts..."), wxT("Edit accounts and budget categories"));
-    editMenu_->Append(ID_MENU_ITEMS, wxT("&Descriptions..."), wxT("Edit items"));
+    editMenu_->Append(ID_MENU_ITEMS, wxT("Transacted &Items..."), wxT("Edit transacted items"));
     editMenu_->AppendSeparator();
     editMenu_->Append(ID_MENU_PREFERENCES, wxT("&Preferences..."), wxT("Edit preferences"));
     menuBar_->Append(editMenu_, wxT("&Edit"));
@@ -174,7 +174,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     selAccountChoice_->SetToolTip(wxT("Select account"));
 
     selPatternText_ = new wxTextCtrl(selPanel_, ID_SEL_PATTERN);
-    selPatternText_->SetToolTip(wxT("Select description"));
+    selPatternText_->SetToolTip(wxT("Select item"));
 
     reportsButton_ = new wxButton(selPanel_, ID_SEL_REPORTS, wxT("Reports"), wxDefaultPosition, wxDefaultSize, 0);
 
@@ -190,7 +190,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     trDatePicker_->SetToolTip(wxT("Transaction date"));
 
     trItemText_ = new wxTextCtrl(trPanel_, ID_TR_ITEM);
-    trItemText_->SetToolTip(wxT("Description"));
+    trItemText_->SetToolTip(wxT("Item"));
     trItemAutocompletion_ = new AutocompletionWindow(this, trItemText_);
 
     trValueText_ = new wxTextCtrl(trPanel_, ID_TR_VALUE);

@@ -102,10 +102,10 @@ void MainWindow::onAcceptTransaction(wxCommandEvent& event)
     Transaction transaction;
     if (readValidateRefreshTransaction(&transaction)) {
         if (transaction.getItemId() == 0) {
-            string description;
-            UiUtil::appendWxString(description, trItemText_->GetValue());
+            string itemName;
+            UiUtil::appendWxString(itemName, trItemText_->GetValue());
             Item item;
-            item.setName(description.c_str());
+            item.setName(itemName.c_str());
             Controller::instance()->insertUpdateItem(&item);
             transaction.setItemId(item.getId());
         }
@@ -197,7 +197,7 @@ void MainWindow::selectTransaction(int transactionId, bool isAutocomplete)
         trDestinationChoice_->SetSelection(idx);
 
         wxString comment;
-        UiUtil::appendStdString(comment, transaction.getDescription());
+        UiUtil::appendStdString(comment, transaction.getComment());
         trCommentText_->SetValue(comment);
 
         if (!isAutocomplete) {
@@ -228,17 +228,17 @@ bool MainWindow::readValidateRefreshTransaction(adb::Transaction* transaction)
         transaction->setDate(when);
     }
 
-    // transaction description
+    // transaction item
 
-    string description;
-    UiUtil::appendWxString(description, UiUtil::makeProperName(trItemText_->GetValue()));
-    if (description.size() <= 0) {
+    string itemName;
+    UiUtil::appendWxString(itemName, UiUtil::makeProperName(trItemText_->GetValue()));
+    if (itemName.size() <= 0) {
         trAcceptButton_->Enable(false);
-        trAcceptButton_->SetToolTip(wxT("Description name cannot be empty"));
+        trAcceptButton_->SetToolTip(wxT("Item name cannot be empty"));
         return false;
     }
     if (transaction != 0) {
-        const Item* item = Controller::instance()->selectItem(description.c_str());
+        const Item* item = Controller::instance()->selectItem(itemName.c_str());
         if (0 != item) {
             transaction->setItemId(item->getId());
         } else {
@@ -296,7 +296,7 @@ bool MainWindow::readValidateRefreshTransaction(adb::Transaction* transaction)
     string comment;
     UiUtil::appendWxString(comment, trCommentText_->GetValue());
     if (transaction != 0) {
-        transaction->setDescription(comment.c_str());
+        transaction->setComment(comment.c_str());
     }
 
     // finalizing
