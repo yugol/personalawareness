@@ -1,15 +1,15 @@
-#include <cmd/ReversibleDatabaseCommand.h>
-#include <UndoManager.h>
+#include <ReversibleDatabaseCommand.h>
+#include <UndoBuffer.h>
 #include "_test.h"
 
-class DummyReversibleCommand: public ReversibleDatabaseCommand {
+class DummyCommand: public ReversibleDatabaseCommand {
 public:
-    DummyReversibleCommand(int marker) :
+    DummyCommand(int marker) :
         ReversibleDatabaseCommand(0), marker_(marker)
     {
     }
 
-    void* getCallbackParameter()
+    void* getCallbackParameter() const
     {
         return reinterpret_cast<void*> (marker_);
     }
@@ -22,84 +22,107 @@ public:
     {
     }
 
+    virtual void execute()
+    {
+    }
+
+    virtual void unexecute()
+    {
+    }
+
+    virtual string getDescription() const
+    {
+        return "dummy command";
+    }
+
 private:
     int marker_;
 
 };
 
-TEST( Zero, UndoManager )
+TEST( Zero, UndoBuffer )
 {
-    UndoManager um;
+    UndoBuffer um;
 
     CHECK( !um.canUndo() );
     CHECK( !um.canRedo() );
 }
 
-TEST( One, UndoManager )
+TEST( One, UndoBuffer )
 {
-    UndoManager um;
-    um.add(new DummyReversibleCommand(1));
+    UndoBuffer um;
 
+    um.add(new DummyCommand(1));
     CHECK( um.canUndo() );
     CHECK( !um.canRedo() );
 
-    LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<DummyReversibleCommand*>(um.undo())->getCallbackParameter()) );
+    LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getUndo())->getCallbackParameter()) );
 
+    um.undo();
     CHECK( !um.canUndo() );
     CHECK( um.canRedo() );
 
-    LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<DummyReversibleCommand*>(um.redo())->getCallbackParameter()) );
+    LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getRedo())->getCallbackParameter()) );
 
+    um.redo();
     CHECK( um.canUndo() );
     CHECK( !um.canRedo() );
 }
 
-TEST( Two, UndoManager )
+TEST( Two, UndoBuffer )
 {
-    UndoManager um;
-    um.add(new DummyReversibleCommand(1));
-    um.add(new DummyReversibleCommand(2));
+    UndoBuffer um;
+    um.add(new DummyCommand(1));
+    um.add(new DummyCommand(2));
 
     CHECK( um.canUndo() );
     CHECK( !um.canRedo() );
 
-    LONGS_EQUAL( 2, reinterpret_cast<long>(static_cast<DummyReversibleCommand*>(um.undo())->getCallbackParameter()) );
+    LONGS_EQUAL( 2, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getUndo())->getCallbackParameter()) );
 
+    um.undo();
     CHECK( um.canUndo() );
     CHECK( um.canRedo() );
 
-    LONGS_EQUAL( 2, reinterpret_cast<long>(static_cast<DummyReversibleCommand*>(um.redo())->getCallbackParameter()) );
+    LONGS_EQUAL( 2, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getRedo())->getCallbackParameter()) );
 
+    um.redo();
     CHECK( um.canUndo() );
     CHECK( !um.canRedo() );
 
-    LONGS_EQUAL( 2, reinterpret_cast<long>(static_cast<DummyReversibleCommand*>(um.undo())->getCallbackParameter()) );
+    LONGS_EQUAL( 2, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getUndo())->getCallbackParameter()) );
 
+    um.undo();
     CHECK( um.canUndo() );
     CHECK( um.canRedo() );
 
-    LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<DummyReversibleCommand*>(um.undo())->getCallbackParameter()) );
+    LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getUndo())->getCallbackParameter()) );
 
+    um.undo();
     CHECK( !um.canUndo() );
     CHECK( um.canRedo() );
 
-    LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<DummyReversibleCommand*>(um.redo())->getCallbackParameter()) );
+    LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getRedo())->getCallbackParameter()) );
 
+    um.redo();
     CHECK( um.canUndo() );
     CHECK( um.canRedo() );
 
-    LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<DummyReversibleCommand*>(um.undo())->getCallbackParameter()) );
+    LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getUndo())->getCallbackParameter()) );
 
+    um.undo();
     CHECK( !um.canUndo() );
     CHECK( um.canRedo() );
 
-    LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<DummyReversibleCommand*>(um.redo())->getCallbackParameter()) );
+    LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getRedo())->getCallbackParameter()) );
 
+    um.redo();
     CHECK( um.canUndo() );
     CHECK( um.canRedo() );
 
-    LONGS_EQUAL( 2, reinterpret_cast<long>(static_cast<DummyReversibleCommand*>(um.redo())->getCallbackParameter()) );
+    LONGS_EQUAL( 2, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getRedo())->getCallbackParameter()) );
 
+    um.redo();
     CHECK( um.canUndo() );
     CHECK( !um.canRedo() );
 }
