@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <sstream>
 #include <wx/datetime.h>
 #include <Configuration.h>
@@ -70,21 +71,28 @@ ostream& UiUtil::streamFileExt(ostream& out, const string& pathFileExt)
 
 void UiUtil::appendWxString(string& to, const wxString& what)
 {
-    // TBD: optim: use stdlib
-
-    for (size_t strPos = 0; strPos < what.size(); ++strPos) {
-        wxChar wch = what.GetChar(strPos);
-        if (wch < 0x80) {
-            to.append(1, static_cast<char> (wch));
-        } else if (wch < 0x800) {
-            to.append(1, static_cast<char> ((wch >> 6) | 192));
-            to.append(1, static_cast<char> ((wch & 63) | 128));
-        } else {
-            to.append(1, static_cast<char> ((wch >> 12) | 224));
-            to.append(1, static_cast<char> (((wch & 4095) >> 6) | 128));
-            to.append(1, static_cast<char> ((wch & 63) | 128));
-        }
+    int whatSize = what.Len();
+    char* mbstr = new char[whatSize * 4 + 1];
+    const wchar_t* wcstr = what.GetData();
+    int toSize = wcstombs(mbstr, wcstr, whatSize * sizeof(wchar_t));
+    if (toSize > 0) {
+        mbstr[toSize] = 0;
+        to.append(mbstr);
     }
+    delete mbstr;
+}
+
+void UiUtil::appendStdString(wxString& to, const string& what)
+{
+    int whatSize = what.size();
+    wchar_t* wcstr = new wchar_t[whatSize * 2 + 1];
+    const char* mbstr = what.c_str();
+    int toSize = mbstowcs(wcstr, mbstr, whatSize);
+    if (toSize > 0) {
+        wcstr[toSize] = 0;
+        to.Append(wcstr);
+    }
+    delete wcstr;
 }
 
 void UiUtil::adbDate2wxDate(wxDateTime& wxdate, const Date& date)
@@ -92,51 +100,6 @@ void UiUtil::adbDate2wxDate(wxDateTime& wxdate, const Date& date)
     wxdate.SetDay(date.getDay());
     wxdate.SetMonth(static_cast<wxDateTime::Month> (date.getMonth() - 1));
     wxdate.SetYear(date.getYear());
-}
-
-void UiUtil::appendStdString(wxString& to, const string& what)
-{
-    unsigned int byte;
-
-    // TBD: optim: use stdlib
-
-    for (size_t i = 0; i < what.size(); ++i) {
-        byte = static_cast<unsigned char> (what[i]);
-
-        if (byte < 128) {
-            to.Append(static_cast<wxChar> (byte));
-        } else {
-            unsigned int unic = 0;
-
-            if (byte >= 240) {
-                unic = byte & 7;
-                unic <<= 6;
-                byte = static_cast<unsigned char> (what[++i]) & 63;
-                unic += byte;
-                unic <<= 6;
-                byte = static_cast<unsigned char> (what[++i]) & 63;
-                unic += byte;
-                unic <<= 6;
-                byte = static_cast<unsigned char> (what[++i]) & 63;
-                unic += byte;
-            } else if (byte >= 224) {
-                unic = byte & 15;
-                unic <<= 6;
-                byte = static_cast<unsigned char> (what[++i]) & 63;
-                unic += byte;
-                unic <<= 6;
-                byte = static_cast<unsigned char> (what[++i]) & 63;
-                unic += byte;
-            } else if (byte >= 192) {
-                unic = byte & 31;
-                unic <<= 6;
-                byte = static_cast<unsigned char> (what[++i]) & 63;
-                unic += byte;
-            }
-
-            to.Append(static_cast<wxChar> (unic));
-        }
-    }
 }
 
 ostream& UiUtil::streamCurrency(ostream& out, double val, bool html)

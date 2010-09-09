@@ -90,6 +90,7 @@ ItemsDialog::~ItemsDialog()
 void ItemsDialog::onCloseDialog(wxCloseEvent& event)
 {
     if (dirty_) {
+        // TBD: someting is not working here - transactions are not updated
         Controller::instance()->refreshTransactions();
     }
     event.Skip();
@@ -193,6 +194,7 @@ void ItemsDialog::onDelete(wxCommandEvent& event)
 void ItemsDialog::onClose(wxCommandEvent& event)
 {
     Close();
+    // TBD: Destroy ???
 }
 
 void ItemsDialog::refreshItemList(int selectedItemId)

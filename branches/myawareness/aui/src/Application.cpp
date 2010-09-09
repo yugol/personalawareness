@@ -3,9 +3,13 @@
 #include <Controller.h>
 #include <Application.h>
 
+// TBD: New button near Accept button when maximizing
+// TBD: double click to edit transaction???
+
 // TBD: handle all errors in Window and not in controller
 // TBD: get rid of magic numbers
 
+// TBD+: undo after deletng an item looses the name
 // TBD: review undo/redo
 // TBD: undo/redo buffer
 // TBD: undo buffer length in properties
