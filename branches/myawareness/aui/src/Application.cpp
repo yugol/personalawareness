@@ -3,11 +3,6 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD+: undo after deleting an item looses the name
-// TBD: review undo/redo
-// TBD: undo/redo buffer
-// TBD: undo buffer length in properties
-
 // TBD: handle all errors in MainWindow and not in controller
 // TBD: get rid of magic numbers
 
