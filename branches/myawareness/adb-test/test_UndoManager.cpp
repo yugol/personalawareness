@@ -44,8 +44,8 @@ TEST( Zero, UndoBuffer )
 {
     UndoBuffer um;
 
-    CHECK( !um.canUndo() );
-    CHECK( !um.canRedo() );
+    CHECK( !um.getUndo() );
+    CHECK( !um.getRedo() );
 }
 
 TEST( One, UndoBuffer )
@@ -53,20 +53,20 @@ TEST( One, UndoBuffer )
     UndoBuffer um;
 
     um.add(new DummyCommand(1));
-    CHECK( um.canUndo() );
-    CHECK( !um.canRedo() );
+    CHECK( um.getUndo() );
+    CHECK( !um.getRedo() );
 
     LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getUndo())->getCallbackParameter()) );
 
     um.undo();
-    CHECK( !um.canUndo() );
-    CHECK( um.canRedo() );
+    CHECK( !um.getUndo() );
+    CHECK( um.getRedo() );
 
     LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getRedo())->getCallbackParameter()) );
 
     um.redo();
-    CHECK( um.canUndo() );
-    CHECK( !um.canRedo() );
+    CHECK( um.getUndo() );
+    CHECK( !um.getRedo() );
 }
 
 TEST( Two, UndoBuffer )
@@ -75,54 +75,54 @@ TEST( Two, UndoBuffer )
     um.add(new DummyCommand(1));
     um.add(new DummyCommand(2));
 
-    CHECK( um.canUndo() );
-    CHECK( !um.canRedo() );
+    CHECK( um.getUndo() );
+    CHECK( !um.getRedo() );
 
     LONGS_EQUAL( 2, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getUndo())->getCallbackParameter()) );
 
     um.undo();
-    CHECK( um.canUndo() );
-    CHECK( um.canRedo() );
+    CHECK( um.getUndo() );
+    CHECK( um.getRedo() );
 
     LONGS_EQUAL( 2, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getRedo())->getCallbackParameter()) );
 
     um.redo();
-    CHECK( um.canUndo() );
-    CHECK( !um.canRedo() );
+    CHECK( um.getUndo() );
+    CHECK( !um.getRedo() );
 
     LONGS_EQUAL( 2, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getUndo())->getCallbackParameter()) );
 
     um.undo();
-    CHECK( um.canUndo() );
-    CHECK( um.canRedo() );
+    CHECK( um.getUndo() );
+    CHECK( um.getRedo() );
 
     LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getUndo())->getCallbackParameter()) );
 
     um.undo();
-    CHECK( !um.canUndo() );
-    CHECK( um.canRedo() );
+    CHECK( !um.getUndo() );
+    CHECK( um.getRedo() );
 
     LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getRedo())->getCallbackParameter()) );
 
     um.redo();
-    CHECK( um.canUndo() );
-    CHECK( um.canRedo() );
+    CHECK( um.getUndo() );
+    CHECK( um.getRedo() );
 
     LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getUndo())->getCallbackParameter()) );
 
     um.undo();
-    CHECK( !um.canUndo() );
-    CHECK( um.canRedo() );
+    CHECK( !um.getUndo() );
+    CHECK( um.getRedo() );
 
     LONGS_EQUAL( 1, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getRedo())->getCallbackParameter()) );
 
     um.redo();
-    CHECK( um.canUndo() );
-    CHECK( um.canRedo() );
+    CHECK( um.getUndo() );
+    CHECK( um.getRedo() );
 
     LONGS_EQUAL( 2, reinterpret_cast<long>(static_cast<const DummyCommand*>(um.getRedo())->getCallbackParameter()) );
 
     um.redo();
-    CHECK( um.canUndo() );
-    CHECK( !um.canRedo() );
+    CHECK( um.getUndo() );
+    CHECK( !um.getRedo() );
 }
