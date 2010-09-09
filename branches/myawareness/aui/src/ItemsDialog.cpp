@@ -90,7 +90,6 @@ ItemsDialog::~ItemsDialog()
 void ItemsDialog::onCloseDialog(wxCloseEvent& event)
 {
     if (dirty_) {
-        // TBD: someting is not working here - transactions are not updated
         Controller::instance()->refreshTransactions();
     }
     event.Skip();
@@ -168,6 +167,7 @@ void ItemsDialog::onRename(wxCommandEvent& event)
                     item.setId(selectedItem_->getId());
                     item.setName(name.c_str());
                     Controller::instance()->insertUpdateItem(&item);
+                    dirty_ = true;
                     refreshItemList(item.getId());
                 }
             }
@@ -185,6 +185,7 @@ void ItemsDialog::onDelete(wxCommandEvent& event)
     wxMessageDialog* dlg = new wxMessageDialog(this, msg, wxT("Delete item"), wxOK | wxCANCEL);
     if (wxID_OK == dlg->ShowModal()) {
         Controller::instance()->deleteItem(selectedItem_->getId());
+        dirty_ = true;
         refreshItemList(0);
         patternText_->SetFocus();
     }
@@ -194,7 +195,7 @@ void ItemsDialog::onDelete(wxCommandEvent& event)
 void ItemsDialog::onClose(wxCommandEvent& event)
 {
     Close();
-    // TBD: Destroy ???
+    Destroy();
 }
 
 void ItemsDialog::refreshItemList(int selectedItemId)

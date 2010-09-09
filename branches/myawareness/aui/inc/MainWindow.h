@@ -22,6 +22,7 @@ namespace adb {
     class Account;
     class Transaction;
     class SelectionParameters;
+    class ReversibleDatabaseCommand;
 }
 
 class MainWindow: public wxFrame {
@@ -35,7 +36,7 @@ public:
     void setStatusMessage(const wxString& message);
 
     void setDatabaseOpenedView(bool opened);
-    void setUndoRedoView(bool undo, bool redo);
+    void setUndoRedoView(const adb::ReversibleDatabaseCommand* undo, const adb::ReversibleDatabaseCommand* redo);
     void scrollTransactionListAtEnd();
 
     void populateAccounts(const std::vector<std::pair<const adb::Account*, double> >& statement);

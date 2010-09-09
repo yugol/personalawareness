@@ -3,16 +3,17 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD: New button near Accept button when maximizing
-// TBD: double click to edit transaction???
-
-// TBD: handle all errors in Window and not in controller
-// TBD: get rid of magic numbers
-
-// TBD+: undo after deletng an item looses the name
+// TBD+: undo after deleting an item looses the name
 // TBD: review undo/redo
 // TBD: undo/redo buffer
 // TBD: undo buffer length in properties
+
+// TBD: handle all errors in MainWindow and not in controller
+// TBD: get rid of magic numbers
+
+// TBD-: wxBuilder forms
+// TBD-: New button near Accept button when maximizing
+// TBD-: double click to edit transaction???
 
 // TBD: REPORTS
 
@@ -30,7 +31,6 @@
 // TBD: optim: shorten SQL commands (remove spaces)
 
 // TBD-: internationalization
-// TBD-: wxBuilder forms
 
 // TBD-: review variable names in code code
 // from account -> source account
@@ -40,11 +40,10 @@
 // initial value -> start balance
 // path/file/fileName -> location path file ext convention
 
-
 // TBD-: compile under Windows
 
-// TBD-: export table deletion & creation
 // TBD-: csv import/export
+// TBD-: export table deletion & creation
 // TBD-: MySQL & other DBMS compatible SQL dump
 
 

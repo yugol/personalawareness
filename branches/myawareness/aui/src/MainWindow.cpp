@@ -13,10 +13,13 @@
 #include <wx/sizer.h>
 #include <wx/notebook.h>
 #include <wx/icon.h>
+#include <ReversibleDatabaseCommand.h>
 #include <UiUtil.h>
 #include <AutocompletionWindow.h>
 #include <Controller.h>
 #include <MainWindow.h>
+
+using namespace adb;
 
 const int MainWindow::EMPTY_BORDER_SIZE = 5;
 
@@ -106,8 +109,8 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     menuBar_->Append(fileMenu_, wxT("Data&base"));
 
     editMenu_ = new wxMenu(wxEmptyString);
-    editMenu_->Append(ID_MENU_UNDO, wxT("&Undo"), wxT("Undo the last database modification"));
-    editMenu_->Append(ID_MENU_REDO, wxT("&Redo"), wxT("Redo the last database modification"));
+    editMenu_->Append(ID_MENU_UNDO, wxT("&Undo"));
+    editMenu_->Append(ID_MENU_REDO, wxT("&Redo"));
     editMenu_->AppendSeparator();
     editMenu_->Append(ID_MENU_ACCOUNTS, wxT("&Accounts..."), wxT("Edit accounts and budget categories"));
     editMenu_->Append(ID_MENU_ITEMS, wxT("Transacted &Items..."), wxT("Edit transacted items"));
@@ -339,8 +342,21 @@ void MainWindow::populateSelectionIntervals()
     selIntervalChoice_->Append(wxT("Custom"), reinterpret_cast<void*> (SELECTION_INTERVAL_CUSTOM));
 }
 
-void MainWindow::setUndoRedoView(bool undo, bool redo)
+void MainWindow::setUndoRedoView(const ReversibleDatabaseCommand* undo, const ReversibleDatabaseCommand* redo)
 {
+    wxString undoMsg(wxT("Undo "));
+    wxString redoMsg(wxT("Redo "));
+
+    if (undo) {
+        UiUtil::appendStdString(undoMsg, undo->getDescription());
+    }
+    if (redo) {
+        UiUtil::appendStdString(redoMsg, redo->getDescription());
+    }
+
+    editMenu_->SetHelpString(ID_MENU_UNDO, undoMsg);
+    editMenu_->SetHelpString(ID_MENU_REDO, redoMsg);
+
     editMenu_->Enable(ID_MENU_UNDO, undo);
     editMenu_->Enable(ID_MENU_REDO, redo);
 }

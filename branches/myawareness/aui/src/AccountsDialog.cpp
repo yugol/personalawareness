@@ -281,6 +281,7 @@ void AccountsDialog::onNew(wxCommandEvent& event)
 void AccountsDialog::onClose(wxCommandEvent& event)
 {
     Close();
+    Destroy();
 }
 
 void AccountsDialog::refreshAccountList(int selectedAccountId)

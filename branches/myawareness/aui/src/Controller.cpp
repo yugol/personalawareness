@@ -3,10 +3,11 @@
 #include <Exception.h>
 #include <Configuration.h>
 #include <Transaction.h>
+#include <ReversibleDatabaseCommand.h>
+#include <DatabaseConnection.h>
 #include <UiUtil.h>
 #include <Controller.h>
 #include <MainWindow.h>
-#include <DatabaseConnection.h>
 #include <ReportWindow.h>
 #include <ReportData.h>
 
@@ -336,11 +337,11 @@ void Controller::showReport(int chartType, int cashFlowDirection)
 
 void Controller::refreshUndoRedoStatus()
 {
-    bool undo = false;
-    bool redo = false;
+    const ReversibleDatabaseCommand* undo = 0;
+    const ReversibleDatabaseCommand* redo = 0;
     if (DatabaseConnection::isOpened()) {
-        undo = DatabaseConnection::instance()->canUndo();
-        redo = DatabaseConnection::instance()->canRedo();
+        undo = DatabaseConnection::instance()->getUndo();
+        redo = DatabaseConnection::instance()->getRedo();
     }
     mainWindow_->setUndoRedoView(undo, redo);
 }
