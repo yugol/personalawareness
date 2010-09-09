@@ -1,25 +1,36 @@
 #include <Exception.h>
-#include <cmd/ReversibleDatabaseCommand.h>
-#include <UndoManager.h>
+#include <ReversibleDatabaseCommand.h>
+#include <UndoBuffer.h>
 
 using namespace std;
 
 namespace adb {
 
-    UndoManager::UndoManager(size_t maxSize) :
-        maxSize_(maxSize), currentPosition_(0), lastAction_(NONE)
+    UndoBuffer::UndoBuffer(size_t maxSize) :
+        maxLength_(maxSize), currentPosition_(0), lastAction_(ADD)
     {
         if (maxSize < 1) {
             THROW("undo history must be at least 1");
         }
     }
 
-    UndoManager::~UndoManager()
+    UndoBuffer::~UndoBuffer()
     {
         reset();
     }
 
-    void UndoManager::reset()
+    void UndoBuffer::add(ReversibleDatabaseCommand* command)
+    {
+        if (history_.size() >= maxLength_) {
+            delete history_.at(0);
+            history_.pop_front();
+        }
+        history_.push_back(command);
+        currentPosition_ = history_.size();
+        lastAction_ = ADD;
+    }
+
+    void UndoBuffer::reset()
     {
         while (history_.size() > 0) {
             ReversibleDatabaseCommand* cmd = history_.at(0);
@@ -27,16 +38,17 @@ namespace adb {
             history_.pop_front();
         }
         currentPosition_ = 0;
+        lastAction_ = ADD;
     }
 
-    bool UndoManager::canUndo()
+    bool UndoBuffer::canUndo() const
     {
         if (history_.size() <= 0) {
             return false;
         }
 
         switch (lastAction_) {
-            case NONE:
+            case ADD:
             case UNDO:
                 if (0 == currentPosition_) {
                     return false;
@@ -49,14 +61,14 @@ namespace adb {
         }
     }
 
-    bool UndoManager::canRedo()
+    bool UndoBuffer::canRedo() const
     {
         if (history_.size() <= 0) {
             return false;
         }
 
         switch (lastAction_) {
-            case NONE:
+            case ADD:
                 if (currentPosition_ >= history_.size()) {
                     return false;
                 }
@@ -73,34 +85,52 @@ namespace adb {
         }
     }
 
-    void UndoManager::add(ReversibleDatabaseCommand* command)
+    const ReversibleDatabaseCommand* UndoBuffer::getUndo() const
     {
-        if (history_.size() >= maxSize_) {
-            delete history_.at(0);
-            history_.pop_front();
+        ReversibleDatabaseCommand* cmd = 0;
+        if (canUndo()) {
+            if (UNDO == lastAction_ || ADD == lastAction_) {
+                return history_.at(currentPosition_ - 1);
+            }
+            return history_.at(currentPosition_);
         }
-        history_.push_back(command);
-        currentPosition_ = history_.size();
-        lastAction_ = NONE;
+        return cmd;
     }
 
-    ReversibleDatabaseCommand* UndoManager::undo()
+    void UndoBuffer::undo()
     {
+        ReversibleDatabaseCommand* cmd = 0;
+
         if (!canUndo()) {
             THROW("cannot UNdo");
         }
 
-        if (UNDO == lastAction_ || NONE == lastAction_) {
+        if (UNDO == lastAction_ || ADD == lastAction_) {
             --currentPosition_;
         } else {
             lastAction_ = UNDO;
         }
 
-        return history_.at(currentPosition_);
+        cmd = history_.at(currentPosition_);
+        cmd->unexecute();
     }
 
-    ReversibleDatabaseCommand* UndoManager::redo()
+    const ReversibleDatabaseCommand* UndoBuffer::getRedo() const
     {
+        ReversibleDatabaseCommand* cmd = 0;
+        if (canRedo()) {
+            if (REDO == lastAction_) {
+                return history_.at(currentPosition_ + 1);
+            }
+            return history_.at(currentPosition_);
+        }
+        return cmd;
+    }
+
+    void UndoBuffer::redo()
+    {
+        ReversibleDatabaseCommand* cmd = 0;
+
         if (!canRedo()) {
             THROW("cannot REdo");
         }
@@ -111,7 +141,8 @@ namespace adb {
             lastAction_ = REDO;
         }
 
-        return history_.at(currentPosition_);
+        cmd = history_.at(currentPosition_);
+        cmd->execute();
     }
 
-} // namespac eadb
+} // namespac adb

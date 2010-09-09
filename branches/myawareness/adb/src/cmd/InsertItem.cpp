@@ -61,4 +61,9 @@ namespace adb {
         cmd.execute();
     }
 
+    string InsertItem::getDescription() const
+    {
+        return "insert item";
+    }
+
 } // namespace adb

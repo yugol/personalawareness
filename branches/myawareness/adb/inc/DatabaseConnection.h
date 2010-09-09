@@ -7,13 +7,14 @@
 #include <sqlite3.h>
 #include "Account.h"
 #include "Item.h"
-#include "UndoManager.h"
+#include "UndoBuffer.h"
 
 namespace adb {
 
     class Transaction;
     class SelectionParameters;
     class SelectPreferences;
+    class ReversibleDatabaseCommand;
 
     class DatabaseConnection {
     public:
@@ -64,8 +65,8 @@ namespace adb {
         void getTransaction(Transaction* transaction) const;
         void getLastTransaction(Transaction* transaction) const;
 
-        bool canUndo();
-        bool canRedo();
+        const ReversibleDatabaseCommand* getUndo();
+        const ReversibleDatabaseCommand* getRedo();
         void undo();
         void redo();
 
@@ -77,7 +78,7 @@ namespace adb {
 
         std::string databaseLocation_;
         sqlite3* database_;
-        UndoManager undoManager_;
+        UndoBuffer undoBuffer_;
         mutable std::vector<Account> accounts_;
         mutable std::map<int, Item> items_;
 

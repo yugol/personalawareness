@@ -1,7 +1,7 @@
 #ifndef GETACCOUNTCREDIT_H_
 #define GETACCOUNTCREDIT_H_
 
-#include "DatabaseCommand.h"
+#include <DatabaseCommand.h>
 
 namespace adb {
 

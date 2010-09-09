@@ -2,7 +2,7 @@
 #define INSERTITEM_H_
 
 #include <Item.h>
-#include "ReversibleDatabaseCommand.h"
+#include <ReversibleDatabaseCommand.h>
 
 namespace adb {
 
@@ -16,6 +16,8 @@ namespace adb {
 
         virtual void execute();
         virtual void unexecute();
+
+        virtual std::string getDescription() const;
 
     protected:
         virtual void buildSqlCommand();

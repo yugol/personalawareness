@@ -25,7 +25,7 @@ namespace adb {
                 cmd = new UpdateAccount(database_, *account);
                 cmd->execute();
             }
-            undoManager_.add(cmd);
+            undoBuffer_.add(cmd);
         } catch (const Exception& ex) {
             delete cmd;
             RETHROW(ex);
@@ -54,7 +54,7 @@ namespace adb {
         try {
             cmd = new DeleteAccount(database_, id);
             cmd->execute();
-            undoManager_.add(cmd);
+            undoBuffer_.add(cmd);
         } catch (const Exception& ex) {
             delete cmd;
             RETHROW(ex);

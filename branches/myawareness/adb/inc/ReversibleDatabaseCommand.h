@@ -1,6 +1,7 @@
 #ifndef REVERSIBLEDATABASECOMMAND_H_
 #define REVERSIBLEDATABASECOMMAND_H_
 
+#include <string>
 #include "DatabaseCommand.h"
 
 namespace adb {
@@ -10,6 +11,7 @@ namespace adb {
         ReversibleDatabaseCommand(sqlite3* database);
 
         virtual void unexecute();
+        virtual std::string getDescription() const = 0;
 
     protected:
         std::string reverseSql_;

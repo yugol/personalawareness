@@ -2,13 +2,15 @@
 #define DELETEACCOUNT_H_
 
 #include <Account.h>
-#include "ReversibleDatabaseCommand.h"
+#include <ReversibleDatabaseCommand.h>
 
 namespace adb {
 
     class DeleteAccount: public ReversibleDatabaseCommand {
     public:
         DeleteAccount(sqlite3* database, int id);
+
+        virtual std::string getDescription() const;
 
     protected:
         virtual void buildSqlCommand();

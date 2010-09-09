@@ -62,4 +62,9 @@ namespace adb {
         cmd.execute();
     }
 
+    string InsertAccount::getDescription() const
+    {
+        return "insert account";
+    }
+
 } // namespace adb

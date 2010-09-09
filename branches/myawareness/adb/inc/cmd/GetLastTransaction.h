@@ -1,7 +1,7 @@
 #ifndef GETLASTTRANSACTION_H_
 #define GETLASTTRANSACTION_H_
 
-#include "DatabaseCommand.h"
+#include <DatabaseCommand.h>
 
 namespace adb {
 

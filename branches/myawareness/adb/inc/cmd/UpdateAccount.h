@@ -2,13 +2,15 @@
 #define UPDATEACCOUNT_H_
 
 #include <Account.h>
-#include "ReversibleDatabaseCommand.h"
+#include <ReversibleDatabaseCommand.h>
 
 namespace adb {
 
     class UpdateAccount: public ReversibleDatabaseCommand {
     public:
         UpdateAccount(sqlite3* database, const Account& item);
+
+        virtual std::string getDescription() const;
 
     protected:
         virtual void buildSqlCommand();

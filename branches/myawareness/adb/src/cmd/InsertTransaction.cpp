@@ -64,4 +64,9 @@ namespace adb {
         cmd.execute();
     }
 
+    string InsertTransaction::getDescription() const
+    {
+        return "insert transaction";
+    }
+
 } // namespac eadb

@@ -43,6 +43,10 @@ namespace adb {
         buildUpdateTransactionCommand(reverseSql_, previousTransaction_);
     }
 
+    string UpdateTransaction::getDescription() const
+    {
+        return "update transaction";
+    }
 // TBD: also update the item
 
 } // namespac adb

@@ -39,4 +39,9 @@ namespace adb {
         buildUpdateItemSqlCommand(reverseSql_, previousItem_);
     }
 
+    string UpdateItem::getDescription() const
+    {
+        return "update item";
+    }
+
 } // namespace adb

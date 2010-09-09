@@ -2,13 +2,15 @@
 #define UPDATETRANSACTION_H_
 
 #include <Transaction.h>
-#include "ReversibleDatabaseCommand.h"
+#include <ReversibleDatabaseCommand.h>
 
 namespace adb {
 
     class UpdateTransaction: public ReversibleDatabaseCommand {
     public:
         UpdateTransaction(sqlite3* database, const Transaction& transaction);
+
+        virtual std::string getDescription() const;
 
     protected:
         virtual void buildSqlCommand();

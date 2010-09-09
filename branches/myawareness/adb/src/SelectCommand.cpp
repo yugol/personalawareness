@@ -1,6 +1,6 @@
 #include <cstdlib>
 #include <SelectionParameters.h>
-#include <cmd/SelectCommand.h>
+#include <SelectCommand.h>
 
 using namespace std;
 

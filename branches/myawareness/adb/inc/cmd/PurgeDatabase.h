@@ -1,7 +1,7 @@
 #ifndef PURGEDATABASE_H_
 #define PURGEDATABASE_H_
 
-#include "DatabaseCommand.h"
+#include <DatabaseCommand.h>
 
 namespace adb {
 

@@ -1,5 +1,5 @@
 #include <Exception.h>
-#include <cmd/ReversibleDatabaseCommand.h>
+#include <ReversibleDatabaseCommand.h>
 
 namespace adb {
 

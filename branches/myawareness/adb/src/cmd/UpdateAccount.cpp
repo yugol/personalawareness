@@ -42,4 +42,9 @@ namespace adb {
         buildUpdateAccountSqlCommand(reverseSql_, previousAccount_);
     }
 
+    string UpdateAccount::getDescription() const
+    {
+        return "update account";
+    }
+
 } // namespace adb

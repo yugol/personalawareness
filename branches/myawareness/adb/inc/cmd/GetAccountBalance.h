@@ -1,7 +1,7 @@
 #ifndef GETACCOUNTBALANCE_H_
 #define GETACCOUNTBALANCE_H_
 
-#include "DatabaseCommand.h"
+#include <DatabaseCommand.h>
 
 namespace adb {
 

@@ -40,4 +40,9 @@ namespace adb {
         reverseSql_ = sout.rdbuf()->str();
     }
 
+    string DeleteItem::getDescription() const
+    {
+        return "delete item";
+    }
+
 } // namespace adb

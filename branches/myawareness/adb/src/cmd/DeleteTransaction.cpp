@@ -35,6 +35,11 @@ namespace adb {
         reverseSql_ = sout.rdbuf()->str();
     }
 
+    string DeleteTransaction::getDescription() const
+    {
+        return "delete transaction";
+    }
+
 //TBD: also update the item
 
 } // namespac eadb

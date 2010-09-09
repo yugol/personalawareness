@@ -1,8 +1,8 @@
 #include <Configuration.h>
 #include <Exception.h>
 #include <DbUtil.h>
+#include <ReversibleDatabaseCommand.h>
 #include <cmd/CreateDatabase.h>
-#include <cmd/ReversibleDatabaseCommand.h>
 #include <cmd/SelectPreferences.h>
 #include <cmd/PurgeDatabase.h>
 #include <DatabaseConnection.h>
@@ -110,24 +110,22 @@ namespace adb {
 
     void DatabaseConnection::undo()
     {
-        ReversibleDatabaseCommand* cmd = undoManager_.undo();
-        cmd->unexecute();
+        undoBuffer_.undo();
     }
 
     void DatabaseConnection::redo()
     {
-        ReversibleDatabaseCommand* cmd = undoManager_.redo();
-        cmd->execute();
+        undoBuffer_.redo();
     }
 
-    bool DatabaseConnection::canUndo()
+    const ReversibleDatabaseCommand* DatabaseConnection::getUndo()
     {
-        return undoManager_.canUndo();
+        return undoBuffer_.getUndo();
     }
 
-    bool DatabaseConnection::canRedo()
+    const ReversibleDatabaseCommand* DatabaseConnection::getRedo()
     {
-        return undoManager_.canRedo();
+        return undoBuffer_.getRedo();
     }
 
 } // namespace adb

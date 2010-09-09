@@ -24,7 +24,7 @@ namespace adb {
                 cmd = new UpdateItem(database_, *item);
                 cmd->execute();
             }
-            undoManager_.add(cmd);
+            undoBuffer_.add(cmd);
         } catch (const Exception& ex) {
             delete cmd;
             RETHROW(ex);
@@ -53,7 +53,7 @@ namespace adb {
         try {
             cmd = new DeleteItem(database_, id);
             cmd->execute();
-            undoManager_.add(cmd);
+            undoBuffer_.add(cmd);
         } catch (const Exception& ex) {
             delete cmd;
             RETHROW(ex);

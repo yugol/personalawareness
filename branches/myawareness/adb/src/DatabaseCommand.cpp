@@ -2,7 +2,7 @@
 // #include <iostream>
 // #include <fstream>
 #include <Exception.h>
-#include <cmd/DatabaseCommand.h>
+#include <DatabaseCommand.h>
 
 using namespace std;
 

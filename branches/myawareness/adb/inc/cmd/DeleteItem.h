@@ -2,13 +2,15 @@
 #define DELETEITEM_H_
 
 #include <Item.h>
-#include "ReversibleDatabaseCommand.h"
+#include <ReversibleDatabaseCommand.h>
 
 namespace adb {
 
     class DeleteItem: public ReversibleDatabaseCommand {
     public:
         DeleteItem(sqlite3* database, int id);
+
+        virtual std::string getDescription() const;
 
     protected:
         virtual void buildSqlCommand();
