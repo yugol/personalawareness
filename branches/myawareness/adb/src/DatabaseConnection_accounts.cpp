@@ -14,7 +14,7 @@ namespace adb {
 
     void DatabaseConnection::insertUpdate(Account *account)
     {
-        accounts_.clear();
+        invalidateAccounts();
         ReversibleDatabaseCommand* cmd = 0;
         try {
             if (0 == account->getId()) {
@@ -49,7 +49,7 @@ namespace adb {
 
     void DatabaseConnection::deleteAccount(int id)
     {
-        accounts_.clear();
+        invalidateAccounts();
         ReversibleDatabaseCommand* cmd = 0;
         try {
             cmd = new DeleteAccount(database_, id);
@@ -71,7 +71,7 @@ namespace adb {
         SelectAccounts selectCmd(database_, &selection, 0);
         selectCmd.execute();
 
-        accounts_.clear();
+        invalidateAccounts();
         vector<int>::iterator it;
         for (it = selection.begin(); it != selection.end(); ++it) {
             int id = (*it);

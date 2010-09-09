@@ -13,7 +13,7 @@ namespace adb {
 
     void DatabaseConnection::insertUpdate(Item *item)
     {
-        items_.clear();
+        invalidateItems();
         ReversibleDatabaseCommand* cmd = 0;
         try {
             if (0 == item->getId()) {
@@ -48,7 +48,7 @@ namespace adb {
 
     void DatabaseConnection::deleteItem(int id)
     {
-        items_.clear();
+        invalidateItems();
         ReversibleDatabaseCommand* cmd = 0;
         try {
             cmd = new DeleteItem(database_, id);
@@ -70,7 +70,7 @@ namespace adb {
         SelectItems selectCmd(database_, &selection, 0);
         selectCmd.execute();
 
-        items_.clear();
+        invalidateItems();
         vector<int>::iterator it;
         for (it = selection.begin(); it != selection.end(); ++it) {
             int id = (*it);

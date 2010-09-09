@@ -12,26 +12,18 @@ namespace adb {
         UndoBuffer(size_t maxLength = 1000);
         virtual ~UndoBuffer();
 
+        void reset();
         void add(ReversibleDatabaseCommand* command);
-        bool canUndo() const;
-        bool canRedo() const;
         const ReversibleDatabaseCommand* getUndo() const;
         const ReversibleDatabaseCommand* getRedo() const;
         void undo();
         void redo();
-        void reset();
         int getMaxLength() const;
-        void setMaxLength(int maxLength);
 
     private:
-        enum {
-            ADD, UNDO, REDO
-        };
-
         std::deque<ReversibleDatabaseCommand*> history_;
         size_t maxLength_;
-        size_t currentPosition_;
-        int lastAction_;
+        int currentUndoPosition_;
     };
 
     inline int UndoBuffer::getMaxLength() const

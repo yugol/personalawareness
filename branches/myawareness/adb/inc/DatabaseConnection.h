@@ -95,6 +95,10 @@ namespace adb {
         void cashAccounts() const;
         void cashItems() const;
 
+        void invalidateAccounts() const;
+        void invalidateItems() const;
+        void invalidateCash() const;
+
         void dumpSql(std::ostream& out) const;
         void loadSql(std::istream& in);
     };

@@ -108,14 +108,32 @@ namespace adb {
         }
     }
 
+    void DatabaseConnection::invalidateAccounts() const
+    {
+        accounts_.clear();
+    }
+
+    void DatabaseConnection::invalidateItems() const
+    {
+        items_.clear();
+    }
+
+    void DatabaseConnection::invalidateCash() const
+    {
+        invalidateAccounts();
+        invalidateItems();
+    }
+
     void DatabaseConnection::undo()
     {
         undoBuffer_.undo();
+        invalidateCash();
     }
 
     void DatabaseConnection::redo()
     {
         undoBuffer_.redo();
+        invalidateCash();
     }
 
     const ReversibleDatabaseCommand* DatabaseConnection::getUndo()
