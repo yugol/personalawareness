@@ -1,9 +1,4 @@
 #include <vector>
-#include <wx/sizer.h>
-#include <wx/stattext.h>
-#include <wx/textctrl.h>
-#include <wx/listctrl.h>
-#include <wx/button.h>
 #include <wx/textdlg.h>
 #include <wx/msgdlg.h>
 #include <Item.h>
@@ -14,77 +9,14 @@
 using namespace std;
 using namespace adb;
 
-ItemsDialog::ItemsDialog(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) :
-    wxDialog(parent, id, title, pos, size, style), processEvents_(false)
+ItemsDialog::ItemsDialog(wxWindow* parent) :
+    ItemsDialogBase(parent), processEvents_(false)
 {
-    this->SetSizeHints(wxDefaultSize, wxDefaultSize);
-
-    wxFlexGridSizer* mainSizer;
-    mainSizer = new wxFlexGridSizer(2, 2, 0, 0);
-    mainSizer->AddGrowableCol(0);
-    mainSizer->AddGrowableRow(1);
-    mainSizer->SetFlexibleDirection(wxBOTH);
-    mainSizer->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
-
-    wxBoxSizer* patternSizer;
-    patternSizer = new wxBoxSizer(wxHORIZONTAL);
-
-    patternLabel_ = new wxStaticText(this, wxID_ANY, wxT("Search by name:"), wxDefaultPosition, wxDefaultSize, 0);
-    patternLabel_->Wrap(-1);
-    patternSizer->Add(patternLabel_, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-
-    patternText_ = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
-    patternSizer->Add(patternText_, 1, wxALIGN_CENTER_VERTICAL | wxALL | wxEXPAND, 5);
-
-    mainSizer->Add(patternSizer, 1, wxEXPAND, 5);
-
-    wxBoxSizer* emptySizer;
-    emptySizer = new wxBoxSizer(wxVERTICAL);
-
-    mainSizer->Add(emptySizer, 1, wxEXPAND, 5);
-
-    itemList_ = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES | wxLC_NO_HEADER | wxLC_REPORT | wxLC_SINGLE_SEL);
-    mainSizer->Add(itemList_, 1, wxALL | wxEXPAND, 5);
-
-    wxBoxSizer* buttonSizer;
-    buttonSizer = new wxBoxSizer(wxVERTICAL);
-
-    renameButton_ = new wxButton(this, wxID_ANY, wxT("&Rename"), wxDefaultPosition, wxDefaultSize, 0);
-    buttonSizer->Add(renameButton_, 0, wxALL, 5);
-
-    deleteButton_ = new wxButton(this, wxID_ANY, wxT("&Delete"), wxDefaultPosition, wxDefaultSize, 0);
-    buttonSizer->Add(deleteButton_, 0, wxALL, 5);
-
-    buttonSizer->Add(0, 0, 1, wxEXPAND, 5);
-
-    closeButton_ = new wxButton(this, wxID_ANY, wxT("&Close"), wxDefaultPosition, wxDefaultSize, 0);
-    buttonSizer->Add(closeButton_, 0, wxALL, 5);
-
-    mainSizer->Add(buttonSizer, 1, wxEXPAND, 5);
-
-    this->SetSizer(mainSizer);
-    this->Layout();
-
-    // Connect Events
-    this->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(ItemsDialog::onCloseDialog));
-    this->Connect(wxEVT_INIT_DIALOG, wxInitDialogEventHandler(ItemsDialog::onInitDialog));
-    patternText_->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(ItemsDialog::onPatternText), NULL, this);
-    itemList_->Connect(wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler(ItemsDialog::onItemSelected), NULL, this);
-    renameButton_->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ItemsDialog::onRename), NULL, this);
-    deleteButton_->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ItemsDialog::onDelete), NULL, this);
-    closeButton_->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ItemsDialog::onClose), NULL, this);
+    itemList_->InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, itemList_->GetSize().GetWidth() - UiUtil::LIST_MARGIN);
 }
 
 ItemsDialog::~ItemsDialog()
 {
-    // Disconnect Events
-    this->Disconnect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(ItemsDialog::onCloseDialog));
-    this->Disconnect(wxEVT_INIT_DIALOG, wxInitDialogEventHandler(ItemsDialog::onInitDialog));
-    patternText_->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(ItemsDialog::onPatternText), NULL, this);
-    itemList_->Disconnect(wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler(ItemsDialog::onItemSelected), NULL, this);
-    renameButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ItemsDialog::onRename), NULL, this);
-    deleteButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ItemsDialog::onDelete), NULL, this);
-    closeButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ItemsDialog::onClose), NULL, this);
 }
 
 void ItemsDialog::onCloseDialog(wxCloseEvent& event)
@@ -100,7 +32,6 @@ void ItemsDialog::onInitDialog(wxInitDialogEvent& event)
     dirty_ = false;
     selectedListItemId_ = -1;
     patternText_->SetFocus();
-    itemList_->InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, itemList_->GetSize().GetWidth() - UiUtil::LIST_MARGIN);
     refreshItemList(0);
 }
 

@@ -6,6 +6,8 @@
 // TBD+: wxBuilder forms
 // TBD: handle all errors in MainWindow and not in controller
 // TBD: get rid of magic numbers
+// TBD: remove adb namespace
+
 // TBD-: New button near Accept button when maximizing
 // TBD-: double click to edit transaction???
 

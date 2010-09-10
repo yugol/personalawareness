@@ -1,53 +1,18 @@
 #ifndef ACCOUNTSDIALOG_H_
 #define ACCOUNTSDIALOG_H_
 
-#include <wx/dialog.h>
+#include <AccountsDialogBase.h>
 
-class wxStaticText;
-class wxListCtrl;
-class wxComboBox;
-class wxChoice;
-class wxButton;
-class wxTextCtrl;
-class wxListEvent;
 namespace adb {
     class Account;
 }
 
-class AccountsDialog: public wxDialog {
+class AccountsDialog: public AccountsDialogBase {
 public:
-    AccountsDialog(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Edit accounts"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(540, 405), long style =
-            wxDEFAULT_DIALOG_STYLE);
+    AccountsDialog(wxWindow* parent);
     virtual ~AccountsDialog();
 
-private:
-    bool processEvents_;
-    bool dirty_;
-    long selectedListItemId_;
-    const adb::Account* selectedAccount_;
-
-    wxStaticText* listLabel_;
-    wxListCtrl* accountList_;
-    wxStaticText* nameLabel_;
-    wxTextCtrl* nameText_;
-    wxStaticText* typeLabel_;
-    wxChoice* typeChoice_;
-    wxStaticText* groupLabel_;
-    wxComboBox* groupCombo_;
-    wxStaticText* valueLabel_;
-    wxTextCtrl* valueText_;
-    wxStaticText* commentLabel_;
-    wxTextCtrl* commentText_;
-    wxButton* insertButton_;
-    wxButton* updateButton_;
-    wxButton* deleteButton_;
-    wxButton* newButton_;
-    wxButton* closeButton_;
-
-    void refreshAccountList(int selectedAccountId = 0);
-    void selectAccount(long selectedListItemId = -1);
-    bool readValidateRefresh(adb::Account* account = 0);
-
+protected:
     void onCloseDialog(wxCloseEvent& event);
     void onInitDialog(wxInitDialogEvent& event);
     void onSelectAccount(wxListEvent& event);
@@ -59,8 +24,18 @@ private:
     void onInsert(wxCommandEvent& event);
     void onUpdate(wxCommandEvent& event);
     void onDelete(wxCommandEvent& event);
-    void onNew(wxCommandEvent& event);
+    void onClear(wxCommandEvent& event);
     void onClose(wxCommandEvent& event);
+
+private:
+    bool processEvents_;
+    bool dirty_;
+    long selectedListItemId_;
+    const adb::Account* selectedAccount_;
+
+    void refreshAccountList(int selectedAccountId = 0);
+    void selectAccount(long selectedListItemId = -1);
+    bool readValidateRefresh(adb::Account* account = 0);
 };
 
 #endif /* ACCOUNTSDIALOG_H_ */

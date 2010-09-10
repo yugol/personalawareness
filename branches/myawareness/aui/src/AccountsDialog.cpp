@@ -1,12 +1,5 @@
 #include <algorithm>
 #include <vector>
-#include <wx/stattext.h>
-#include <wx/sizer.h>
-#include <wx/listctrl.h>
-#include <wx/textctrl.h>
-#include <wx/choice.h>
-#include <wx/combobox.h>
-#include <wx/button.h>
 #include <wx/msgdlg.h>
 #include <Exception.h>
 #include <Account.h>
@@ -25,137 +18,18 @@ static const wxString noAccountTip(wxT("No account was selected"));
 static const wxString invalidNameTip(wxT("Account name cannot be empty"));
 static const wxString invalidValueTip(wxT("Start balance must be a real number or empty"));
 
-AccountsDialog::AccountsDialog(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) :
-    wxDialog(parent, id, title, pos, size, style), processEvents_(false)
+AccountsDialog::AccountsDialog(wxWindow* parent) :
+    AccountsDialogBase(parent), processEvents_(false)
 {
-    this->SetSizeHints(wxDefaultSize, wxDefaultSize);
+    typeChoice_->Insert(wxT("Cash"), 0, reinterpret_cast<void*> (Account::ACCOUNT));
+    typeChoice_->Insert(wxT("Income"), 1, reinterpret_cast<void*> (Account::CREDIT));
+    typeChoice_->Insert(wxT("Expenses"), 2, reinterpret_cast<void*> (Account::DEBT));
 
-    wxFlexGridSizer* dialogSizer;
-    dialogSizer = new wxFlexGridSizer(2, 3, 0, 0);
-    dialogSizer->AddGrowableCol(0);
-    dialogSizer->AddGrowableRow(1);
-    dialogSizer->SetFlexibleDirection(wxBOTH);
-    dialogSizer->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
-
-    listLabel_ = new wxStaticText(this, wxID_ANY, wxT("Accounts:"), wxDefaultPosition, wxDefaultSize, 0);
-    listLabel_->Wrap(-1);
-    dialogSizer->Add(listLabel_, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-
-    wxBoxSizer* dummyMiddleSizer;
-    dummyMiddleSizer = new wxBoxSizer(wxVERTICAL);
-
-    dialogSizer->Add(dummyMiddleSizer, 1, wxEXPAND, 5);
-
-    wxBoxSizer* dummyRightSizer;
-    dummyRightSizer = new wxBoxSizer(wxVERTICAL);
-
-    dialogSizer->Add(dummyRightSizer, 1, wxEXPAND, 5);
-
-    accountList_ = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES | wxLC_NO_HEADER | wxLC_REPORT | wxLC_SINGLE_SEL);
-    dialogSizer->Add(accountList_, 0, wxALL | wxEXPAND, 5);
-
-    wxBoxSizer* middleSizer;
-    middleSizer = new wxBoxSizer(wxVERTICAL);
-
-    nameLabel_ = new wxStaticText(this, wxID_ANY, wxT("Account name:"), wxDefaultPosition, wxDefaultSize, 0);
-    nameLabel_->Wrap(-1);
-    middleSizer->Add(nameLabel_, 0, wxALL, 5);
-
-    nameText_ = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
-    middleSizer->Add(nameText_, 0, wxALL | wxEXPAND, 5);
-
-    typeLabel_ = new wxStaticText(this, wxID_ANY, wxT("Type:"), wxDefaultPosition, wxDefaultSize, 0);
-    typeLabel_->Wrap(-1);
-    middleSizer->Add(typeLabel_, 0, wxALL, 5);
-
-    wxArrayString typeChoice_Choices;
-    typeChoice_ = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, typeChoice_Choices, 0);
-    typeChoice_->SetSelection(0);
-    middleSizer->Add(typeChoice_, 0, wxALL | wxEXPAND, 5);
-
-    groupLabel_ = new wxStaticText(this, wxID_ANY, wxT("Group:"), wxDefaultPosition, wxDefaultSize, 0);
-    groupLabel_->Wrap(-1);
-    middleSizer->Add(groupLabel_, 0, wxALL, 5);
-
-    groupCombo_ = new wxComboBox(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
-    middleSizer->Add(groupCombo_, 0, wxALL | wxEXPAND, 5);
-
-    valueLabel_ = new wxStaticText(this, wxID_ANY, wxT("Start balance:"), wxDefaultPosition, wxDefaultSize, 0);
-    valueLabel_->Wrap(-1);
-    middleSizer->Add(valueLabel_, 0, wxALL, 5);
-
-    valueText_ = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
-    middleSizer->Add(valueText_, 0, wxALL | wxEXPAND, 5);
-
-    commentLabel_ = new wxStaticText(this, wxID_ANY, wxT("Comment:"), wxDefaultPosition, wxDefaultSize, 0);
-    commentLabel_->Wrap(-1);
-    middleSizer->Add(commentLabel_, 0, wxALL, 5);
-
-    commentText_ = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_WORDWRAP);
-    middleSizer->Add(commentText_, 0, wxALL | wxEXPAND, 5);
-
-    dialogSizer->Add(middleSizer, 1, wxEXPAND, 5);
-
-    wxBoxSizer* rightSizer;
-    rightSizer = new wxBoxSizer(wxVERTICAL);
-
-    insertButton_ = new wxButton(this, wxID_ANY, wxT("&Insert"), wxDefaultPosition, wxDefaultSize, 0);
-    rightSizer->Add(insertButton_, 0, wxALL, 5);
-
-    updateButton_ = new wxButton(this, wxID_ANY, wxT("&Update"), wxDefaultPosition, wxDefaultSize, 0);
-    rightSizer->Add(updateButton_, 0, wxALL, 5);
-
-    deleteButton_ = new wxButton(this, wxID_ANY, wxT("&Delete"), wxDefaultPosition, wxDefaultSize, 0);
-    rightSizer->Add(deleteButton_, 0, wxALL, 5);
-
-    wxStaticText* dummyLabel = new wxStaticText(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
-    rightSizer->Add(dummyLabel, 0, wxALL, 5);
-
-    newButton_ = new wxButton(this, wxID_ANY, wxT("C&lear"), wxDefaultPosition, wxDefaultSize, 0);
-    rightSizer->Add(newButton_, 0, wxALL, 5);
-
-    rightSizer->Add(0, 0, 1, wxEXPAND, 5);
-
-    closeButton_ = new wxButton(this, wxID_ANY, wxT("&Close"), wxDefaultPosition, wxDefaultSize, 0);
-    rightSizer->Add(closeButton_, 0, wxALL, 5);
-
-    dialogSizer->Add(rightSizer, 1, wxEXPAND, 5);
-
-    this->SetSizer(dialogSizer);
-    this->Layout();
-
-    // Connect Events
-    this->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AccountsDialog::onCloseDialog));
-    this->Connect(wxEVT_INIT_DIALOG, wxInitDialogEventHandler(AccountsDialog::onInitDialog));
-    accountList_->Connect(wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler(AccountsDialog::onSelectAccount), NULL, this);
-    nameText_->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onNameText), NULL, this);
-    typeChoice_->Connect(wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler(AccountsDialog::onTypeChange), NULL, this);
-    groupCombo_->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onGroupText), NULL, this);
-    valueText_->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onValueText), NULL, this);
-    commentText_->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onCommentText), NULL, this);
-    insertButton_->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onInsert), NULL, this);
-    updateButton_->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onUpdate), NULL, this);
-    deleteButton_->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onDelete), NULL, this);
-    newButton_->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onNew), NULL, this);
-    closeButton_->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onClose), NULL, this);
+    accountList_->InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, accountList_->GetSize().GetWidth() - UiUtil::LIST_MARGIN);
 }
 
 AccountsDialog::~AccountsDialog()
 {
-    // Disconnect Events
-    this->Disconnect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AccountsDialog::onCloseDialog));
-    this->Disconnect(wxEVT_INIT_DIALOG, wxInitDialogEventHandler(AccountsDialog::onInitDialog));
-    accountList_->Disconnect(wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler(AccountsDialog::onSelectAccount), NULL, this);
-    nameText_->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onNameText), NULL, this);
-    typeChoice_->Disconnect(wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler(AccountsDialog::onTypeChange), NULL, this);
-    groupCombo_->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onGroupText), NULL, this);
-    valueText_->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onValueText), NULL, this);
-    commentText_->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AccountsDialog::onCommentText), NULL, this);
-    insertButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onInsert), NULL, this);
-    updateButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onUpdate), NULL, this);
-    deleteButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onDelete), NULL, this);
-    newButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onNew), NULL, this);
-    closeButton_->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AccountsDialog::onClose), NULL, this);
 }
 
 void AccountsDialog::onCloseDialog(wxCloseEvent& event)
@@ -169,12 +43,6 @@ void AccountsDialog::onCloseDialog(wxCloseEvent& event)
 void AccountsDialog::onInitDialog(wxInitDialogEvent& event)
 {
     dirty_ = false;
-
-    typeChoice_->Insert(wxT("Cash"), 0, reinterpret_cast<void*> (Account::ACCOUNT));
-    typeChoice_->Insert(wxT("Income"), 1, reinterpret_cast<void*> (Account::CREDIT));
-    typeChoice_->Insert(wxT("Expenses"), 2, reinterpret_cast<void*> (Account::DEBT));
-
-    accountList_->InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, accountList_->GetSize().GetWidth() - UiUtil::LIST_MARGIN);
     refreshAccountList();
 }
 
@@ -265,15 +133,24 @@ void AccountsDialog::onDelete(wxCommandEvent& event)
         if (selectedAccount_ == 0) {
             throw Exception("No account is selected");
         }
-        Controller::instance()->deleteAccount(selectedAccount_->getId());
-        dirty_ = true;
-        refreshAccountList();
+
+        wxString msg(wxT("Are you sure you want to delete the account\n'"));
+        UiUtil::appendStdString(msg, selectedAccount_->getDecoratedName());
+        msg.Append(wxT("'?"));
+
+        wxMessageDialog* dlg = new wxMessageDialog(this, msg, wxT("Delete account"), wxOK | wxCANCEL);
+        if (wxID_OK == dlg->ShowModal()) {
+            Controller::instance()->deleteAccount(selectedAccount_->getId());
+            dirty_ = true;
+            refreshAccountList();
+        }
+        dlg->Destroy();
     } catch (const exception& ex) {
         Controller::instance()->reportException(ex, wxT("deleting account"));
     }
 }
 
-void AccountsDialog::onNew(wxCommandEvent& event)
+void AccountsDialog::onClear(wxCommandEvent& event)
 {
     selectAccount();
 }

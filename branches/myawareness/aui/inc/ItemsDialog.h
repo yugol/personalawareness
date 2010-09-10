@@ -1,35 +1,14 @@
 #ifndef ITEMSDIALOG_H_
 #define ITEMSDIALOG_H_
 
-#include <wx/dialog.h>
+#include "ItemsDialogBase.h"
 
-class wxStaticText;
-class wxTextCtrl;
-class wxListCtrl;
-class wxButton;
-class wxListEvent;
-
-class ItemsDialog: public wxDialog {
+class ItemsDialog: public ItemsDialogBase {
 public:
-    ItemsDialog(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Edit transacted items"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(400, 520),
-            long style = wxDEFAULT_DIALOG_STYLE);
+    ItemsDialog(wxWindow* parent);
     virtual ~ItemsDialog();
 
-private:
-    bool processEvents_;
-    bool dirty_;
-    long selectedListItemId_;
-    const adb::Item* selectedItem_;
-
-    wxStaticText* patternLabel_;
-    wxTextCtrl* patternText_;
-    wxListCtrl* itemList_;
-    wxButton* renameButton_;
-    wxButton* deleteButton_;
-    wxButton* closeButton_;
-
-    void selectItem(long selectedId);
-    void refreshItemList(int itemId);
+protected:
 
     void onCloseDialog(wxCloseEvent& event);
     void onInitDialog(wxInitDialogEvent& event);
@@ -38,6 +17,15 @@ private:
     void onRename(wxCommandEvent& event);
     void onDelete(wxCommandEvent& event);
     void onClose(wxCommandEvent& event);
+
+private:
+    bool processEvents_;
+    bool dirty_;
+    long selectedListItemId_;
+    const adb::Item* selectedItem_;
+
+    void selectItem(long selectedId);
+    void refreshItemList(int itemId);
 };
 
 #endif /* ITEMSDIALOG_H_ */
