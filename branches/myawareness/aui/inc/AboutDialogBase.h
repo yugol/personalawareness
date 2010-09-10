@@ -40,8 +40,7 @@ class AboutDialogBase : public wxDialog
 		wxPanel* applicationPage_;
 		wxStaticBitmap* iconBitmap_;
 		
-		wxStaticText* personalLabel_;
-		wxStaticText* awarenessLabel_;
+		wxStaticText* projectNameLabel_;
 		
 		
 		wxStaticText* versionLabel_;
@@ -53,13 +52,15 @@ class AboutDialogBase : public wxDialog
 		wxStaticText* copyrightLabel_;
 		
 		
+		wxPanel* changesPage_;
+		wxTextCtrl* changesText_;
 		wxPanel* creditsPage_;
+		wxTextCtrl* creditsText_;
 		wxPanel* licensePage_;
 		wxTextCtrl* licenseText_;
 		wxButton* closeButton_;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void onInitDialog( wxInitDialogEvent& event ){ event.Skip(); }
 		virtual void onClose( wxCommandEvent& event ){ event.Skip(); }
 		
 	

@@ -22,7 +22,7 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	applicationPageSizer = new wxBoxSizer( wxHORIZONTAL );
 	
 	iconBitmap_ = new wxStaticBitmap( applicationPage_, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-	applicationPageSizer->Add( iconBitmap_, 0, wxALL, 5 );
+	applicationPageSizer->Add( iconBitmap_, 0, wxBOTTOM|wxLEFT|wxTOP, 5 );
 	
 	wxBoxSizer* linesSizer;
 	linesSizer = new wxBoxSizer( wxVERTICAL );
@@ -33,22 +33,16 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	nameSizer->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	personalLabel_ = new wxStaticText( applicationPage_, wxID_ANY, wxT("Personal"), wxDefaultPosition, wxDefaultSize, 0 );
-	personalLabel_->Wrap( -1 );
-	personalLabel_->SetFont( wxFont( 16, 70, 90, 92, false, wxEmptyString ) );
+	projectNameLabel_ = new wxStaticText( applicationPage_, wxID_ANY, wxT("Personal"), wxDefaultPosition, wxDefaultSize, 0 );
+	projectNameLabel_->Wrap( -1 );
+	projectNameLabel_->SetFont( wxFont( 16, 70, 90, 92, false, wxEmptyString ) );
 	
-	nameSizer->Add( personalLabel_, 0, wxALL, 2 );
-	
-	awarenessLabel_ = new wxStaticText( applicationPage_, wxID_ANY, wxT("Awareness"), wxDefaultPosition, wxDefaultSize, 0 );
-	awarenessLabel_->Wrap( -1 );
-	awarenessLabel_->SetFont( wxFont( 16, 70, 93, 92, false, wxEmptyString ) );
-	
-	nameSizer->Add( awarenessLabel_, 0, wxALL, 2 );
+	nameSizer->Add( projectNameLabel_, 0, wxALL, 5 );
 	
 	
 	nameSizer->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	linesSizer->Add( nameSizer, 0, wxEXPAND|wxTOP, 20 );
+	linesSizer->Add( nameSizer, 0, wxEXPAND|wxTOP, 15 );
 	
 	wxBoxSizer* versionSizer;
 	versionSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -100,21 +94,39 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	linesSizer->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	applicationPageSizer->Add( linesSizer, 1, wxEXPAND, 5 );
+	applicationPageSizer->Add( linesSizer, 1, wxEXPAND, 10 );
 	
 	applicationPage_->SetSizer( applicationPageSizer );
 	applicationPage_->Layout();
 	applicationPageSizer->Fit( applicationPage_ );
 	sectionsNotebook_->AddPage( applicationPage_, wxT("Application"), true );
-	creditsPage_ = new wxPanel( sectionsNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	creditsPage_->Hide();
+	changesPage_ = new wxPanel( sectionsNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* changesSizer;
+	changesSizer = new wxBoxSizer( wxVERTICAL );
 	
+	changesText_ = new wxTextCtrl( changesPage_, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
+	changesSizer->Add( changesText_, 1, wxALL|wxEXPAND, 10 );
+	
+	changesPage_->SetSizer( changesSizer );
+	changesPage_->Layout();
+	changesSizer->Fit( changesPage_ );
+	sectionsNotebook_->AddPage( changesPage_, wxT("Changes"), false );
+	creditsPage_ = new wxPanel( sectionsNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* creditsSizer;
+	creditsSizer = new wxBoxSizer( wxVERTICAL );
+	
+	creditsText_ = new wxTextCtrl( creditsPage_, wxID_ANY, wxT("Software development:\nIulian Goriac\niulian.goriac@gmail.com\n\nThe icons:\nMysitemyway Design Team on the\nMysitemyway ETC Network\nhttp://icons.mysitemyway.com\n"), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
+	creditsSizer->Add( creditsText_, 1, wxALL|wxEXPAND, 10 );
+	
+	creditsPage_->SetSizer( creditsSizer );
+	creditsPage_->Layout();
+	creditsSizer->Fit( creditsPage_ );
 	sectionsNotebook_->AddPage( creditsPage_, wxT("Credits"), false );
 	licensePage_ = new wxPanel( sectionsNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* licenseSizer;
 	licenseSizer = new wxBoxSizer( wxVERTICAL );
 	
-	licenseText_ = new wxTextCtrl( licensePage_, wxID_ANY, wxT("Copyright (c) 2010 Iulian Goriac\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
+	licenseText_ = new wxTextCtrl( licensePage_, wxID_ANY, wxT("MIT License\n\nCopyright (c) 2010 Iulian Goriac\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
 	licenseSizer->Add( licenseText_, 1, wxALL|wxEXPAND, 10 );
 	
 	licensePage_->SetSizer( licenseSizer );
@@ -131,7 +143,6 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	this->Layout();
 	
 	// Connect Events
-	this->Connect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( AboutDialogBase::onInitDialog ) );
 	closeButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AboutDialogBase::onClose ), NULL, this );
 }
 

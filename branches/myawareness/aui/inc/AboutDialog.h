@@ -9,7 +9,6 @@ public:
     virtual ~AboutDialog();
 
 protected:
-    virtual void onInitDialog(wxInitDialogEvent& event);
     virtual void onClose(wxCommandEvent& event);
 };
 

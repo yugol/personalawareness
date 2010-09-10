@@ -4,9 +4,6 @@
 #include <wx/string.h>
 #include <ostream>
 
-extern const char* acorn32xpm[];
-extern const char* acorn64xpm[];
-
 class wxDateTime;
 namespace adb {
     class Date;

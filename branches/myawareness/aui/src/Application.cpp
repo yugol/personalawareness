@@ -3,10 +3,9 @@
 #include <Controller.h>
 #include <Application.h>
 
+// TBD+: wxBuilder forms
 // TBD: handle all errors in MainWindow and not in controller
 // TBD: get rid of magic numbers
-
-// TBD-: wxBuilder forms
 // TBD-: New button near Accept button when maximizing
 // TBD-: double click to edit transaction???
 
@@ -25,8 +24,6 @@
 // TBD: optim: use a thread to import/export database
 // TBD: optim: shorten SQL commands (remove spaces)
 
-// TBD-: internationalization
-
 // TBD-: review variable names in code code
 // from account -> source account
 // to account -> destination account
@@ -36,6 +33,8 @@
 // path/file/fileName -> location path file ext convention
 
 // TBD-: compile under Windows
+
+// TBD-: internationalization support
 
 // TBD-: csv import/export
 // TBD-: export table deletion & creation

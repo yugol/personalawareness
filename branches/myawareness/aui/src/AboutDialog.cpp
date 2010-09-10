@@ -4,28 +4,34 @@
 
 using namespace adb;
 
+extern const char* RES_LARGE_ICON[];
+extern const char* RES_CHANGES;
+
 AboutDialog::AboutDialog(wxWindow* parent) :
     AboutDialogBase(parent)
 {
-}
+    SetTitle(wxT("Welcome to..."));
 
-AboutDialog::~AboutDialog()
-{
-}
+    wxBitmap largeIcon(RES_LARGE_ICON);
+    iconBitmap_->SetBitmap(largeIcon);
 
-void AboutDialog::onInitDialog(wxInitDialogEvent& event)
-{
-    wxString title;
-    UiUtil::appendStdString(title, Configuration::PROJECT_NAME);
-    title.Prepend(wxT("About "));
-    SetTitle(title);
-
-    wxBitmap acorn64(acorn64xpm);
-    iconBitmap_->SetBitmap(acorn64);
+    wxString projectName;
+    UiUtil::appendStdString(projectName, Configuration::PROJECT_NAME);
+    projectNameLabel_->SetLabel(projectName);
 
     wxString version;
     UiUtil::appendStdString(version, Configuration::PROJECT_VERSION);
     versionLabel_->SetLabel(version);
+
+    wxString changes;
+    UiUtil::appendStdString(changes, RES_CHANGES);
+    changesText_->SetValue(changes);
+
+    sectionsNotebook_->SetSelection(0);
+}
+
+AboutDialog::~AboutDialog()
+{
 }
 
 void AboutDialog::onClose(wxCommandEvent& event)

@@ -21,6 +21,8 @@
 
 using namespace adb;
 
+extern const char* RES_SMALL_ICON[];
+
 const int MainWindow::EMPTY_BORDER_SIZE = 5;
 
 const long MainWindow::ID_SEL_VIEW = wxNewId();
@@ -286,7 +288,7 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     showSelectionPanel(false);
     showTransactionPanel(true);
 
-    wxIcon acorn32(acorn32xpm);
+    wxIcon acorn32(RES_SMALL_ICON);
     SetIcon(acorn32);
 
     trItemText_->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(MainWindow::onTransactionItemKeyDown), NULL, this);
