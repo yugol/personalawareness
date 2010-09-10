@@ -66,7 +66,6 @@ namespace adb {
         PurgeDatabase(database_).execute(); // TBD-: - optional via preferences
         // TBD-: remove unused items - optional via preferences
         // TBD-: compact identical transactions in each day - optional via preferences
-        // TBD-: kill undo buffer
     }
 
     int DatabaseConnection::getTableCount()
@@ -98,6 +97,7 @@ namespace adb {
 
     void DatabaseConnection::closeConnection(bool purge)
     {
+        undoBuffer_.reset();
         if (database_ != 0) {
             if (purge) {
                 purgeDatabase();
