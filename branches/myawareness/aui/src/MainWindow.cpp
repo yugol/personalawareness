@@ -99,16 +99,16 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
 
 #if wxUSE_MENUS
     // create a menu bar
-    menuBar_ = new wxMenuBar();
+    mainMenu_ = new wxMenuBar();
 
-    fileMenu_ = new wxMenu(wxEmptyString);
-    fileMenu_->Append(ID_MENU_OPEN, wxT("&Open/Create..."), wxT("Open database or create a new one"));
-    fileMenu_->AppendSeparator();
-    fileMenu_->Append(ID_MENU_EXPORT, wxT("&Export..."), wxT("Export database to SQL script"));
-    fileMenu_->Append(ID_MENU_IMPORT, wxT("&Import..."), wxT("Import database from SQL script"));
-    fileMenu_->AppendSeparator();
-    fileMenu_->Append(ID_MENU_EXIT, wxT("E&xit\tAlt-F4"), wxT("Exit the application"));
-    menuBar_->Append(fileMenu_, wxT("Data&base"));
+    databaseMenu_ = new wxMenu(wxEmptyString);
+    databaseMenu_->Append(ID_MENU_OPEN, wxT("&Open/Create..."), wxT("Open database or create a new one"));
+    databaseMenu_->AppendSeparator();
+    databaseMenu_->Append(ID_MENU_EXPORT, wxT("&Export..."), wxT("Export database to SQL script"));
+    databaseMenu_->Append(ID_MENU_IMPORT, wxT("&Import..."), wxT("Import database from SQL script"));
+    databaseMenu_->AppendSeparator();
+    databaseMenu_->Append(ID_MENU_EXIT, wxT("E&xit\tAlt-F4"), wxT("Exit the application"));
+    mainMenu_->Append(databaseMenu_, wxT("Data&base"));
 
     editMenu_ = new wxMenu(wxEmptyString);
     editMenu_->Append(ID_MENU_UNDO, wxT("&Undo"));
@@ -118,16 +118,16 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     editMenu_->Append(ID_MENU_ITEMS, wxT("Transacted &Items..."), wxT("Edit transacted items"));
     editMenu_->AppendSeparator();
     editMenu_->Append(ID_MENU_PREFERENCES, wxT("&Preferences..."), wxT("Edit preferences"));
-    menuBar_->Append(editMenu_, wxT("&Edit"));
+    mainMenu_->Append(editMenu_, wxT("&Edit"));
 
     helpMenu_ = new wxMenu(wxEmptyString);
     helpMenu_->Append(ID_MENU_CONTENTS, wxT("User &Manual\tF1"), wxT("Opens the help window"));
     helpMenu_->Append(ID_MENU_WEBPAGE, wxT("&Web Page"), wxT("Opens the application's web site"));
     helpMenu_->AppendSeparator();
     helpMenu_->Append(ID_MENU_ABOUT, wxT("&About"), wxT("Show info about this application"));
-    menuBar_->Append(helpMenu_, wxT("&Help"));
+    mainMenu_->Append(helpMenu_, wxT("&Help"));
 
-    SetMenuBar(menuBar_);
+    SetMenuBar(mainMenu_);
 #endif // wxUSE_MENUS
     // main tabs
 
@@ -143,12 +143,12 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     accountList_->InsertColumn(0, wxT("Name"), wxLIST_FORMAT_LEFT, 200);
     accountList_->InsertColumn(1, wxT("Balance"), wxLIST_FORMAT_RIGHT, 150);
 
-    netWorthLabel_ = new wxStaticText(accountsPage_, wxNewId(), wxEmptyString);
-    netWorthLabel_->SetFont(boldFont_);
+    netBalanceLabel_ = new wxStaticText(accountsPage_, wxNewId(), wxEmptyString);
+    netBalanceLabel_->SetFont(boldFont_);
 
     wxBoxSizer* labelSizer = new wxBoxSizer(wxHORIZONTAL);
     labelSizer->Add(0, 0, 1);
-    labelSizer->Add(netWorthLabel_, 0, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
+    labelSizer->Add(netBalanceLabel_, 0, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
 
     accountsSizer_ = new wxBoxSizer(wxVERTICAL);
     accountsSizer_->Add(accountList_, 1, wxTOP | wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
@@ -159,64 +159,64 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     // transactions page
 
     // - selection
-    selViewButton_ = new wxButton(transactionsPage_, ID_SEL_VIEW, wxT("+"), wxDefaultPosition, viewButtonSize);
+    selectionViewButton_ = new wxButton(transactionsPage_, ID_SEL_VIEW, wxT("+"), wxDefaultPosition, viewButtonSize);
 
-    selPanel_ = new wxPanel(transactionsPage_, wxNewId());
+    selectionPanel_ = new wxPanel(transactionsPage_, wxNewId());
 
-    selIntervalChoice_ = new wxChoice(selPanel_, ID_SEL_INTERVAL);
+    selIntervalChoice_ = new wxChoice(selectionPanel_, ID_SEL_INTERVAL);
     selIntervalChoice_->SetToolTip(wxT("Select time interval"));
     populateSelectionIntervals();
 
-    selFirstDatePicker_ = new wxDatePickerCtrl(selPanel_, ID_SEL_FIRST, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
+    selFirstDatePicker_ = new wxDatePickerCtrl(selectionPanel_, ID_SEL_FIRST, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
     selFirstDatePicker_->SetToolTip(wxT("\'From\' date"));
 
-    wxStaticText* selTowards = new wxStaticText(selPanel_, wxNewId(), wxT(">>"));
+    wxStaticText* selTowards = new wxStaticText(selectionPanel_, wxNewId(), wxT(">>"));
 
-    selLastDatePicker_ = new wxDatePickerCtrl(selPanel_, ID_SEL_LAST, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
+    selLastDatePicker_ = new wxDatePickerCtrl(selectionPanel_, ID_SEL_LAST, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
     selLastDatePicker_->SetToolTip(wxT("\'To\' date"));
 
-    selAccountChoice_ = new wxChoice(selPanel_, ID_SEL_ACCOUNT);
+    selAccountChoice_ = new wxChoice(selectionPanel_, ID_SEL_ACCOUNT);
     selAccountChoice_->SetToolTip(wxT("Select account"));
 
-    selPatternText_ = new wxTextCtrl(selPanel_, ID_SEL_PATTERN);
+    selPatternText_ = new wxTextCtrl(selectionPanel_, ID_SEL_PATTERN);
     selPatternText_->SetToolTip(wxT("Select item"));
 
-    reportsButton_ = new wxButton(selPanel_, ID_SEL_REPORTS, wxT("Reports"), wxDefaultPosition, wxDefaultSize, 0);
+    reportsButton_ = new wxButton(selectionPanel_, ID_SEL_REPORTS, wxT("Reports"), wxDefaultPosition, wxDefaultSize, 0);
 
     // - transactions list
     transactionsList_ = new wxSimpleHtmlListBox(transactionsPage_, ID_TRS_LIST);
 
     // - transaction
-    trViewButton_ = new wxButton(transactionsPage_, ID_TR_VIEW, wxT("-"), wxDefaultPosition, viewButtonSize);
+    transactionsViewButton_ = new wxButton(transactionsPage_, ID_TR_VIEW, wxT("-"), wxDefaultPosition, viewButtonSize);
 
-    trPanel_ = new wxPanel(transactionsPage_, wxNewId());
+    transactionPanel_ = new wxPanel(transactionsPage_, wxNewId());
 
-    trDatePicker_ = new wxDatePickerCtrl(trPanel_, ID_TR_DATE, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
+    trDatePicker_ = new wxDatePickerCtrl(transactionPanel_, ID_TR_DATE, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
     trDatePicker_->SetToolTip(wxT("Transaction date"));
 
-    trItemText_ = new wxTextCtrl(trPanel_, ID_TR_ITEM);
+    trItemText_ = new wxTextCtrl(transactionPanel_, ID_TR_ITEM);
     trItemText_->SetToolTip(wxT("Item"));
     trItemAutocompletion_ = new AutocompletionWindow(this, trItemText_);
 
-    trValueText_ = new wxTextCtrl(trPanel_, ID_TR_VALUE);
+    trValueText_ = new wxTextCtrl(transactionPanel_, ID_TR_VALUE);
     trValueText_->SetToolTip(wxT("Value"));
 
-    trSourceChoice_ = new wxChoice(trPanel_, ID_TR_SOURCE);
+    trSourceChoice_ = new wxChoice(transactionPanel_, ID_TR_SOURCE);
     trSourceChoice_->SetToolTip(wxT("Source account"));
 
-    wxStaticText* trTowards = new wxStaticText(trPanel_, wxNewId(), wxT(">>"));
+    wxStaticText* trTowards = new wxStaticText(transactionPanel_, wxNewId(), wxT(">>"));
 
-    trDestinationChoice_ = new wxChoice(trPanel_, ID_TR_DESTINATION);
+    trDestinationChoice_ = new wxChoice(transactionPanel_, ID_TR_DESTINATION);
     trDestinationChoice_->SetToolTip(wxT("Destination account"));
 
-    trCommentText_ = new wxTextCtrl(trPanel_, ID_TR_COMMENT);
+    trCommentText_ = new wxTextCtrl(transactionPanel_, ID_TR_COMMENT);
     trCommentText_->SetToolTip(wxT("Comment"));
 
-    trDeleteButton_ = new wxButton(trPanel_, ID_TR_DELETE, wxT("&Delete"));
+    trDeleteButton_ = new wxButton(transactionPanel_, ID_TR_DELETE, wxT("&Delete"));
 
-    trNewButton_ = new wxButton(trPanel_, ID_TR_NEW, wxT("&New"));
+    trNewButton_ = new wxButton(transactionPanel_, ID_TR_NEW, wxT("&New"));
 
-    trAcceptButton_ = new wxButton(trPanel_, ID_TR_ACCEPT, wxT("Acce&pt"));
+    trAcceptButton_ = new wxButton(transactionPanel_, ID_TR_ACCEPT, wxT("Acce&pt"));
 
     wxBoxSizer* selSizerUp = new wxBoxSizer(wxHORIZONTAL);
     selSizerUp->Add(selIntervalChoice_, 1, wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
@@ -235,9 +235,9 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     wxBoxSizer* selSizer = new wxBoxSizer(wxHORIZONTAL);
     selSizer->Add(selSizer2, 1, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
     selSizer->Add(reportsButton_, 0, wxALL | wxALIGN_TOP | wxALIGN_CENTER_HORIZONTAL, EMPTY_BORDER_SIZE);
-    selPanel_->SetSizer(selSizer);
-    selSizer->Fit(selPanel_);
-    selSizer->SetSizeHints(selPanel_);
+    selectionPanel_->SetSizer(selSizer);
+    selSizer->Fit(selectionPanel_);
+    selSizer->SetSizeHints(selectionPanel_);
 
     wxBoxSizer* trSizerUp = new wxBoxSizer(wxHORIZONTAL);
     trSizerUp->Add(trDatePicker_, 1, wxALL | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
@@ -260,16 +260,16 @@ MainWindow::MainWindow(wxFrame *frame, const wxString& title) :
     trSizer->Add(trSizerUp, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
     trSizer->Add(trSizerMiddle, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
     trSizer->Add(trSizerBottom, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
-    trPanel_->SetSizer(trSizer);
-    trSizer->SetSizeHints(trPanel_);
+    transactionPanel_->SetSizer(trSizer);
+    trSizer->SetSizeHints(transactionPanel_);
 
     wxBoxSizer* trsTopSizer = new wxBoxSizer(wxHORIZONTAL);
-    trsTopSizer->Add(selViewButton_, 0, wxTOP | wxLEFT | wxBOTTOM | wxALIGN_LEFT | wxALIGN_TOP, EMPTY_BORDER_SIZE);
-    trsTopSizer->Add(selPanel_, 1, wxLEFT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
+    trsTopSizer->Add(selectionViewButton_, 0, wxTOP | wxLEFT | wxBOTTOM | wxALIGN_LEFT | wxALIGN_TOP, EMPTY_BORDER_SIZE);
+    trsTopSizer->Add(selectionPanel_, 1, wxLEFT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
 
     wxBoxSizer* trsBottomSizer = new wxBoxSizer(wxHORIZONTAL);
-    trsBottomSizer->Add(trViewButton_, 0, wxTOP | wxLEFT | wxBOTTOM | wxALIGN_LEFT | wxALIGN_TOP, EMPTY_BORDER_SIZE);
-    trsBottomSizer->Add(trPanel_, 1, wxLEFT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
+    trsBottomSizer->Add(transactionsViewButton_, 0, wxTOP | wxLEFT | wxBOTTOM | wxALIGN_LEFT | wxALIGN_TOP, EMPTY_BORDER_SIZE);
+    trsBottomSizer->Add(transactionPanel_, 1, wxLEFT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
 
     transactionsSizer_ = new wxBoxSizer(wxVERTICAL);
     transactionsSizer_->Add(trsTopSizer, 0, wxEXPAND | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, EMPTY_BORDER_SIZE);
@@ -309,22 +309,22 @@ void MainWindow::fitTransactionsPage()
 void MainWindow::showSelectionPanel(bool visible)
 {
     if (visible) {
-        selViewButton_->SetLabel(wxT("-"));
+        selectionViewButton_->SetLabel(wxT("-"));
     } else {
-        selViewButton_->SetLabel(wxT("+"));
+        selectionViewButton_->SetLabel(wxT("+"));
     }
-    selPanel_->Show(visible);
+    selectionPanel_->Show(visible);
     fitTransactionsPage();
 }
 
 void MainWindow::showTransactionPanel(bool visible)
 {
     if (visible) {
-        trViewButton_->SetLabel(wxT("-"));
+        transactionsViewButton_->SetLabel(wxT("-"));
     } else {
-        trViewButton_->SetLabel(wxT("+"));
+        transactionsViewButton_->SetLabel(wxT("+"));
     }
-    trPanel_->Show(visible);
+    transactionPanel_->Show(visible);
     fitTransactionsPage();
 }
 
@@ -365,10 +365,10 @@ void MainWindow::setUndoRedoView(const ReversibleDatabaseCommand* undo, const Re
 
 void MainWindow::setDatabaseOpenedView(bool opened)
 {
-    menuBar_->EnableTop(1, opened);
+    mainMenu_->EnableTop(1, opened);
 
-    fileMenu_->Enable(ID_MENU_EXPORT, opened);
-    fileMenu_->Enable(ID_MENU_IMPORT, opened);
+    databaseMenu_->Enable(ID_MENU_EXPORT, opened);
+    databaseMenu_->Enable(ID_MENU_IMPORT, opened);
 
     financialPages_->Show(opened);
 

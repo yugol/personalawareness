@@ -133,11 +133,11 @@ void MainWindow::onAbout(wxCommandEvent &event)
 
 void MainWindow::onSelectionViewButton(wxCommandEvent& event)
 {
-    showSelectionPanel(!selPanel_->IsShown());
+    showSelectionPanel(!selectionPanel_->IsShown());
 }
 
 void MainWindow::onTransactionViewButton(wxCommandEvent& event)
 {
-    showTransactionPanel(!trPanel_->IsShown());
+    showTransactionPanel(!transactionPanel_->IsShown());
 }
 

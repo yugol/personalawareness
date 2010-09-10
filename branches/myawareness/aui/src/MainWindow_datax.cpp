@@ -21,7 +21,7 @@ void MainWindow::setNetWorth(double val)
 {
     wxString wxworth(wxT("Net balance: "));
     UiUtil::appendCurrency(wxworth, val);
-    netWorthLabel_->SetLabel(wxworth);
+    netBalanceLabel_->SetLabel(wxworth);
     fitAccountsPage();
 }
 

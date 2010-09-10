@@ -94,11 +94,11 @@ private:
         ID_MENU_PREFERENCES,
         ID_MENU_ABOUT,
         ID_MENU_CONTENTS,
-        ID_MENU_WEBPAGE,
-        ID_REPORT_EXPENSES_PIE,
-        ID_REPORT_EXPENSES_MONTHLY,
-        ID_REPORT_INCOME_PIE,
-        ID_REPORT_INCOME_MONTHLY
+        ID_MENU_WEBPAGE
+    };
+
+    enum {
+        ID_REPORT_EXPENSES_PIE, ID_REPORT_EXPENSES_MONTHLY, ID_REPORT_INCOME_PIE, ID_REPORT_INCOME_MONTHLY
     };
 
     static const long ID_SEL_VIEW;
@@ -122,8 +122,8 @@ private:
     static const long ID_TR_NEW;
     static const long ID_TR_ACCEPT;
 
-    wxMenuBar* menuBar_;
-    wxMenu* fileMenu_;
+    wxMenuBar* mainMenu_;
+    wxMenu* databaseMenu_;
     wxMenu* editMenu_;
     wxMenu* helpMenu_;
 
@@ -134,10 +134,10 @@ private:
     wxBoxSizer* transactionsSizer_;
 
     wxListCtrl *accountList_;
-    wxStaticText* netWorthLabel_;
+    wxStaticText* netBalanceLabel_;
 
-    wxButton* selViewButton_;
-    wxPanel* selPanel_;
+    wxButton* selectionViewButton_;
+    wxPanel* selectionPanel_;
     wxChoice* selIntervalChoice_;
     wxDatePickerCtrl* selFirstDatePicker_;
     wxDatePickerCtrl* selLastDatePicker_;
@@ -148,8 +148,8 @@ private:
 
     wxSimpleHtmlListBox* transactionsList_;
 
-    wxButton* trViewButton_;
-    wxPanel* trPanel_;
+    wxButton* transactionsViewButton_;
+    wxPanel* transactionPanel_;
     wxDatePickerCtrl* trDatePicker_;
     wxTextCtrl* trItemText_;
     AutocompletionWindow* trItemAutocompletion_;
