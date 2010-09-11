@@ -44,7 +44,7 @@
             <event name="OnActivate"></event>
             <event name="OnActivateApp"></event>
             <event name="OnChar"></event>
-            <event name="OnClose"></event>
+            <event name="OnClose">onClose</event>
             <event name="OnEnterWindow"></event>
             <event name="OnEraseBackground"></event>
             <event name="OnHibernate"></event>
@@ -130,7 +130,7 @@
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onOpen</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="separator" expanded="1">
@@ -144,11 +144,11 @@
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
                         <property name="label">&amp;Export</property>
-                        <property name="name">exportSqlMenuItem</property>
-                        <property name="permission">none</property>
+                        <property name="name">exportSqlMenuItem_</property>
+                        <property name="permission">protected</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onExport</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="1">
@@ -159,11 +159,11 @@
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
                         <property name="label">&amp;Import</property>
-                        <property name="name">importSqlMenuItem</property>
-                        <property name="permission">none</property>
+                        <property name="name">importSqlMenuItem_</property>
+                        <property name="permission">protected</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onImport</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="separator" expanded="1">
@@ -181,11 +181,11 @@
                         <property name="permission">none</property>
                         <property name="shortcut">Alt+F4</property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onQuit</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                 </object>
-                <object class="wxMenu" expanded="0">
+                <object class="wxMenu" expanded="1">
                     <property name="label">&amp;Edit</property>
                     <property name="name">editMenu_</property>
                     <property name="permission">protected</property>
@@ -197,11 +197,11 @@
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
                         <property name="label">&amp;Undo</property>
-                        <property name="name">undoMenuItem</property>
-                        <property name="permission">none</property>
+                        <property name="name">undoMenuItem_</property>
+                        <property name="permission">protected</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onUndo</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="1">
@@ -212,11 +212,11 @@
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
                         <property name="label">&amp;Redo</property>
-                        <property name="name">redoMenuItem</property>
-                        <property name="permission">none</property>
+                        <property name="name">redoMenuItem_</property>
+                        <property name="permission">protected</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onRedo</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="separator" expanded="1">
@@ -234,7 +234,7 @@
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onAccounts</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="1">
@@ -249,7 +249,7 @@
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onItems</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="separator" expanded="1">
@@ -267,7 +267,7 @@
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onPreferences</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                 </object>
@@ -287,7 +287,7 @@
                         <property name="permission">none</property>
                         <property name="shortcut">F1</property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onManual</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="1">
@@ -302,7 +302,7 @@
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onHomepage</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="separator" expanded="1">
@@ -320,7 +320,7 @@
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onAbout</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                 </object>
@@ -449,7 +449,7 @@
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size"></property>
-                                            <property name="style">wxLC_HRULES|wxLC_LIST|wxLC_REPORT|wxLC_SINGLE_SEL</property>
+                                            <property name="style">wxLC_HRULES|wxLC_REPORT</property>
                                             <property name="subclass"></property>
                                             <property name="tooltip"></property>
                                             <property name="window_extra_style"></property>
@@ -661,7 +661,7 @@
                                                     <property name="window_extra_style"></property>
                                                     <property name="window_name"></property>
                                                     <property name="window_style"></property>
-                                                    <event name="OnButtonClick"></event>
+                                                    <event name="OnButtonClick">onSelectionViewButton</event>
                                                     <event name="OnChar"></event>
                                                     <event name="OnEnterWindow"></event>
                                                     <event name="OnEraseBackground"></event>
@@ -733,7 +733,7 @@
                                                     <event name="OnSetFocus"></event>
                                                     <event name="OnSize"></event>
                                                     <event name="OnUpdateUI"></event>
-                                                    <object class="wxBoxSizer" expanded="0">
+                                                    <object class="wxBoxSizer" expanded="1">
                                                         <property name="minimum_size"></property>
                                                         <property name="name">selectionReportsSizer</property>
                                                         <property name="orient">wxHORIZONTAL</property>
@@ -742,7 +742,7 @@
                                                             <property name="border">5</property>
                                                             <property name="flag">wxEXPAND</property>
                                                             <property name="proportion">1</property>
-                                                            <object class="wxBoxSizer" expanded="0">
+                                                            <object class="wxBoxSizer" expanded="1">
                                                                 <property name="minimum_size"></property>
                                                                 <property name="name">selectionSizer</property>
                                                                 <property name="orient">wxVERTICAL</property>
@@ -751,7 +751,7 @@
                                                                     <property name="border">5</property>
                                                                     <property name="flag">wxEXPAND</property>
                                                                     <property name="proportion">0</property>
-                                                                    <object class="wxBoxSizer" expanded="0">
+                                                                    <object class="wxBoxSizer" expanded="1">
                                                                         <property name="minimum_size"></property>
                                                                         <property name="name">selectionTopSizer</property>
                                                                         <property name="orient">wxHORIZONTAL</property>
@@ -833,7 +833,7 @@
                                                                                 <property name="window_name"></property>
                                                                                 <property name="window_style"></property>
                                                                                 <event name="OnChar"></event>
-                                                                                <event name="OnChoice"></event>
+                                                                                <event name="OnChoice">onSelectionIntervalChoice</event>
                                                                                 <event name="OnEnterWindow"></event>
                                                                                 <event name="OnEraseBackground"></event>
                                                                                 <event name="OnKeyDown"></event>
@@ -934,7 +934,7 @@
                                                                                 <property name="window_name"></property>
                                                                                 <property name="window_style"></property>
                                                                                 <event name="OnChar"></event>
-                                                                                <event name="OnDateChanged"></event>
+                                                                                <event name="OnDateChanged">onSelectionFirstDateChanged</event>
                                                                                 <event name="OnEnterWindow"></event>
                                                                                 <event name="OnEraseBackground"></event>
                                                                                 <event name="OnKeyDown"></event>
@@ -1035,7 +1035,7 @@
                                                                                 <property name="window_name"></property>
                                                                                 <property name="window_style"></property>
                                                                                 <event name="OnChar"></event>
-                                                                                <event name="OnDateChanged"></event>
+                                                                                <event name="OnDateChanged">onSelectionLastDateChanged</event>
                                                                                 <event name="OnEnterWindow"></event>
                                                                                 <event name="OnEraseBackground"></event>
                                                                                 <event name="OnKeyDown"></event>
@@ -1066,7 +1066,7 @@
                                                                     <property name="border">5</property>
                                                                     <property name="flag">wxEXPAND</property>
                                                                     <property name="proportion">0</property>
-                                                                    <object class="wxBoxSizer" expanded="0">
+                                                                    <object class="wxBoxSizer" expanded="1">
                                                                         <property name="minimum_size"></property>
                                                                         <property name="name">selectionBottomSizer</property>
                                                                         <property name="orient">wxHORIZONTAL</property>
@@ -1148,7 +1148,7 @@
                                                                                 <property name="window_name"></property>
                                                                                 <property name="window_style"></property>
                                                                                 <event name="OnChar"></event>
-                                                                                <event name="OnChoice"></event>
+                                                                                <event name="OnChoice">onSelectionAccountChoice</event>
                                                                                 <event name="OnEnterWindow"></event>
                                                                                 <event name="OnEraseBackground"></event>
                                                                                 <event name="OnKeyDown"></event>
@@ -1272,7 +1272,7 @@
                                                                                 <event name="OnRightUp"></event>
                                                                                 <event name="OnSetFocus"></event>
                                                                                 <event name="OnSize"></event>
-                                                                                <event name="OnText"></event>
+                                                                                <event name="OnText">onSelectionPatternText</event>
                                                                                 <event name="OnTextEnter"></event>
                                                                                 <event name="OnTextMaxLen"></event>
                                                                                 <event name="OnTextURL"></event>
@@ -1309,7 +1309,7 @@
                                                                 <property name="window_extra_style"></property>
                                                                 <property name="window_name"></property>
                                                                 <property name="window_style"></property>
-                                                                <event name="OnButtonClick"></event>
+                                                                <event name="OnButtonClick">onReports</event>
                                                                 <event name="OnChar"></event>
                                                                 <event name="OnEnterWindow"></event>
                                                                 <event name="OnEraseBackground"></event>
@@ -1386,7 +1386,7 @@
                                                     <property name="window_extra_style"></property>
                                                     <property name="window_name"></property>
                                                     <property name="window_style"></property>
-                                                    <event name="OnButtonClick"></event>
+                                                    <event name="OnButtonClick">onTransactionViewButton</event>
                                                     <event name="OnChar"></event>
                                                     <event name="OnEnterWindow"></event>
                                                     <event name="OnEraseBackground"></event>
@@ -1467,7 +1467,7 @@
                                                             <property name="border">5</property>
                                                             <property name="flag">wxEXPAND</property>
                                                             <property name="proportion">0</property>
-                                                            <object class="wxBoxSizer" expanded="1">
+                                                            <object class="wxBoxSizer" expanded="0">
                                                                 <property name="minimum_size"></property>
                                                                 <property name="name">transactionTopSizer</property>
                                                                 <property name="orient">wxHORIZONTAL</property>
@@ -1548,7 +1548,7 @@
                                                                         <property name="window_name"></property>
                                                                         <property name="window_style"></property>
                                                                         <event name="OnChar"></event>
-                                                                        <event name="OnDateChanged"></event>
+                                                                        <event name="OnDateChanged">onTransactionDateChanged</event>
                                                                         <event name="OnEnterWindow"></event>
                                                                         <event name="OnEraseBackground"></event>
                                                                         <event name="OnKeyDown"></event>
@@ -1653,7 +1653,7 @@
                                                                         <event name="OnChar"></event>
                                                                         <event name="OnEnterWindow"></event>
                                                                         <event name="OnEraseBackground"></event>
-                                                                        <event name="OnKeyDown"></event>
+                                                                        <event name="OnKeyDown">onTransactionItemKeyDown</event>
                                                                         <event name="OnKeyUp"></event>
                                                                         <event name="OnKillFocus"></event>
                                                                         <event name="OnLeaveWindow"></event>
@@ -1672,7 +1672,7 @@
                                                                         <event name="OnRightUp"></event>
                                                                         <event name="OnSetFocus"></event>
                                                                         <event name="OnSize"></event>
-                                                                        <event name="OnText"></event>
+                                                                        <event name="OnText">onTransactionItemText</event>
                                                                         <event name="OnTextEnter"></event>
                                                                         <event name="OnTextMaxLen"></event>
                                                                         <event name="OnTextURL"></event>
@@ -1778,7 +1778,7 @@
                                                                         <event name="OnRightUp"></event>
                                                                         <event name="OnSetFocus"></event>
                                                                         <event name="OnSize"></event>
-                                                                        <event name="OnText"></event>
+                                                                        <event name="OnText">onTransactionValueText</event>
                                                                         <event name="OnTextEnter"></event>
                                                                         <event name="OnTextMaxLen"></event>
                                                                         <event name="OnTextURL"></event>
@@ -1796,57 +1796,6 @@
                                                                 <property name="name">transactionMiddleSizer</property>
                                                                 <property name="orient">wxHORIZONTAL</property>
                                                                 <property name="permission">none</property>
-                                                                <object class="sizeritem" expanded="1">
-                                                                    <property name="border">5</property>
-                                                                    <property name="flag">wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxLEFT</property>
-                                                                    <property name="proportion">0</property>
-                                                                    <object class="wxStaticText" expanded="1">
-                                                                        <property name="bg"></property>
-                                                                        <property name="context_help"></property>
-                                                                        <property name="enabled">1</property>
-                                                                        <property name="fg"></property>
-                                                                        <property name="font"></property>
-                                                                        <property name="hidden">0</property>
-                                                                        <property name="id">wxID_ANY</property>
-                                                                        <property name="label">From</property>
-                                                                        <property name="maximum_size"></property>
-                                                                        <property name="minimum_size"></property>
-                                                                        <property name="name">trFromLabel_</property>
-                                                                        <property name="permission">protected</property>
-                                                                        <property name="pos"></property>
-                                                                        <property name="size"></property>
-                                                                        <property name="style"></property>
-                                                                        <property name="subclass"></property>
-                                                                        <property name="tooltip"></property>
-                                                                        <property name="window_extra_style"></property>
-                                                                        <property name="window_name"></property>
-                                                                        <property name="window_style"></property>
-                                                                        <property name="wrap">-1</property>
-                                                                        <event name="OnChar"></event>
-                                                                        <event name="OnEnterWindow"></event>
-                                                                        <event name="OnEraseBackground"></event>
-                                                                        <event name="OnKeyDown"></event>
-                                                                        <event name="OnKeyUp"></event>
-                                                                        <event name="OnKillFocus"></event>
-                                                                        <event name="OnLeaveWindow"></event>
-                                                                        <event name="OnLeftDClick"></event>
-                                                                        <event name="OnLeftDown"></event>
-                                                                        <event name="OnLeftUp"></event>
-                                                                        <event name="OnMiddleDClick"></event>
-                                                                        <event name="OnMiddleDown"></event>
-                                                                        <event name="OnMiddleUp"></event>
-                                                                        <event name="OnMotion"></event>
-                                                                        <event name="OnMouseEvents"></event>
-                                                                        <event name="OnMouseWheel"></event>
-                                                                        <event name="OnPaint"></event>
-                                                                        <event name="OnRightDClick"></event>
-                                                                        <event name="OnRightDown"></event>
-                                                                        <event name="OnRightUp"></event>
-                                                                        <event name="OnSetFocus"></event>
-                                                                        <event name="OnSize"></event>
-                                                                        <event name="OnUpdateUI"></event>
-                                                                    </object>
-                                                                </object>
                                                                 <object class="sizeritem" expanded="1">
                                                                     <property name="border">5</property>
                                                                     <property name="flag">wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT</property>
@@ -1873,58 +1822,7 @@
                                                                         <property name="window_name"></property>
                                                                         <property name="window_style"></property>
                                                                         <event name="OnChar"></event>
-                                                                        <event name="OnChoice"></event>
-                                                                        <event name="OnEnterWindow"></event>
-                                                                        <event name="OnEraseBackground"></event>
-                                                                        <event name="OnKeyDown"></event>
-                                                                        <event name="OnKeyUp"></event>
-                                                                        <event name="OnKillFocus"></event>
-                                                                        <event name="OnLeaveWindow"></event>
-                                                                        <event name="OnLeftDClick"></event>
-                                                                        <event name="OnLeftDown"></event>
-                                                                        <event name="OnLeftUp"></event>
-                                                                        <event name="OnMiddleDClick"></event>
-                                                                        <event name="OnMiddleDown"></event>
-                                                                        <event name="OnMiddleUp"></event>
-                                                                        <event name="OnMotion"></event>
-                                                                        <event name="OnMouseEvents"></event>
-                                                                        <event name="OnMouseWheel"></event>
-                                                                        <event name="OnPaint"></event>
-                                                                        <event name="OnRightDClick"></event>
-                                                                        <event name="OnRightDown"></event>
-                                                                        <event name="OnRightUp"></event>
-                                                                        <event name="OnSetFocus"></event>
-                                                                        <event name="OnSize"></event>
-                                                                        <event name="OnUpdateUI"></event>
-                                                                    </object>
-                                                                </object>
-                                                                <object class="sizeritem" expanded="1">
-                                                                    <property name="border">5</property>
-                                                                    <property name="flag">wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxLEFT</property>
-                                                                    <property name="proportion">0</property>
-                                                                    <object class="wxStaticText" expanded="1">
-                                                                        <property name="bg"></property>
-                                                                        <property name="context_help"></property>
-                                                                        <property name="enabled">1</property>
-                                                                        <property name="fg"></property>
-                                                                        <property name="font"></property>
-                                                                        <property name="hidden">0</property>
-                                                                        <property name="id">wxID_ANY</property>
-                                                                        <property name="label">To</property>
-                                                                        <property name="maximum_size"></property>
-                                                                        <property name="minimum_size"></property>
-                                                                        <property name="name">dtrToLabel_</property>
-                                                                        <property name="permission">protected</property>
-                                                                        <property name="pos"></property>
-                                                                        <property name="size"></property>
-                                                                        <property name="style"></property>
-                                                                        <property name="subclass"></property>
-                                                                        <property name="tooltip"></property>
-                                                                        <property name="window_extra_style"></property>
-                                                                        <property name="window_name"></property>
-                                                                        <property name="window_style"></property>
-                                                                        <property name="wrap">-1</property>
-                                                                        <event name="OnChar"></event>
+                                                                        <event name="OnChoice">onTransactionSourceChoice</event>
                                                                         <event name="OnEnterWindow"></event>
                                                                         <event name="OnEraseBackground"></event>
                                                                         <event name="OnKeyDown"></event>
@@ -1975,7 +1873,7 @@
                                                                         <property name="window_name"></property>
                                                                         <property name="window_style"></property>
                                                                         <event name="OnChar"></event>
-                                                                        <event name="OnChoice"></event>
+                                                                        <event name="OnChoice">onTransactionDestinationChoice</event>
                                                                         <event name="OnEnterWindow"></event>
                                                                         <event name="OnEraseBackground"></event>
                                                                         <event name="OnKeyDown"></event>
@@ -2012,7 +1910,7 @@
                                                                         <property name="font"></property>
                                                                         <property name="hidden">0</property>
                                                                         <property name="id">wxID_ANY</property>
-                                                                        <property name="label">Comment</property>
+                                                                        <property name="label">Note</property>
                                                                         <property name="maximum_size"></property>
                                                                         <property name="minimum_size"></property>
                                                                         <property name="name">commentLabel_</property>
@@ -2099,7 +1997,7 @@
                                                                         <event name="OnRightUp"></event>
                                                                         <event name="OnSetFocus"></event>
                                                                         <event name="OnSize"></event>
-                                                                        <event name="OnText"></event>
+                                                                        <event name="OnText">onTransactionCommentText</event>
                                                                         <event name="OnTextEnter"></event>
                                                                         <event name="OnTextMaxLen"></event>
                                                                         <event name="OnTextURL"></event>
@@ -2119,7 +2017,7 @@
                                                                 <property name="permission">none</property>
                                                                 <object class="sizeritem" expanded="1">
                                                                     <property name="border">5</property>
-                                                                    <property name="flag">wxALL</property>
+                                                                    <property name="flag">wxALIGN_RIGHT|wxBOTTOM|wxLEFT</property>
                                                                     <property name="proportion">0</property>
                                                                     <object class="wxButton" expanded="1">
                                                                         <property name="bg"></property>
@@ -2143,7 +2041,7 @@
                                                                         <property name="window_extra_style"></property>
                                                                         <property name="window_name"></property>
                                                                         <property name="window_style"></property>
-                                                                        <event name="OnButtonClick"></event>
+                                                                        <event name="OnButtonClick">onDeleteTransaction</event>
                                                                         <event name="OnChar"></event>
                                                                         <event name="OnEnterWindow"></event>
                                                                         <event name="OnEraseBackground"></event>
@@ -2181,7 +2079,7 @@
                                                                 </object>
                                                                 <object class="sizeritem" expanded="1">
                                                                     <property name="border">5</property>
-                                                                    <property name="flag">wxALL</property>
+                                                                    <property name="flag">wxBOTTOM|wxLEFT|wxRIGHT</property>
                                                                     <property name="proportion">0</property>
                                                                     <object class="wxButton" expanded="1">
                                                                         <property name="bg"></property>
@@ -2205,7 +2103,7 @@
                                                                         <property name="window_extra_style"></property>
                                                                         <property name="window_name"></property>
                                                                         <property name="window_style"></property>
-                                                                        <event name="OnButtonClick"></event>
+                                                                        <event name="OnButtonClick">onNewTransaction</event>
                                                                         <event name="OnChar"></event>
                                                                         <event name="OnEnterWindow"></event>
                                                                         <event name="OnEraseBackground"></event>
@@ -2233,7 +2131,7 @@
                                                                 </object>
                                                                 <object class="sizeritem" expanded="1">
                                                                     <property name="border">5</property>
-                                                                    <property name="flag">wxALL</property>
+                                                                    <property name="flag">wxBOTTOM|wxLEFT|wxRIGHT</property>
                                                                     <property name="proportion">0</property>
                                                                     <object class="wxButton" expanded="1">
                                                                         <property name="bg"></property>
@@ -2257,7 +2155,7 @@
                                                                         <property name="window_extra_style"></property>
                                                                         <property name="window_name"></property>
                                                                         <property name="window_style"></property>
-                                                                        <event name="OnButtonClick"></event>
+                                                                        <event name="OnButtonClick">onAcceptTransaction</event>
                                                                         <event name="OnChar"></event>
                                                                         <event name="OnEnterWindow"></event>
                                                                         <event name="OnEraseBackground"></event>

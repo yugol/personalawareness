@@ -64,7 +64,7 @@ AccountsDialogBase::AccountsDialogBase( wxWindow* parent, wxWindowID id, const w
 	valueText_ = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	middleSizer->Add( valueText_, 0, wxALL|wxEXPAND, 5 );
 	
-	commentLabel_ = new wxStaticText( this, wxID_ANY, wxT("Comment:"), wxDefaultPosition, wxDefaultSize, 0 );
+	commentLabel_ = new wxStaticText( this, wxID_ANY, wxT("Note:"), wxDefaultPosition, wxDefaultSize, 0 );
 	commentLabel_->Wrap( -1 );
 	middleSizer->Add( commentLabel_, 0, wxALL, 5 );
 	
@@ -86,7 +86,7 @@ AccountsDialogBase::AccountsDialogBase( wxWindow* parent, wxWindowID id, const w
 	rightSizer->Add( deleteButton_, 0, wxALL, 5 );
 	
 	wxStaticText* emptyLabel;
-	emptyLabel = new wxStaticText( this, wxID_ANY, wxT(" "), wxDefaultPosition, wxDefaultSize, 0 );
+	emptyLabel = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	emptyLabel->Wrap( -1 );
 	rightSizer->Add( emptyLabel, 0, wxALL, 5 );
 	

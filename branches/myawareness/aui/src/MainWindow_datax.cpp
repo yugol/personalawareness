@@ -1,9 +1,4 @@
-#include <wx/stattext.h>
-#include <wx/listctrl.h>
-#include <wx/choice.h>
-#include <wx/combobox.h>
 #include <wx/htmllbox.h>
-#include <wx/datectrl.h>
 #include <Configuration.h>
 #include <Account.h>
 #include <Item.h>
@@ -44,10 +39,10 @@ void MainWindow::populateAccounts(const vector<pair<const Account*, double> >& s
     accountList_->DeleteAllItems();
 
     trSourceChoice_->Clear();
-    trSourceChoice_->Append(wxT("-"), reinterpret_cast<void*> (Configuration::DEFAULT_ID));
+    trSourceChoice_->Append(wxT("- Source account -"), reinterpret_cast<void*> (Configuration::DEFAULT_ID));
     trSourceChoice_->SetSelection(0);
     trDestinationChoice_->Clear();
-    trDestinationChoice_->Append(wxT("-"), reinterpret_cast<void*> (Configuration::DEFAULT_ID));
+    trDestinationChoice_->Append(wxT("- Destination account -"), reinterpret_cast<void*> (Configuration::DEFAULT_ID));
     trDestinationChoice_->SetSelection(0);
 
     vector<pair<const Account*, double> >::const_iterator it;

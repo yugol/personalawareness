@@ -47,7 +47,7 @@ IMPLEMENT_APP(Application)
 
 bool Application::OnInit()
 {
-    MainWindow* aFrame = new MainWindow(0L, UiUtil::getApplicationName(""));
+    MainWindow* aFrame = new MainWindow(0);
     Controller::instance_ = new Controller(aFrame);
     aFrame->SetSize(700, 525);
     aFrame->Show();

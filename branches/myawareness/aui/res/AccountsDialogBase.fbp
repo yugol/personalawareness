@@ -219,7 +219,7 @@
                             <property name="border">5</property>
                             <property name="flag">wxEXPAND</property>
                             <property name="proportion">0</property>
-                            <object class="wxBoxSizer" expanded="0">
+                            <object class="wxBoxSizer" expanded="1">
                                 <property name="minimum_size"></property>
                                 <property name="name">middleSizer</property>
                                 <property name="orient">wxVERTICAL</property>
@@ -655,7 +655,7 @@
                                         <property name="font"></property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Comment:</property>
+                                        <property name="label">Note:</property>
                                         <property name="maximum_size"></property>
                                         <property name="minimum_size"></property>
                                         <property name="name">commentLabel_</property>
@@ -928,7 +928,7 @@
                                         <property name="font"></property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label"> </property>
+                                        <property name="label"></property>
                                         <property name="maximum_size"></property>
                                         <property name="minimum_size"></property>
                                         <property name="name">emptyLabel</property>

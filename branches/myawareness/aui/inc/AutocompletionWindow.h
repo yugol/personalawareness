@@ -3,6 +3,7 @@
 
 #include <wx/frame.h>
 
+class wxTextCtrl;
 class wxListBox;
 
 class AutocompletionWindow: public wxFrame {
