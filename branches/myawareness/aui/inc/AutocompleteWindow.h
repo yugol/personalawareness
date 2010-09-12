@@ -1,15 +1,15 @@
-#ifndef AUTOCOMPLETIONWINDOW_H_
-#define AUTOCOMPLETIONWINDOW_H_
+#ifndef AUTOCOMPLEWINDOW_H_
+#define AUTOCOMPLEWINDOW_H_
 
-#include <wx/frame.h>
+#include <AutocompleteWindowBase.h>
 
 class wxTextCtrl;
 class wxListBox;
 
-class AutocompletionWindow: public wxFrame {
+class AutocompleteWindow: public AutocompleteWindowBase {
 public:
-    AutocompletionWindow(wxWindow* parent, wxTextCtrl* handler);
-    virtual ~AutocompletionWindow();
+    AutocompleteWindow(wxWindow* parent, wxTextCtrl* handler);
+    virtual ~AutocompleteWindow();
 
     void show();
     void hide();
@@ -19,10 +19,9 @@ public:
 
 private:
     wxTextCtrl* handler_;
-    wxListBox* optionList_;
 
     void onKillFocus(wxFocusEvent& event);
     void onKeyDown(wxKeyEvent& event);
 };
 
-#endif /* AUTOCOMPLETIONWINDOW_H_ */
+#endif /* AUTOCOMPLETEWINDOW_H_ */

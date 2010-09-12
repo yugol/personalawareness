@@ -1,7 +1,7 @@
 #include <wx/htmllbox.h>
 #include <ReversibleDatabaseCommand.h>
 #include <UiUtil.h>
-#include <AutocompletionWindow.h>
+#include <AutocompleteWindow.h>
 #include <Controller.h>
 #include <MainWindow.h>
 
@@ -24,7 +24,7 @@ MainWindow::MainWindow(wxWindow* parent) :
     transactionsList_ = new wxSimpleHtmlListBox(transactionsPage_, wxID_ANY);
     middleTransactionsSizer_->Add(transactionsList_, 1, wxLEFT | wxRIGHT | wxEXPAND, 5);
 
-    trItemAutocompletion_ = new AutocompletionWindow(this, trItemText_);
+    trItemAutocompletion_ = new AutocompleteWindow(this, trItemText_);
 
     showSelectionPanel(false);
     showTransactionPanel(true);

@@ -5,7 +5,7 @@
 #include <MainWindowBase.h>
 
 class wxSimpleHtmlListBox;
-class AutocompletionWindow;
+class AutocompleteWindow;
 namespace adb {
     class Item;
     class Account;
@@ -94,7 +94,7 @@ private:
     wxFont boldFont_;
 
     wxSimpleHtmlListBox* transactionsList_;
-    AutocompletionWindow* trItemAutocompletion_;
+    AutocompleteWindow* trItemAutocompletion_;
     bool processTransactionEditEvents_;
 
     void fitAccountsPage();

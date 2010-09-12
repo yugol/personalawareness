@@ -3,37 +3,23 @@
 #include <wx/sizer.h>
 #include <UiUtil.h>
 #include <Controller.h>
-#include <AutocompletionWindow.h>
+#include <AutocompleteWindow.h>
 
-AutocompletionWindow::AutocompletionWindow(wxWindow* parent, wxTextCtrl* handler) :
-    wxFrame(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxFRAME_NO_TASKBAR | wxFRAME_FLOAT_ON_PARENT), handler_(handler)
-{
-    this->SetSizeHints(wxDefaultSize, wxDefaultSize);
-
-    wxBoxSizer* frameSizer;
-    frameSizer = new wxBoxSizer(wxVERTICAL);
-
-    optionList_ = new wxListBox(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_NEEDED_SB | wxLB_SINGLE);
-    frameSizer->Add(optionList_, 1, wxALL | wxEXPAND, 0);
-
-    this->SetSizer(frameSizer);
-    this->Layout();
-
-    // Connect Events
-    optionList_->Connect(wxEVT_KILL_FOCUS, wxFocusEventHandler( AutocompletionWindow::onKillFocus ), NULL, this);
-    optionList_->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler( AutocompletionWindow::onKeyDown ), NULL, this);
-}
-
-AutocompletionWindow::~AutocompletionWindow()
+AutocompleteWindow::AutocompleteWindow(wxWindow* parent, wxTextCtrl* handler) :
+    AutocompleteWindowBase(parent), handler_(handler)
 {
 }
 
-void AutocompletionWindow::onKillFocus(wxFocusEvent& event)
+AutocompleteWindow::~AutocompleteWindow()
+{
+}
+
+void AutocompleteWindow::onKillFocus(wxFocusEvent& event)
 {
     hide();
 }
 
-void AutocompletionWindow::onKeyDown(wxKeyEvent& event)
+void AutocompleteWindow::onKeyDown(wxKeyEvent& event)
 {
     int keyCode = event.GetKeyCode();
 
@@ -66,7 +52,7 @@ void AutocompletionWindow::onKeyDown(wxKeyEvent& event)
     hide();
 }
 
-void AutocompletionWindow::show()
+void AutocompleteWindow::show()
 {
     if (optionList_->GetCount() <= 0) {
         return;
@@ -85,24 +71,24 @@ void AutocompletionWindow::show()
     Show(true);
 }
 
-void AutocompletionWindow::hide()
+void AutocompleteWindow::hide()
 {
     Show(false);
     int lastPos = handler_->GetValue().Len();
     handler_->SetSelection(lastPos, lastPos);
 }
 
-void AutocompletionWindow::clear()
+void AutocompleteWindow::clear()
 {
     optionList_->Clear();
 }
 
-void AutocompletionWindow::append(const wxString& name, int id)
+void AutocompleteWindow::append(const wxString& name, int id)
 {
     optionList_->Append(name, reinterpret_cast<void*> (id));
 }
 
-void AutocompletionWindow::select(const wxString& hint, int direction)
+void AutocompleteWindow::select(const wxString& hint, int direction)
 {
     int idx = wxNOT_FOUND;
 

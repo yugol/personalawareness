@@ -8,7 +8,7 @@
 #include <Item.h>
 #include <Transaction.h>
 #include <UiUtil.h>
-#include <AutocompletionWindow.h>
+#include <AutocompleteWindow.h>
 #include <Controller.h>
 #include <MainWindow.h>
 

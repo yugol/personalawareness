@@ -5,7 +5,7 @@
 #include <Transaction.h>
 #include <SelectionParameters.h>
 #include <UiUtil.h>
-#include <AutocompletionWindow.h>
+#include <AutocompleteWindow.h>
 #include <Controller.h>
 #include <MainWindow.h>
 
