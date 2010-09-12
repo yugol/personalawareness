@@ -1,18 +1,16 @@
 #include <Date.h>
 #include "_test.h"
 
-using namespace adb;
-
 TEST( Full, Date)
 {
-	Date date;
+    Date date;
 
-	date.setNow();
+    date.setNow();
     // cout << date << endl;
 
-	date.setValue("20061107");
-	LONGS_EQUAL(2006, date.getYear());
-	LONGS_EQUAL(11, date.getMonth());
-	LONGS_EQUAL(7, date.getDay());
-	// cout << date << endl;
+    date.setValue("20061107");
+    LONGS_EQUAL(2006, date.getYear());
+    LONGS_EQUAL(11, date.getMonth());
+    LONGS_EQUAL(7, date.getDay());
+    // cout << date << endl;
 }

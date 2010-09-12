@@ -3,8 +3,6 @@
 #include <DatabaseConnection.h>
 #include "_test.h"
 
-using namespace adb;
-
 char testDatabase[] = "test.db";
 char disposableDatabase[] = "disposable.db";
 
