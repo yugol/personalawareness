@@ -6,11 +6,9 @@
 class MainWindow;
 class wxString;
 class wxDateTime;
-namespace adb {
-    class Account;
-    class Item;
-    class Transaction;
-}
+class Account;
+class Item;
+class Transaction;
 
 class Controller {
 public:
@@ -23,22 +21,22 @@ public:
     void getDefaultSqlExportName(wxString& name);
 
     void selectAllAccounts(std::vector<int>& accountIds);
-    const adb::Account* selectAccount(int accountId);
-    const adb::Account* selectAccount(const char* name);
+    const Account* selectAccount(int accountId);
+    const Account* selectAccount(const char* name);
     bool selectAccountInUse(int accountId);
-    void insertUpdateAccount(adb::Account* account);
+    void insertUpdateAccount(Account* account);
     void deleteAccount(int accountId);
 
-    void selectAllItems(std::vector<const adb::Item*>& items);
-    const adb::Item* selectItem(int itemId);
-    const adb::Item* selectItem(const char* name);
+    void selectAllItems(std::vector<const Item*>& items);
+    const Item* selectItem(int itemId);
+    const Item* selectItem(const char* name);
     bool selectItemInUse(int itemId);
-    void insertUpdateItem(adb::Item* item);
+    void insertUpdateItem(Item* item);
     void deleteItem(int itemId);
 
-    void selectTransaction(adb::Transaction* transaction, int transactionId);
-    void selectLastTransaction(adb::Transaction* transaction);
-    void insertUpdateTransaction(adb::Transaction* transaction);
+    void selectTransaction(Transaction* transaction, int transactionId);
+    void selectLastTransaction(Transaction* transaction);
+    void insertUpdateTransaction(Transaction* transaction);
     void deleteTransaction(int transactionId);
 
     void exitApplication();

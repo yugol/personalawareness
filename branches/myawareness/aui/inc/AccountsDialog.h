@@ -3,9 +3,7 @@
 
 #include <AccountsDialogBase.h>
 
-namespace adb {
-    class Account;
-}
+class Account;
 
 class AccountsDialog: public AccountsDialogBase {
 public:
@@ -31,11 +29,11 @@ private:
     bool processEvents_;
     bool dirty_;
     long selectedListItemId_;
-    const adb::Account* selectedAccount_;
+    const Account* selectedAccount_;
 
     void refreshAccountList(int selectedAccountId = 0);
     void selectAccount(long selectedListItemId = -1);
-    bool readValidateRefresh(adb::Account* account = 0);
+    bool readValidateRefresh(Account* account = 0);
 };
 
 #endif /* ACCOUNTSDIALOG_H_ */

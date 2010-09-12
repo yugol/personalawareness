@@ -7,16 +7,14 @@
 
 class wxHtmlWindow;
 class wxHtmlCellEvent;
-namespace adb {
-    class ReportData;
-}
+class ReportData;
 
 class ReportWindow: public wxFrame {
 public:
     ReportWindow(wxWindow* parent);
     virtual ~ReportWindow();
 
-    void render(const adb::ReportData& data);
+    void render(const ReportData& data);
 
 private:
     struct Entry {
@@ -60,10 +58,10 @@ private:
     std::vector<Entry> data_;
     double referenceValue_;
 
-    void buildPieReport(const adb::ReportData& data);
+    void buildPieReport(const ReportData& data);
     void renderPieReport();
 
-    void buildHistogramReport(const adb::ReportData& data);
+    void buildHistogramReport(const ReportData& data);
     void renderHistogramReport();
 
     void setHtml(const std::string& html);

@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <sstream>
+#include <fstream>
+#include <wx/file.h>
 #include <Exception.h>
 #include <Configuration.h>
 #include <Transaction.h>
@@ -12,7 +14,6 @@
 #include <ReportData.h>
 
 using namespace std;
-using namespace adb;
 
 Controller* Controller::instance_ = 0;
 
@@ -43,6 +44,84 @@ void Controller::initApplication()
 {
     if (Configuration::instance()->existsConfigurationFile()) {
         openDatabase(0);
+    }
+}
+
+void Controller::openDatabase(const wxString* location)
+{
+    try {
+
+        if (0 != location) {
+            string pathFileExt;
+            UiUtil::appendWxString(pathFileExt, *location);
+            if (!wxFile::Exists(location->wc_str())) {
+                ostringstream extOut;
+                UiUtil::streamExt(extOut, pathFileExt);
+                if (extOut.rdbuf()->str() != "db") {
+                    pathFileExt.append(".db");
+                }
+            }
+            DatabaseConnection::openDatabase(pathFileExt.c_str());
+        } else {
+            DatabaseConnection::instance(); // opens default database
+        }
+
+        mainWindow_->setSelectionStartInterval();
+        refreshAll();
+
+    } catch (const exception& ex) {
+
+        reportException(ex, wxT("opening database"));
+
+    }
+
+    // update interface
+    if (DatabaseConnection::isOpened()) {
+        mainWindow_->SetTitle(UiUtil::getApplicationName(DatabaseConnection::instance()->getDatabaseLocation()));
+        mainWindow_->setStatusMessage(UiUtil::getUsingStatusMessage(DatabaseConnection::instance()->getDatabaseLocation()));
+    } else {
+        mainWindow_->SetTitle(UiUtil::getApplicationName(""));
+        mainWindow_->setStatusMessage(UiUtil::getUsingStatusMessage(""));
+    }
+    refreshUndoRedoStatus();
+    mainWindow_->setDatabaseOpenedView(DatabaseConnection::isOpened());
+}
+
+void Controller::dumpDatabase(wxString& path)
+{
+    string stdpath;
+    UiUtil::appendWxString(stdpath, path);
+    ofstream fout(stdpath.c_str(), ios_base::trunc);
+
+    try {
+
+        DatabaseConnection::exportDatabase(fout);
+        mainWindow_->reportMessage(wxT("Operation completed successfully."), wxT("Export database"));
+
+    } catch (const exception& ex) {
+
+        reportException(ex, wxT("exporting database"));
+
+    }
+}
+
+void Controller::loadDatabase(wxString& path)
+{
+    string stdpath;
+    UiUtil::appendWxString(stdpath, path);
+    ifstream fin(stdpath.c_str());
+
+    try {
+
+        DatabaseConnection::importDatabase(fin);
+        openDatabase(0);
+        mainWindow_->reportMessage(wxT("Operation completed successfully."), wxT("Import database"));
+
+    } catch (const exception& ex) {
+
+        openDatabase(0);
+        reportException(ex, wxT("importing database"));
+
     }
 }
 
@@ -86,7 +165,7 @@ bool Controller::selectAccountInUse(int accountId)
     return DatabaseConnection::instance()->isAccountInUse(accountId);
 }
 
-void Controller::insertUpdateAccount(adb::Account* account)
+void Controller::insertUpdateAccount(Account* account)
 {
     DatabaseConnection::instance()->insertUpdate(account);
     refreshAccounts();
@@ -132,7 +211,7 @@ bool Controller::selectItemInUse(int itemId)
     return DatabaseConnection::instance()->isItemInUse(itemId);
 }
 
-void Controller::insertUpdateItem(adb::Item* item)
+void Controller::insertUpdateItem(Item* item)
 {
     DatabaseConnection::instance()->insertUpdate(item);
     refreshItems();
@@ -141,19 +220,9 @@ void Controller::insertUpdateItem(adb::Item* item)
 
 void Controller::deleteItem(int itemId)
 {
-    try {
-
-        DatabaseConnection::instance()->deleteItem(itemId);
-        refreshItems();
-        refreshUndoRedoStatus();
-
-    } catch (const exception& ex) {
-        if (0 == ::strstr(ex.what(), Exception::RECORD_IN_USE)) {
-            reportException(ex, wxT("deleting item"));
-        } else {
-            throw Exception("Cannot delete item because it is used by a transaction!");
-        }
-    }
+    DatabaseConnection::instance()->deleteItem(itemId);
+    refreshItems();
+    refreshUndoRedoStatus();
 }
 
 void Controller::selectTransaction(Transaction* transaction, int transactionId)
@@ -162,37 +231,25 @@ void Controller::selectTransaction(Transaction* transaction, int transactionId)
     DatabaseConnection::instance()->getTransaction(transaction);
 }
 
-void Controller::selectLastTransaction(adb::Transaction* transaction)
+void Controller::selectLastTransaction(Transaction* transaction)
 {
     DatabaseConnection::instance()->getLastTransaction(transaction);
 }
 
 void Controller::insertUpdateTransaction(Transaction* transaction)
 {
-    try {
-
-        DatabaseConnection::instance()->insertUpdate(transaction);
-        refreshTransactions();
-        refreshAccounts();
-        refreshUndoRedoStatus();
-
-    } catch (const exception& ex) {
-        reportException(ex, wxT("inserting or updating transaction"));
-    }
+    DatabaseConnection::instance()->insertUpdate(transaction);
+    refreshTransactions();
+    refreshAccounts();
+    refreshUndoRedoStatus();
 }
 
 void Controller::deleteTransaction(int transactionId)
 {
-    try {
-
-        DatabaseConnection::instance()->deleteTransaction(transactionId);
-        refreshTransactions();
-        refreshAccounts();
-        refreshUndoRedoStatus();
-
-    } catch (const exception& ex) {
-        reportException(ex, wxT("deleting transaction"));
-    }
+    DatabaseConnection::instance()->deleteTransaction(transactionId);
+    refreshTransactions();
+    refreshAccounts();
+    refreshUndoRedoStatus();
 }
 
 void Controller::exitApplication()

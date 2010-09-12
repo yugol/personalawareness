@@ -3,13 +3,7 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD+: wxBuilder forms
-// TBD: handle all errors in MainWindow and not in controller
-// TBD: get rid of magic numbers
-// TBD: remove adb namespace
-
-// TBD-: New button near Accept button when maximizing
-// TBD-: double click to edit transaction???
+// TBD+: sqlite has its own lib
 
 // TBD: REPORTS
 
@@ -18,7 +12,7 @@
 // TBD: write Google site
 
 // TBD: optim: replace const char* with std::string
-// TBD: optim: rename item updates only the entry in the list
+// TBD: optim: rename item updates only one entry in the list
 // TBD: optim: use virtual list for transactions or change only the affected row
 // TBD: optim: review refreshes in controller
 // TBD: optim: read items in autocompletion only when showing the window for the first time
@@ -36,12 +30,11 @@
 
 // TBD-: compile under Windows
 
-// TBD-: internationalization support
-
 // TBD-: csv import/export
 // TBD-: export table deletion & creation
 // TBD-: MySQL & other DBMS compatible SQL dump
 
+// TBD-: internationalization support
 
 IMPLEMENT_APP(Application)
 

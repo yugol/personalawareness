@@ -7,7 +7,6 @@
 #include <ReportWindow.h>
 
 using namespace std;
-using namespace adb;
 
 int ReportWindow::MAX_HISTOGRAM_BAR_LEN = 80;
 char ReportWindow::HORIZONTAL_BAR_UNIT[] = ":";

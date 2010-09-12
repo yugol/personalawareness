@@ -1,11 +1,6 @@
-#include <wx/dateevt.h>
-#include <wx/datectrl.h>
-#include <wx/menu.h>
 #include <ReportData.h>
 #include <Controller.h>
 #include <MainWindow.h>
-
-using namespace adb;
 
 void MainWindow::onSelectionIntervalChoice(wxCommandEvent& event)
 {

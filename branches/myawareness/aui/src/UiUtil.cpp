@@ -6,7 +6,6 @@
 #include <Item.h>
 #include <UiUtil.h>
 
-using namespace adb;
 using namespace std;
 
 const char* UiUtil::MONTH_NAMES[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
@@ -139,7 +138,7 @@ ostream& UiUtil::streamPercent(ostream& out, double val)
     return out;
 }
 
-ostream& UiUtil::streamDate(ostream& out, const adb::Date& date)
+ostream& UiUtil::streamDate(ostream& out, const Date& date)
 {
     out << date.getYear();
     out << '-';

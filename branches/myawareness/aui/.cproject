@@ -62,6 +62,12 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.880533157.2144393752" name="Controller_db.cpp" rcbsApplicability="disable" resourcePath="src/Controller_db.cpp" toolsToInvoke="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.2095595822.1816141475">
+						<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.2095595822.1816141475" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.2095595822"/>
+					</fileInfo>
+					<sourceEntries>
+						<entry excluding="src/Controller_db.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>

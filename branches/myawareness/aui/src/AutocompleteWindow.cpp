@@ -1,6 +1,4 @@
 #include <wx/textctrl.h>
-#include <wx/listbox.h>
-#include <wx/sizer.h>
 #include <UiUtil.h>
 #include <Controller.h>
 #include <AutocompleteWindow.h>
@@ -63,7 +61,7 @@ void AutocompleteWindow::show()
     SetSize(width, height);
 
     int x, y;
-    int delta = 10; // TBD-: magic number
+    int delta = 10;
     handler_->GetScreenPosition(&x, &y);
     y -= (height + delta);
     SetPosition(wxPoint(x, y));

@@ -10,7 +10,6 @@
 #include <MainWindow.h>
 
 using namespace std;
-using namespace adb;
 
 void MainWindow::setNetWorth(double val)
 {
@@ -154,7 +153,7 @@ void MainWindow::populateTransactions(const wxArrayString& items)
     transactionsList_->Append(items);
 }
 
-void MainWindow::getTransactionSelectionParameters(adb::SelectionParameters* parameters)
+void MainWindow::getTransactionSelectionParameters(SelectionParameters* parameters)
 {
     setSelectionInterval(selIntervalChoice_->GetSelection());
     int accountId = reinterpret_cast<int> (selAccountChoice_->GetClientData(selAccountChoice_->GetSelection()));

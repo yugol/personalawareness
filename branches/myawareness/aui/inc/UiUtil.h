@@ -5,10 +5,8 @@
 #include <ostream>
 
 class wxDateTime;
-namespace adb {
-    class Date;
-    class Item;
-}
+class Date;
+class Item;
 
 class UiUtil {
 public:
@@ -19,11 +17,11 @@ public:
     static wxString getUsingStatusMessage(const std::string& databaseFile);
     static wxString makeProperName(wxString rawName);
 
-    static void adbDate2wxDate(wxDateTime& to, const adb::Date& from);
+    static void adbDate2wxDate(wxDateTime& to, const Date& from);
 
     static std::ostream& streamCurrency(std::ostream& out, double val, bool html = false);
     static std::ostream& streamPercent(std::ostream& out, double val);
-    static std::ostream& streamDate(std::ostream& out, const adb::Date& date);
+    static std::ostream& streamDate(std::ostream& out, const Date& date);
     static std::ostream& streamFile(std::ostream& out, const std::string& pathFileExt);
     static std::ostream& streamExt(std::ostream& out, const std::string& pathFileExt);
     static std::ostream& streamFileExt(std::ostream& out, const std::string& pathFileExt);
@@ -33,7 +31,7 @@ public:
     static void appendCurrency(wxString& to, double val);
 
     static int compareBeginning(const wxString& needle, const wxString& hay);
-    static bool compareByName(const adb::Item* a, const adb::Item* b);
+    static bool compareByName(const Item* a, const Item* b);
 };
 
 #endif /* UIUTIL_H_ */

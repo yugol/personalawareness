@@ -22,7 +22,7 @@ private:
     bool processEvents_;
     bool dirty_;
     long selectedListItemId_;
-    const adb::Item* selectedItem_;
+    const Item* selectedItem_;
 
     void selectItem(long selectedId);
     void refreshItemList(int itemId);

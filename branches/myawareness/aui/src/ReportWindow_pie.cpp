@@ -7,7 +7,6 @@
 #include <ReportWindow.h>
 
 using namespace std;
-using namespace adb;
 
 void ReportWindow::buildPieReport(const ReportData& data)
 {

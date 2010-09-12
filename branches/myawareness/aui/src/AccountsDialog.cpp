@@ -8,7 +8,6 @@
 #include <AccountsDialog.h>
 
 using namespace std;
-using namespace adb;
 
 static const wxString typeTip(wxT("Type cannot be changed when a transaction uses the account"));
 static const wxString insertTip(wxT("Account name is already used"));

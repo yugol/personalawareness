@@ -2,8 +2,6 @@
 #include <UiUtil.h>
 #include <AboutDialog.h>
 
-using namespace adb;
-
 extern const char* RES_LARGE_ICON[];
 extern const char* RES_CHANGES;
 

@@ -2,7 +2,6 @@
 #include <UiUtil.h>
 #include <PreferencesDialog.h>
 
-using namespace adb;
 using namespace std;
 
 PreferencesDialog::PreferencesDialog(wxWindow* parent) :

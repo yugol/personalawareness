@@ -1,10 +1,6 @@
 #include <string>
-#include <wx/combobox.h>
-#include <wx/datectrl.h>
-#include <wx/choice.h>
-#include <wx/button.h>
-#include <wx/htmllbox.h>
 #include <wx/msgdlg.h>
+#include <wx/htmllbox.h>
 #include <Item.h>
 #include <Transaction.h>
 #include <UiUtil.h>
@@ -12,7 +8,6 @@
 #include <Controller.h>
 #include <MainWindow.h>
 
-using namespace adb;
 using namespace std;
 
 void MainWindow::onTransactionSelected(wxCommandEvent& event)
@@ -213,7 +208,7 @@ void MainWindow::selectTransaction(int transactionId, bool isAutocomplete)
     processTransactionEditEvents_ = true;
 }
 
-bool MainWindow::readValidateRefreshTransaction(adb::Transaction* transaction)
+bool MainWindow::readValidateRefreshTransaction(Transaction* transaction)
 {
     // transaction id
 

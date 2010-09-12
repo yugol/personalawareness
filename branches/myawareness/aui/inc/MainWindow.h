@@ -6,13 +6,11 @@
 
 class wxSimpleHtmlListBox;
 class AutocompleteWindow;
-namespace adb {
-    class Item;
-    class Account;
-    class Transaction;
-    class SelectionParameters;
-    class ReversibleDatabaseCommand;
-}
+class Item;
+class Account;
+class Transaction;
+class SelectionParameters;
+class ReversibleDatabaseCommand;
 
 class MainWindow: public MainWindowBase {
 public:
@@ -25,18 +23,18 @@ public:
     void setStatusMessage(const wxString& message);
 
     void setDatabaseOpenedView(bool opened);
-    void setUndoRedoView(const adb::ReversibleDatabaseCommand* undo, const adb::ReversibleDatabaseCommand* redo);
+    void setUndoRedoView(const ReversibleDatabaseCommand* undo, const ReversibleDatabaseCommand* redo);
     void scrollTransactionListAtEnd();
 
-    void populateAccounts(const std::vector<std::pair<const adb::Account*, double> >& statement);
-    void populateCreditingBudgets(const std::vector<const adb::Account*>& budgets);
-    void populateDebitingBudgets(const std::vector<const adb::Account*>& budgets);
-    void populateItems(const std::vector<const adb::Item*>& items);
+    void populateAccounts(const std::vector<std::pair<const Account*, double> >& statement);
+    void populateCreditingBudgets(const std::vector<const Account*>& budgets);
+    void populateDebitingBudgets(const std::vector<const Account*>& budgets);
+    void populateItems(const std::vector<const Item*>& items);
     void populateTransactions(const wxArrayString& items);
 
     int getTransactionSourceIndexById(int id);
     int getTransactionDestinationIndexById(int id);
-    void getTransactionSelectionParameters(adb::SelectionParameters* parameters);
+    void getTransactionSelectionParameters(SelectionParameters* parameters);
 
     void reportMessage(const wxString& message, const wxString& title = wxEmptyString);
 
@@ -104,7 +102,7 @@ private:
     void populateSelectionIntervals();
     int getSelectedTransactionId();
     void selectTransaction(int transactionId, bool isAutocomplete = false);
-    bool readValidateRefreshTransaction(adb::Transaction* transaction = 0);
+    bool readValidateRefreshTransaction(Transaction* transaction = 0);
 
     void onExpensesPie(wxCommandEvent& event);
     void onExpensesMonthly(wxCommandEvent& event);

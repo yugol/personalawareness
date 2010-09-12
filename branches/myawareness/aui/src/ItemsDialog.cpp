@@ -7,7 +7,6 @@
 #include <ItemsDialog.h>
 
 using namespace std;
-using namespace adb;
 
 ItemsDialog::ItemsDialog(wxWindow* parent) :
     ItemsDialogBase(parent), processEvents_(false)

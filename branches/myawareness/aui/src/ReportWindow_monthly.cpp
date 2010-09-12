@@ -5,9 +5,8 @@
 #include <ReportWindow.h>
 
 using namespace std;
-using namespace adb;
 
-void ReportWindow::buildHistogramReport(const adb::ReportData& data)
+void ReportWindow::buildHistogramReport(const ReportData& data)
 {
     data_.clear();
     referenceValue_ = 0;
