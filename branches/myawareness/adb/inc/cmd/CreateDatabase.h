@@ -3,16 +3,12 @@
 
 #include <DatabaseCommand.h>
 
-namespace adb {
+class CreateDatabase: public DatabaseCommand {
+public:
+    CreateDatabase(sqlite3* database);
 
-    class CreateDatabase: public DatabaseCommand {
-    public:
-        CreateDatabase(sqlite3* database);
-
-    protected:
-        virtual void buildSqlCommand();
-    };
-
-} // namespace adb
+protected:
+    virtual void buildSqlCommand();
+};
 
 #endif /* CREATEDATABASE_H_ */

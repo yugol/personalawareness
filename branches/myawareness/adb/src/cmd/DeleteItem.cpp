@@ -7,42 +7,39 @@
 
 using namespace std;
 
-namespace adb {
-
-    DeleteItem::DeleteItem(sqlite3* database, int id) :
-        ReversibleDatabaseCommand(database), item_(id)
-    {
-        if (DatabaseConnection::isItemInUse(database_, id)) {
-            THROW(Exception::RECORD_IN_USE);
-        }
-        GetItem(database_, &item_).execute();
+DeleteItem::DeleteItem(sqlite3* database, int id) :
+    ReversibleDatabaseCommand(database), item_(id)
+{
+    if (DatabaseConnection::isItemInUse(database_, id)) {
+        THROW(Exception::RECORD_IN_USE);
     }
+    GetItem(database_, &item_).execute();
+}
 
-    void DeleteItem::buildSqlCommand()
-    {
-        ostringstream sout;
+void DeleteItem::buildSqlCommand()
+{
+    ostringstream sout;
 
-        sout << "UPDATE [" << Configuration::TABLE_ITEMS << "] ";
-        sout << "SET [" << Configuration::COLUMN_DELETED << "] = '*' ";
-        sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << item_.getId() << ";" << endl;
+    sout << "UPDATE [" << Configuration::TABLE_ITEMS << "] ";
+    sout << "SET [" << Configuration::COLUMN_DELETED << "] = '*' ";
+    sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << item_.getId() << ";" << endl;
 
-        sql_ = sout.rdbuf()->str();
-    }
+    sql_ = sout.rdbuf()->str();
+}
 
-    void DeleteItem::buildReverseSqlCommand()
-    {
-        ostringstream sout;
+void DeleteItem::buildReverseSqlCommand()
+{
+    ostringstream sout;
 
-        sout << "UPDATE [" << Configuration::TABLE_ITEMS << "] ";
-        sout << "SET [" << Configuration::COLUMN_DELETED << "] = NULL ";
-        sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << item_.getId() << ";" << endl;
+    sout << "UPDATE [" << Configuration::TABLE_ITEMS << "] ";
+    sout << "SET [" << Configuration::COLUMN_DELETED << "] = NULL ";
+    sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << item_.getId() << ";" << endl;
 
-        reverseSql_ = sout.rdbuf()->str();
-    }
+    reverseSql_ = sout.rdbuf()->str();
+}
 
-    string DeleteItem::getDescription() const
-    {
-        return "delete item";
-    }
+string DeleteItem::getDescription() const
+{
+    return "delete item";
+}
 
-} // namespace adb

@@ -3,31 +3,27 @@
 
 #include <DatabaseCommand.h>
 
-namespace adb {
+class Account;
 
-    class Account;
+class GetAccountBalance: public DatabaseCommand {
+public:
+    GetAccountBalance(sqlite3* database, const Account* account);
 
-    class GetAccountBalance: public DatabaseCommand {
-    public:
-        GetAccountBalance(sqlite3* database, const Account* account);
+    virtual void execute();
 
-        virtual void execute();
+    double getBalance() const;
 
-        double getBalance() const;
+protected:
+    virtual void buildSqlCommand();
 
-    protected:
-        virtual void buildSqlCommand();
+private:
+    const Account* account_;
+    double balance_;
+};
 
-    private:
-        const Account* account_;
-        double balance_;
-    };
-
-    inline double GetAccountBalance::getBalance() const
-    {
-        return balance_;
-    }
-
-} // namespace adb
+inline double GetAccountBalance::getBalance() const
+{
+    return balance_;
+}
 
 #endif /* GETACCOUNTBALANCE_H_ */

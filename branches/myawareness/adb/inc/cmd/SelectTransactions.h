@@ -3,16 +3,12 @@
 
 #include <SelectCommand.h>
 
-namespace adb {
+class SelectTransactions: public SelectCommand {
+public:
+    SelectTransactions(sqlite3* database, std::vector<int>* selection, const SelectionParameters* parameters);
 
-    class SelectTransactions: public SelectCommand {
-    public:
-        SelectTransactions(sqlite3* database, std::vector<int>* selection, const SelectionParameters* parameters);
-
-    protected:
-        virtual void buildSqlCommand();
-    };
-
-} // namespace adb
+protected:
+    virtual void buildSqlCommand();
+};
 
 #endif /* SELECTTRANSACTIONS_H_ */

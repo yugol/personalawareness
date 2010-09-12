@@ -4,34 +4,30 @@
 #include <Transaction.h>
 #include <ReversibleDatabaseCommand.h>
 
-namespace adb {
+class InsertTransaction: public ReversibleDatabaseCommand {
+public:
+    static void buildSqlCommand(std::ostream& out, const Transaction& transaction);
 
-    class InsertTransaction: public ReversibleDatabaseCommand {
-    public:
-        static void buildSqlCommand(std::ostream& out, const Transaction& transaction);
+    InsertTransaction(sqlite3* database, const Transaction& transaction);
 
-        InsertTransaction(sqlite3* database, const Transaction& transaction);
+    const Transaction& getTransaction() const;
 
-        const Transaction& getTransaction() const;
+    virtual void execute();
+    virtual void unexecute();
 
-        virtual void execute();
-        virtual void unexecute();
+    virtual std::string getDescription() const;
 
-        virtual std::string getDescription() const;
+protected:
+    virtual void buildSqlCommand();
+    virtual void buildReverseSqlCommand();
 
-    protected:
-        virtual void buildSqlCommand();
-        virtual void buildReverseSqlCommand();
+private:
+    Transaction transaction_;
+};
 
-    private:
-        Transaction transaction_;
-    };
-
-    inline const Transaction& InsertTransaction::getTransaction() const
-    {
-        return transaction_;
-    }
-
+inline const Transaction& InsertTransaction::getTransaction() const
+{
+    return transaction_;
 }
 
 #endif /* INSERTTRANSACTION_H_ */

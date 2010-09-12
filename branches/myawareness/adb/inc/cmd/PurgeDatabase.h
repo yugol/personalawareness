@@ -3,16 +3,12 @@
 
 #include <DatabaseCommand.h>
 
-namespace adb {
+class PurgeDatabase: public DatabaseCommand {
+public:
+    PurgeDatabase(sqlite3* database);
 
-    class PurgeDatabase: public DatabaseCommand {
-    public:
-        PurgeDatabase(sqlite3* database);
-
-    protected:
-        virtual void buildSqlCommand();
-    };
-
-} // namespace adb
+protected:
+    virtual void buildSqlCommand();
+};
 
 #endif /* PURGEDATABASE_H_ */

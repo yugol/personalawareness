@@ -4,22 +4,18 @@
 #include <string>
 #include "DatabaseCommand.h"
 
-namespace adb {
+class ReversibleDatabaseCommand: public DatabaseCommand {
+public:
+    ReversibleDatabaseCommand(sqlite3* database);
 
-    class ReversibleDatabaseCommand: public DatabaseCommand {
-    public:
-        ReversibleDatabaseCommand(sqlite3* database);
+    virtual void unexecute();
+    virtual std::string getDescription() const = 0;
 
-        virtual void unexecute();
-        virtual std::string getDescription() const = 0;
+protected:
+    std::string reverseSql_;
 
-    protected:
-        std::string reverseSql_;
-
-        const char* getReverseSqlCommand();
-        virtual void buildReverseSqlCommand() = 0;
-    };
-
-} // namespace adb
+    const char* getReverseSqlCommand();
+    virtual void buildReverseSqlCommand() = 0;
+};
 
 #endif /* REVERSIBLEDATABASECOMMAND_H_ */

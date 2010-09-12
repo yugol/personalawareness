@@ -6,50 +6,47 @@
 
 using namespace std;
 
-namespace adb {
+SelectPreferences::SelectPreferences(sqlite3* database) :
+    DatabaseCommand(database)
+{
+}
 
-    SelectPreferences::SelectPreferences(sqlite3* database) :
-        DatabaseCommand(database)
-    {
-    }
+SelectPreferences::~SelectPreferences()
+{
+}
 
-    SelectPreferences::~SelectPreferences()
-    {
-    }
+static int readNameValuePair(void *param, int colCount, char **values, char **names)
+{
+    map<const string, const string>* nvpair = reinterpret_cast<map<const string, const string>*> (param);
 
-    static int readNameValuePair(void *param, int colCount, char **values, char **names)
-    {
-        map<const string, const string>* nvpair = reinterpret_cast<map<const string, const string>*> (param);
+    string name;
+    DbUtil::charPtrToString(name, values[0]);
 
-        string name;
-        DbUtil::charPtrToString(name, values[0]);
+    string value;
+    DbUtil::charPtrToString(value, values[1]);
 
-        string value;
-        DbUtil::charPtrToString(value, values[1]);
+    nvpair->insert(pair<string, string> (name, value));
 
-        nvpair->insert(pair<string, string> (name, value));
+    return 0;
+}
 
-        return 0;
-    }
+sqlite3_callback SelectPreferences::getCallbackFunction()
+{
+    return readNameValuePair;
+}
 
-    sqlite3_callback SelectPreferences::getCallbackFunction()
-    {
-        return readNameValuePair;
-    }
+void* SelectPreferences::getCallbackParameter()
+{
+    return &preferences_;
+}
 
-    void* SelectPreferences::getCallbackParameter()
-    {
-        return &preferences_;
-    }
+void SelectPreferences::buildSqlCommand()
+{
+    ostringstream sout;
 
-    void SelectPreferences::buildSqlCommand()
-    {
-        ostringstream sout;
+    sout << "SELECT [" << Configuration::COLUMN_NAME << "], ";
+    sout << "[" << Configuration::COLUMN_VALUE << "] ";
+    sout << "FROM [" << Configuration::TABLE_PREFERENCES << "];" << endl;
 
-        sout << "SELECT [" << Configuration::COLUMN_NAME << "], ";
-        sout << "[" << Configuration::COLUMN_VALUE << "] ";
-        sout << "FROM [" << Configuration::TABLE_PREFERENCES << "];" << endl;
-
-        sql_ = sout.rdbuf()->str();
-    }
+    sql_ = sout.rdbuf()->str();
 }

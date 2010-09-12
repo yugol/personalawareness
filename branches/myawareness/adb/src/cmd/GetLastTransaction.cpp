@@ -7,31 +7,28 @@
 
 using namespace std;
 
-namespace adb {
+GetLastTransaction::GetLastTransaction(sqlite3* database, Item* item) :
+    DatabaseCommand(database), item_(item), id_(Configuration::DEFAULT_ID)
+{
+}
 
-    GetLastTransaction::GetLastTransaction(sqlite3* database, Item* item) :
-        DatabaseCommand(database), item_(item), id_(Configuration::DEFAULT_ID)
-    {
+void GetLastTransaction::buildSqlCommand()
+{
+}
+
+void GetLastTransaction::execute()
+{
+    vector<int> sel;
+    SelectionParameters params;
+    params.setItemId(item_->getId());
+    params.setLastTransactionOnly(true);
+    SelectTransactions selectCmd(database_, &sel, &params);
+    selectCmd.execute();
+    if (sel.size() > 1) {
+        THROW(Exception::WRONG_VALUE_MESSAGE);
     }
-
-    void GetLastTransaction::buildSqlCommand()
-    {
+    if (sel.size() == 1) {
+        id_ = sel[0];
     }
+}
 
-    void GetLastTransaction::execute()
-    {
-        vector<int> sel;
-        SelectionParameters params;
-        params.setItemId(item_->getId());
-        params.setLastTransactionOnly(true);
-        SelectTransactions selectCmd(database_, &sel, &params);
-        selectCmd.execute();
-        if (sel.size() > 1) {
-            THROW(Exception::WRONG_VALUE_MESSAGE);
-        }
-        if (sel.size() == 1) {
-            id_ = sel[0];
-        }
-    }
-
-} // namespace adb

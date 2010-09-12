@@ -3,25 +3,21 @@
 
 #include <DatabaseCommand.h>
 
-namespace adb {
+class Item;
 
-    class Item;
+class GetItem: public DatabaseCommand {
+public:
+    GetItem(sqlite3* database, Item* item);
 
-    class GetItem: public DatabaseCommand {
-    public:
-        GetItem(sqlite3* database, Item* item);
+    virtual void execute();
 
-        virtual void execute();
+protected:
+    virtual void buildSqlCommand();
+    virtual sqlite3_callback getCallbackFunction();
+    virtual void* getCallbackParameter();
 
-    protected:
-        virtual void buildSqlCommand();
-        virtual sqlite3_callback getCallbackFunction();
-        virtual void* getCallbackParameter();
-
-    private:
-        Item* item_;
-    };
-
-} // namespace adb
+private:
+    Item* item_;
+};
 
 #endif /* GETITEM_H_ */

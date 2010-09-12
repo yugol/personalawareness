@@ -3,34 +3,30 @@
 
 #include <deque>
 
-namespace adb {
+class ReversibleDatabaseCommand;
 
-    class ReversibleDatabaseCommand;
+class UndoBuffer {
+public:
+    UndoBuffer(size_t maxLength = 1000);
+    virtual ~UndoBuffer();
 
-    class UndoBuffer {
-    public:
-        UndoBuffer(size_t maxLength = 1000);
-        virtual ~UndoBuffer();
+    void reset();
+    void add(ReversibleDatabaseCommand* command);
+    const ReversibleDatabaseCommand* getUndo() const;
+    const ReversibleDatabaseCommand* getRedo() const;
+    void undo();
+    void redo();
+    int getMaxLength() const;
 
-        void reset();
-        void add(ReversibleDatabaseCommand* command);
-        const ReversibleDatabaseCommand* getUndo() const;
-        const ReversibleDatabaseCommand* getRedo() const;
-        void undo();
-        void redo();
-        int getMaxLength() const;
+private:
+    std::deque<ReversibleDatabaseCommand*> history_;
+    size_t maxLength_;
+    int currentUndoPosition_;
+};
 
-    private:
-        std::deque<ReversibleDatabaseCommand*> history_;
-        size_t maxLength_;
-        int currentUndoPosition_;
-    };
-
-    inline int UndoBuffer::getMaxLength() const
-    {
-        return maxLength_;
-    }
-
-} // namespace adb
+inline int UndoBuffer::getMaxLength() const
+{
+    return maxLength_;
+}
 
 #endif /* UNDOBUFFER_H_ */

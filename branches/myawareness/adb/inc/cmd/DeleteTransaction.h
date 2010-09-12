@@ -4,22 +4,18 @@
 #include <Transaction.h>
 #include <ReversibleDatabaseCommand.h>
 
-namespace adb {
+class DeleteTransaction: public ReversibleDatabaseCommand {
+public:
+    DeleteTransaction(sqlite3* database, int id);
 
-    class DeleteTransaction: public ReversibleDatabaseCommand {
-    public:
-        DeleteTransaction(sqlite3* database, int id);
+    virtual std::string getDescription() const;
 
-        virtual std::string getDescription() const;
+protected:
+    virtual void buildSqlCommand();
+    virtual void buildReverseSqlCommand();
 
-    protected:
-        virtual void buildSqlCommand();
-        virtual void buildReverseSqlCommand();
-
-    private:
-        Transaction transaction_;
-    };
-
-} // namespace adb
+private:
+    Transaction transaction_;
+};
 
 #endif /* DELETETRANSACTION_H_ */

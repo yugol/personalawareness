@@ -4,34 +4,30 @@
 #include <Account.h>
 #include <ReversibleDatabaseCommand.h>
 
-namespace adb {
+class InsertAccount: public ReversibleDatabaseCommand {
+public:
+    static void buildReverseSqlCommand(std::ostream& out, const Account& account);
 
-    class InsertAccount: public ReversibleDatabaseCommand {
-    public:
-        static void buildReverseSqlCommand(std::ostream& out, const Account& account);
+    InsertAccount(sqlite3* database, const Account& item);
 
-        InsertAccount(sqlite3* database, const Account& item);
+    const Account& getAccount() const;
 
-        const Account& getAccount() const;
+    virtual void execute();
+    virtual void unexecute();
 
-        virtual void execute();
-        virtual void unexecute();
+    virtual std::string getDescription() const;
 
-        virtual std::string getDescription() const;
+protected:
+    virtual void buildSqlCommand();
+    virtual void buildReverseSqlCommand();
 
-    protected:
-        virtual void buildSqlCommand();
-        virtual void buildReverseSqlCommand();
+private:
+    Account account_;
+};
 
-    private:
-        Account account_;
-    };
-
-    inline const Account& InsertAccount::getAccount() const
-    {
-        return account_;
-    }
-
-} // namespace adb
+inline const Account& InsertAccount::getAccount() const
+{
+    return account_;
+}
 
 #endif /* INSERTACCOUNT_H_ */

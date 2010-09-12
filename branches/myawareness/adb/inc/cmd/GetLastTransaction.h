@@ -3,31 +3,27 @@
 
 #include <DatabaseCommand.h>
 
-namespace adb {
+class Item;
 
-    class Item;
+class GetLastTransaction: public DatabaseCommand {
+public:
+    GetLastTransaction(sqlite3* database, Item* item);
 
-    class GetLastTransaction: public DatabaseCommand {
-    public:
-        GetLastTransaction(sqlite3* database, Item* item);
+    int getId() const;
 
-        int getId() const;
+    virtual void execute();
 
-        virtual void execute();
+protected:
+    virtual void buildSqlCommand();
 
-    protected:
-        virtual void buildSqlCommand();
+private:
+    Item* item_;
+    int id_;
+};
 
-    private:
-        Item* item_;
-        int id_;
-    };
-
-    inline int GetLastTransaction::getId() const
-    {
-        return id_;
-    }
-
-} // namespace adb
+inline int GetLastTransaction::getId() const
+{
+    return id_;
+}
 
 #endif /* GETLASTTRANSACTION_H_ */

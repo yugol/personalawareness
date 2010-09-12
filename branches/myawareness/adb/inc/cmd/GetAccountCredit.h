@@ -3,33 +3,29 @@
 
 #include <DatabaseCommand.h>
 
-namespace adb {
+class Account;
 
-    class Account;
+class GetAccountCredit: public DatabaseCommand {
+public:
+    GetAccountCredit(sqlite3* database, const Account* account);
 
-    class GetAccountCredit: public DatabaseCommand {
-    public:
-        GetAccountCredit(sqlite3* database, const Account* account);
+    virtual sqlite3_callback getCallbackFunction();
+    virtual void* getCallbackParameter();
+    virtual void execute();
 
-        virtual sqlite3_callback getCallbackFunction();
-        virtual void* getCallbackParameter();
-        virtual void execute();
+    double getCredit() const;
 
-        double getCredit() const;
+protected:
+    virtual void buildSqlCommand();
 
-    protected:
-        virtual void buildSqlCommand();
+private:
+    const Account* account_;
+    double credit_;
+};
 
-    private:
-        const Account* account_;
-        double credit_;
-    };
-
-    inline double GetAccountCredit::getCredit() const
-    {
-        return credit_;
-    }
-
-} // namespace adb
+inline double GetAccountCredit::getCredit() const
+{
+    return credit_;
+}
 
 #endif /* GETACCOUNTCREDIT_H_ */
