@@ -611,7 +611,7 @@
 									<listOptionValue builtIn="false" value="pcfdb"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1487384950" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cppunitlite/Release}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cppunitlite/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfdb/Release}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.312615032" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
@@ -634,7 +634,7 @@
 				<externalSettings containerId="cppunitlite;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/cppunitlite"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/cppunitlite/Release"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/cppunitlite/Debug"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="cppunitlite"/>
 					</externalSetting>
 				</externalSettings>
