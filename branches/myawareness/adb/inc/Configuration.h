@@ -8,6 +8,7 @@ public:
     // utilities
     static const int LINE_BUFFER_LENGTH = 10000;
     static const int DEFAULT_ID = 0;
+    static const char CONFIGURATION_FILEEXT[];
     // defaults
     static const char PROJECT_MARKER[]; // used for database identification
     static const char PROJECT_NAME[];

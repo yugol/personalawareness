@@ -11,10 +11,11 @@ static const char HOME_ENVIRONMENT_VARIABLE_NAME[] = "HOME";
 
 Configuration* Configuration::instance_ = 0;
 
+const char Configuration::CONFIGURATION_FILEEXT[] = ".awareness.cfg";
 // defaults
 const char Configuration::PROJECT_MARKER[] = "5A08548C-B8C3-11DF-8AC9-BD12E0D72085-PERSONALAWARENESS";
 const char Configuration::PROJECT_NAME[] = "Personal Cash Flow";
-const char Configuration::PROJECT_VERSION[] = "0.7.2";
+const char Configuration::PROJECT_VERSION[] = "0.7.2 alpha";
 const char Configuration::PROJECT_DATABASE_VERSION[] = "0.1";
 const char Configuration::DEFAULT_CURRENCY_SYMBOL[] = "'";
 const bool Configuration::DEFAULT_PREFIX_CURRENCY = false;
@@ -61,11 +62,12 @@ Configuration::Configuration() :
     currencySymbol_(DEFAULT_CURRENCY_SYMBOL), prefixCurrency_(DEFAULT_PREFIX_CURRENCY), compactTransactions_(DEFAULT_COMPACT_TRNSACTIONS), compareAsciiOnly_(DEFAULT_COMPARE_ASCII_ONLY)
 {
     const char* homeFolder = ::getenv(HOME_ENVIRONMENT_VARIABLE_NAME);
+    // TBD+: show error message and start with no initial file
     if (NULL == homeFolder) {
         THROW("HOME environment variable not found");
     } else {
         ostringstream sout;
-        sout << homeFolder << "/." << PROJECT_NAME;
+        sout << homeFolder << "/" << CONFIGURATION_FILEEXT;
         configurationFilePath_ = sout.rdbuf()->str();
         readConfiguration();
     }
