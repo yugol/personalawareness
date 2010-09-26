@@ -71,7 +71,9 @@ void Controller::openDatabase(const wxString* location)
 
     } catch (const exception& ex) {
 
-        reportException(ex, wxT("opening database"));
+        if (Configuration::instance()->getLastDatabasePath().size() > 0) {
+            reportException(ex, wxT("opening database"));
+        }
 
     }
 

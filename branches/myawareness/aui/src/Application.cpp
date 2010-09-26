@@ -3,9 +3,25 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD+: sqlite has its own lib
+// TBD: save last modification date in database
+// TBD: About gives DB statistics
+// TBD: Application icon
+// TBD: configuration file name is .awareness.cfg
+// TBD: export database folder defaults to database path
+// TBD+: instead of tool tips use statusbar and colors
+// TBD: Accounts menu item help string -> Edit accounts
+// TBD-: Ctrl + Enter accepts transaction (if acceptable)
+// TBD: transaction selection period Today -> Last day
+// TBD: transaction selection period remove previous year
+// TBD: transaction selection perios -> One day simplify selection of a day
+// TBD: autocomplete window when no selection select last item
+// TBD: preferences: hide 0 balance accounts
+// TBD: about window: title Wercome to... -> This is ...
 
 // TBD: REPORTS
+// TBD: expenses/income yearly
+// TBD: use the same item - show growth
+// TBD: drawings
 
 // TBD: update Google code
 // TBD: add help support
