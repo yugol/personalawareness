@@ -8,7 +8,7 @@ TEST ( File, Configuration )
 	try {
 
 		const string& path = Configuration::instance()->getConfigurationFilePath();
-		int pos = path.find(Configuration::PROJECT_NAME);
+		int pos = path.find(Configuration::CONFIGURATION_FILEEXT);
 		CHECK( pos >= 0 );
 
 		const string& tmpDatabasePath = Configuration::instance()->getLastDatabasePath();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>adb-test</name>
+	<name>pcfdb-test</name>
 	<comment></comment>
 	<projects>
 		<project>adb</project>

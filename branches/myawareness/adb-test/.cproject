@@ -27,8 +27,7 @@
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.2098420700" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.2046275670" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cppunitlite}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/adb/sqlite}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/adb/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfdb/inc}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1209116649" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -42,13 +41,12 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1294148869" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 								<option id="gnu.cpp.link.option.paths.933501935" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cppunitlite/Debug}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/adb/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfdb/Debug}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.1456407562" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="cppunitlite"/>
-									<listOptionValue builtIn="false" value="adb"/>
-									<listOptionValue builtIn="false" value="pthread"/>
-									<listOptionValue builtIn="false" value="dl"/>
+									<listOptionValue builtIn="false" value="sqlite3"/>
+									<listOptionValue builtIn="false" value="pcfdb"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1032754418" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -593,9 +591,7 @@
 								<option id="gnu.cpp.compiler.exe.release.option.debugging.level.1297787525" name="Debug Level" superClass="gnu.cpp.compiler.exe.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1830976157" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cppunitlite}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/adb}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/adb/sqlite}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/adb/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfdb/inc}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.42528353" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -604,7 +600,6 @@
 								<option id="gnu.c.compiler.exe.release.option.debugging.level.1081814565" name="Debug Level" superClass="gnu.c.compiler.exe.release.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.314339755" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cppunitlite}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/adb}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1600503942" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -612,13 +607,12 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.1445672787" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release">
 								<option id="gnu.cpp.link.option.libs.1534337890" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="cppunitlite"/>
-									<listOptionValue builtIn="false" value="adb"/>
-									<listOptionValue builtIn="false" value="pthread"/>
-									<listOptionValue builtIn="false" value="dl"/>
+									<listOptionValue builtIn="false" value="sqlite3"/>
+									<listOptionValue builtIn="false" value="pcfdb"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1487384950" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cppunitlite/Debug}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/adb/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cppunitlite/Release}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfdb/Release}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.312615032" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -628,7 +622,6 @@
 							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.release.1990065028" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.release">
 								<option id="gnu.both.asm.option.include.paths.944634617" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cppunitlite}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/adb}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1690581962" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -637,17 +630,11 @@
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
-				<externalSettings containerId="adb;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/adb"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/adb/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="adb"/>
-					</externalSetting>
-				</externalSettings>
+				<externalSettings containerId="adb;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier"/>
 				<externalSettings containerId="cppunitlite;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/cppunitlite"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/cppunitlite/Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/cppunitlite/Release"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="cppunitlite"/>
 					</externalSetting>
 				</externalSettings>
