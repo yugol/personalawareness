@@ -45,7 +45,7 @@ MainWindowBase::MainWindowBase( wxWindow* parent, wxWindowID id, const wxString&
 	editMenu_->AppendSeparator();
 	
 	wxMenuItem* accountsMenuItem;
-	accountsMenuItem = new wxMenuItem( editMenu_, wxID_ANY, wxString( wxT("&Accounts...") ) , wxT("Edit accounts and budget categories"), wxITEM_NORMAL );
+	accountsMenuItem = new wxMenuItem( editMenu_, wxID_ANY, wxString( wxT("&Accounts...") ) , wxT("Edit accounts"), wxITEM_NORMAL );
 	editMenu_->Append( accountsMenuItem );
 	
 	wxMenuItem* itemsMenuItems;

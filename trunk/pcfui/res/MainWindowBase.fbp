@@ -185,7 +185,7 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                 </object>
-                <object class="wxMenu" expanded="1">
+                <object class="wxMenu" expanded="0">
                     <property name="label">&amp;Edit</property>
                     <property name="name">editMenu_</property>
                     <property name="permission">protected</property>
@@ -226,7 +226,7 @@
                         <property name="bitmap"></property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
-                        <property name="help">Edit accounts and budget categories</property>
+                        <property name="help">Edit accounts</property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
                         <property name="label">&amp;Accounts...</property>
@@ -325,7 +325,7 @@
                     </object>
                 </object>
             </object>
-            <object class="wxBoxSizer" expanded="1">
+            <object class="wxBoxSizer" expanded="0">
                 <property name="minimum_size"></property>
                 <property name="name">frameSizer</property>
                 <property name="orient">wxVERTICAL</property>
@@ -334,7 +334,7 @@
                     <property name="border">5</property>
                     <property name="flag">wxEXPAND | wxALL</property>
                     <property name="proportion">1</property>
-                    <object class="wxNotebook" expanded="1">
+                    <object class="wxNotebook" expanded="0">
                         <property name="bg"></property>
                         <property name="bitmapsize"></property>
                         <property name="context_help"></property>
@@ -579,7 +579,7 @@
                             <property name="bitmap"></property>
                             <property name="label">Transactions</property>
                             <property name="select">0</property>
-                            <object class="wxPanel" expanded="1">
+                            <object class="wxPanel" expanded="0">
                                 <property name="bg"></property>
                                 <property name="context_help"></property>
                                 <property name="enabled">1</property>
@@ -621,7 +621,7 @@
                                 <event name="OnSetFocus"></event>
                                 <event name="OnSize"></event>
                                 <event name="OnUpdateUI"></event>
-                                <object class="wxBoxSizer" expanded="1">
+                                <object class="wxBoxSizer" expanded="0">
                                     <property name="minimum_size"></property>
                                     <property name="name">transactionsSizer_</property>
                                     <property name="orient">wxVERTICAL</property>
@@ -1355,7 +1355,7 @@
                                         <property name="border">5</property>
                                         <property name="flag">wxEXPAND</property>
                                         <property name="proportion">0</property>
-                                        <object class="wxBoxSizer" expanded="1">
+                                        <object class="wxBoxSizer" expanded="0">
                                             <property name="minimum_size"></property>
                                             <property name="name">bottomTransactionsSizer</property>
                                             <property name="orient">wxHORIZONTAL</property>
@@ -1416,7 +1416,7 @@
                                                 <property name="border">0</property>
                                                 <property name="flag">wxEXPAND | wxALL</property>
                                                 <property name="proportion">1</property>
-                                                <object class="wxPanel" expanded="1">
+                                                <object class="wxPanel" expanded="0">
                                                     <property name="bg"></property>
                                                     <property name="context_help"></property>
                                                     <property name="enabled">1</property>
@@ -1458,7 +1458,7 @@
                                                     <event name="OnSetFocus"></event>
                                                     <event name="OnSize"></event>
                                                     <event name="OnUpdateUI"></event>
-                                                    <object class="wxBoxSizer" expanded="1">
+                                                    <object class="wxBoxSizer" expanded="0">
                                                         <property name="minimum_size"></property>
                                                         <property name="name">transactionSizer</property>
                                                         <property name="orient">wxVERTICAL</property>
@@ -1791,7 +1791,7 @@
                                                             <property name="border">5</property>
                                                             <property name="flag">wxEXPAND</property>
                                                             <property name="proportion">0</property>
-                                                            <object class="wxBoxSizer" expanded="1">
+                                                            <object class="wxBoxSizer" expanded="0">
                                                                 <property name="minimum_size"></property>
                                                                 <property name="name">transactionMiddleSizer</property>
                                                                 <property name="orient">wxHORIZONTAL</property>
@@ -2010,7 +2010,7 @@
                                                             <property name="border">5</property>
                                                             <property name="flag">wxEXPAND</property>
                                                             <property name="proportion">0</property>
-                                                            <object class="wxBoxSizer" expanded="1">
+                                                            <object class="wxBoxSizer" expanded="0">
                                                                 <property name="minimum_size"></property>
                                                                 <property name="name">transactionBottomSizer</property>
                                                                 <property name="orient">wxHORIZONTAL</property>
