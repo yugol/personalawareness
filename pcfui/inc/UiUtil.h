@@ -22,6 +22,7 @@ public:
     static std::ostream& streamCurrency(std::ostream& out, double val, bool html = false);
     static std::ostream& streamPercent(std::ostream& out, double val);
     static std::ostream& streamDate(std::ostream& out, const Date& date);
+    static std::ostream& streamPath(std::ostream& out, const std::string& pathFileExt);
     static std::ostream& streamFile(std::ostream& out, const std::string& pathFileExt);
     static std::ostream& streamExt(std::ostream& out, const std::string& pathFileExt);
     static std::ostream& streamFileExt(std::ostream& out, const std::string& pathFileExt);

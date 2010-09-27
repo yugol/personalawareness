@@ -19,6 +19,7 @@ public:
     void initApplication();
 
     void getDefaultSqlExportName(wxString& name);
+    void getDatabasePath(wxString& path);
 
     void selectAllAccounts(std::vector<int>& accountIds);
     const Account* selectAccount(int accountId);
