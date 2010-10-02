@@ -18,7 +18,8 @@ public:
 
     void setNetWorth(double val);
     void setSelectionInterval(int choice);
-    void setSelectionStartInterval();
+    void refreshSelectionInterval();
+    void setSelectionDefaultInterval();
     void setSelectionCustomInterval();
     void setStatusMessage(const wxString& message);
 
