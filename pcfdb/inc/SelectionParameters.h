@@ -5,83 +5,91 @@
 
 class SelectionParameters {
 public:
-    SelectionParameters();
+	SelectionParameters();
 
-    int getItemId() const;
-    bool isLastTransactionOnly() const;
-    bool isCheckUsage() const;
-    int getAccountType() const;
-    const Date& getFirstDate() const;
-    const Date& getLastDate() const;
-    int getAccountId() const;
-    const std::string& getNamePattern() const;
-    bool hasNamePattern() const;
+	int getItemId() const;
+	bool isFirstTransactionOnly() const;
+	bool isLastTransactionOnly() const;
+	bool isCheckUsage() const;
+	int getAccountType() const;
+	const Date& getFirstDate() const;
+	const Date& getLastDate() const;
+	int getAccountId() const;
+	const std::string& getNamePattern() const;
+	bool hasNamePattern() const;
 
-    void setItemId(int);
-    void setLastTransactionOnly(bool);
-    void setCheckUsage(bool);
-    void setAccountType(int type);
-    void setFirstDate(time_t);
-    void setLastDate(time_t);
-    void setAccountId(int);
-    void setNamePattern(const char*);
+	void setItemId(int);
+	void setFirstTransactionOnly(bool);
+	void setLastTransactionOnly(bool);
+	void setCheckUsage(bool);
+	void setAccountType(int type);
+	void setFirstDate(time_t);
+	void setLastDate(time_t);
+	void setAccountId(int);
+	void setNamePattern(const char*);
 
 private:
-    int itemId_;
-    bool lastTransactionOnly_;
-    bool checkUsage_;
+	int itemId_;
+	bool firstTransactionOnly_;
+	bool lastTransactionOnly_;
+	bool checkUsage_;
 
-    int accountType_;
+	int accountType_;
 
-    Date firstDate_;
-    Date lastDate_;
-    int accountId_;
-    std::string namePattern_;
+	Date firstDate_;
+	Date lastDate_;
+	int accountId_;
+	std::string namePattern_;
 };
 
 inline int SelectionParameters::getItemId() const
 {
-    return itemId_;
+	return itemId_;
+}
+
+inline bool SelectionParameters::isFirstTransactionOnly() const
+{
+	return firstTransactionOnly_;
 }
 
 inline bool SelectionParameters::isLastTransactionOnly() const
 {
-    return lastTransactionOnly_;
+	return lastTransactionOnly_;
 }
 
 inline bool SelectionParameters::isCheckUsage() const
 {
-    return checkUsage_;
+	return checkUsage_;
 }
 
 inline int SelectionParameters::getAccountType() const
 {
-    return accountType_;
+	return accountType_;
 }
 
 inline const Date& SelectionParameters::getFirstDate() const
 {
-    return firstDate_;
+	return firstDate_;
 }
 
 inline const Date& SelectionParameters::getLastDate() const
 {
-    return lastDate_;
+	return lastDate_;
 }
 
 inline int SelectionParameters::getAccountId() const
 {
-    return accountId_;
+	return accountId_;
 }
 
 inline const std::string& SelectionParameters::getNamePattern() const
 {
-    return namePattern_;
+	return namePattern_;
 }
 
 inline bool SelectionParameters::hasNamePattern() const
 {
-    return namePattern_.size() > 0;
+	return namePattern_.size() > 0;
 }
 
 #endif // SELECTIONPARAMETERS_H
