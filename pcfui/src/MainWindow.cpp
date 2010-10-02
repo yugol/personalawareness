@@ -121,7 +121,8 @@ void MainWindow::reportMessage(const wxString& message, const wxString& title)
 
 void MainWindow::onOpen(wxCommandEvent &event)
 {
-	wxFileDialog* dlg = new wxFileDialog(this, wxT("Open database"), wxEmptyString, wxEmptyString, wxT("Database files (*.db)|*.db|All files (*.*)|*.*"));
+	wxFileDialog* dlg = new wxFileDialog(this, wxT("Open database"), wxEmptyString, wxEmptyString,
+			wxT("Database files (*.db)|*.db|All files (*.*)|*.*"));
 	if (wxID_OK == dlg->ShowModal()) {
 		wxString location = dlg->GetPath();
 		Controller::instance()->openDatabase(&location);
@@ -152,12 +153,16 @@ void MainWindow::onExport(wxCommandEvent& event)
 
 void MainWindow::onImport(wxCommandEvent& event)
 {
-	wxMessageDialog msgDlg(this, wxT("This operation will completely erase the current database.\nAre you sure you want to continue?"), wxT("Import database"), wxYES | wxNO_DEFAULT);
+	wxMessageDialog msgDlg(this, wxT("This operation will completely erase the current database.\nAre you sure you want to continue?"),
+			wxT("Import database"), wxYES | wxNO_DEFAULT);
 
 	if (wxID_YES == msgDlg.ShowModal()) {
 		wxString path;
+		Controller::instance()->getDatabasePath(path);
 
-		wxFileDialog* dlg = new wxFileDialog(this, wxT("Import database"), wxEmptyString, wxEmptyString, wxT("*.sql"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+		wxFileDialog* dlg = new wxFileDialog(this, wxT("Import database"), wxEmptyString, wxEmptyString, wxT("*.sql"), wxFD_OPEN
+				| wxFD_FILE_MUST_EXIST);
+		dlg->SetDirectory(path);
 		if (wxID_OK == dlg->ShowModal()) {
 			path = dlg->GetPath();
 		}

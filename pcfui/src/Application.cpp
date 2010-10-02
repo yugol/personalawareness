@@ -3,17 +3,12 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD: preferences: hide 0 balance accounts
-// TBD: accounts dialog: accounts can be marked as hidden
 // TBD: accounts dialog: Value -> Initial value
 // TBD: about window: About gives DB statistics
 // TBD: about window: title Wercome to... -> This is ...
 
 // TBD: auto-complete window when no selection select last item (diacritics)
 // TBD: Ctrl + Enter accepts transaction (if acceptable)
-
-// TBD: different currencies for each account
-// TBD: transaction selection is made according to each currency
 
 // TBD: REPORTS
 // TBD: expenses/income yearly
@@ -49,6 +44,10 @@
 // TBD-: csv import/export
 // TBD-: export table deletion & creation
 // TBD-: MySQL & other DBMS compatible SQL dump
+
+// TBD-: accounts dialog: accounts can be marked as hidden
+// TBD-: different currencies for each account
+// TBD-: transaction selection is made according to each currency
 
 // TBD-: internationalization support
 
