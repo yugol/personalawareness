@@ -66,7 +66,7 @@ void Controller::openDatabase(const wxString* location)
 			DatabaseConnection::instance(); // opens default database
 		}
 
-		mainWindow_->setSelectionStartInterval();
+		mainWindow_->setSelectionDefaultInterval();
 		refreshAll();
 
 	} catch (const exception& ex) {
@@ -240,6 +240,11 @@ void Controller::selectTransaction(Transaction* transaction, int transactionId)
 	DatabaseConnection::instance()->getTransaction(transaction);
 }
 
+void Controller::selectFirstTransaction(Transaction* transaction)
+{
+	DatabaseConnection::instance()->getFirstTransaction(transaction);
+}
+
 void Controller::selectLastTransaction(Transaction* transaction)
 {
 	DatabaseConnection::instance()->getLastTransaction(transaction);
@@ -321,6 +326,8 @@ void Controller::refreshItems()
 
 void Controller::refreshTransactions()
 {
+	mainWindow_->refreshSelectionInterval();
+
 	vector<int> sel;
 	SelectionParameters parameters;
 	mainWindow_->getTransactionSelectionParameters(&parameters);
