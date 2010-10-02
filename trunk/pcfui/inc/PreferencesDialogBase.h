@@ -40,6 +40,7 @@ class PreferencesDialogBase : public wxDialog
 		wxNotebook* propertiesNotebook_;
 		wxPanel* viewPage_;
 		wxCheckBox* compactTransactionsViewCkBox_;
+		wxCheckBox* hideZeroBalanceAccounts_;
 		wxPanel* formattingPage_;
 		wxStaticText* currencySymbolLabel_;
 		wxTextCtrl* currencySymbolText_;

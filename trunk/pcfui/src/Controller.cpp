@@ -293,8 +293,13 @@ void Controller::refreshAccounts()
 	for (it = sel.begin(); it != sel.end(); ++it) {
 		const Account* acc = DatabaseConnection::instance()->getAccount(*it);
 		double balance = DatabaseConnection::instance()->getBalance(acc);
-		statement.push_back(make_pair(acc, balance));
-		netWorth += balance;
+		if (-0.01 < balance && balance < 0.01) {
+			balance = 0;
+		}
+		if (!(Configuration::instance()->isHideZeroBalanceAccounts() && balance == 0)) {
+			statement.push_back(make_pair(acc, balance));
+			netWorth += balance;
+		}
 	}
 	mainWindow_->populateAccounts(statement);
 	mainWindow_->setNetWorth(netWorth);
@@ -373,7 +378,8 @@ void Controller::refreshTransactions()
 
 		if (!Configuration::instance()->isCompactTransactions()) {
 			item << "<tr>";
-			item << "<td colspan='2'align='right'><small><i><font color='DarkSlateGray'>" << from->getFullName() << " --> " << to->getFullName() << "</font></i></small>&nbsp;</td>";
+			item << "<td colspan='2'align='right'><small><i><font color='DarkSlateGray'>" << from->getFullName() << " --> " << to->getFullName()
+					<< "</font></i></small>&nbsp;</td>";
 			item << "</tr>";
 		}
 
