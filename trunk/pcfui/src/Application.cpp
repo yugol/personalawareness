@@ -3,13 +3,6 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD: accounts dialog: Value -> Initial value
-// TBD: about window: About gives DB statistics
-// TBD: about window: title Wercome to... -> This is ...
-
-// TBD: auto-complete window when no selection select last item (diacritics)
-// TBD: Ctrl + Enter accepts transaction (if acceptable)
-
 // TBD: REPORTS
 // TBD: expenses/income yearly
 // TBD: use the same item - show growth
@@ -33,11 +26,9 @@
 // dump -> export
 // load -> import
 // initial value -> start balance
-// path/file/fileName -> location path file ext convention
+// path/file/fileName -> location pathFileExt convention
 
 // TBD: password protection
-// TBD: Application icon
-// TBD: instead of tool tips use status-bar and colors
 
 // TBD-: compile under Windows
 

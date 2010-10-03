@@ -439,3 +439,26 @@ void Controller::redo()
 	refreshUndoRedoStatus();
 }
 
+void Controller::getDatabaseReport(wxString& report)
+{
+	ostringstream rout;
+
+	if (DatabaseConnection::isOpened()) {
+		rout << "Database file:" << endl;
+		rout << DatabaseConnection::instance()->getDatabaseLocation() << endl;
+		rout << endl;
+
+		rout << "Statistics:" << endl;
+		rout << DatabaseConnection::instance()->getAccountCount() << " accounts" << endl;
+		rout << DatabaseConnection::instance()->getItemCount() << " items" << endl;
+		vector<int> sel;
+		DatabaseConnection::instance()->selectTransactions(&sel, 0);
+		rout << sel.size() << " transactions" << endl;
+	} else {
+		rout << "Please open/create a database" << endl;
+		rout << "to see the statistics." << endl;
+	}
+
+	UiUtil::appendStdString(report, rout.rdbuf()->str());
+}
+
