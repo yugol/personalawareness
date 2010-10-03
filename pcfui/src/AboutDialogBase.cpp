@@ -16,7 +16,7 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* dialogSizer;
 	dialogSizer = new wxBoxSizer( wxVERTICAL );
 	
-	sectionsNotebook_ = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM );
+	sectionsNotebook_ = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	applicationPage_ = new wxPanel( sectionsNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* applicationPageSizer;
 	applicationPageSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -99,7 +99,18 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	applicationPage_->SetSizer( applicationPageSizer );
 	applicationPage_->Layout();
 	applicationPageSizer->Fit( applicationPage_ );
-	sectionsNotebook_->AddPage( applicationPage_, wxT("Application"), true );
+	sectionsNotebook_->AddPage( applicationPage_, wxT("Application"), false );
+	databasePage_ = new wxPanel( sectionsNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* databaseSizer;
+	databaseSizer = new wxBoxSizer( wxVERTICAL );
+	
+	databaseText_ = new wxTextCtrl( databasePage_, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
+	databaseSizer->Add( databaseText_, 1, wxALL|wxEXPAND, 10 );
+	
+	databasePage_->SetSizer( databaseSizer );
+	databasePage_->Layout();
+	databaseSizer->Fit( databasePage_ );
+	sectionsNotebook_->AddPage( databasePage_, wxT("Database"), false );
 	changesPage_ = new wxPanel( sectionsNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* changesSizer;
 	changesSizer = new wxBoxSizer( wxVERTICAL );
@@ -115,18 +126,18 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* creditsSizer;
 	creditsSizer = new wxBoxSizer( wxVERTICAL );
 	
-	creditsText_ = new wxTextCtrl( creditsPage_, wxID_ANY, wxT("Software development:\nIulian Goriac\niulian.goriac@gmail.com\n\nThe icons:\nMysitemyway Design Team on the\nMysitemyway ETC Network\nhttp://icons.mysitemyway.com\n"), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
+	creditsText_ = new wxTextCtrl( creditsPage_, wxID_ANY, wxT("Software development:\nIulian Goriac\niulian.goriac@gmail.com\n\nDatabase engine:\nSQLite\nhttp://www.sqlite.org/\n\nUI library:\nwxWidgets\nhttp://www.wxwidgets.org/\n\nIcons:\nMysitemyway Design Team on the \nMysitemyway ETC Network\nhttp://icons.mysitemyway.com\n"), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
 	creditsSizer->Add( creditsText_, 1, wxALL|wxEXPAND, 10 );
 	
 	creditsPage_->SetSizer( creditsSizer );
 	creditsPage_->Layout();
 	creditsSizer->Fit( creditsPage_ );
-	sectionsNotebook_->AddPage( creditsPage_, wxT("Credits"), false );
+	sectionsNotebook_->AddPage( creditsPage_, wxT("Credits"), true );
 	licensePage_ = new wxPanel( sectionsNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* licenseSizer;
 	licenseSizer = new wxBoxSizer( wxVERTICAL );
 	
-	licenseText_ = new wxTextCtrl( licensePage_, wxID_ANY, wxT("MIT License\n\nCopyright (c) 2010 Iulian Goriac\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
+	licenseText_ = new wxTextCtrl( licensePage_, wxID_ANY, wxT("The MIT License\n\nCopyright (c) 2010 Iulian Goriac\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
 	licenseSizer->Add( licenseText_, 1, wxALL|wxEXPAND, 10 );
 	
 	licensePage_->SetSizer( licenseSizer );
@@ -136,8 +147,19 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	dialogSizer->Add( sectionsNotebook_, 1, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, 5 );
 	
+	wxBoxSizer* closeButtonSizer;
+	closeButtonSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	
+	closeButtonSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+	
 	closeButton_ = new wxButton( this, wxID_ANY, wxT("&Close"), wxDefaultPosition, wxDefaultSize, 0 );
-	dialogSizer->Add( closeButton_, 0, wxALIGN_RIGHT|wxBOTTOM|wxRIGHT, 5 );
+	closeButtonSizer->Add( closeButton_, 0, wxALL, 5 );
+	
+	
+	closeButtonSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	dialogSizer->Add( closeButtonSizer, 0, wxEXPAND, 5 );
 	
 	this->SetSizer( dialogSizer );
 	this->Layout();

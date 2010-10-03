@@ -52,20 +52,24 @@ class AboutDialogBase : public wxDialog
 		wxStaticText* copyrightLabel_;
 		
 		
+		wxPanel* databasePage_;
+		wxTextCtrl* databaseText_;
 		wxPanel* changesPage_;
 		wxTextCtrl* changesText_;
 		wxPanel* creditsPage_;
 		wxTextCtrl* creditsText_;
 		wxPanel* licensePage_;
 		wxTextCtrl* licenseText_;
+		
 		wxButton* closeButton_;
+		
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void onClose( wxCommandEvent& event ){ event.Skip(); }
 		
 	
 	public:
-		AboutDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("About"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 400,260 ), long style = wxDEFAULT_DIALOG_STYLE );
+		AboutDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("About..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 400,260 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~AboutDialogBase();
 	
 };

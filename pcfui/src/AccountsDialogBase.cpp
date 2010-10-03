@@ -57,7 +57,7 @@ AccountsDialogBase::AccountsDialogBase( wxWindow* parent, wxWindowID id, const w
 	groupCombo_ = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
 	middleSizer->Add( groupCombo_, 0, wxALL|wxEXPAND, 5 );
 	
-	valueLabel_ = new wxStaticText( this, wxID_ANY, wxT("Value:"), wxDefaultPosition, wxDefaultSize, 0 );
+	valueLabel_ = new wxStaticText( this, wxID_ANY, wxT("Start balance:"), wxDefaultPosition, wxDefaultSize, 0 );
 	valueLabel_->Wrap( -1 );
 	middleSizer->Add( valueLabel_, 0, wxALL, 5 );
 	

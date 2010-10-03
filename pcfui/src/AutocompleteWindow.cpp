@@ -116,6 +116,10 @@ void AutocompleteWindow::select(const wxString& hint, int direction)
         }
     }
 
+    if (idx >= itemCount) {
+    	idx = itemCount - 1;
+    }
+
     optionList_->SetSelection(idx);
     optionList_->SetFirstItem(idx - 1);
     optionList_->SetFocus();
