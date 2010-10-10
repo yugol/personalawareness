@@ -1,6 +1,6 @@
 #include <sstream>
 #include <Configuration.h>
-#include <DbUtil.h>
+#include <BaseUtil.h>
 #include <cmd/GetTransaction.h>
 #include <cmd/UpdateTransaction.h>
 
@@ -25,7 +25,7 @@ void UpdateTransaction::buildUpdateTransactionCommand(string& sql, const Transac
     sout << "[" << Configuration::COLUMN_SOURCE << "] = " << transaction.getFromId() << ", ";
     sout << "[" << Configuration::COLUMN_DESTINATION << "] = " << transaction.getToId() << ", ";
     sout << "[" << Configuration::COLUMN_ITEM << "] = " << transaction.getItemId() << ", ";
-    sout << "[" << Configuration::COLUMN_COMMENT << "] = " << DbUtil::toDbParameter(transaction.getComment()) << " ";
+    sout << "[" << Configuration::COLUMN_COMMENT << "] = " << BaseUtil::toDbParameter(transaction.getComment()) << " ";
     sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << transaction.getId() << ";" << endl;
 
     sql = sout.rdbuf()->str();

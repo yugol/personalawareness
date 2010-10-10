@@ -7,13 +7,13 @@
 class Exception: public std::exception {
 
 public:
-    static const char NO_DATABASE_MESSAGE[];
-    static const char SQL_ERROR_MESSAGE[];
-    static const char NO_RECORD_MESSAGE[];
-    static const char WRONG_NAME_MESSAGE[];
-    static const char WRONG_VALUE_MESSAGE[];
-    static const char UNDEFINED_MESSAGE[];
-    static const char RECORD_IN_USE[];
+    static const char EMSG_NO_DATABASE[];
+    static const char EMSG_SQL_ERROR[];
+    static const char EMSG_NO_RECORD[];
+    static const char EMSG_WRONG_NAME[];
+    static const char EMSG_WRONG_VALUE[];
+    static const char EMSG_UNDEFINED[];
+    static const char EMSG_RECORD_IN_USE[];
 
     Exception();
     Exception(const char* message);

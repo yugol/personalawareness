@@ -26,7 +26,7 @@ const char* DatabaseCommand::getSqlCommand()
         buildSqlCommand();
     }
     if (sql_.size() <= 0) {
-        THROW(Exception::SQL_ERROR_MESSAGE);
+        THROW(Exception::EMSG_SQL_ERROR);
     }
     return sql_.c_str();
 }
@@ -45,7 +45,7 @@ void DatabaseCommand::execute()
 {
     int err = ::sqlite3_exec(database_, getSqlCommand(), getCallbackFunction(), getCallbackParameter(), NULL);
     if (SQLITE_OK != err) {
-        string errMessage(Exception::SQL_ERROR_MESSAGE);
+        string errMessage(Exception::EMSG_SQL_ERROR);
         errMessage.append(": ");
         errMessage.append(::sqlite3_errmsg(database_));
         THROW(errMessage.c_str());

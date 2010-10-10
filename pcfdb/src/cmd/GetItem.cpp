@@ -56,7 +56,7 @@ void GetItem::execute()
     DatabaseCommand::execute();
     if (tempId != item_->getId()) {
         item_->setId(tempId);
-        THROW(Exception::NO_RECORD_MESSAGE);
+        THROW(Exception::EMSG_NO_RECORD);
     }
     if (item_->getLastTransactionId() == 0) {
         GetLastTransaction cmd(database_, item_);

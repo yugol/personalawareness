@@ -89,7 +89,7 @@ bool DatabaseConnection::isItemInUse(sqlite3* database, int itemId)
 void DatabaseConnection::exportDatabase(ostream& out)
 {
 	if (!isOpened()) {
-		THROW(Exception::NO_DATABASE_MESSAGE);
+		THROW(Exception::EMSG_NO_DATABASE);
 	}
 	instance_->dumpSql(out);
 }
@@ -97,7 +97,7 @@ void DatabaseConnection::exportDatabase(ostream& out)
 void DatabaseConnection::importDatabase(istream& in)
 {
 	if (!isOpened()) {
-		THROW(Exception::NO_DATABASE_MESSAGE);
+		THROW(Exception::EMSG_NO_DATABASE);
 	}
 	string databasePath = instance_->getDatabaseLocation();
 	deleteDatabase();
@@ -108,7 +108,7 @@ void DatabaseConnection::importDatabase(istream& in)
 void DatabaseConnection::closeDatabase()
 {
 	if (!isOpened()) {
-		THROW(Exception::NO_DATABASE_MESSAGE);
+		THROW(Exception::EMSG_NO_DATABASE);
 	}
 	delete instance_;
 	instance_ = 0;
@@ -117,7 +117,7 @@ void DatabaseConnection::closeDatabase()
 void DatabaseConnection::deleteDatabase()
 {
 	if (!isOpened()) {
-		THROW(Exception::NO_DATABASE_MESSAGE);
+		THROW(Exception::EMSG_NO_DATABASE);
 	}
 	string databasePath = instance_->getDatabaseLocation();
 	closeDatabase();

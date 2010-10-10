@@ -1,7 +1,7 @@
 #include <sstream>
 #include <Exception.h>
 #include <Configuration.h>
-#include <DbUtil.h>
+#include <BaseUtil.h>
 #include <cmd/DeleteAccount.h>
 #include <cmd/UpdateAccount.h>
 #include <cmd/InsertAccount.h>
@@ -19,9 +19,9 @@ void InsertAccount::buildReverseSqlCommand(std::ostream& out, const Account& acc
     out << "VALUES ( ";
     out << account.getType() << ", ";
     out << account.getInitialValue() << ", ";
-    out << DbUtil::toDbParameter(account.getName()) << ", ";
-    out << DbUtil::toDbParameter(account.getGroup()) << ", ";
-    out << DbUtil::toDbParameter(account.getComment()) << " );" << endl;
+    out << BaseUtil::toDbParameter(account.getName()) << ", ";
+    out << BaseUtil::toDbParameter(account.getGroup()) << ", ";
+    out << BaseUtil::toDbParameter(account.getComment()) << " );" << endl;
 }
 
 InsertAccount::InsertAccount(sqlite3* database, const Account& account) :

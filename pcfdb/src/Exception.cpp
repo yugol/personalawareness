@@ -3,13 +3,13 @@
 
 using namespace std;
 
-const char Exception::NO_DATABASE_MESSAGE[] = "no opened database";
-const char Exception::SQL_ERROR_MESSAGE[] = "SQL error";
-const char Exception::NO_RECORD_MESSAGE[] = "no such record";
-const char Exception::WRONG_NAME_MESSAGE[] = "wrong name";
-const char Exception::WRONG_VALUE_MESSAGE[] = "wrong value";
-const char Exception::UNDEFINED_MESSAGE[] = "this should not happen";
-const char Exception::RECORD_IN_USE[] = "record in use";
+const char Exception::EMSG_NO_DATABASE[] = "no opened database";
+const char Exception::EMSG_SQL_ERROR[] = "SQL error";
+const char Exception::EMSG_NO_RECORD[] = "no such record";
+const char Exception::EMSG_WRONG_NAME[] = "wrong name";
+const char Exception::EMSG_WRONG_VALUE[] = "wrong value";
+const char Exception::EMSG_UNDEFINED[] = "this should not happen";
+const char Exception::EMSG_RECORD_IN_USE[] = "record in use";
 
 Exception::Exception()
 {
@@ -17,27 +17,27 @@ Exception::Exception()
 
 Exception::Exception(const char* message)
 {
-    message_ = message;
+	message_ = message;
 }
 
 Exception::Exception(const char* message, const char* fileName, int lineNo)
 {
-    ostringstream sout;
+	ostringstream sout;
 
-    sout << message << "\nerror trace (top line is the source) :" << endl;
-    sout << fileName << " : line " << lineNo;
+	sout << message << endl << "error trace (top line is the source) :" << endl;
+	sout << fileName << " : line " << lineNo;
 
-    message_ = sout.rdbuf()->str();
+	message_ = sout.rdbuf()->str();
 }
 
 Exception::Exception(const exception& ex, const char* fileName, int lineNo)
 {
-    ostringstream sout;
+	ostringstream sout;
 
-    sout << ex.what() << endl;
-    sout << fileName << " : line " << lineNo;
+	sout << ex.what() << endl;
+	sout << fileName << " : line " << lineNo;
 
-    message_ = sout.rdbuf()->str();
+	message_ = sout.rdbuf()->str();
 }
 
 Exception::~Exception() throw ()

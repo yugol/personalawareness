@@ -11,7 +11,7 @@ DeleteAccount::DeleteAccount(sqlite3* database, int id) :
     ReversibleDatabaseCommand(database), account_(id)
 {
     if (DatabaseConnection::isAccountInUse(database_, id)) {
-        THROW(Exception::RECORD_IN_USE);
+        THROW(Exception::EMSG_RECORD_IN_USE);
     }
     GetAccount(database_, &account_).execute();
 }

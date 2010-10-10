@@ -19,7 +19,7 @@ void Item::setLastTransactionId(int lastTransactionId)
 void Item::validate() const
 {
     if (0 == name_.size()) {
-        THROW(Exception::WRONG_NAME_MESSAGE);
+        THROW(Exception::EMSG_WRONG_NAME);
     }
 }
 

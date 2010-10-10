@@ -51,17 +51,17 @@ void Date::setValue(const char* date)
     buf[8] = '\0';
     day_ = ::atoi(buf + 6);
     if (0 == day_) {
-        THROW(Exception::WRONG_VALUE_MESSAGE);
+        THROW(Exception::EMSG_WRONG_VALUE);
     }
     buf[6] = '\0';
     month_ = ::atoi(buf + 4);
     if (0 == month_) {
-        THROW(Exception::WRONG_VALUE_MESSAGE);
+        THROW(Exception::EMSG_WRONG_VALUE);
     }
     buf[4] = '\0';
     year_ = ::atoi(buf);
     if (0 == year_) {
-        THROW(Exception::WRONG_VALUE_MESSAGE);
+        THROW(Exception::EMSG_WRONG_VALUE);
     }
 }
 

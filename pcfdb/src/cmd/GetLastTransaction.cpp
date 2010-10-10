@@ -25,7 +25,7 @@ void GetLastTransaction::execute()
     SelectTransactions selectCmd(database_, &sel, &params);
     selectCmd.execute();
     if (sel.size() > 1) {
-        THROW(Exception::WRONG_VALUE_MESSAGE);
+        THROW(Exception::EMSG_WRONG_VALUE);
     }
     if (sel.size() == 1) {
         id_ = sel[0];

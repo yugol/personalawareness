@@ -1,7 +1,7 @@
 #include <sstream>
 #include <Exception.h>
 #include <Configuration.h>
-#include <DbUtil.h>
+#include <BaseUtil.h>
 #include <cmd/DeleteItem.h>
 #include <cmd/UpdateItem.h>
 #include <cmd/InsertItem.h>
@@ -16,7 +16,7 @@ void InsertItem::buildSqlCommand(ostream& out, const Item& item, bool dump)
         out << ", [" << Configuration::COLUMN_TRANSACTION << "]";
     }
     out << " ) VALUES ( ";
-    out << DbUtil::toDbParameter(item.getName());
+    out << BaseUtil::toDbParameter(item.getName());
     if (!dump) {
         out << ", " << item.getLastTransactionId() << " ";
     }

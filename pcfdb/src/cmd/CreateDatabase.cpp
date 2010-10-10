@@ -1,6 +1,6 @@
 #include <sstream>
 #include <Configuration.h>
-#include <DbUtil.h>
+#include <BaseUtil.h>
 #include <cmd/CreateDatabase.h>
 
 using namespace std;
@@ -64,19 +64,19 @@ void CreateDatabase::buildSqlCommand()
 	sout << "[" << Configuration::COLUMN_NAME << "], ";
 	sout << "[" << Configuration::COLUMN_VALUE << "] ) VALUES ( '";
 	sout << Configuration::PREF_PROJECT_MARKER << "', ";
-	sout << DbUtil::toDbParameter(Configuration::PROJECT_MARKER) << " );" << endl;
+	sout << BaseUtil::toDbParameter(Configuration::PROJECT_MARKER) << " );" << endl;
 
 	sout << "INSERT INTO [" << Configuration::TABLE_PREFERENCES << "] ( ";
 	sout << "[" << Configuration::COLUMN_NAME << "], ";
 	sout << "[" << Configuration::COLUMN_VALUE << "] ) VALUES ( '";
 	sout << Configuration::PREF_DATABASE_VERSION << "', ";
-	sout << DbUtil::toDbParameter(Configuration::PROJECT_DATABASE_VERSION) << " );" << endl;
+	sout << BaseUtil::toDbParameter(Configuration::PROJECT_DATABASE_VERSION) << " );" << endl;
 
 	sout << "INSERT INTO [" << Configuration::TABLE_PREFERENCES << "] ( ";
 	sout << "[" << Configuration::COLUMN_NAME << "], ";
 	sout << "[" << Configuration::COLUMN_VALUE << "] ) VALUES ( '";
 	sout << Configuration::PREF_CURRENCY_SYMBOL << "', ";
-	sout << DbUtil::toDbParameter(Configuration::DEFAULT_CURRENCY_SYMBOL) << " );" << endl;
+	sout << BaseUtil::toDbParameter(Configuration::DEFAULT_CURRENCY_SYMBOL) << " );" << endl;
 
 	sout << "INSERT INTO [" << Configuration::TABLE_PREFERENCES << "] ( ";
 	sout << "[" << Configuration::COLUMN_NAME << "], ";

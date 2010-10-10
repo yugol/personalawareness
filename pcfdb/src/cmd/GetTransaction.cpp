@@ -61,7 +61,7 @@ void GetTransaction::execute()
     DatabaseCommand::execute();
     if (tempId != transaction_->getId()) {
         transaction_->setId(tempId);
-        THROW(Exception::NO_RECORD_MESSAGE);
+        THROW(Exception::EMSG_NO_RECORD);
     }
 }
 

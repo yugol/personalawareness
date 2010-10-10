@@ -11,7 +11,7 @@ DeleteItem::DeleteItem(sqlite3* database, int id) :
     ReversibleDatabaseCommand(database), item_(id)
 {
     if (DatabaseConnection::isItemInUse(database_, id)) {
-        THROW(Exception::RECORD_IN_USE);
+        THROW(Exception::EMSG_RECORD_IN_USE);
     }
     GetItem(database_, &item_).execute();
 }
