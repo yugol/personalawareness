@@ -177,6 +177,7 @@ bool Controller::selectAccountInUse(int accountId)
 void Controller::insertUpdateAccount(Account* account)
 {
 	DatabaseConnection::instance()->insertUpdate(account);
+	refreshStatement();
 	refreshAccounts();
 	refreshUndoRedoStatus();
 }
@@ -184,6 +185,7 @@ void Controller::insertUpdateAccount(Account* account)
 void Controller::deleteAccount(int accountId)
 {
 	DatabaseConnection::instance()->deleteAccount(accountId);
+	refreshStatement();
 	refreshAccounts();
 	refreshUndoRedoStatus();
 }
@@ -254,7 +256,7 @@ void Controller::insertUpdateTransaction(Transaction* transaction)
 {
 	DatabaseConnection::instance()->insertUpdate(transaction);
 	refreshTransactions();
-	refreshAccounts();
+	refreshStatement();
 	refreshUndoRedoStatus();
 }
 
@@ -262,7 +264,7 @@ void Controller::deleteTransaction(int transactionId)
 {
 	DatabaseConnection::instance()->deleteTransaction(transactionId);
 	refreshTransactions();
-	refreshAccounts();
+	refreshStatement();
 	refreshUndoRedoStatus();
 }
 
@@ -276,50 +278,66 @@ void Controller::exitApplication()
 
 void Controller::refreshAll()
 {
+	refreshStatement();
 	refreshAccounts();
 	refreshItems();
 	refreshTransactions();
 }
 
-void Controller::refreshAccounts()
+void Controller::refreshStatement()
 {
 	vector<pair<const Account*, double> > statement;
-	vector<const Account*> budgets;
-	vector<int> sel;
-	vector<int>::const_iterator it;
-
-	DatabaseConnection::instance()->getAccounts(&sel);
 	double netWorth = 0;
-	for (it = sel.begin(); it != sel.end(); ++it) {
+
+	vector<int> sel;
+	DatabaseConnection::instance()->getAccounts(&sel);
+	for (vector<int>::const_iterator it = sel.begin(); it != sel.end(); ++it) {
 		const Account* acc = DatabaseConnection::instance()->getAccount(*it);
+
 		double balance = DatabaseConnection::instance()->getBalance(acc);
 		if (-0.01 < balance && balance < 0.01) {
 			balance = 0;
 		}
+
 		if (!(Configuration::instance()->isHideZeroBalanceAccounts() && balance == 0)) {
 			statement.push_back(make_pair(acc, balance));
 			netWorth += balance;
 		}
 	}
-	mainWindow_->populateAccounts(statement);
-	mainWindow_->setNetWorth(netWorth);
 
+	mainWindow_->refreshStatement(statement, netWorth);
+}
+
+void Controller::refreshAccounts()
+{
+	vector<int>::const_iterator it;
+
+	vector<const Account*> accounts;
+	vector<int> sel;
+	DatabaseConnection::instance()->getAccounts(&sel);
+	for (it = sel.begin(); it != sel.end(); ++it) {
+		const Account* acc = DatabaseConnection::instance()->getAccount(*it);
+		accounts.push_back(acc);
+	}
+	mainWindow_->populateCashAccounts(accounts);
+
+	accounts.clear();
 	sel.clear();
 	DatabaseConnection::instance()->getCreditingBudgets(&sel);
 	for (it = sel.begin(); it != sel.end(); ++it) {
 		const Account* acc = DatabaseConnection::instance()->getAccount(*it);
-		budgets.push_back(acc);
+		accounts.push_back(acc);
 	}
-	mainWindow_->populateCreditingBudgets(budgets);
+	mainWindow_->appendIncomeAccounts(accounts);
 
+	accounts.clear();
 	sel.clear();
-	budgets.clear();
 	DatabaseConnection::instance()->getDebitingBudgets(&sel);
 	for (it = sel.begin(); it != sel.end(); ++it) {
 		const Account* acc = DatabaseConnection::instance()->getAccount(*it);
-		budgets.push_back(acc);
+		accounts.push_back(acc);
 	}
-	mainWindow_->populateDebitingBudgets(budgets);
+	mainWindow_->appendExpensesAcounts(accounts);
 }
 
 void Controller::refreshItems()
@@ -444,16 +462,16 @@ void Controller::getDatabaseReport(wxString& report)
 	ostringstream rout;
 
 	if (DatabaseConnection::isOpened()) {
-		rout << "Database file:" << endl;
+		rout << "Database file (schema version " << Configuration::PROJECT_DATABASE_VERSION << "):" << endl;
 		rout << DatabaseConnection::instance()->getDatabaseLocation() << endl;
 		rout << endl;
 
 		rout << "Statistics:" << endl;
-		rout << DatabaseConnection::instance()->getAccountCount() << " accounts" << endl;
-		rout << DatabaseConnection::instance()->getItemCount() << " items" << endl;
+		rout << "  " << DatabaseConnection::instance()->getAccountCount() << " accounts" << endl;
+		rout << "  " << DatabaseConnection::instance()->getItemCount() << " items" << endl;
 		vector<int> sel;
 		DatabaseConnection::instance()->selectTransactions(&sel, 0);
-		rout << sel.size() << " transactions" << endl;
+		rout << "  " << sel.size() << " transactions" << endl;
 	} else {
 		rout << "Please open/create a database" << endl;
 		rout << "to see the statistics." << endl;
