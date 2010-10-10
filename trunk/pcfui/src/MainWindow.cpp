@@ -21,7 +21,7 @@ MainWindow::MainWindow(wxWindow* parent) :
 	boldFont_ = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
 	boldFont_.SetWeight(wxBOLD);
 
-	accountList_->InsertColumn(0, wxT("Name"), wxLIST_FORMAT_LEFT, 200);
+	accountList_->InsertColumn(0, wxT("Account"), wxLIST_FORMAT_LEFT, 200);
 	accountList_->InsertColumn(1, wxT("Balance"), wxLIST_FORMAT_RIGHT, 150);
 
 	populateSelectionIntervals();
@@ -100,12 +100,12 @@ void MainWindow::setUndoRedoView(const ReversibleDatabaseCommand* undo, const Re
 	redoMenuItem_->Enable(redo);
 }
 
-void MainWindow::setDatabaseOpenedView(bool opened)
+void MainWindow::setDatabaseOpenedView(bool isOpened)
 {
-	mainMenu_->EnableTop(1, opened);
-	exportSqlMenuItem_->Enable(opened);
-	importSqlMenuItem_->Enable(opened);
-	financialPages_->Show(opened);
+	mainMenu_->EnableTop(1, isOpened);
+	exportSqlMenuItem_->Enable(isOpened);
+	importSqlMenuItem_->Enable(isOpened);
+	financialPages_->Show(isOpened);
 	selectTransaction(0);
 }
 

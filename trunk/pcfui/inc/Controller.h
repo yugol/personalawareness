@@ -48,6 +48,7 @@ public:
 	void dumpDatabase(wxString& path);
 	void loadDatabase(wxString& path);
 
+	void refreshStatement();
 	void refreshAccounts();
 	void refreshItems();
 	void refreshTransactions();

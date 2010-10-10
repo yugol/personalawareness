@@ -25,7 +25,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	
 	transactionsViewGroup->Add( compactTransactionsViewCkBox_, 0, wxALL, 5 );
 	
-	hideZeroBalanceAccounts_ = new wxCheckBox( viewPage_, wxID_ANY, wxT("Hide zero balance accounts"), wxDefaultPosition, wxDefaultSize, 0 );
+	hideZeroBalanceAccounts_ = new wxCheckBox( viewPage_, wxID_ANY, wxT("Hide zero balance accounts in statement"), wxDefaultPosition, wxDefaultSize, 0 );
 	
 	transactionsViewGroup->Add( hideZeroBalanceAccounts_, 0, wxALL, 5 );
 	

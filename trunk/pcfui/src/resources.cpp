@@ -1,14 +1,5 @@
 const char* RES_CHANGES = ""
-	"0.7.3\n"
-	"- feature: hide/show zero balance accounts preference\n"
-	"- feature: database statistics in the 'About' dialog\n"
-	"- bugfix: SQL export \n"
-	"\n"
-	"0.7.2\n"
-	"- bugfix: undo/redo\n"
-	"- refactoring\n"
-	"\n"
-	"0.7.1\n"
+	"1.0.0\n"
 	"- initial release\n";
 
 const char* RES_SMALL_ICON[] = { "32 32 232 2", "   c None", ".     c #9E9E9E", "+  c #A4A4A4", "@  c #A5A5A5", "#  c #A7A7A7", "$  c #A7A8A7",

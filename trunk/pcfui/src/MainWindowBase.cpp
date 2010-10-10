@@ -106,7 +106,7 @@ MainWindowBase::MainWindowBase( wxWindow* parent, wxWindowID id, const wxString&
 	accountsPage_->SetSizer( accountsSizer_ );
 	accountsPage_->Layout();
 	accountsSizer_->Fit( accountsPage_ );
-	financialPages_->AddPage( accountsPage_, wxT("Accounts"), true );
+	financialPages_->AddPage( accountsPage_, wxT("Statement"), true );
 	transactionsPage_ = new wxPanel( financialPages_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	transactionsSizer_ = new wxBoxSizer( wxVERTICAL );
 	

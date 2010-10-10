@@ -11,15 +11,15 @@
 
 using namespace std;
 
-void MainWindow::setNetWorth(double val)
+void MainWindow::setNetWorth(double value)
 {
 	wxString wxworth(wxT("Net balance: "));
-	UiUtil::appendCurrency(wxworth, val);
+	UiUtil::appendCurrency(wxworth, value);
 	netBalanceLabel_->SetLabel(wxworth);
 	fitAccountsPage();
 }
 
-void MainWindow::populateAccounts(const vector<pair<const Account*, double> >& stmt)
+void MainWindow::refreshStatement(const vector<pair<const Account*, double> >& statement, double netWorth)
 {
 	bool firstGroup = true;
 	double groupBalance = 0;
@@ -31,29 +31,11 @@ void MainWindow::populateAccounts(const vector<pair<const Account*, double> >& s
 	item.SetFont(normalFont_);
 	groupItem.SetFont(boldFont_);
 
-	selAccountChoice_->Clear();
-	selAccountChoice_->Append(wxT("(All)"));
-	selAccountChoice_->SetSelection(0);
-
 	accountList_->DeleteAllItems();
 
-	trSourceChoice_->Clear();
-	trSourceChoice_->Append(wxT("- Source account -"), reinterpret_cast<void*> (Configuration::DEFAULT_ID));
-	trSourceChoice_->SetSelection(0);
-	trDestinationChoice_->Clear();
-	trDestinationChoice_->Append(wxT("- Destination account -"), reinterpret_cast<void*> (Configuration::DEFAULT_ID));
-	trDestinationChoice_->SetSelection(0);
-
 	vector<pair<const Account*, double> >::const_iterator it;
-	for (it = stmt.begin(); it != stmt.end(); ++it) {
+	for (it = statement.begin(); it != statement.end(); ++it) {
 		const Account* acc = it->first;
-
-		wxString fullName;
-		UiUtil::appendStdString(fullName, acc->getFullName());
-		int id = acc->getId();
-		selAccountChoice_->Append(fullName, reinterpret_cast<void*> (id));
-		trSourceChoice_->Append(fullName, reinterpret_cast<void*> (id));
-		trDestinationChoice_->Append(fullName, reinterpret_cast<void*> (id));
 
 		wxString group;
 		UiUtil::appendStdString(group, acc->getGroup());
@@ -107,12 +89,40 @@ void MainWindow::populateAccounts(const vector<pair<const Account*, double> >& s
 		groupItem.SetText(balance);
 		accountList_->SetItem(groupItem);
 	}
+
+	setNetWorth(netWorth);
 }
 
-void MainWindow::populateCreditingBudgets(const vector<const Account*>& budgets)
+void MainWindow::populateCashAccounts(const std::vector<const Account*>& accounts)
+{
+	selAccountChoice_->Clear();
+	selAccountChoice_->Append(wxT("(All)"));
+	selAccountChoice_->SetSelection(0);
+
+	trSourceChoice_->Clear();
+	trSourceChoice_->Append(wxT("- Source account -"), reinterpret_cast<void*> (Configuration::DEFAULT_ID));
+	trSourceChoice_->SetSelection(0);
+
+	trDestinationChoice_->Clear();
+	trDestinationChoice_->Append(wxT("- Destination account -"), reinterpret_cast<void*> (Configuration::DEFAULT_ID));
+	trDestinationChoice_->SetSelection(0);
+
+	vector<const Account*>::const_iterator it;
+	for (it = accounts.begin(); it != accounts.end(); ++it) {
+		const Account* acc = *it;
+		wxString accName;
+		UiUtil::appendStdString(accName, acc->getDecoratedName());
+		int id = acc->getId();
+		selAccountChoice_->Append(accName, reinterpret_cast<void*> (id));
+		trSourceChoice_->Append(accName, reinterpret_cast<void*> (id));
+		trDestinationChoice_->Append(accName, reinterpret_cast<void*> (id));
+	}
+}
+
+void MainWindow::appendIncomeAccounts(const vector<const Account*>& accounts)
 {
 	vector<const Account*>::const_iterator it;
-	for (it = budgets.begin(); it != budgets.end(); ++it) {
+	for (it = accounts.begin(); it != accounts.end(); ++it) {
 		const Account* acc = *it;
 		wxString accName;
 		UiUtil::appendStdString(accName, acc->getDecoratedName());
@@ -122,10 +132,10 @@ void MainWindow::populateCreditingBudgets(const vector<const Account*>& budgets)
 	}
 }
 
-void MainWindow::populateDebitingBudgets(const vector<const Account*>& budgets)
+void MainWindow::appendExpensesAcounts(const vector<const Account*>& accounts)
 {
 	vector<const Account*>::const_iterator it;
-	for (it = budgets.begin(); it != budgets.end(); ++it) {
+	for (it = accounts.begin(); it != accounts.end(); ++it) {
 		const Account* acc = *it;
 		wxString accName;
 		UiUtil::appendStdString(accName, acc->getDecoratedName());
@@ -147,10 +157,10 @@ void MainWindow::populateItems(const vector<const Item*>& items)
 	}
 }
 
-void MainWindow::populateTransactions(const wxArrayString& items)
+void MainWindow::populateTransactions(const wxArrayString& entries)
 {
 	transactionsList_->Clear();
-	transactionsList_->Append(items);
+	transactionsList_->Append(entries);
 }
 
 void MainWindow::getTransactionSelectionParameters(SelectionParameters* parameters)
