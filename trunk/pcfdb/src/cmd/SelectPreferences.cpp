@@ -1,7 +1,7 @@
 #include <utility>
 #include <sstream>
 #include <Configuration.h>
-#include <DbUtil.h>
+#include <BaseUtil.h>
 #include <cmd/SelectPreferences.h>
 
 using namespace std;
@@ -20,10 +20,10 @@ static int readNameValuePair(void *param, int colCount, char **values, char **na
     map<const string, const string>* nvpair = reinterpret_cast<map<const string, const string>*> (param);
 
     string name;
-    DbUtil::charPtrToString(name, values[0]);
+    BaseUtil::charPtrToString(name, values[0]);
 
     string value;
-    DbUtil::charPtrToString(value, values[1]);
+    BaseUtil::charPtrToString(value, values[1]);
 
     nvpair->insert(pair<string, string> (name, value));
 

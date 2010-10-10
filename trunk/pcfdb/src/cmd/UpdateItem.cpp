@@ -1,6 +1,6 @@
 #include <sstream>
 #include <Configuration.h>
-#include <DbUtil.h>
+#include <BaseUtil.h>
 #include <cmd/GetItem.h>
 #include <cmd/UpdateItem.h>
 
@@ -20,7 +20,7 @@ void UpdateItem::buildUpdateItemSqlCommand(string& sql, const Item& item)
 
     sout << "UPDATE [" << Configuration::TABLE_ITEMS << "] ";
     sout << "SET ";
-    sout << "[" << Configuration::COLUMN_NAME << "] = " << DbUtil::toDbParameter(item.getName()) << ", ";
+    sout << "[" << Configuration::COLUMN_NAME << "] = " << BaseUtil::toDbParameter(item.getName()) << ", ";
     sout << "[" << Configuration::COLUMN_TRANSACTION << "] = " << item.getLastTransactionId() << " ";
     sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << item.getId() << ";" << endl;
 

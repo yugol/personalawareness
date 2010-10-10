@@ -71,10 +71,10 @@ string Account::getDecoratedName() const
 void Account::validate() const
 {
     if (ALL == type_) {
-        THROW(Exception::WRONG_VALUE_MESSAGE);
+        THROW(Exception::EMSG_WRONG_VALUE);
     }
     if (0 == name_.size()) {
-        THROW(Exception::WRONG_NAME_MESSAGE);
+        THROW(Exception::EMSG_WRONG_NAME);
     }
 }
 

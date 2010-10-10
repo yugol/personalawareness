@@ -1,7 +1,7 @@
 #include <sstream>
 #include <Exception.h>
 #include <Configuration.h>
-#include <DbUtil.h>
+#include <BaseUtil.h>
 #include <cmd/DeleteTransaction.h>
 #include <cmd/UpdateTransaction.h>
 #include <cmd/InsertTransaction.h>
@@ -23,7 +23,7 @@ void InsertTransaction::buildSqlCommand(ostream& out, const Transaction& transac
     out << transaction.getFromId() << ", ";
     out << transaction.getToId() << ", ";
     out << transaction.getItemId() << ", ";
-    out << DbUtil::toDbParameter(transaction.getComment()) << " );" << endl;
+    out << BaseUtil::toDbParameter(transaction.getComment()) << " );" << endl;
 }
 
 InsertTransaction::InsertTransaction(sqlite3* database, const Transaction& transaction) :

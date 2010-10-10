@@ -61,7 +61,7 @@ void GetAccount::execute()
     DatabaseCommand::execute();
     if (tempId != account_->getId()) {
         account_->setId(tempId);
-        THROW(Exception::NO_RECORD_MESSAGE);
+        THROW(Exception::EMSG_NO_RECORD);
     }
 }
 

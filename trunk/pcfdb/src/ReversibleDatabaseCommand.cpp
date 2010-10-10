@@ -12,7 +12,7 @@ const char* ReversibleDatabaseCommand::getReverseSqlCommand()
         buildReverseSqlCommand();
     }
     if (reverseSql_.size() <= 0) {
-        THROW(Exception::SQL_ERROR_MESSAGE);
+        THROW(Exception::EMSG_SQL_ERROR);
     }
     return reverseSql_.c_str();
 }
@@ -20,7 +20,7 @@ const char* ReversibleDatabaseCommand::getReverseSqlCommand()
 void ReversibleDatabaseCommand::unexecute()
 {
     if (SQLITE_OK != ::sqlite3_exec(database_, getReverseSqlCommand(), NULL, NULL, NULL)) {
-        THROW(Exception::SQL_ERROR_MESSAGE);
+        THROW(Exception::EMSG_SQL_ERROR);
     }
 }
 

@@ -44,19 +44,19 @@ void Transaction::setComment(const char* comment)
 void Transaction::validate() const
 {
     if (0 == value_) {
-        THROW(Exception::WRONG_VALUE_MESSAGE);
+        THROW(Exception::EMSG_WRONG_VALUE);
     }
     if (0 == fromId_) {
-        THROW(Exception::WRONG_VALUE_MESSAGE);
+        THROW(Exception::EMSG_WRONG_VALUE);
     }
     if (0 == toId_) {
-        THROW(Exception::WRONG_VALUE_MESSAGE);
+        THROW(Exception::EMSG_WRONG_VALUE);
     }
     if (0 == itemId_) {
-        THROW(Exception::WRONG_VALUE_MESSAGE);
+        THROW(Exception::EMSG_WRONG_VALUE);
     }
     if (fromId_ == toId_) {
-        THROW(Exception::WRONG_VALUE_MESSAGE);
+        THROW(Exception::EMSG_WRONG_VALUE);
     }
 }
 

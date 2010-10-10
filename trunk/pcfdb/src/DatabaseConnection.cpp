@@ -1,6 +1,6 @@
 #include <Configuration.h>
 #include <Exception.h>
-#include <DbUtil.h>
+#include <BaseUtil.h>
 #include <ReversibleDatabaseCommand.h>
 #include <cmd/CreateDatabase.h>
 #include <cmd/SelectPreferences.h>
@@ -12,8 +12,8 @@ using namespace std;
 DatabaseConnection::DatabaseConnection(const char* location) :
     database_(0)
 {
-    DbUtil::charPtrToString(databaseLocation_, location);
-    DbUtil::trimSpaces(databaseLocation_);
+    BaseUtil::charPtrToString(databaseLocation_, location);
+    BaseUtil::trimSpaces(databaseLocation_);
     if (databaseLocation_.size() <= 0) {
         THROW("invalid file name");
     }

@@ -3,7 +3,7 @@
 
 #include <string>
 
-class DbUtil {
+class BaseUtil {
 public:
     static bool toBool(const char* cstr);
     static const std::string toDbParameter(const std::string& str);

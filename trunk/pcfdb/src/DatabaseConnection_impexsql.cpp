@@ -1,7 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <Exception.h>
-#include <DbUtil.h>
+#include <BaseUtil.h>
 #include <Transaction.h>
 #include <cmd/SelectPreferences.h>
 #include <cmd/UpdatePreference.h>
@@ -64,7 +64,7 @@ void DatabaseConnection::loadSql(istream& in)
 	char statement[Configuration::LINE_BUFFER_LENGTH];
 
 	if (SQLITE_OK != ::sqlite3_exec(database_, "BEGIN;", NULL, NULL, NULL)) {
-		string errMessage(Exception::SQL_ERROR_MESSAGE);
+		string errMessage(Exception::EMSG_SQL_ERROR);
 		errMessage.append(": ");
 		errMessage.append(::sqlite3_errmsg(database_));
 		THROW(errMessage.c_str());
@@ -76,11 +76,11 @@ void DatabaseConnection::loadSql(istream& in)
 		if (SQLITE_OK != ::sqlite3_exec(database_, statement, NULL, NULL, NULL)) {
 
 			ostringstream msgOut;
-			msgOut << Exception::SQL_ERROR_MESSAGE << ": ";
+			msgOut << Exception::EMSG_SQL_ERROR << ": ";
 			msgOut << ::sqlite3_errmsg(database_) << " at line no. " << lineNo;
 
 			if (SQLITE_OK != ::sqlite3_exec(database_, "ROLLBACK;", NULL, NULL, NULL)) {
-				string errMessage(Exception::SQL_ERROR_MESSAGE);
+				string errMessage(Exception::EMSG_SQL_ERROR);
 				errMessage.append(": ");
 				errMessage.append(::sqlite3_errmsg(database_));
 				THROW(errMessage.c_str());
@@ -91,7 +91,7 @@ void DatabaseConnection::loadSql(istream& in)
 	}
 
 	if (SQLITE_OK != ::sqlite3_exec(database_, "COMMIT;", NULL, NULL, NULL)) {
-		string errMessage(Exception::SQL_ERROR_MESSAGE);
+		string errMessage(Exception::EMSG_SQL_ERROR);
 		errMessage.append(": ");
 		errMessage.append(::sqlite3_errmsg(database_));
 		THROW(errMessage.c_str());

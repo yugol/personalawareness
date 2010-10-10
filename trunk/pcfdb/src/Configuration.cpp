@@ -19,7 +19,7 @@
 #include <fstream>
 #include <Configuration.h>
 #include <Exception.h>
-#include <DbUtil.h>
+#include <BaseUtil.h>
 
 using namespace std;
 
@@ -31,13 +31,13 @@ const char Configuration::CONFIGURATION_FILEEXT[] = ".awareness.cfg";
 // defaults
 const char Configuration::PROJECT_MARKER[] = "5A08548C-B8C3-11DF-8AC9-BD12E0D72085-PERSONALAWARENESS";
 const char Configuration::PROJECT_NAME[] = "Personal Cash Flow";
-const char Configuration::PROJECT_VERSION[] = "0.7.3 alpha";
-const char Configuration::PROJECT_DATABASE_VERSION[] = "0.1.1";
+const char Configuration::PROJECT_VERSION[] = "1.0.0 alpha";
+const char Configuration::PROJECT_DATABASE_VERSION[] = "1.0.0";
 const char Configuration::DEFAULT_CURRENCY_SYMBOL[] = "'";
 const bool Configuration::DEFAULT_PREFIX_CURRENCY = false;
 const bool Configuration::DEFAULT_COMPACT_TRNSACTIONS = false;
 const bool Configuration::DEFAULT_COMPARE_ASCII_ONLY = false;
-const bool Configuration::DEFAULT_HIDE_ZERO_BALANCE_ACCOUNTS = true;
+const bool Configuration::DEFAULT_HIDE_ZERO_BALANCE_ACCOUNTS = false;
 
 // tables
 const char Configuration::TABLE_PREFERENCES[] = "preferences";
@@ -105,30 +105,30 @@ bool Configuration::existsConfigurationFile() const
 
 void Configuration::setLastDatabasePath(const char* location)
 {
-	DbUtil::charPtrToString(lastDatabasePath_, location);
-	DbUtil::trimSpaces(lastDatabasePath_);
+	BaseUtil::charPtrToString(lastDatabasePath_, location);
+	BaseUtil::trimSpaces(lastDatabasePath_);
 	writeConfiguration();
 }
 
 void Configuration::setCurrencySymbol(const char* symbol)
 {
-	DbUtil::charPtrToString(currencySymbol_, symbol);
-	DbUtil::trimSpaces(currencySymbol_);
+	BaseUtil::charPtrToString(currencySymbol_, symbol);
+	BaseUtil::trimSpaces(currencySymbol_);
 }
 
 void Configuration::setPrefixCurrency(const char* cstr)
 {
-	prefixCurrency_ = DbUtil::toBool(cstr);
+	prefixCurrency_ = BaseUtil::toBool(cstr);
 }
 
 void Configuration::setCompactTransactions(const char* cstr)
 {
-	compactTransactions_ = DbUtil::toBool(cstr);
+	compactTransactions_ = BaseUtil::toBool(cstr);
 }
 
 void Configuration::setCompareAsciiOnly(const char* cstr)
 {
-	compareAsciiOnly_ = DbUtil::toBool(cstr);
+	compareAsciiOnly_ = BaseUtil::toBool(cstr);
 }
 
 void Configuration::setPrefixCurrency(bool val)

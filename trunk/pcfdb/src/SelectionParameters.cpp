@@ -1,5 +1,5 @@
 #include <Configuration.h>
-#include <DbUtil.h>
+#include <BaseUtil.h>
 #include <Account.h>
 #include <SelectionParameters.h>
 
@@ -50,7 +50,7 @@ void SelectionParameters::setAccountId(int id)
 
 void SelectionParameters::setNamePattern(const char* pattern)
 {
-	DbUtil::charPtrToString(namePattern_, pattern);
-	DbUtil::trimSpaces(namePattern_);
+	BaseUtil::charPtrToString(namePattern_, pattern);
+	BaseUtil::trimSpaces(namePattern_);
 }
 

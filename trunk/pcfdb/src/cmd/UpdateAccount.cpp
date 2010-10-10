@@ -1,6 +1,6 @@
 #include <sstream>
 #include <Configuration.h>
-#include <DbUtil.h>
+#include <BaseUtil.h>
 #include <cmd/GetAccount.h>
 #include <cmd/UpdateAccount.h>
 
@@ -22,9 +22,9 @@ void UpdateAccount::buildUpdateAccountSqlCommand(string& sql, const Account& acc
     sout << "SET ";
     sout << "[" << Configuration::COLUMN_TYPE << "] = " << account.getType() << ", ";
     sout << "[" << Configuration::COLUMN_BALANCE << "] = " << account.getInitialValue() << ", ";
-    sout << "[" << Configuration::COLUMN_NAME << "] = " << DbUtil::toDbParameter(account.getName()) << ", ";
-    sout << "[" << Configuration::COLUMN_GROUP << "] = " << DbUtil::toDbParameter(account.getGroup()) << ", ";
-    sout << "[" << Configuration::COLUMN_COMMENT << "] = " << DbUtil::toDbParameter(account.getComment()) << " ";
+    sout << "[" << Configuration::COLUMN_NAME << "] = " << BaseUtil::toDbParameter(account.getName()) << ", ";
+    sout << "[" << Configuration::COLUMN_GROUP << "] = " << BaseUtil::toDbParameter(account.getGroup()) << ", ";
+    sout << "[" << Configuration::COLUMN_COMMENT << "] = " << BaseUtil::toDbParameter(account.getComment()) << " ";
     sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << account.getId() << ";" << endl;
 
     sql = sout.rdbuf()->str();
