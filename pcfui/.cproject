@@ -28,8 +28,8 @@
 								<option id="gnu.cpp.compiler.option.include.paths.713574437" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/lib/wx/include/gtk2-unicode-release-2.8"/>
 									<listOptionValue builtIn="false" value="/usr/include/wx-2.8"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfdb/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfui/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfbase/inc}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1880951171" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -45,10 +45,10 @@
 									<listOptionValue builtIn="false" value="wx_gtk2u_adv-2.8"/>
 									<listOptionValue builtIn="false" value="wx_gtk2u_html-2.8"/>
 									<listOptionValue builtIn="false" value="sqlite3"/>
-									<listOptionValue builtIn="false" value="pcfdb"/>
+									<listOptionValue builtIn="false" value="pcfbase"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1592256846" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfdb/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfbase/Debug}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.322600628" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -510,8 +510,8 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1312003996" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/lib/wx/include/gtk2-unicode-release-2.8"/>
 									<listOptionValue builtIn="false" value="/usr/include/wx-2.8"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfdb/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfui/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfbase/inc}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1735973727" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -527,10 +527,10 @@
 									<listOptionValue builtIn="false" value="wx_gtk2u_adv-2.8"/>
 									<listOptionValue builtIn="false" value="wx_gtk2u_html-2.8"/>
 									<listOptionValue builtIn="false" value="sqlite3"/>
-									<listOptionValue builtIn="false" value="pcfdb"/>
+									<listOptionValue builtIn="false" value="pcfbase"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1420641579" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfdb/Release}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfbase/Release}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1161307714" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
