@@ -30,6 +30,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/wx-2.8"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfui/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfbase/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pacommon/inc}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1880951171" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -46,9 +47,11 @@
 									<listOptionValue builtIn="false" value="wx_gtk2u_html-2.8"/>
 									<listOptionValue builtIn="false" value="sqlite3"/>
 									<listOptionValue builtIn="false" value="pcfbase"/>
+									<listOptionValue builtIn="false" value="pacommon"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1592256846" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfbase/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pacommon/Debug}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.322600628" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -512,6 +515,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/wx-2.8"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfui/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfbase/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pacommon/inc}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1735973727" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -528,9 +532,11 @@
 									<listOptionValue builtIn="false" value="wx_gtk2u_html-2.8"/>
 									<listOptionValue builtIn="false" value="sqlite3"/>
 									<listOptionValue builtIn="false" value="pcfbase"/>
+									<listOptionValue builtIn="false" value="pacommon"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1420641579" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pcfbase/Release}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/pacommon/Release}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1161307714" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
