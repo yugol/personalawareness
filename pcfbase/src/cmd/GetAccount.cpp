@@ -2,6 +2,7 @@
 #include <sstream>
 #include <Exception.h>
 #include <Configuration.h>
+#include <BaseUtil.h>
 #include <Account.h>
 #include <cmd/GetAccount.h>
 
@@ -61,7 +62,7 @@ void GetAccount::execute()
     DatabaseCommand::execute();
     if (tempId != account_->getId()) {
         account_->setId(tempId);
-        THROW(Exception::EMSG_NO_RECORD);
+        THROW(BaseUtil::EMSG_NO_RECORD);
     }
 }
 

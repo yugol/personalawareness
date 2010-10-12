@@ -2,6 +2,7 @@
 #include <sstream>
 #include <Exception.h>
 #include <Configuration.h>
+#include <BaseUtil.h>
 #include <Item.h>
 #include <cmd/GetLastTransaction.h>
 #include <cmd/GetItem.h>
@@ -56,7 +57,7 @@ void GetItem::execute()
     DatabaseCommand::execute();
     if (tempId != item_->getId()) {
         item_->setId(tempId);
-        THROW(Exception::EMSG_NO_RECORD);
+        THROW(BaseUtil::EMSG_NO_RECORD);
     }
     if (item_->getLastTransactionId() == 0) {
         GetLastTransaction cmd(database_, item_);

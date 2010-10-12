@@ -1,5 +1,6 @@
 #include <sstream>
 #include <Configuration.h>
+#include <BaseUtil.h>
 #include <Exception.h>
 #include <DatabaseConnection.h>
 #include <cmd/GetItem.h>
@@ -11,7 +12,7 @@ DeleteItem::DeleteItem(sqlite3* database, int id) :
     ReversibleDatabaseCommand(database), item_(id)
 {
     if (DatabaseConnection::isItemInUse(database_, id)) {
-        THROW(Exception::EMSG_RECORD_IN_USE);
+        THROW(BaseUtil::EMSG_RECORD_IN_USE);
     }
     GetItem(database_, &item_).execute();
 }

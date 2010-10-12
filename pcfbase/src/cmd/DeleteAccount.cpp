@@ -1,5 +1,6 @@
 #include <sstream>
 #include <Configuration.h>
+#include <BaseUtil.h>
 #include <Exception.h>
 #include <DatabaseConnection.h>
 #include <cmd/GetAccount.h>
@@ -11,7 +12,7 @@ DeleteAccount::DeleteAccount(sqlite3* database, int id) :
     ReversibleDatabaseCommand(database), account_(id)
 {
     if (DatabaseConnection::isAccountInUse(database_, id)) {
-        THROW(Exception::EMSG_RECORD_IN_USE);
+        THROW(BaseUtil::EMSG_RECORD_IN_USE);
     }
     GetAccount(database_, &account_).execute();
 }

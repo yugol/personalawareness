@@ -1,6 +1,7 @@
 #include <Item.h>
 #include <Exception.h>
 #include <Configuration.h>
+#include <BaseUtil.h>
 #include <SelectionParameters.h>
 #include <cmd/SelectTransactions.h>
 #include <cmd/GetLastTransaction.h>
@@ -25,7 +26,7 @@ void GetLastTransaction::execute()
     SelectTransactions selectCmd(database_, &sel, &params);
     selectCmd.execute();
     if (sel.size() > 1) {
-        THROW(Exception::EMSG_WRONG_VALUE);
+        THROW(BaseUtil::EMSG_WRONG_VALUE);
     }
     if (sel.size() == 1) {
         id_ = sel[0];

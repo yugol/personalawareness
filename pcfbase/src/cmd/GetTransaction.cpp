@@ -2,6 +2,7 @@
 #include <sstream>
 #include <Exception.h>
 #include <Configuration.h>
+#include <BaseUtil.h>
 #include <Transaction.h>
 #include <cmd/GetTransaction.h>
 
@@ -61,7 +62,7 @@ void GetTransaction::execute()
     DatabaseCommand::execute();
     if (tempId != transaction_->getId()) {
         transaction_->setId(tempId);
-        THROW(Exception::EMSG_NO_RECORD);
+        THROW(BaseUtil::EMSG_NO_RECORD);
     }
 }
 
