@@ -4,10 +4,7 @@
 #include <Application.h>
 
 // TBD: branza -> branzeturi
-// TBD: salam -> preparate din carne
 
-// TBD: base: rename project to pcfbase
-// TBD: base: error messages to BaseUtil
 // TBD: base: automatically delete unused items at export
 
 // TBD: ui: change default extension to .cflow
