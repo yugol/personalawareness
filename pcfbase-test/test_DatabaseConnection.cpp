@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <Exception.h>
+#include <BaseUtil.h>
 #include <Transaction.h>
 #include <DatabaseConnection.h>
 #include "_test.h"
@@ -53,7 +54,7 @@ TEST( Transaction, DatabaseConnection )
 	try {
 		Transaction nt(100);
 		DatabaseConnection::instance()->getTransaction(&nt);
-		FAIL(Exception::EMSG_NO_RECORD);
+		FAIL(BaseUtil::EMSG_NO_RECORD);
 	} catch (const Exception& ex) {
 	}
 }
