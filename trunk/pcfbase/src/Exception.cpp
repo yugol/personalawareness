@@ -3,14 +3,6 @@
 
 using namespace std;
 
-const char Exception::EMSG_NO_DATABASE[] = "no opened database";
-const char Exception::EMSG_SQL_ERROR[] = "SQL error";
-const char Exception::EMSG_NO_RECORD[] = "no such record";
-const char Exception::EMSG_WRONG_NAME[] = "wrong name";
-const char Exception::EMSG_WRONG_VALUE[] = "wrong value";
-const char Exception::EMSG_UNDEFINED[] = "this should not happen";
-const char Exception::EMSG_RECORD_IN_USE[] = "record in use";
-
 Exception::Exception()
 {
 }

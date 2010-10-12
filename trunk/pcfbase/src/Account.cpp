@@ -1,5 +1,6 @@
 #include <iostream>
 #include <Exception.h>
+#include <BaseUtil.h>
 #include <Account.h>
 
 using namespace std;
@@ -71,10 +72,10 @@ string Account::getDecoratedName() const
 void Account::validate() const
 {
     if (ALL == type_) {
-        THROW(Exception::EMSG_WRONG_VALUE);
+        THROW(BaseUtil::EMSG_WRONG_VALUE);
     }
     if (0 == name_.size()) {
-        THROW(Exception::EMSG_WRONG_NAME);
+        THROW(BaseUtil::EMSG_WRONG_NAME);
     }
 }
 

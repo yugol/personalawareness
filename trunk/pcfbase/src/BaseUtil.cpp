@@ -5,6 +5,14 @@
 
 using namespace std;
 
+const char BaseUtil::EMSG_NO_DATABASE[] = "no opened database";
+const char BaseUtil::EMSG_SQL_ERROR[] = "SQL error";
+const char BaseUtil::EMSG_NO_RECORD[] = "no such record";
+const char BaseUtil::EMSG_WRONG_NAME[] = "wrong name";
+const char BaseUtil::EMSG_WRONG_VALUE[] = "wrong value";
+const char BaseUtil::EMSG_UNDEFINED[] = "this should not happen";
+const char BaseUtil::EMSG_RECORD_IN_USE[] = "record in use";
+
 bool BaseUtil::toBool(const char* cstr)
 {
 	if (cstr == 0) {

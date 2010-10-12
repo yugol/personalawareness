@@ -5,10 +5,18 @@
 
 class BaseUtil {
 public:
-    static bool toBool(const char* cstr);
-    static const std::string toDbParameter(const std::string& str);
-    static void charPtrToString(std::string& str, const char* cstr);
-    static void trimSpaces(std::string& str);
+	static const char EMSG_NO_DATABASE[];
+	static const char EMSG_SQL_ERROR[];
+	static const char EMSG_NO_RECORD[];
+	static const char EMSG_WRONG_NAME[];
+	static const char EMSG_WRONG_VALUE[];
+	static const char EMSG_UNDEFINED[];
+	static const char EMSG_RECORD_IN_USE[];
+
+	static bool toBool(const char* cstr);
+	static const std::string toDbParameter(const std::string& str);
+	static void charPtrToString(std::string& str, const char* cstr);
+	static void trimSpaces(std::string& str);
 };
 
 #endif /* DBUTIL_H_ */
