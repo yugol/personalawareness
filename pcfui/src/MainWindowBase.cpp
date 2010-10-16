@@ -206,21 +206,21 @@ MainWindowBase::MainWindowBase( wxWindow* parent, wxWindowID id, const wxString&
 	transactionTopSizer->Add( dateLabel_, 0, wxALIGN_CENTER_VERTICAL|wxLEFT, 5 );
 	
 	trDatePicker_ = new wxDatePickerCtrl( transactionPanel_, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT|wxDP_SHOWCENTURY );
-	transactionTopSizer->Add( trDatePicker_, 1, wxALL|wxEXPAND, 5 );
+	transactionTopSizer->Add( trDatePicker_, 2, wxALL|wxEXPAND, 5 );
 	
 	itemLabel_ = new wxStaticText( transactionPanel_, wxID_ANY, wxT("Item"), wxDefaultPosition, wxDefaultSize, 0 );
 	itemLabel_->Wrap( -1 );
 	transactionTopSizer->Add( itemLabel_, 0, wxALIGN_CENTER_VERTICAL|wxLEFT, 5 );
 	
 	trItemText_ = new wxTextCtrl( transactionPanel_, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	transactionTopSizer->Add( trItemText_, 2, wxALL|wxEXPAND, 5 );
+	transactionTopSizer->Add( trItemText_, 3, wxALL|wxEXPAND, 5 );
 	
 	valueLabel_ = new wxStaticText( transactionPanel_, wxID_ANY, wxT("Value"), wxDefaultPosition, wxDefaultSize, 0 );
 	valueLabel_->Wrap( -1 );
 	transactionTopSizer->Add( valueLabel_, 0, wxALIGN_CENTER_VERTICAL|wxLEFT, 5 );
 	
 	trValueText_ = new wxTextCtrl( transactionPanel_, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	transactionTopSizer->Add( trValueText_, 1, wxALL, 5 );
+	transactionTopSizer->Add( trValueText_, 2, wxALL, 5 );
 	
 	transactionSizer->Add( transactionTopSizer, 0, wxEXPAND, 5 );
 	
