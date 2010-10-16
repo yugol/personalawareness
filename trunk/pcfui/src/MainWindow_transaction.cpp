@@ -1,6 +1,7 @@
 #include <string>
 #include <wx/msgdlg.h>
 #include <wx/htmllbox.h>
+#include <ArithmeticExpressionParser.h>
 #include <Item.h>
 #include <Transaction.h>
 #include <UiUtil.h>
@@ -244,10 +245,21 @@ bool MainWindow::readValidateRefreshTransaction(Transaction* transaction)
 	// transaction value
 
 	double value = 0;
-	trValueText_->GetValue().ToDouble(&value);
+	try {
+		string expression;
+		UiUtil::appendWxString(expression, trValueText_->GetValue());
+		ArithmeticExpressionParser parser(expression);
+		value = parser.evaluate();
+	} catch (const exception& ex) {
+		wxString errTip(wxT("Invalid value expression: "));
+		UiUtil::appendStdString(errTip, ex.what());
+		trAcceptButton_->Enable(false);
+		trAcceptButton_->SetToolTip(errTip);
+		return false;
+	}
 	if (value == 0) {
 		trAcceptButton_->Enable(false);
-		trAcceptButton_->SetToolTip(wxT("Value must be a real non zero number"));
+		trAcceptButton_->SetToolTip(wxT("Invalid value expression: must evaluate to a real non-zero number"));
 		return false;
 	}
 	if (transaction != 0) {

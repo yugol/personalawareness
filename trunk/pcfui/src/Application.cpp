@@ -10,7 +10,6 @@
 // TBD: ui: change default extension to .cflow
 // TBD: ui: open command-line database parameter
 
-// TBD: transaction value can compute simple arithmetic expressions {+ - * / ( )}
 // TBD-: evaluation result in status bar ?
 
 // TBD-: review variable names in code code
