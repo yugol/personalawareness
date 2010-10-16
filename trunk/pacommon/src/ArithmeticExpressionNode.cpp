@@ -1,46 +1,52 @@
 #include <cstdlib>
 #include <iostream>
 #include <Exception.h>
-#include <Node.h>
+#include <ArithmeticExpressionNode.h>
 
 using namespace std;
 
-Node::Node() :
+ArithmeticExpressionNode::ArithmeticExpressionNode() :
 	priority_(-1), parent_(0), first_(0), second_(0)
 {
 }
 
-Node::~Node()
+ArithmeticExpressionNode::~ArithmeticExpressionNode()
 {
 }
 
-void Node::setPriority(int value)
+void ArithmeticExpressionNode::setPriority(int value)
 {
 	priority_ = value;
 }
 
-void Node::setFirst(Node* node)
+void ArithmeticExpressionNode::setFirst(ArithmeticExpressionNode* node)
 {
+	if (node == 0) {
+		THROW(Exception::EMSG_NO_FIRST_OPERAND);
+	}
 	first_ = node;
 	node->parent_ = this;
 }
 
-void Node::setSecond(Node* node)
+void ArithmeticExpressionNode::setSecond(ArithmeticExpressionNode* node)
 {
+	if (node == 0) {
+		THROW(Exception::EMSG_NO_SECOND_OPERAND);
+	}
 	second_ = node;
 	node->parent_ = this;
 }
 
-Node* Node::getTopParent()
+ArithmeticExpressionNode* ArithmeticExpressionNode::getTopParent()
 {
-	Node* tmpParent = this;
+	ArithmeticExpressionNode* tmpParent = this;
 	while (tmpParent->parent_ != 0) {
 		tmpParent = tmpParent->parent_;
 	}
 	return tmpParent;
 }
 
-double Node::evaluate() const
+double ArithmeticExpressionNode::evaluate() const
 {
 	if (first_ == 0) {
 		return atof(content_.c_str());
@@ -53,7 +59,7 @@ double Node::evaluate() const
 			case '-':
 				return (-leftVal);
 			default:
-				THROW("invalid expression: unknown operator");
+				THROW(Exception::EMSG_UNKNOWN_OPERATOR);
 				break;
 		}
 	} else {
@@ -70,13 +76,13 @@ double Node::evaluate() const
 			case '/':
 				return leftVal / rightVal;
 			default:
-				THROW("invalid expression: unknown operator");
+				THROW(Exception::EMSG_UNKNOWN_OPERATOR);
 				break;
 		}
 	}
 }
 
-void Node::printPreorder() const
+void ArithmeticExpressionNode::printPreorder() const
 {
 	cout << "(";
 	cout << content_;
