@@ -106,3 +106,13 @@ TEST(SSopSSSopDSSopMSSopPSSop, ArithmeticExpressionParser)
 	ArithmeticExpressionParser parser("--2 - --10 / --5 * --2 + --2");
 	CHECK( 0 == parser.evaluate() );
 }
+
+TEST(opP, ArithmeticExpressionParser)
+{
+	try {
+		ArithmeticExpressionParser parser("1 +");
+		parser.evaluate();
+		FAIL("should not be here");
+	} catch (const exception& exc) {
+	}
+}
