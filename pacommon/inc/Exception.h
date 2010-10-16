@@ -7,20 +7,28 @@
 class Exception: public std::exception {
 
 public:
-    Exception();
-    Exception(const char* message);
-    Exception(const char* message, const char* fileName, int lineNo);
-    Exception(const exception& ex, const char* fileName, int lineNo);
-    virtual ~Exception() throw ();
-    virtual const char* what() const throw ();
+	static const char EMSG_EMPTY_EXPRESSION[];
+	static const char EMSG_UNKNOWN_PRIORITY[];
+	static const char EMSG_UNKNOWN_OPERATOR[];
+	static const char EMSG_NO_OPERATOR[];
+	static const char EMSG_NO_FIRST_OPERAND[];
+	static const char EMSG_NO_SECOND_OPERAND[];
+
+	Exception();
+	Exception(const char* message);
+	Exception(const char* message, const char* fileName, int lineNo);
+	Exception(const exception& ex, const char* fileName, int lineNo);
+	virtual ~Exception() throw ();
+
+	virtual const char* what() const throw ();
 
 private:
-    std::string message_;
+	std::string what_;
 };
 
 inline const char* Exception::what() const throw ()
 {
-    return message_.c_str();
+	return what_.c_str();
 }
 
 #define THROW( message ) throw Exception((message), __FILE__, __LINE__)

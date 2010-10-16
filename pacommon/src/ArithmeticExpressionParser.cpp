@@ -22,7 +22,7 @@ double ArithmeticExpressionParser::evaluate()
 
 void ArithmeticExpressionParser::tokenize(const string& expression)
 {
-	Node* node = 0;
+	ArithmeticExpressionNode* node = 0;
 	for (size_t i = 0; i < expression.size(); ++i) {
 		char ch = expression[i];
 		if (('0' <= ch && ch <= '9') || ch == '.') {
@@ -67,8 +67,8 @@ void ArithmeticExpressionParser::parse()
 		}
 	}
 
-	Node* root = 0;
-	Node* node = 0;
+	ArithmeticExpressionNode* root = 0;
+	ArithmeticExpressionNode* node = 0;
 
 	for (size_t i = 0; i < parseTree_.size(); ++i) {
 
@@ -85,7 +85,7 @@ void ArithmeticExpressionParser::parse()
 					if (root->getSecond() == 0) {
 						root->setSecond(node);
 					} else {
-						THROW("invalid expression: operand without operator");
+						THROW(Exception::EMSG_NO_OPERATOR);
 					}
 				}
 				break;
@@ -102,7 +102,7 @@ void ArithmeticExpressionParser::parse()
 							break;
 						case 1:
 							if (root->getFirst() == 0) {
-								THROW("invalid expression: operator without first operand");
+								THROW(Exception::EMSG_NO_FIRST_OPERAND);
 							} else {
 								node->setSecond(node->getFirst());
 								node->setFirst(root);
@@ -111,7 +111,7 @@ void ArithmeticExpressionParser::parse()
 							break;
 						case 2:
 							if (root->getFirst() == 0) {
-								THROW("invalid expression: operator without first operand");
+								THROW(Exception::EMSG_NO_FIRST_OPERAND);
 							} else if (root->getSecond() == 0) {
 								root->setSecond(node);
 							} else {
@@ -127,7 +127,7 @@ void ArithmeticExpressionParser::parse()
 
 			case 2:
 				if (root == 0) {
-					THROW("invalid expression: expression cannot start with '*' or '/'");
+					THROW(Exception::EMSG_NO_FIRST_OPERAND);
 				} else {
 					switch (root->getPriority()) {
 						case 0:
@@ -136,7 +136,7 @@ void ArithmeticExpressionParser::parse()
 							break;
 						case 1:
 							if (root->getFirst() == 0) {
-								THROW("invalid expression: operator without first operand");
+								THROW(Exception::EMSG_NO_FIRST_OPERAND);
 							}
 							if (root->getSecond() == 0) {
 								node->setFirst(root);
@@ -149,9 +149,9 @@ void ArithmeticExpressionParser::parse()
 							break;
 						case 2:
 							if (root->getFirst() == 0) {
-								THROW("invalid expression: operator without first operand");
+								THROW(Exception::EMSG_NO_FIRST_OPERAND);
 							} else if (root->getSecond() == 0) {
-								THROW("invalid expression: operator without second operand");
+								THROW(Exception::EMSG_NO_SECOND_OPERAND);
 							} else {
 								if (root->getParent() != 0) {
 									root->getParent()->setSecond(node);
@@ -165,7 +165,7 @@ void ArithmeticExpressionParser::parse()
 				break;
 
 			default:
-				THROW("invalid expression: unknown priority");
+				THROW(Exception::EMSG_UNKNOWN_PRIORITY);
 		}
 	}
 
@@ -176,13 +176,13 @@ void ArithmeticExpressionParser::parse()
 	}
 
 	if (root_ == 0) {
-		THROW("invalid expression: empty expression");
+		THROW(Exception::EMSG_EMPTY_EXPRESSION);
 	}
 	if (root_->getPriority() >= 1 && root_->getFirst() == 0) {
-		THROW("invalid expression: operator without first operand");
+		THROW(Exception::EMSG_NO_FIRST_OPERAND);
 	}
 	if (root_->getPriority() >= 2 && root_->getSecond() == 0) {
-		THROW("invalid expression: operator without second operand");
+		THROW(Exception::EMSG_NO_SECOND_OPERAND);
 	}
 }
 

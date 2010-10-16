@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "Node.h"
+#include "ArithmeticExpressionNode.h"
 
 class ArithmeticExpressionParser {
 public:
@@ -13,8 +13,8 @@ public:
 	double evaluate();
 
 private:
-	std::vector<Node> parseTree_;
-	Node* root_;
+	std::vector<ArithmeticExpressionNode> parseTree_;
+	ArithmeticExpressionNode* root_;
 
 	void tokenize(const std::string& expression);
 	void parse();
