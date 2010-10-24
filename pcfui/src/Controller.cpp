@@ -40,9 +40,12 @@ Controller::~Controller()
 {
 }
 
-void Controller::initApplication()
+void Controller::initApplication(int argc, void** argv)
 {
-	if (Configuration::instance()->existsConfigurationFile()) {
+	if (argc > 1) {
+		wxString pathFileExt(static_cast<wxChar*> (argv[1]));
+		openDatabase(&pathFileExt);
+	} else if (Configuration::instance()->existsConfigurationFile()) {
 		openDatabase(0);
 	}
 }
@@ -57,8 +60,8 @@ void Controller::openDatabase(const wxString* location)
 			if (!wxFile::Exists(location->wc_str())) {
 				ostringstream extOut;
 				UiUtil::streamExt(extOut, pathFileExt);
-				if (extOut.rdbuf()->str() != "db") {
-					pathFileExt.append(".db");
+				if (extOut.rdbuf()->str() != "cflow") {
+					pathFileExt.append(".cflow");
 				}
 			}
 			DatabaseConnection::openDatabase(pathFileExt.c_str());

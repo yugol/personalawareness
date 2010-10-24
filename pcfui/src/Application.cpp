@@ -7,9 +7,6 @@
 
 // TBD: base: automatically delete unused items at export
 
-// TBD: ui: change default extension to .cflow
-// TBD: ui: open command-line database parameter
-
 // TBD-: evaluation result in status bar ?
 
 // TBD-: review variable names in code code
@@ -66,6 +63,6 @@ bool Application::OnInit()
 	aFrame->SetSize(700, 525);
 	aFrame->Show();
 	aFrame->setDatabaseOpenedView(false);
-	Controller::instance()->initApplication();
+	Controller::instance()->initApplication(argc, reinterpret_cast<void**> (argv));
 	return true;
 }
