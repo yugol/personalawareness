@@ -3,8 +3,8 @@
 #include <DatabaseConnection.h>
 #include "_test.h"
 
-char testDatabase[] = "test.db";
-char disposableDatabase[] = "disposable.db";
+char testDatabase[] = "test.cflow";
+char disposableDatabase[] = "disposable.cflow";
 
 void generateTestDatabase()
 {
