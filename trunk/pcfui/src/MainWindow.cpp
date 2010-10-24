@@ -122,7 +122,7 @@ void MainWindow::reportMessage(const wxString& message, const wxString& title)
 void MainWindow::onOpen(wxCommandEvent &event)
 {
 	wxFileDialog* dlg = new wxFileDialog(this, wxT("Open database"), wxEmptyString, wxEmptyString,
-			wxT("Database files (*.db)|*.db|All files (*.*)|*.*"));
+			wxT("Database files (*.cflow)|*.cflow|All files (*.*)|*.*"));
 	if (wxID_OK == dlg->ShowModal()) {
 		wxString location = dlg->GetPath();
 		Controller::instance()->openDatabase(&location);

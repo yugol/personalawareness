@@ -16,7 +16,7 @@ public:
 
 	~Controller();
 
-	void initApplication();
+	void initApplication(int argc, void** argv);
 
 	void getDefaultSqlExportName(wxString& name);
 	void getDatabasePath(wxString& path);
