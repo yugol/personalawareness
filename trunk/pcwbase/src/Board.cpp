@@ -84,7 +84,7 @@ void Board::buildSelectors()
 
 void Board::buildSelectors(int lineNo, int columnNo)
 {
-	// TBD+: start here
+	// TODO+: start here
 	THROW("not implemented yet");
 }
 

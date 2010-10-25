@@ -23,7 +23,7 @@ static void toWword(wchar_t* ww, const char* w, int maxLen)
 			(*ww) = wc;
 			++ww;
 		}
-		// TBD: complete here
+		// TODO: complete here
 	}
 	(*ww) = 0;
 }
