@@ -54,7 +54,6 @@ const char Configuration::COLUMN_NAME[] = "name";
 const char Configuration::COLUMN_GROUP[] = "group";
 const char Configuration::COLUMN_BALANCE[] = "ival";
 const char Configuration::COLUMN_COMMENT[] = "desc";
-const char Configuration::COLUMN_TRANSACTION[] = "lastr";
 const char Configuration::COLUMN_DATE[] = "date";
 const char Configuration::COLUMN_VALUE[] = "val";
 const char Configuration::COLUMN_SOURCE[] = "from";
@@ -82,10 +81,7 @@ Configuration::Configuration() :
 			compareAsciiOnly_(DEFAULT_COMPARE_ASCII_ONLY), hideZeroBalanceAccounts_(DEFAULT_HIDE_ZERO_BALANCE_ACCOUNTS)
 {
 	const char* homeFolder = ::getenv(HOME_ENVIRONMENT_VARIABLE_NAME);
-	// TBD+: show error message and start with no initial file
-	if (NULL == homeFolder) {
-		THROW("HOME environment variable not found");
-	} else {
+	if (homeFolder != NULL) {
 		ostringstream sout;
 		sout << homeFolder << "/" << CONFIGURATION_FILEEXT;
 		configurationFilePath_ = sout.rdbuf()->str();

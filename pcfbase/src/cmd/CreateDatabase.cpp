@@ -33,8 +33,7 @@ void CreateDatabase::buildSqlCommand()
 	sout << "CREATE TABLE [" << Configuration::TABLE_ITEMS << "] (";
 	sout << "[" << Configuration::COLUMN_ID << "] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, ";
 	sout << "[" << Configuration::COLUMN_DELETED << "] TEXT NULL, ";
-	sout << "[" << Configuration::COLUMN_NAME << "] TEXT NOT NULL, ";
-	sout << "[" << Configuration::COLUMN_TRANSACTION << "] INTEGER);" << endl;
+	sout << "[" << Configuration::COLUMN_NAME << "] TEXT NOT NULL);" << endl;
 
 	sout << "CREATE UNIQUE INDEX [";
 	sout << Configuration::TABLE_ITEMS << Configuration::INDEX_MARKER;
