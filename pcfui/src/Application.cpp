@@ -3,13 +3,9 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TBD: branza -> branzeturi
+// TODO: base|ui: intergrity check (purge undo buffer)
 
-// TBD: base: automatically delete unused items at export
-
-// TBD-: evaluation result in status bar ?
-
-// TBD-: review variable names in code code
+// TODO-: review variable names in code code
 // from account -> source account
 // to account -> destination account
 // dump -> export
@@ -19,40 +15,35 @@
 // initial value -> start balance
 // path/file/fileName -> location pathFileExt convention
 
-// TBD: no import confirmation for new databases
+// TODO: no import confirmation for new databases
 
-// TBD: REPORTS
-// TBD: expenses/income yearly
-// TBD: use the same item - show growth
-// TBD: drawings
-// TBD: mainwindow: net balance > Evolution Report button
+// TODO: REPORTS
+// TODO: expenses/income yearly
+// TODO: use the same item - show growth
+// TODO: drawings
+// TODO: mainwindow: net balance > Evolution Report button
 
-// TBD: preferences: security tab
-// TBD: preferences: lock database (can be opened by only one process at a time)
-// TBD: preferences: password protection
+// TODO: preferences: security tab
+// TODO: preferences: lock database (can be opened by only one process at a time)
+// TODO: preferences: password protection
 
-// TBD: add help support
-// TBD: write Google site
+// TODO: add help support
+// TODO: write Google site
 
-// TBD: optim: shorten SQL commands (remove spaces)
-// TBD: optim: replace const char* with std::string
-// TBD: optim: rename item updates only one entry in the list
-// TBD: optim: use virtual list for transactions or change only the affected row
-// TBD: optim: review refreshes in controller
-// TBD: optim: read items in autocompletion only when showing the window for the first time
-// TBD: optim: update only visible tabs in UI
-// TBD: optim: use a thread to import/export database
+// TODO: optim: shorten SQL commands (remove spaces)
+// TODO: optim: replace const char* with std::string
+// TODO: optim: rename item updates only one entry in the list
+// TODO: optim: use virtual list for transactions or change only the affected row
+// TODO: optim: review refreshes in controller
+// TODO: optim: read items in autocompletion only when showing the window for the first time
+// TODO: optim: update only visible tabs in UI
+// TODO: optim: use a thread to import/export database
 
-// TBD: preferences: application tab
-// TBD: properties: format file
-// TBD: properties: remember last X used databases
-// TBD: properties: automatically open last used database
+// TODO-: compile under Windows
 
-// TBD-: compile under Windows
+// TODO-: csv import/export
 
-// TBD-: csv import/export
-
-// TBD-: internationalization support
+// TODO-: internationalization support
 
 IMPLEMENT_APP(Application)
 
