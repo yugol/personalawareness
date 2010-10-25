@@ -14,7 +14,7 @@ public:
 	WordSelector(const std::wstring& pattern);
 	virtual ~WordSelector();
 
-	// TBD: copy constructor & assignment operator
+	// TODO: copy constructor & assignment operator
 
 	const std::wstring& getPattern() const;
 	bool isHistogramMatch(const LetterHistogram& wordHistogram) const;
