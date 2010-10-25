@@ -47,6 +47,9 @@ void Controller::initApplication(int argc, void** argv)
 		openDatabase(&pathFileExt);
 	} else if (Configuration::instance()->existsConfigurationFile()) {
 		openDatabase(0);
+	} else {
+		mainWindow_->SetTitle(UiUtil::getApplicationName(""));
+		mainWindow_->setStatusMessage(UiUtil::getUsingStatusMessage(""));
 	}
 }
 

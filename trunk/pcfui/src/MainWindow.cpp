@@ -225,11 +225,10 @@ void MainWindow::onAbout(wxCommandEvent &event)
 void MainWindow::onSelectionViewButton(wxCommandEvent& event)
 {
 	showSelectionPanel(!selectionPanel_->IsShown());
-	// TBD: update transactions
+	showTransactionPanel(!selectionPanel_->IsShown());
 }
 
 void MainWindow::onTransactionViewButton(wxCommandEvent& event)
 {
 	showTransactionPanel(!transactionPanel_->IsShown());
-	// TBD: update transactions
 }

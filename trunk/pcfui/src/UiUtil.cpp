@@ -26,11 +26,11 @@ wxString UiUtil::getApplicationName(const string& databaseFile)
 wxString UiUtil::getUsingStatusMessage(const string& databaseFile)
 {
 	ostringstream sout;
-	sout << "Using: ";
 	if (databaseFile.size() > 0) {
+		sout << "Using: ";
 		streamFileExt(sout, databaseFile);
 	} else {
-		sout << "N/A";
+		sout << "Please open/create a database to start";
 	}
 	wxString statusMessage;
 	appendStdString(statusMessage, sout.rdbuf()->str());
