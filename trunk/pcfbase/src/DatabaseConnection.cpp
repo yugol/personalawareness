@@ -45,7 +45,7 @@ void DatabaseConnection::openConnection()
             THROW("the database is not supported by this version of the application");
         }
 
-        // TBD: check database version
+        // TODO: check database version
 
         readPreferences(prefs);
     } else {
@@ -62,13 +62,13 @@ void DatabaseConnection::createNewDatabase()
 void DatabaseConnection::purgeDatabase()
 {
     PurgeDatabase(database_).execute(); // TBD-: - optional via preferences
-    // TBD-: remove unused items - optional via preferences
-    // TBD-: compact identical transactions in each day - optional via preferences
+    // TODO-: remove unused items - optional via preferences
+    // TODO-: compact identical transactions in each day - optional via preferences
 }
 
 int DatabaseConnection::getTableCount()
 {
-    // TBD-: use a command
+    // TODO-: use a command
 
     sqlite3_stmt* stmt = 0;
     const char* zSql = "SELECT * FROM sqlite_master WHERE type='table';";

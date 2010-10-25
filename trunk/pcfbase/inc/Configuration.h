@@ -34,7 +34,6 @@ public:
 	static const char COLUMN_GROUP[];
 	static const char COLUMN_BALANCE[];
 	static const char COLUMN_COMMENT[];
-	static const char COLUMN_TRANSACTION[];
 	static const char COLUMN_DATE[];
 	static const char COLUMN_VALUE[];
 	static const char COLUMN_SOURCE[];
