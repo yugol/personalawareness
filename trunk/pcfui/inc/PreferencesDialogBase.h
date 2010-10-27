@@ -38,9 +38,11 @@ class PreferencesDialogBase : public wxDialog
 	
 	protected:
 		wxNotebook* propertiesNotebook_;
+		wxPanel* applicationPage_;
+		wxCheckBox* openLastDatabaseCheckBox_;
 		wxPanel* viewPage_;
-		wxCheckBox* compactTransactionsViewCkBox_;
-		wxCheckBox* hideZeroBalanceAccounts_;
+		wxCheckBox* compactTransactionsViewCheckBox_;
+		wxCheckBox* hideZeroBalanceAccountsCheckBox_;
 		wxPanel* formattingPage_;
 		wxStaticText* currencySymbolLabel_;
 		wxTextCtrl* currencySymbolText_;
@@ -57,7 +59,7 @@ class PreferencesDialogBase : public wxDialog
 		
 	
 	public:
-		PreferencesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Edit preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 320,240 ), long style = wxDEFAULT_DIALOG_STYLE );
+		PreferencesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Edit preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 400,240 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~PreferencesDialogBase();
 	
 };

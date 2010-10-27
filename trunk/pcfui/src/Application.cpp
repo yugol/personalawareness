@@ -3,8 +3,6 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TODO: base|ui: option to automatically open last used database at start (creates deletes configuration file)
-
 // TODO-: review variable names in code code
 // from account -> source account
 // to account -> destination account
@@ -15,8 +13,17 @@
 // initial value -> start balance
 // path/file/fileName -> location pathFileExt convention
 
-// TODO: base|ui: intergrity check (purge undo buffer)
+// TODO: optim: shorten SQL commands (remove some spaces)
+// TODO: optim: replace const char* with std::string
+// TODO: optim: read items in auto-completion only when showing the window for the first time
+// TODO: optim: use a thread to import/export database
+// TODO: optim: review refreshes in controller
 
+// TODO: base|ui: optimize database (purge undo buffer)
+
+// TODO: preferences: security tab
+// TODO: preferences: lock database (can be opened by only one process at a time)
+// TODO: preferences: password protection
 
 // TODO: REPORTS
 // TODO: expenses/income yearly
@@ -24,23 +31,14 @@
 // TODO: drawings
 // TODO: mainwindow: net balance > Evolution Report button
 
-// TODO: preferences: security tab
-// TODO: preferences: lock database (can be opened by only one process at a time)
-// TODO: preferences: password protection
+// TODO-: compile under Windows
 
 // TODO: add help support
 // TODO: write Google site
 
-// TODO: optim: shorten SQL commands (remove spaces)
-// TODO: optim: replace const char* with std::string
+// TODO: optim: update only visible tabs in UI
 // TODO: optim: rename item updates only one entry in the list
 // TODO: optim: use virtual list for transactions or change only the affected row
-// TODO: optim: review refreshes in controller
-// TODO: optim: read items in autocompletion only when showing the window for the first time
-// TODO: optim: update only visible tabs in UI
-// TODO: optim: use a thread to import/export database
-
-// TODO-: compile under Windows
 
 // TODO-: csv import/export
 

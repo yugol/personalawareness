@@ -165,7 +165,6 @@ void MainWindow::populateTransactions(const wxArrayString& entries)
 
 void MainWindow::getTransactionSelectionParameters(SelectionParameters* parameters)
 {
-	// TODO+: setSelectionInterval(selIntervalChoice_->GetSelection());
 	int accountId = reinterpret_cast<int> (selAccountChoice_->GetClientData(selAccountChoice_->GetSelection()));
 	string pattern;
 	UiUtil::appendWxString(pattern, selPatternText_->GetValue());

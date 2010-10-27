@@ -486,8 +486,7 @@ void Controller::getDatabaseReport(wxString& report)
 		DatabaseConnection::instance()->selectTransactions(&sel, 0);
 		rout << "  " << sel.size() << " transactions" << endl;
 	} else {
-		rout << "Please open/create a database" << endl;
-		rout << "to see the statistics." << endl;
+		rout << "Please open/create a database to see the statistics." << endl;
 	}
 
 	UiUtil::appendStdString(report, rout.rdbuf()->str());
