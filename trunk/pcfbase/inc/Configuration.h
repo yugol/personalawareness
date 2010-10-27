@@ -1,19 +1,18 @@
 #ifndef CONFIGURATION_H_
 #define CONFIGURATION_H_
 
-#include <string>
+#include <ConfigurationBase.h>
 
-class Configuration {
+class Configuration: public ConfigurationBase {
 public:
 	// utilities
-	static const int LINE_BUFFER_LENGTH = 10000;
 	static const int DEFAULT_ID = 0;
-	static const char CONFIGURATION_FILEEXT[];
 	// defaults
 	static const char PROJECT_MARKER[]; // used for database identification
 	static const char PROJECT_NAME[];
 	static const char PROJECT_VERSION[];
 	static const char PROJECT_DATABASE_VERSION[];
+
 	static const char DEFAULT_CURRENCY_SYMBOL[];
 	static const bool DEFAULT_PREFIX_CURRENCY;
 	static const bool DEFAULT_COMPACT_TRNSACTIONS;
@@ -52,8 +51,6 @@ public:
 
 	virtual ~Configuration();
 
-	bool existsConfigurationFile() const;
-	const std::string& getConfigurationFilePath() const;
 	const std::string& getLastDatabasePath() const;
 	const std::string& getCurrencySymbol() const;
 	bool isPrefixCurrency() const;
@@ -74,9 +71,6 @@ public:
 private:
 	static Configuration* instance_;
 
-	std::string configurationFilePath_;
-	std::string lastDatabasePath_;
-
 	std::string currencySymbol_;
 	bool prefixCurrency_;
 	bool compactTransactions_;
@@ -86,15 +80,7 @@ private:
 	Configuration();
 	Configuration(const Configuration&);
 	void operator=(const Configuration&);
-
-	void readConfiguration();
-	void writeConfiguration();
 };
-
-inline const std::string& Configuration::getConfigurationFilePath() const
-{
-	return configurationFilePath_;
-}
 
 inline const std::string& Configuration::getLastDatabasePath() const
 {
