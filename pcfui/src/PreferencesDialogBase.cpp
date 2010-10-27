@@ -17,22 +17,34 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	dialogSizer = new wxBoxSizer( wxVERTICAL );
 	
 	propertiesNotebook_ = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	applicationPage_ = new wxPanel( propertiesNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxStaticBoxSizer* applicationSettingsGroup;
+	applicationSettingsGroup = new wxStaticBoxSizer( new wxStaticBox( applicationPage_, wxID_ANY, wxT("Settings") ), wxVERTICAL );
+	
+	openLastDatabaseCheckBox_ = new wxCheckBox( applicationPage_, wxID_ANY, wxT("Automatically open last used database at start-up"), wxDefaultPosition, wxDefaultSize, 0 );
+	
+	applicationSettingsGroup->Add( openLastDatabaseCheckBox_, 0, wxALL, 5 );
+	
+	applicationPage_->SetSizer( applicationSettingsGroup );
+	applicationPage_->Layout();
+	applicationSettingsGroup->Fit( applicationPage_ );
+	propertiesNotebook_->AddPage( applicationPage_, wxT("Application"), true );
 	viewPage_ = new wxPanel( propertiesNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* transactionsViewGroup;
 	transactionsViewGroup = new wxStaticBoxSizer( new wxStaticBox( viewPage_, wxID_ANY, wxT(" Transactions ") ), wxVERTICAL );
 	
-	compactTransactionsViewCkBox_ = new wxCheckBox( viewPage_, wxID_ANY, wxT("Display compact transactions in list"), wxDefaultPosition, wxDefaultSize, 0 );
+	compactTransactionsViewCheckBox_ = new wxCheckBox( viewPage_, wxID_ANY, wxT("Display compact transactions in list"), wxDefaultPosition, wxDefaultSize, 0 );
 	
-	transactionsViewGroup->Add( compactTransactionsViewCkBox_, 0, wxALL, 5 );
+	transactionsViewGroup->Add( compactTransactionsViewCheckBox_, 0, wxALL, 5 );
 	
-	hideZeroBalanceAccounts_ = new wxCheckBox( viewPage_, wxID_ANY, wxT("Hide zero balance accounts in statement"), wxDefaultPosition, wxDefaultSize, 0 );
+	hideZeroBalanceAccountsCheckBox_ = new wxCheckBox( viewPage_, wxID_ANY, wxT("Hide zero balance accounts in statement"), wxDefaultPosition, wxDefaultSize, 0 );
 	
-	transactionsViewGroup->Add( hideZeroBalanceAccounts_, 0, wxALL, 5 );
+	transactionsViewGroup->Add( hideZeroBalanceAccountsCheckBox_, 0, wxALL, 5 );
 	
 	viewPage_->SetSizer( transactionsViewGroup );
 	viewPage_->Layout();
 	transactionsViewGroup->Fit( viewPage_ );
-	propertiesNotebook_->AddPage( viewPage_, wxT("View"), true );
+	propertiesNotebook_->AddPage( viewPage_, wxT("View"), false );
 	formattingPage_ = new wxPanel( propertiesNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* currencyFormattingGroup;
 	currencyFormattingGroup = new wxStaticBoxSizer( new wxStaticBox( formattingPage_, wxID_ANY, wxT(" Currency ") ), wxVERTICAL );
