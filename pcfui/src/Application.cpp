@@ -3,7 +3,7 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TODO: base|ui: intergrity check (purge undo buffer)
+// TODO: base|ui: option to automatically open last used database at start (creates deletes configuration file)
 
 // TODO-: review variable names in code code
 // from account -> source account
@@ -15,7 +15,8 @@
 // initial value -> start balance
 // path/file/fileName -> location pathFileExt convention
 
-// TODO: no import confirmation for new databases
+// TODO: base|ui: intergrity check (purge undo buffer)
+
 
 // TODO: REPORTS
 // TODO: expenses/income yearly

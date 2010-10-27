@@ -153,27 +153,30 @@ void MainWindow::onExport(wxCommandEvent& event)
 
 void MainWindow::onImport(wxCommandEvent& event)
 {
-	wxMessageDialog msgDlg(this, wxT("This operation will completely erase the current database.\nAre you sure you want to continue?"),
-			wxT("Import database"), wxYES | wxNO_DEFAULT);
+	bool proceed = true;
 
-	if (wxID_YES == msgDlg.ShowModal()) {
+	if (!Controller::instance()->isDatabaseEmpty()) {
+		wxMessageDialog msgDlg(this, wxT("This operation will completely erase the current database.\n"
+				"Are you sure you want to continue?"), wxT("Import database"), wxYES | wxNO_DEFAULT);
+		proceed = (wxID_YES == msgDlg.ShowModal());
+		msgDlg.Destroy();
+	}
+
+	if (proceed) {
 		wxString path;
 		Controller::instance()->getDatabasePath(path);
 
 		wxFileDialog* dlg = new wxFileDialog(this, wxT("Import database"), wxEmptyString, wxEmptyString, wxT("*.sql"), wxFD_OPEN
 				| wxFD_FILE_MUST_EXIST);
 		dlg->SetDirectory(path);
-		if (wxID_OK == dlg->ShowModal()) {
-			path = dlg->GetPath();
-		}
+		proceed = (dlg->ShowModal() == wxID_OK);
+		path = dlg->GetPath();
 		dlg->Destroy();
 
-		if (path.size() > 0) {
+		if (proceed) {
 			Controller::instance()->loadDatabase(path);
 		}
 	}
-
-	msgDlg.Destroy();
 }
 
 void MainWindow::onQuit(wxCommandEvent &event)
