@@ -5,25 +5,25 @@
 
 TEST ( File, Configuration )
 {
-	try {
+	CHECK( Configuration::instance()->supportsConfigurationFile() );
 
-		const string& path = Configuration::instance()->getConfigurationFilePath();
-		int pos = path.find(Configuration::CONFIGURATION_FILEEXT);
-		CHECK( pos >= 0 );
+	bool prevCfgFile = Configuration::instance()->existsConfigurationFile();
+	string prevLastDatabasePath;
+	if (prevCfgFile) {
+		prevLastDatabasePath = Configuration::instance()->getLastDatabasePath();
+	} else {
+		Configuration::instance()->createConfigurationFile();
+	}
 
-		const string& tmpDatabasePath = Configuration::instance()->getLastDatabasePath();
+	string expectedDatabasePath("test database path");
+	Configuration::instance()->setLastDatabasePath(expectedDatabasePath.c_str());
+	Configuration::instance()->readConfigurationFile();
+	string actualDatabasePath = Configuration::instance()->getLastDatabasePath();
+	CHECK( expectedDatabasePath == actualDatabasePath );
 
-		string expectedDatabasePath("test database path");
-		Configuration::instance()->setLastDatabasePath(expectedDatabasePath.c_str());
-		ifstream cfgFile(path.c_str());
-		CHECK( cfgFile.is_open() );
-
-		const string& actualDatabasePath = Configuration::instance()->getLastDatabasePath();
-		CHECK( expectedDatabasePath == actualDatabasePath );
-
-		Configuration::instance()->setLastDatabasePath(tmpDatabasePath.c_str());
-
-	} catch (const exception& ex) {
-		cerr << ex.what() << endl;
+	if (prevCfgFile) {
+		Configuration::instance()->setLastDatabasePath(prevLastDatabasePath.c_str());
+	} else {
+		Configuration::instance()->deleteConfigurationFile();
 	}
 }
