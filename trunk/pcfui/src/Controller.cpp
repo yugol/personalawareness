@@ -463,6 +463,13 @@ void Controller::redo()
 	refreshUndoRedoStatus();
 }
 
+bool Controller::isDatabaseEmpty()
+{
+	int accountCount = DatabaseConnection::instance()->getAccountCount();
+	int itemCount = DatabaseConnection::instance()->getItemCount();
+	return ((accountCount + itemCount) == 0);
+}
+
 void Controller::getDatabaseReport(wxString& report)
 {
 	ostringstream rout;

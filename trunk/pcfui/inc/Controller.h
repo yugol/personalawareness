@@ -20,6 +20,7 @@ public:
 
 	void getDefaultSqlExportName(wxString& name);
 	void getDatabasePath(wxString& path);
+	bool isDatabaseEmpty();
 	void getDatabaseReport(wxString& report);
 
 	void selectAllAccounts(std::vector<int>& accountIds);
