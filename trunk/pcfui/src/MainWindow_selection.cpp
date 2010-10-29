@@ -37,7 +37,7 @@ void MainWindow::setSelectionInterval(int intervalId)
 			}
 			break;
 		case SELECTION_INTERVAL_ONEDAY:
-			firstDate = selFirstDatePicker_->GetValue();
+			firstDate = selLastDatePicker_->GetValue();
 			lastDate = firstDate;
 			break;
 		case SELECTION_INTERVAL_LASTDAY:
