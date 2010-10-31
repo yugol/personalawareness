@@ -1,12 +1,32 @@
 #include <Memory.h>
 
-Memory::Memory()
-{
-	// TODO Auto-generated constructor stub
+using namespace std;
 
+Memory::Memory() :
+	transactions_(this)
+{
 }
 
 Memory::~Memory()
 {
-	// TODO Auto-generated destructor stub
+}
+
+void Memory::beginTransaction()
+{
+	transactions_.begin();
+}
+
+void Memory::rollbackTransaction()
+{
+	transactions_.rollback();
+}
+
+void Memory::commitTransaction()
+{
+	transactions_.commit();
+}
+
+ostream& Memory::dumpTypesDot(ostream& out)
+{
+	return types_.dumpDot(out);
 }

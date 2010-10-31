@@ -2,7 +2,8 @@
 
 using namespace std;
 
-Token::Token()
+Token::Token() :
+	type_(ID), line_(-1), column_(-1)
 {
 }
 

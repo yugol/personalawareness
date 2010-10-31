@@ -1,49 +1,37 @@
 #ifndef TYPEHIERARCHY_H_
 #define TYPEHIERARCHY_H_
 
-#include <iostream>
+#include <ostream>
 #include <string>
 #include <map>
-#include "Type.h"
+
+class Type;
 
 class TypeHierarchy {
 public:
-	TypeHierarchy();
-	~TypeHierarchy();
+    TypeHierarchy();
+    ~TypeHierarchy();
 
-	void createDerivedType(const char* spec);
+    Type* getType(const std::string& id);
+    Type* createType(const std::string& id);
+    bool isDefinible(Type*) const;
+    bool isDerivable(Type*) const;
+    void derive(Type* type, Type* superType);
 
-	const Type* operator[](size_t index) const;
-	const Type* operator[](const std::string& id) const;
-
-	std::istream& load(std::istream& in);
-	std::ostream& dump(std::ostream& out);
-	std::ostream& exportGraphviz(std::ostream& out);
+    std::ostream& dump(std::ostream& out) const;
+    std::ostream& dumpDot(std::ostream& out) const;
 
 private:
-	std::vector<Type*> typeList_;
-	std::map<std::string, Type*> typeMap_;
+    static const std::string TOP;
+    static const std::string BOT;
 
-	Type* getCreateType(const std::string& id);
-	void clear();
+    std::map<std::string, Type*> types_;
+    Type* top_;
+    Type* bot_;
+
+    void clear();
+    void link(Type* sup, Type* sub);
+    void unlink(Type* sup, Type* sub);
 };
-
-inline const Type* TypeHierarchy::operator[](size_t index) const
-{
-	if (index > typeList_.size()) {
-		return 0;
-	}
-	return typeList_[index];
-}
-
-inline const Type* TypeHierarchy::operator[](const std::string& id) const
-{
-	std::map<std::string, Type*>::const_iterator it = typeMap_.find(id);
-	if (it == typeMap_.end()) {
-		return 0;
-	} else {
-		return it->second;
-	}
-}
 
 #endif /* TYPEHIERARCHY_H_ */

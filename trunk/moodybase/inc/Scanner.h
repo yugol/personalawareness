@@ -1,36 +1,26 @@
 #ifndef SCANNER_H_
 #define SCANNER_H_
 
-#include <string>
-#include <vector>
-#include <iostream>
+#include <istream>
+#include "Statement.h"
 
-#include "Token.h"
+class Agent;
 
 class Scanner {
 public:
-	static const char* TYPE;
-	static const char OPAREN;
-	static const char CPAREN;
-	static const char STMSEP;
-	static const char LSTSEP;
+    Scanner(Agent* agent);
+    ~Scanner();
 
-	Scanner(std::istream& in);
-	~Scanner();
-
-	const std::vector<Token>& next();
-	std::ostream& writeStatement(std::ostream& out);
+    const Statement& next();
 
 private:
-	std::istream& in_;
-	size_t line_;
-	size_t column_;
-	std::vector<Token> statement_;
-	bool hasCR_;
-	bool hasLF_;
-
-	Token* addToken(size_t line, size_t column);
-	void finalizeToken(Token*);
+    Agent* agent_;
+    std::istream& in_;
+    Statement statement_;
+    bool hasCR_;
+    bool hasLF_;
+    size_t line_;
+    size_t column_;
 };
 
 #endif /* SCANNER_H_ */
