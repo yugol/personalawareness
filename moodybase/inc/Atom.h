@@ -8,14 +8,14 @@ class Type;
 
 class Atom {
 public:
-	Atom(const Type* type);
-	~Atom();
+    Atom(Type* type);
+    ~Atom();
 
 private:
-	const Type* type_;
-	Atom** args_;
-	std::vector<Atom*> refs_;
-	std::string content_;
+    Type* type_;
+    Atom** args_;
+    std::vector<Atom*> refs_;
+    std::string id_;
 };
 
 #endif /* ATOM_H_ */

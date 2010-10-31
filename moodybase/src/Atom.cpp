@@ -1,13 +1,10 @@
 #include <Atom.h>
 
-Atom::Atom(const Type* type) :
-	type_(type)
+Atom::Atom(Type* type) :
+    type_(type), args_(0)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 Atom::~Atom()
 {
-	// TODO Auto-generated destructor stub
 }

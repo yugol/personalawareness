@@ -1,101 +1,158 @@
-#include <cstring>
-#include <cctype>
 #include <Exception.h>
+#include <Type.h>
 #include <TypeHierarchy.h>
 
 using namespace std;
 
-static const char* TYPES_MARKER = "%==TYPES==%";
-static const char* HIERARCHY_MARKER = "%==HIERARCHY==%";
+const char* ERR_CIRCULAR_DERIVATION = "circular derivation";
+
+const string TypeHierarchy::TOP("TOP");
+const string TypeHierarchy::BOT("BOT");
 
 TypeHierarchy::TypeHierarchy()
 {
-	// add TOP and BOTTOM
+    top_ = new Type(TOP);
+    bot_ = new Type(BOT);
+    link(top_, bot_);
 }
 
 TypeHierarchy::~TypeHierarchy()
 {
-	clear();
+    clear();
+    delete top_;
+    delete bot_;
 }
 
 void TypeHierarchy::clear()
 {
-	for (size_t i = 0; i < typeList_.size(); ++i) {
-		delete typeList_[i];
-	}
-	typeList_.clear();
-	typeMap_.clear();
+    for (map<string, Type*>::iterator it = types_.begin(); it != types_.end(); ++it) {
+        delete it->second;
+    }
+    types_.clear();
 }
 
-Type* TypeHierarchy::getCreateType(const string& id)
+Type* TypeHierarchy::getType(const std::string& id)
 {
-	Type* type = 0;
-	if (typeMap_.find(id) == typeMap_.end()) {
-		type = new Type(id);
-		typeMap_[id] = type;
-		typeList_.push_back(type);
-	} else {
-		type = typeMap_[id];
-	}
-	return type;
+    std::map<std::string, Type*>::const_iterator it = types_.find(id);
+    if (it == types_.end()) {
+        if (id == TOP) {
+            return top_;
+        }
+        if (id == BOT) {
+            return bot_;
+        }
+        return 0;
+    } else {
+        return it->second;
+    }
 }
 
-void TypeHierarchy::createDerivedType(const char* spec)
+Type* TypeHierarchy::createType(const string& id)
 {
-	if (spec != 0) {
-		Type* type = 0;
-		string id;
-		char ch;
-		while ((ch = *spec++) != '\0') {
-			if (isalnum(ch) || ch == '_') {
-				id.append(1, ch);
-			} else if (id.size() > 0) {
-				if (type == 0) {
-					type = getCreateType(id);
-				} else {
-					Type* superType = getCreateType(id);
-					type->makeA(superType);
-				}
-				id.clear();
-			}
-		}
-		if (id.size() > 0) {
-			if (type == 0) {
-				type = getCreateType(id);
-			} else {
-				Type* superType = getCreateType(id);
-				type->makeA(superType);
-			}
-			id.clear();
-		}
-	}
+    Type* type = new Type(id);
+    try {
+        unlink(top_, bot_);
+        link(top_, type);
+        link(type, bot_);
+        types_[id] = type;
+    } catch (const exception& ex) {
+        RETHROW(ex);
+    }
+    return type;
 }
 
-istream& TypeHierarchy::load(istream& in)
+bool TypeHierarchy::isDefinible(Type* type) const
 {
-
-	return in;
+    if (type == 0) {
+        return true;
+    }
+    if (type == top_) {
+        return false;
+    }
+    if (type == bot_) {
+        return false;
+    }
+    if (type->isSigned()) {
+        return false;
+    }
+    size_t parentCount = type->getParentCount();
+    if (parentCount == 1) {
+        const Type* firstParent = type->getParent(0);
+        if (firstParent == top_) {
+            return true;
+        }
+        return false;
+    }
+    if (parentCount == 0) {
+        return true;
+    }
+    return false;
 }
 
-ostream& TypeHierarchy::dump(ostream& out)
+bool TypeHierarchy::isDerivable(Type* type) const
 {
-	out << endl << TYPES_MARKER << endl;
-	for (size_t i = 0; i < typeList_.size(); ++i) {
-		out << typeList_[i]->getId() << endl;
-	}
-	out << endl << HIERARCHY_MARKER << endl;
-	for (size_t i = 0; i < typeList_.size(); ++i) {
-		typeList_[i]->dump(out);
-	}
-	return out;
+    if (type == 0) {
+        return false;
+    }
+    if (type == bot_) {
+        return false;
+    }
+    return true;
 }
 
-ostream& TypeHierarchy::exportGraphviz(ostream& out)
+void TypeHierarchy::link(Type* sup, Type* sub)
 {
-	out << endl << "digraph \"" << HIERARCHY_MARKER << "\" {" << endl;
-	for (size_t i = 0; i < typeList_.size(); ++i) {
-		typeList_[i]->exportGraphviz(out);
-	}
-	out << "}" << endl;
-	return out;
+    sup->addChild(sub);
+    sub->addParent(sup);
+}
+
+void TypeHierarchy::unlink(Type* sup, Type* sub)
+{
+    sup->removeChild(sub);
+    sub->removeParent(sup);
+}
+
+void TypeHierarchy::derive(Type* type, Type* superType)
+{
+    if (type->isA(superType)) {
+        return;
+    }
+    if (superType->isA(type)) {
+        THROW(ERR_CIRCULAR_DERIVATION);
+    }
+
+    unlink(top_, type);
+
+    for (size_t i = 0; i < type->getChildCount(); ++i) {
+        Type* child = type->getChild(i);
+        for (size_t j = 0; j <= superType->getChildCount(); ++j) {
+            Type* superChild = superType->getChild(j);
+            if (superChild == child) {
+                unlink(superType, superChild);
+                break;
+            }
+        }
+    }
+
+    link(superType, type);
+}
+
+ostream& TypeHierarchy::dump(ostream& out) const
+{
+    for (map<string, Type*>::const_iterator it = types_.begin(); it != types_.end(); ++it) {
+        it->second->dump(out);
+    }
+    return out;
+}
+
+ostream& TypeHierarchy::dumpDot(ostream& out) const
+{
+    out << "digraph \"types\" {" << endl;
+    top_->dumpDot(out);
+    for (map<string, Type*>::const_iterator it = types_.begin(); it != types_.end(); ++it) {
+        it->second->dumpDot(out);
+    }
+    bot_->dumpDot(out);
+    out << "}" << endl;
+    return out;
 }

@@ -6,7 +6,7 @@
 class Token {
 public:
 	enum {
-		TYPE, ID, STMSEP, OPAREN, CPAREN, LSTSEP
+		ID, DEFN, OPAR, LSEP, CPAR, RULE, STMT, CMT
 	};
 
 	Token();

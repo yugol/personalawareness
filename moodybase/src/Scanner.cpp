@@ -1,15 +1,17 @@
+#include <Agent.h>
 #include <Scanner.h>
 
 using namespace std;
 
-const char* Scanner::TYPE = "type";
-const char Scanner::OPAREN = '(';
-const char Scanner::LSTSEP = ',';
-const char Scanner::CPAREN = ')';
-const char Scanner::STMSEP = ';';
+const char DEFN = ':';
+const char OPAR = '(';
+const char LSEP = ',';
+const char CPAR = ')';
+const char STMT = ';';
+const char CMT = '@';
 
-Scanner::Scanner(istream& in) :
-	in_(in), line_(0), column_(0), hasCR_(false), hasLF_(false)
+Scanner::Scanner(Agent* agent) :
+    agent_(agent), in_(agent_->getIn()), hasCR_(false), hasLF_(false), line_(1), column_(1)
 {
 }
 
@@ -17,124 +19,116 @@ Scanner::~Scanner()
 {
 }
 
-Token* Scanner::addToken(size_t line, size_t column)
+const Statement& Scanner::next()
 {
-	size_t pos = statement_.size();
-	statement_.resize(pos + 1);
-	Token& type = statement_[pos];
-	type.setLine(line + 1);
-	type.setColumn(column + 1);
-	return &type;
-}
+    if (agent_->isInteractive()) {
+        if (statement_.size() > 0) {
+            line_ = 0;
+        } else {
+            line_ = 1;
+        }
+        column_ = 1;
+    }
+    statement_.clear();
+    Token* token = 0;
 
-void Scanner::finalizeToken(Token* token)
-{
-	if (token != 0) {
-		if (token->content() == TYPE) {
-			token->setType(Token::TYPE);
-		} else {
-			token->setType(Token::ID);
-		}
-	}
-}
+    while (true) {
+        int ch = in_.get();
+        if (in_.good()) {
 
-const vector<Token>& Scanner::next()
-{
-	statement_.clear();
-	Token* token = 0;
+            if (ch == ' ' || ch == '\t') {
+                token = 0;
+                ++column_;
+                continue;
+            }
 
-	while (true) {
-		int ch = in_.get();
-		if (in_.good()) {
+            if (ch == '\r') {
+                token = 0;
+                hasCR_ = true;
+                column_ = 1;
+                ++line_;
+                continue;
+            }
 
-			if (ch == ' ' || ch == '\t') {
-				finalizeToken(token);
-				token = 0;
-				++column_;
-				continue;
-			}
+            if (ch == '\n') {
+                hasLF_ = true;
+                if (!hasCR_) {
+                    token = 0;
+                    column_ = 1;
+                    ++line_;
+                }
+                continue;
+            }
 
-			if (ch == '\r') {
-				finalizeToken(token);
-				token = 0;
-				hasCR_ = true;
-				column_ = 0;
-				++line_;
-				continue;
-			}
+            if (ch == CMT) {
+                token = statement_.append(line_, column_);
+                token->setType(Token::CMT);
+                token->content().append(1, ch);
+                statement_.setComment();
+                token = 0;
+                ++column_;
+                continue;
+            }
 
-			if (ch == '\n') {
-				hasLF_ = true;
-				if (!hasCR_) {
-					finalizeToken(token);
-					token = 0;
-					column_ = 0;
-					++line_;
-				}
-				continue;
-			}
+            if (ch == DEFN) {
+                token = statement_.append(line_, column_);
+                token->setType(Token::DEFN);
+                token->content().append(1, ch);
+                token = 0;
+                ++column_;
+                continue;
+            }
 
-			if (ch == OPAREN) {
-				finalizeToken(token);
-				token = addToken(line_, column_);
-				token->setType(Token::OPAREN);
-				token->content().append(1, ch);
-				token = 0;
-				++column_;
-				continue;
-			}
+            if (ch == OPAR) {
+                token = statement_.append(line_, column_);
+                token->setType(Token::OPAR);
+                token->content().append(1, ch);
+                statement_.pushPar();
+                token = 0;
+                ++column_;
+                continue;
+            }
 
-			if (ch == LSTSEP) {
-				finalizeToken(token);
-				token = addToken(line_, column_);
-				token->setType(Token::LSTSEP);
-				token->content().append(1, ch);
-				token = 0;
-				++column_;
-				continue;
-			}
+            if (ch == LSEP) {
+                token = statement_.append(line_, column_);
+                token->setType(Token::LSEP);
+                token->content().append(1, ch);
+                token = 0;
+                ++column_;
+                continue;
+            }
 
-			if (ch == CPAREN) {
-				finalizeToken(token);
-				token = addToken(line_, column_);
-				token->setType(Token::CPAREN);
-				token->content().append(1, ch);
-				token = 0;
-				++column_;
-				continue;
-			}
+            if (ch == CPAR) {
+                token = statement_.append(line_, column_);
+                token->setType(Token::CPAR);
+                token->content().append(1, ch);
+                statement_.popPar();
+                token = 0;
+                ++column_;
+                continue;
+            }
 
-			if (ch == STMSEP) {
-				finalizeToken(token);
-				token = addToken(line_, column_);
-				token->setType(Token::STMSEP);
-				token->content().append(1, ch);
-				token = 0;
-				++column_;
-				break;
-			}
+            if (ch == STMT) {
+                token = statement_.append(line_, column_);
+                token->setType(Token::STMT);
+                token->content().append(1, ch);
+                token = 0;
+                ++column_;
+                break;
+            }
 
-			if (token == 0) {
-				token = addToken(line_, column_);
-			}
-			token->content().append(1, ch);
-			++column_;
+            if (token == 0) {
+                token = statement_.append(line_, column_);
+            }
+            token->content().append(1, ch);
+            ++column_;
 
-		} else {
-			break;
-		}
-	}
+        } else {
+            break;
+        }
+    }
 
-	return statement_;
-}
-
-ostream& Scanner::writeStatement(ostream& out)
-{
-	out << endl;
-	for (size_t i = 0; i < statement_.size(); ++i) {
-		Token& token = statement_[i];
-		out << token.content() << " \t(" << token.getLine() << ":" << token.getColumn() << ")-" << token.getType() << endl;
-	}
-	return out;
+    statement_.preProcess();
+    return statement_;
 }
 
