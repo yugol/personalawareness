@@ -1,6 +1,7 @@
 #include <TypeHierarchy.h>
 #include "_test.h"
 
+/*
 TEST(simpleDerivation, TypeHierarchy)
 {
 	TypeHierarchy th;
@@ -49,3 +50,5 @@ TEST(diamondDerivation, TypeHierarchy)
 	th.createDerivedType("D : B");
 	// th.exportGraphviz(cout);
 }
+
+*/
