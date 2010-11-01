@@ -25,7 +25,10 @@ int main(int argc, char** argv)
     cout << "Working directory: " << cwd << endl;
 
     Agent agent(cin, cout, cerr);
-    agent.setInteractive();
+    agent.setId("console");
+    agent.setInteractive(true);
+    agent.setStopOnError(false);
+    agent.setInputId("");
     agent.start();
 
     return 0;
