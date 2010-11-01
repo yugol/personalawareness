@@ -1,3 +1,4 @@
+#include <constatnts.h>
 #include <Statement.h>
 
 using namespace std;
@@ -72,7 +73,7 @@ void Statement::preProcess()
         if (tokenCount < 3) {
             flags_.isComplete_ = false;
         } else {
-            flags_.isComplete_ = (tokens_[tokenCount - 1].getType() == Token::STMT);
+            flags_.isComplete_ = (tokens_[tokenCount - 1].getType() == STMT);
         }
 
         if (!parStack_.empty()) {
@@ -86,11 +87,11 @@ void Statement::preProcess()
             int nd = tokens_[1].getType();
             int rd = tokens_[2].getType();
 
-            if (st == Token::DEFN && nd == Token::ID) {
+            if (st == DEFN && nd == ID) {
                 flags_.isCommand_ = true;
-            } else if (st == Token::ID && nd == Token::DEFN && rd == Token::OPAR) {
+            } else if (st == ID && nd == DEFN && rd == OPAR) {
                 flags_.isTypeDef_ = true;
-            } else if (tokenCount == 4 && st == Token::ID && nd == Token::DEFN && rd == Token::ID) {
+            } else if (tokenCount == 4 && st == ID && nd == DEFN && rd == ID) {
                 flags_.isAtomDef_ = true;
             } else if (!flags_.isRuleDef_) {
                 flags_.isFactDef_ = true;

@@ -1,3 +1,4 @@
+#include <constatnts.h>
 #include <Statement.h>
 #include <Memory.h>
 #include <Parser.h>
@@ -28,7 +29,7 @@ void Parser::defineType(const Statement& stmt)
     for (size_t i = beginIdx; i < endIdx; ++i) {
         const Token& token = stmt[i];
         if ((i - OPAR_INDEX) % 2 == 1) {
-            if (token.getType() != Token::ID) {
+            if (token.getType() != ID) {
                 throwParseError("misplaced in type declaration - should be type identifier", &token);
             }
 
@@ -45,7 +46,7 @@ void Parser::defineType(const Statement& stmt)
             }
 
         } else {
-            if (token.getType() != Token::LSEP) {
+            if (token.getType() != LSEP) {
                 throwParseError("misplaced in type declaration - should be list separator", &token);
             }
         }
