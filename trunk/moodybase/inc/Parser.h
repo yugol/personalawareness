@@ -24,9 +24,10 @@ private:
 
     void defineType(const Statement& stmt);
 
-    void doStop(const Statement& stmt);
     void doDot(const Statement& stmt);
     void doDotty(const Statement& stmt);
+    void doLoad(const Statement& stmt);
+    void doStop(const Statement& stmt);
 };
 
 #endif /* PARSER_H_ */

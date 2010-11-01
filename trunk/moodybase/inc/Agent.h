@@ -13,51 +13,76 @@ public:
     Agent(Memory* memory, std::istream& in, std::ostream& out, std::ostream& err);
     virtual ~Agent();
 
-    bool isInteractive();
-    void setInteractive();
-    void start();
-    virtual void stop();
+    const std::string& getId() const;
+    std::istream& getIn() const;
+    std::ostream& getOut() const;
+    std::ostream& getErr() const;
+    Memory* getMemory() const;
+    bool isInteractive() const;
+    bool isStopOnError() const;
+    const std::string& getInputId() const;
 
-    Memory* getMemory();
-    std::istream& getIn();
-    std::ostream& getOut();
-    std::ostream& getErr();
+    void setId(const std::string& id);
+    void setInteractive(bool);
+    void setStopOnError(bool);
+    void setInputId(const std::string& inputId);
+
+    void start();
+    void stop();
 
 private:
+    std::string id_;
     std::istream& in_;
     std::ostream& out_;
     std::ostream& err_;
     Memory* memory_;
     Scanner scanner_;
     Parser parser_;
-    bool ownMemory_;
-    bool isRunning_;
-    bool isInteractive_;
+    bool hasOwnMemory_;
+    bool running_;
+    bool interactive_;
+    bool stopOnError_;
+    std::string inputId_;
 };
 
-inline bool Agent::isInteractive()
+inline const std::string& Agent::getId() const
 {
-    return isInteractive_;
+    return id_;
 }
 
-inline Memory* Agent::getMemory()
-{
-    return memory_;
-}
-
-inline std::istream& Agent::getIn()
+inline std::istream& Agent::getIn() const
 {
     return in_;
 }
 
-inline std::ostream& Agent::getOut()
+inline std::ostream& Agent::getOut() const
 {
     return out_;
 }
 
-inline std::ostream& Agent::getErr()
+inline std::ostream& Agent::getErr() const
 {
     return err_;
+}
+
+inline Memory* Agent::getMemory() const
+{
+    return memory_;
+}
+
+inline bool Agent::isInteractive() const
+{
+    return interactive_;
+}
+
+inline bool Agent::isStopOnError() const
+{
+    return stopOnError_;
+}
+
+inline const std::string& Agent::getInputId() const
+{
+    return inputId_;
 }
 
 #endif /* AGENT_H_ */

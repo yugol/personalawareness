@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <fstream>
+#include <constatnts.h>
 #include <Memory.h>
 #include <Agent.h>
 #include <Parser.h>
@@ -19,7 +20,7 @@ void Parser::doDot(const Statement& stmt)
 
 void Parser::doDotty(const Statement& stmt)
 {
-    if (stmt[2].getType() == Token::DEFN) {
+    if (stmt[2].getType() == DEFN) {
         out_ << "Some models are: ";
         out_ << "dot, neato, fdp, sfdp, twopi, circo";
         out_ << endl;
@@ -27,13 +28,13 @@ void Parser::doDotty(const Statement& stmt)
     }
 
     if (system(NULL)) {
-        string file("~moody-temp");
+        string file(TMP_FILE);
         ofstream fout(file.c_str(), ios::trunc);
         memory_->dumpTypesDot(fout);
         fout.close();
 
-        string filter("dot");
-        if (stmt[2].getType() == Token::ID) {
+        string filter(DOTTY_DEFAULT_FILTER);
+        if (stmt[2].getType() == ID) {
             filter = stmt[2].content();
         }
 
@@ -45,19 +46,45 @@ void Parser::doDotty(const Statement& stmt)
         buildCmd << filter << " " << file << " > " << fileExt;
 
         ostringstream showCmd;
-        showCmd << "dotty ";
+        showCmd << DOTTY_EXECUTABLE;
+        showCmd << " ";
 
-        if (system(buildCmd.str().c_str())) {
+        if (::system(buildCmd.str().c_str())) {
             showCmd << file;
         } else {
             showCmd << fileExt;
         }
+        ::system(showCmd.str().c_str());
 
-        system(showCmd.str().c_str());
-
-        remove(file.c_str());
-        remove(fileExt.c_str());
+        ::remove(file.c_str());
+        ::remove(fileExt.c_str());
     } else {
         throwParseError("system command processor is not available");
     }
+}
+
+void Parser::doLoad(const Statement& stmt)
+{
+    if (stmt.size() <= 3) {
+        throwParseError("unspecified file in :" CMD_LOAD " command");
+    }
+    const string& fileName = stmt[2].content();
+    ifstream fin(fileName.c_str(), ifstream::in);
+    if (fin.good()) {
+        try {
+            memory_->beginTransaction();
+            Agent loader(memory_, fin, agent_->getOut(), agent_->getErr());
+            loader.setInteractive(false);
+            loader.setStopOnError(true);
+            loader.setInputId(fileName);
+            loader.start();
+            memory_ ->commitTransaction();
+        } catch (const exception& ex) {
+            memory_->rollbackTransaction();
+            throwParseError(ex.what());
+        }
+    } else {
+        throwParseError("file not found in :" CMD_LOAD " command", &stmt[2]);
+    }
+    fin.close();
 }

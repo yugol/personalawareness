@@ -1,5 +1,6 @@
 #include <sstream>
 #include <Exception.h>
+#include <constatnts.h>
 #include <Agent.h>
 #include <Statement.h>
 #include <Parser.h>
@@ -21,12 +22,14 @@ void Parser::parse(const Statement& stmt)
         if (stmt.isGood()) {
             if (stmt.isCommand()) {
                 const string& command = stmt[1].content();
-                if (command == "stop") {
-                    doStop(stmt);
-                } else if (command == "dot") {
+                if (command == CMD_DOT) {
                     doDot(stmt);
-                } else if (command == "dotty") {
+                } else if (command == CMD_DOTTY) {
                     doDotty(stmt);
+                } else if (command == CMD_LOAD) {
+                    doLoad(stmt);
+                } else if (command == CMD_STOP) {
+                    doStop(stmt);
                 } else {
                     throwParseError("unknown command", &(stmt[1]));
                 }
@@ -38,7 +41,7 @@ void Parser::parse(const Statement& stmt)
         } else {
             if (!stmt.isComplete()) {
                 throwParseError(
-                        "incomplete statement - must end with ';' and have at least three tokens",
+                        "incomplete statement - must end with '" TOK_STMT "' and have at least three tokens",
                         &(stmt[0]));
             }
             if (stmt.isMismatch()) {
@@ -53,8 +56,8 @@ void Parser::throwParseError(const char* message, const Token* token)
 {
     ostringstream sout;
     if (token != 0) {
-        sout << token->getLine() << ":";
-        sout << token->getColumn() << ": error: '";
+        sout << token->getLine() << ERR_SEP;
+        sout << token->getColumn() << ERR_SEP << " error" << ERR_SEP << " '";
         sout << token->content() << "' ";
     }
     sout << message;
