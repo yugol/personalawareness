@@ -28,6 +28,7 @@ private:
     void doDotty(const Statement& stmt);
     void doLoad(const Statement& stmt);
     void doStop(const Statement& stmt);
+    void doWhat(const Statement& stmt);
 };
 
 #endif /* PARSER_H_ */

@@ -4,6 +4,7 @@
 
 using namespace std;
 
+const char* ERR_EXISTENT_DERIVATION = "existent derivation";
 const char* ERR_CIRCULAR_DERIVATION = "circular derivation";
 
 const string TypeHierarchy::TOP("TOP");
@@ -14,6 +15,7 @@ TypeHierarchy::TypeHierarchy()
     top_ = new Type(TOP);
     bot_ = new Type(BOT);
     link(top_, bot_);
+    top_->sign();
 }
 
 TypeHierarchy::~TypeHierarchy()
@@ -115,10 +117,10 @@ void TypeHierarchy::unlink(Type* sup, Type* sub)
 void TypeHierarchy::derive(Type* type, Type* superType)
 {
     if (type->isA(superType)) {
-        return;
+        throw Exception(ERR_EXISTENT_DERIVATION);
     }
     if (superType->isA(type)) {
-        THROW(ERR_CIRCULAR_DERIVATION);
+        throw Exception(ERR_CIRCULAR_DERIVATION);
     }
 
     unlink(top_, type);

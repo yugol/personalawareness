@@ -2,6 +2,7 @@
 #include <sstream>
 #include <fstream>
 #include <constatnts.h>
+#include <Type.h>
 #include <Memory.h>
 #include <Agent.h>
 #include <Parser.h>
@@ -87,4 +88,16 @@ void Parser::doLoad(const Statement& stmt)
         throwParseError("file not found in :" CMD_LOAD " command", &stmt[2]);
     }
     fin.close();
+}
+
+void Parser::doWhat(const Statement & stmt)
+{
+    if (stmt.size() <= 3) {
+        throwParseError("unspecified identifier in :" CMD_WHAT " command");
+    }
+    const string& id = stmt[2].content();
+    Type* type = memory_->getType(id);
+    if (type != 0) {
+        type->dump(out_);
+    }
 }

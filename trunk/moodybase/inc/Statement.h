@@ -5,7 +5,7 @@
 #include <vector>
 #include <stack>
 #include <map>
-#include "Token.h"
+#include <Token.h>
 
 class Statement {
 public:

@@ -2,8 +2,8 @@
 #define AGENT_H_
 
 #include <iostream>
-#include "Scanner.h"
-#include "Parser.h"
+#include <Scanner.h>
+#include <Parser.h>
 
 class Memory;
 
