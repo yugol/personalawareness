@@ -30,6 +30,8 @@ void Parser::parse(const Statement& stmt)
                     doLoad(stmt);
                 } else if (command == CMD_STOP) {
                     doStop(stmt);
+                } else if (command == CMD_WHAT) {
+                    doWhat(stmt);
                 } else {
                     throwParseError("unknown command", &(stmt[1]));
                 }
@@ -63,3 +65,4 @@ void Parser::throwParseError(const char* message, const Token* token)
     sout << message;
     throw Exception(sout.str().c_str());
 }
+

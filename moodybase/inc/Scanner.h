@@ -2,7 +2,7 @@
 #define SCANNER_H_
 
 #include <istream>
-#include "Statement.h"
+#include <Statement.h>
 
 class Agent;
 

@@ -1,3 +1,4 @@
+#include <constatnts.h>
 #include <algorithm>
 #include <Signature.h>
 #include <Type.h>
@@ -5,13 +6,13 @@
 using namespace std;
 
 Type::Type(const std::string& id) :
-    signature_(0), id_(id)
+    slots_(0), signature_(0), id_(id)
 {
 }
 
 Type::~Type()
 {
-    delete signature_;
+    delete slots_;
 }
 
 bool Type::isA(const Type* type) const
@@ -53,15 +54,40 @@ void Type::removeChild(Type* type)
     }
 }
 
+void Type::addSlot(const std::string& name, Type* type)
+{
+    if (slots_ == 0) {
+        slots_ = new Signature();
+    }
+    slots_->add(name, type);
+}
+
+void Type::sign()
+{
+    if (slots_ == 0) {
+        slots_ = new Signature();
+    }
+}
+
 ostream& Type::dump(ostream& out) const
 {
+    out << getId() << TOK_SPACE << TOK_DEFN << " " << TOK_OPAR;
     if (parents_.size() > 0) {
-        out << getId() << " :";
-        for (size_t i = 0; i < parents_.size() - 1; ++i) {
-            out << " " << parents_[i]->getId() << ",";
+        out << parents_[0]->getId();
+        for (size_t i = 1; i < parents_.size(); ++i) {
+            out << TOK_LSEP << TOK_SPACE << parents_[i]->getId();
         }
-        out << " " << parents_[parents_.size() - 1]->getId() << endl;
     }
+    out << TOK_CPAR;
+    if (slots_ != 0 && slots_->size() > 0) {
+        out << endl << TOK_INDENT;
+        (*slots_)[0].dump(out);
+        for (size_t i = 1; i < slots_->size(); ++i) {
+            out << TOK_LSEP << endl << TOK_INDENT;
+            (*slots_)[i].dump(out);
+        }
+    }
+    out << TOK_STMT << endl;
     return out;
 }
 

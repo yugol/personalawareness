@@ -1,4 +1,6 @@
+#include <sstream>
 #include <constatnts.h>
+#include <Type.h>
 #include <Statement.h>
 #include <Memory.h>
 #include <Parser.h>
@@ -21,9 +23,6 @@ void Parser::defineType(const Statement& stmt)
     }
 
     // create dependencies
-    if (stmt.getParCount() != 1) {
-        throwParseError("too many lists in type declaration - should be just one", &(stmt[0]));
-    }
     size_t beginIdx = OPAR_INDEX + 1;
     size_t endIdx = stmt.getParMatch(OPAR_INDEX);
     for (size_t i = beginIdx; i < endIdx; ++i) {
@@ -33,24 +32,80 @@ void Parser::defineType(const Statement& stmt)
                 throwParseError("misplaced in type declaration - should be type identifier", &token);
             }
 
-            // TODO: cannot make a BOT
             const string& superTypeId = token.content();
             Type* superType = memory_->getType(superTypeId);
             if (superType == 0) {
                 superType = memory_->createType(superTypeId);
             }
             if (memory_->isDerivable(superType)) {
-                memory_->derive(newType, superType);
+                try {
+                    memory_->derive(newType, superType);
+                } catch (const exception& ex) {
+                    throwParseError(ex.what(), &token);
+                }
             } else {
                 throwParseError("is not derivable", &token);
             }
 
         } else {
             if (token.getType() != LSEP) {
-                throwParseError("misplaced in type declaration - should be list separator", &token);
+                throwParseError("misplaced in type declaration - should be '" TOK_LSEP "'", &token);
             }
         }
     }
 
     // read signature
+    if (endIdx < stmt.size() - 2) {
+
+        const string* nameId = 0;
+        bool defn = false;
+        const string* typeId = 0;
+
+        size_t i = endIdx;
+        while (i < stmt.size() - 1) {
+            ++i;
+            const Token& token = stmt[i];
+            if (token.getType() == ID) {
+                if (nameId == 0) {
+                    nameId = &(token.content());
+                    continue;
+                }
+                if (defn && typeId == 0) {
+                    typeId = &(token.content());
+                    continue;
+                }
+            }
+            if (token.getType() == DEFN) {
+                if (nameId != 0 && typeId == 0) {
+                    defn = true;
+                    continue;
+                }
+            }
+            if (token.getType() == LSEP || token.getType() == STMT) {
+                if (nameId == 0) {
+                    throwParseError("slot name expected", &token);
+                }
+                if (typeId == 0) {
+                    throwParseError("type name expected", &token);
+                }
+
+                // TODO: what happens when TYPE is BOT
+                Type* type = memory_->getType(*typeId);
+                if (type == 0) {
+                    type = memory_->createType(*typeId);
+                }
+                newType->addSlot((*nameId), type);
+
+                nameId = 0;
+                defn = false;
+                typeId = 0;
+                continue;
+            }
+            throwParseError("misplaced in type definition", &token);
+        }
+
+        if (defn || nameId != 0) {
+            throwParseError("incomplete definition - type name expected", &stmt[i]);
+        }
+    }
 }

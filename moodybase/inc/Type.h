@@ -25,11 +25,14 @@ public:
     void addChild(Type* type);
     void removeParent(Type* type);
     void removeChild(Type* type);
+    void addSlot(const std::string& name, Type* type);
+    void sign();
 
     std::ostream& dump(std::ostream& out) const;
     std::ostream& dumpDot(std::ostream& out) const;
 
 private:
+    Signature* slots_;
     Signature* signature_;
     std::vector<Type*> parents_;
     std::vector<Type*> children_;

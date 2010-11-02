@@ -2,9 +2,9 @@
 #define MEMORY_H_
 
 #include <string>
-#include "TypeHierarchy.h"
-#include "Structure.h"
-#include "TransactionMgr.h"
+#include <TypeHierarchy.h>
+#include <Structure.h>
+#include <TransactionMgr.h>
 
 class Memory {
 public:

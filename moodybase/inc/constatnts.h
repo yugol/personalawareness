@@ -14,11 +14,15 @@ enum {
 #define TOK_STMT ";"
 #define TOK_CMT "@"
 
+#define TOK_SPACE " "
+#define TOK_INDENT "    "
+
 // commands
 #define CMD_DOT "dot"
 #define CMD_DOTTY "dotty"
 #define CMD_LOAD "load"
 #define CMD_STOP "stop"
+#define CMD_WHAT "what"
 
 // command support
 #define DOTTY_EXECUTABLE "dotty"
