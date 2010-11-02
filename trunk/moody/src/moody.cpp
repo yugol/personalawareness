@@ -13,6 +13,8 @@
 
 using namespace std;
 
+// TODO: implement escape sequences
+
 int main(int argc, char** argv)
 {
     char cwd[FILENAME_MAX];
