@@ -19,17 +19,16 @@
 // TODO: optim: use a thread to import/export database
 // TODO: optim: review refreshes in controller
 
-// TODO: base|ui: optimize database (purge undo buffer)
-
-// TODO: preferences: security tab
-// TODO: preferences: lock database (can be opened by only one process at a time)
-// TODO: preferences: password protection
-
 // TODO: REPORTS
 // TODO: expenses/income yearly
 // TODO: use the same item - show growth
 // TODO: drawings
 // TODO: mainwindow: net balance > Evolution Report button
+
+// TODO: open database in only one instance of the application
+// TODO: preferences: security tab
+// TODO: preferences: lock database (can be opened by only one process at a time)
+// TODO: preferences: password protection
 
 // TODO-: compile under Windows
 
@@ -48,11 +47,11 @@ IMPLEMENT_APP(Application)
 
 bool Application::OnInit()
 {
-	MainWindow* aFrame = new MainWindow(0);
-	Controller::instance_ = new Controller(aFrame);
-	aFrame->SetSize(700, 525);
-	aFrame->Show();
-	aFrame->setDatabaseOpenedView(false);
-	Controller::instance()->initApplication(argc, reinterpret_cast<void**> (argv));
-	return true;
+    MainWindow* aFrame = new MainWindow(0);
+    Controller::instance_ = new Controller(aFrame);
+    aFrame->SetSize(700, 525);
+    aFrame->Show();
+    aFrame->setDatabaseOpenedView(false);
+    Controller::instance()->initApplication(argc, reinterpret_cast<void**> (argv));
+    return true;
 }

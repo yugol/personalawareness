@@ -22,6 +22,7 @@ public:
 	void getDatabasePath(wxString& path);
 	bool isDatabaseEmpty();
 	void getDatabaseReport(wxString& report);
+	void optimizeDatabase();
 
 	void selectAllAccounts(std::vector<int>& accountIds);
 	const Account* selectAccount(int accountId);

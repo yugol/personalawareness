@@ -15,9 +15,15 @@ MainWindowBase::MainWindowBase( wxWindow* parent, wxWindowID id, const wxString&
 	
 	mainMenu_ = new wxMenuBar( 0 );
 	databaseMenu_ = new wxMenu();
-	wxMenuItem* openCreateMenuItem;
-	openCreateMenuItem = new wxMenuItem( databaseMenu_, wxID_ANY, wxString( wxT("&Open/Create...") ) , wxT("Open database or create a new one"), wxITEM_NORMAL );
-	databaseMenu_->Append( openCreateMenuItem );
+	wxMenuItem* openCreateMenuItem_;
+	openCreateMenuItem_ = new wxMenuItem( databaseMenu_, wxID_ANY, wxString( wxT("&Open/Create...") ) , wxT("Open database or create a new one"), wxITEM_NORMAL );
+	databaseMenu_->Append( openCreateMenuItem_ );
+	
+	databaseMenu_->AppendSeparator();
+	
+	wxMenuItem* optimizeMenuItem_;
+	optimizeMenuItem_ = new wxMenuItem( databaseMenu_, wxID_ANY, wxString( wxT("O&ptimize...") ) , wxEmptyString, wxITEM_NORMAL );
+	databaseMenu_->Append( optimizeMenuItem_ );
 	
 	databaseMenu_->AppendSeparator();
 	
@@ -29,9 +35,9 @@ MainWindowBase::MainWindowBase( wxWindow* parent, wxWindowID id, const wxString&
 	
 	databaseMenu_->AppendSeparator();
 	
-	wxMenuItem* exitMenuItem;
-	exitMenuItem = new wxMenuItem( databaseMenu_, wxID_ANY, wxString( wxT("E&xit") ) + wxT('\t') + wxT("Alt+F4"), wxT("Exit the application"), wxITEM_NORMAL );
-	databaseMenu_->Append( exitMenuItem );
+	wxMenuItem* exitMenuItem_;
+	exitMenuItem_ = new wxMenuItem( databaseMenu_, wxID_ANY, wxString( wxT("E&xit") ) + wxT('\t') + wxT("Alt+F4"), wxT("Exit the application"), wxITEM_NORMAL );
+	databaseMenu_->Append( exitMenuItem_ );
 	
 	mainMenu_->Append( databaseMenu_, wxT("Data&base") );
 	
@@ -283,10 +289,11 @@ MainWindowBase::MainWindowBase( wxWindow* parent, wxWindowID id, const wxString&
 	
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainWindowBase::onClose ) );
-	this->Connect( openCreateMenuItem->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowBase::onOpen ) );
+	this->Connect( openCreateMenuItem_->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowBase::onOpen ) );
+	this->Connect( optimizeMenuItem_->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowBase::onOptimizeDatabase ) );
 	this->Connect( exportSqlMenuItem_->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowBase::onExport ) );
 	this->Connect( importSqlMenuItem_->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowBase::onImport ) );
-	this->Connect( exitMenuItem->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowBase::onQuit ) );
+	this->Connect( exitMenuItem_->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowBase::onQuit ) );
 	this->Connect( undoMenuItem_->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowBase::onUndo ) );
 	this->Connect( redoMenuItem_->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowBase::onRedo ) );
 	this->Connect( accountsMenuItem->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowBase::onAccounts ) );
