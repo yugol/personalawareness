@@ -92,6 +92,7 @@ class MainWindowBase : public wxFrame
 		// Virtual event handlers, overide them in your derived class
 		virtual void onClose( wxCloseEvent& event ){ event.Skip(); }
 		virtual void onOpen( wxCommandEvent& event ){ event.Skip(); }
+		virtual void onOptimizeDatabase( wxCommandEvent& event ){ event.Skip(); }
 		virtual void onExport( wxCommandEvent& event ){ event.Skip(); }
 		virtual void onImport( wxCommandEvent& event ){ event.Skip(); }
 		virtual void onQuit( wxCommandEvent& event ){ event.Skip(); }
