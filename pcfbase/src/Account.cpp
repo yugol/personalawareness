@@ -6,7 +6,7 @@
 using namespace std;
 
 Account::Account(int id) :
-    Record(id), type_(ALL), initialValue_(0)
+    Record(id), type_(ALL), startBalance_(0)
 {
 }
 
@@ -15,9 +15,9 @@ void Account::setType(Type type)
     type_ = type;
 }
 
-void Account::setInitialValue(double initialValue)
+void Account::setStartBalance(double value)
 {
-    initialValue_ = initialValue;
+    startBalance_ = value;
 }
 
 void Account::setName(const char *name)
@@ -37,7 +37,7 @@ void Account::setComment(const char *comment)
 
 void Account::print() const
 {
-    cout << id_ << " " << type_ << " " << name_ << " " << group_ << " " << initialValue_ << " " << comment_ << endl;
+    cout << id_ << " " << type_ << " " << name_ << " " << group_ << " " << startBalance_ << " " << comment_ << endl;
 }
 
 string Account::getFullName() const
@@ -56,11 +56,11 @@ string Account::getDecoratedName() const
 {
     string name;
     switch (type_) {
-        case CREDIT:
+        case INCOME:
             name.append("[+] ");
             name.append(getFullName());
             return name;
-        case DEBT:
+        case EXPENSES:
             name.append("[-] ");
             name.append(getFullName());
             return name;

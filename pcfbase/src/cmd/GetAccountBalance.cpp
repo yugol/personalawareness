@@ -1,6 +1,6 @@
 #include <Account.h>
-#include <cmd/GetAccountCredit.h>
-#include <cmd/GetAccountDebit.h>
+#include <cmd/GetAccountIncome.h>
+#include <cmd/GetAccountExpenses.h>
 #include <cmd/GetAccountBalance.h>
 
 GetAccountBalance::GetAccountBalance(sqlite3* database, const Account* account) :
@@ -15,17 +15,17 @@ void GetAccountBalance::buildSqlCommand()
 void GetAccountBalance::execute()
 {
     if (account_->getType() == Account::ACCOUNT) {
-        GetAccountCredit creditCmd(database_, account_);
-        creditCmd.execute();
+        GetAccountIncome incomeCmd(database_, account_);
+        incomeCmd.execute();
 
-        GetAccountDebit debitCmd(database_, account_);
-        debitCmd.execute();
+        GetAccountExpenses expensesCmd(database_, account_);
+        expensesCmd.execute();
 
-        double credit = creditCmd.getCredit();
-        double debit = debitCmd.getDebit();
-        double initialValue = account_->getInitialValue();
+        double income = incomeCmd.getBalance();
+        double expenses = expensesCmd.getBalance();
+        double startBalance = account_->getStartBalance();
 
-        balance_ = initialValue + credit - debit;
+        balance_ = startBalance + income - expenses;
     }
 }
 

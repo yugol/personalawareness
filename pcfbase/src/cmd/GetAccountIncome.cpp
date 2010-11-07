@@ -1,16 +1,16 @@
 #include <sstream>
 #include <Account.h>
 #include <Configuration.h>
-#include <cmd/GetAccountCredit.h>
+#include <cmd/GetAccountIncome.h>
 
 using namespace std;
 
-GetAccountCredit::GetAccountCredit(sqlite3* database, const Account* account) :
-    DatabaseCommand(database), account_(account), credit_(0)
+GetAccountIncome::GetAccountIncome(sqlite3* database, const Account* account) :
+    DatabaseCommand(database), account_(account), balance_(0)
 {
 }
 
-void GetAccountCredit::buildSqlCommand()
+void GetAccountIncome::buildSqlCommand()
 {
     ostringstream sout;
 
@@ -21,17 +21,17 @@ void GetAccountCredit::buildSqlCommand()
     sql_ = sout.rdbuf()->str();
 }
 
-sqlite3_callback GetAccountCredit::getCallbackFunction()
+sqlite3_callback GetAccountIncome::getCallbackFunction()
 {
     return DatabaseCommand::readDouble;
 }
 
-void* GetAccountCredit::getCallbackParameter()
+void* GetAccountIncome::getCallbackParameter()
 {
-    return &credit_;
+    return &balance_;
 }
 
-void GetAccountCredit::execute()
+void GetAccountIncome::execute()
 {
     if (account_->getType() == Account::ACCOUNT) {
         DatabaseCommand::execute();

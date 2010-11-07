@@ -1,15 +1,15 @@
 #include <sstream>
 #include <Account.h>
 #include <Configuration.h>
-#include <cmd/GetAccountDebit.h>
+#include <cmd/GetAccountExpenses.h>
 
 using namespace std;
 
-GetAccountDebit::GetAccountDebit(sqlite3* database, const Account* account) :
-    DatabaseCommand(database), account_(account), debit_(0)
+GetAccountExpenses::GetAccountExpenses(sqlite3* database, const Account* account) :
+    DatabaseCommand(database), account_(account), balance_(0)
 {
 }
-void GetAccountDebit::buildSqlCommand()
+void GetAccountExpenses::buildSqlCommand()
 {
     ostringstream sout;
 
@@ -20,17 +20,17 @@ void GetAccountDebit::buildSqlCommand()
     sql_ = sout.rdbuf()->str();
 }
 
-sqlite3_callback GetAccountDebit::getCallbackFunction()
+sqlite3_callback GetAccountExpenses::getCallbackFunction()
 {
     return DatabaseCommand::readDouble;
 }
 
-void* GetAccountDebit::getCallbackParameter()
+void* GetAccountExpenses::getCallbackParameter()
 {
-    return &debit_;
+    return &balance_;
 }
 
-void GetAccountDebit::execute()
+void GetAccountExpenses::execute()
 {
     if (account_->getType() == Account::ACCOUNT) {
         DatabaseCommand::execute();

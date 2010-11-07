@@ -8,24 +8,24 @@ SelectionParameters::SelectionParameters() :
 {
 }
 
-void SelectionParameters::setItemId(int val)
+void SelectionParameters::setItemId(int value)
 {
-	itemId_ = val;
+	itemId_ = value;
 }
 
-void SelectionParameters::setFirstTransactionOnly(bool val)
+void SelectionParameters::setFirstTransactionOnly(bool value)
 {
-	firstTransactionOnly_ = val;
+	firstTransactionOnly_ = value;
 }
 
-void SelectionParameters::setLastTransactionOnly(bool val)
+void SelectionParameters::setLastTransactionOnly(bool value)
 {
-	lastTransactionOnly_ = val;
+	lastTransactionOnly_ = value;
 }
 
-void SelectionParameters::setCheckUsage(bool val)
+void SelectionParameters::setCheckUsage(bool value)
 {
-	checkUsage_ = val;
+	checkUsage_ = value;
 }
 
 void SelectionParameters::setAccountType(int type)

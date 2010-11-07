@@ -23,7 +23,8 @@ using namespace std;
 Configuration* Configuration::instance_ = 0;
 
 // defaults
-const char Configuration::PROJECT_MARKER[] = "5A08548C-B8C3-11DF-8AC9-BD12E0D72085-PERSONALAWARENESS";
+const char Configuration::PROJECT_MARKER[] =
+        "5A08548C-B8C3-11DF-8AC9-BD12E0D72085-PERSONALAWARENESS";
 const char Configuration::PROJECT_NAME[] = "Personal Cash Flow";
 const char Configuration::PROJECT_VERSION[] = "1.0.0 alpha";
 const char Configuration::PROJECT_DATABASE_VERSION[] = "1.0.0";
@@ -64,15 +65,17 @@ const char Configuration::PREF_HIDE_ZERO_BALANCE_ACCOUNTS[] = "PREF_HIDE_ZERO_BA
 
 Configuration* Configuration::instance()
 {
-	if (0 == instance_) {
-		instance_ = new Configuration();
-	}
-	return instance_;
+    if (0 == instance_) {
+        instance_ = new Configuration();
+    }
+    return instance_;
 }
 
 Configuration::Configuration() :
-	currencySymbol_(DEFAULT_CURRENCY_SYMBOL), prefixCurrency_(DEFAULT_PREFIX_CURRENCY), compactTransactions_(DEFAULT_COMPACT_TRNSACTIONS),
-			compareAsciiOnly_(DEFAULT_COMPARE_ASCII_ONLY), hideZeroBalanceAccounts_(DEFAULT_HIDE_ZERO_BALANCE_ACCOUNTS)
+    currencySymbol_(DEFAULT_CURRENCY_SYMBOL), prefixCurrency_(DEFAULT_PREFIX_CURRENCY),
+            compactTransactions_(DEFAULT_COMPACT_TRNSACTIONS), compareAsciiOnly_(
+                    DEFAULT_COMPARE_ASCII_ONLY), hideZeroBalanceAccounts_(
+                    DEFAULT_HIDE_ZERO_BALANCE_ACCOUNTS)
 {
 }
 
@@ -80,51 +83,51 @@ Configuration::~Configuration()
 {
 }
 
-void Configuration::setLastDatabasePath(const char* location)
+void Configuration::setLastDatabaseLocation(const char* location)
 {
-	BaseUtil::charPtrToString(lastDatabasePath_, location);
-	BaseUtil::trimSpaces( lastDatabasePath_);
-	writeConfigurationFile();
+    BaseUtil::charPtrToString(lastDatabaseLocation_, location);
+    BaseUtil::trimSpaces( lastDatabaseLocation_);
+    writeConfigurationFile();
 }
 
 void Configuration::setCurrencySymbol(const char* symbol)
 {
-	BaseUtil::charPtrToString(currencySymbol_, symbol);
-	BaseUtil::trimSpaces(currencySymbol_);
+    BaseUtil::charPtrToString(currencySymbol_, symbol);
+    BaseUtil::trimSpaces(currencySymbol_);
 }
 
 void Configuration::setPrefixCurrency(const char* cstr)
 {
-	prefixCurrency_ = BaseUtil::toBool(cstr);
+    prefixCurrency_ = BaseUtil::toBool(cstr);
 }
 
 void Configuration::setCompactTransactions(const char* cstr)
 {
-	compactTransactions_ = BaseUtil::toBool(cstr);
+    compactTransactions_ = BaseUtil::toBool(cstr);
 }
 
 void Configuration::setCompareAsciiOnly(const char* cstr)
 {
-	compareAsciiOnly_ = BaseUtil::toBool(cstr);
+    compareAsciiOnly_ = BaseUtil::toBool(cstr);
 }
 
-void Configuration::setPrefixCurrency(bool val)
+void Configuration::setPrefixCurrency(bool value)
 {
-	prefixCurrency_ = val;
+    prefixCurrency_ = value;
 }
 
-void Configuration::setCompactTransactions(bool val)
+void Configuration::setCompactTransactions(bool value)
 {
-	compactTransactions_ = val;
+    compactTransactions_ = value;
 }
 
-void Configuration::setCompareAsciiOnly(bool val)
+void Configuration::setCompareAsciiOnly(bool value)
 {
-	compareAsciiOnly_ = val;
+    compareAsciiOnly_ = value;
 }
 
-void Configuration::setHideZeroBalanceAccounts(bool val)
+void Configuration::setHideZeroBalanceAccounts(bool value)
 {
-	hideZeroBalanceAccounts_ = val;
+    hideZeroBalanceAccounts_ = value;
 }
 

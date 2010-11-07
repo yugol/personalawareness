@@ -22,8 +22,8 @@ void UpdateTransaction::buildUpdateTransactionCommand(string& sql, const Transac
 	sout << "SET ";
 	sout << "[" << Configuration::COLUMN_DATE << "] = '" << transaction.getDate() << "', ";
 	sout << "[" << Configuration::COLUMN_VALUE << "] = " << transaction.getValue() << ", ";
-	sout << "[" << Configuration::COLUMN_SOURCE << "] = " << transaction.getFromId() << ", ";
-	sout << "[" << Configuration::COLUMN_DESTINATION << "] = " << transaction.getToId() << ", ";
+	sout << "[" << Configuration::COLUMN_SOURCE << "] = " << transaction.getSourceId() << ", ";
+	sout << "[" << Configuration::COLUMN_DESTINATION << "] = " << transaction.getDestinationId() << ", ";
 	sout << "[" << Configuration::COLUMN_ITEM << "] = " << transaction.getItemId() << ", ";
 	sout << "[" << Configuration::COLUMN_COMMENT << "] = " << BaseUtil::toDbParameter(transaction.getComment()) << " ";
 	sout << "WHERE [" << Configuration::COLUMN_ID << "] = " << transaction.getId() << ";" << endl;

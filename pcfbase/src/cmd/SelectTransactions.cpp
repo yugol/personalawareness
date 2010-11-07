@@ -46,11 +46,11 @@ void SelectTransactions::buildSqlCommand()
 			if (!(parameters_->getLastDate()).isNull()) {
 				sout << "AND [" << Configuration::COLUMN_DATE << "] <= '" << parameters_->getLastDate() << "' ";
 			}
-			if (parameters_->getAccountType() == Account::CREDIT) {
-				sout << "AND [" << Configuration::TABLE_ACCOUNTS << "01].[" << Configuration::COLUMN_TYPE << "] = " << Account::CREDIT << " ";
+			if (parameters_->getAccountType() == Account::INCOME) {
+				sout << "AND [" << Configuration::TABLE_ACCOUNTS << "01].[" << Configuration::COLUMN_TYPE << "] = " << Account::INCOME << " ";
 			}
-			if (parameters_->getAccountType() == Account::DEBT) {
-				sout << "AND [" << Configuration::TABLE_ACCOUNTS << "02].[" << Configuration::COLUMN_TYPE << "] = " << Account::DEBT << " ";
+			if (parameters_->getAccountType() == Account::EXPENSES) {
+				sout << "AND [" << Configuration::TABLE_ACCOUNTS << "02].[" << Configuration::COLUMN_TYPE << "] = " << Account::EXPENSES << " ";
 			}
 			if (parameters_->hasNamePattern()) {
 				sout << "AND [" << Configuration::TABLE_ITEMS << "].[" << Configuration::COLUMN_NAME << "] LIKE '%" << parameters_->getNamePattern() << "%' ";

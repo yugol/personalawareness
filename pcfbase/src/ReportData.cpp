@@ -20,10 +20,10 @@ void ReportData::acquire()
 
     switch (direction_) {
         case INCOME:
-            parameters_.setAccountType(Account::CREDIT);
+            parameters_.setAccountType(Account::INCOME);
             break;
         case EXPENSES:
-            parameters_.setAccountType(Account::DEBT);
+            parameters_.setAccountType(Account::EXPENSES);
             break;
         default:
             parameters_.setAccountType(Account::ACCOUNT);
@@ -58,9 +58,9 @@ void ReportData::fetchPieData(const vector<int>& sel)
     for (it = sel.begin(); it != sel.end(); ++it) {
         Transaction t(*it);
         DatabaseConnection::instance()->getTransaction(&t);
-        int accountId = t.getFromId();
+        int accountId = t.getSourceId();
         if (direction_ == EXPENSES) {
-            accountId = t.getToId();
+            accountId = t.getDestinationId();
         }
         data_[accountId] += t.getValue();
     }

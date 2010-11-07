@@ -12,12 +12,12 @@
 
 using namespace std;
 
-void DatabaseConnection::dumpSql(ostream& out) const
+void DatabaseConnection::exportSql(ostream& out) const
 {
 	cashAccounts();
 	cashItems();
 
-	// dump properties
+	// export properties
 	writePreferences(database_);
 	SelectPreferences prefs(database_);
 	prefs.execute();
@@ -26,7 +26,7 @@ void DatabaseConnection::dumpSql(ostream& out) const
 		UpdatePreference::buildSqlCommand(out, it->first, it->second);
 	}
 
-	// dump accounts
+	// export accounts
 	int accountNo = 0;
 	map<int, int> accountIds;
 	vector<Account>::iterator iAccounts;
@@ -35,31 +35,31 @@ void DatabaseConnection::dumpSql(ostream& out) const
 		InsertAccount::buildReverseSqlCommand(out, *iAccounts);
 	}
 
-	// dump items
+	// export items
 	int itemNo = 0;
 	map<int, int> itemIds;
 	map<int, Item>::iterator iItems;
 	for (iItems = items_.begin(); iItems != items_.end(); ++iItems) {
 		Item* item = &(iItems->second);
 		itemIds[item->getId()] = ++itemNo;
-		InsertItem::buildSqlCommand(out, *item, true);
+		InsertItem::buildSqlCommand(out, *item);
 	}
 
-	// dump transactions
+	// export transactions
 	vector<int> allTransactions;
 	selectTransactions(&allTransactions, 0);
 	vector<int>::iterator iTransactions;
 	for (iTransactions = allTransactions.begin(); iTransactions != allTransactions.end(); ++iTransactions) {
 		Transaction transaction(*iTransactions);
 		getTransaction(&transaction);
-		transaction.setFromId(accountIds[transaction.getFromId()]);
-		transaction.setToId(accountIds[transaction.getToId()]);
+		transaction.setSourceId(accountIds[transaction.getSourceId()]);
+		transaction.setDestinationId(accountIds[transaction.getDestinationId()]);
 		transaction.setItemId(itemIds[transaction.getItemId()]);
 		InsertTransaction::buildSqlCommand(out, transaction);
 	}
 }
 
-void DatabaseConnection::loadSql(istream& in)
+void DatabaseConnection::importSql(istream& in)
 {
 	char statement[Configuration::LINE_BUFFER_LENGTH];
 

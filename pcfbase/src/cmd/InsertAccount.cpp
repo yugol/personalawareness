@@ -18,7 +18,7 @@ void InsertAccount::buildReverseSqlCommand(std::ostream& out, const Account& acc
     out << "[" << Configuration::COLUMN_COMMENT << "] ) ";
     out << "VALUES ( ";
     out << account.getType() << ", ";
-    out << account.getInitialValue() << ", ";
+    out << account.getStartBalance() << ", ";
     out << BaseUtil::toDbParameter(account.getName()) << ", ";
     out << BaseUtil::toDbParameter(account.getGroup()) << ", ";
     out << BaseUtil::toDbParameter(account.getComment()) << " );" << endl;
