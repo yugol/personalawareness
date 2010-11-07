@@ -21,8 +21,8 @@ AccountsDialog::AccountsDialog(wxWindow* parent) :
     AccountsDialogBase(parent), processEvents_(false)
 {
     typeChoice_->Insert(wxT("Cash"), 0, reinterpret_cast<void*> (Account::ACCOUNT));
-    typeChoice_->Insert(wxT("Income"), 1, reinterpret_cast<void*> (Account::CREDIT));
-    typeChoice_->Insert(wxT("Expenses"), 2, reinterpret_cast<void*> (Account::DEBT));
+    typeChoice_->Insert(wxT("Income"), 1, reinterpret_cast<void*> (Account::INCOME));
+    typeChoice_->Insert(wxT("Expenses"), 2, reinterpret_cast<void*> (Account::EXPENSES));
 
     accountList_->InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, accountList_->GetSize().GetWidth() - UiUtil::LIST_MARGIN);
 }
@@ -259,7 +259,7 @@ void AccountsDialog::selectAccount(long listItemId)
             groupCombo_->SetValue(groupName);
 
             wxString accValue;
-            accValue.Printf(wxT("%0.2f"), selectedAccount_->getInitialValue());
+            accValue.Printf(wxT("%0.2f"), selectedAccount_->getStartBalance());
             valueText_->SetValue(accValue);
         }
 
@@ -381,10 +381,10 @@ bool AccountsDialog::readValidateRefresh(Account* account)
         return false;
     }
     if (account != 0) {
-        account->setInitialValue(value);
+        account->setStartBalance(value);
     }
     if (selectedAccount_ != 0) {
-        if (value != selectedAccount_->getInitialValue()) {
+        if (value != selectedAccount_->getStartBalance()) {
             dirty = true;
         }
     }

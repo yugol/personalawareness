@@ -19,7 +19,7 @@ public:
 	void initApplication(int argc, void** argv);
 
 	void getDefaultSqlExportName(wxString& name);
-	void getDatabasePath(wxString& path);
+	void getDatabaseLocation(wxString& location);
 	bool isDatabaseEmpty();
 	void getDatabaseReport(wxString& report);
 	void optimizeDatabase();
@@ -46,9 +46,9 @@ public:
 
 	void exitApplication();
 
-	void openDatabase(const wxString* path);
-	void dumpDatabase(wxString& path);
-	void loadDatabase(wxString& path);
+	void openDatabase(const wxString* location);
+	void exportSql(wxString& pathFileExt);
+	void importSql(wxString& pathFileExt);
 
 	void refreshStatement();
 	void refreshAccounts();
