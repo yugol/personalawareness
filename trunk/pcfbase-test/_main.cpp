@@ -14,16 +14,16 @@ void generateTestDatabase()
     Account acc;
     acc.setType(Account::ACCOUNT);
     acc.setName("account");
-    Account deb;
-    deb.setType(Account::DEBT);
-    deb.setName("debt");
-    Account cre;
-    cre.setType(Account::CREDIT);
-    cre.setName("credit");
+    Account exp;
+    exp.setType(Account::EXPENSES);
+    exp.setName("expenses");
+    Account inc;
+    inc.setType(Account::INCOME);
+    inc.setName("income");
 
     DatabaseConnection::instance()->insertUpdate(&acc);
-    DatabaseConnection::instance()->insertUpdate(&deb);
-    DatabaseConnection::instance()->insertUpdate(&cre);
+    DatabaseConnection::instance()->insertUpdate(&exp);
+    DatabaseConnection::instance()->insertUpdate(&inc);
 
     Item i1;
     i1.setName("in");
@@ -36,14 +36,14 @@ void generateTestDatabase()
     Transaction tr1;
     tr1.setDate("20010101");
     tr1.setValue(100);
-    tr1.setFromId(3);
-    tr1.setToId(1);
+    tr1.setSourceId(3);
+    tr1.setDestinationId(1);
     tr1.setItemId(1);
     Transaction tr2;
     tr2.setDate("20020202");
     tr2.setValue(10);
-    tr2.setFromId(1);
-    tr2.setToId(2);
+    tr2.setSourceId(1);
+    tr2.setDestinationId(2);
     tr2.setItemId(2);
     tr2.setComment("no more");
 
@@ -57,7 +57,7 @@ void generateTestDatabase()
 int main()
 {
     TestResult testResult;
-    string defaultPath = Configuration::instance()->getLastDatabasePath();
+    string defaultDatabaseLocation = Configuration::instance()->getLastDatabaseLocation();
 
     try {
 
@@ -82,7 +82,7 @@ int main()
 
     }
 
-    Configuration::instance()->setLastDatabasePath(defaultPath.c_str());
+    Configuration::instance()->setLastDatabaseLocation(defaultDatabaseLocation.c_str());
 
     return testResult.getFailureCount();
 }

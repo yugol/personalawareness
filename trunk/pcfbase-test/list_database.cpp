@@ -16,9 +16,9 @@ SKIPTEST( transactions, list )
         Transaction t(id_);
         DatabaseConnection::instance()->getTransaction(&t);
         const Item* item_ = DatabaseConnection::instance()->getItem(t.getItemId());
-        const Account* from_ = DatabaseConnection::instance()->getAccount(t.getFromId());
-        const Account* to_ = DatabaseConnection::instance()->getAccount(t.getToId());
-        cout << id_ << " " << item_->getName() << " : " << from_->getName() << " -> " << to_->getName() << endl;
+        const Account* source_ = DatabaseConnection::instance()->getAccount(t.getSourceId());
+        const Account* destination_ = DatabaseConnection::instance()->getAccount(t.getDestinationId());
+        cout << id_ << " " << item_->getName() << " : " << source_->getName() << " -> " << destination_->getName() << endl;
     }
 }
 
