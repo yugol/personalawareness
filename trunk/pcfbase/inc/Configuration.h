@@ -51,14 +51,14 @@ public:
 
 	virtual ~Configuration();
 
-	const std::string& getLastDatabasePath() const;
+	const std::string& getLastDatabaseLocation() const;
 	const std::string& getCurrencySymbol() const;
 	bool isPrefixCurrency() const;
 	bool isCompactTransactions() const;
 	bool isCompareAsciiOnly() const;
 	bool isHideZeroBalanceAccounts() const;
 
-	void setLastDatabasePath(const char*);
+	void setLastDatabaseLocation(const char*);
 	void setCurrencySymbol(const char*);
 	void setPrefixCurrency(const char*);
 	void setCompactTransactions(const char*);
@@ -82,9 +82,9 @@ private:
 	void operator=(const Configuration&);
 };
 
-inline const std::string& Configuration::getLastDatabasePath() const
+inline const std::string& Configuration::getLastDatabaseLocation() const
 {
-	return lastDatabasePath_;
+	return lastDatabaseLocation_;
 }
 
 inline const std::string& Configuration::getCurrencySymbol() const

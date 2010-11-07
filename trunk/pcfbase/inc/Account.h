@@ -7,7 +7,7 @@
 class Account: public Record {
 public:
     enum Type {
-        DEBT = 0, ACCOUNT = 1, CREDIT = 2, ALL
+        EXPENSES = 0, ACCOUNT = 1, INCOME = 2, ALL
     };
 
     Account(int id = Configuration::DEFAULT_ID);
@@ -17,13 +17,13 @@ public:
     std::string getFullName() const;
     std::string getDecoratedName() const;
     const std::string& getGroup() const;
-    double getInitialValue() const;
+    double getStartBalance() const;
     const std::string& getComment() const;
 
     void setType(Type);
     void setName(const char*);
     void setGroup(const char*);
-    void setInitialValue(double);
+    void setStartBalance(double);
     void setComment(const char*);
 
     virtual void validate() const;
@@ -33,7 +33,7 @@ private:
     int type_;
     std::string name_;
     std::string group_;
-    double initialValue_;
+    double startBalance_;
     std::string comment_;
 };
 
@@ -52,9 +52,9 @@ inline const std::string& Account::getGroup() const
     return group_;
 }
 
-inline double Account::getInitialValue() const
+inline double Account::getStartBalance() const
 {
-    return initialValue_;
+    return startBalance_;
 }
 
 inline const std::string& Account::getComment() const

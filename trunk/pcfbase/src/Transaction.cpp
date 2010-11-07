@@ -3,7 +3,7 @@
 #include <Transaction.h>
 
 Transaction::Transaction(int id) :
-	Record(id), value_(0), fromId_(0), toId_(0), itemId_(0)
+	Record(id), value_(0), sourceId_(0), destinationId_(0), itemId_(0)
 {
 }
 
@@ -22,14 +22,14 @@ void Transaction::setValue(double value)
 	value_ = value;
 }
 
-void Transaction::setFromId(int fromId)
+void Transaction::setSourceId(int id)
 {
-	fromId_ = fromId;
+	sourceId_ = id;
 }
 
-void Transaction::setToId(int toId)
+void Transaction::setDestinationId(int id)
 {
-	toId_ = toId;
+	destinationId_ = id;
 }
 
 void Transaction::setItemId(int item)
@@ -47,16 +47,16 @@ void Transaction::validate() const
 	if (0 == value_) {
 		THROW(BaseUtil::EMSG_WRONG_VALUE);
 	}
-	if (0 == fromId_) {
+	if (0 == sourceId_) {
 		THROW(BaseUtil::EMSG_WRONG_VALUE);
 	}
-	if (0 == toId_) {
+	if (0 == destinationId_) {
 		THROW(BaseUtil::EMSG_WRONG_VALUE);
 	}
 	if (0 == itemId_) {
 		THROW(BaseUtil::EMSG_WRONG_VALUE);
 	}
-	if (fromId_ == toId_) {
+	if (sourceId_ == destinationId_) {
 		THROW(BaseUtil::EMSG_WRONG_VALUE);
 	}
 }

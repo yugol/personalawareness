@@ -21,7 +21,7 @@ static int readAccount(void *param, int colCount, char **values, char **names)
     account->setType(static_cast<Account::Type> (::atoi(values[1])));
     account->setName(values[2]);
     account->setGroup(values[3]);
-    account->setInitialValue(::atof(values[4]));
+    account->setStartBalance(::atof(values[4]));
     account->setComment(values[5]);
 
     return 0;

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void InsertItem::buildSqlCommand(ostream& out, const Item& item, bool dump)
+void InsertItem::buildSqlCommand(ostream& out, const Item& item)
 {
 	out << "INSERT INTO [" << Configuration::TABLE_ITEMS << "] ( ";
 	out << "[" << Configuration::COLUMN_NAME << "]";
@@ -26,7 +26,7 @@ InsertItem::InsertItem(sqlite3* database, const Item& item) :
 void InsertItem::buildSqlCommand()
 {
 	ostringstream sout;
-	buildSqlCommand(sout, item_, false);
+	buildSqlCommand(sout, item_);
 	sql_ = sout.rdbuf()->str();
 }
 

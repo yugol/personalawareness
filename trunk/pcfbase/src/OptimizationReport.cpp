@@ -9,9 +9,9 @@ OptimizationReport::~OptimizationReport()
 {
 }
 
-void OptimizationReport::setRemoveUnusedItems(bool val)
+void OptimizationReport::setRemoveUnusedItems(bool value)
 {
-    removeUnusedItems_ = val;
+    removeUnusedItems_ = value;
 }
 
 void OptimizationReport::addUnusedItemId(int id)

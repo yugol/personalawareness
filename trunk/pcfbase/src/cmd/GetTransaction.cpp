@@ -19,8 +19,8 @@ static int readTransaction(void *param, int colCount, char **values, char **name
     t->setId(::atof(values[0]));
     t->setDate(values[1]);
     t->setValue(::atof(values[2]));
-    t->setFromId(::atoi(values[3]));
-    t->setToId(::atoi(values[4]));
+    t->setSourceId(::atoi(values[3]));
+    t->setDestinationId(::atoi(values[4]));
     t->setItemId(::atoi(values[5]));
     t->setComment(values[6]);
     return 0;

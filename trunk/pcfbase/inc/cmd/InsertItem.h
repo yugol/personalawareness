@@ -6,7 +6,7 @@
 
 class InsertItem: public ReversibleDatabaseCommand {
 public:
-    static void buildSqlCommand(std::ostream& out, const Item& item, bool dump);
+    static void buildSqlCommand(std::ostream& out, const Item& item);
 
     InsertItem(sqlite3* database, const Item& item);
 

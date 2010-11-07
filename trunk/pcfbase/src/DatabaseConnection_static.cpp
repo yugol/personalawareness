@@ -20,24 +20,24 @@ bool DatabaseConnection::isOpened()
 DatabaseConnection* DatabaseConnection::instance()
 {
 	if (!isOpened()) {
-		openDatabase(Configuration::instance()->getLastDatabasePath().c_str());
+		openDatabase(Configuration::instance()->getLastDatabaseLocation().c_str());
 	}
 	return instance_;
 }
 
-void DatabaseConnection::openDatabase(const char* databasePath)
+void DatabaseConnection::openDatabase(const char* location)
 {
 	DatabaseConnection* tmpInstance = 0;
 	try {
-		tmpInstance = new DatabaseConnection(databasePath);
+		tmpInstance = new DatabaseConnection(location);
 		if (isOpened()) {
-			if (instance_->getDatabaseLocation() == databasePath) {
+			if (instance_->getDatabaseLocation() == location) {
 				return;
 			}
 			closeDatabase();
 		}
 		instance_ = tmpInstance;
-		Configuration::instance()->setLastDatabasePath(databasePath);
+		Configuration::instance()->setLastDatabaseLocation(location);
 	} catch (const exception& ex) {
 		delete tmpInstance;
 		RETHROW(ex);
@@ -92,7 +92,7 @@ void DatabaseConnection::exportDatabase(ostream& out)
 	if (!isOpened()) {
 		THROW(BaseUtil::EMSG_NO_DATABASE);
 	}
-	instance_->dumpSql(out);
+	instance_->exportSql(out);
 }
 
 void DatabaseConnection::importDatabase(istream& in)
@@ -100,10 +100,10 @@ void DatabaseConnection::importDatabase(istream& in)
 	if (!isOpened()) {
 		THROW(BaseUtil::EMSG_NO_DATABASE);
 	}
-	string databasePath = instance_->getDatabaseLocation();
+	string databaseLocation = instance_->getDatabaseLocation();
 	deleteDatabase();
-	openDatabase(databasePath.c_str());
-	instance_->loadSql(in);
+	openDatabase(databaseLocation.c_str());
+	instance_->importSql(in);
 }
 
 void DatabaseConnection::closeDatabase()
@@ -120,9 +120,9 @@ void DatabaseConnection::deleteDatabase()
 	if (!isOpened()) {
 		THROW(BaseUtil::EMSG_NO_DATABASE);
 	}
-	string databasePath = instance_->getDatabaseLocation();
+	string databaseLocation = instance_->getDatabaseLocation();
 	closeDatabase();
-	if (0 != ::remove(databasePath.c_str())) {
+	if (0 != ::remove(databaseLocation.c_str())) {
 		THROW("error deleting database");
 	}
 }

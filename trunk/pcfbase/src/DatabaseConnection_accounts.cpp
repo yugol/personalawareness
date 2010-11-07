@@ -134,23 +134,23 @@ void DatabaseConnection::getBudgetCategories(vector<int>* sel) const
     }
 }
 
-void DatabaseConnection::getCreditingBudgets(vector<int>* sel) const
+void DatabaseConnection::getIncomeBudgets(vector<int>* sel) const
 {
     cashAccounts();
     vector<Account>::iterator it;
     for (it = accounts_.begin(); it != accounts_.end(); ++it) {
-        if (Account::CREDIT == it->getType()) {
+        if (Account::INCOME == it->getType()) {
             sel->push_back(it->getId());
         }
     }
 }
 
-void DatabaseConnection::getDebitingBudgets(vector<int>* sel) const
+void DatabaseConnection::getExpensesBudgets(vector<int>* sel) const
 {
     cashAccounts();
     vector<Account>::iterator it;
     for (it = accounts_.begin(); it != accounts_.end(); ++it) {
-        if (Account::DEBT == it->getType()) {
+        if (Account::EXPENSES == it->getType()) {
             sel->push_back(it->getId());
         }
     }

@@ -11,16 +11,16 @@ public:
 
     const Date& getDate() const;
     double getValue() const;
-    int getFromId() const;
-    int getToId() const;
+    int getSourceId() const;
+    int getDestinationId() const;
     int getItemId() const;
     const std::string& getComment() const;
 
     void setDate(const char* date);
     void setDate(time_t when);
     void setValue(double val);
-    void setFromId(int from);
-    void setToId(int to);
+    void setSourceId(int id);
+    void setDestinationId(int id);
     void setItemId(int item);
     void setComment(const char* desc);
 
@@ -29,8 +29,8 @@ public:
 private:
     Date date_;
     double value_;
-    int fromId_;
-    int toId_;
+    int sourceId_;
+    int destinationId_;
     int itemId_;
     std::string comment_;
 
@@ -46,14 +46,14 @@ inline double Transaction::getValue() const
     return value_;
 }
 
-inline int Transaction::getFromId() const
+inline int Transaction::getSourceId() const
 {
-    return fromId_;
+    return sourceId_;
 }
 
-inline int Transaction::getToId() const
+inline int Transaction::getDestinationId() const
 {
-    return toId_;
+    return destinationId_;
 }
 
 inline int Transaction::getItemId() const

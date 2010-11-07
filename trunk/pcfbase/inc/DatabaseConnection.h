@@ -22,7 +22,7 @@ public:
     };
 
     static DatabaseConnection* instance();
-    static void openDatabase(const char* databasePath);
+    static void openDatabase(const char* location);
     static void closeDatabase();
     static void deleteDatabase();
     static void exportDatabase(std::ostream& out);
@@ -46,8 +46,8 @@ public:
     double getBalance(const Account* account) const;
     void getAccounts(std::vector<int>* sel) const;
     void getBudgetCategories(std::vector<int>* sel) const;
-    void getCreditingBudgets(std::vector<int>* sel) const;
-    void getDebitingBudgets(std::vector<int>* sel) const;
+    void getIncomeBudgets(std::vector<int>* sel) const;
+    void getExpensesBudgets(std::vector<int>* sel) const;
 
     void insertUpdate(Item* item);
     void deleteItem(int id);
@@ -102,8 +102,8 @@ private:
     void invalidateItems() const;
     void invalidateCash() const;
 
-    void dumpSql(std::ostream& out) const;
-    void loadSql(std::istream& in);
+    void exportSql(std::ostream& out) const;
+    void importSql(std::istream& in);
 };
 
 inline const std::string& DatabaseConnection::getDatabaseLocation() const

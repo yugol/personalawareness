@@ -20,8 +20,8 @@ void InsertTransaction::buildSqlCommand(ostream& out, const Transaction& transac
     out << "VALUES ( ";
     out << "'" << transaction.getDate() << "', ";
     out << transaction.getValue() << ", ";
-    out << transaction.getFromId() << ", ";
-    out << transaction.getToId() << ", ";
+    out << transaction.getSourceId() << ", ";
+    out << transaction.getDestinationId() << ", ";
     out << transaction.getItemId() << ", ";
     out << BaseUtil::toDbParameter(transaction.getComment()) << " );" << endl;
 }

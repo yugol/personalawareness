@@ -21,7 +21,7 @@ void UpdateAccount::buildUpdateAccountSqlCommand(string& sql, const Account& acc
     sout << "UPDATE [" << Configuration::TABLE_ACCOUNTS << "] ";
     sout << "SET ";
     sout << "[" << Configuration::COLUMN_TYPE << "] = " << account.getType() << ", ";
-    sout << "[" << Configuration::COLUMN_BALANCE << "] = " << account.getInitialValue() << ", ";
+    sout << "[" << Configuration::COLUMN_BALANCE << "] = " << account.getStartBalance() << ", ";
     sout << "[" << Configuration::COLUMN_NAME << "] = " << BaseUtil::toDbParameter(account.getName()) << ", ";
     sout << "[" << Configuration::COLUMN_GROUP << "] = " << BaseUtil::toDbParameter(account.getGroup()) << ", ";
     sout << "[" << Configuration::COLUMN_COMMENT << "] = " << BaseUtil::toDbParameter(account.getComment()) << " ";
