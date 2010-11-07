@@ -10,9 +10,9 @@ TEST(basic, ConfigurationBase)
 	bool prevCfgFile = cb.existsConfigurationFile();
 	string altCfgFile;
 	if (prevCfgFile) {
-		altCfgFile = cb.getConfigurationFilePath();
+		altCfgFile = cb.getConfigurationFileLocation();
 		altCfgFile.append(1, '~');
-		::rename(cb.getConfigurationFilePath().c_str(), altCfgFile.c_str());
+		::rename(cb.getConfigurationFileLocation().c_str(), altCfgFile.c_str());
 	}
 	CHECK(!cb.existsConfigurationFile());
 
@@ -23,6 +23,6 @@ TEST(basic, ConfigurationBase)
 	CHECK(!cb.existsConfigurationFile());
 
 	if (prevCfgFile) {
-		::rename(altCfgFile.c_str(), cb.getConfigurationFilePath().c_str());
+		::rename(altCfgFile.c_str(), cb.getConfigurationFileLocation().c_str());
 	}
 }
