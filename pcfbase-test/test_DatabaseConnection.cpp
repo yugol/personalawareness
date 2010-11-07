@@ -26,11 +26,11 @@ TEST( Accounts, DatabaseConnection )
 	LONGS_EQUAL(1, sel.size());
 
 	sel.clear();
-	DatabaseConnection::instance()->getCreditingBudgets(&sel);
+	DatabaseConnection::instance()->getIncomeBudgets(&sel);
 	LONGS_EQUAL(1, sel.size());
 
 	sel.clear();
-	DatabaseConnection::instance()->getDebitingBudgets(&sel);
+	DatabaseConnection::instance()->getExpensesBudgets(&sel);
 	LONGS_EQUAL(1, sel.size());
 
 	sel.clear();
@@ -47,8 +47,8 @@ TEST( Transaction, DatabaseConnection )
 
 	LONGS_EQUAL(1, t.getId());
 	LONGS_EQUAL(100, t.getValue());
-	LONGS_EQUAL(3, t.getFromId());
-	LONGS_EQUAL(1, t.getToId());
+	LONGS_EQUAL(3, t.getSourceId());
+	LONGS_EQUAL(1, t.getDestinationId());
 	LONGS_EQUAL(1, t.getItemId());
 
 	try {
@@ -77,22 +77,22 @@ TEST( Sql, DatabaseConnection )
 {
 	DatabaseConnection::openDatabase(testDatabase);
 
-	char dumpFile[] = "dump.sql";
-	::remove(dumpFile);
+	char sqlFile[] = "dump.sql";
+	::remove(sqlFile);
 
 	try {
 
-		ofstream fout(dumpFile);
+		ofstream fout(sqlFile);
 		DatabaseConnection::exportDatabase(fout);
 		fout.close();
 
-		ifstream fin(dumpFile);
+		ifstream fin(sqlFile);
 		DatabaseConnection::openDatabase(disposableDatabase);
 		DatabaseConnection::importDatabase(fin);
 		fin.close();
 		DatabaseConnection::deleteDatabase();
 
-		::remove(dumpFile);
+		::remove(sqlFile);
 
 	} catch (const exception& ex) {
 		FAIL( ex.what() );

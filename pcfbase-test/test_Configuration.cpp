@@ -8,21 +8,21 @@ TEST ( File, Configuration )
 	CHECK( Configuration::instance()->supportsConfigurationFile() );
 
 	bool prevCfgFile = Configuration::instance()->existsConfigurationFile();
-	string prevLastDatabasePath;
+	string prevDatabaseLocation;
 	if (prevCfgFile) {
-		prevLastDatabasePath = Configuration::instance()->getLastDatabasePath();
+		prevDatabaseLocation = Configuration::instance()->getLastDatabaseLocation();
 	} else {
 		Configuration::instance()->createConfigurationFile();
 	}
 
-	string expectedDatabasePath("test database path");
-	Configuration::instance()->setLastDatabasePath(expectedDatabasePath.c_str());
+	string expectedDatabaseLocation("test database location");
+	Configuration::instance()->setLastDatabaseLocation(expectedDatabaseLocation.c_str());
 	Configuration::instance()->readConfigurationFile();
-	string actualDatabasePath = Configuration::instance()->getLastDatabasePath();
-	CHECK( expectedDatabasePath == actualDatabasePath );
+	string actualDatabaseLocation = Configuration::instance()->getLastDatabaseLocation();
+	CHECK( expectedDatabaseLocation == actualDatabaseLocation );
 
 	if (prevCfgFile) {
-		Configuration::instance()->setLastDatabasePath(prevLastDatabasePath.c_str());
+		Configuration::instance()->setLastDatabaseLocation(prevDatabaseLocation.c_str());
 	} else {
 		Configuration::instance()->deleteConfigurationFile();
 	}

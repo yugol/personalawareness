@@ -11,8 +11,8 @@ TEST( Transactions, UndoRedo )
 	Transaction t;
 	t.setDate("00030303");
     t.setValue(1);
-    t.setFromId(3);
-    t.setToId(2);
+    t.setSourceId(3);
+    t.setDestinationId(2);
     t.setItemId(1);
 	DatabaseConnection::instance()->insertUpdate(&t);
 	sel.clear();
