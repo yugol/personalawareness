@@ -3,23 +3,14 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TODO-: review variable names in code code
-// from account -> source account
-// to account -> destination account
-// dump -> export
-// load -> import
-// budgets -> accounts
-// credit/debit -> income/expenses
-// initial value -> start balance
-// path/file/fileName -> location pathFileExt convention
+// TODO: move expression parser from common to base
 
 // TODO: optim: shorten SQL commands (remove some spaces)
 // TODO: optim: replace const char* with std::string
 // TODO: optim: read items in auto-completion only when showing the window for the first time
-// TODO: optim: use a thread to import/export database
-// TODO: optim: review refreshes in controller
 
 // TODO: REPORTS
+// TODO: titles
 // TODO: expenses/income yearly
 // TODO: use the same item - show growth
 // TODO: drawings
@@ -35,6 +26,8 @@
 // TODO: add help support
 // TODO: write Google site
 
+// TODO: optim: use a thread to import/export database
+// TODO: optim: review refreshes in controller
 // TODO: optim: update only visible tabs in UI
 // TODO: optim: rename item updates only one entry in the list
 // TODO: optim: use virtual list for transactions or change only the affected row

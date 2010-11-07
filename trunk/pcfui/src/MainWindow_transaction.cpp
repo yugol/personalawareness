@@ -187,10 +187,10 @@ void MainWindow::selectTransaction(int transactionId, bool isAutocomplete)
 		value.Printf(wxT("%0.2f"), transaction.getValue());
 		trValueText_->SetValue(value);
 
-		int idx = getTransactionSourceIndexById(transaction.getFromId());
+		int idx = getTransactionSourceIndexById(transaction.getSourceId());
 		trSourceChoice_->SetSelection(idx);
 
-		idx = getTransactionDestinationIndexById(transaction.getToId());
+		idx = getTransactionDestinationIndexById(transaction.getDestinationId());
 		trDestinationChoice_->SetSelection(idx);
 
 		wxString comment;
@@ -268,31 +268,31 @@ bool MainWindow::readValidateRefreshTransaction(Transaction* transaction)
 
 	// transaction source
 
-	int fromId = reinterpret_cast<int> (trSourceChoice_->GetClientData(trSourceChoice_->GetSelection()));
-	if (fromId == 0) {
+	int sourceId = reinterpret_cast<int> (trSourceChoice_->GetClientData(trSourceChoice_->GetSelection()));
+	if (sourceId == 0) {
 		trAcceptButton_->Enable(false);
 		trAcceptButton_->SetToolTip(wxT("Source account must be specified"));
 		return false;
 	}
 	if (transaction != 0) {
-		transaction->setFromId(fromId);
+		transaction->setSourceId(sourceId);
 	}
 
 	// transaction destination
 
-	int toId = reinterpret_cast<int> (trDestinationChoice_->GetClientData(trDestinationChoice_->GetSelection()));
-	if (toId == 0) {
+	int destinationId = reinterpret_cast<int> (trDestinationChoice_->GetClientData(trDestinationChoice_->GetSelection()));
+	if (destinationId == 0) {
 		trAcceptButton_->Enable(false);
 		trAcceptButton_->SetToolTip(wxT("Destination account must be specified"));
 		return false;
 	}
 	if (transaction != 0) {
-		transaction->setToId(toId);
+		transaction->setDestinationId(destinationId);
 	}
 
 	// source - destination relation
 
-	if (fromId == toId) {
+	if (sourceId == destinationId) {
 		trAcceptButton_->Enable(false);
 		trAcceptButton_->SetToolTip(wxT("Destination account and Source account must be different"));
 		return false;

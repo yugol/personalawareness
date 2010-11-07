@@ -79,7 +79,7 @@ void Controller::openDatabase(const wxString* location)
 
     } catch (const exception& ex) {
 
-        if (Configuration::instance()->getLastDatabasePath().size() > 0) {
+        if (Configuration::instance()->getLastDatabaseLocation().size() > 0) {
             reportException(ex, wxT("opening database"));
         }
 
@@ -99,11 +99,11 @@ void Controller::openDatabase(const wxString* location)
     mainWindow_->setDatabaseOpenedView(DatabaseConnection::isOpened());
 }
 
-void Controller::dumpDatabase(wxString& path)
+void Controller::exportSql(wxString& pathFileExt)
 {
-    string stdpath;
-    UiUtil::appendWxString(stdpath, path);
-    ofstream fout(stdpath.c_str(), ios_base::trunc);
+    string stdPathFileExt;
+    UiUtil::appendWxString(stdPathFileExt, pathFileExt);
+    ofstream fout(stdPathFileExt.c_str(), ios_base::trunc);
 
     try {
 
@@ -117,11 +117,11 @@ void Controller::dumpDatabase(wxString& path)
     }
 }
 
-void Controller::loadDatabase(wxString& path)
+void Controller::importSql(wxString& pathFileExt)
 {
-    string stdpath;
-    UiUtil::appendWxString(stdpath, path);
-    ifstream fin(stdpath.c_str());
+    string stdPathFileExt;
+    UiUtil::appendWxString(stdPathFileExt, pathFileExt);
+    ifstream fin(stdPathFileExt.c_str());
 
     try {
 
@@ -152,18 +152,18 @@ void Controller::getDefaultSqlExportName(wxString& name)
     UiUtil::appendStdString(name, sout.rdbuf()->str());
 }
 
-void Controller::getDatabasePath(wxString& path)
+void Controller::getDatabaseLocation(wxString& location)
 {
     ostringstream sout;
     UiUtil::streamPath(sout, DatabaseConnection::instance()->getDatabaseLocation());
-    UiUtil::appendStdString(path, sout.rdbuf()->str());
+    UiUtil::appendStdString(location, sout.rdbuf()->str());
 }
 
 void Controller::selectAllAccounts(std::vector<int>& accountIds)
 {
-    DatabaseConnection::instance()->getCreditingBudgets(&accountIds);
+    DatabaseConnection::instance()->getIncomeBudgets(&accountIds);
     DatabaseConnection::instance()->getAccounts(&accountIds);
-    DatabaseConnection::instance()->getDebitingBudgets(&accountIds);
+    DatabaseConnection::instance()->getExpensesBudgets(&accountIds);
 }
 
 const Account* Controller::selectAccount(const char* name)
@@ -333,7 +333,7 @@ void Controller::refreshAccounts()
 
     accounts.clear();
     sel.clear();
-    DatabaseConnection::instance()->getCreditingBudgets(&sel);
+    DatabaseConnection::instance()->getIncomeBudgets(&sel);
     for (it = sel.begin(); it != sel.end(); ++it) {
         const Account* acc = DatabaseConnection::instance()->getAccount(*it);
         accounts.push_back(acc);
@@ -342,7 +342,7 @@ void Controller::refreshAccounts()
 
     accounts.clear();
     sel.clear();
-    DatabaseConnection::instance()->getDebitingBudgets(&sel);
+    DatabaseConnection::instance()->getExpensesBudgets(&sel);
     for (it = sel.begin(); it != sel.end(); ++it) {
         const Account* acc = DatabaseConnection::instance()->getAccount(*it);
         accounts.push_back(acc);
@@ -373,8 +373,8 @@ void Controller::refreshTransactions()
         Transaction t(id);
         DatabaseConnection::instance()->getTransaction(&t);
         const Item* why = DatabaseConnection::instance()->getItem(t.getItemId());
-        const Account* from = DatabaseConnection::instance()->getAccount(t.getFromId());
-        const Account* to = DatabaseConnection::instance()->getAccount(t.getToId());
+        const Account* source = DatabaseConnection::instance()->getAccount(t.getSourceId());
+        const Account* destination = DatabaseConnection::instance()->getAccount(t.getDestinationId());
 
         ostringstream item;
 
@@ -389,11 +389,11 @@ void Controller::refreshTransactions()
         item << "<td align='left'><b>&nbsp;&nbsp;" << why->getName() << "&nbsp;&nbsp;</b></td>";
         item << "<td align='right' width='20%'>&nbsp;";
 
-        if (to->getType() == Account::DEBT) {
-            item << "<font color='#FF0000'>";
+        if (destination->getType() == Account::EXPENSES) {
+            item << "<font color='#E60000'>";
             UiUtil::streamCurrency(item, t.getValue(), true);
             item << "</font>";
-        } else if (from->getType() == Account::CREDIT) {
+        } else if (source->getType() == Account::INCOME) {
             item << "<font color='#00C87D'>";
             UiUtil::streamCurrency(item, t.getValue(), true);
             item << "</font>";
@@ -407,7 +407,7 @@ void Controller::refreshTransactions()
         if (!Configuration::instance()->isCompactTransactions()) {
             item << "<tr>";
             item << "<td colspan='2'align='right'><small><i><font color='DarkSlateGray'>"
-                    << from->getFullName() << " --> " << to->getFullName()
+                    << source->getFullName() << " --> " << destination->getFullName()
                     << "</font></i></small>&nbsp;</td>";
             item << "</tr>";
         }

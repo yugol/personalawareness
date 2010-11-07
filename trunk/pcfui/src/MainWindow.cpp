@@ -131,8 +131,8 @@ void MainWindow::onOpen(wxCommandEvent &event)
     wxFileDialog* dlg = new wxFileDialog(this, wxT("Open database"), wxEmptyString, wxEmptyString,
             wxT("Database files (*.cflow)|*.cflow|All files (*.*)|*.*"));
     if (wxID_OK == dlg->ShowModal()) {
-        wxString location = dlg->GetPath();
-        Controller::instance()->openDatabase(&location);
+        wxString pathFileExt = dlg->GetPath();
+        Controller::instance()->openDatabase(&pathFileExt);
     }
     dlg->Destroy();
 }
@@ -146,15 +146,15 @@ void MainWindow::onExport(wxCommandEvent& event)
 {
     wxString name;
     Controller::instance()->getDefaultSqlExportName(name);
-    wxString path;
-    Controller::instance()->getDatabasePath(path);
+    wxString pathFileExt;
+    Controller::instance()->getDatabaseLocation(pathFileExt);
 
     wxFileDialog* dlg = new wxFileDialog(this, wxT("Export database"), wxEmptyString, name,
             wxT("*.sql"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
-    dlg->SetDirectory(path);
+    dlg->SetDirectory(pathFileExt);
     if (wxID_OK == dlg->ShowModal()) {
         name = dlg->GetPath();
-        Controller::instance()->dumpDatabase(name);
+        Controller::instance()->exportSql(name);
     }
     dlg->Destroy();
 }
@@ -173,18 +173,18 @@ void MainWindow::onImport(wxCommandEvent& event)
     }
 
     if (proceed) {
-        wxString path;
-        Controller::instance()->getDatabasePath(path);
+        wxString pathFileExt;
+        Controller::instance()->getDatabaseLocation(pathFileExt);
 
         wxFileDialog* dlg = new wxFileDialog(this, wxT("Import database"), wxEmptyString,
                 wxEmptyString, wxT("*.sql"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
-        dlg->SetDirectory(path);
+        dlg->SetDirectory(pathFileExt);
         proceed = (dlg->ShowModal() == wxID_OK);
-        path = dlg->GetPath();
+        pathFileExt = dlg->GetPath();
         dlg->Destroy();
 
         if (proceed) {
-            Controller::instance()->loadDatabase(path);
+            Controller::instance()->importSql(pathFileExt);
         }
     }
 }
