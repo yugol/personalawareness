@@ -32,7 +32,7 @@ TEST(ok_2, defineType)
 
 TEST(ok_3, defineType)
 {
-    istringstream sin("A:(B, C);");
+    istringstream sin("A:(B C);");
     ostringstream sout;
     ostringstream serr;
     Agent tester(sin, sout, serr);
@@ -46,7 +46,7 @@ TEST(ok_3, defineType)
 
 TEST(ok_4, defineType)
 {
-    istringstream sin("A:(B, C) d : D;");
+    istringstream sin("A:(B C) d : D;");
     ostringstream sout;
     ostringstream serr;
     Agent tester(sin, sout, serr);
@@ -60,7 +60,7 @@ TEST(ok_4, defineType)
 
 TEST(ok_5, defineType)
 {
-    istringstream sin("A:(B,C)d:D,e:A,f:B;");
+    istringstream sin("A:(B,C) d:D e:A f:B;");
     ostringstream sout;
     ostringstream serr;
     Agent tester(sin, sout, serr);
