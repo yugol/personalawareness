@@ -14,6 +14,8 @@
 using namespace std;
 
 // TODO: implement escape sequences
+// TODO: implement transaction commit and rollback
+// TODO: create signatures and freeze type hierarchy when creating an atom
 
 int main(int argc, char** argv)
 {
