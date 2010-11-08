@@ -6,10 +6,12 @@ using namespace std;
 
 const char DEFN_SYMB = string(TOK_DEFN)[0];
 const char OPAR_SYMB = string(TOK_OPAR)[0];
-const char LSEP_SYMB = string(TOK_LSEP)[0];
 const char CPAR_SYMB = string(TOK_CPAR)[0];
 const char STMT_SYMB = string(TOK_STMT)[0];
 const char CMT_SYMB = string(TOK_CMT)[0];
+const char SPACE_SYMB = string(TOK_SPACE)[0];
+const char COMMA_SYMB = string(TOK_COMMA)[0];
+const char TAB_SYMB = string(TOK_TAB)[0];
 
 Scanner::Scanner(Agent* agent) :
     agent_(agent), in_(agent_->getIn()), hasCR_(false), hasLF_(false), line_(1), column_(1)
@@ -37,7 +39,7 @@ const Statement& Scanner::next()
         int ch = in_.get();
         if (in_.good()) {
 
-            if (ch == ' ' || ch == '\t') {
+            if (ch == SPACE_SYMB || ch == COMMA_SYMB || ch == TAB_SYMB) {
                 token = 0;
                 ++column_;
                 continue;
@@ -85,15 +87,6 @@ const Statement& Scanner::next()
                 token->setType(OPAR);
                 token->content().append(1, ch);
                 statement_.pushPar();
-                token = 0;
-                ++column_;
-                continue;
-            }
-
-            if (ch == LSEP_SYMB) {
-                token = statement_.append(line_, column_);
-                token->setType(LSEP);
-                token->content().append(1, ch);
                 token = 0;
                 ++column_;
                 continue;

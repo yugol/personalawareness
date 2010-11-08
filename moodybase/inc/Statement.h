@@ -15,6 +15,7 @@ public:
     bool isGood() const;
     bool isComplete() const;
     bool isMismatch() const;
+    bool isUnknown() const;
 
     bool isComment() const;
     bool isTypeDef() const;
@@ -25,9 +26,7 @@ public:
 
     size_t size() const;
     const Token& operator[](size_t index) const;
-    const size_t getParCount() const;
     const size_t getParMatch(size_t oparIdx) const;
-    std::ostream& dump(std::ostream& out) const;
 
     void clear();
     Token* append(int line, int column);
@@ -35,6 +34,8 @@ public:
     void pushPar();
     void popPar();
     void preProcess();
+
+    std::ostream& dump(std::ostream& out) const;
 
 private:
     std::vector<Token> tokens_;
@@ -47,10 +48,10 @@ private:
             unsigned isGood_ :1;
             unsigned isComplete_ :1;
             unsigned isMismatch_ :1;
+            unsigned isUnknown_ :1;
 
             unsigned isComment_ :1;
             unsigned isTypeDef_ :1;
-            unsigned isAtomDef_ :1;
             unsigned isFactDef_ :1;
             unsigned isRuleDef_ :1;
             unsigned isCommand_ :1;
@@ -68,9 +69,9 @@ inline const Token& Statement::operator[](size_t index) const
     return tokens_[index];
 }
 
-inline const size_t Statement::getParCount() const
+inline const size_t Statement::getParMatch(size_t oparIdx) const
 {
-    return parMap_.size();
+    return (parMap_.find(oparIdx)->second);
 }
 
 inline bool Statement::isGood() const
@@ -88,14 +89,14 @@ inline bool Statement::isMismatch() const
     return flags_.isMismatch_;
 }
 
+inline bool Statement::isUnknown() const
+{
+    return flags_.isUnknown_;
+}
+
 inline bool Statement::isTypeDef() const
 {
     return flags_.isTypeDef_;
-}
-
-inline bool Statement::isAtomDef() const
-{
-    return flags_.isAtomDef_;
 }
 
 inline bool Statement::isFactDef() const

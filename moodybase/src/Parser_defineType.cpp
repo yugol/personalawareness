@@ -13,6 +13,7 @@ void Parser::defineType(const Statement& stmt)
 {
     // create type
     const string& newTypeId = stmt[0].content();
+    // TODO: check newTypeId not to already be defined as a Type or Fact or Rule
     Type* newType = memory_->getType(newTypeId);
     if (memory_->isDefinible(newType)) {
         if (newType == 0) {
@@ -23,89 +24,73 @@ void Parser::defineType(const Statement& stmt)
     }
 
     // create dependencies
-    size_t beginIdx = OPAR_INDEX + 1;
-    size_t endIdx = stmt.getParMatch(OPAR_INDEX);
-    for (size_t i = beginIdx; i < endIdx; ++i) {
+    size_t derivationListBeginIdx = OPAR_INDEX + 1;
+    size_t derivationListEndIdx = stmt.getParMatch(OPAR_INDEX);
+    for (size_t i = derivationListBeginIdx; i < derivationListEndIdx; ++i) {
         const Token& token = stmt[i];
-        if ((i - OPAR_INDEX) % 2 == 1) {
-            if (token.getType() != ID) {
-                throwParseError("misplaced in type declaration - should be type identifier", &token);
+        if (token.getType() != ID) {
+            throwParseError("misplaced in type declaration - should be type identifier", &token);
+        }
+        const string& superTypeId = token.content();
+        Type* superType = memory_->getType(superTypeId);
+        if (superType == 0) {
+            superType = memory_->createType(superTypeId);
+        }
+        if (memory_->isDerivable(superType)) {
+            try {
+                memory_->derive(newType, superType);
+            } catch (const exception& ex) {
+                throwParseError(ex.what(), &token);
             }
-
-            const string& superTypeId = token.content();
-            Type* superType = memory_->getType(superTypeId);
-            if (superType == 0) {
-                superType = memory_->createType(superTypeId);
-            }
-            if (memory_->isDerivable(superType)) {
-                try {
-                    memory_->derive(newType, superType);
-                } catch (const exception& ex) {
-                    throwParseError(ex.what(), &token);
-                }
-            } else {
-                throwParseError("is not derivable", &token);
-            }
-
         } else {
-            if (token.getType() != LSEP) {
-                throwParseError("misplaced in type declaration - should be '" TOK_LSEP "'", &token);
-            }
+            throwParseError("is not derivable", &token);
         }
     }
 
     // read signature
-    if (endIdx < stmt.size() - 2) {
+    size_t definitionBeginIdx = derivationListEndIdx + 1;
+    if (definitionBeginIdx < stmt.size() - 1) {
 
         const string* nameId = 0;
         bool defn = false;
-        const string* typeId = 0;
 
-        size_t i = endIdx;
+        size_t i = definitionBeginIdx;
         while (i < stmt.size() - 1) {
-            ++i;
             const Token& token = stmt[i];
             if (token.getType() == ID) {
-                if (nameId == 0) {
+                if (!nameId) {
                     nameId = &(token.content());
-                    continue;
-                }
-                if (defn && typeId == 0) {
-                    typeId = &(token.content());
-                    continue;
-                }
-            }
-            if (token.getType() == DEFN) {
-                if (nameId != 0 && typeId == 0) {
-                    defn = true;
-                    continue;
-                }
-            }
-            if (token.getType() == LSEP || token.getType() == STMT) {
-                if (nameId == 0) {
-                    throwParseError("slot name expected", &token);
-                }
-                if (typeId == 0) {
-                    throwParseError("type name expected", &token);
-                }
+                    if (newType->getSlot(*nameId)) {
+                        throwParseError("already used as a slot identifier", &token);
+                    }
+                } else {
+                    if (!defn) {
+                        throwParseError("instead of '" TOK_DEFN "'", &token);
+                    }
 
-                // TODO: what happens when TYPE is BOT
-                Type* type = memory_->getType(*typeId);
-                if (type == 0) {
-                    type = memory_->createType(*typeId);
-                }
-                newType->addSlot((*nameId), type);
+                    const string& typeId = token.content();
+                    Type* type = memory_->getType(typeId);
+                    if (type == 0) {
+                        type = memory_->createType(typeId);
+                    }
+                    newType->addSlot(*nameId, type);
 
-                nameId = 0;
-                defn = false;
-                typeId = 0;
-                continue;
+                    nameId = 0;
+                    defn = false;
+                }
+            } else if (token.getType() == DEFN) {
+                if (!nameId) {
+                    throwParseError("instead of slot identifier", &token);
+                }
+                defn = true;
+            } else {
+                throwParseError("misplaced in type definition", &token);
             }
-            throwParseError("misplaced in type definition", &token);
+            ++i;
         }
 
-        if (defn || nameId != 0) {
-            throwParseError("incomplete definition - type name expected", &stmt[i]);
+        if (nameId || defn) {
+            throwParseError("type identifier expected", &stmt[i]);
         }
     }
 }

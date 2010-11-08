@@ -30,21 +30,26 @@ void Parser::parse(const Statement& stmt)
                     doLoad(stmt);
                 } else if (command == CMD_STOP) {
                     doStop(stmt);
-                } else if (command == CMD_WHAT) {
-                    doWhat(stmt);
+                } else if (command == CMD_DUMP) {
+                    doDump(stmt);
                 } else {
                     throwParseError("unknown command", &(stmt[1]));
                 }
             } else if (stmt.isTypeDef()) {
                 defineType(stmt);
+            } else if (stmt.isFactDef()) {
+                defineFact(stmt);
             } else {
-                throwParseError("unrecognized statement", &(stmt[0]));
+                // defineRule(stmt);
             }
         } else {
             if (!stmt.isComplete()) {
                 throwParseError(
                         "incomplete statement - must end with '" TOK_STMT "' and have at least three tokens",
                         &(stmt[0]));
+            }
+            if (stmt.isUnknown()) {
+                throwParseError("unrecognized statement", &(stmt[0]));
             }
             if (stmt.isMismatch()) {
                 // TODO: find error token

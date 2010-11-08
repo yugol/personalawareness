@@ -21,6 +21,10 @@ public:
     bool isDerivable(Type* type);
     void derive(Type* type, Type* superType);
 
+    Atom* getFact(const std::string& id) const;
+    Atom* createAtom(Type* type);
+    void nameFact(Atom* fact, const std::string& id);
+
     std::ostream& dumpTypesDot(std::ostream& out);
 
 private:
@@ -32,13 +36,6 @@ private:
 inline Type* Memory::getType(const std::string& id)
 {
     return types_.getType(id);
-}
-
-inline Type* Memory::createType(const std::string& id)
-{
-    Type* type = types_.createType(id);
-    transactions_.add(type);
-    return type;
 }
 
 inline bool Memory::isDefinible(Type* type)
@@ -54,6 +51,16 @@ inline bool Memory::isDerivable(Type* type)
 inline void Memory::derive(Type* type, Type* superType)
 {
     types_.derive(type, superType);
+}
+
+inline Atom* Memory::getFact(const std::string& id) const
+{
+    return facts_.getFact(id);
+}
+
+inline void Memory::nameFact(Atom* fact, const std::string& id)
+{
+    facts_.nameFact(fact, id);
 }
 
 #endif /* MEMORY_H_ */

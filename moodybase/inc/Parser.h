@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+class Atom;
 class Token;
 class Statement;
 class Agent;
@@ -23,12 +24,14 @@ private:
     void throwParseError(const char* message, const Token* token = 0);
 
     void defineType(const Statement& stmt);
+    void defineFact(const Statement& stmt);
+    Atom* defineFactRec(const Statement& stmt, size_t typeIdPos);
 
     void doDot(const Statement& stmt);
     void doDotty(const Statement& stmt);
     void doLoad(const Statement& stmt);
     void doStop(const Statement& stmt);
-    void doWhat(const Statement& stmt);
+    void doDump(const Statement& stmt);
 };
 
 #endif /* PARSER_H_ */

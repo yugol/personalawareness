@@ -1,4 +1,5 @@
 #include <Exception.h>
+#include <constatnts.h>
 #include <Type.h>
 #include <TypeHierarchy.h>
 
@@ -7,8 +8,8 @@ using namespace std;
 const char* ERR_EXISTENT_DERIVATION = "existent derivation";
 const char* ERR_CIRCULAR_DERIVATION = "circular derivation";
 
-const string TypeHierarchy::TOP("TOP");
-const string TypeHierarchy::BOT("BOT");
+const string TypeHierarchy::TOP(TYPE_TOP);
+const string TypeHierarchy::BOT(TYPE_BOT);
 
 TypeHierarchy::TypeHierarchy()
 {
@@ -137,6 +138,14 @@ void TypeHierarchy::derive(Type* type, Type* superType)
     }
 
     link(superType, type);
+}
+
+void TypeHierarchy::sign(Type* type)
+{
+    if (type->getSignature()) {
+        return;
+    }
+    // TODO: sign recursively
 }
 
 ostream& TypeHierarchy::dump(ostream& out) const

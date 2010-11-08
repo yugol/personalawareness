@@ -11,22 +11,22 @@ public:
     Slot();
     ~Slot();
 
-    const std::string& getName() const;
+    const std::string& getId() const;
     const Type* getValue() const;
 
-    void setName(const std::string& name);
+    void setId(const std::string& name);
     void setType(Type* type);
 
     std::ostream& dump(std::ostream& out) const;
 
 private:
-    std::string name_;
+    std::string id_;
     Type* type_;
 };
 
-inline const std::string& Slot::getName() const
+inline const std::string& Slot::getId() const
 {
-    return name_;
+    return id_;
 }
 
 inline const Type* Slot::getValue() const

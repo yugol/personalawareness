@@ -89,20 +89,17 @@ void Statement::preProcess()
 
             if (st == DEFN && nd == ID) {
                 flags_.isCommand_ = true;
-            } else if (st == ID && nd == DEFN && rd == OPAR) {
-                flags_.isTypeDef_ = true;
-            } else if (tokenCount == 4 && st == ID && nd == DEFN && rd == ID) {
-                flags_.isAtomDef_ = true;
-            } else if (!flags_.isRuleDef_) {
-                flags_.isFactDef_ = true;
+            } else if (st == ID) {
+                if (nd == DEFN && rd == OPAR) {
+                    flags_.isTypeDef_ = true;
+                } else if (!flags_.isRuleDef_) {
+                    flags_.isFactDef_ = true;
+                }
+            } else {
+                flags_.isUnknown_ = true;
+                flags_.isGood_ = false;
             }
         }
     }
-}
-
-const size_t Statement::getParMatch(size_t oparIdx) const
-{
-    map<size_t, size_t>::const_iterator it = parMap_.find(oparIdx);
-    return (it->second);
 }
 
