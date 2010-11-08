@@ -13,9 +13,9 @@ Slot::~Slot()
 {
 }
 
-void Slot::setName(const std::string & name)
+void Slot::setId(const std::string & name)
 {
-    name_ = name;
+    id_ = name;
 }
 
 void Slot::setType(Type *type)
@@ -25,7 +25,7 @@ void Slot::setType(Type *type)
 
 std::ostream& Slot::dump(std::ostream& out) const
 {
-    out << name_ << TOK_SPACE << TOK_DEFN << TOK_SPACE << type_->getId();
+    out << id_ << TOK_SPACE << TOK_DEFN << TOK_SPACE << type_->getId();
     return out;
 }
 

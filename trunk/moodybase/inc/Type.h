@@ -5,6 +5,7 @@
 #include <vector>
 #include <ostream>
 
+class Slot;
 class Signature;
 
 class Type {
@@ -12,12 +13,13 @@ public:
     Type(const std::string& id);
     ~Type();
 
+    size_t getParentCount() const;
+    size_t getChildCount() const;
     const std::string& getId() const;
     bool isA(const Type*) const;
     bool isSigned() const;
     const Signature* getSignature() const;
-    size_t getParentCount() const;
-    size_t getChildCount() const;
+    const Slot* getSlot(const std::string& id) const;
 
     Type* getParent(int idx);
     Type* getChild(int idx);
@@ -25,7 +27,7 @@ public:
     void addChild(Type* type);
     void removeParent(Type* type);
     void removeChild(Type* type);
-    void addSlot(const std::string& name, Type* type);
+    void addSlot(const std::string& id, Type* type);
     void sign();
 
     std::ostream& dump(std::ostream& out) const;

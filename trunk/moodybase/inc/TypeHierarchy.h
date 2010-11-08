@@ -17,6 +17,7 @@ public:
     bool isDefinible(Type*) const;
     bool isDerivable(Type*) const;
     void derive(Type* type, Type* superType);
+    void sign(Type* type);
 
     std::ostream& dump(std::ostream& out) const;
     std::ostream& dumpDot(std::ostream& out) const;

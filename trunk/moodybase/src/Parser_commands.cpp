@@ -3,6 +3,7 @@
 #include <fstream>
 #include <constatnts.h>
 #include <Type.h>
+#include <Atom.h>
 #include <Memory.h>
 #include <Agent.h>
 #include <Parser.h>
@@ -90,14 +91,27 @@ void Parser::doLoad(const Statement& stmt)
     fin.close();
 }
 
-void Parser::doWhat(const Statement & stmt)
+void Parser::doDump(const Statement & stmt)
 {
-    if (stmt.size() <= 3) {
-        throwParseError("unspecified identifier in :" CMD_WHAT " command");
+    if (stmt.size() < 4) {
+        throwParseError("unspecified identifier in :" CMD_DUMP " command");
     }
-    const string& id = stmt[2].content();
-    Type* type = memory_->getType(id);
-    if (type != 0) {
-        type->dump(out_);
+
+    const Token& idToken = stmt[2];
+
+    if (idToken.getType() == ID) {
+        Type* type = memory_->getType(idToken.content());
+        if (type) {
+            type->dump(out_);
+            return;
+        }
+
+        Atom* fact = memory_->getFact(idToken.content());
+        if (fact) {
+            fact->dump(out_);
+            return;
+        }
     }
+
+    throwParseError("nonexistent identifier", &idToken);
 }

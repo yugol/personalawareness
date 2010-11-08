@@ -56,10 +56,18 @@ void Type::removeChild(Type* type)
 
 void Type::addSlot(const std::string& name, Type* type)
 {
-    if (slots_ == 0) {
+    if (!slots_) {
         slots_ = new Signature();
     }
     slots_->add(name, type);
+}
+
+const Slot* Type::getSlot(const std::string& id) const
+{
+    if (slots_) {
+        return ((*slots_)[id]);
+    }
+    return 0;
 }
 
 void Type::sign()
@@ -75,16 +83,16 @@ ostream& Type::dump(ostream& out) const
     if (parents_.size() > 0) {
         out << parents_[0]->getId();
         for (size_t i = 1; i < parents_.size(); ++i) {
-            out << TOK_LSEP << TOK_SPACE << parents_[i]->getId();
+            out << TOK_SPACE << parents_[i]->getId();
         }
     }
     out << TOK_CPAR;
     if (slots_ != 0 && slots_->size() > 0) {
         out << endl << TOK_INDENT;
-        (*slots_)[0].dump(out);
+        (*slots_)[0]->dump(out);
         for (size_t i = 1; i < slots_->size(); ++i) {
-            out << TOK_LSEP << endl << TOK_INDENT;
-            (*slots_)[i].dump(out);
+            out << endl << TOK_INDENT;
+            (*slots_)[i]->dump(out);
         }
     }
     out << TOK_STMT << endl;
