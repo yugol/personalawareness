@@ -17,8 +17,8 @@
 #include <wx/colour.h>
 #include <wx/settings.h>
 #include <wx/string.h>
-#include <wx/stattext.h>
 #include <wx/sizer.h>
+#include <wx/stattext.h>
 #include <wx/panel.h>
 #include <wx/textctrl.h>
 #include <wx/notebook.h>
@@ -38,7 +38,10 @@ class AboutDialogBase : public wxDialog
 	protected:
 		wxNotebook* sectionsNotebook_;
 		wxPanel* applicationPage_;
+		
 		wxStaticBitmap* iconBitmap_;
+		
+		
 		
 		wxStaticText* projectNameLabel_;
 		
@@ -69,7 +72,7 @@ class AboutDialogBase : public wxDialog
 		
 	
 	public:
-		AboutDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("About..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 400,260 ), long style = wxDEFAULT_DIALOG_STYLE );
+		AboutDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("About..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 420,280 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~AboutDialogBase();
 	
 };
