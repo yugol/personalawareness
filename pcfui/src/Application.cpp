@@ -3,7 +3,9 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TODO: move expression parser from common to base
+// TODO: use parentheses in expression parser
+// TODO: remove duplicate items
+// TODO: merge same item transactions in the same day
 
 // TODO: optim: shorten SQL commands (remove some spaces)
 // TODO: optim: replace const char* with std::string

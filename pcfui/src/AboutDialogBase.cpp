@@ -21,11 +21,25 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* applicationPageSizer;
 	applicationPageSizer = new wxBoxSizer( wxHORIZONTAL );
 	
+	wxBoxSizer* iconSizer_;
+	iconSizer_ = new wxBoxSizer( wxVERTICAL );
+	
+	
+	iconSizer_->Add( 0, 0, 1, wxEXPAND, 5 );
+	
 	iconBitmap_ = new wxStaticBitmap( applicationPage_, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-	applicationPageSizer->Add( iconBitmap_, 0, wxBOTTOM|wxLEFT|wxTOP, 5 );
+	iconSizer_->Add( iconBitmap_, 1, wxBOTTOM|wxLEFT|wxTOP, 5 );
+	
+	
+	iconSizer_->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	applicationPageSizer->Add( iconSizer_, 0, wxEXPAND, 5 );
 	
 	wxBoxSizer* linesSizer;
 	linesSizer = new wxBoxSizer( wxVERTICAL );
+	
+	
+	linesSizer->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* nameSizer;
 	nameSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -33,7 +47,7 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	nameSizer->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	projectNameLabel_ = new wxStaticText( applicationPage_, wxID_ANY, wxT("Personal"), wxDefaultPosition, wxDefaultSize, 0 );
+	projectNameLabel_ = new wxStaticText( applicationPage_, wxID_ANY, wxT("Project name"), wxDefaultPosition, wxDefaultSize, 0 );
 	projectNameLabel_->Wrap( -1 );
 	projectNameLabel_->SetFont( wxFont( 16, 70, 90, 92, false, wxEmptyString ) );
 	
@@ -42,7 +56,7 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	nameSizer->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	linesSizer->Add( nameSizer, 0, wxEXPAND|wxTOP, 15 );
+	linesSizer->Add( nameSizer, 0, wxEXPAND, 15 );
 	
 	wxBoxSizer* versionSizer;
 	versionSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -50,7 +64,7 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	versionSizer->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	versionLabel_ = new wxStaticText( applicationPage_, wxID_ANY, wxT("version"), wxDefaultPosition, wxDefaultSize, 0 );
+	versionLabel_ = new wxStaticText( applicationPage_, wxID_ANY, wxT("project version"), wxDefaultPosition, wxDefaultSize, 0 );
 	versionLabel_->Wrap( -1 );
 	versionLabel_->SetFont( wxFont( 14, 70, 90, 90, false, wxEmptyString ) );
 	
@@ -92,14 +106,14 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	linesSizer->Add( copyrightSizer, 0, wxEXPAND, 5 );
 	
 	
-	linesSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+	linesSizer->Add( 0, 0, 2, wxEXPAND, 5 );
 	
 	applicationPageSizer->Add( linesSizer, 1, wxEXPAND, 10 );
 	
 	applicationPage_->SetSizer( applicationPageSizer );
 	applicationPage_->Layout();
 	applicationPageSizer->Fit( applicationPage_ );
-	sectionsNotebook_->AddPage( applicationPage_, wxT("Application"), false );
+	sectionsNotebook_->AddPage( applicationPage_, wxT("Application"), true );
 	databasePage_ = new wxPanel( sectionsNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* databaseSizer;
 	databaseSizer = new wxBoxSizer( wxVERTICAL );
@@ -126,13 +140,13 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* creditsSizer;
 	creditsSizer = new wxBoxSizer( wxVERTICAL );
 	
-	creditsText_ = new wxTextCtrl( creditsPage_, wxID_ANY, wxT("Software development:\nIulian Goriac\niulian.goriac@gmail.com\n\nDatabase engine:\nSQLite\nhttp://www.sqlite.org/\n\nUI library:\nwxWidgets\nhttp://www.wxwidgets.org/\n\nIcons:\nMysitemyway Design Team on the \nMysitemyway ETC Network\nhttp://icons.mysitemyway.com\n"), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
+	creditsText_ = new wxTextCtrl( creditsPage_, wxID_ANY, wxT("SQLite\nhttp://www.sqlite.org/\n\nwxWidgets\nhttp://www.wxwidgets.org/"), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
 	creditsSizer->Add( creditsText_, 1, wxALL|wxEXPAND, 10 );
 	
 	creditsPage_->SetSizer( creditsSizer );
 	creditsPage_->Layout();
 	creditsSizer->Fit( creditsPage_ );
-	sectionsNotebook_->AddPage( creditsPage_, wxT("Credits"), true );
+	sectionsNotebook_->AddPage( creditsPage_, wxT("Dependencies"), false );
 	licensePage_ = new wxPanel( sectionsNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* licenseSizer;
 	licenseSizer = new wxBoxSizer( wxVERTICAL );
