@@ -5,6 +5,8 @@
 
 using namespace std;
 
+const char BaseUtil::EMSG_WRONG_DATABASE[] = "wrong database";
+const char BaseUtil::EMSG_INCOMPATIBLE_DATABASE[] = "incompatible database";
 const char BaseUtil::EMSG_NO_DATABASE[] = "no opened database";
 const char BaseUtil::EMSG_SQL_ERROR[] = "SQL error";
 const char BaseUtil::EMSG_NO_RECORD[] = "no such record";
