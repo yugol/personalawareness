@@ -91,7 +91,6 @@ private:
 
     void createNewDatabase();
     void openConnection();
-    int getTableCount();
     void purgeDatabase();
     void closeConnection(bool purge);
 

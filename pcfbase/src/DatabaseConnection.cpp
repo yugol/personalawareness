@@ -2,6 +2,7 @@
 #include <Exception.h>
 #include <BaseUtil.h>
 #include <ReversibleDatabaseCommand.h>
+#include <cmd/GetMetadata.h>
 #include <cmd/CreateDatabase.h>
 #include <cmd/SelectPreferences.h>
 #include <cmd/PurgeDatabase.h>
@@ -30,28 +31,29 @@ void DatabaseConnection::openConnection()
     if (::sqlite3_open_v2(databaseLocation_.c_str(), &database_, SQLITE_OPEN_READWRITE
             | SQLITE_OPEN_CREATE, NULL)) {
         closeConnection(false);
-        THROW("can't read database");
+        THROW(BaseUtil::EMSG_WRONG_DATABASE);
     }
 
-    int tableCount = getTableCount();
+    try {
+        GetMetadata metadata(database_);
+        metadata.execute();
 
-    if (tableCount == 0) {
-        createNewDatabase();
-    } else if (tableCount > 0) {
-        SelectPreferences prefs(database_);
-        prefs.execute();
+        if (!metadata.getTableCount()) {
+            createNewDatabase();
+        } else {
+            SelectPreferences prefs(database_);
+            prefs.execute();
 
-        if (prefs[Configuration::PREF_PROJECT_MARKER] != Configuration::PROJECT_MARKER) {
-            closeConnection(false);
-            THROW("the database is not supported by this version of the application");
+            if (prefs[Configuration::PREF_PROJECT_MARKER] != Configuration::PROJECT_MARKER) {
+                closeConnection(false);
+                THROW(BaseUtil::EMSG_INCOMPATIBLE_DATABASE);
+            }
+
+            readPreferences(prefs);
         }
-
-        // TODO: check database version
-
-        readPreferences(prefs);
-    } else {
+    } catch (const exception& ex) {
         closeConnection(false);
-        THROW("error reading database");
+        RETHROW(ex.what());
     }
 }
 
@@ -65,36 +67,7 @@ void DatabaseConnection::createNewDatabase()
  */
 void DatabaseConnection::purgeDatabase()
 {
-    PurgeDatabase(database_).execute(); // TBD-: - optional via preferences
-    // TODO-: remove unused items - optional via preferences
-    // TODO-: compact identical transactions in each day - optional via preferences
-}
-
-int DatabaseConnection::getTableCount()
-{
-    // TODO-: use a command
-
-    sqlite3_stmt* stmt = 0;
-    const char* zSql = "SELECT * FROM sqlite_master WHERE type='table';";
-    int rc = ::sqlite3_prepare_v2(database_, zSql, 1000, &stmt, NULL);
-    if (SQLITE_OK != rc) {
-        ::sqlite3_finalize(stmt);
-        return 0;
-    }
-
-    int tableCount = 0;
-    while (true) {
-        rc = ::sqlite3_step(stmt);
-        if (SQLITE_ROW == rc) {
-            ++tableCount;
-        } else if (SQLITE_DONE == rc) {
-            break;
-        } else {
-            ::sqlite3_finalize(stmt);
-            return -1;
-        }
-    }
-    return tableCount;
+    PurgeDatabase(database_).execute();
 }
 
 void DatabaseConnection::closeConnection(bool purge)

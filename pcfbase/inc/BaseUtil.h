@@ -1,10 +1,12 @@
-#ifndef DBUTIL_H_
-#define DBUTIL_H_
+#ifndef BASEUTIL_H_
+#define BASEUTIL_H_
 
 #include <string>
 
 class BaseUtil {
 public:
+    static const char EMSG_WRONG_DATABASE[];
+    static const char EMSG_INCOMPATIBLE_DATABASE[];
 	static const char EMSG_NO_DATABASE[];
 	static const char EMSG_SQL_ERROR[];
 	static const char EMSG_NO_RECORD[];
@@ -19,4 +21,4 @@ public:
 	static void trimSpaces(std::string& str);
 };
 
-#endif /* DBUTIL_H_ */
+#endif /* BASEUTIL_H_ */
