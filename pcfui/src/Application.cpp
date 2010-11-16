@@ -8,11 +8,12 @@
 // TODO: merge same item transactions in the same day
 
 // TODO: optim: shorten SQL commands (remove some spaces)
+// TODO: optim: use EMSG_ strings for all error messages
 // TODO: optim: replace const char* with std::string
 // TODO: optim: read items in auto-completion only when showing the window for the first time
 
 // TODO: REPORTS
-// TODO: titles
+// TODO: titles in reports
 // TODO: expenses/income yearly
 // TODO: use the same item - show growth
 // TODO: drawings
