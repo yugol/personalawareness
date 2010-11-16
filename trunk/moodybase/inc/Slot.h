@@ -12,7 +12,7 @@ public:
     ~Slot();
 
     const std::string& getId() const;
-    const Type* getValue() const;
+    const Type* getType() const;
 
     void setId(const std::string& name);
     void setType(Type* type);
@@ -29,7 +29,7 @@ inline const std::string& Slot::getId() const
     return id_;
 }
 
-inline const Type* Slot::getValue() const
+inline const Type* Slot::getType() const
 {
     return type_;
 }

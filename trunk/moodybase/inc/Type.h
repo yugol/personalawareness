@@ -18,8 +18,8 @@ public:
     const std::string& getId() const;
     bool isA(const Type*) const;
     bool isSigned() const;
+    const Signature* getDeltaSignature() const;
     const Signature* getSignature() const;
-    const Slot* getSlot(const std::string& id) const;
 
     Type* getParent(int idx);
     Type* getChild(int idx);
@@ -27,15 +27,15 @@ public:
     void addChild(Type* type);
     void removeParent(Type* type);
     void removeChild(Type* type);
-    void addSlot(const std::string& id, Type* type);
-    void sign();
+    void addDeltaSlot(const std::string& id, Type* type);
+    void setSignature(Signature* signature);
 
     std::ostream& dump(std::ostream& out) const;
     std::ostream& dumpDot(std::ostream& out) const;
 
 private:
-    Signature* slots_;
     Signature* signature_;
+    Signature* deltaSignature_;
     std::vector<Type*> parents_;
     std::vector<Type*> children_;
     const std::string id_;
@@ -49,6 +49,11 @@ inline const std::string& Type::getId() const
 inline bool Type::isSigned() const
 {
     return (signature_ != 0);
+}
+
+inline const Signature* Type::getDeltaSignature() const
+{
+    return deltaSignature_;
 }
 
 inline const Signature* Type::getSignature() const

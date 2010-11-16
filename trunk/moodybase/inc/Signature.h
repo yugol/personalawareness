@@ -16,9 +16,12 @@ public:
     const Slot* operator[](int idx) const;
     const Slot* operator[](const std::string& id) const;
     void add(const std::string& id, Type* type);
+    void set(const std::string& id, Type* type);
 
 private:
     std::vector<Slot> slots_;
+
+    Slot* getSlot(const std::string& id) const;
 };
 
 inline size_t Signature::size() const
@@ -29,6 +32,11 @@ inline size_t Signature::size() const
 inline const Slot* Signature::operator[](int idx) const
 {
     return &slots_[idx];
+}
+
+inline const Slot* Signature::operator[](const std::string& id) const
+{
+    return getSlot(id);
 }
 
 #endif /* SIGNATURE_H_ */
