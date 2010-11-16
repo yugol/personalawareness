@@ -1,6 +1,7 @@
 #include <sstream>
 #include <constatnts.h>
 #include <Type.h>
+#include <Signature.h>
 #include <Statement.h>
 #include <Memory.h>
 #include <Parser.h>
@@ -60,7 +61,7 @@ void Parser::defineType(const Statement& stmt)
             if (token.getType() == ID) {
                 if (!nameId) {
                     nameId = &(token.content());
-                    if (newType->getSlot(*nameId)) {
+                    if (newType->getDeltaSignature()->operator [](*nameId)) {
                         throwParseError("already used as a slot identifier", &token);
                     }
                 } else {
@@ -73,7 +74,7 @@ void Parser::defineType(const Statement& stmt)
                     if (type == 0) {
                         type = memory_->createType(typeId);
                     }
-                    newType->addSlot(*nameId, type);
+                    newType->addDeltaSlot(*nameId, type);
 
                     nameId = 0;
                     defn = false;

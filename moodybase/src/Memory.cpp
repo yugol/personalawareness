@@ -25,6 +25,7 @@ Type* Memory::createType(const std::string& id)
 
 Atom* Memory::createAtom(Type* type)
 {
+    // TODO: rollback signatures
     Atom* atom = facts_.createAtom(type);
     transactions_.add(atom);
     return atom;

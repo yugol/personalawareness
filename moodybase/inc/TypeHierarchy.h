@@ -3,9 +3,11 @@
 
 #include <ostream>
 #include <string>
+#include <vector>
 #include <map>
 
 class Type;
+class Signature;
 
 class TypeHierarchy {
 public:
@@ -17,7 +19,7 @@ public:
     bool isDefinible(Type*) const;
     bool isDerivable(Type*) const;
     void derive(Type* type, Type* superType);
-    void sign(Type* type);
+    const Signature* sign(Type* type);
 
     std::ostream& dump(std::ostream& out) const;
     std::ostream& dumpDot(std::ostream& out) const;
@@ -27,12 +29,14 @@ private:
     static const std::string BOT;
 
     std::map<std::string, Type*> types_;
+    std::vector<Signature*> signatures_;
     Type* top_;
     Type* bot_;
 
     void clear();
     void link(Type* sup, Type* sub);
     void unlink(Type* sup, Type* sub);
+    void merge(Signature* signature, const Signature* parentSignature);
 };
 
 #endif /* TYPEHIERARCHY_H_ */

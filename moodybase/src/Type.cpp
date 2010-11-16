@@ -6,13 +6,13 @@
 using namespace std;
 
 Type::Type(const std::string& id) :
-    slots_(0), signature_(0), id_(id)
+    signature_(0), deltaSignature_(0), id_(id)
 {
 }
 
 Type::~Type()
 {
-    delete slots_;
+    delete deltaSignature_;
 }
 
 bool Type::isA(const Type* type) const
@@ -54,27 +54,17 @@ void Type::removeChild(Type* type)
     }
 }
 
-void Type::addSlot(const std::string& name, Type* type)
+void Type::addDeltaSlot(const std::string& name, Type* type)
 {
-    if (!slots_) {
-        slots_ = new Signature();
+    if (!deltaSignature_) {
+        deltaSignature_ = new Signature();
     }
-    slots_->add(name, type);
+    deltaSignature_->add(name, type);
 }
 
-const Slot* Type::getSlot(const std::string& id) const
+void Type::setSignature(Signature* signature)
 {
-    if (slots_) {
-        return ((*slots_)[id]);
-    }
-    return 0;
-}
-
-void Type::sign()
-{
-    if (slots_ == 0) {
-        slots_ = new Signature();
-    }
+    signature_ = signature;
 }
 
 ostream& Type::dump(ostream& out) const
@@ -87,12 +77,12 @@ ostream& Type::dump(ostream& out) const
         }
     }
     out << TOK_CPAR;
-    if (slots_ != 0 && slots_->size() > 0) {
+    if (deltaSignature_ && deltaSignature_->size() > 0) {
         out << endl << TOK_INDENT;
-        (*slots_)[0]->dump(out);
-        for (size_t i = 1; i < slots_->size(); ++i) {
+        (*deltaSignature_)[0]->dump(out);
+        for (size_t i = 1; i < deltaSignature_->size(); ++i) {
             out << endl << TOK_INDENT;
-            (*slots_)[i]->dump(out);
+            (*deltaSignature_)[i]->dump(out);
         }
     }
     out << TOK_STMT << endl;

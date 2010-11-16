@@ -1,12 +1,14 @@
 #include <Exception.h>
 #include <constatnts.h>
 #include <Type.h>
+#include <Signature.h>
 #include <TypeHierarchy.h>
 
 using namespace std;
 
 const char* ERR_EXISTENT_DERIVATION = "existent derivation";
 const char* ERR_CIRCULAR_DERIVATION = "circular derivation";
+const char* ERR_INCOMPATIBLE_SIGNATURE = "incompatible signature";
 
 const string TypeHierarchy::TOP(TYPE_TOP);
 const string TypeHierarchy::BOT(TYPE_BOT);
@@ -16,7 +18,7 @@ TypeHierarchy::TypeHierarchy()
     top_ = new Type(TOP);
     bot_ = new Type(BOT);
     link(top_, bot_);
-    top_->sign();
+    sign(top_);
 }
 
 TypeHierarchy::~TypeHierarchy()
@@ -32,6 +34,11 @@ void TypeHierarchy::clear()
         delete it->second;
     }
     types_.clear();
+
+    for (size_t i = 0; i < signatures_.size(); ++i) {
+        delete signatures_[i];
+    }
+    signatures_.clear();
 }
 
 Type* TypeHierarchy::getType(const std::string& id)
@@ -66,7 +73,7 @@ Type* TypeHierarchy::createType(const string& id)
 
 bool TypeHierarchy::isDefinible(Type* type) const
 {
-    if (type == 0) {
+    if (!type) {
         return true;
     }
     if (type == top_) {
@@ -94,7 +101,7 @@ bool TypeHierarchy::isDefinible(Type* type) const
 
 bool TypeHierarchy::isDerivable(Type* type) const
 {
-    if (type == 0) {
+    if (!type) {
         return false;
     }
     if (type == bot_) {
@@ -140,12 +147,61 @@ void TypeHierarchy::derive(Type* type, Type* superType)
     link(superType, type);
 }
 
-void TypeHierarchy::sign(Type* type)
+const Signature* TypeHierarchy::sign(Type* type)
 {
     if (type->getSignature()) {
-        return;
+        return type->getSignature();
     }
-    // TODO: sign recursively
+    if (type->getParentCount() == 0) { // only happens for TOP
+        Signature* signature = new Signature();
+        type->setSignature(signature);
+        signatures_.push_back(signature);
+    } else if (type->getParentCount() == 1 && !type->getDeltaSignature()) {
+        type->setSignature(const_cast<Signature*> (sign(type->getParent(0))));
+    } else {
+        Signature* signature = new Signature();
+        for (size_t i = 0; i < type->getParentCount(); ++i) {
+            try {
+                merge(signature, sign(type->getParent(i)));
+            } catch (Exception e) {
+                delete signature;
+                return 0;
+            }
+        }
+        if (type->getDeltaSignature()) {
+            try {
+                merge(signature, type->getDeltaSignature());
+            } catch (Exception e) {
+                delete signature;
+                return 0;
+            }
+        }
+        type->setSignature(signature);
+        signatures_.push_back(signature);
+    }
+    if (!type->getSignature()) {
+        throw Exception(ERR_INCOMPATIBLE_SIGNATURE);
+    }
+    return type->getSignature();
+}
+
+void TypeHierarchy::merge(Signature* toSignature, const Signature* fromSignature)
+{
+    if (!fromSignature) {
+        throw Exception(ERR_INCOMPATIBLE_SIGNATURE);
+    }
+    for (size_t i = 0; i < fromSignature->size(); ++i) {
+        const Slot* parentSlot = (*fromSignature)[i];
+        const Slot* slot = (*toSignature)[parentSlot->getId()];
+        if (slot) {
+            if (!slot->getType()->isA(parentSlot->getType())) {
+                throw Exception(ERR_INCOMPATIBLE_SIGNATURE);
+            }
+            toSignature->set(parentSlot->getId(), const_cast<Type*> (parentSlot->getType()));
+        } else {
+            toSignature->add(parentSlot->getId(), const_cast<Type*> (parentSlot->getType()));
+        }
+    }
 }
 
 ostream& TypeHierarchy::dump(ostream& out) const
