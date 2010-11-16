@@ -128,8 +128,8 @@
                         <object class="notebookpage" expanded="1">
                             <property name="bitmap"></property>
                             <property name="label">Application</property>
-                            <property name="select">1</property>
-                            <object class="wxPanel" expanded="0">
+                            <property name="select">0</property>
+                            <object class="wxPanel" expanded="1">
                                 <property name="bg"></property>
                                 <property name="context_help"></property>
                                 <property name="enabled">1</property>
@@ -171,14 +171,14 @@
                                 <event name="OnSetFocus"></event>
                                 <event name="OnSize"></event>
                                 <event name="OnUpdateUI"></event>
-                                <object class="wxBoxSizer" expanded="0">
+                                <object class="wxBoxSizer" expanded="1">
                                     <property name="minimum_size"></property>
                                     <property name="name">applicationPageSizer</property>
                                     <property name="orient">wxHORIZONTAL</property>
                                     <property name="permission">none</property>
                                     <object class="sizeritem" expanded="1">
                                         <property name="border">5</property>
-                                        <property name="flag">wxEXPAND</property>
+                                        <property name="flag">wxEXPAND|wxLEFT</property>
                                         <property name="proportion">0</property>
                                         <object class="wxBoxSizer" expanded="1">
                                             <property name="minimum_size"></property>
@@ -257,10 +257,10 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem" expanded="1">
-                                        <property name="border">10</property>
-                                        <property name="flag">wxEXPAND</property>
+                                        <property name="border">5</property>
+                                        <property name="flag">wxEXPAND|wxRIGHT</property>
                                         <property name="proportion">1</property>
-                                        <object class="wxBoxSizer" expanded="0">
+                                        <object class="wxBoxSizer" expanded="1">
                                             <property name="minimum_size"></property>
                                             <property name="name">linesSizer</property>
                                             <property name="orient">wxVERTICAL</property>
@@ -268,7 +268,7 @@
                                             <object class="sizeritem" expanded="1">
                                                 <property name="border">5</property>
                                                 <property name="flag">wxEXPAND</property>
-                                                <property name="proportion">1</property>
+                                                <property name="proportion">2</property>
                                                 <object class="spacer" expanded="1">
                                                     <property name="height">0</property>
                                                     <property name="permission">protected</property>
@@ -606,7 +606,7 @@
                                             <object class="sizeritem" expanded="1">
                                                 <property name="border">5</property>
                                                 <property name="flag">wxEXPAND</property>
-                                                <property name="proportion">2</property>
+                                                <property name="proportion">3</property>
                                                 <object class="spacer" expanded="1">
                                                     <property name="height">0</property>
                                                     <property name="permission">protected</property>
@@ -840,7 +840,7 @@
                             <property name="bitmap"></property>
                             <property name="label">Dependencies</property>
                             <property name="select">0</property>
-                            <object class="wxPanel" expanded="1">
+                            <object class="wxPanel" expanded="0">
                                 <property name="bg"></property>
                                 <property name="context_help"></property>
                                 <property name="enabled">1</property>
@@ -882,7 +882,7 @@
                                 <event name="OnSetFocus"></event>
                                 <event name="OnSize"></event>
                                 <event name="OnUpdateUI"></event>
-                                <object class="wxBoxSizer" expanded="1">
+                                <object class="wxBoxSizer" expanded="0">
                                     <property name="minimum_size"></property>
                                     <property name="name">creditsSizer</property>
                                     <property name="orient">wxVERTICAL</property>
@@ -909,7 +909,7 @@
                                             <property name="style">wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP</property>
                                             <property name="subclass"></property>
                                             <property name="tooltip"></property>
-                                            <property name="value">SQLite&#x0A;http://www.sqlite.org/&#x0A;&#x0A;wxWidgets&#x0A;http://www.wxwidgets.org/</property>
+                                            <property name="value">&#x0A;SQLite&#x0A;http://www.sqlite.org/&#x0A;&#x0A;wxWidgets&#x0A;http://www.wxwidgets.org/&#x0A;</property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
@@ -948,8 +948,8 @@
                         <object class="notebookpage" expanded="1">
                             <property name="bitmap"></property>
                             <property name="label">License</property>
-                            <property name="select">0</property>
-                            <object class="wxPanel" expanded="0">
+                            <property name="select">1</property>
+                            <object class="wxPanel" expanded="1">
                                 <property name="bg"></property>
                                 <property name="context_help"></property>
                                 <property name="enabled">1</property>
@@ -1018,7 +1018,7 @@
                                             <property name="style">wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP</property>
                                             <property name="subclass"></property>
                                             <property name="tooltip"></property>
-                                            <property name="value">The MIT License&#x0A;&#x0A;Copyright (c) 2010 Iulian Goriac&#x0A;&#x0A;Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:&#x0A;&#x0A;The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.&#x0A;&#x0A;THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</property>
+                                            <property name="value">&#x0A;Personal Cash Flow&#x0A;Copyright (C) 2010 Iulian Goriac (iulian.goriac@gmail.com)&#x0A;&#x0A;This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.&#x0A;&#x0A;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&#x0A;&#x0A;You should have received a copy of the GNU General Public License along with this program. If not, see&#x0A;&lt;http://www.gnu.org/licenses/&gt;.&#x0A;</property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>

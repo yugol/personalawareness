@@ -479,6 +479,7 @@ void Controller::getDatabaseReport(wxString& report)
 {
     ostringstream rout;
 
+    rout << endl;
     if (DatabaseConnection::isOpened()) {
         rout << "Database file (schema version " << Configuration::PROJECT_DATABASE_VERSION << "):"
                 << endl;
