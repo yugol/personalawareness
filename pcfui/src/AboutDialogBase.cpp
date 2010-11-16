@@ -33,13 +33,13 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	iconSizer_->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	applicationPageSizer->Add( iconSizer_, 0, wxEXPAND, 5 );
+	applicationPageSizer->Add( iconSizer_, 0, wxEXPAND|wxLEFT, 5 );
 	
 	wxBoxSizer* linesSizer;
 	linesSizer = new wxBoxSizer( wxVERTICAL );
 	
 	
-	linesSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+	linesSizer->Add( 0, 0, 2, wxEXPAND, 5 );
 	
 	wxBoxSizer* nameSizer;
 	nameSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -106,14 +106,14 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	linesSizer->Add( copyrightSizer, 0, wxEXPAND, 5 );
 	
 	
-	linesSizer->Add( 0, 0, 2, wxEXPAND, 5 );
+	linesSizer->Add( 0, 0, 3, wxEXPAND, 5 );
 	
-	applicationPageSizer->Add( linesSizer, 1, wxEXPAND, 10 );
+	applicationPageSizer->Add( linesSizer, 1, wxEXPAND|wxRIGHT, 5 );
 	
 	applicationPage_->SetSizer( applicationPageSizer );
 	applicationPage_->Layout();
 	applicationPageSizer->Fit( applicationPage_ );
-	sectionsNotebook_->AddPage( applicationPage_, wxT("Application"), true );
+	sectionsNotebook_->AddPage( applicationPage_, wxT("Application"), false );
 	databasePage_ = new wxPanel( sectionsNotebook_, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* databaseSizer;
 	databaseSizer = new wxBoxSizer( wxVERTICAL );
@@ -140,7 +140,7 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* creditsSizer;
 	creditsSizer = new wxBoxSizer( wxVERTICAL );
 	
-	creditsText_ = new wxTextCtrl( creditsPage_, wxID_ANY, wxT("SQLite\nhttp://www.sqlite.org/\n\nwxWidgets\nhttp://www.wxwidgets.org/"), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
+	creditsText_ = new wxTextCtrl( creditsPage_, wxID_ANY, wxT("\nSQLite\nhttp://www.sqlite.org/\n\nwxWidgets\nhttp://www.wxwidgets.org/\n"), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
 	creditsSizer->Add( creditsText_, 1, wxALL|wxEXPAND, 10 );
 	
 	creditsPage_->SetSizer( creditsSizer );
@@ -151,13 +151,13 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* licenseSizer;
 	licenseSizer = new wxBoxSizer( wxVERTICAL );
 	
-	licenseText_ = new wxTextCtrl( licensePage_, wxID_ANY, wxT("The MIT License\n\nCopyright (c) 2010 Iulian Goriac\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
+	licenseText_ = new wxTextCtrl( licensePage_, wxID_ANY, wxT("\nPersonal Cash Flow\nCopyright (C) 2010 Iulian Goriac (iulian.goriac@gmail.com)\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program. If not, see\n<http://www.gnu.org/licenses/>.\n"), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_WORDWRAP );
 	licenseSizer->Add( licenseText_, 1, wxALL|wxEXPAND, 10 );
 	
 	licensePage_->SetSizer( licenseSizer );
 	licensePage_->Layout();
 	licenseSizer->Fit( licensePage_ );
-	sectionsNotebook_->AddPage( licensePage_, wxT("License"), false );
+	sectionsNotebook_->AddPage( licensePage_, wxT("License"), true );
 	
 	dialogSizer->Add( sectionsNotebook_, 1, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, 5 );
 	

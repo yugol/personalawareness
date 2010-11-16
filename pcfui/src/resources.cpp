@@ -1,4 +1,4 @@
-const char* RES_CHANGES = ""
+const char* RES_CHANGES = "\n"
 	"1.0.0\n"
 	"- initial release\n";
 
