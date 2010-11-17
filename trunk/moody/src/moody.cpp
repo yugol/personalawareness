@@ -13,8 +13,11 @@
 
 using namespace std;
 
+// TODO: end commands with `;'
+// TODO: start declarations with `'' end them with `;'
+// TODO: use `,' as list separator and `(' and  `)' as list delimiters
 // TODO: implement escape sequences
-// TODO: implement transaction commit and rollback
+// TODO: implement transaction commit and rollback (named transactions)
 // TODO: create signatures and freeze type hierarchy when creating an atom
 
 int main(int argc, char** argv)
