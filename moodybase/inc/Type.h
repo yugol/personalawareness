@@ -16,8 +16,9 @@ public:
     size_t getParentCount() const;
     size_t getChildCount() const;
     const std::string& getId() const;
-    bool isA(const Type*) const;
+    bool isDefined() const;
     bool isSigned() const;
+    bool isA(const Type*) const;
     const Signature* getDeltaSignature() const;
     const Signature* getSignature() const;
 
@@ -44,6 +45,11 @@ private:
 inline const std::string& Type::getId() const
 {
     return id_;
+}
+
+inline bool Type::isDefined() const
+{
+    return (deltaSignature_ != 0) || isSigned();
 }
 
 inline bool Type::isSigned() const
