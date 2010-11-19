@@ -111,6 +111,11 @@ void Configuration::setCompareAsciiOnly(const char* cstr)
     compareAsciiOnly_ = BaseUtil::toBool(cstr);
 }
 
+void Configuration::setHideZeroBalanceAccounts(const char* cstr)
+{
+    hideZeroBalanceAccounts_ = BaseUtil::toBool(cstr);
+}
+
 void Configuration::setPrefixCurrency(bool value)
 {
     prefixCurrency_ = value;

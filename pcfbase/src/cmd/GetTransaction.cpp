@@ -16,7 +16,7 @@ GetTransaction::GetTransaction(sqlite3* database, Transaction* transaction) :
 static int readTransaction(void *param, int colCount, char **values, char **names)
 {
     Transaction* t = reinterpret_cast<Transaction*> (param);
-    t->setId(::atof(values[0]));
+    t->setId(::atoi(values[0]));
     t->setDate(values[1]);
     t->setValue(::atof(values[2]));
     t->setSourceId(::atoi(values[3]));

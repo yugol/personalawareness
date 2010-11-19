@@ -2,6 +2,7 @@
 #define CONTROLLER_H
 
 #include <vector>
+#include <wx/wxchar.h>
 
 class MainWindow;
 class wxString;
@@ -16,7 +17,7 @@ public:
 
 	~Controller();
 
-	void initApplication(int argc, void** argv);
+	void initApplication(int argc, wxChar** argv);
 
 	void getDefaultSqlExportName(wxString& name);
 	void getDatabaseLocation(wxString& location);
