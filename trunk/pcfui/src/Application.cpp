@@ -3,6 +3,8 @@
 #include <Controller.h>
 #include <Application.h>
 
+// TODO: disable optimisations when no database is opened
+
 // TODO: use parentheses in expression parser
 // TODO: remove duplicate items
 // TODO: merge same item transactions in the same day
@@ -48,6 +50,6 @@ bool Application::OnInit()
     aFrame->SetSize(700, 525);
     aFrame->Show();
     aFrame->setDatabaseOpenedView(false);
-    Controller::instance()->initApplication(argc, reinterpret_cast<void**> (argv));
+    Controller::instance()->initApplication(argc, argv);
     return true;
 }

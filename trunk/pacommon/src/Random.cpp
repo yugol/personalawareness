@@ -4,7 +4,7 @@
 
 Random::Random()
 {
-	srand(time(NULL) + rand());
+	::srand(static_cast<unsigned>(::time(NULL)));
 }
 
 Random::~Random()
@@ -13,21 +13,21 @@ Random::~Random()
 
 bool Random::nextBool() const
 {
-	return rand() % 2;
+	return (1 == (::rand() % 2));
 }
 
 int Random::nextInt() const
 {
-	return rand();
+	return ::rand();
 }
 
 int Random::nextInt(int max) const
 {
-	return rand() % max;
+	return ::rand() % max;
 }
 
 int Random::nextInt(int min, int max) const
 {
-	return min + rand() % (max - min + 1);
+	return min +::rand() % (max - min + 1);
 }
 

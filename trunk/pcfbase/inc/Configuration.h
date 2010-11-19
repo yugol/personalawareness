@@ -63,6 +63,7 @@ public:
 	void setPrefixCurrency(const char*);
 	void setCompactTransactions(const char*);
 	void setCompareAsciiOnly(const char*);
+	void setHideZeroBalanceAccounts(const char* cstr);
 	void setPrefixCurrency(bool);
 	void setCompactTransactions(bool);
 	void setCompareAsciiOnly(bool);

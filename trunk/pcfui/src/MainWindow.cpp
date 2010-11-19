@@ -98,8 +98,8 @@ void MainWindow::setUndoRedoView(const ReversibleDatabaseCommand* undo,
     undoMenuItem_->SetHelp(undoMsg);
     redoMenuItem_->SetHelp(redoMsg);
 
-    undoMenuItem_->Enable(undo);
-    redoMenuItem_->Enable(redo);
+    undoMenuItem_->Enable(undo != 0);
+    redoMenuItem_->Enable(redo != 0);
 }
 
 void MainWindow::setDatabaseOpenedView(bool isOpened)
@@ -165,9 +165,8 @@ void MainWindow::onImport(wxCommandEvent& event)
 
     if (!Controller::instance()->isDatabaseEmpty()) {
         wxMessageDialog msgDlg(this,
-                wxT("This operation will completely erase the current database.\n"
-                        "Are you sure you want to continue?"), wxT("Import database"), wxYES
-                        | wxNO_DEFAULT);
+                wxT("This operation will completely erase the current database.\nAre you sure you want to continue?"), 
+				wxT("Import database"), wxYES | wxNO_DEFAULT);
         proceed = (wxID_YES == msgDlg.ShowModal());
         msgDlg.Destroy();
     }

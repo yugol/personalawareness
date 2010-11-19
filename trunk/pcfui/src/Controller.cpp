@@ -42,10 +42,10 @@ Controller::~Controller()
 {
 }
 
-void Controller::initApplication(int argc, void** argv)
+void Controller::initApplication(int argc, wxChar** argv)
 {
     if (argc > 1) {
-        wxString pathFileExt(static_cast<wxChar*> (argv[1]));
+        wxString pathFileExt(argv[1]);
         openDatabase(&pathFileExt);
     } else if (Configuration::instance()->existsConfigurationFile()) {
         openDatabase(0);
