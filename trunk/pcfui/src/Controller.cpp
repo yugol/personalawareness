@@ -62,7 +62,7 @@ void Controller::openDatabase(const wxString* location)
         if (0 != location) {
             string pathFileExt;
             UiUtil::appendWxString(pathFileExt, *location);
-            if (!wxFile::Exists(location->wc_str())) {
+            if (!wxFile::Exists(pathFileExt.c_str())) {
                 ostringstream extOut;
                 UiUtil::streamExt(extOut, pathFileExt);
                 if (extOut.rdbuf()->str() != "cflow") {

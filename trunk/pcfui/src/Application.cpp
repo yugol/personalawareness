@@ -5,6 +5,8 @@
 
 // TODO: disable optimisations when no database is opened
 
+// TODO: compile under Windows
+
 // TODO: use parentheses in expression parser
 // TODO: remove duplicate items
 // TODO: merge same item transactions in the same day
@@ -25,8 +27,6 @@
 // TODO: preferences: security tab
 // TODO: preferences: lock database (can be opened by only one process at a time)
 // TODO: preferences: password protection
-
-// TODO-: compile under Windows
 
 // TODO: add help support
 // TODO: write Google site
