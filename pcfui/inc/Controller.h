@@ -2,7 +2,7 @@
 #define CONTROLLER_H
 
 #include <vector>
-#include <wx/wxchar.h>
+#include <wx/string.h>
 
 class MainWindow;
 class wxString;
