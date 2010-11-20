@@ -9,6 +9,7 @@
 class DatabaseCommand: public Command {
 public:
     DatabaseCommand(sqlite3* database);
+    virtual ~DatabaseCommand();
 
     virtual void execute();
 

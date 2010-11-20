@@ -10,6 +10,10 @@ DatabaseCommand::DatabaseCommand(sqlite3* database) :
 {
 }
 
+DatabaseCommand::~DatabaseCommand()
+{
+}
+
 int DatabaseCommand::readDouble(void* param, int colCount, char** values, char** names)
 {
     double* val = reinterpret_cast<double*> (param);
