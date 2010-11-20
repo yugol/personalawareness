@@ -81,7 +81,7 @@ void UiUtil::appendWxString(string& to, const wxString& what)
 {
 	int whatSize = what.Len();
 	char* mbstr = new char[whatSize * 4 + 1];
-	const wchar_t* wcstr = what.GetData();
+	const wchar_t* wcstr = reinterpret_cast<const wchar_t*>(what.GetData());
 	int toSize = wcstombs(mbstr, wcstr, whatSize * sizeof(wchar_t));
 	if (toSize > 0) {
 		mbstr[toSize] = 0;
@@ -177,8 +177,8 @@ int UiUtil::compareBeginning(const wxString& needle, const wxString& hay)
 			return 1;
 		}
 
-		wxChar ca = wxTolower(needle.GetChar(i));
-		wxChar cb = wxTolower(hay.GetChar(i));
+		int ca = wxTolower(needle.GetChar(i));
+		int cb = wxTolower(hay.GetChar(i));
 
 		if (Configuration::instance()->isCompareAsciiOnly()) {
 			if (ca >= 128) {

@@ -21,8 +21,8 @@ void ReportWindow::buildHistogramReport(const ReportData& data)
         entry.value = dataValues[monId - 1];
 
         if (entry.value != 0) {
-            if (::abs(entry.value) > referenceValue_) {
-                referenceValue_ = ::abs(entry.value);
+            if (::fabs(entry.value) > referenceValue_) {
+                referenceValue_ = ::fabs(entry.value);
             }
             if (prevYear != year) {
                 prevYear = year;
