@@ -7,6 +7,7 @@
 class ReversibleDatabaseCommand: public DatabaseCommand {
 public:
     ReversibleDatabaseCommand(sqlite3* database);
+    virtual ~ReversibleDatabaseCommand();
 
     virtual void unexecute();
     virtual std::string getDescription() const = 0;
