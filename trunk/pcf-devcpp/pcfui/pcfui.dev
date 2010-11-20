@@ -271,15 +271,15 @@ AutoIncBuildNrOnCompile=0
 
 [Profile1]
 ProfileName=MingW gcc 3.4.5
-Type=0
+Type=1
 ObjFiles=
-Includes=..\..\pacommon\inc;..\..\pcfbase\inc;..\..\pcfui\inc
+Includes=..\sqlite3;..\..\pacommon\inc;..\..\pcfbase\inc;..\..\pcfui\inc
 Libs=
 ResourceIncludes=
 MakeIncludes=
 Compiler=-fno-exceptions_@@_-fno-pcc-struct-return_@@_-fstrict-aliasing_@@_-Wall_@@_-D__WXMSW___@@_-D__GNUWIN32___@@_-D__WIN95___@@_
 CppCompiler=-fno-exceptions_@@_-fno-pcc-struct-return_@@_-fstrict-aliasing_@@_-Wall_@@_-D__WXMSW___@@_-D__GNUWIN32___@@_-D__WIN95___@@_
-Linker=-mwindows_@@_-l$(WXLIBNAME)_@@_-l$(WXLIBNAME)_gl_@@_-lwxtiff_@@_-lwxjpeg_@@_-lwxpng_@@_-lwxzlib_@@_-lwxregex_@@_-lwxexpat_@@_-lkernel32_@@_-luser32_@@_-lgdi32_@@_-lcomdlg32_@@_-lwinspool_@@_-lwinmm_@@_-lshell32_@@_-lcomctl32_@@_-lole32_@@_-loleaut32_@@_-luuid_@@_-lrpcrt4_@@_-ladvapi32_@@_-lwsock32_@@_-lodbc32_@@_-lopengl32_@@_../libpacommon.a_@@_../libpcfbase.a_@@_-lsqlite3_@@_
+Linker=-mwindows_@@_-l$(WXLIBNAME)_@@_-l$(WXLIBNAME)_gl_@@_-lwxtiff_@@_-lwxjpeg_@@_-lwxpng_@@_-lwxzlib_@@_-lwxregex_@@_-lwxexpat_@@_-lkernel32_@@_-luser32_@@_-lgdi32_@@_-lcomdlg32_@@_-lwinspool_@@_-lwinmm_@@_-lshell32_@@_-lcomctl32_@@_-lole32_@@_-loleaut32_@@_-luuid_@@_-lrpcrt4_@@_-ladvapi32_@@_-lwsock32_@@_-lodbc32_@@_-lopengl32_@@_../libpacommon.a_@@_../libpcfbase.a_@@_../libsqlite3.a_@@__@@_
 PreprocDefines=__WXMSW___@@___GNUWIN32___@@___WIN95___@@_
 CompilerSettings=0000001001010000000000
 Icon=
