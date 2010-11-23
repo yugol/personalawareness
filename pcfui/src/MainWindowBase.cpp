@@ -21,8 +21,7 @@ MainWindowBase::MainWindowBase( wxWindow* parent, wxWindowID id, const wxString&
 	
 	databaseMenu_->AppendSeparator();
 	
-	wxMenuItem* optimizeMenuItem_;
-	optimizeMenuItem_ = new wxMenuItem( databaseMenu_, wxID_ANY, wxString( wxT("O&ptimize...") ) , wxEmptyString, wxITEM_NORMAL );
+	optimizeMenuItem_ = new wxMenuItem( databaseMenu_, wxID_ANY, wxString( wxT("O&ptimize...") ) , wxT("Optimize database"), wxITEM_NORMAL );
 	databaseMenu_->Append( optimizeMenuItem_ );
 	
 	databaseMenu_->AppendSeparator();

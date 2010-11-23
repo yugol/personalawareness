@@ -3,7 +3,7 @@
 #include <Controller.h>
 #include <Application.h>
 
-// TODO: disable optimisations when no database is opened
+// TODO: fix: ketchup does not return last entry
 
 // TODO: compile under Windows
 

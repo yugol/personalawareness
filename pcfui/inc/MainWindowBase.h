@@ -43,6 +43,7 @@ class MainWindowBase : public wxFrame
 	protected:
 		wxMenuBar* mainMenu_;
 		wxMenu* databaseMenu_;
+		wxMenuItem* optimizeMenuItem_;
 		wxMenuItem* exportSqlMenuItem_;
 		wxMenuItem* importSqlMenuItem_;
 		wxMenu* editMenu_;

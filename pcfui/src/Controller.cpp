@@ -62,7 +62,9 @@ void Controller::openDatabase(const wxString* location)
         if (0 != location) {
             string pathFileExt;
             UiUtil::appendWxString(pathFileExt, *location);
-            if (!wxFile::Exists(pathFileExt.c_str())) {
+            wxString pfe;
+            UiUtil::appendStdString(pfe, pathFileExt);
+            if (!wxFile::Exists(pfe)) {
                 ostringstream extOut;
                 UiUtil::streamExt(extOut, pathFileExt);
                 if (extOut.rdbuf()->str() != "cflow") {
@@ -374,7 +376,8 @@ void Controller::refreshTransactions()
         DatabaseConnection::instance()->getTransaction(&t);
         const Item* why = DatabaseConnection::instance()->getItem(t.getItemId());
         const Account* source = DatabaseConnection::instance()->getAccount(t.getSourceId());
-        const Account* destination = DatabaseConnection::instance()->getAccount(t.getDestinationId());
+        const Account* destination = DatabaseConnection::instance()->getAccount(
+                t.getDestinationId());
 
         ostringstream item;
 

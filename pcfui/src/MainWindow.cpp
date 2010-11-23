@@ -105,6 +105,7 @@ void MainWindow::setUndoRedoView(const ReversibleDatabaseCommand* undo,
 void MainWindow::setDatabaseOpenedView(bool isOpened)
 {
     mainMenu_->EnableTop(1, isOpened);
+    optimizeMenuItem_->Enable(isOpened);
     exportSqlMenuItem_->Enable(isOpened);
     importSqlMenuItem_->Enable(isOpened);
     financialPages_->Show(isOpened);
