@@ -45,7 +45,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\pacommon\inc;..\..\pcfbase\inc;C:\Users\Iulian\bin\sqlite3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\pacommon\inc;..\..\pcfbase\inc;..\..\sqlite3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -61,7 +61,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\pacommon\inc;..\..\pcfbase\inc;C:\Users\Iulian\bin\sqlite3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\pacommon\inc;..\..\pcfbase\inc;..\..\sqlite3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -78,6 +78,7 @@
     <ClCompile Include="..\..\pcfbase\src\ArithmeticExpressionNode.cpp" />
     <ClCompile Include="..\..\pcfbase\src\ArithmeticExpressionParser.cpp" />
     <ClCompile Include="..\..\pcfbase\src\BaseUtil.cpp" />
+    <ClCompile Include="..\..\pcfbase\src\cmd\CleanDatabase.cpp" />
     <ClCompile Include="..\..\pcfbase\src\cmd\CreateDatabase.cpp" />
     <ClCompile Include="..\..\pcfbase\src\cmd\DeleteAccount.cpp" />
     <ClCompile Include="..\..\pcfbase\src\cmd\DeleteItem.cpp" />

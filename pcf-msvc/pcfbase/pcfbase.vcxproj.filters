@@ -159,5 +159,8 @@
     <ClCompile Include="..\..\pcfbase\src\cmd\UpdateTransaction.cpp">
       <Filter>Source Files\cmd</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\pcfbase\src\cmd\CleanDatabase.cpp">
+      <Filter>Source Files\cmd</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
