@@ -1,7 +1,7 @@
 [Project]
 FileName=pcfbase.dev
 Name=pcfbase
-UnitCount=46
+UnitCount=47
 PchHead=-1
 PchSource=-1
 Ver=3
@@ -542,4 +542,14 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=1
 CompilerType=1
+
+[Unit47]
+FileName=..\..\pcfbase\src\cmd\CleanDatabase.cpp
+CompileCpp=1
+Folder=pcfbase
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
 
