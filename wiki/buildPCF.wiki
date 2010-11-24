@@ -1,0 +1,18 @@
+#summary Building Personal Cash Flow
+
+= Windows =
+
+  # install Microsoft Visual C++ 2010 Express (or above) [http://www.microsoft.com/express/Downloads/]
+  # install wxWidgets [http://www.wxwidgets.org/]
+  # compile wxWidgets [http://wiki.wxwidgets.org/Microsoft_Visual_C%2B%2B_Guide]
+  # checkout
+    * cppunitlite
+    * pacommon
+    * pacommon-test
+    * pcfbase
+    * pcfbase-test
+    * pcfui
+    * pcf-msvc
+    * sqlite
+  # download SQLite [http://www.sqlite.org/]
+  # copy *sqlite3.h*, *sqlite3ext.h* and *sqlite3.c* to the above _sqlite_ folder
