@@ -9,7 +9,7 @@ char disposableDatabase[] = "disposable.cflow";
 void generateTestDatabase()
 {
     DatabaseConnection::openDatabase(testDatabase);
-    DatabaseConnection::deleteDatabase();
+    DatabaseConnection::dropDatabase();
 
     Account acc;
     acc.setType(Account::ACCOUNT);
@@ -66,10 +66,6 @@ int main()
 
         TestRegistry::runAllTests(testResult);
         DatabaseConnection::closeDatabase();
-
-        DatabaseConnection::openDatabase(testDatabase);
-        DatabaseConnection::deleteDatabase();
-
     } catch (const exception& ex) {
 
         cerr << ex.what() << endl;
