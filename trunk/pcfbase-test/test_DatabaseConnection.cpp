@@ -13,7 +13,7 @@ TEST( GetBalance, DatabaseConnection )
 	const Account* acc = DatabaseConnection::instance()->getAccount(1);
 	LONGS_EQUAL(Account::ACCOUNT, acc->getType());
 
-	double balance = DatabaseConnection::instance()->getBalance(acc);
+	long balance = static_cast<long>(DatabaseConnection::instance()->getBalance(acc));
 	LONGS_EQUAL(90, balance);
 }
 
@@ -46,7 +46,7 @@ TEST( Transaction, DatabaseConnection )
 	DatabaseConnection::instance()->getTransaction(&t);
 
 	LONGS_EQUAL(1, t.getId());
-	LONGS_EQUAL(100, t.getValue());
+	LONGS_EQUAL(100, static_cast<long>(t.getValue()));
 	LONGS_EQUAL(3, t.getSourceId());
 	LONGS_EQUAL(1, t.getDestinationId());
 	LONGS_EQUAL(1, t.getItemId());
