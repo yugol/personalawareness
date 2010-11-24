@@ -15,13 +15,13 @@
     * sqlite3
     * pcf-msvc
   # download SQLite [http://www.sqlite.org/]
-    # copy *sqlite3.h*, *sqlite3ext.h* and *sqlite3.c* to the above _sqlite3_ folder
+    # copy `sqlite3.h`, `sqlite3ext.h` and `sqlite3.c` to the above _sqlite3_ folder
   # edit project properties for _pcfui_
     # C/C++ --> General --> Additional Include Directories
-      * `<WXPATH>`\include
-      * `<WXPATH>`\include\msvc
+      * `<WXPATH>\include`
+      * `<WXPATH>\include\msvc`
     # Linker --> General --> Additional Library Directories
-       * `<WXPATH>`\lib\vc_dll
+       * `<WXPATH>\lib\vc_dll`
   # build _pcfui_
   # make sure the following files are in the path
     * `wxmsw[291ud]_core[_vc_custom].dll`
@@ -29,4 +29,3 @@
     * `wxmsw[291ud]_adv[_vc_custom].dll`
     * `wxmsw[291ud]_html[_vc_custom].dll`
     
-
