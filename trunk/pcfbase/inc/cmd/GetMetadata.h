@@ -9,6 +9,7 @@ public:
 
     virtual void execute();
 
+    bool isEmpty() const;
     int getTableCount() const;
 
 protected:
@@ -23,5 +24,9 @@ inline int GetMetadata::getTableCount() const
     return tableCount_;
 }
 
+inline bool GetMetadata::isEmpty() const
+{
+    return (tableCount_ <= 1);
+}
 
 #endif /* GETMETADATA_H_ */
