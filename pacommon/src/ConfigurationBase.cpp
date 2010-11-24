@@ -5,18 +5,37 @@
 
 using namespace std;
 
-static const char HOME_ENVIRONMENT_VARIABLE_NAME[] = "HOME";
+#ifdef WIN32
+static const char HOME_PATH[] = "HOMEPATH";
+static const char PATH_SEP[] = "\\";
+#else
+static const char HOME_PATH[] = "HOME";
+static const char PATH_SEP[] = "/";
+#endif
 
 const char ConfigurationBase::CONFIGURATION_FILEEXT[] = ".awareness.cfg";
 
 ConfigurationBase::ConfigurationBase()
 {
-    if (supportsConfigurationFile()) {
-        ostringstream sout;
-        sout << ::getenv(HOME_ENVIRONMENT_VARIABLE_NAME) << "/" << CONFIGURATION_FILEEXT;
-        configurationFileLocation_ = sout.rdbuf()->str();
-        readConfigurationFile();
-    }
+    ostringstream sout;
+    
+#ifdef WIN32
+	const char* homeDrive = ::getenv("HOMEDRIVE");
+	const char* homePath = ::getenv("HOMEPATH");
+	if (homeDrive && homePath) {
+		sout << homeDrive << homePath << "\\" << CONFIGURATION_FILEEXT;
+	}
+#else
+	const char* homePath = ::getenv("HOME");
+	if (homeDrive && homePath) {
+		sout << homePath << "/" << CONFIGURATION_FILEEXT;
+	}
+#endif
+
+    configurationFileLocation_ = sout.rdbuf()->str();
+	if (supportsConfigurationFile()) {
+	    readConfigurationFile();
+	}
 }
 
 ConfigurationBase::~ConfigurationBase()
@@ -25,7 +44,7 @@ ConfigurationBase::~ConfigurationBase()
 
 bool ConfigurationBase::supportsConfigurationFile() const
 {
-    return (::getenv(HOME_ENVIRONMENT_VARIABLE_NAME) != NULL);
+	return (configurationFileLocation_.size() > 0);
 }
 
 bool ConfigurationBase::existsConfigurationFile() const
