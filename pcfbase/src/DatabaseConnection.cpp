@@ -4,6 +4,7 @@
 #include <ReversibleDatabaseCommand.h>
 #include <cmd/GetMetadata.h>
 #include <cmd/CreateDatabase.h>
+#include <cmd/CleanDatabase.h>
 #include <cmd/SelectPreferences.h>
 #include <cmd/PurgeDatabase.h>
 #include <DatabaseConnection.h>
@@ -18,12 +19,20 @@ DatabaseConnection::DatabaseConnection(const char* location) :
     if (databaseLocation_.size() <= 0) {
         THROW("invalid file name");
     }
-    openConnection();
+    try {
+        openConnection();
+    } catch (const exception& ex) {
+        RETHROW(ex);
+    }
 }
 
 DatabaseConnection::~DatabaseConnection()
 {
-    closeConnection(true);
+    try {
+        closeConnection(true);
+    } catch (const exception& ex) {
+        RETHROW(ex);
+    }
 }
 
 void DatabaseConnection::openConnection()
@@ -37,9 +46,8 @@ void DatabaseConnection::openConnection()
     try {
         GetMetadata metadata(database_);
         metadata.execute();
-
-        if (!metadata.getTableCount()) {
-            createNewDatabase();
+        if (metadata.isEmpty()) {
+            createDatabase();
         } else {
             SelectPreferences prefs(database_);
             prefs.execute();
@@ -53,13 +61,39 @@ void DatabaseConnection::openConnection()
         }
     } catch (const exception& ex) {
         closeConnection(false);
-        RETHROW(ex.what());
+        RETHROW(ex);
     }
 }
 
-void DatabaseConnection::createNewDatabase()
+void DatabaseConnection::closeConnection(bool purge)
 {
-    CreateDatabase(database_).execute();
+    try {
+        undoBuffer_.reset();
+        if (database_ != 0) {
+            GetMetadata metadata(database_);
+            metadata.execute();
+            if (!metadata.isEmpty()) {
+                if (purge) {
+                    purgeDatabase();
+                }
+                writePreferences(database_);
+            }
+            ::sqlite3_close(database_);
+            database_ = 0;
+        }
+    } catch (const exception& ex) {
+        RETHROW(ex);
+    }
+}
+
+void DatabaseConnection::createDatabase()
+{
+    try {
+        CreateDatabase cmd(database_);
+        cmd.execute();
+    } catch (const exception& ex) {
+        RETHROW(ex);
+    }
 }
 
 /**
@@ -67,19 +101,24 @@ void DatabaseConnection::createNewDatabase()
  */
 void DatabaseConnection::purgeDatabase()
 {
-    PurgeDatabase(database_).execute();
+    try {
+        PurgeDatabase cmd(database_);
+        cmd.execute();
+    } catch (const exception& ex) {
+        RETHROW(ex);
+    }
 }
 
-void DatabaseConnection::closeConnection(bool purge)
+void DatabaseConnection::cleanDatabase()
 {
-    undoBuffer_.reset();
-    if (database_ != 0) {
-        if (purge) {
-            purgeDatabase();
+    try {
+        undoBuffer_.reset();
+        if (database_ != 0) {
+            CleanDatabase cmd(database_);
+            cmd.execute();
         }
-        writePreferences(database_);
-        ::sqlite3_close(database_);
-        database_ = 0;
+    } catch (const exception& ex) {
+        RETHROW(ex);
     }
 }
 

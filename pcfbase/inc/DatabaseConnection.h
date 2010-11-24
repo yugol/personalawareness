@@ -24,7 +24,7 @@ public:
     static DatabaseConnection* instance();
     static void openDatabase(const char* location);
     static void closeDatabase();
-    static void deleteDatabase();
+    static void dropDatabase();
     static void exportDatabase(std::ostream& out);
     static void importDatabase(std::istream& in);
     static bool isOpened();
@@ -89,10 +89,12 @@ private:
     DatabaseConnection(const DatabaseConnection&);
     void operator=(const DatabaseConnection&);
 
-    void createNewDatabase();
     void openConnection();
-    void purgeDatabase();
     void closeConnection(bool purge);
+
+    void createDatabase();
+    void purgeDatabase();
+    void cleanDatabase();
 
     void cashAccounts() const;
     void cashItems() const;
