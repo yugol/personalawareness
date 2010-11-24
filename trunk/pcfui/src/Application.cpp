@@ -6,7 +6,6 @@
 // TODO: fix: ketchup does not return last entry
 
 // TODO: compile under Windows
-    // TODO: replace deleteDatabase -> emptyDatabase
     
 // TODO: use parentheses in expression parser
 // TODO: remove duplicate items
