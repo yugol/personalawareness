@@ -15,4 +15,4 @@
     * pcf-msvc
     * sqlite
   # download SQLite [http://www.sqlite.org/]
-  # copy *sqlite3.h*, *sqlite3ext.h* and *sqlite3.c* to the above _sqlite_ folder
+    # copy *sqlite3.h*, *sqlite3ext.h* and *sqlite3.c* to the above _sqlite_ folder
