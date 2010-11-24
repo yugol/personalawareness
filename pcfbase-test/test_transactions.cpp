@@ -35,14 +35,14 @@ TEST( Transactions, UndoRedo )
 	DatabaseConnection::instance()->selectTransactions(&sel, 0);
 	LONGS_EQUAL(3, sel.size());
 	DatabaseConnection::instance()->getTransaction(&t);
-	LONGS_EQUAL(2, t.getValue());
+	LONGS_EQUAL(2, static_cast<long>(t.getValue()));
 
 	DatabaseConnection::instance()->undo();
 	sel.clear();
 	DatabaseConnection::instance()->selectTransactions(&sel, 0);
 	LONGS_EQUAL(3, sel.size());
 	DatabaseConnection::instance()->getTransaction(&t);
-	LONGS_EQUAL(1, t.getValue());
+	LONGS_EQUAL(1, static_cast<long>(t.getValue()));
 
 	DatabaseConnection::instance()->undo();
 	sel.clear();
@@ -54,14 +54,14 @@ TEST( Transactions, UndoRedo )
 	DatabaseConnection::instance()->selectTransactions(&sel, 0);
 	LONGS_EQUAL(3, sel.size());
 	DatabaseConnection::instance()->getTransaction(&t);
-	LONGS_EQUAL(1, t.getValue());
+	LONGS_EQUAL(1, static_cast<long>(t.getValue()));
 
 	DatabaseConnection::instance()->redo();
 	sel.clear();
 	DatabaseConnection::instance()->selectTransactions(&sel, 0);
 	LONGS_EQUAL(3, sel.size());
 	DatabaseConnection::instance()->getTransaction(&t);
-	LONGS_EQUAL(2, t.getValue());
+	LONGS_EQUAL(2, static_cast<long>(t.getValue()));
 
 	DatabaseConnection::instance()->redo();
 	sel.clear();
