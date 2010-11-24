@@ -4,7 +4,7 @@
 
   # install Microsoft Visual C++ 2010 Express (or above) [http://www.microsoft.com/express/Downloads/]
   # install wxWidgets [http://www.wxwidgets.org/]
-  # compile wxWidgets [http://wiki.wxwidgets.org/Microsoft_Visual_C%2B%2B_Guide]
+  # compile wxWidgets [http://wiki.wxwidgets.org/Microsoft_Visual_C%2B%2B_Guide] (DLL Release & Debug)
   # checkout
     * cppunitlite
     * pacommon
@@ -12,7 +12,21 @@
     * pcfbase
     * pcfbase-test
     * pcfui
-    * pcf-msvc
     * sqlite3
+    * pcf-msvc
   # download SQLite [http://www.sqlite.org/]
     # copy *sqlite3.h*, *sqlite3ext.h* and *sqlite3.c* to the above _sqlite3_ folder
+  # edit project properties for _pcfui_
+    # C/C++ --> General --> Additional Include Directories
+      * `<WXPATH>`\include
+      * `<WXPATH>`\include\msvc
+    # Linker --> General --> Additional Library Directories
+       * `<WXPATH>`\lib\vc_dll
+  # build _pcfui_
+  # make sure the following files are in the path
+    * `wxmsw[291ud]_core[_vc_custom].dll`
+    * `wxbase[291ud_vc_custom].dll`
+    * `wxmsw[291ud]_adv[_vc_custom].dll`
+    * `wxmsw[291ud]_html[_vc_custom].dll`
+    
+
